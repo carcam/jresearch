@@ -33,6 +33,11 @@ function es_ES_extra_word_characters(){
 	return '\x{E1}\x{C1}\x{E9}\x{C9}\x{ED}\x{CD}\x{F3}\x{D3}\x{FA}\x{DA}\x{F1}\x{D1}';
 }
 
+function de_DE_extra_word_characters(){
+	// German additional characters, not in ascii set
+	return '\x{C4}\x{D6}\x{DC}\x{DF}\x{E4}\x{F6}\x{FC}';
+}
+
 function en_GB_extra_word_characters(){
 	return '';
 }
