@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_STAFF_LIST">
+		<message>JRESEARCH_STAFF_LIST_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_STAFF_LIST</name>
+		<description>JRESEARCH_STAFF_LIST_VIEW_MESSAGE</description>
+	</state>
+</metadata>
