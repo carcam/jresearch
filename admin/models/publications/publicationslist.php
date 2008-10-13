@@ -42,7 +42,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
-		if($memberId === null){		
+		if($memberId === null){	
 			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
 		}else{
 			$resultQuery = '';
@@ -58,6 +58,24 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		
 		return $resultQuery;
 	}
+
+	/**
+	* Returns the ids of the publications where the author has participated as author. 
+	* @param $author Integer database id or author name depending if the author is member
+	* of the center or not.
+	*/
+	private function _getAuthorPublicationIds($author){
+		$db = JFactory::getDBO();
+		if(is_numeric($author)){
+			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
+		}else{
+			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
+		}
+		$db->setQuery($query);
+		return $db->loadResultArray();
+	}
+
+	
 
 	/**
 	* Like method _buildQuery, but it does not consider LIMIT clause.
@@ -141,7 +159,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$filter_search = $mainframe->getUserStateFromRequest('publicationsfilter_search', 'filter_search');
 		$filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');
 		$filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');
-		
+		$filter_author = $mainframe->getUserStateFromRequest('publicationsfilter_author', 'filter_author');
 		// prepare the WHERE clause
 		$where = array();
 		
@@ -171,13 +189,33 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		if($filter_area){
 			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
 		}
+
+		if(!empty($filter_author)){
+			$ids = $this->_getAuthorPublicationIds(trim($filter_author));			
+			if(count($ids) > 0)
+				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
+			else
+				$where[] = '0 = 1';
+		}
 		
 		if(!$mainframe->isAdmin()){
 			$where[] = $db->nameQuote('internal').' = '.$db->Quote('1');
 		}
+
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			
+	}
+
+	/**
+	* Returns an associative array with the information of all members and external authors.
+	* @return array
+	*/
+	function getAllAuthors(){
+		$db = JFactory::getDBO();
+		$query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_publication_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
+		$db->setQuery($query);
+		return $db->loadAssocList();
 	}
 	
 

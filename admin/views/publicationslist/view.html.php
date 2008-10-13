@@ -68,6 +68,7 @@ class JResearchAdminViewPublicationsList extends JView
 		$filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');
 		$filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');		
     	$filter_search = $mainframe->getUserStateFromRequest('publicationsfilter_search', 'filter_search');
+	$filter_author = $mainframe->getUserStateFromRequest('publicationsfilter_author', 'filter_author');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
@@ -106,6 +107,16 @@ class JResearchAdminViewPublicationsList extends JView
 		$lists['area'] = JHTML::_('select.genericlist', $areasHTML, 'filter_area', 'class="inputbox" size="1" '.$js, 'value','text', $filter_area);
 		
 		$this->assignRef('lists', $lists);
+
+		$authors = $model->getAllAuthors();
+		$authorsHTML = array();
+		$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
+		foreach($authors as $auth){
+			$authorsHTML[] = JHTML::_('select.option', $auth['id'], $auth['name']); 
+		}
+		$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);
+
+	
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $model->getPagination());
     	$this->assignRef('area', $researchAreaModel);
