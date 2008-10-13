@@ -17,13 +17,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>		
 		<td><?php echo $this->areasList; ?></td>
-		<td><?php echo JText::_('Status').' :' ?></td>
+		<td><?php echo JText::_('JRESEARCH_STATUS').' :' ?></td>
 		<td><?php echo $this->status; ?></td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('Published').': '; ?></td>
 		<td><?php echo $this->publishedRadio; ?></td>
-		<td><?php echo JText::_('Members').': '; ?></td>
+		<td><?php echo JText::_('JRESEARCH_MEMBERS').': '; ?></td>
 		<td><?php echo $this->membersControl; ?></td>
 	</tr>
 	<tr>
@@ -44,18 +44,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) : ' ?></td>
+		<td><?php echo JText::_('JRESEARCH_PROJECT_PAGE').' (Url) : ' ?></td>
 		<td>
-			<input name="url_digital_version" id="url_digital_version" class="validate-url" size="30" maxlength="255" value="<?php echo $this->project?$this->project->url_digital_version:'' ?>" />
+			<input name="url" id="url" class="validate-url" size="30" maxlength="255" value="<?php echo $this->project?$this->project->url:'' ?>" />
 			<br />
-			<label for="url_digital_version" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
+			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
 		</td>
 		<td><?php echo JText::_('JRESEARCH_PROJECT_IMAGE').': '; ?></td>
 		<td><input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS')); ?>
 		<br /><label for="delete" /><?php echo JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" /></td>		
 	</tr>
 	<tr>
-		<td colspan="3" align="left"><?php echo JText::_('Description').': '; ?></td>
+		<td colspan="3" align="left"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
 		<td><img src="<?php echo $this->project->url_project_image; ?>" alt="<?php echo JText::_('No photo'); ?>" /></td>
 	</tr>
 	<tr>

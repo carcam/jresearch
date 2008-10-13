@@ -103,7 +103,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<?php endif; ?>	
 	
-	<?php $url = trim($this->publication->url_digital_version); ?>
+	<?php $url = trim($this->publication->url); ?>
 	<?php if(!empty($url)): ?> 
 		<tr><td colspan="4"><span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span></td></tr>		
 	<?php endif; ?>
