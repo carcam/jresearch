@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="JRESEARCH_PUBLICATIONS_LIST">
+		<message>JRESEARCH_PUBLICATIONS_LIST_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_PUBLICATIONS_LIST</name>
+		<description>JRESEARCH_PUBLICATIONS_LIST_VIEW_MESSAGE</description>
+	</state>
+</metadata>
