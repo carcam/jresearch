@@ -74,7 +74,7 @@ class JResearchPublication extends JResearchActivity{
 	/**
 	 * @var string
 	 */
-	public $url_digital_version;
+	public $url;
 	
 	
 	/**
@@ -552,6 +552,8 @@ class JResearchPublication extends JResearchActivity{
 	public static function &getSubclassInstance($publicationType){
 		$prefix = 'JResearch';
 		$filename = strtolower($publicationType);
+		if($filename == 'inproceedings')
+			$filename = 'conference';
 		$classname = $prefix.ucfirst($filename);
 		$db = &JFactory::getDBO();
 

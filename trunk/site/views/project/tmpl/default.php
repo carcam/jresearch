@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $authors = $this->project->getAuthors(); ?>
 	<?php if(!empty($authors)): ?>
 	<tr>
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_AUTHORS').': ' ?></td>
+		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_MEMBERS').': ' ?></td>
 		<td style="width:35%;">
 			<ul style="margin:0px;padding:0px;">
 				<?php foreach($authors as $auth): ?>
@@ -61,9 +61,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php endif; ?>	
 	</tr>
 	<?php $url = trim($this->project->url_project_page); ?>
-	<?php $doc = trim($this->project->url_digital_version); ?>
-	<? if(!empty($url) || !empty($doc)): ?>
-		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span>&nbsp;<span><?php echo !empty($doc)?JHTML::_('link', $doc, JText::_('JRESEARCH_DIGITAL_VERSION')):'' ?></span></td></tr>	
+	<? if(!empty($url)) : ?>
+		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?>	
 	<?php endif; ?>	
 	<?php $description = trim($this->project->description); ?>
 	<?php if(!empty($description)): ?>

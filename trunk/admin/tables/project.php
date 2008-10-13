@@ -20,14 +20,7 @@ jimport('joomla.utilities.date');
  *
  */
 class JResearchProject extends JResearchActivity{
-		
-	/**
-	 * Url to the document with the formal proposal.
-	 *
-	 * @var string
-	 */
-	public $url_digital_version;
-	
+			
 	
 	/**
 	 * Project's status. It can be: not_started, in_progress, finished
@@ -64,7 +57,7 @@ class JResearchProject extends JResearchActivity{
 	 *
 	 * @var string
 	 */
-	public $url_project_page;
+	public $url;
 	
 	/**
 	 * Project's complete description

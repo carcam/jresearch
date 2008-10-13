@@ -18,7 +18,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
  * This class holds the information about a masther degree thesis
  *
  */
-class JResearchMasterthesis extends JResearchPublication{
+class JResearchMastersthesis extends JResearchPublication{
 	
 	/**
 	 * Database integer ID
@@ -63,8 +63,8 @@ class JResearchMasterthesis extends JResearchPublication{
 	 */
 	function __construct(&$db){
 		parent::__construct($db);
-		parent::setDerivedTable("#__jresearch_masterthesis");
-		$this->pubtype = 'masterthesis';
+		parent::setDerivedTable("#__jresearch_mastersthesis");
+		$this->pubtype = 'mastersthesis';
 	}
 }
 

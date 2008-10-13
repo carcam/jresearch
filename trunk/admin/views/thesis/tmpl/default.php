@@ -54,9 +54,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) : ' ?></td>
 		<td colspan="3">
-			<input name="url_digital_version" class="validate-url" id="url_digital_version" size="30" maxlength="255" value="<?php echo $this->thesis?$this->thesis->url_digital_version:'' ?>" />
+			<input name="url" class="validate-url" id="url" size="30" maxlength="255" value="<?php echo $this->thesis?$this->thesis->url:'' ?>" />
 			<br />
-			<label for="url_digital_version" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_DATE'); ?></label>	
+			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_DATE'); ?></label>	
 		</td>
 	</tr>
 	<tr>

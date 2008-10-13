@@ -63,7 +63,7 @@ class JResearchThesis extends JResearchActivity{
 	 *
 	 * @var unknown_type
 	 */
-	public $url_digital_version;
+	public $url;
 
 	/**
 	 * Class constructor. Maps the class to a Joomla table.
