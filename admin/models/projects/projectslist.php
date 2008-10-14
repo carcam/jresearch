@@ -109,6 +109,17 @@ class JResearchModelProjectsList extends JResearchModelList{
 		return $this->_items;
 
 	}
+
+	/**
+	* Returns an associative array with the information of all members and external authors.
+	* @return array
+	*/
+	function getAllAuthors(){
+		$db = JFactory::getDBO();
+		$query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_project_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
+		$db->setQuery($query);
+		return $db->loadAssocList();
+	}
 	
 	/**
 	* Build the ORDER part of a query.
@@ -140,7 +151,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('projectsfilter_search', 'filter_search');
-		
+		$filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');		
 		// prepare the WHERE clause
 		$where = array();
 		
@@ -152,6 +163,13 @@ class JResearchModelProjectsList extends JResearchModelList{
 		}else
 			$where[] = $db->nameQuote('published').' = 1 ';
 				
+		if(!empty($filter_author)){
+			$ids = $this->_getAuthorProjectsIds(trim($filter_author));			
+			if(count($ids) > 0)
+				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
+			else
+				$where[] = '0 = 1';
+		}
 					
 		if($filter_search = trim($filter_search)){
 			$filter_search = JString::strtolower($filter_search);
@@ -162,6 +180,23 @@ class JResearchModelProjectsList extends JResearchModelList{
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			
 	}
+
+	/**
+	* Returns the ids of the projects where the member has participated. 
+	* @param $author Integer database id or author name depending if the collaborator is member
+	* of the center or not.
+	*/
+	private function _getAuthorProjectsIds($author){
+		$db = JFactory::getDBO();
+		if(is_numeric($author)){
+			$query = 'SELECT '.$db->nameQuote('id_project').' FROM '.$db->nameQuote('#__jresearch_project_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
+		}else{
+			$query = 'SELECT '.$db->nameQuote('id_project').' FROM '.$db->nameQuote('#__jresearch_project_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
+		}
+		$db->setQuery($query);
+		return $db->loadResultArray();
+	}
+
 
 }
 ?>

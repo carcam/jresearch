@@ -11,6 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				</td>
 				<td nowrap="nowrap">
 					<?php echo $this->lists['state'];?>
+					<?php echo $this->lists['authors'] ?>
 				</td>
 			</tr>
 		</tbody>
