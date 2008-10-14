@@ -60,7 +60,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	}
 
 	/**
-	* Returns the ids of the publications where the author has participated as author. 
+	* Returns the ids of the publications where the author has participated. 
 	* @param $author Integer database id or author name depending if the author is member
 	* of the center or not.
 	*/

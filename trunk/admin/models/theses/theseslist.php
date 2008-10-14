@@ -73,6 +73,17 @@ class JResearchModelThesesList extends JResearchModelList{
 		return $resultQuery;
 	}
 
+	/**
+	* Returns an associative array with the information of all members and external authors.
+	* @return array
+	*/
+	function getAllAuthors(){
+		$db = JFactory::getDBO();
+		$query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_thesis_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
+		$db->setQuery($query);
+		return $db->loadAssocList();
+	}
+
 
 		
 	/**
@@ -141,6 +152,7 @@ class JResearchModelThesesList extends JResearchModelList{
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('thesesfilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('thesesfilter_search', 'filter_search');
+		$filter_author = $mainframe->getUserStateFromRequest('thesesfilter_author', 'filter_author');
 		
 		// prepare the WHERE clause
 		$where = array();
@@ -152,6 +164,14 @@ class JResearchModelThesesList extends JResearchModelList{
 				$where[] = $db->nameQuote('published').' = 0 '; 	
 		}else
 			$where[] = $db->nameQuote('published').' = 1 ';
+
+		if(!empty($filter_author)){
+			$ids = $this->_getAuthorThesesIds(trim($filter_author));			
+			if(count($ids) > 0)
+				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
+			else
+				$where[] = '0 = 1';
+		}
 				
 					
 		if($filter_search = trim($filter_search)){
@@ -162,6 +182,22 @@ class JResearchModelThesesList extends JResearchModelList{
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			
+	}
+
+	/**
+	* Returns the ids of the projects where the member has participated. 
+	* @param $author Integer database id or author name depending if the collaborator is member
+	* of the center or not.
+	*/
+	private function _getAuthorThesesIds($author){
+		$db = JFactory::getDBO();
+		if(is_numeric($author)){
+			$query = 'SELECT '.$db->nameQuote('id_thesis').' FROM '.$db->nameQuote('#__jresearch_thesis_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
+		}else{
+			$query = 'SELECT '.$db->nameQuote('id_thesis').' FROM '.$db->nameQuote('#__jresearch_thesis_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
+		}
+		$db->setQuery($query);
+		return $db->loadResultArray();
 	}
 	
 }

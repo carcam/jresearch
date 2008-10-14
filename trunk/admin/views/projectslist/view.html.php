@@ -37,13 +37,23 @@ class JResearchAdminViewProjectsList extends JView
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order_Dir', 'filter_order_Dir', 'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('projectsfilter_search', 'filter_search');
+	$filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
-		$lists['order'] = $filter_order;
-		// State filter
-		$lists['state'] = JHTML::_('grid.state', $filter_state);
-		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
-		$lists['search'] = $filter_search;
+	$lists['order'] = $filter_order;
+	// State filter
+	$lists['state'] = JHTML::_('grid.state', $filter_state);
+	$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
+	$lists['search'] = $filter_search;
+	// Authors filter
+	$authors = $model->getAllAuthors();
+	$authorsHTML = array();
+	$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_MEMBERS'));	
+	foreach($authors as $auth){
+		$authorsHTML[] = JHTML::_('select.option', $auth['id'], $auth['name']); 
+	}
+	$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);
+
 
      	$this->assignRef('items', $items);
      	$this->assignRef('lists', $lists );
