@@ -57,7 +57,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 	*/
 	
 	protected function getCitation($publication, $html=false){
-		$this->lastAuthorSeparator = JText::_('and');
+		$this->lastAuthorSeparator = JText::_('JRESEARCH_BIBTEXT_AUTHOR_SEP');
 		if($publication instanceof JResearchPublication){
 			$pub = $publication;
 			$text = "({page or volume})";
@@ -435,7 +435,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 			$entries[] = $appStyle->getReferenceHTMLText($pub);
 		}
 		
-		return '<h1>'.JText::_('Works Cited').'</h1><ul><li>'.implode('</li><li>', $entries)."</li></ul>";
+		return '<h1>'.JText::_('JRESEARCH_WORKS_CITED').'</h1><ul><li>'.implode('</li><li>', $entries)."</li></ul>";
 		
 	}
 	

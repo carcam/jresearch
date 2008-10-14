@@ -164,7 +164,7 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 			$k++;
 		}
 		
-		return '<h1>'.JText::_('References').'</h1><ul><li style="list-style:none;">'.implode('</li><li style="list-style:none;"i>', $entries)."</li></ul>";
+		return '<h1>'.JText::_('JRESEARCH_REFERENCES').'</h1><ul><li style="list-style:none;">'.implode('</li><li style="list-style:none;"i>', $entries)."</li></ul>";
 	}
 
 	/**
@@ -256,7 +256,7 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 				$text = $formattedAuthors[0];
 			else{	
 				$subtotal = array_slice($formattedAuthors, 0, $n-1);
-				$text = implode(', ', $subtotal).' '.JText::_('and').' '.$formattedAuthors[$n-1];
+				$text = implode(', ', $subtotal).' '.JText::_('JRESEARCH_BIBTEXT_AUTHOR_SEP').' '.$formattedAuthors[$n-1];
 			}
 		}else{
 			$text = $formattedAuthors[0]." et al.";

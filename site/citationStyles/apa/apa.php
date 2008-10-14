@@ -65,7 +65,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 	* @return string
 	*/
 	private function getCitation($publication, $html = false){
-		$this->lastAuthorSeparator = JText::_('and');
+		$this->lastAuthorSeparator = JText::_('JRESEARCH_BIBTEXT_AUTHOR_SEP');
 		if($publication instanceof JResearchPublication){
 			if($publication->countAuthors() == 0){
 				if($html)
@@ -449,7 +449,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 			$entries[] = $appStyle->getReferenceHTMLText($pub);
 		}
 		
-		return '<h1>'.JText::_('References').'</h1><ul><li>'.implode('</li><li>', $entries)."</li></ul>";
+		return '<h1>'.JText::_('JRESEARCH_REFERENCES').'</h1><ul><li>'.implode('</li><li>', $entries)."</li></ul>";
 	}
 	
 	/**

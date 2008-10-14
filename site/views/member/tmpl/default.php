@@ -1,7 +1,7 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo $this->member; ?></div>
-<table cellspacing="5px;">
+<table cellspacing="5">
   <tr><th colspan="4" class="contentheading"><?php echo JText::_('JRESEARCH_PERSONAL_INFORMATION').': '; ?></th></tr>	
   <tr><td colspan="4"></td></tr>  
   <tr>  
@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
   </tr>
   <tr>
   	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_EMAIL').': ' ?></td>
-  	<td><a href="mailto:<?php echo $this->member->email; ?>"><?php echo $this->member->email; ?></td>
+  	<td><a href="mailto:<?php echo $this->member->email; ?>"><?php echo $this->member->email; ?></a></td>
   	<td colspan="2"></td>
   </tr> 
   <tr>
@@ -103,7 +103,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php endif; ?>  
   <?php if(!empty($this->member->description)): ?>
   <tr><td colspan="4" class="field"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></td></tr>
-  <tr><td><?php echo str_replace('<hr id="system-readmore" />', '', $this->member->description); ?></td></tr>			  
+  <tr><td colspan="4"><?php echo str_replace('<hr id="system-readmore" />', '', $this->member->description); ?></td></tr>			  
   <?php endif; ?>
   <tr><td>&nbsp;</td></tr>
   <tr><td colspan="4"><a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a></td></tr>
