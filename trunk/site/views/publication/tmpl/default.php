@@ -58,7 +58,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if(!empty($acceptance)): ?>
 		<?php $colspan = 2; ?>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': ' ?></td>		
-		<td style="width:35%;"><?php echo $acceptance; ?>%</a></td>
+		<td style="width:35%;"><?php echo $acceptance; ?>%</td>
 	<?php else: ?>
 			<td colspan="<?php echo $colspan; ?>">&nbsp;</td>
 	<?php endif; ?>

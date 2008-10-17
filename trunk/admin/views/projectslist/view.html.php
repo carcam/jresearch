@@ -25,7 +25,7 @@ class JResearchAdminViewProjectsList extends JView
     function display($tpl = null)
     {
      	global $mainframe;	
- 	   	JResearchToolbar::projectsListToolbar();
+ 	JResearchToolbar::projectsListToolbar();
        	$model = &$this->getModel();
       	$items = $model->getData(null, false, true);
       	$areaModel =& $this->getModel('researcharea');
@@ -33,9 +33,9 @@ class JResearchAdminViewProjectsList extends JView
 
       	// Filters and pagination
 		$lists = array();    	
-    	$filter_order = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order', 'filter_order', 'title');
-    	$filter_order_Dir = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order_Dir', 'filter_order_Dir', 'ASC');
-		$filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
+    	$filter_order = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order', 'title');
+    	$filter_order_Dir = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order_Dir', 'ASC');
+	$filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('projectsfilter_search', 'filter_search');
 	$filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');
     	

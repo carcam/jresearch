@@ -128,7 +128,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('title', 'published', 'start_date');
+		$orders = array('title', 'published', 'start_date', 'id_research_area');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order', 'title');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest('projectsfilter_order_Dir', 'filter_order_Dir', 'ASC');

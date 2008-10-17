@@ -24,14 +24,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th width="1%">#</th>
 			<th align="center" width="1%"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th class="title" width="29%"><?php echo JHTML::_('grid.sort',  JText::_('Title'), 'title', @$lists['order_Dir'], @$lists['order'] ); ?></th>
-			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Published'), 'published', @$lists['order_Dir'], @$lists['order'] ); ?></th>
-			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Internal'), 'internal', @$lists['order_Dir'], @$lists['order'] ); ?></th>			
+			<th class="title" width="29%"><?php echo JHTML::_('grid.sort',  JText::_('Title'), 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Published'), 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Internal'), 'internal', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>			
 			<th align="center" width="22%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
-			<th width="5%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_YEAR'), 'year', @$lists['order_Dir'], @$lists['order'] ); ?></th>
-			<th width="10%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_CITEKEY'), 'citekey', @$lists['order_Dir'], @$lists['order'] ); ?></th>
-			<th width="5%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_TYPE'), 'pubtype', @$lists['order_Dir'], @$lists['order'] ); ?></th>
-			<th width="10%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', @$lists['order_Dir'], @$lists['order'] ); ?></th>
+			<th width="5%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_YEAR'), 'year', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th width="10%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_CITEKEY'), 'citekey', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th width="5%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_TYPE'), 'pubtype', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th width="10%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th width="15%"><?php echo JText::_('JRESEARCH_EXPORT'); ?></th>
 		</tr>
 		</thead>

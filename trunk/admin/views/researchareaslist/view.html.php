@@ -24,15 +24,15 @@ class JResearchAdminViewResearchAreasList extends JView
 {
     function display($tpl = null)
     {
-	 	   global $mainframe;	
-	 	   JResearchToolbar::researchAreasListToolbar();
+	      global $mainframe;	
+	      JResearchToolbar::researchAreasListToolbar();
 	      $model = &$this->getModel();
 	      $items = $model->getData(null, false, true);
 	     
 	      // Filters and pagination
-			$lists = array();    	
-	    	$filter_order = $mainframe->getUserStateFromRequest('researchAreasfilter_order', 'filter_order', 'filter_order', 'name');
-	    	$filter_order_Dir = $mainframe->getUserStateFromRequest('researchAreasfilter_order', 'filter_order_Dir', 'filter_order_Dir', 'ASC');
+		$lists = array();    	
+	    	$filter_order = $mainframe->getUserStateFromRequest('researchAreasfilter_order', 'filter_order', 'name');
+	    	$filter_order_Dir = $mainframe->getUserStateFromRequest('researchAreasfilter_order', 'filter_order_Dir', 'ASC');
 			$filter_state = $mainframe->getUserStateFromRequest('researchAreasfilter_state', 'filter_state');
 	    	$filter_search = $mainframe->getUserStateFromRequest('researchAreasfilter_search', 'filter_search');
 	    	
