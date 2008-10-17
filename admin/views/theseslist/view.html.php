@@ -33,9 +33,9 @@ class JResearchAdminViewThesesList extends JView
 
       	// Filters and pagination
 		$lists = array();    	
-    	$filter_order = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order', 'filter_order', 'title');
-    	$filter_order_Dir = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order_Dir', 'filter_order_Dir', 'ASC');
-		$filter_state = $mainframe->getUserStateFromRequest('thesesfilter_state', 'filter_state');
+    	$filter_order = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order', 'title');
+    	$filter_order_Dir = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order_Dir', 'ASC');
+	$filter_state = $mainframe->getUserStateFromRequest('thesesfilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('thesesfilter_search', 'filter_search');
 	$filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');
     	

@@ -20,10 +20,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th width="1%">#</th>
 			<th align="center"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th class="title" width="40%"><?php echo JHTML::_('grid.sort',  'Name', 'lastname', @$lists['order_Dir'], @$lists['order'] ); ?></th>
-			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   'Published', 'published', @$lists['order_Dir'], @$lists['order'] ); ?></th>
+			<th class="title" width="40%"><?php echo JHTML::_('grid.sort',  'Name', 'lastname', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th align="center" width="20%"><?php echo JText::_('JRESEARCH_POSITION'); ?></th>
-			<th align="center"><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
+			<th align="center"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?>cd</th>
 			<th><?php echo JText::_('JRESEARCH_CONTACT'); ?></th>
 		</tr>
 		</thead>		

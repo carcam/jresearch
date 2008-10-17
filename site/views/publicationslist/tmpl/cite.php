@@ -314,4 +314,5 @@ function removeSelectedRecord(){
 	</thead>
 	<tbody id="results">
 	</tbody>
+	</table>
 </div>

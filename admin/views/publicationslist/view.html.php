@@ -61,12 +61,12 @@ class JResearchAdminViewPublicationsList extends JView
     	// Ordering variables
     	$lists = array();    	
     	// Get the user state of the order and direction 
-    	$filter_order = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order', 'filter_order', 'published');
-    	$filter_order_Dir = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order_Dir', 'filter_order_Dir', 'ASC');
-		$filter_state = $mainframe->getUserStateFromRequest('publicationsfilter_state', 'filter_state');
-		$filter_year = $mainframe->getUserStateFromRequest('publicationsfilter_year', 'filter_year');
-		$filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');
-		$filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');		
+    	$filter_order = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order', 'published');
+    	$filter_order_Dir = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order_Dir',  'ASC');
+	$filter_state = $mainframe->getUserStateFromRequest('publicationsfilter_state', 'filter_state');
+	$filter_year = $mainframe->getUserStateFromRequest('publicationsfilter_year', 'filter_year');
+	$filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');
+	$filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');		
     	$filter_search = $mainframe->getUserStateFromRequest('publicationsfilter_search', 'filter_search');
 	$filter_author = $mainframe->getUserStateFromRequest('publicationsfilter_author', 'filter_author');
     	

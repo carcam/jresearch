@@ -52,8 +52,8 @@ class JResearchAdminViewStaff extends JView
     	
 		// Filters and pagination
 		$lists = array();    	
-    	$filter_order = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order', 'filter_order', 'lastname');
-    	$filter_order_Dir = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order_Dir', 'filter_order_Dir', 'ASC');
+    	$filter_order = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order', 'lastname');
+    	$filter_order_Dir = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order_Dir', 'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('stafffilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('stafffilter_search', 'filter_search');
     	

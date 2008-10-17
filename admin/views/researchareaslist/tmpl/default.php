@@ -20,8 +20,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th width="1%">#</th>
 			<th align="center"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th class="title" width="30%"><?php echo JHTML::_('grid.sort',  'Name', 'name', @$lists['order_Dir'], @$lists['order'] ); ?></th>
-			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   'Published', 'published', @$lists['order_Dir'], @$lists['order'] ); ?></th>
+			<th class="title" width="30%"><?php echo JHTML::_('grid.sort',  'Name', 'name', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 		</tr>
 		</thead>
 		

@@ -129,7 +129,7 @@ class JResearchModelThesesList extends JResearchModelList{
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('title', 'published');
+		$orders = array('title', 'published', 'id_research_area');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order', 'title');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest('thesesfilter_order_Dir', 'filter_order_Dir', 'ASC');
