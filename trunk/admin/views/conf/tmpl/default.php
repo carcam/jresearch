@@ -73,7 +73,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</tr>
 					<tr>
 						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_VERSION').': '; ?></td>
-						<td>Beta 2</td>
+						<td>1.0 Stable</td>
 					</tr>
 					<tr>
 						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_COPYRIGHT').': '; ?></td>
