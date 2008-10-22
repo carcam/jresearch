@@ -126,10 +126,11 @@ class JResearchViewStaff extends JView
     	//If no images are present, fill with "no image"
     	if (count($images) == 0 )
 		{
-			$images[0]['img'] = JURI::base().'assets/qmark.jpg';
+			$images[0]['img'] = str_ireplace(JURI::root(), '', JURI::base().'components/com_jresearch/assets/qmark.jpg');
 			$images[0]['imgalt'] = 'No images found!';
 			$images[0]['imgtitle'] = 'No images found!';
 			$images[0]['hreftitle'] = 'No images found!';
+			$images[0]['url'] = JURI::base().'components/com_jresearch/assets/qmark.jpg';
 		}
 		
 		return $images;
