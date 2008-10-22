@@ -34,6 +34,11 @@ class JResearchModelStaff extends JResearchModelList{
 		
 	}	
 	
+	public function setFormer($former)
+	{
+		$this->_former = (int) $former;
+	}
+	
 	/**
 	* Returns an array of the items of an entity independently of its published state and
 	* considering pagination issues and authoring.
