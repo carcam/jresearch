@@ -126,7 +126,7 @@ $document->addStyleSheet($css_path.'/imageflow.css');
 		$rimagename = JPath::clean($rimagename, DS);
 		
 		if (JFile::exists($rimagename))
-		{
+		{	
 			//Clean image path
 			$imagename = JPath::clean( JURI::root(true). '/'. $imagename, '/' );
 
