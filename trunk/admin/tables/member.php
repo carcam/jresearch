@@ -29,6 +29,13 @@ class JResearchMember extends JTable{
 	public $id;
 	
 	/**
+	 * Is it a former member?
+	 *
+	 * @var bool
+	 */
+	public $former_member;
+	
+	/**
 	* Member's username
 	*/	
 	public $username;

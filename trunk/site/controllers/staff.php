@@ -26,6 +26,7 @@ class JResearchStaffController extends JController
 		// Task for edition of profile
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('show', 'show');
+		$this->registerTask('displayflow', 'displayflow');
 		$this->registerTask('save', 'save');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
@@ -90,6 +91,33 @@ class JResearchStaffController extends JController
 		$view->setModel(&$model, true);
 		$view->setModel(&$areaModel);
 		$view->display();				
+	}
+	
+	/**
+	 * Invoked when selected the staffflow layout, it shows the flow of published staff members.
+	 *
+	 * @access public
+	 */
+	function displayflow()
+	{
+		global $mainframe;
+		
+		//Get and use configuration
+    	$params = $mainframe->getPageParameters('com_jresearch');
+    	$limit = $params->get('staff_entries_per_page');
+		JRequest::setVar('limit', $limit);
+		$limitstart = JRequest::getVar('limitstart', null);		
+		if($limitstart === null)
+			JRequest::setVar('limitstart', 0);
+			
+		
+		$model =& $this->getModel('Staff', 'JResearchModel');
+		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
+		$view =& $this->getView('Staff', 'html', 'JResearchView');
+		$view->setModel($model, true);
+		$view->setModel($areaModel);
+		$view->setLayout('staffflow');
+		$view->display();
 	}
 	
 	
