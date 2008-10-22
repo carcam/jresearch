@@ -12,6 +12,26 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+if (!defined('PHP_EOL'))
+{
+    switch (strtoupper(substr(PHP_OS, 0, 3)))
+    {
+        // Windows
+        case 'WIN':
+            define('PHP_EOL', "\r\n");
+            break;
+
+        // Mac
+        case 'DAR':
+            define('PHP_EOL', "\r");
+            break;
+
+        // Unix
+        default:
+            define('PHP_EOL', "\n");
+    }
+}
+
 jimport( 'joomla.application.component.view');
 
 /**
@@ -26,9 +46,13 @@ class JResearchViewStaff extends JView
     {
         $layout = &$this->getLayout();
         switch($layout){
-        		case 'default':
-        			$this->_displayDefaultList();
-        			break;
+        	case 'staffflow':
+	        	$this->_displayStaffFlow();
+	        	break;
+	        	
+        	default:
+       			$this->_displayDefaultList();
+       			break;
         }
 	
         parent::display($tpl);
@@ -50,6 +74,65 @@ class JResearchViewStaff extends JView
     	$this->assignRef('areaModel', $areaModel);
     	$this->assignRef('page', $model->getPagination());	
 
+    }
+    
+	/**
+	* Display coverflow of published staff members
+	* @author Florian Prinz
+	*/
+    private function _displayStaffFlow()
+    {
+    	global $mainframe;
+    	
+    	$params =& JComponentHelper::getParams('com_jresearch');
+    	$former = (int) $params->get('former_members');
+    	
+    	//Get the model
+    	$model =& $this->getModel();
+    	$areaModel = &$this->getModel('researcharea');
+    	
+    	$model->setFormer($former);
+    	$members =& $model->getData(null, true, false);
+
+    	$images = $this->getImages($members);
+    	
+    	$this->assignRef('params', $params);
+    	$this->assignRef('images', $images);
+    	$this->assignRef('areaModel', $areaModel);
+    }
+    
+    /**
+	* Gets images from given members
+	* @author Florian Prinz
+	*/
+    private function getImages(&$members)
+    {
+    	$images = array();
+    	$i=0;
+    	
+    	//Get images
+    	foreach($members as $member)
+    	{
+    		if($member->url_photo != "")
+    		{
+    			$images[$i]['img'] = str_ireplace(JURI::root(), '', $member->url_photo);
+    			$images[$i]['imgalt'] = $member->firstname.' '.$member->lastname;
+				$images[$i]['imgtitle'] = 'Image of '.$member->firstname.' '.$member->lastname;
+				$images[$i]['hreftitle'] = 'Show me details of '.$member->firstname.' '.$member->lastname;
+				$images[$i++]['url'] = JURI::base().'index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id='.$member->id;
+    		}
+    	}
+    	
+    	//If no images are present, fill with "no image"
+    	if (count($images) == 0 )
+		{
+			$images[0]['img'] = JURI::base().'assets/qmark.jpg';
+			$images[0]['imgalt'] = 'No images found!';
+			$images[0]['imgtitle'] = 'No images found!';
+			$images[0]['hreftitle'] = 'No images found!';
+		}
+		
+		return $images;
     }
 }
 

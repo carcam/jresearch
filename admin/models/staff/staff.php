@@ -21,6 +21,12 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 * @subpackage		JResearch
 */
 class JResearchModelStaff extends JResearchModelList{
+	/**
+	 * Private field for checking if we need all members,
+	 * only former members or all members except former members
+	 * @var int 0=all,1=only former, -1=all except former
+	*/
+	private $_former = 0;
 	
 	public function __construct(){
 		parent::__construct();
@@ -75,11 +81,11 @@ class JResearchModelStaff extends JResearchModelList{
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy(); 	
 		
 		// Deal with pagination issues
 		if($paginate){
-			$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();
 			$limit = (int)$this->getState('limit');
 			if($limit != 0)
 					$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');
@@ -132,7 +138,16 @@ class JResearchModelStaff extends JResearchModelList{
 				$where[] = $db->nameQuote('published').' = 0 '; 	
 		}else
 			$where[] = $db->nameQuote('published').' = 1 ';		
-					
+
+		//Added former member for where clause
+		if($this->_former != 0)
+		{
+			if($this->_former > 0)
+				$where[] = $db->nameQuote('former_member').' = 1 ';
+			elseif($this->_former < 0)
+				$where[] = $db->nameQuote('former_member').' = 0 ';
+		}
+			
 		if($filter_search = trim($filter_search)){
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
