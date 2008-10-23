@@ -29,6 +29,21 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_book` (
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `#__jresearch_cooperations`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_cooperations` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(50) NOT NULL,
+  `image_url` varchar(256) NOT NULL,
+  `description` tinytext NOT NULL,
+  `url` varchar(256) NOT NULL,
+  `published` tinyint(4) NOT NULL default '0',
+  `ordering` smallint(5) unsigned NOT NULL,
+  `checked_out` tinyint(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL,
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `description` (`description`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
 DROP TABLE IF EXISTS `#__jresearch_booklet`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_booklet` (
   `id_publication` int(10) unsigned NOT NULL,
@@ -106,8 +121,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_manual` (
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_mastersthesis`;
-CREATE TABLE IF NOT EXISTS `#__jresearch_mastersthesis` (
+DROP TABLE IF EXISTS `#__jresearch_masterthesis`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_masterthesis` (
   `id_publication` int(10) unsigned NOT NULL,
   `school` varchar(255) NOT NULL,
   `type` varchar(20) default NULL,
@@ -154,11 +169,12 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `title` varchar(255) NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL default '1',
   `published` tinyint(4) NOT NULL default '1',
-  `url` varchar(255) default NULL,
+  `url_digital_version` varchar(255) default NULL,
   `status` enum('not_started','in_progress','finished') NOT NULL default 'not_started',
   `start_date` date default NULL,
   `end_date` date default NULL,
   `url_project_image` varchar(255) default NULL,
+  `url_project_page` varchar(255) default NULL,
   `description` text,	
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL,
@@ -192,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `journal_acceptance_rate` float unsigned default NULL,
   `pubtype` varchar(20) NOT NULL default 'book',
   `awards` text,
-  `url` varchar(255) default NULL,
+  `url_digital_version` varchar(255) default NULL,
   `published` tinyint(4) NOT NULL default '1' ,
   `title` varchar(255) NOT NULL,
   `year` year(4) NULL,	
@@ -281,6 +297,18 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   INDEX `id_research_area` (`id_research_area`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `#__jresearch_mdm`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_mdm` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `id_member` int(19) unsigned NOT NULL,
+  `month` date NOT NULL,
+  `description` tinytext NOT NULL,
+  `published` tinyint(4) NOT NULL default '1',
+  `checked_out` tinyint(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL,
+  PRIMARY KEY  (`id`)
+)ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
 DROP TABLE IF EXISTS `#__jresearch_research_techreport`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_techreport` (
   `id_publication` int(10) unsigned NOT NULL,
@@ -303,7 +331,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_thesis` (
   `end_date` date default NULL,
   `published` tinyint(4) NOT NULL default '1',
   `description` text,
-  `url` varchar(255) default NULL,
+  `url_digital_version` varchar(255) default NULL,
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
@@ -394,7 +422,7 @@ INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('inbook');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('incollection');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('inproceedings');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('manual');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('mastersthesis');
+INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('masterthesis');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('misc');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('phdthesis');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('proceedings');
