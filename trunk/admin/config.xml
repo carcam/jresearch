@@ -74,6 +74,14 @@
 			<option value="yes">Yes</option>
 			<option value="no">No</option>
 		</param>
-		<param name="staff_number_last_theses" label="JRESEARCH_CONFIG_PROFILES_NUMBER_THESES" default="5" type="text" />				
+		<param name="staff_number_last_theses" label="JRESEARCH_CONFIG_PROFILES_NUMBER_THESES" default="5" type="text" />	
+		
+		<param type="spacer" />
+		
+		<param name="cooperation_entries_per_page" default="25" label="JRESEARCH_CONFIG_COOPERATIONS_PER_PAGE" type="text" ></param>									
+		<param name="cooperations_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+			<option value="asc">JRESEARCH_ASCENDING</option>
+			<option value="desc">JRESEARCH_DESCENDING</option>
+		</param>			
 	</params>
 </config>

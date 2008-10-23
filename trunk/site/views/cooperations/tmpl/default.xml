@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Cooperations list">
+		<message>List of published cooperations</message>
+	</layout>
+	<state>
+		<name>Cooperations list</name>
+		<description>Shows the list of published cooperations.</description>
+	</state>
+</metadata>

@@ -80,6 +80,9 @@ function __mapViewToController(){
 		case 'theseslist': case 'thesis':
 			$value = 'theses';
 			break;
+		case 'cooperations': case 'cooperation':
+			$value = 'cooperations';
+			break;
 		default:
 			$value = 'researchAreas';			
 			break;
