@@ -6,9 +6,9 @@
 	<state>
 		<name>JRESEARCH_PROJECTS_LIST</name>
 		<description>JRESEARCH_PROJECTS_LIST_VIEW_MESSAGE</description>
-		
 		<params addpath="/administrator/components/com_jresearch/elements">
-			<param name="id" type="projects" default="0" label="Label" description="Beschreibung" />
+			<param name="project_id" type="projects" label="JRESEARCH_PROJECTS_SELECTION" description="JRESEARCH_PROJECTS_SELECTION_DESCRIPTION" default="0"/>
 		</params>
+
 	</state>
 </metadata>
