@@ -59,6 +59,7 @@
 			<filename>config.xml</filename>
 			<folder>assets</folder>
 			<folder>controllers</folder>
+			<folder>elements</folder>
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
