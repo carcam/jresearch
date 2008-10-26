@@ -48,7 +48,7 @@ class JElementProjects extends JElement
 			$projectsOptions[] = JHTML::_('select.option', $project->id, $project->title);
 		}
 		
-		return JHTML::_('select.genericlist', $projectsOptions, 'project_id', 'class="inputbox" size="10" multiple="multiple"', 'value', 'text', 0);
+		return JHTML::_('select.genericlist', $projectsOptions, $name, 'class="inputbox" size="10" multiple="multiple"', 'value', 'text', $value);
 	}
 }
 ?>
