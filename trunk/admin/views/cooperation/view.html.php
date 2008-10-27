@@ -1,28 +1,56 @@
 <?php
-jimport( 'joomla.application.component.view' );
+/**
+* @version		$Id$
+* @package		Joomla
+* @subpackage	JResearch
+* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @license		GNU/GPL
+* This file implements the view which is responsible for management of staff list
+* in the backend.
+*/
+
+// No direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+jimport( 'joomla.application.component.view');
 
 /**
- * Single Cooperation View
+ * HTML View class for management of members lists in JResearch Component backend
  *
- * @package    Joomla.Cooperations
- * @subpackage Components
+ * @package   JResearch
  */
+
 class JResearchAdminViewCooperation extends JView
 {
-	/**
-	 * Cooperation view display method
-	 * @return void
-	 **/
 	function display($tpl = null)
 	{
-		$id = JRequest::getInt('id');
-		
-		// Get data from the model
-		$model = &$this->getModel();
-		$item = $model->getItem($id);
-		$this->assignRef('item', $item);
+    	global $mainframe;
+      	
+      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		JHTML::_('Validator._');
+    	JRequest::setVar( 'hidemainmenu', 1 );
 
-		parent::display($tpl);
-	}
+    	// Information about the member
+    	$cid = JRequest::getVar('cid');
+    	$model =& $this->getModel();
+    	$coop = $model->getItem($cid[0]);
+    	$arguments = array('coop', $coop->id);
+    	
+		//Published options
+    	$publishedOptions = array();
+    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
+    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
+    	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $coop->published);   	
+		$editor =& JFactory::getEditor();    	
+    	
+    	$this->assignRef('coop', $coop);
+    	$this->assignRef('publishedRadio', $publishedRadio);
+		$this->assignRef('editor', $editor);    	
+    	
+		// Load cited records
+		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+		
+       	parent::display($tpl);
+    }
 }
 ?>
