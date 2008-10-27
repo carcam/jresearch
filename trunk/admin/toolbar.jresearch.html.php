@@ -117,12 +117,14 @@ class JResearchToolbar
 	* thesis or research area.
 	*/	
 	public static function editPublicationAdminToolbar(){
-		$task = JRequest::getVar('task');
-		if($task == 'edit')
+		$cid = JRequest::getVar('cid');
+		$pubtype = JRequest::getVar('pubtype');
+		if(isset($cid))
 			$title = JText::_('JRESEARCH_EDIT_PUBLICATION');
-		elseif($task == 'add')
+		else
 			$title = JText::_('JRESEARCH_NEW_PUBLICATION');	
 
+		$title .= " ($pubtype)";
 		JToolBarHelper::title($title);
 		self::editItemAdminToolbar();
 	}
