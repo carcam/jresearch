@@ -34,6 +34,7 @@
 			<option value="APA">APA</option>
 			<option value="IEEE">IEEE</option>
 			<option value="MLA">MLA</option>
+			<option value="CSE">CSE</option>
 		</param>
 	
 		<param type="spacer" />

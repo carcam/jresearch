@@ -51,7 +51,7 @@ class JResearchAdminViewPublication extends JView
 		$cid = JRequest::getVar('cid');
 		$isNew = !isset($cid);
 		$pubtype = JRequest::getVar('pubtype');
-    	$model = $this->getModel('researchareaslist');
+    		$model = $this->getModel('researchareaslist');
 		$authors = null;
 
     	// Retrieve the list of research areas   	

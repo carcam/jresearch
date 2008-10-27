@@ -121,8 +121,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_manual` (
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_masterthesis`;
-CREATE TABLE IF NOT EXISTS `#__jresearch_masterthesis` (
+DROP TABLE IF EXISTS `#__jresearch_mastersthesis`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_mastersthesis` (
   `id_publication` int(10) unsigned NOT NULL,
   `school` varchar(255) NOT NULL,
   `type` varchar(20) default NULL,
@@ -422,7 +422,7 @@ INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('inbook');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('incollection');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('inproceedings');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('manual');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('masterthesis');
+INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('mastersthesis');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('misc');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('phdthesis');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('proceedings');
