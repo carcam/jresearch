@@ -101,6 +101,19 @@ class JResearchPublicationsHelper{
 		
 		return true;
 	}
+
+	/**
+	 * Returns the first word of the specified title.
+	 *
+	 * @param string $title
+	 * @return string
+	 */
+
+	public static function getFirstWord($title){
+		$separators = '/[,\\s;.:]/';
+		$words =  preg_split($separators, $title, -1, PREG_SPLIT_NO_EMPTY);
+		return $words[0];
+	}
 }
 
 ?>
