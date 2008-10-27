@@ -13,6 +13,7 @@ class JResearchCooperation extends JTable
   	public $checked_out_time;
   	public $published;
   	public $ordering;
+  	public $parent;
 
     /**
      * Constructor
