@@ -20,7 +20,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 * @subpackage		JResearch
 */
 class JResearchModelProjectsList extends JResearchModelList{
-	
+	private $_ids = array();
 	
 	/**
 	* Class constructor.
@@ -59,7 +59,6 @@ class JResearchModelProjectsList extends JResearchModelList{
 		return $resultQuery;
 	}
 
-
 	/**
 	* Like method _buildQuery, but it does not consider LIMIT clause.
 	* 
@@ -71,8 +70,6 @@ class JResearchModelProjectsList extends JResearchModelList{
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
 	}
-
-
 		
 	/**
 	* Returns an array of ALL the items of an entity independently of its published state considering
@@ -99,7 +96,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 			$ids = $db->loadResultArray();
 			$this->_items = array();			
 			foreach($ids as $id){
-				$proj =& new JResearchProject(&$db);
+				$proj = new JResearchProject($db);
 				$proj->load($id);
 				$this->_items[] = $proj;
 			}
@@ -170,6 +167,30 @@ class JResearchModelProjectsList extends JResearchModelList{
 			else
 				$where[] = '0 = 1';
 		}
+		
+		//Get id's
+		if(count($this->_ids) > 0)
+		{
+			$orWhere = array();
+			$allProjects = false;	//Boolean variable for checking if all projects will be returned
+			
+			foreach($this->_ids as $id)
+			{
+				if($id != 0)
+				{
+					$orWhere[] = $db->nameQuote('id').' = '.$id;
+				}
+				else 
+				{
+					//Id 0 indicateds to display all projects
+					$allProjects = true;
+					break;
+				}
+			}
+			
+			if(!$allProjects)
+				$where[] = (count($where)) ? ' '.implode(' OR ', $orWhere).' ' : '';
+		}
 					
 		if($filter_search = trim($filter_search)){
 			$filter_search = JString::strtolower($filter_search);
@@ -197,6 +218,27 @@ class JResearchModelProjectsList extends JResearchModelList{
 		return $db->loadResultArray();
 	}
 
-
+	/**
+	 * Sets id's for specific list of projects
+	 *
+	 * @param array $ids Array of project id's
+	 * @return bool Settings is successful or not
+	 */
+	public function setIds($ids)
+	{
+		if(is_array($ids))
+		{
+			$this->_ids = array();
+			
+			foreach($ids as $id)
+			{
+				$this->_ids[] = (int) $id;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
 }
 ?>
