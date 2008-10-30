@@ -48,7 +48,7 @@ class JResearchPublicationRISExporter extends JResearchPublicationExporter{
 		
 		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'xml2ris'.' '.$filename;
 		$output = array();
-		exec($conversionCommand, &$output);
+		exec($conversionCommand, $output);
 		$risText = implode("\n", $output); 
 
 		fclose($inputFile);

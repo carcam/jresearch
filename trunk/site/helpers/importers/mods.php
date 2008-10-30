@@ -50,7 +50,7 @@ class JResearchMODSImporter extends JResearchPublicationImporter{
 		// Invoke the conversion command
 		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'xml2bib'.' '.$filename;
 		$output = array();
-		exec($conversionCommand, &$output);
+		exec($conversionCommand, $output);
 		$bibtexText = implode("\n", $output); 
 
 	

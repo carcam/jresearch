@@ -55,8 +55,8 @@ class JResearchStaffController extends JController
 		$model =& $this->getModel('Staff', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('Staff', 'html', 'JResearchView');
-		$view->setModel(&$model, true);
-		$view->setModel(&$areaModel);
+		$view->setModel($model, true);
+		$view->setModel($areaModel);
 		$view->display();
 	}
 
@@ -75,8 +75,8 @@ class JResearchStaffController extends JController
 		$model =& $this->getModel('Member', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchAreasList', 'JResearchModel');
 		$view =& $this->getView('Member', 'html', 'JResearchView');				
-		$view->setModel(&$model, true);
-		$view->setModel(&$areaModel);
+		$view->setModel($model, true);
+		$view->setModel($areaModel);
 		$view->setLayout('edit');
 		$view->display();						
 	}
@@ -88,8 +88,8 @@ class JResearchStaffController extends JController
 		$model =& $this->getModel('Member', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('Member', 'html', 'JResearchView');
-		$view->setModel(&$model, true);
-		$view->setModel(&$areaModel);
+		$view->setModel($model, true);
+		$view->setModel($areaModel);
 		$view->display();				
 	}
 	
@@ -134,7 +134,7 @@ class JResearchStaffController extends JController
 		else
 			$photosUrl = JURI::base().'administrator/components/com_jresearch/assets/members/';
 		
-		$member = new JResearchMember(&$db);
+		$member = new JResearchMember($db);
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');

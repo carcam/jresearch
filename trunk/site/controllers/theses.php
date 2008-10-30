@@ -61,7 +61,7 @@ class JResearchThesesController extends JController
 		$model =& $this->getModel('ThesesList', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('ThesesList', 'html', 'JResearchView');
-		$view->setModel(&$model, true);
+		$view->setModel($model, true);
 		$view->setModel($areaModel);
 		$view->display();		
 		
@@ -88,8 +88,8 @@ class JResearchThesesController extends JController
 		$model =& $this->getModel('Thesis', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('Thesis', 'html', 'JResearchView');
-		$view->setModel(&$model, true);
-		$view->setModel(&$areaModel);
+		$view->setModel($model, true);
+		$view->setModel($areaModel);
 		$view->display();
 	}
 
