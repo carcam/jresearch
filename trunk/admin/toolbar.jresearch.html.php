@@ -328,15 +328,7 @@ class JResearchToolbar
 	{
 		JToolBarHelper::title(JText::_('JRESEARCH_COOPERATIONS'));
 		
-		JToolBarHelper::addNewX('add', JText::_('Add'));
-		JToolBarHelper::editListX('edit', JText::_('Edit'));
-		JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_ITEM_CONFIRMATION'),'remove', JText::_('Delete'));		
-
-		JToolBarHelper::divider();
-		
-		JToolBarHelper::publishList('publish', JText::_('Publish'));
-		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
-
+		self::adminListToolbar();
 	}
 	
 	public static function editCooperationAdminToolbar()
@@ -350,6 +342,38 @@ class JResearchToolbar
 		JToolBarHelper::title($title);
 		
 		self::editItemAdminToolbar();
+	}
+	
+	public static function facilitiesAdminListToolbar()
+	{
+		JToolBarHelper::title(JText::_('JRESEARCH_FACILITIES'));
+		
+		self::adminListToolbar();
+	}
+	
+	public static function editFacilityAdminToolbar()
+	{
+		$cid = JRequest::getVar('cid');
+		if($cid)
+			$title = JText::_('JRESEARCH_EDIT_FACILITY');
+		else
+			$title = JText::_('JRESEARCH_NEW_FACILITY');	
+		
+		JToolBarHelper::title($title);
+		
+		self::editItemAdminToolbar();
+	}
+	
+	public static function adminListToolbar()
+	{
+		JToolBarHelper::addNewX('add', JText::_('Add'));
+		JToolBarHelper::editListX('edit', JText::_('Edit'));
+		JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_ITEM_CONFIRMATION'),'remove', JText::_('Delete'));		
+
+		JToolBarHelper::divider();
+		
+		JToolBarHelper::publishList('publish', JText::_('Publish'));
+		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
 	}
 }
 ?>

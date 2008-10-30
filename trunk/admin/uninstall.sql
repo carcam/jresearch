@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS `#__jresearch_book`;
 DROP TABLE IF EXISTS `#__jresearch_booklet`;
 DROP TABLE IF EXISTS `#__jresearch_citing_style`;
 DROP TABLE IF EXISTS `#__jresearch_conference`;
+DROP TABLE IF EXISTS `#__jresearch_cooperations`;
+DROP TABLE IF EXISTS `#__jresearch_facilities`;
 DROP TABLE IF EXISTS `#__jresearch_inbook`;
 DROP TABLE IF EXISTS `#__jresearch_incollection`;
 DROP TABLE IF EXISTS `#__jresearch_manual`;
