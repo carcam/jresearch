@@ -239,7 +239,7 @@ class JResearchActivity extends JTable{
 		$db = &$this->getDBO();
 		if($this->_internalAuthorsObjects == null){
 			foreach($this->_internalAuthors as $member){
-				$memberObject = new JResearchMember(&$db);
+				$memberObject = new JResearchMember($db);
 				$memberObject->load($member['id_staff_member']);
 				$this->_internalAuthorsObjects[$member['order']] = $memberObject;
 			}

@@ -69,7 +69,7 @@ class JResearchModelPublication extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadAssocList();		
 		foreach($result as $r){
-			$newComm = new JResearchPublicationComment(&$db);
+			$newComm = new JResearchPublicationComment($db);
 			$newComm->bind($r);
 			$comments[] = $newComm;
 		}

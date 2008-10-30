@@ -111,7 +111,7 @@ class JResearchModelThesesList extends JResearchModelList{
 			$ids = $db->loadResultArray();
 			$this->_items = array();
 			foreach($ids as $id){
-				$thesis = new JResearchThesis(&$db);
+				$thesis = new JResearchThesis($db);
 				$thesis->load($id);
 				$this->_items[] = $thesis;
 			}

@@ -32,7 +32,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 	public function getItem($itemId){
 		$db =& JFactory::getDBO();
 		
-		$member = new JResearchMember(&$db);
+		$member = new JResearchMember($db);
 		$member->load($itemId);
 		return $member;
 	}
@@ -49,7 +49,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$results = $db->loadAssoc();		
 		
-		$member = new JResearchMember(&$db);
+		$member = new JResearchMember($db);
 		$member->bind($results);
 		return $member;
 	}
@@ -119,7 +119,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 
 		$result = $db->loadResultArray();
 		foreach($result as $id){
-			$project = new JResearchProject(&$db);
+			$project = new JResearchProject($db);
 			$project->load($id);
 			$latestProj[] = $project;
 		}
@@ -162,7 +162,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadResultArray();
 		foreach($result as $id){
-			$thesis = new JResearchThesis(&$db);
+			$thesis = new JResearchThesis($db);
 			$thesis->load($id);
 			$latestThes[] = $thesis;
 		}
