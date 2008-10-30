@@ -30,7 +30,7 @@ class JResearchModelThesis extends JResearchModelSingleRecord{
 	public function getItem($itemId){
 		$db =& JFactory::getDBO();
 
-		$thesis = new JResearchThesis(&$db);
+		$thesis = new JResearchThesis($db);
 		$thesis->load($itemId);
 		
 		return $thesis;

@@ -50,8 +50,8 @@ class JResearchAdminProjectsController extends JController
 		$view = &$this->getView('ProjectsList', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('ProjectsList', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
-		$view->setModel(&$model, true);
-		$view->setModel(&$areaModel);
+		$view->setModel($model, true);
+		$view->setModel($areaModel);
 		$view->display();
 
 	}
@@ -77,15 +77,15 @@ class JResearchAdminProjectsController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
 			}else{
 				$project->checkout($user->get('id'));
-				$view->setModel(&$model, true);
-				$view->setModel(&$areaModel);
+				$view->setModel($model, true);
+				$view->setModel($areaModel);
 				$view->display();
 			}	
 		}else{
 			$session =& JFactory::getSession();
 			$session->set('citedRecords', array(), 'jresearch');
-			$view->setModel(&$model, true);
-			$view->setModel(&$areaModel);
+			$view->setModel($model, true);
+			$view->setModel($areaModel);
 			$view->display();
 		}
 	}
@@ -99,7 +99,7 @@ class JResearchAdminProjectsController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$project = new JResearchProject(&$db);
+		$project = new JResearchProject($db);
 		$project->publish($cid, 1);
 		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 		
@@ -114,7 +114,7 @@ class JResearchAdminProjectsController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 				
-		$project = new JResearchProject(&$db);
+		$project = new JResearchProject($db);
 		$project->publish($cid, 0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));		
 		
@@ -129,7 +129,7 @@ class JResearchAdminProjectsController extends JController
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 		
-		$project = new JResearchProject(&$db);
+		$project = new JResearchProject($db);
 		foreach($cid as $id){
 			if(!$project->delete($id)){
 				JError::raiseWarning(1, JText::sprintf('JRESEARCH_PROJECT_NOT_DELETED', $id));
@@ -150,7 +150,7 @@ class JResearchAdminProjectsController extends JController
 		$db =& JFactory::getDBO();
 		$photosFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'projects';
 		$photosUrl = JURI::base().'components/com_jresearch/assets/projects/';
-		$project = new JResearchProject(&$db);
+		$project = new JResearchProject($db);
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');		

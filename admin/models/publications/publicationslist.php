@@ -75,8 +75,6 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		return $db->loadResultArray();
 	}
 
-	
-
 	/**
 	* Like method _buildQuery, but it does not consider LIMIT clause.
 	* 
@@ -88,9 +86,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();		
 		return $resultQuery;
 	}
-	
-	
-	
+
 	/**
 	* Returns an array of ALL the items of an entity independently of its published state considering
 	* pagination parameters. 
@@ -217,9 +213,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$db->setQuery($query);
 		return $db->loadAssocList();
 	}
-	
 
-	
 	/**
 	 * Returns an array with the items related to the prefix sent as parameter.
 	 * @param string $prefix Search key

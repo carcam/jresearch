@@ -50,8 +50,8 @@ class JResearchAdminStaffController extends JController
 		$view = &$this->getView('Staff', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Staff', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
-		$view->setModel(&$model, true);
-		$view->setModel(&$areaModel);
+		$view->setModel($model, true);
+		$view->setModel($areaModel);
 		$view->setLayout('default');
 		$view->display();
 	}
@@ -89,8 +89,8 @@ class JResearchAdminStaffController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
 			}else{	
 				$member->checkout($user->get('id'));
-				$view->setModel(&$model, true);
-				$view->setModel(&$researchAreaModel);
+				$view->setModel($model, true);
+				$view->setModel($researchAreaModel);
 				$view->display();
 			}
 		}
@@ -107,7 +107,7 @@ class JResearchAdminStaffController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		
-		$member = new JResearchMember(&$db);
+		$member = new JResearchMember($db);
 		$member->publish($cid, 1);
 		$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 
@@ -122,7 +122,7 @@ class JResearchAdminStaffController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		
-		$member = new JResearchMember(&$db);
+		$member = new JResearchMember($db);
 		$member->publish($cid, 0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
 	}
@@ -136,7 +136,7 @@ class JResearchAdminStaffController extends JController
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 		
-		$member = new JResearchMember(&$db);
+		$member = new JResearchMember($db);
 		foreach($cid as $id){
 			if(!$member->delete($id)){
 				JError::raiseWarning(1, JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id));
@@ -162,7 +162,7 @@ class JResearchAdminStaffController extends JController
 		for($i=0; $i<= $n; $i++){
 			$username = JRequest::getVar('member'.$i);
 			if($username !== null){
-				$newMember = new JResearchMember(&$db);
+				$newMember = new JResearchMember($db);
 				$newMember->bindFromUser($username);
 				if($newMember->store())
 					$count++;
@@ -182,7 +182,7 @@ class JResearchAdminStaffController extends JController
 		$db =& JFactory::getDBO();
 		$photosFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'members';
 		$photosUrl = JURI::base().'components/com_jresearch/assets/members/';
-		$member = new JResearchMember(&$db);
+		$member = new JResearchMember($db);
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');

@@ -62,7 +62,7 @@ class JResearchModelStaff extends JResearchModelList{
 			$ids = $db->loadResultArray();
 			$this->_items = array();
 			foreach($ids as $id){				
-				$member = new JResearchMember(&$db);
+				$member = new JResearchMember($db);
 				$member->load($id);
 				$this->_items[] = $member;
 			}

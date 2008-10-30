@@ -92,7 +92,7 @@ class JResearchArea extends JTable{
 		$result = $db->loadAssocList();
 		
 		foreach($result as $r){
-			$ra = new JResearchArea(&$db);
+			$ra = new JResearchArea($db);
 			$ra->bind($r);
 			$areas[] = $ra;	
 		}

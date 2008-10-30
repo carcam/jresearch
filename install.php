@@ -62,7 +62,7 @@ function com_install(){
 	// Time to install plugins
 	$db = &JFactory::getDBO();
 
-	$searchPlugin = new JTablePlugin(&$db);	
+	$searchPlugin = new JTablePlugin($db);	
 	$searchPlugin->name = 'Search - JResearch';
 	$searchPlugin->element = 'jresearch';
 	$searchPlugin->folder = 'search';
@@ -88,7 +88,7 @@ function com_install(){
 	}
 	
 
-	$automaticCitationPlugin = new JTablePlugin(&$db);	
+	$automaticCitationPlugin = new JTablePlugin($db);	
 	$automaticCitationPlugin->name = 'JResearch Automatic Citation';
 	$automaticCitationPlugin->element = 'jresearch_automatic_citation';
 	$automaticCitationPlugin->folder = 'editors-xtd';
@@ -113,7 +113,7 @@ function com_install(){
 		JError::raiseWarning(1, JText::_('Plugin for automatic citation could not be installed. Please install it manually'));
 	}
 	
-	$automaticBibliographyPlugin = new JTablePlugin(&$db);	
+	$automaticBibliographyPlugin = new JTablePlugin($db);	
 	$automaticBibliographyPlugin->name = 'JResearch Automatic Bibliography Generation';
 	$automaticBibliographyPlugin->element = 'jresearch_automatic_bibliography_generation';
 	$automaticBibliographyPlugin->folder = 'editors-xtd';
@@ -138,7 +138,7 @@ function com_install(){
 		JError::raiseWarning(1, JText::_('Plugin for automatic bibliography generation could not be installed. Please install it manually'));
 	}
 	
-	$persitentCitedRecordsPlugin = new JTablePlugin(&$db);	
+	$persitentCitedRecordsPlugin = new JTablePlugin($db);	
 	$persitentCitedRecordsPlugin->name = 'JResearch Persistent Cited Records';
 	$persitentCitedRecordsPlugin->element = 'jresearch_persistent_cited_records';
 	$persitentCitedRecordsPlugin->folder = 'content';
@@ -163,7 +163,7 @@ function com_install(){
 		JError::raiseWarning(1, JText::_('Plugin for persistence of cited records for com_content could not be installed. Please install it manually'));
 	}
 	
-	$loadCitedRecordsPlugin = new JTablePlugin(&$db);	
+	$loadCitedRecordsPlugin = new JTablePlugin($db);	
 	$loadCitedRecordsPlugin->name = 'JResearch Load Cited Records';
 	$loadCitedRecordsPlugin->element = 'jresearch_load_cited_records';
 	$loadCitedRecordsPlugin->folder = 'system';

@@ -51,7 +51,7 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 
 			$this->_items = array();
 			foreach($ids as $id){				
-				$area = new JResearchArea(&$db);
+				$area = new JResearchArea($db);
 				$area->load($id);
 				$this->_items[] = $area;
 			}
