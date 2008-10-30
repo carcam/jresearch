@@ -83,6 +83,9 @@ function __mapViewToController(){
 		case 'cooperations': case 'cooperation':
 			$value = 'cooperations';
 			break;
+		case 'facilities': case 'facility':
+			$value = 'facilities';
+			break;
 		default:
 			$value = 'researchAreas';			
 			break;

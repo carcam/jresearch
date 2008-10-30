@@ -369,9 +369,25 @@ DROP TABLE IF EXISTS `#__jresearch_cooperations`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_cooperations` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(50) NOT NULL,
-  `image_url` varchar(256) NOT NULL,
+  `image_url` varchar(256) DEFAULT NULL,
   `description` tinytext NOT NULL,
   `url` varchar(256) NOT NULL,
+  `published` tinyint(4) NOT NULL default '0',
+  `ordering` int(11) unsigned NOT NULL default '0',
+  `parent` int(11) unsigned NOT NULL default '0',
+  `checked_out` tinyint(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL,
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `description` (`description`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `#__jresearch_facilities`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_facilities` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `id_research_area` int(10) unsigned NOT NULL default '1',
+  `name` varchar(50) NOT NULL,
+  `image_url` varchar(256) DEFAULT NULL,
+  `description` tinytext NOT NULL,
   `published` tinyint(4) NOT NULL default '0',
   `ordering` int(11) unsigned NOT NULL default '0',
   `parent` int(11) unsigned NOT NULL default '0',
