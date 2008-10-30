@@ -52,23 +52,23 @@ class JResearchPublicationsHelper{
 		$pattern4 = "/^([\w$extraCharacters.']+)\s+([\w$extraCharacters.']+)\s*,\s*([\w$extraCharacters.,]+)\s*,\s*([\w$extraCharacters.']+)$/u";
 		$pattern5 = "/^([\w$extraCharacters']+)\s*,\s+([\w$extraCharacters.']+)$/u";
 	
-		if(preg_match($pattern1, $authorname, &$matches)){
+		if(preg_match($pattern1, $authorname, $matches)){
 			$result['firstname'] = $matches[1];
 			$result['lastname'] = $matches[2];
-		}elseif(preg_match($pattern2, $authorname, &$matches)){
+		}elseif(preg_match($pattern2, $authorname, $matches)){
 			$result['firstname'] = $matches[1];
 			$result['von'] = $matches[2];
 			$result['lastname'] = $matches[3];
-		}elseif(preg_match($pattern3, $authorname, &$matches)){
+		}elseif(preg_match($pattern3, $authorname, $matches)){
 			$result['von'] = $matches[1];
 			$result['lastname'] = $matches[2];
 			$result['firstname'] = $matches[3];
-		}elseif(preg_match($pattern4, $authorname, &$matches)){
+		}elseif(preg_match($pattern4, $authorname, $matches)){
 			$result['von'] = $matches[1];
 			$result['lastname'] = $matches[2];
 			$result['jr'] = $matches[3];
 			$result['firstname'] = $matches[4];
-		}elseif(preg_match($pattern5, $authorname, &$matches)){
+		}elseif(preg_match($pattern5, $authorname, $matches)){
 			$result['lastname'] = $matches[1];
 			$result['firstname'] = $matches[2];		
 		}else{

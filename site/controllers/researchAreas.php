@@ -54,7 +54,7 @@ class JResearchResearchAreasController extends JController
 		// Set the view and the model
 		$model =& $this->getModel('ResearchAreasList', 'JResearchModel');
 		$view =& $this->getView('ResearchAreasList', 'html', 'JResearchView');
-		$view->setModel(&$model, true);
+		$view->setModel($model, true);
 		$view->display();
 		
 	}
@@ -67,7 +67,7 @@ class JResearchResearchAreasController extends JController
 	function show(){
 		$model =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('ResearchArea', 'html', 'JResearchView');
-		$view->setModel(&$model, true);
+		$view->setModel($model, true);
 		$view->display();				
 
 	}

@@ -393,7 +393,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 			}
 		}
 		// Sort the array
-		ksort(&$authorsArray);		
+		ksort($authorsArray);		
 		return array_values($authorsArray);
 	}		
 	

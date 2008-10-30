@@ -91,7 +91,7 @@ class JResearchPublicationsController extends JController
 		$model =& $this->getModel('PublicationsList', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('PublicationsList', $format, 'JResearchView');
-		$view->setModel(&$model, true);
+		$view->setModel($model, true);
 		$view->setModel($areaModel);
 		$view->display();
 	}
@@ -117,8 +117,8 @@ class JResearchPublicationsController extends JController
 		$model =& $this->getModel('Publication', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('Publication', 'html', 'JResearchView');
-		$view->setModel(&$model, true);
-		$view->setModel(&$areaModel);
+		$view->setModel($model, true);
+		$view->setModel($areaModel);
 		$view->display();				
 	}
 
@@ -350,7 +350,7 @@ class JResearchPublicationsController extends JController
 	 	// If the user passed the test, save the comment.
 	 	if(!$failed){
 	 		$db =& JFactory::getDBO();
-	 		$comment = new JResearchPublicationComment(&$db);
+	 		$comment = new JResearchPublicationComment($db);
 	 		$comment->bind($post);
 	 		$now = new JDate();
 	 		$comment->datetime = $now->toMySQL();

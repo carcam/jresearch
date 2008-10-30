@@ -259,10 +259,10 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 				$authorsArray[$authorsText][] = '';	
 		}
 		// Sort the array
-		ksort(&$authorsArray);
+		ksort($authorsArray);
 
 		foreach($authorsArray as &$years){
-			sort(&$years, SORT_NUMERIC);
+			sort($years, SORT_NUMERIC);
 
 			$n = count($years);
 			
@@ -472,9 +472,9 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		}
 		
 		// Sort the array
-		ksort(&$authorsArray);		
+		ksort($authorsArray);		
 		foreach($authorsArray as &$arr){
-			ksort(&$arr);
+			ksort($arr);
 			foreach($arr as $yearArray)
 				foreach($yearArray as $pub)
 					$result[] = $pub;
