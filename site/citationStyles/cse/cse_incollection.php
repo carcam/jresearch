@@ -44,7 +44,7 @@ class JResearchCSEIncollectionCitationStyle extends JResearchCSECitationStyle{
 		if($nAuthors <= 0){
 			if($nEditors == 0){
 				// If neither authors, nor editors
-				$authorsText = JText::_('JRESEARCH_ANONYMOUS');
+				$authorsText = '['.JText::_('JRESEARCH_ANONYMOUS').']';
 				$editorsText = '';
 			}else{
 				// If no authors, but editors
@@ -59,9 +59,10 @@ class JResearchCSEIncollectionCitationStyle extends JResearchCSECitationStyle{
 		$text .= $authorsText;
 
 		$year = trim($publication->year);
-		if(empty($year) || $year == '0000'){		
-			if($publication->__sameAuthorAsBefore){
-				$text = '. '.$year.$publication->__previousLetter;
+		if(!empty($year) && $year != '0000'){		
+			$text .= '. '.$year;			
+			if($publication->__sameAuthorAsBefore){	
+				$text .= $publication->__previousLetter;
 			}
 		}
 				

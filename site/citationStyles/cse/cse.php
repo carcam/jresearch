@@ -102,6 +102,20 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	}
 	
 	/**
+	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
+	* page and in the Works Cited section at the end of a document.
+	* 
+	* @param JResearchPublication $publication
+	* @param $html Add html tags for formats like italics or bold
+	* @param $authorLinks If true, internal authors names are included as links to their profiles.
+	* @return 	string
+	*/
+	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks = false){
+
+	}
+		
+	
+	/**
 	* Takes a publication and returns the string that would be printed when citing   
 	* the work in a parenthetical way. It means, the author is subject nor object in 
 	* the sentence containing the cite.
@@ -110,7 +124,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	* @return 	string
 	*/  
 	function getParentheticalCitationText($publication){
-		$this->lastAuthorSeparator = '&';
+		$this->lastAuthorSeparator = JText::_('JRESEARCH_BIBTEXT_AUTHOR_SEP');
 		if($publication instanceof JResearchPublication){
 			if($publication->countAuthors() == 0){
 				// If the work has no authors, use the first word of the title
@@ -136,36 +150,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		return $this->getParentheticalCitationText($publication);
 	}
 	
-	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* @return 	string
-	*/
-	function getReferenceText(JResearchPublication $publication){
-		return $this->getReference($publication);
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text in HTML format.
-	* @return 	string
-	*/
-	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true);
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* 
-	* @param JResearchPublication $publication
-	* @param $html Add html tags for formats like italics or bold
-	* @param $authorLinks If true, internal authors names are included as links to their profiles.
-	* @return 	string
-	*/
-	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks = false){
 
-	}
-	
 
 	
 	/**
@@ -388,7 +373,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 			}
 		}else{
 			$subtotal = array_slice($formattedEditors, 0, 10);
-			$text = implode(', ', $subtotal).JText::_('JRESEARCH_CSE_AND_OTHERS');
+			$text = implode(', ', $subtotal).' '.JText::_('JRESEARCH_CSE_AND_OTHERS');
 		}	
 
 		return $text;		
@@ -416,9 +401,10 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	}
 	
 	/**
-	* Returns an array of sorted publications according to APA citation styles rules for generation
+	* Returns an array of sorted publications according to CSE citation styles rules for generation
 	* of "References" section. Publications should be sorted alphabetically by first author lastname and
-	* then by year (when having publications of the same author in different years).
+	* then by year. If there are two or more publications with same author and year, a letter must written
+	* next to the year. 
 	* 
 	* 
 	*/
@@ -438,9 +424,19 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		ksort(&$authorsArray);		
 		foreach($authorsArray as &$arr){
 			ksort(&$arr);
-			foreach($arr as $yearArray)
-				foreach($yearArray as $pub)
-					$result[] = $pub;
+			foreach($arr as $yearArray){
+				if(count($yearArray) > 1){
+					$letter = 'a';					
+					foreach($yearArray as $pub){
+						$pub->__sameAuthorAsBefore = true;
+						$pub->__previousLetter = $letter;
+						$result[] = $pub;
+						$letter++;
+					}
+				}elseif(count($yearArray) == 1){
+					$result[] = $yearArray[0];
+				}
+			}
 		}
 		
 		return $result;
@@ -448,7 +444,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	
 	
 	/**
-	 * Takes a publication and returns the address text according to APA citation style.
+	 * Takes a publication and returns the address text according to CSE citation style.
 	 *
 	 * @param JResearchPublication $publication
 	 */
