@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</a>
 				</div>
 			</div>
-				<div style="float: left;">
+			<div style="float: left;">
 				<div class="icon">
 					<a href="index.php?option=com_jresearch&amp;controller=publications">
 						<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/publications.png" alt="<?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?>">					
@@ -68,6 +68,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</a>
 				</div>
 			</div>
+		</div>
 	</td>
 	<td valign="top" width="45%">
 		<div id="content-pane" class="pane-sliders">
@@ -104,7 +105,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						<td>3.41</td>
 					</tr>																	
 					</tbody>
-				</table>		
+				</table>
+				</div>		
 			</div>
 		</div>		
 	</td>

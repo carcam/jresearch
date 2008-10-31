@@ -18,7 +18,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 *
 * @subpackage		JResearch
 */
-class JResearchMLAMasterthesisCitationStyle extends JResearchMLACitationStyle{
+class JResearchMLAMastersthesisCitationStyle extends JResearchMLACitationStyle{
 	
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 

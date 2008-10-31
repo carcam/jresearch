@@ -139,6 +139,23 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
 	* page and in the Works Cited section at the end of a document.
+	* @return 	string
+	*/
+	function getReferenceText(JResearchPublication $publication){
+		return $this->getReference($publication);
+	}
+	
+	/**
+	* Takes a publication and returns the complete reference text in HTML format.
+	* @return 	string
+	*/
+	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
+		return $this->getReference($publication, true);
+	}
+	
+	/**
+	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
+	* page and in the Works Cited section at the end of a document.
 	* 
 	* @param JResearchPublication $publication
 	* @param $html Add html tags for formats like italics or bold
@@ -146,24 +163,6 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks = false){
-		$this->lastAuthorSeparator = '&';
-				
-		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
-		$title = $html?"<i>$publication->title</i>":$publication->title;
-		$title = trim($title);
-		
-		$year = $publication->year;
-		if($year != null && $year != '0000')
-			$year = ". ($year)";
-		else
-			$year = '';	
-		
-		if(!empty($authorsText))
-			$header = "$authorsText$year. $title.";
-		else
-			$header = "$title$year.";	
-			
-		return $header;	
 
 	}
 	
@@ -196,10 +195,12 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$authors = $publication->getAuthors();
 		$formattedAuthors  = array();
+		$firstnames[] = array();
 				
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::getAuthorComponents($auth);
 			$formattedAuthors[] = $result['lastname'];		
+			$firstnames[] = $result['firstname'];
 		}
 		
 		$text = "";
@@ -208,7 +209,10 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		}elseif($nAuthors == 1){
 			$text .= $formattedAuthors[0];
 		}elseif($nAuthors == 2){
-			$text .= $formattedAuthors[0]." $this->lastAuthorSeparator ".$formattedAuthors[1];
+			if($formattedAuthors[0] == $formattedAuthors[1])
+				$text .= $formattedAuthors[0].' '.$firstnames[0]{0}.$firstnames[1]{0};
+			else
+				$text .= $formattedAuthors[0]." $this->lastAuthorSeparator ".$formattedAuthors[1];
 		}elseif($nAuthors >= 3){
 			$text .= $formattedAuthors[0].' et al. ';
 		}
@@ -245,10 +249,10 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 				$authorsArray[$authorsText][] = '';	
 		}
 		// Sort the array
-		ksort($authorsArray);
+		ksort(&$authorsArray);
 
 		foreach($authorsArray as &$years){
-			sort($years, SORT_NUMERIC);
+			sort(&$years, SORT_NUMERIC);
 
 			$n = count($years);
 			
@@ -301,16 +305,15 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		}
 
 		$n = count($authors);
-		if($n <= 6){
+		if($n <= 10){
 			if($n == 1)
 				$text = $formattedAuthors[0];
 			else{	
-				$subtotal = array_slice($formattedAuthors, 0, $n-1);
-				$text = implode(', ', $subtotal)." $this->lastAuthorSeparator ".$formattedAuthors[$n-1];
+				$text = implode(', ', $formattedAuthors);
 			}
 		}else{
-			$subtotal = array_slice($formattedAuthors, 0, 6);
-			$text = implode(', ', $subtotal)." et al.";
+			$subtotal = array_slice($formattedAuthors, 0, 10);
+			$text = implode(', ', $subtotal).JText::_('JRESEARCH_CSE_AND_OTHERS');
 		}	
 
 		return $text;		
@@ -339,50 +342,24 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	}
 	
 	/**
-	 * Returns an author name with the format used for APA in the reference list
+	 * Returns an author name with the format used for CSE in the reference list
 	 *
 	 * @param string $authorName In any of the formats supported by Bibtex.
 	 */
 	protected function formatAuthorForReferenceOutput($authorName){
 		$authorComponents = JResearchPublicationsHelper::getAuthorComponents($authorName);
+		$text = '';
 
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
 			$text = ucfirst($authorComponents['lastname']);
-		}elseif(count($authorComponents) == 2){
-			$text = ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']{0}); 
-		}elseif(count($authorComponents) == 3){
-			$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']{0});
-		}else{
-			$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']{0}).', '.ucfirst($authorComponents['jr']);
+		}elseif(count($authorComponents) >= 2){
+			$text = ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']{0}); 
 		}
 		
 		return $text;
 	}
-	
-	/**
-	 * Returns an editor name with the format used for APA in the reference list. 
-	 * Editors names are formatted like authors where the publication has no authors, otherwise
-	 * the format changes with initials before lastname.
-	 *
-	 * @param string $editorName In any of the formats supported by Bibtex.
-	 */
-	protected function formatEditorForReferenceOutput($editorName){
-		$editorComponents = JResearchPublicationsHelper::getAuthorComponents($editorName);
-		$text = "";
-		
-		// We have two components: firstname and lastname
-		if(count($editorComponents) == 1){
-			$text .= ucfirst($editorComponents['lastname']);
-		}elseif(count($editorComponents) == 2){
-			$text .= ucfirst($editorComponents['firstname']{0}).'. '.ucfirst($editorComponents['lastname']); 
-		}else{
-			$text .= ucfirst($editorComponents['firstname']{0}).'. '.ucfirst($editorComponents['von']).' '.ucfirst($editorComponents['firstname']);
-		}
-		
-		return $text;
-		
-	}
+
 	
 	/**
 	 * Returns the editors text that is printed in book related references.
@@ -399,23 +376,23 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 			return '';
 		
 		foreach($editorsArray as $ed){
-			$formattedEditors[] = $this->formatEditorForReferenceOutput($ed);	
+			$formattedEditors[] = $this->formatAuthorForReferenceOutput($ed);	
 		}
 		
 		$n = count($formattedEditors);
-		if($n <= 6){
+		if($n <= 10){
 			if($n == 1)
 				$text = $formattedEditors[0];
 			else{	
-				$subtotal = array_slice($formattedEditors, 0, $n-1);
-				$text = implode(', ', $subtotal)." $this->lastAuthorSeparator ".$formattedEditors[$n-1];
+				$text = implode(', ', $formattedEditors);
 			}
 		}else{
-			$subtotal = array_slice($formattedEditors, 0, 6);
-			$text = implode(', ', $subtotal)." et al";
+			$subtotal = array_slice($formattedEditors, 0, 10);
+			$text = implode(', ', $subtotal).JText::_('JRESEARCH_CSE_AND_OTHERS');
 		}	
-		
+
 		return $text;		
+
 		
 	}
 	
@@ -458,9 +435,9 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		}
 		
 		// Sort the array
-		ksort($authorsArray);		
+		ksort(&$authorsArray);		
 		foreach($authorsArray as &$arr){
-			ksort($arr);
+			ksort(&$arr);
 			foreach($arr as $yearArray)
 				foreach($yearArray as $pub)
 					$result[] = $pub;

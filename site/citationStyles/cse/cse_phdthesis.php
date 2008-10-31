@@ -14,11 +14,11 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of CSE citation style for inbook records.
+* Implementation of CSE citation style for phdthesis records.
 *
 * @subpackage		JResearch
 */
-class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
+class JResearchCSEPhdthesisCitationStyle extends JResearchCSECitationStyle{
 	
 		
 	/**
@@ -34,31 +34,15 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_BIBTEXT_AUTHOR_SEP');
 		$nAuthors = $publication->countAuthors();
-		$nEditors = count($publication->getEditors());
 		$text = '';
-		$editorsConsidered = false;
-		
-		$eds = $nEditors > 1? JText::_('JRESEARCH_LC_EDITORS'):JText::_('JRESEARCH_LC_EDITOR');
-		$in = JText::_('JRESEARCH_IN');
+
 		
 		if($nAuthors <= 0){
-			if($nEditors == 0){
-				// If neither authors, nor editors
-				$authorsText = JText::_('JRESEARCH_ANONYMOUS');
-				$editorsText = '';
-			}else{
-				// If no authors, but editors
-				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-				$authorsText .= ' '.$eds.' ';
-				$editorsConsidered = true;
-			}
+			$authorsText = JText::_('JRESEARCH_ANONYMOUS');
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-
-
-
 		$text .= $authorsText;
 
 		$year = trim($publication->year);
@@ -69,37 +53,18 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		}
 				
 		$title = trim($publication->title);	
-		$text .= '. '.$title.'. '.$in.': ';
-
-
-		if(!$editorsConsidered){
-			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-			$editorsText .= ' '.$eds;
-			$text.= $editorsText;
-		}
-
-		$booktitle = trim($publication->booktitle);
-		if(!empty($booktitle))		
-			$text .= '. '.$booktitle;
-
-		$edition = trim($publication->edition);
-		if(!empty($edition)){
-			$text .= '. '.$edition;
-		}
-
-		$address = $this->_getAddressText($publication);
+		$text .= '. '.$title;
+		
+		$address = trim($publication->address);
 		if(!empty($address))
 			$text .= '. '.$address;
 
-		$pages = str_replace('--', '-', trim($publication->pages));		
-		if(!empty($pages))
-			$text .= '. p '.$pages;
-		
+		$school = trim($publication->school);
+		if(!empty($school))
+			$text .= ': '.$school;	
+			
 		return $text;
 	}
-	
-
-
 
 }
 ?>

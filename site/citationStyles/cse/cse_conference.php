@@ -14,11 +14,11 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of CSE citation style for inbook records.
+* Implementation of CSE citation style for conference records.
 *
 * @subpackage		JResearch
 */
-class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
+class JResearchCSEConferenceCitationStyle extends JResearchCSECitationStyle{
 	
 		
 	/**
@@ -42,23 +42,11 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		$in = JText::_('JRESEARCH_IN');
 		
 		if($nAuthors <= 0){
-			if($nEditors == 0){
-				// If neither authors, nor editors
-				$authorsText = JText::_('JRESEARCH_ANONYMOUS');
-				$editorsText = '';
-			}else{
-				// If no authors, but editors
-				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-				$authorsText .= ' '.$eds.' ';
-				$editorsConsidered = true;
-			}
+			$authorsText = JText::_('JRESEARCH_ANONYMOUS');
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-
-
-
 		$text .= $authorsText;
 
 		$year = trim($publication->year);
@@ -71,10 +59,10 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		$title = trim($publication->title);	
 		$text .= '. '.$title.'. '.$in.': ';
 
-
-		if(!$editorsConsidered){
+		$editors = trim($publication->editor);
+		if(!empty($editors)){
 			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-			$editorsText .= ' '.$eds;
+			$editorsText .= '. '.$in.' '.$eds;
 			$text.= $editorsText;
 		}
 
@@ -82,24 +70,26 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		if(!empty($booktitle))		
 			$text .= '. '.$booktitle;
 
-		$edition = trim($publication->edition);
-		if(!empty($edition)){
-			$text .= '. '.$edition;
-		}
 
+		$month = trim($publication->month);
+		if(!empty($month))
+			$text .= '; '.$month;
+		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
 			$text .= '. '.$address;
-
+			
+				
 		$pages = str_replace('--', '-', trim($publication->pages));		
 		if(!empty($pages))
-			$text .= '. p '.$pages;
+			$text .= '; p. '.$pages;
 		
+		$url = trim($publication->url_digital_version);
+		if(!empty($url))
+			$text .= '. '.JText::_('JRESEARCH_AVAILABLE_FROM').': '.$url;	
+			
 		return $text;
 	}
-	
-
-
 
 }
 ?>

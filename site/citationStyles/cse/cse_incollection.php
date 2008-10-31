@@ -14,11 +14,11 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of CSE citation style for inbook records.
+* Implementation of CSE citation style for incollection records.
 *
 * @subpackage		JResearch
 */
-class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
+class JResearchCSEIncollectionCitationStyle extends JResearchCSECitationStyle{
 	
 		
 	/**
@@ -56,9 +56,6 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-
-
-
 		$text .= $authorsText;
 
 		$year = trim($publication->year);
@@ -82,10 +79,6 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		if(!empty($booktitle))		
 			$text .= '. '.$booktitle;
 
-		$edition = trim($publication->edition);
-		if(!empty($edition)){
-			$text .= '. '.$edition;
-		}
 
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
@@ -97,9 +90,6 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		
 		return $text;
 	}
-	
-
-
 
 }
 ?>

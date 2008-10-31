@@ -2,8 +2,8 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @subpackage		JResearch
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @subpackage	JResearch
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
@@ -14,11 +14,11 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of CSE citation style for inbook records.
+* Implementation of CSE citation style for booklet records.
 *
 * @subpackage		JResearch
 */
-class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
+class JResearchCSEBookletCitationStyle extends JResearchCSECitationStyle{
 	
 		
 	/**
@@ -42,23 +42,11 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		$in = JText::_('JRESEARCH_IN');
 		
 		if($nAuthors <= 0){
-			if($nEditors == 0){
-				// If neither authors, nor editors
 				$authorsText = JText::_('JRESEARCH_ANONYMOUS');
-				$editorsText = '';
-			}else{
-				// If no authors, but editors
-				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-				$authorsText .= ' '.$eds.' ';
-				$editorsConsidered = true;
-			}
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-
-
-
 		$text .= $authorsText;
 
 		$year = trim($publication->year);
@@ -69,32 +57,16 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		}
 				
 		$title = trim($publication->title);	
-		$text .= '. '.$title.'. '.$in.': ';
-
-
-		if(!$editorsConsidered){
-			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-			$editorsText .= ' '.$eds;
-			$text.= $editorsText;
-		}
-
-		$booktitle = trim($publication->booktitle);
-		if(!empty($booktitle))		
-			$text .= '. '.$booktitle;
-
-		$edition = trim($publication->edition);
-		if(!empty($edition)){
-			$text .= '. '.$edition;
-		}
-
-		$address = $this->_getAddressText($publication);
+		$text .= '. '.$title;
+		
+		$address = trim($publication->address);
 		if(!empty($address))
 			$text .= '. '.$address;
-
-		$pages = str_replace('--', '-', trim($publication->pages));		
-		if(!empty($pages))
-			$text .= '. p '.$pages;
 		
+		$howpublished = trim($publication->howpublished);
+		if(!empty($howpublished))
+			$text .= '. '.$howpublished;	
+			
 		return $text;
 	}
 	

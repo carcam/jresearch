@@ -18,7 +18,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 *
 * @subpackage		JResearch
 */
-class JResearchIEEEMasterthesisCitationStyle extends JResearchIEEECitationStyle{
+class JResearchIEEEMastersthesisCitationStyle extends JResearchIEEECitationStyle{
 	
 
 	/**

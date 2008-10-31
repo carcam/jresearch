@@ -22,7 +22,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 *
 * @subpackage		JResearch
 */
-class JResearchAPAMasterthesisCitationStyle extends JResearchAPACitationStyle{
+class JResearchAPAMastersthesisCitationStyle extends JResearchAPACitationStyle{
 
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -55,29 +55,6 @@ class JResearchAPAMasterthesisCitationStyle extends JResearchAPACitationStyle{
 		
 		return "$header. $publication->school. $publication->address.";
 	}
-	
-	
-	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* 
-	* @param JResearchPublication $publication
-	* @return 	string
-	*/
-	function getReferenceText(JResearchPublication $publication){
-		return $this->getReference($publication);		
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text in HTML format.
-	* 
-	* @param mixed $publication JResearchPublication object or array of them
-	* @return 	string
-	*/
-	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true, $authorLinks);
-	}
-	
 }
 
 

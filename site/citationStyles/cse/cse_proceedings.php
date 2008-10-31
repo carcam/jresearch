@@ -14,13 +14,11 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of CSE citation style for inbook records.
+* Implementation of CSE citation style for proceedings records.
 *
 * @subpackage		JResearch
 */
-class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
-	
-		
+class JResearchProceedingsCitationStyle extends JResearchCSECitationStyle{
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
 	* page and in the Works Cited section at the end of a document.
@@ -36,10 +34,9 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
 		$text = '';
-		$editorsConsidered = false;
+		$in = JText::_('JRESEARCH_IN');
 		
 		$eds = $nEditors > 1? JText::_('JRESEARCH_LC_EDITORS'):JText::_('JRESEARCH_LC_EDITOR');
-		$in = JText::_('JRESEARCH_IN');
 		
 		if($nAuthors <= 0){
 			if($nEditors == 0){
@@ -50,14 +47,10 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 				// If no authors, but editors
 				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
 				$authorsText .= ' '.$eds.' ';
-				$editorsConsidered = true;
 			}
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
-		
-
-
 
 		$text .= $authorsText;
 
@@ -69,37 +62,30 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		}
 				
 		$title = trim($publication->title);	
-		$text .= '. '.$title.'. '.$in.': ';
-
-
-		if(!$editorsConsidered){
-			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-			$editorsText .= ' '.$eds;
-			$text.= $editorsText;
-		}
-
-		$booktitle = trim($publication->booktitle);
-		if(!empty($booktitle))		
-			$text .= '. '.$booktitle;
-
-		$edition = trim($publication->edition);
-		if(!empty($edition)){
-			$text .= '. '.$edition;
-		}
-
-		$address = $this->_getAddressText($publication);
-		if(!empty($address))
-			$text .= '. '.$address;
-
-		$pages = str_replace('--', '-', trim($publication->pages));		
-		if(!empty($pages))
-			$text .= '. p '.$pages;
+		$text .= '. '.$title;
 		
+		$text .= '. '.$in.': ';
+		
+		$series = trim($publication->series);
+		if(!empty($series))
+			$text .= $series;
+
+		$month = trim($publication->month);
+		if(!empty($month))
+			$text .= '; '.$month;	
+		
+		$address = trim($publication->address);
+		$institution = trim($publication->institution);
+		if(!empty($institution)){
+			if(!empty($address))
+				$address .= ': '.$institution;			
+			else
+				$address = $institution;	
+		}
+		
+		$text .= '; '.$address;
 		return $text;
+
 	}
-	
-
-
-
 }
 ?>
