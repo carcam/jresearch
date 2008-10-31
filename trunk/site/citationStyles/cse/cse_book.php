@@ -19,25 +19,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 * @subpackage		JResearch
 */
 class JResearchCSEBookCitationStyle extends JResearchCSECitationStyle{
-	
-
-	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* @return 	string
-	*/
-	function getReferenceText(JResearchPublication $publication){
-		return $this->getReference($publication);
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text in HTML format.
-	* @return 	string
-	*/
-	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true);
-	}
-	
 		
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 

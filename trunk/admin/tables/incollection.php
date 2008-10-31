@@ -48,7 +48,7 @@ class JResearchIncollection extends JResearchPublication{
 	public $editor;
 	
 	/**
-	 * The series the book is part of.
+	 * The organization that sponsors the publication of the book.
 	 * 
 	 * @var string
 	 */
