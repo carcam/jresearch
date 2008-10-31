@@ -41,7 +41,7 @@ class JResearchCSEManualCitationStyle extends JResearchCSECitationStyle{
 			if(!empty($organization))
 				$authorsText = $organization;
 			else	
-				$authorsText = JText::_('JRESEARCH_ANONYMOUS');
+				$authorsText = '['.JText::_('JRESEARCH_ANONYMOUS').']';
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
@@ -49,9 +49,10 @@ class JResearchCSEManualCitationStyle extends JResearchCSECitationStyle{
 		$text .= $authorsText;
 
 		$year = trim($publication->year);
-		if(empty($year) || $year == '0000'){		
-			if($publication->__sameAuthorAsBefore){
-				$text = '. '.$year.$publication->__previousLetter;
+		if(!empty($year) && $year != '0000'){		
+			$text .= '. '.$year;			
+			if($publication->__sameAuthorAsBefore){	
+				$text .= $publication->__previousLetter;
 			}
 		}
 				
