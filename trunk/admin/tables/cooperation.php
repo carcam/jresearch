@@ -13,7 +13,6 @@ class JResearchCooperation extends JTable
   	public $checked_out_time;
   	public $published;
   	public $ordering;
-  	public $parent;
 
     /**
      * Constructor
@@ -23,13 +22,6 @@ class JResearchCooperation extends JTable
     function JResearchCooperation(&$db)
     {
         parent::__construct('#__jresearch_cooperations', 'id', $db);
-    }
-
-    function load($id)
-    {
-    	$result = parent::load($id);
-
-    	return $result;
     }
     
     function check()

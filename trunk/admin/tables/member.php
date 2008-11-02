@@ -95,12 +95,6 @@ class JResearchMember extends JTable{
 	public $ordering;
 	
 	/**
-	 * Parent number
-	 * @var int
-	*/
-	public $parent;
-	
-	/**
 	 * Member's phone number
 	 *
 	 * @var string

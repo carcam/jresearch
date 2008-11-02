@@ -202,8 +202,6 @@ class JResearchAdminFacilitiesController extends JController
 		$fac->bind($post);
 		$fac->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$fac->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		
-		//@todo ordering
 
 		// Validate and save
 		if($fac->check())
@@ -343,7 +341,7 @@ class JResearchAdminFacilitiesController extends JController
 
 		$model =& $this->getModel('Facilities', 'JResearchModel');
 		
-		if ($model->setOrder($cid, $menu))
+		if ($model->setOrder($cid))
 		{
 			$msg = JText::_( 'New ordering saved' );
 		}

@@ -20,7 +20,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td><?=JText::_('Published').': '; ?></td>
-		<td colspan="3"><?=$this->publishedRadio; ?></td>
+		<td><?=$this->publishedRadio; ?></td>
+		<td><?php echo JText::_('Order').': '; ?></td>
+		<td><?php echo $this->orderList; ?></td>
 	</tr>
 	<tr>
 		<th class="editpublication" colspan="4"><?=JText::_('JRESEARCH_OPTIONAL'); ?></th>
@@ -37,9 +39,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td colspan="3" align="left"><?=JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
 		<td>
+			<?php
+			if($this->fac->image_url)
+			{
+			?>
 			<a href="<?=$this->fac->image_url;?>" class="modal">
 				<img src="<?=$this->fac->image_url; ?>" alt="Image of <?=$this->fac->name?>" width="100" />
 			</a>
+			<?php
+			}
+			?>
 		</td>
 	</tr>
 	<tr>

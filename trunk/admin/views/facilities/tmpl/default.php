@@ -72,10 +72,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</td>
 					<td class="order" nowrap="nowrap">
 						<span>
-							<?=$this->page->orderUpIcon( $i, $this->items[$i]->parent == 0 || $this->items[$i]->parent == @$this->items[$i-1]->parent, 'orderup', 'Move Up', $this->ordering); ?>
+							<?=$this->page->orderUpIcon( $i, $this->items[$i]->ordering > 1, 'orderup', 'Move Up', $this->ordering); ?>
 						</span>
 						<span>
-							<?=$this->page->orderDownIcon( $i, $n, $this->items[$i]->parent == 0 || $this->items[$i]->parent == @$this->items[$i+1]->parent, 'orderdown', 'Move Down', $this->ordering ); ?>
+							<?=$this->page->orderDownIcon( $i, $n, $this->items[$i]->ordering < ($this->items[$i]->getNextOrder()-1), 'orderdown', 'Move Down', $this->ordering ); ?>
 						</span>
 						<?php $disabled = $this->ordering ?  '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5" value="<?=$this->items[$i]->ordering; ?>" <?=$disabled ?> class="text_area" style="text-align: center" />
@@ -92,7 +92,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type="hidden" name="option" value="com_jresearch" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="" /> 
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />  
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="controller" value="facilities"  />
 	<input type="hidden" name="hidemainmenu" value="" />

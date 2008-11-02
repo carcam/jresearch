@@ -1,7 +1,7 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <form name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" class="form-validate" onSubmit="return validate(this);">
-<table class="editcooperation" cellpadding="5" cellspacing="5">
+<table class="editpublication" cellpadding="5" cellspacing="5">
 <tbody>
 	<tr>
 		<th colspan="4"><?php echo JText::_('JRESEARCH_COOPERATION')?></th>
@@ -22,7 +22,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('Published').': '; ?></td>
-		<td colspan="3"><?php echo $this->publishedRadio; ?></td>
+		<td><?php echo $this->publishedRadio; ?></td>
+		<td><?php echo JText::_('Order').': '; ?></td>
+		<td><?php echo $this->orderList; ?></td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('Photo').': ' ?></td>

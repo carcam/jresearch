@@ -52,24 +52,26 @@ class JResearchAdminViewCooperations extends JView
     	
 		// Filters and pagination
 		$lists = array();    	
-    	$filter_order = $mainframe->getUserStateFromRequest('coopsfilter_order', 'filter_order', 'name');
-    	$filter_order_Dir = $mainframe->getUserStateFromRequest('coopsfilter_order', 'filter_order_Dir', 'ASC');
+    	$filter_order = $mainframe->getUserStateFromRequest('coopsfilter_order', 'filter_order', 'ordering');
+    	$filter_order_Dir = $mainframe->getUserStateFromRequest('coopsfilter_order_Dir', 'filter_order_Dir', 'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('coopsfilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('coopsfilter_search', 'filter_search');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
 		
+		//Ordering allowed ?
+		$ordering = ($lists['order'] == 'ordering');
+		
 		// State filter
 		$lists['state'] = JHTML::_('grid.state', $filter_state);
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
     	
-    	
     	$this->assignRef('items', $coops);
     	$this->assignRef('lists', $lists);
-    	$this->assignRef('page', $model->getPagination());	
-
+    	$this->assignRef('page', $model->getPagination());
+    	$this->assignRef('ordering', $ordering);
     }
 }
 ?>
