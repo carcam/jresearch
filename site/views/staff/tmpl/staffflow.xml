@@ -19,6 +19,11 @@
 				<option value="-1">Only real members</option>
 				<option value="1">Only former members</option>
 			</param>
+			
+			<param name="ordering" type="radio" default="0" label="Order by" description="PARAMORDERINGMEMBERS">
+				<option value="0">Last name</option>
+				<option value="1">Ordering</option>
+			</param>
 		
 			<param name="alphareflect" type="radio" default="0" label="Transparent reflections" description="PARAMALPHAREFLECT">
 				<option value="0">No</option>

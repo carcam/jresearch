@@ -86,12 +86,17 @@ class JResearchViewStaff extends JView
     	
     	$params =& JComponentHelper::getParams('com_jresearch');
     	$former = (int) $params->get('former_members');
+    	$ordering = (int) $params->get('ordering');
     	
     	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
     	
     	$model->setFormer($former);
+    	
+    	//Set ordering
+    	$mainframe->setUserState('stafffilter_order',(($ordering == 1) ? 'ordering' : 'lastname'));
+    	
     	$members =& $model->getData(null, true, false);
 
     	$images = $this->getImages($members);
@@ -107,8 +112,12 @@ class JResearchViewStaff extends JView
 	*/
     private function getImages(&$members)
     {
+    	global $mainframe;
+    	
     	$images = array();
     	$i=0;
+    	
+    	$itemId = JRequest::getVar('Itemid');
     	
     	//Get images
     	foreach($members as $member)
@@ -119,7 +128,7 @@ class JResearchViewStaff extends JView
     			$images[$i]['imgalt'] = $member->firstname.' '.$member->lastname;
 				$images[$i]['imgtitle'] = 'Image of '.$member->firstname.' '.$member->lastname;
 				$images[$i]['hreftitle'] = 'Show me details of '.$member->firstname.' '.$member->lastname;
-				$images[$i++]['url'] = JURI::base().'index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id='.$member->id;
+				$images[$i++]['url'] = JURI::base().'index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id='.$member->id.(($itemId != "") ? '&amp;Itemid='.$itemId : '');
     		}
     	}
     	
