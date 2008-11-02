@@ -107,10 +107,10 @@ class JResearchModelStaff extends JResearchModelList{
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('lastname', 'published', 'id_research_area');
+		$orders = array('lastname', 'published', 'id_research_area', 'ordering');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order', 'lastname');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest('stafffilter_order_Dir', 'filter_order_Dir', 'ASC');
+		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('stafffilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')

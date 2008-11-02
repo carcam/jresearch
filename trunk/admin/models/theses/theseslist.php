@@ -132,7 +132,7 @@ class JResearchModelThesesList extends JResearchModelList{
 		$orders = array('title', 'published', 'id_research_area');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order', 'title');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest('thesesfilter_order_Dir', 'filter_order_Dir', 'ASC');
+		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('thesesfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
