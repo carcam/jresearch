@@ -45,7 +45,7 @@ class JResearchAdminViewFacility extends JView
     	$publishedOptions = array();
     	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
     	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
-
+    	
 		//Research areas 
 		$researchAreasOptions = array();
     	foreach($researchAreas as $r)
@@ -66,10 +66,16 @@ class JResearchAdminViewFacility extends JView
     	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);   		
     	 	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox"" size="5"', 'value', 'text', 1); 
     	}
+    	
+    	//Order options
+    	$orderOptions = array();
+    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_facilities');
+    	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $fac->ordering);
 
     	$this->assignRef('fac', $fac);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
+    	$this->assignRef('orderList', $orderList);
 		$this->assignRef('editor', $editor);    
     	
 		// Load cited records

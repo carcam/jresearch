@@ -93,10 +93,10 @@ class JResearchModelCooperations extends JResearchModelList
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('name', 'published');
+		$orders = array('name', 'published', 'ordering');
 		
-		$filter_order = $mainframe->getUserStateFromRequest('coopsfilter_order', 'filter_order', 'name');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest('coopsfilter_order_Dir', 'filter_order_Dir', 'ASC');
+		$filter_order = $mainframe->getUserStateFromRequest('coopsfilter_order', 'filter_order', 'ordering');
+		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('coopsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -104,7 +104,7 @@ class JResearchModelCooperations extends JResearchModelList
 			
 		//if order column is unknown, use the default
 		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('name');	
+			$filter_order = $db->nameQuote('ordering');	
 		
 		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
 	}	
@@ -153,6 +153,57 @@ class JResearchModelCooperations extends JResearchModelList
 		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
+	}
+	
+	/**
+	 * Ordering item
+	*/
+	function orderItem($item, $movement)
+	{
+		$db =& JFactory::getDBO();
+		$row =& new JResearchCooperation($db);
+		$row->load($item);
+		
+		if (!$row->move($movement))
+		{
+			$this->setError($row->getError());
+			return false;
+		}
+
+		return true;
+	}
+	
+	/**
+	 * Set ordering
+	*/
+	function setOrder($items)
+	{
+		$db 		=& JFactory::getDBO();
+		$total		= count($items);
+		$row		=& new JResearchCooperation($db);
+
+		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
+		JArrayHelper::toInteger($order);
+
+		// update ordering values
+		for( $i=0; $i < $total; $i++ )
+		{
+			$row->load( $items[$i] );
+			
+			if ($row->ordering != $order[$i])
+			{
+				$row->ordering = $order[$i];
+				if (!$row->store())
+				{
+					$this->setError($row->getError());
+					return false;
+				}
+			} // if
+		} // for
+
+		$row->reorder('published >=0');
+
+		return true;
 	}
 }
 ?>

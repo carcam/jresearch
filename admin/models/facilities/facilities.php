@@ -96,7 +96,7 @@ class JResearchModelFacilities extends JResearchModelList
 		$orders = array('name', 'published');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('facssfilter_order', 'filter_order', 'name');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest('facsfilter_order_Dir', 'filter_order_Dir', 'ASC');
+		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('facsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -164,7 +164,7 @@ class JResearchModelFacilities extends JResearchModelList
 		$row =& new JResearchCooperation($db);
 		$row->load($item);
 		
-		if (!$row->move( $movement, ' parent = '.(int) $row->parent ))
+		if (!$row->move( $movement))
 		{
 			$this->setError($row->getError());
 			return false;
@@ -176,12 +176,11 @@ class JResearchModelFacilities extends JResearchModelList
 	/**
 	 * Set ordering
 	*/
-	function setOrder($items, $menutype)
+	function setOrder($items)
 	{
 		$db =& JFactory::getDBO();
 		$total		= count($items);
 		$row		=& new JResearchFacility($db);
-		$groupings	= array();
 
 		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($order);
@@ -191,8 +190,6 @@ class JResearchModelFacilities extends JResearchModelList
 		{
 			$row->load( $items[$i] );
 			
-			// track parents
-			$groupings[] = $row->parent;
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
@@ -204,12 +201,7 @@ class JResearchModelFacilities extends JResearchModelList
 			} // if
 		} // for
 
-		// execute updateOrder for each parent group
-		$groupings = array_unique( $groupings );
-		foreach ($groupings as $group)
-		{
-			$row->reorder('parent = '.(int) $group.' AND published >=0');
-		}
+		$row->reorder('published >=0');
 
 		return true;
 	}
