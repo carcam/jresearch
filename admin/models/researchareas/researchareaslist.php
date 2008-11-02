@@ -102,7 +102,7 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 		$orders = array('name', 'published');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('researchAreasfilter_order', 'filter_order', 'lastname');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest('researchAreasfilter_order_Dir', 'filter_order_Dir', 'ASC');
+		$filter_order_Dir = strtotupper($mainframe->getUserStateFromRequest('researchAreasfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')

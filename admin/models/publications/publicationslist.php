@@ -131,7 +131,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$orders = array('title', 'published', 'year', 'citekey', 'pubtype', 'id_research_area');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order', 'title');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest('publicationsfilter_order_Dir', 'filter_order_Dir', 'ASC');
+		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('publicationsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
