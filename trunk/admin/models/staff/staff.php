@@ -175,5 +175,55 @@ class JResearchModelStaff extends JResearchModelList{
 		return $resultQuery;
 	}
 
+	/**
+	 * Ordering item
+	*/
+	function orderItem($item, $movement)
+	{
+		$db =& JFactory::getDBO();
+		$row =& new JResearchMember($db);
+		$row->load($item);
+		
+		if (!$row->move($movement))
+		{
+			$this->setError($row->getError());
+			return false;
+		}
+
+		return true;
+	}
+	
+	/**
+	 * Set ordering
+	*/
+	function setOrder($items)
+	{
+		$db 		=& JFactory::getDBO();
+		$total		= count($items);
+		$row		=& new JResearchMember($db);
+
+		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
+		JArrayHelper::toInteger($order);
+
+		// update ordering values
+		for( $i=0; $i < $total; $i++ )
+		{
+			$row->load( $items[$i] );
+			
+			if ($row->ordering != $order[$i])
+			{
+				$row->ordering = $order[$i];
+				if (!$row->store())
+				{
+					$this->setError($row->getError());
+					return false;
+				}
+			} // if
+		} // for
+
+		$row->reorder('published >=0');
+
+		return true;
+	}
 }
 ?>

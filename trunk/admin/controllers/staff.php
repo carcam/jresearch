@@ -270,5 +270,98 @@ class JResearchAdminStaffController extends JController
 		$this->setRedirect('index.php?option=com_jresearch&controller=staff');
 	}
 
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function orderup()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
+		if (isset($cid[0]) && $cid[0])
+		{
+			$id = $cid[0];
+		}
+		else
+		{
+			$this->setRedirect( 'index.php?option=com_jresearch&controller=staff', JText::_('No Items Selected') );
+			return false;
+		}
+
+		$model =& $this->getModel('Staff', 'JResearchModel');
+		
+		if ($model->orderItem($id, -1))
+		{
+			$msg = JText::_( 'Member Item Moved Up' );
+		}
+		else
+		{
+			$msg = $model->getError();
+		}
+		
+		$this->setRedirect( 'index.php?option=com_jresearch&controller=staff', $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function orderdown()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
+		if (isset($cid[0]) && $cid[0])
+		{
+			$id = $cid[0];
+		}
+		else
+		{
+			$this->setRedirect( 'index.php?option=com_jresearch&controller=staff', JText::_('No Items Selected') );
+			return false;
+		}
+
+		$model =& $this->getModel('Staff', 'JResearchModel');
+		if ($model->orderItem($id, 1))
+		{
+			$msg = JText::_( 'Member Item Moved Up' );
+		}
+		else
+		{
+			$msg = $model->getError();
+		}
+		
+		$this->setRedirect( 'index.php?option=com_jresearch&controller=staff', $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function saveorder()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
+		$model =& $this->getModel('Staff', 'JResearchModel');
+		
+		if ($model->setOrder($cid))
+		{
+			$msg = JText::_( 'New ordering saved' );
+		}
+		else
+		{
+			$msg = $model->getError();
+		}
+		
+		$this->setRedirect( 'index.php?option=com_jresearch&controller=staff', $msg );
+	}
 }
 ?>

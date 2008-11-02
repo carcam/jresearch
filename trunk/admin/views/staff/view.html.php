@@ -64,10 +64,13 @@ class JResearchAdminViewStaff extends JView
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
     	
+		//Ordering allowed ?
+		$ordering = ($lists['order'] == 'ordering');
     	
     	$this->assignRef('items', $members);
     	$this->assignRef('areaModel', $areaModel);
     	$this->assignRef('lists', $lists);
+    	$this->assignRef('ordering', $ordering);
     	$this->assignRef('page', $model->getPagination());	
 
     }
