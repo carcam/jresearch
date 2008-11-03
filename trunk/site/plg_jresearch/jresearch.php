@@ -56,6 +56,8 @@ class plgSearchJResearch extends JPlugin{
 	function &onSearchAreas()
 	{
 		static $areas = array(
+			'cooperations' => 'Cooperations',
+			'facilities' => 'Facilities',
 			'projects' => 'Research Projects',
 			'publications' => 'Publications',
 			'theses' => 'Degree Theses',
@@ -98,6 +100,8 @@ class plgSearchJResearch extends JPlugin{
 		}
 	
 		if(!isset($areas)){
+			$results[] = $this->searchCooperations($text, $phrase, $ordering);
+			$results[] = $this->searchFacilities($text, $phrase, $ordering);
 			$results[] = $this->searchPublications($text, $phrase, $ordering);
 			$results[] = $this->searchProjects($text, $phrase, $ordering);
 			$results[] = $this->searchTheses($text, $phrase, $ordering);
@@ -105,7 +109,11 @@ class plgSearchJResearch extends JPlugin{
 			$results[] = $this->searchResearchAreas($text, $phrase, $ordering);		
 		}else{
 			foreach($areas as $area){
-				if($area == 'publications')
+				if($area == 'cooperations')
+					$results[] = $this->searchCooperations($text, $phrase, $ordering);
+				elseif($area == 'facilities')
+					$results[] = $this->searchFacilities($text, $phrase, $ordering);
+				elseif($area == 'publications')
 					$results[] = $this->searchPublications($text, $phrase, $ordering);
 				elseif($area == 'projects')
 					$results[] = $this->searchProjects($text, $phrase, $ordering);
@@ -348,7 +356,6 @@ class plgSearchJResearch extends JPlugin{
 		return $results;
 	}
 
-
 	/**
 	* JResearch Theses Search method. 
 	*
@@ -481,6 +488,151 @@ class plgSearchJResearch extends JPlugin{
 		if(isset($results)){
 			foreach($results as $key => $item){
 				$results[$key]->href = "index.php?option=com_jresearch&view=member&task=show&id=".$results[$key]->id;
+			}
+		}
+		// We just reduce the limit
+		$n = count($results);
+		$this->limit -= $n;
+		return $results;
+	}
+	
+	/**
+	* JResearch Cooperations Search method. 
+	*
+	* The sql must return the following fields that are used in a common display
+	* routine: href, title, section, created, text, browsernav
+	* @param string Target search string
+	* @param string matching option, exact|any|all
+	* @param string ordering option, newest|oldest|popular|alpha|category
+	*/
+	private function searchCooperations($text, $phrase='', $ordering='')
+	{
+		$section = JText::_( 'Cooperations' );
+		$db = &JFactory::getDBO();
+		switch ( $ordering ) {
+			case 'alpha':
+				$order = 'c.name ASC';
+				break;
+			case 'category':
+			case 'popular':
+			case 'newest':
+			case 'oldest':
+			default:
+				$order = 'c.ordering ASC';
+				break;
+		}
+		
+		switch($phrase)
+		{
+			case 'exact':
+				$key = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+				$whereClause = "c.published = 1 AND (LOWER(c.name) LIKE $key OR LOWER( c.url ) LIKE $key OR LOWER( c.description ) LIKE $key)";
+				break;
+			case 'all':
+			case 'any':
+				// Get the words that compound the text
+				$words = explode( ' ', $text );
+				$whereClause = "c.published = 1 AND (";
+				
+				// Depending of the phrase we get a different behaviour
+				$operator = ($phrase == 'all'? 'AND':'OR');
+				
+				$i = 0;
+				$n = count($words);
+				foreach($words as $word)
+				{
+					$word = $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
+					$whereClause.= " (LOWER(c.name) LIKE $word OR LOWER( c.url ) LIKE $word OR LOWER(c.description) LIKE $word) ";
+					if($i <= $n-2)
+						$whereClause .= $operator;
+					$i++;
+				}
+				$whereClause .= ' )';
+		}
+		
+		$section = $db->Quote($section, false);
+		$query = "SELECT c.id as id, c.name AS title, CONCAT_WS( '/', c.name, $section ) AS section, '' AS created, '2' AS browsernav, c.description AS text FROM #__jresearch_cooperations c WHERE $whereClause ORDER BY $order";
+		$results = $db->setQuery( $query, 0, $this->limit );
+		$results = $db->loadObjectList();
+		
+		$this->debugQuery($db->getQuery());	
+		
+		if(isset($results)){
+			foreach($results as $key => $item){
+				$results[$key]->href = "index.php?option=com_jresearch&view=cooperation&task=show&id=".$results[$key]->id;
+			}
+		}
+		// We just reduce the limit
+		$n = count($results);
+		$this->limit -= $n;
+		return $results;
+	}
+	
+	/**
+	* JResearch Facilities Search method. 
+	*
+	* The sql must return the following fields that are used in a common display
+	* routine: href, title, section, created, text, browsernav
+	* @param string Target search string
+	* @param string matching option, exact|any|all
+	* @param string ordering option, newest|oldest|popular|alpha|category
+	* @todo Search integration
+	*/
+	private function searchFacilities($text, $phrase='', $ordering='')
+	{
+		$section = JText::_( 'Facilities' );
+		$db = &JFactory::getDBO();
+		switch ( $ordering )
+		{
+			case 'alpha':
+				$order = 'f.name ASC';
+				break;
+			case 'category':
+				$order = 'r.id ASC, f.name ASC';
+			case 'popular':
+			case 'newest':
+			case 'oldest':
+			default:
+				$order = 'f.ordering ASC';
+		}
+		
+		switch($phrase){
+			case 'exact':
+				$key = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+				$whereClause = "f.id_research_area = r.id AND f.published = 1 AND (LOWER( f.name ) LIKE $key OR LOWER( f.description ) LIKE $key)";
+				break;
+			case 'all':
+			case 'any':
+				// Get the words that compound the text
+				$words = explode( ' ', $text );
+				$whereClause = "f.id_research_area = r.id AND f.published = 1 AND (";
+				
+				// Depending of the phrase we get a different behaviour
+				$operator = ($phrase == 'all'? 'AND':'OR');
+				
+				$i = 0;
+				$n = count($words);
+				foreach($words as $word)
+				{
+					$word = $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
+					$whereClause.= " (LOWER(f.name) LIKE $word OR LOWER(f.description) LIKE $word) ";
+					if($i <= $n-2)
+						$whereClause .= $operator;
+					$i++;
+				}
+				$whereClause .= ' )';
+		}
+		
+		$section = $db->Quote($section, false);
+		$query = "SELECT f.id as id, f.name AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, f.description AS text FROM #__jresearch_facilities f INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
+		$results = $db->setQuery( $query, 0, $this->limit );
+		$results = $db->loadObjectList();
+		
+		$this->debugQuery($db->getQuery());	
+		
+		if(isset($results)){
+			foreach($results as $key => $item){
+				$results[$key]->href = "index.php?option=com_jresearch&view=facility&task=show&id=".$results[$key]->id;
 			}
 		}
 		// We just reduce the limit

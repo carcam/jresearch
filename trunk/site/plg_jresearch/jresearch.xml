@@ -7,7 +7,7 @@
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
     <authorEmail>shamantobi@gmail.com</authorEmail>
     <version>1.5</version>
-    <description>Plugin for searching research areas, projects, publications, theses and staff members.</description>
+    <description>Plugin for searching research areas, projects, publications, cooperations, facilitie, theses and staff members.</description>
     <files>
         <filename plugin="jresearch">jresearch.php</filename>
     </files>
