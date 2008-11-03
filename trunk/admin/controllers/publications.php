@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Publications
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -13,8 +13,8 @@ jimport('joomla.application.component.controller');
 
 /**
 * Publications Backend Controller
-*
-* @package 		JResearch
+* @package		JResearch
+* @subpackage	Publications
 */
 class JResearchAdminPublicationsController extends JController
 {

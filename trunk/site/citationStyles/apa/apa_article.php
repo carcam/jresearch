@@ -1,7 +1,7 @@
 <?php 
 /**
  * @version			$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Citation
  * @copyright		Copyright (C) 2008 Luis Galarraga.
  * @license			GNU/GPL
@@ -20,7 +20,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of APA citation style for article records.
 *
-* @subpackage		JResearch
 */
 class JResearchAPAArticleCitationStyle extends JResearchAPACitationStyle{
 	

@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Facilities
 * @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
@@ -16,9 +16,8 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'facility.php');
 
 /**
 * JResearch Facilities Backend Controller
-*
-* @package JResearch
-* @subpackage Facilities
+* @package		JResearch
+* @subpackage	Facilities
 */
 class JResearchAdminFacilitiesController extends JController
 {
@@ -31,6 +30,14 @@ class JResearchAdminFacilitiesController extends JController
 		parent::__construct();
 
 		$this->registerDefaultTask('display');
+		$this->registerTask('add', 'edit');
+		$this->registerTask('edit', 'edit');
+		$this->registerTask('publish', 'publish');
+		$this->registerTask('unpublish', 'unpublish');
+		$this->registerTask('remove', 'remove');
+		$this->registerTask('save', 'save');
+		$this->registerTask('apply', 'save');
+		$this->registerTask('cancel', 'cancel');
 
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'facilities');
 		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'facilities');
@@ -54,10 +61,6 @@ class JResearchAdminFacilitiesController extends JController
 		$view->display();
 	}
 
-	function add()
-	{
-		self::edit();
-	}
 
 	function edit()
 	{

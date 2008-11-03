@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	HTML
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -16,7 +16,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
  * JHTML helper class that implements a control for importing staff
  * members from users table.
  *
- * @package   JResearch
  */
 class JHTMLStaffImporter{
 

@@ -2,7 +2,7 @@
 
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Helpers
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL

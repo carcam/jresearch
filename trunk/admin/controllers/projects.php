@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Projects
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -16,8 +16,8 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
 
 /**
 * Projects Backend Controller
-*
 * @package		JResearch
+* @subpackage	Projects
 */
 class JResearchAdminProjectsController extends JController
 {

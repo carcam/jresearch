@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Facilities
 * @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL

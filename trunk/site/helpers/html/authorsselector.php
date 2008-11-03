@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	HTML
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -16,7 +16,6 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
  * JHTML helper class that implements a control which allow to select
  * authors from staff members.
  *
- * @package    		JResearch
  */
 class JHTMLAuthorsSelector{
 	

@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Theses
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -19,7 +19,6 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 /**
 * Model class for holding lists of thesis records.
 *
-* @subpackage	Theses
 */
 class JResearchModelThesesList extends JResearchModelList{
 	

@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the base controller for the backend interface of JResearch.
@@ -13,7 +13,6 @@ jimport('joomla.application.component.controller');
 /**
 * JResearch Base Backend Controller
 *
-* @package		J!Research
 */
 class JResearchAdminController extends JController
 {

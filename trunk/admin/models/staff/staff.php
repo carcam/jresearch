@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Staff
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -18,7 +18,6 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 /**
 * Model class for holding lists of members records.
 *
-* @subpackage	Staff
 */
 class JResearchModelStaff extends JResearchModelList{
 	/**
