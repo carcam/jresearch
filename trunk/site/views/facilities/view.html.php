@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
+* @package		J!Research
+* @subpackage	Facilities
 * @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of presentation of
@@ -15,9 +15,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.view');
 
 /**
- * HTML View class for presentation of projects list in frontend.
+ * HTML View class for presentation of facilities list in frontend.
  *
- * @package   JResearch
  */
 
 class JResearchViewFacilities extends JView

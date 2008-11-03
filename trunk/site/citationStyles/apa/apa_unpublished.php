@@ -1,8 +1,8 @@
 <?php 
 /**
  * @version			$Id$
- * @package			Joomla
- * @subpackage		JResearch	
+* @package		J!Research
+* @subpackage	Citation
  * @copyright		Copyright (C) 2008 Luis Galarraga.
  * @license			GNU/GPL
  * Joomla! is free software. This version may have been modified pursuant
@@ -20,7 +20,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of APA citation style for unpublished records.
 *
-* @subpackage		JResearch
 */
 class JResearchAPAUnpublishedCitationStyle extends JResearchAPACitationStyle{
 	

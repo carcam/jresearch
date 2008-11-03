@@ -1,12 +1,12 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @subpackage	Staff
+* @copyright	Copyright (C) 2008 Luis Galarraga/Florian Prinz.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of presentation of
-* staff member list in frontend
+* staff member list in frontend.
 */
 
 // No direct access
@@ -37,7 +37,6 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for presentation of members list in frontend.
  *
- * @package   JResearch
  */
 
 class JResearchViewStaff extends JView

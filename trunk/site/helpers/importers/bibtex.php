@@ -2,7 +2,8 @@
 
 /**
 * @version		$Id$
-* @package		JResearch
+* @package		J!Research
+* @subpackage	Helpers
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * Joomla! is free software. This version may have been modified pursuant

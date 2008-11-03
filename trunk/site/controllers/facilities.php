@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage		Projects
+* @package		J!Research
+* @subpackage	Facilities
 * @copyright		Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
@@ -12,9 +12,8 @@
 jimport('joomla.application.component.controller');
 
 /**
-* JResearch Component Projects Controller
+* JResearch Component Facilities Controller
 *
-* @package		JResearch
 */
 class JResearchFacilitiesController extends JController
 {

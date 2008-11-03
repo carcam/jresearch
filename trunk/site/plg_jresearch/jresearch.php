@@ -1,8 +1,8 @@
 <?php
 /**
  * @version			$Id$
- * @package			Joomla
- * @subpackage		JResearch	
+* @package		J!Research
+* @subpackage	Plugins
  * @copyright		Copyright (C) 2008 Luis Galarraga.
  * @license			GNU/GPL
  * Joomla! is free software. This version may have been modified pursuant
@@ -26,8 +26,6 @@ jimport('joomla.event.plugin');
  * JResearch Search Plugin Class. Allows to include JResearch records like projects, theses, 
  * publications, research areas and staff members in Joomla searches.
  *
- * @package    Joomla
- * @subpackage JResearch
  * @license    GNU/GPL
  */
 class plgSearchJResearch extends JPlugin{

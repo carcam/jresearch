@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
+* @package		J!Research
+* @subpackage	Projects
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for the presentation of a
@@ -18,7 +18,6 @@ jimport( 'joomla.application.component.view');
  * HTML View class for presentation of a single project 
  * information.
  *
- * @package   JResearch
  */
 
 class JResearchViewProject extends JView

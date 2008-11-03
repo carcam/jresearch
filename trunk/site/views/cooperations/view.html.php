@@ -4,8 +4,8 @@ jimport( 'joomla.application.component.view' );
 /**
  * Cooperations View
  *
- * @package    Joomla.Cooperations
- * @subpackage Components
+* @package		J!Research
+* @subpackage	Cooperations
  */
 class JResearchViewCooperations extends JView
 {

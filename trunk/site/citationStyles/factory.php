@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @subpackage	Citation
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file declares the factory for citation styles objects.
 */
@@ -14,7 +14,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
 * Factory for citation styles objects
 *
-* @subpackage		JResearch
 */
 class JResearchCitationStyleFactory{
 	

@@ -1,8 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @subpackage	Frontend
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file is the main entry for component JResearch. Its purpose is to load
 * the right controller based in request. Controllers reside in folder site/controllers
