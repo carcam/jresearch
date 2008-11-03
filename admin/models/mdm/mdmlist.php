@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	MtM
 * @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
@@ -17,7 +17,6 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 /**
 * Model class for holding lists of mdm records.
 *
-* @subpackage		JResearch
 */
 class JResearchModelMdmList extends JResearchModelList
 {

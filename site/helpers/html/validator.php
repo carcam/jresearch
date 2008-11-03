@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	HTML
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -15,7 +15,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'lang
  * JHTML helper class used for enabling client side validation of JResearch
  * forms.
  *
- * @package    		JResearch
  */
 class JHTMLValidator{
 	

@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Facilities
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -18,7 +18,6 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for single project management in JResearch Component backend
  *
- * @package    		JResearch
  */
 
 class JResearchAdminViewFacility extends JView

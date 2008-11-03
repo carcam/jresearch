@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Publications
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -18,7 +18,6 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'comment.php');
 /**
 * Model class for holding a single publication record.
 *
-* @subpackage	Publications
 */
 class JResearchModelPublication extends JResearchModelSingleRecord{
 

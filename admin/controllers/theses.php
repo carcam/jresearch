@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Theses
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -15,8 +15,8 @@ jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 /**
  * Theses Backend Controller
- *
  * @package		JResearch
+ * @subpackage	Theses
  */
 class JResearchAdminThesesController extends JController
 {

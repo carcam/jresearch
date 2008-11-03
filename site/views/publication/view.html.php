@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Publications
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -17,7 +17,6 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for presentation of a publication information.
  *
- * @package   JResearch
  */
 
 class JResearchViewPublication extends JView

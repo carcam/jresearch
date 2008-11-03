@@ -1,7 +1,7 @@
 <?php
 /**
-* @version		$Id: author.php 10381 2008-06-01 03:35:53Z pasamio $
-* @package		J!Research
+* @version		$Id$
+* @package		JResearch
 * @subpackage	ResearchAreas
 * @copyright	Copyright (C) 2008 Florian Prinz
 * @license		GNU/GPL

@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Cooperations
 * @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
@@ -9,16 +9,23 @@
 * of cooperations in the backend interface.
 */
 
+/*
+ * @const Project_Image_Width
+ */
 define('_PROJECT_IMAGE_MAX_WIDTH_', 400);
+/*
+ * @const Project_Image_Height
+ */
 define('_PROJECT_IMAGE_MAX_HEIGHT_', 400);
 
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
 
 /**
-* JResearch Base Backend Controller
+* JResearch Cooperations Backend Controller
 *
-* @package		Cooperations
+* @package		JResearch
+* @subpackage	Cooperations
 */
 class JResearchAdminCooperationsController extends JController
 {
@@ -31,6 +38,14 @@ class JResearchAdminCooperationsController extends JController
 		parent::__construct();
 
 		$this->registerDefaultTask('display');
+		$this->registerTask('add', 'edit');
+		$this->registerTask('edit', 'edit');
+		$this->registerTask('publish', 'publish');
+		$this->registerTask('unpublish', 'unpublish');
+		$this->registerTask('remove', 'remove');
+		$this->registerTask('save', 'save');
+		$this->registerTask('apply', 'save');
+		$this->registerTask('cancel', 'cancel');
 
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'cooperations');
 		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'cooperations');
@@ -52,10 +67,6 @@ class JResearchAdminCooperationsController extends JController
 		$view->display();
 	}
 
-	function add()
-	{
-		self::edit();
-	}
 
 	function edit()
 	{

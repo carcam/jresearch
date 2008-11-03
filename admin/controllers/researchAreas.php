@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	ResearchAreas
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -14,8 +14,8 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researchArea.php');
 
 /**
  * Research Areas Backend Controller
- *
  * @package		JResearch
+ * @subpackage	ResearchAreas
  */
 class JResearchAdminResearchAreasController extends JController
 {

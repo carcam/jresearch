@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Mtm
 * @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
@@ -14,8 +14,8 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'mdm.php');
 
 /**
  * Member of the Month Backend Controller
- *
  * @package		JResearch
+ * @subpackage	MtM
  */
 class JResearchAdminMdmController extends JController
 {

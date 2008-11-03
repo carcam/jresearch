@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Publications
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
@@ -17,7 +17,6 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 /**
 * Model class for holding lists of publication records.
 *
-* @subpackage	Publications
 */
 class JResearchModelPublicationsList extends JResearchModelList{
 	

@@ -1,7 +1,7 @@
 <?php 
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file is the main entry for component JResearch backend. Its purpose is to load

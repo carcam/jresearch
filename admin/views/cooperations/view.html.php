@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		J!Research
+* @package		JResearch
 * @subpackage	Cooperations
 * @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
@@ -17,7 +17,6 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for management of members lists in JResearch Component backend
  *
- * @package   JResearch
  */
 
 class JResearchAdminViewCooperations extends JView
