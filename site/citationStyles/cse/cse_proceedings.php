@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		J!Research
+* @subpackage	Citation
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,7 +16,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of CSE citation style for proceedings records.
 *
-* @subpackage		JResearch
 */
 class JResearchProceedingsCitationStyle extends JResearchCSECitationStyle{
 	/**

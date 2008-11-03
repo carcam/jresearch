@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage		Staff
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @subpackage	Staff
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
 * of staff members.
@@ -14,7 +14,6 @@ jimport('joomla.application.component.controller');
 /**
  * JResearch Staff Component Controller
  *
- * @package		HelloWorld
  */
 class JResearchStaffController extends JController
 {

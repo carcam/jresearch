@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		J!Research
+* @subpackage	Citation
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -14,7 +14,6 @@ require_once('JResearchCitationStyle.php');
 /**
 * Base class for implementation of Chicago citation style
 *
-* @subpackage		JResearch
 */
 abstract class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 	

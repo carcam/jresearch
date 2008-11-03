@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage		Publications
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @subpackage	Publications
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
 * of bibliographical references or publications.
@@ -16,7 +16,6 @@ jimport('joomla.application.component.controller');
 /**
 * JResearch Component Publications Controller
 *
-* @package 		JResearch
 */
 class JResearchPublicationsController extends JController
 {

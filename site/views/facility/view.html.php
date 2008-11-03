@@ -1,12 +1,12 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @subpackage	Facilities
+* @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
 * This file implements the view which is responsible for the presentation of a
-* single publication in frontend.
+* single facility in frontend.
 */
 
 // No direct access
@@ -18,7 +18,6 @@ jimport( 'joomla.application.component.view');
  * HTML View class for presentation of a single facility 
  * information.
  *
- * @package   JResearch
  */
 
 class JResearchViewFacility extends JView
