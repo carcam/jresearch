@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @subpackage	Projects
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
@@ -17,7 +17,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 /**
 * Model class for holding lists of project records.
 *
-* @subpackage		JResearch
+* @subpackage	Projects
 */
 class JResearchModelProjectsList extends JResearchModelList{
 	private $_ids = array();

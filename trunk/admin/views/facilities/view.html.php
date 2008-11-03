@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
+* @package		J!Research
+* @subpackage	Facilities
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of facilities
@@ -17,8 +17,6 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for management of facilities lists in JResearch Component backend
  *
- * @package   JResearch
- * @subpackage Facilities
  */
 
 class JResearchAdminViewFacilities extends JView

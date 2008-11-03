@@ -1,10 +1,11 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @subpackage	Projects
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
+* This file implements the project model.
 */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -18,7 +19,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
 /**
 * Model class for holding a single project record.
 *
-* @subpackage		JResearch
+* @subpackage	Projects
 */
 class JResearchModelProject extends JResearchModelSingleRecord{
 

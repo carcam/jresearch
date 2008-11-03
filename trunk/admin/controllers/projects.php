@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage		Projects
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @subpackage	Projects
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
 * of research projects in the backend interface.

@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage		Projects
+* @package		J!Research
+* @subpackage	Publications
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of a single publication
@@ -17,7 +17,6 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for single publication management in JResearch Component backend
  *
- * @package    		JResearch
  */
 
 class JResearchAdminViewPublication extends JView

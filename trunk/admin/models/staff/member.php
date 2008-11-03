@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		J!Research
+* @subpackage	Staff
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -21,7 +21,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 /**
 * Model class for holding a single member record.
 *
-* @subpackage		JResearch
+* @subpackage	Staff
 */
 class JResearchModelMember extends JResearchModelSingleRecord{
 

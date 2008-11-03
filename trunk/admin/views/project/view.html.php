@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage		Projects
+* @package		J!Research
+* @subpackage	Projects
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of single project views
@@ -18,7 +18,6 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for single project management in JResearch Component backend
  *
- * @package    		JResearch
  */
 
 class JResearchAdminViewProject extends JView

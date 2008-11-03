@@ -1,11 +1,11 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage		Projects
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @subpackage	Facilities
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
-* This file implements the view which is responsible for management of single project views
+* This file implements the view which is responsible for management of single facility view
 * in the backend.
 */
 
