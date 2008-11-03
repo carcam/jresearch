@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		J!Research
+* @subpackage	ResearchAreas
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -18,7 +18,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 /**
 * Model class for holding lists of research areas records.
 *
-* @subpackage		JResearch
+* @subpackage	ResearchAreas
 */
 class JResearchModelResearchAreasList extends JResearchModelList{
 	

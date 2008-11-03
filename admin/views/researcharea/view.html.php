@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage		Research Areas
+* @package		J!Research
+* @subpackage	ResearchAreas
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for publication of research areas information.
@@ -16,7 +16,6 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML Admin View class for single research area management in JResearch Component
  *
- * @package    		JResearch
  */
 
 class JResearchAdminViewResearchArea extends JView

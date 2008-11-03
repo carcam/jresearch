@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
+* @package		J!Research
+* @subpackage	Staff
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of staff list
@@ -17,7 +17,6 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for management of members lists in JResearch Component backend
  *
- * @package   JResearch
  */
 
 class JResearchAdminViewStaff extends JView

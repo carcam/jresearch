@@ -1,12 +1,12 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
+* @package		J!Research
+* @subpackage	MtM
 * @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
+* This file implements the member of the month model.
 */
-
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );

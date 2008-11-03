@@ -1,10 +1,13 @@
 <?php
 /**
- * Cooperations Model
- *
- * @package    Joomla.Cooperations
- * @subpackage Components
- */
+* @version		$Id$
+* @package		J!Research
+* @subpackage	Cooperations
+* @copyright	Copyright (C) 2008 Florian Prinz.
+* @license		GNU/GPL
+* This file implements the cooperations model.
+*/
+
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');

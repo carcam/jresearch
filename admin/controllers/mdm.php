@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Member of the month
+* @package		J!Research
+* @subpackage	Mtm
 * @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management

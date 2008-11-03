@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage		Cooperations
-* @copyright		Copyright (C) 2008 Florian Prinz.
+* @package		J!Research
+* @subpackage	Cooperations
+* @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
 * of cooperations in the backend interface.

@@ -1,12 +1,11 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @subpackage	Cooperations
+* @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
-* This file implements the view which is responsible for management of staff list
-* in the backend.
+* This file implements the view which is responsible for adding/editing a cooperation.
 */
 
 // No direct access

@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage		Projects
+* @package		J!Research
+* @subpackage	ResearchAreas
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of list of projects
@@ -17,7 +17,6 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for management of projects lists in JResearch Component backend
  *
- * @package    		JResearch
  */
 
 class JResearchAdminViewResearchAreasList extends JView

@@ -1,9 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @package		J!Research
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
@@ -16,7 +15,6 @@ jimport( 'joomla.application.component.model' );
 /**
 * Base class for models that hold lists of records.
 *
-* @subpackage		JResearch
 */
 abstract class JResearchModelList extends JModel{
 	/**
