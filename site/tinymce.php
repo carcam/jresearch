@@ -2,6 +2,7 @@
 /**
  * @version		$Id: tinymce.php 10381 2008-06-01 03:35:53Z pasamio $
  * @package		Joomla
+ * @subpackage	Editors
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
@@ -20,7 +21,8 @@ jimport( 'joomla.plugin.plugin' );
  * TinyMCE WYSIWYG Editor Plugin
  *
  * @author Louis Landry <louis.landry@joomla.org>
- * @package Editors
+ * @package Joomla
+ * @subpackage Editors
  * @since 1.5
  */
 class plgEditorTinymce extends JPlugin

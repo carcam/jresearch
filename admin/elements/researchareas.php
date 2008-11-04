@@ -14,9 +14,8 @@ defined('_JEXEC') or die( 'Restricted access' );
 /**
  * Renders a projects element
  *
- * @package 	Joomla
- * @subpackage	JResearch
- * @since		1.0
+ * @package 	JResearch
+ * @subpackage	ResearchAreas
  */
 class JElementResearchareas extends JElement
 {
