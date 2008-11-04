@@ -1,8 +1,7 @@
 <?php
 /**
  * @package JResearch
- * @subpackage Conf
- * 
+ * @subpackage Configuration
  * Default view for the control panel
  */
 // no direct access

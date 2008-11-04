@@ -1,9 +1,9 @@
 <?php
 /**
- * @package JResearch
- * @subpackage Cooperations
- * Default view for showing a list of cooperations
- */
+* @package JResearch
+* @subpackage Cooperations
+* Default view for showing a list of cooperations
+*/
 
 defined("_JEXEC") or die("Restricted access");
 ?>
