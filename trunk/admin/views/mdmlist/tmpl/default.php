@@ -2,7 +2,6 @@
 /**
  * @package JResearch
  * @subpackage MtM
- * 
  * Default view for listing members of the month
  */
 // no direct access
