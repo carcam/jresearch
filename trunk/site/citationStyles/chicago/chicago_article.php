@@ -53,7 +53,7 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 		}	
 		
 		$year = trim($publication->year);		
-		if(!empty($year) && $year != '0000'){		
+		if(!empty($year) && $year != '0000')
 			$text .= '. '.$year;			
 
 		if(empty($titleCons))	
