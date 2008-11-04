@@ -2,7 +2,7 @@
 /**
 
  * @version			$Id$
- * @package			J!Reseach
+ * @package			JReseach
  * @subpackage		Citation	
  * @copyright		Copyright (C) 2008 Luis Galarraga.
  * @license			GNU/GPL
