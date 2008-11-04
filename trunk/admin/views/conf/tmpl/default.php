@@ -76,6 +76,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</a>
 				</div>
 			</div>
+		</div>	
 	</td>
 	<td valign="top" width="45%">
 		<div id="content-pane" class="pane-sliders">
@@ -115,6 +116,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				</table>		
 			</div>
 		</div>		
+	</div>	
 	</td>
 	</tr>
 	</tbody>
