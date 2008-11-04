@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Publications
+ * View for showing the year of a publication
+ */
+
+// no direct access
 defined('_JEXEC') or die('Restricted access'); 
 
 $n = count($this->items);

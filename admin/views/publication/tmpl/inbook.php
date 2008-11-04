@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Publications
+ * View for adding/editing a single inbook
+ */
+
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></td>

@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Publications
+ * Specific type view for booklet
+ */
+
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<?php $colspan = 4; ?>

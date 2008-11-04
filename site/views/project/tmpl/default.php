@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Projects
+ * Default view for showing a single project
+ */
+
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo $this->project->title; ?></div>
 <table cellspacing="2" cellpadding="2">

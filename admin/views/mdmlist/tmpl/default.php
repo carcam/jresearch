@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage MtM
+ * 
+ * Default view for listing members of the month
+ */
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 ?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">

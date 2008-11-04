@@ -1,3 +1,10 @@
+<?php 
+/**
+ * @package JResearch
+ * @subpackage Publications
+ * View for showing the citing
+ */
+?>
 <script type="text/javascript">
 var citedRecordsList = null;
 var selectedCitekeys = new Array();

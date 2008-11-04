@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php 
+/**
+ * @package JResearch
+ * @subpackage Staff
+ * 
+ * Default view of the staff
+ */
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<table>

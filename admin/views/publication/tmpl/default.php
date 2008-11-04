@@ -1,4 +1,10 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Publications
+ * Default view for adding/editing a single publication
+ */
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
 <form name="adminForm" id="adminForm" method="post" class="form-validate" onSubmit="return validate(this);">

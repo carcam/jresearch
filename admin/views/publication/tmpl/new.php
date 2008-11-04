@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Publications
+ * View for adding/editing a new publication
+ */
+
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1><?php echo JText::_('JRESEARCH_NEW_PUBLICATION'); ?></h1>
 <form name="adminForm" id="adminForm" method="post">
