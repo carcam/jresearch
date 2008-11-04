@@ -9,13 +9,7 @@
 * of cooperations in the backend interface.
 */
 
-/*
- * @const Project_Image_Width
- */
 define('_PROJECT_IMAGE_MAX_WIDTH_', 400);
-/*
- * @const Project_Image_Height
- */
 define('_PROJECT_IMAGE_MAX_HEIGHT_', 400);
 
 jimport('joomla.application.component.controller');
