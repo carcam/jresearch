@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Facilities
+ * Default view for showing a list of facilities
+ */
+
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></div>
 <ul style="padding-left:0px;">

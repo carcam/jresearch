@@ -1,3 +1,10 @@
+<?php
+/**
+ * @package JResearch
+ * @subpackage Staff
+ * Default view for editing a member in the frontend
+ */
+?>
 <div style="float: right;">
 	<button type="button" onclick="javascript:msubmitform('save');">Save</button>
 	<button type="button" onclick="javascript:msubmitform('cancel')">Cancel</button>

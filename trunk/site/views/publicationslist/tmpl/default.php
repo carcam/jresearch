@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Publications
+ * View for showing a list of publications
+ */
+
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></div>
 <table align="left" width="100%" cellspacing="2" cellpadding="2">

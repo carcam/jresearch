@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Conf
+ * 
+ * Default view for the control panel
+ */
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <table class="adminform">
 	<tbody>

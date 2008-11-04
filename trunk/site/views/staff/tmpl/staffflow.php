@@ -1,15 +1,11 @@
 <?php
 /**
-* @version		$Id: staffflow.php 9764 2007-12-30 07:48:11Z fl0tschi $
-* @package		Joomla
-* @subpackage 	JResearch
+* @version		$Id$
+* @package		JResearch
+* @subpackage 	Staff
 * @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
+* Shows a coverflow of the staff members
 * 
 * Code parts for the staff imageflow are adjusted code parts from the mod_imageflow Module.
 * (Parameters, imageflow itself and reflections are implemented from this module)

@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Projects
+ * Default view for showing a list of projects
+ */
+
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></div>
 <ul style="padding-left:0px;">

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package JResearch
+ * @subpackage Cooperations
+ * Default view for showing a single cooperation
+ */
+
 $contentArr = explode('<hr id="system-readmore" />', $this->item->description);
 ?>
 <div class="componentheading">

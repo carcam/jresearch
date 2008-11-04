@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Theses
+ * Default view for listing theses
+ */
+
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<table>
