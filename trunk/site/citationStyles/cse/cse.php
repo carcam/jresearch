@@ -19,14 +19,13 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Base class for implementation of CSE citation style
+* Base class for implementation of Chicago citation style
 *
 */
 class JResearchCSECitationStyle implements JResearchCitationStyle{
 	
 	/**
 	 * The string used to enumerate the last of author of publication with several ones.
-	 * & --> For parenthetical citation, JText_('and') for non-parenthetical citation
 	 * @var string
 	 */
 	protected $lastAuthorSeparator;
@@ -180,6 +179,8 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		$authors = $publication->getAuthors();
 		$formattedAuthors  = array();
 		$firstnames[] = array();
+		if(count($authors) == 0)
+			$authors = explode(',', trim($publication->editors));		
 				
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::getAuthorComponents($auth);
@@ -297,7 +298,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 			}
 		}else{
 			$subtotal = array_slice($formattedAuthors, 0, 10);
-			$text = implode(', ', $subtotal).JText::_('JRESEARCH_CSE_AND_OTHERS');
+			$text = implode(', ', $subtotal).' '.JText::_('JRESEARCH_CSE_AND_OTHERS');
 		}	
 
 		return $text;		
@@ -337,8 +338,10 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
 			$text = ucfirst($authorComponents['lastname']);
-		}elseif(count($authorComponents) >= 2){
+		}elseif(count($authorComponents) == 2){
 			$text = ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']{0}); 
+		}elseif(count($authorComponents) > 2){
+			$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']{0});
 		}
 		
 		return $text;
