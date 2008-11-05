@@ -8,7 +8,16 @@
 		<description>JRESEARCH_PROJECTS_LIST_VIEW_MESSAGE</description>
 		<params addpath="/administrator/components/com_jresearch/elements">
 			<param name="project_id" type="projects" label="JRESEARCH_PROJECTS_SELECTION" description="JRESEARCH_PROJECTS_SELECTION_DESCRIPTION" default="0"/>
+			
+			<param name="show_members" type="radio" label="JRESEARCH_SHOW_MEMBERS" default="0">
+				<option value="0">False</option>
+				<option value="1">True</option>
+			</param>
+			
+			<param name="show_researcharea" type="radio" label="JRESEARCH_SHOW_RESEARCHAREA" default="1">
+				<option value="0">False</option>
+				<option value="1">True</option>
+			</param>
 		</params>
-
 	</state>
 </metadata>

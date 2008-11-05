@@ -17,11 +17,35 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php $contentArray = explode('<hr id="system-readmore" />', $project->description); ?>
 			<?php $itemId = JRequest::getVar('Itemid'); ?>
 			<div class="contentheading"><?php echo $project->title; ?></div>
-			<div>&nbsp;</div>			
-			<div><span style="font-weight:bold;"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></span><span><?php echo $researchArea->name;  ?></span></div>			
+			<div>&nbsp;</div>
+			<?php 
+			//Show research area?
+			if($this->params->get('show_researcharea') == 1)
+			{
+			?>		
+			<div><span style="font-weight:bold;"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></span><span><?php echo $researchArea->name;  ?></span></div>
+			<?php 
+			}
+			
+			//Show members?
+			if($this->params->get('show_members') == 1)
+			{
+				$members = implode(', ',$project->getAuthors());
+			?>			
+			<div><span style="font-weight: bold;"><?=JText::_('JRESEARCH_MEMBERS').': '?></span><span><?=$members?></span></div>
+			<?php 
+			}
+			?>
 			<div>&nbsp;</div>
 			<div><?php echo $contentArray[0]; ?></div>
-			<div style="text-align:left"><a href="index.php?option=com_jresearch&task=show&view=project&id=<?php echo $project->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo JText::_('JRESEARCH_READ_MORE'); ?></a></div>
+			<?php
+			if(count($contentArray) > 1)
+			{
+			?>
+				<div style="text-align:left"><a href="index.php?option=com_jresearch&task=show&view=project&id=<?php echo $project->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo JText::_('JRESEARCH_READ_MORE'); ?></a></div>
+			<?php 
+			}
+			?>
 		</div>
 
 	</li>	
