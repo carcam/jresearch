@@ -6,14 +6,8 @@
 	<state>
 		<name>JRESEARCH_STAFF_FLOW</name>
 		<description>JRESEARCH_STAFF_FLOW_VIEW_MESSAGE</description>
-		<url>
-			<param type="radio" name="task" label="Task" default="displayflow">
-				<option value="displayflow">JRESEARCH_STAFF_FLOW</option>
-			</param>
-		</url>
 		
 		<params>
-			<param name="cssfile" type="text" default="" size="50" label="Cascading stylesheet file" description="PARAMCSSFILE" />
 			<param name="former_members" type="radio" default="0" label="Which members?" description="PARAMFORMERMEMBERS">
 				<option value="0">All</option>
 				<option value="-1">Only real members</option>
@@ -24,7 +18,13 @@
 				<option value="0">Last name</option>
 				<option value="1">Ordering</option>
 			</param>
+			
+			<param name="caption_text" type="text" default="Scroll through our members" size="40" label="Caption" description="PARAMCAPTIONTEXT" />
 		
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			
+			<param name="cssfile" type="text" default="" size="50" label="Cascading stylesheet file" description="PARAMCSSFILE" />
+			
 			<param name="alphareflect" type="radio" default="0" label="Transparent reflections" description="PARAMALPHAREFLECT">
 				<option value="0">No</option>
 				<option value="1">Yes</option>
