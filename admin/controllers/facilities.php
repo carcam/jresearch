@@ -235,6 +235,9 @@ class JResearchAdminFacilitiesController extends JController
 			JError::raiseWarning(1, $fac->getError());
 			$this->setRedirect('index.php?option=com_jresearch&controller=facilities&task=edit&cid[]='.$fac->id);
 		}
+		
+		//Reordering ordering of other facilities
+		$fac->reorder();
 
 		//Unlock record
 		$user =& JFactory::getUser();

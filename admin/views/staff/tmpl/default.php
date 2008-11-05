@@ -6,7 +6,8 @@
  * Default view of the staff
  */
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<table>
 		<tbody>
@@ -35,7 +36,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php echo JHTML::_('grid.order', $this->items ); ?>
 			</th>
 			<th align="center" width="20%"><?php echo JText::_('JRESEARCH_POSITION'); ?></th>
-			<th align="center"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?>cd</th>
+			<th align="center"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th><?php echo JText::_('JRESEARCH_CONTACT'); ?></th>
 		</tr>
 		</thead>		

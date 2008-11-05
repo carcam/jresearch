@@ -232,6 +232,9 @@ class JResearchAdminCooperationsController extends JController
 			$this->setRedirect('index.php?option=com_jresearch&controller=cooperations&task=edit&cid[]='.$coop->id);
 		}
 
+		//Reordering ordering of other cooperations
+		$coop->reorder();
+		
 		//Unlock record
 		$user =& JFactory::getUser();
 		if(!$coop->isCheckedOut($user->get('id')))
