@@ -61,7 +61,6 @@ class JResearchAdminCooperationsController extends JController
 		$view->display();
 	}
 
-
 	function edit()
 	{
 		JResearchToolbar::editCooperationAdminToolbar();
