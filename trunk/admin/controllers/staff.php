@@ -222,7 +222,6 @@ class JResearchAdminStaffController extends JController
 		
 		$member->former_member = (int) JRequest::getVar('former_member', '0', 'post', 'string');
 		$member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
 		
 		if($member->check()){		
 			if($member->store()){
@@ -243,6 +242,9 @@ class JResearchAdminStaffController extends JController
 			JError::raiseWarning(1, $member->getError());
 			$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id);					
 		}
+		
+		//Reordering other members
+		$member->reorder();
 		
 		$user =& JFactory::getUser();
 		if(!$member->isCheckedOut($user->get('id'))){

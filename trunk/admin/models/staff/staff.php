@@ -108,7 +108,7 @@ class JResearchModelStaff extends JResearchModelList{
 		//Array of allowable order fields
 		$orders = array('lastname', 'published', 'id_research_area', 'ordering');
 		
-		$filter_order = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order', 'lastname');
+		$filter_order = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('stafffilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
@@ -117,7 +117,7 @@ class JResearchModelStaff extends JResearchModelList{
 			
 		//if order column is unknown, use the default
 		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('lastname');	
+			$filter_order = $db->nameQuote('ordering');	
 		
 		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
 	}	

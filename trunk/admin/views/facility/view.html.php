@@ -68,7 +68,7 @@ class JResearchAdminViewFacility extends JView
     	
     	//Order options
     	$orderOptions = array();
-    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_facilities');
+    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_facilities ORDER by ordering ASC');
     	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $fac->ordering);
 
     	$this->assignRef('fac', $fac);
