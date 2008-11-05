@@ -204,3 +204,6 @@ $document->addStyleSheet($css_path.'/imageflow.css');
 		<div id="imageflow_slider"></div>
 	</div>
 </div>
+<div id="imageflow_caption_text">
+	<?=$this->params->get('caption_text');?>
+</div>
