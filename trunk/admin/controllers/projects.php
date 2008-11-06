@@ -186,7 +186,7 @@ class JResearchAdminProjectsController extends JController
 					
 		
 		$project->bind($post);
-		$project->title = trim($project->title);
+		$project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
 		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		//Time to set the authors
