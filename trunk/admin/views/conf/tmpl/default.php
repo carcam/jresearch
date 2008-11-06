@@ -76,14 +76,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</div>
 			<div style="float: left;">
 				<div class="icon">
-					<a href="index.php?option=com_jresearch&amp;controller=mdm">
-						<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/mdm.png" alt="<?php echo JText::_('JRESEARCH_STAFF'); ?>">					
-						<span><?php echo JText::_('JRESEARCH_MDM'); ?></span>
-					</a>
-				</div>
-			</div>
-			<div style="float: left;">
-				<div class="icon">
 					<a href="index.php?option=com_jresearch&amp;controller=theses">
 						<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/theses.png" alt="<?php echo JText::_('JRESEARCH_THESES'); ?>">					
 						<span><?php echo JText::_('JRESEARCH_THESES'); ?></span>
