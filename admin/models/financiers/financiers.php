@@ -2,8 +2,8 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	ResearchAreas
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @subpackage	Financiers
+* @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
 */
 
@@ -12,23 +12,23 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researchArea.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'financier.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 
 /**
 * Model class for holding lists of research areas records.
 *
 */
-class JResearchModelResearchAreasList extends JResearchModelList{
+class JResearchModelFinanciers extends JResearchModelList
+{
 	
 	/**
 	* Class constructor
 	*/	
 	function __construct(){
 		parent::__construct();
-		$this->_tableName = '#__jresearch_research_area';
+		$this->_tableName = '#__jresearch_financier';
 	}
-	
 	
 	/**
 	* Returns an array of ALL the items of an entity independently of its published state. Useful for the 
@@ -50,7 +50,7 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 
 			$this->_items = array();
 			foreach($ids as $id){				
-				$area = new JResearchArea($db);
+				$area = new JResearchFinancier($db);
 				$area->load($id);
 				$this->_items[] = $area;
 			}
@@ -63,7 +63,6 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 
 	}
 	
-	
 	/**
 	* Returns the SQL used to get the data from publications table.
 	* 
@@ -75,12 +74,13 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false){
 		$db =& JFactory::getDBO();		
-		if($memberId === null)
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		
+		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 
 		
 		// Deal with pagination issues
 		if($paginate){
 			$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();
+			
 			$limit = (int)$this->getState('limit');
 			if($limit != 0)
 					$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');
@@ -100,8 +100,8 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 		//Array of allowable order fields
 		$orders = array('name', 'published');
 		
-		$filter_order = $mainframe->getUserStateFromRequest('researchAreasfilter_order', 'filter_order', 'lastname');
-		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('researchAreasfilter_order_Dir', 'filter_order_Dir', 'ASC'));
+		$filter_order = $mainframe->getUserStateFromRequest('financierfilter_order', 'filter_order', 'name');
+		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('financierfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -120,9 +120,8 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 	private function _buildQueryWhere($published = false){
 		global $mainframe, $option;
 		$db = & JFactory::getDBO();
-		$filter_state = $mainframe->getUserStateFromRequest('researchAreasfilter_state', 'filter_state');
-		$filter_search = $mainframe->getUserStateFromRequest('researchAreasfilter_search', 'filter_search');
-
+		$filter_state = $mainframe->getUserStateFromRequest('financierfilter_state', 'filter_state');
+		$filter_search = $mainframe->getUserStateFromRequest('financierfilter_search', 'filter_search');
 		
 		// prepare the WHERE clause
 		$where = array();

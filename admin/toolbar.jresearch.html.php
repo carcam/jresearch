@@ -360,6 +360,26 @@ class JResearchToolbar
 		
 		self::editItemAdminToolbar();
 	}
+
+	public static function financiersAdminListToolbar()
+	{
+		JToolBarHelper::title(JText::_('JRESEARCH_FINANCIERS'));
+		
+		self::adminListToolbar();
+	}
+	
+	public static function editFinancierAdminToolbar()
+	{
+		$cid = JRequest::getVar('cid');
+		if($cid)
+			$title = JText::_('JRESEARCH_EDIT_FINANCIER');
+		else
+			$title = JText::_('JRESEARCH_NEW_FINANCIER');	
+		
+		JToolBarHelper::title($title);
+		
+		self::editItemAdminToolbar();
+	}
 	
 	public static function adminListToolbar()
 	{

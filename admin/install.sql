@@ -64,6 +64,18 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_conference` (
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `#__jresearch_financier`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_financier` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(60) NOT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `published` tinyint(4) NOT NULL default '1',
+  `checked_out` tinyint(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `#__jresearch_inbook`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_inbook` (
   `id_publication` int(10) unsigned NOT NULL,
@@ -370,7 +382,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_cooperations` (
   `name` varchar(50) NOT NULL,
   `image_url` varchar(256) DEFAULT NULL,
   `description` tinytext NOT NULL,
-  `url` varchar(256) NOT NULL,
+  `url` varchar(255) DEFAULT NULL,
   `published` tinyint(4) NOT NULL default '0',
   `ordering` int(11) unsigned NOT NULL default '0',
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
