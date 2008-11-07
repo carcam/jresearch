@@ -2,7 +2,6 @@
 /**
  * @package JResearch
  * @subpackage Facilities
- * 
  * Default view for listing facilities
  */
 // no direct access

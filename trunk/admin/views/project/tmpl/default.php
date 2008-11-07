@@ -2,7 +2,6 @@
 /**
  * @package JResearch
  * @subpackage Projects
- * 
  * Default view for adding/editing a single project
  */
 // no direct access

@@ -2,7 +2,6 @@
 /**
  * @package JResearch
  * @subpackage Cooperations
- * 
  * Default view for listing cooperations
  */
 // no direct access
