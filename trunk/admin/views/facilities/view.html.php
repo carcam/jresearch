@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		JResearch
 * @subpackage	Facilities
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of facilities
 * in the backend.
