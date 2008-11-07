@@ -2,7 +2,6 @@
 /**
  * @package JResearch
  * @subpackage Staff
- * 
  * View for adding user to the staff of J!Research
  */
 // no direct access

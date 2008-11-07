@@ -2,7 +2,6 @@
 /**
  * @package JResearch
  * @subpackage Facilities
- * 
  * Default view for adding/editing a single facility
  */
 // no direct access

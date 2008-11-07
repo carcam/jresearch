@@ -2,7 +2,6 @@
 /**
  * @package JResearch
  * @subpackage Staff
- * 
  * Default view of the staff
  */
 // no direct access

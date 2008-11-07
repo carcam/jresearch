@@ -2,7 +2,6 @@
 /**
  * @package JResearch
  * @subpackage Staff
- * 
  * Default view for adding/editing a single member.
  */
 // no direct access
