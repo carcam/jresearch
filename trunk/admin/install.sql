@@ -188,6 +188,14 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_external_author` (
   PRIMARY KEY  (`id_project`,`author_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `#__jresearch_project_funders`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_project_funders` (
+  `id_project` int(10) unsigned NOT NULL,
+  `id_financier` int(10) unsigned NOT NULL,
+  `value` decimal(10,2) NOT NULL,
+  PRIMARY KEY  (`id_project`,`id_financier`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `#__jresearch_project_internal_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_internal_author` (
   `id_project` int(10) unsigned NOT NULL,

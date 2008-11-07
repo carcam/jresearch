@@ -21,6 +21,7 @@ DROP TABLE IF EXISTS `#__jresearch_phdthesis`;
 DROP TABLE IF EXISTS `#__jresearch_proceedings`;
 DROP TABLE IF EXISTS `#__jresearch_project`;
 DROP TABLE IF EXISTS `#__jresearch_project_external_author`;
+DROP TABLE IF EXISTS `#__jresearch_project_funders`;
 DROP TABLE IF EXISTS `#__jresearch_project_internal_author`;
 DROP TABLE IF EXISTS `#__jresearch_publication`;
 DROP TABLE IF EXISTS `#__jresearch_publication_comment`;
