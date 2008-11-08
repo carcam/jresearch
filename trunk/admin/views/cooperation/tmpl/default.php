@@ -34,9 +34,20 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('Photo').': ' ?></td>
-		<td><input class="inputbox" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS')); ?></td>
-		<td><img src="<?php echo $this->coop->image_url; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" /></td>
-		<td><label for="delete" /><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" /></td>
+		<td>
+			<input class="inputbox" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS')); ?><br />
+			<label for="delete" /><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" />
+		</td>
+		<td>
+			<?php
+			if($this->coop->image_url)
+			{
+			?>
+				<img src="<?php echo $this->coop->image_url; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" class="modal" />
+			<?php
+			}
+			?>
+		</td>
 	</tr>
 	<tr>
 		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->coop->description , '100%', '350', '75', '20' ) ; ?></td>
