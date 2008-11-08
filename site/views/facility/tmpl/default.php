@@ -25,11 +25,7 @@ if($this->fac->image_url)
 
 if($this->fac->description)
 {
-?>
-	<p>
-		<?=$this->fac->description;?>
-	</p>
-<?php 
+	echo $this->fac->description;
 }
 ?>
 <div style="text-align: center;">
