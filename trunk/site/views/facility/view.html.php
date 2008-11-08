@@ -63,11 +63,12 @@ class JResearchViewFacility extends JView
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($fac->id_research_area);
+    	
+    	$doc->setTitle('Facility - '.$area->name.' - '.$fac->name);
     			
     	// Bind variables for layout
     	$this->assignRef('fac', $fac);
     	$this->assignRef('area', $area);
-
     }
 }
 
