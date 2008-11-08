@@ -26,9 +26,6 @@ class JResearchModelFacility extends JResearchModelSingleRecord
 		$fac->load($itemId);
 		return $fac;
 	}
-	
-	/**
-	 * @todo Ordering, override store function
-	*/
+
 }
 ?>

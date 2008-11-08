@@ -237,7 +237,7 @@ class JResearchAdminFacilitiesController extends JController
 		}
 		
 		//Reordering ordering of other facilities
-		$fac->reorder();
+		$fac->reorder('published >= 0 AND id_research_area = '.(int) $fac->id_research_area);
 
 		//Unlock record
 		$user =& JFactory::getUser();
