@@ -95,9 +95,9 @@ class JResearchModelFacilities extends JResearchModelList
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('name', 'published');
+		$orders = array('name', 'published', 'id_research_area');
 		
-		$filter_order = $mainframe->getUserStateFromRequest('facssfilter_order', 'filter_order', 'name');
+		$filter_order = $mainframe->getUserStateFromRequest('facsfilter_order', 'filter_order', 'id_research_area');
 		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('facsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
@@ -106,7 +106,7 @@ class JResearchModelFacilities extends JResearchModelList
 			
 		//if order column is unknown, use the default
 		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('name');	
+			$filter_order = $db->nameQuote('id_research_area');	
 		
 		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
 	}	
@@ -163,10 +163,10 @@ class JResearchModelFacilities extends JResearchModelList
 	function orderItem($item, $movement)
 	{
 		$db =& JFactory::getDBO();
-		$row =& new JResearchCooperation($db);
+		$row = new JResearchFacility($db);
 		$row->load($item);
 		
-		if (!$row->move( $movement))
+		if (!$row->move( $movement, ' AND id_research_area = '.(int) $row->id_research_area ))
 		{
 			$this->setError($row->getError());
 			return false;
@@ -182,7 +182,7 @@ class JResearchModelFacilities extends JResearchModelList
 	{
 		$db =& JFactory::getDBO();
 		$total		= count($items);
-		$row		=& new JResearchFacility($db);
+		$row		= new JResearchFacility($db);
 
 		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($order);
@@ -192,6 +192,7 @@ class JResearchModelFacilities extends JResearchModelList
 		{
 			$row->load( $items[$i] );
 			
+			$groupings[] = $row->id_research_area;
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
@@ -203,7 +204,12 @@ class JResearchModelFacilities extends JResearchModelList
 			} // if
 		} // for
 
-		$row->reorder('published >=0');
+		// execute updateOrder for each research area
+		$groupings = array_unique( $groupings );
+		foreach ($groupings as $group)
+		{
+			$row->reorder('id_research_area = '.(int) $group.' AND published >=0');
+		}
 
 		return true;
 	}

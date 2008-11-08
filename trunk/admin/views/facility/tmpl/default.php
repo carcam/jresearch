@@ -26,9 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td><?=JText::_('Published').': '; ?></td>
-		<td><?=$this->publishedRadio; ?></td>
-		<td><?php echo JText::_('Order').': '; ?></td>
-		<td><?php echo $this->orderList; ?></td>
+		<td colspan="3"><?=$this->publishedRadio; ?></td>
 	</tr>
 	<tr>
 		<th class="editpublication" colspan="4"><?=JText::_('JRESEARCH_OPTIONAL'); ?></th>

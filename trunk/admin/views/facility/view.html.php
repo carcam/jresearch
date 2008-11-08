@@ -68,13 +68,15 @@ class JResearchAdminViewFacility extends JView
     	
     	//Order options
     	$orderOptions = array();
+    	
+    	/*
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_facilities ORDER by ordering ASC');
-    	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $fac->ordering);
+    	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $fac->ordering);*/
 
     	$this->assignRef('fac', $fac);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
-    	$this->assignRef('orderList', $orderList);
+    	//$this->assignRef('orderList', $orderList);
 		$this->assignRef('editor', $editor);    
     	
 		// Load cited records
