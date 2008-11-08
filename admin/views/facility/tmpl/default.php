@@ -40,11 +40,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td>
 			<input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?=JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_FORMATS_SIZE', 1024, 768)); ?><br />
 			<label for="delete" /><?=JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
-		</td>		
-	</tr>
-	<tr>
-		<td colspan="3" align="left"><?=JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
-		<td>
+		</td>
+		<td colspan="2" rowspan="2">
 			<?php
 			if($this->fac->image_url)
 			{
@@ -56,6 +53,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			}
 			?>
 		</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="left"><?=JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
 	</tr>
 	<tr>
 		<td colspan="4"><?=$this->editor->display( 'description',  $this->fac->description , '100%', '350', '75', '20' ) ; ?></td>
