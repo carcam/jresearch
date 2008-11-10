@@ -75,7 +75,9 @@
 		</files>		
 		<languages folder="admin">
 			<language tag="en-GB">en-GB.com_jresearch.ini</language>
-			<language tag="es-ES">es-ES.com_jresearch.ini</language>			
+			<language tag="en-GB">en-GB.com_jresearch.menu.ini</language>
+			<language tag="es-ES">es-ES.com_jresearch.ini</language>	
+			<language tag="es-ES">es-ES.com_jresearch.menu.ini</language>		
 		</languages>
 	</administration>
 </install>

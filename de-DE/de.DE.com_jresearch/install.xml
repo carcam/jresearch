@@ -11,6 +11,7 @@
     <files folder="admin">
   	<filename file="meta">de-DE.xml</filename>
   	<filename>de-DE.com_jresearch.ini</filename>
+	<filename>de-DE.com_jresearch.menu.ini</filename>
     </files>
   </administration>
   <site>

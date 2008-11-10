@@ -39,7 +39,6 @@ class JResearchCitationStyleFactory{
 			$filename = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.$citationStyleFolder.DS.strtolower($citationStyle).'.php';
 		else
 			$filename = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.$citationStyleFolder.DS.strtolower($citationStyle.'_'.$publicationType).'.php';
-		
 		if(!isset($instances[$classname])){	
 			if(!class_exists($classname)){
 				if(!file_exists($filename))
