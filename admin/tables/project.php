@@ -46,14 +46,12 @@ class JResearchProject extends JResearchActivity{
 	*/	
 	public $end_date;
 	
-	
 	/**
 	* Url to the an image that represents the project
 	*
 	* @var string
 	*/
 	public $url_project_image;	
-	
 	
 	/**
 	 * Url to the project official page
@@ -74,16 +72,16 @@ class JResearchProject extends JResearchActivity{
 	 *
 	 * @var float
 	 */
-	public $funding;
+	public $finance_value;
 	
 	/**
 	 * Fundings currency
 	 *
 	 * @var string
 	 */
-	public $funding_currency;
+	public $finance_currency;
 	
-	protected $_funders;
+	protected $_financiers;
 	
 	
 	/**
@@ -246,9 +244,9 @@ class JResearchProject extends JResearchActivity{
 	 * @param int $funder
 	 * @return bool
 	 */
-	public function setFunder($funder)
+	public function setFinancier($financier)
 	{
-		$this->_funders[] = array('id' => $this->id, 'id_financier' => $funder);
+		$this->_financiers[] = array('id' => $this->id, 'id_financier' => $financier);
 		
 		return true;
 	}
@@ -258,29 +256,29 @@ class JResearchProject extends JResearchActivity{
 	 *
 	 * @return array
 	 */
-	public function getFunders()
+	public function getFinanciers()
 	{
 		$db = &$this->getDBO();
-		$funderObjects = array(); 
+		$finObjects = array(); 
 		
-		foreach($this->_funders as $funder)
+		foreach($this->_financiers as $financier)
 		{
-			$funderObject = new JResearchFinancier($db);
-			$funderObject->load($funder['id_financier']);
-			$funderObjects[] = $funderObject;
+			$finObject = new JResearchFinancier($db);
+			$finObject->load($financier['id_financier']);
+			$finObjects[] = $finObject;
 		}
 		
-		return $funderObjects;
+		return $finObjects;
 	}
 	
 	/**
-	 * Counts the funders for this project
+	 * Counts the financiers for this project
 	 *
 	 * @return int
 	 */
-	public function countFunders()
+	public function countFinanciers()
 	{
-		return count($this->_funders);
+		return count($this->_financiers);
 	}
 }
 
