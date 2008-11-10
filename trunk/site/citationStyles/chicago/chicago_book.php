@@ -54,7 +54,7 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 		$title = $html?'<i>'.trim($publication->title).'</i>':trim($publication->title);
 		
 		if(!empty($authorsText))
-			$text .= $authorsText.'. ';
+			$text .= $authorsText;
 		else{
 			$titleCons = true;
 			$text .= $title;
@@ -65,7 +65,7 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 			$text .= '. '.$year;			
 
 		if(empty($titleCons))	
-			$text .= $title;
+			$text .= '. '.$title;
 
 		
 		$address = $this->_getAddressText($publication);

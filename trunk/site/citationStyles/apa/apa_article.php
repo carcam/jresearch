@@ -30,7 +30,7 @@ class JResearchAPAArticleCitationStyle extends JResearchAPACitationStyle{
 	* 
 	* @param JResearchPublication $publication
 	* @param $html Add html tags for formats like italics or bold
-	* 
+	* @param boolean $authorLinks If true, internal authors profile links will be included.
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
