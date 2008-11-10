@@ -14,10 +14,11 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of Chicago citation style for book records.
+* Implementation of Chicago citation style for proceedings records.
 *
 */
-class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
+class JResearchChicagoProceedingsCitationStyle extends JResearchChicagoCitationStyle{
+		
 		
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -25,7 +26,7 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 	* 
 	* @param JResearchPublication $publication
 	* @param boolean $html Add html tags for formats like italics or bold
-	* @param boolean $authorPreviouslyCited If true
+	* @param boolean $authorLinks If true, internal authors profile links will be included.
 	* 
 	* @return 	string
 	*/
@@ -61,22 +62,19 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 		}	
 		
 		$year = trim($publication->year);		
-		if(!empty($year) && $year != '0000')		
+		if(!empty($year) && $year != '0000')
 			$text .= '. '.$year;			
 
 		if(empty($titleCons))	
 			$text .= '. '.$title;
-
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
 			$text .= '. '.$address;		
-			
 		
 		return $text;
 	}
 	
-
 
 
 }

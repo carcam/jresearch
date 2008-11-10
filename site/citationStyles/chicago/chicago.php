@@ -20,8 +20,13 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Base class for implementation of Chicago citation style
-*
+* Base class for implementation of Chicago citation style according to Chicago 
+* Manual of Style, 15th edition, http://www.chicagomanualofstyle.org/. 
+* The Chicago Manual of Style accepts two citing styles:
+* - Author-Date system
+* - Notes and Bibliography system 
+* For more information, visit http://www.chicagomanualofstyle.org/tools_citationguide.html
+* This class implements the first system. 
 */
 class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 	

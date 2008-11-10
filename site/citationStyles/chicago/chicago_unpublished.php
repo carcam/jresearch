@@ -14,10 +14,11 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of Chicago citation style for book records.
+* Implementation of Chicago citation style for unpublished records.
 *
 */
-class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
+class JResearchChicagoUnpublishedCitationStyle extends JResearchChicagoCitationStyle{
+		
 		
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -25,33 +26,22 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 	* 
 	* @param JResearchPublication $publication
 	* @param boolean $html Add html tags for formats like italics or bold
-	* @param boolean $authorPreviouslyCited If true
+	* @param boolean $authorLinks If true, internal authors profile links will be included.
 	* 
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_BIBTEXT_AUTHOR_SEP');
 		$nAuthors = $publication->countAuthors();
-		$nEditors = count($publication->getEditors());
 		$text = '';
-		
-		$eds = $nEditors > 1? JText::_('JRESEARCH_LC_EDITORS'):JText::_('JRESEARCH_LC_EDITOR');
-		
+				
 		if($nAuthors <= 0){
-			if($nEditors == 0){
-				// If neither authors, nor editors
-				$authorsText = '';
-				$editorsText = '';
-			}else{
-				// If no authors, but editors
-				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-				$authorsText .= ' '.$eds.' ';
-			}
+			$authorsText = '';
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 
-		$title = $html?'<i>'.trim($publication->title).'</i>':trim($publication->title);
+		$title = trim($publication->title);
 		
 		if(!empty($authorsText))
 			$text .= $authorsText;
@@ -61,23 +51,14 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 		}	
 		
 		$year = trim($publication->year);		
-		if(!empty($year) && $year != '0000')		
+		if(!empty($year) && $year != '0000')
 			$text .= '. '.$year;			
 
 		if(empty($titleCons))	
 			$text .= '. '.$title;
-
-		
-		$address = $this->_getAddressText($publication);
-		if(!empty($address))
-			$text .= '. '.$address;		
-			
 		
 		return $text;
 	}
-	
-
-
 
 }
 ?>

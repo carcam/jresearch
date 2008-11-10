@@ -32,10 +32,7 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_BIBTEXT_AUTHOR_SEP');
 		$nAuthors = $publication->countAuthors();
-		$nEditors = count($publication->getEditors());
 		$text = '';
-		
-		$eds = $nEditors > 1? JText::_('JRESEARCH_LC_EDITORS'):JText::_('JRESEARCH_LC_EDITOR');
 		
 		if($nAuthors <= 0){
 			$authorsText = '';
@@ -46,7 +43,7 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 		$title = trim($publication->title);
 		
 		if(!empty($authorsText))
-			$text .= $authorsText.'. ';
+			$text .= $authorsText;
 		else{
 			$titleCons = true;
 			$text .= $title;
@@ -57,7 +54,7 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 			$text .= '. '.$year;			
 
 		if(empty($titleCons))	
-			$text .= $title;
+			$text .= '. '.$title;
 		
 		
 		$journal = $html?'<i>'.trim($publication->journal).'</i>':trim($publication->journal);		 
