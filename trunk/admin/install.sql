@@ -172,8 +172,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `end_date` date default NULL,
   `url_project_image` varchar(255) default NULL,
   `description` text,
-  `funding` decimal(12,2) default NULL,
-  `funding_currency` varchar(5) default NULL,
+  `finance_value` decimal(12,2) default NULL,
+  `finance_currency` varchar(5) default NULL,
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
@@ -190,8 +190,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_external_author` (
   PRIMARY KEY  (`id_project`,`author_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_project_funder`;
-CREATE TABLE IF NOT EXISTS `#__jresearch_project_funder` (
+DROP TABLE IF EXISTS `#__jresearch_project_financier`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_project_financier` (
   `id_project` int(10) unsigned NOT NULL,
   `id_financier` int(10) unsigned NOT NULL
   PRIMARY KEY  (`id_project`,`id_financier`)

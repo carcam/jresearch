@@ -50,10 +50,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_FUNDERS').': '; ?></td>
+		<td><?php echo JText::_('JRESEARCH_FUNDED_BY').': '; ?></td>
 		<td><?php echo $this->finList; ?></td>
-		<td><?php echo JText::_('JRESEARCH_FUNDING').': '; ?></td>
-		<td><input name="funding" id="funding" size="10" maxlength="10" value="<?php echo $this->project?$this->project->funding:'' ?>" /> <?php echo $this->currencyList; ?></td>
+		<td><?php echo JText::_('JRESEARCH_FINANCE_LEVEL').': '; ?></td>
+		<td><input name="finance_value" id="finance_value" size="10" maxlength="10" value="<?php echo $this->project?$this->project->finance_value:'' ?>" /> <?php echo $this->currencyList; ?></td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_PROJECT_PAGE').' (Url) : ' ?></td>

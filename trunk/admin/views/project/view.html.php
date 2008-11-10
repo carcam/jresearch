@@ -77,7 +77,7 @@ class JResearchAdminViewProject extends JView
     	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $project->published);   	
     	  	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $project->id_research_area);
     	  	$statusHTML = JHTML::_('select.genericlist', $statusOptions, 'status', 'class="inputbox" size="5"', 'value', 'text', $project->status);
-    	  	$currencyHTML = JHTML::_('select.genericlist', $currencyOptions, 'funding_currency', 'class="inputbox"', 'value', 'text', $project->funding_currency);
+    	  	$currencyHTML = JHTML::_('select.genericlist', $currencyOptions, 'finance_currency', 'class="inputbox"', 'value', 'text', $project->finance_currency);
     	  	$members = $project->getAuthors();
     	}else{
     		$arguments[] = null;
