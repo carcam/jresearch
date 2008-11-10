@@ -14,10 +14,10 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of Chicago citation style for book records.
+* Implementation of Chicago citation style for article records.
 *
 */
-class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
+class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle{
 		
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 

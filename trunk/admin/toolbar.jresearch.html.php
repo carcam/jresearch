@@ -325,6 +325,8 @@ class JResearchToolbar
 	{
 		JToolBarHelper::title(JText::_('JRESEARCH_COOPERATIONS'));
 		
+		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+		JToolBarHelper::divider();
 		self::adminListToolbar();
 	}
 	
@@ -344,7 +346,9 @@ class JResearchToolbar
 	public static function facilitiesAdminListToolbar()
 	{
 		JToolBarHelper::title(JText::_('JRESEARCH_FACILITIES'));
-		
+
+		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+		JToolBarHelper::divider();		
 		self::adminListToolbar();
 	}
 	
@@ -364,7 +368,9 @@ class JResearchToolbar
 	public static function financiersAdminListToolbar()
 	{
 		JToolBarHelper::title(JText::_('JRESEARCH_FINANCIERS'));
-		
+
+		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+		JToolBarHelper::divider();		
 		self::adminListToolbar();
 	}
 	
