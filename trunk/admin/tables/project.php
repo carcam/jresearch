@@ -16,6 +16,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.utilities.date');
 
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'financier.php');
+
 /**
  * This class represents a JResearch project in database.
  *
@@ -58,7 +60,7 @@ class JResearchProject extends JResearchActivity{
 	 *
 	 * @var string
 	 */
-	public $url;
+	public $url_project_page;
 	
 	/**
 	 * Project's complete description
@@ -66,6 +68,22 @@ class JResearchProject extends JResearchActivity{
 	 * @var string
 	 */
 	public $description;
+	
+	/**
+	 * Project's full funding value
+	 *
+	 * @var float
+	 */
+	public $funding;
+	
+	/**
+	 * Fundings currency
+	 *
+	 * @var string
+	 */
+	public $funding_currency;
+	
+	protected $_funders;
 	
 	
 	/**
@@ -112,6 +130,16 @@ class JResearchProject extends JResearchActivity{
 			if($endDateObj->toUnix() < $startDateObj->toUnix()){
 				$this->setError(JText::_('Start date is greater than end date'));
 				return false;
+			}
+		}
+		
+		if(!empty($this->funding))
+		{
+			$this->funding = round($this->funding, 2);
+			
+			if($this->funding <= 0.0)
+			{
+				$this->setError(JText::_('Funding must be greater than 0'));
 			}
 		}
 			
@@ -203,10 +231,57 @@ class JResearchProject extends JResearchActivity{
 			}
 		}     		
      
+		/**
+		 * @todo Add funders to project
+		 * @author Florian Prinz
+		 */
+		
       	return true;
 			
 	}
 
+	/**
+	 * Sets a funder for the project
+	 *
+	 * @param int $funder
+	 * @return bool
+	 */
+	public function setFunder($funder)
+	{
+		$this->_funders[] = array('id' => $this->id, 'id_financier' => $funder);
+		
+		return true;
+	}
+	
+	/**
+	 * Gets all funders, an array of financier objects
+	 *
+	 * @return array
+	 */
+	public function getFunders()
+	{
+		$db = &$this->getDBO();
+		$funderObjects = array(); 
+		
+		foreach($this->_funders as $funder)
+		{
+			$funderObject = new JResearchFinancier($db);
+			$funderObject->load($funder['id_financier']);
+			$funderObjects[] = $funderObject;
+		}
+		
+		return $funderObjects;
+	}
+	
+	/**
+	 * Counts the funders for this project
+	 *
+	 * @return int
+	 */
+	public function countFunders()
+	{
+		return count($this->_funders);
+	}
 }
 
 ?>

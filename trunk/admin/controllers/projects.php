@@ -63,9 +63,13 @@ class JResearchAdminProjectsController extends JController
 	*/
 	function edit(){
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers');
+		
 		$cid = JRequest::getVar('cid');
 		
 		$view = &$this->getView('Project', 'html', 'JResearchAdminView');	
+		
+		$finModel = &$this->getModel('Financiers', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
 		$model =& $this->getModel('Project', 'JResearchModel');
 
@@ -79,6 +83,7 @@ class JResearchAdminProjectsController extends JController
 				$project->checkout($user->get('id'));
 				$view->setModel($model, true);
 				$view->setModel($areaModel);
+				$view->setModel($finModel);
 				$view->display();
 			}	
 		}else{
@@ -86,6 +91,7 @@ class JResearchAdminProjectsController extends JController
 			$session->set('citedRecords', array(), 'jresearch');
 			$view->setModel($model, true);
 			$view->setModel($areaModel);
+			$view->setModel($finModel);
 			$view->display();
 		}
 	}
@@ -207,6 +213,11 @@ class JResearchAdminProjectsController extends JController
 				$k++;
 			}			
 		}
+		
+		/**
+		 * @todo Get funders from post and set funder in table
+		 * @author Florian Prinz
+		 */
 		
 		// Validate and save
 		if($project->check()){
