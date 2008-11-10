@@ -574,7 +574,6 @@ class plgSearchJResearch extends JPlugin{
 	* @param string Target search string
 	* @param string matching option, exact|any|all
 	* @param string ordering option, newest|oldest|popular|alpha|category
-	* @todo Search integration
 	*/
 	private function searchFacilities($text, $phrase='', $ordering='')
 	{

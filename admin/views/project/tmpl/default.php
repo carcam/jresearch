@@ -50,11 +50,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 	</tr>
 	<tr>
+		<td><?php echo JText::_('JRESEARCH_FUNDERS').': '; ?></td>
+		<td><?php echo $this->finList; ?></td>
+		<td><?php echo JText::_('JRESEARCH_FUNDING').': '; ?></td>
+		<td><input name="funding" id="funding" size="10" maxlength="10" value="<?php echo $this->project?$this->project->funding:'' ?>" /> <?php echo $this->currencyList; ?></td>
+	</tr>
+	<tr>
 		<td><?php echo JText::_('JRESEARCH_PROJECT_PAGE').' (Url) : ' ?></td>
 		<td>
-			<input name="url" id="url" class="validate-url" size="30" maxlength="255" value="<?php echo $this->project?$this->project->url:'' ?>" />
+			<input name="url_project_page" id="url_project_page" class="validate-url" size="30" maxlength="255" value="<?php echo $this->project?$this->project->url_project_page:'' ?>" />
 			<br />
-			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
+			<label for="url_project_page" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
 		</td>
 		<td><?php echo JText::_('JRESEARCH_PROJECT_IMAGE').': '; ?></td>
 		<td><input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS')); ?>
