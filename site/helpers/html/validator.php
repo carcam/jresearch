@@ -45,7 +45,7 @@ class JHTMLValidator{
     	
     	$doc->addScriptDeclaration("window.onDomReady(function() {
 			document.formvalidator.setHandler('url', function(value) {
-			regex=/^(http|https|ftp)\:\/\/[a-z0-9\-\.]+\.[a-z]{2,3}(:[a-z0-9]*)?\/?([a-z0-9\-\._\?\,\'\/\\\+&amp;%\$#\=~])*$/i;
+			regex=/^(ftp|http|https|ftps):\/\/([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}|localhost|\d{1,3}(\.\d{1,3}){3})(:\d{2,5})?(([0-9]{1,5})?\/.*)?$/i;
 			return regex.test(value); })
 		})");
     	
