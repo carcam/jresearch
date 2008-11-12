@@ -1,11 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Publications
- * Default view for showing a single publication
- */
-
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo $this->publication->title; ?></div>
 <table cellspacing="2" cellpadding="2">

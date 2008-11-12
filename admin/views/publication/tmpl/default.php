@@ -1,10 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Publications
- * Default view for adding/editing a single publication
- */
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
 <form name="adminForm" id="adminForm" method="post" class="form-validate" onSubmit="return validate(this);">
@@ -33,13 +27,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_NOTE').': ' ?></td>
-		<td><textarea name="note" id="note" cols="30" rows="5" ><?php echo $this->publication?$this->publication->note:'' ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_NOTE_TOOLTIP')); ?></td>
+		<td><textarea name="note" id="note" cols="30" rows="5" value="<?php echo $this->publication?$this->publication->note:'' ?>"><?php echo $this->publication?$this->publication->note:'' ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_NOTE_TOOLTIP')); ?></td>
 		<td><?php echo JText::_('JRESEARCH_ABSTRACT').': ' ?></td>
-		<td><textarea name="abstract" id="abstract" cols="30" rows="5" ><?php echo $this->publication?$this->publication->abstract:'' ?></textarea></td>
+		<td><textarea name="abstract" id="abstract" cols="30" rows="5" value="<?php echo $this->publication?$this->publication->abstract:'' ?>"><?php echo $this->publication?$this->publication->abstract:'' ?></textarea></td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></td>
-		<td><input name="keywords" id="keywords" size="30" maxlength="255" value="<?php echo $this->publication?$this->publication->keywords:'' ?>" />&nbsp;&nbsp;<span class="information">&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span></td>
+		<td><input name="keywords" id="keywords" size="30" maxlength="255" value="<?php echo $this->publication?$this->publication->keywords:'' ?>" />&nbsp;&nbsp;<span class="information">&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></td>
 		<td><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) : ' ?></td>
 		<td>
 			<input name="url" id="url" size="30" maxlength="255" class="validate-url" value="<?php echo $this->publication?$this->publication->url:'' ?>" />
@@ -82,7 +76,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_AWARDS').': '?></td>
-		<td><textarea cols="30" rows="5" name="awards" id="awards"  ><?php echo $this->publication?$this->publication->awards:''; ?></textarea></td>
+		<td><textarea cols="30" rows="5" name="awards" id="awards" value="<?php echo $this->publication?$this->publication->awards:''; ?>" ><?php echo $this->publication?$this->publication->awards:''; ?></textarea></td>
 		<td></td>
 		<td></td>
 	</tr>

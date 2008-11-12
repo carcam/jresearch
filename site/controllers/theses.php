@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Theses
+* @subpackage		Theses
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
@@ -14,6 +14,7 @@ jimport('joomla.application.component.controller');
 /**
  * JResearch Theses Frontend Controller
  *
+ * @package		JResearch
  */
 class JResearchThesesController extends JController
 {
@@ -60,7 +61,7 @@ class JResearchThesesController extends JController
 		$model =& $this->getModel('ThesesList', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('ThesesList', 'html', 'JResearchView');
-		$view->setModel($model, true);
+		$view->setModel(&$model, true);
 		$view->setModel($areaModel);
 		$view->display();		
 		
@@ -87,8 +88,8 @@ class JResearchThesesController extends JController
 		$model =& $this->getModel('Thesis', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('Thesis', 'html', 'JResearchView');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
+		$view->setModel(&$model, true);
+		$view->setModel(&$areaModel);
 		$view->display();
 	}
 

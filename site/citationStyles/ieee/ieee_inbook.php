@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Citation
+* @package		Joomla
+* @subpackage	JResearch
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,6 +16,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of IEEE citation style for inbook records.
 *
+* @subpackage		JResearch
 */
 class JResearchIEEEInbookCitationStyle extends JResearchIEEECitationStyle{
 	

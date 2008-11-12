@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	ResearchAreas
+* @package		Joomla
+* @subpackage		JResearch
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -18,6 +18,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 /**
 * Model class for holding lists of research areas records.
 *
+* @subpackage		JResearch
 */
 class JResearchModelResearchAreasList extends JResearchModelList{
 	
@@ -50,7 +51,7 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 
 			$this->_items = array();
 			foreach($ids as $id){				
-				$area = new JResearchArea($db);
+				$area = new JResearchArea(&$db);
 				$area->load($id);
 				$this->_items[] = $area;
 			}
@@ -101,7 +102,7 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 		$orders = array('name', 'published');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('researchAreasfilter_order', 'filter_order', 'lastname');
-		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('researchAreasfilter_order_Dir', 'filter_order_Dir', 'ASC'));
+		$filter_order_Dir = $mainframe->getUserStateFromRequest('researchAreasfilter_order_Dir', 'filter_order_Dir', 'ASC');
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')

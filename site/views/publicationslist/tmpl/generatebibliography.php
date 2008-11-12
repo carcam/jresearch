@@ -1,10 +1,3 @@
-<?php 
-/**
- * @package JResearch
- * @subpackage Publications
- * View for generating bibliography
- */
-?>
 <script type="text/javascript">
 var selectedIndex;
 var citedRecordsList;

@@ -2,8 +2,7 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Frontend
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file is the main entry for component JResearch. Its purpose is to load
 * the right controller based in request. Controllers reside in folder site/controllers
@@ -80,12 +79,6 @@ function __mapViewToController(){
 			break;
 		case 'theseslist': case 'thesis':
 			$value = 'theses';
-			break;
-		case 'cooperations': case 'cooperation':
-			$value = 'cooperations';
-			break;
-		case 'facilities': case 'facility':
-			$value = 'facilities';
 			break;
 		default:
 			$value = 'researchAreas';			

@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Publications
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @package		Joomla
+* @subpackage		JResearch
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
@@ -18,6 +18,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'comment.php');
 /**
 * Model class for holding a single publication record.
 *
+* @subpackage		JResearch
 */
 class JResearchModelPublication extends JResearchModelSingleRecord{
 
@@ -68,7 +69,7 @@ class JResearchModelPublication extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadAssocList();		
 		foreach($result as $r){
-			$newComm = new JResearchPublicationComment($db);
+			$newComm = new JResearchPublicationComment(&$db);
 			$newComm->bind($r);
 			$comments[] = $newComm;
 		}

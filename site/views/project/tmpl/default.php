@@ -1,11 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Projects
- * Default view for showing a single project
- */
-
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo $this->project->title; ?></div>
 <table cellspacing="2" cellpadding="2">
@@ -69,7 +62,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<?php $url = trim($this->project->url_project_page); ?>
 	<? if(!empty($url)) : ?>
-		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span>
+		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?>	
 	<?php endif; ?>	
 	<?php $description = trim($this->project->description); ?>
 	<?php if(!empty($description)): ?>

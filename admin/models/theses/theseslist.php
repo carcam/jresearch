@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Theses
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @package		Joomla
+* @subpackage		JResearch
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
@@ -19,6 +19,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 /**
 * Model class for holding lists of thesis records.
 *
+* @subpackage		JResearch
 */
 class JResearchModelThesesList extends JResearchModelList{
 	
@@ -110,7 +111,7 @@ class JResearchModelThesesList extends JResearchModelList{
 			$ids = $db->loadResultArray();
 			$this->_items = array();
 			foreach($ids as $id){
-				$thesis = new JResearchThesis($db);
+				$thesis = new JResearchThesis(&$db);
 				$thesis->load($id);
 				$this->_items[] = $thesis;
 			}
@@ -131,7 +132,7 @@ class JResearchModelThesesList extends JResearchModelList{
 		$orders = array('title', 'published', 'id_research_area');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order', 'title');
-		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('thesesfilter_order_Dir', 'filter_order_Dir', 'ASC'));
+		$filter_order_Dir = $mainframe->getUserStateFromRequest('thesesfilter_order_Dir', 'filter_order_Dir', 'ASC');
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')

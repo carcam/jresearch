@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Staff
+* @subpackage		Projects
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of a single member's profile
@@ -17,6 +17,7 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for single member management in JResearch Component backend
  *
+ * @package    		JResearch
  */
 
 class JResearchAdminViewMember extends JView
@@ -50,19 +51,13 @@ class JResearchAdminViewMember extends JView
     	$publishedOptions = array();
     	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
     	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
-    	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $member->published);
-
-    	$orderOptions = array();
-    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, CONCAT_WS(\' \', firstname, lastname) AS text FROM #__jresearch_member ORDER by ordering ASC');
-    	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , ($member)?$member->ordering:0);
-    	
+    	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $member->published);   	
 		$editor =& JFactory::getEditor();    	
     	
     	
     	$this->assignRef('member', $member);
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('publishedRadio', $publishedRadio);
-    	$this->assignRef('orderList', $orderList);
 		$this->assignRef('editor', $editor);    	
     	
 		// Load cited records

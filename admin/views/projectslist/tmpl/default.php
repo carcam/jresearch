@@ -1,10 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Projects
- * Default view for listing projects.
- */
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<table>

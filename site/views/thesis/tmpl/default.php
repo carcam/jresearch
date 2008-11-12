@@ -1,11 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Theses
- * Default view for showing a single theses
- */
-
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo $this->thesis->title; ?></div>
 <table cellspacing="2" cellpadding="2">
@@ -68,7 +61,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</ul>
 		</td>
 		<?php else: ?>
-		<td colspan="2">&nbsp;</td>
+		<td colspan="2">&nsbp;</td>
 		<?php endif; ?>
 	</tr>	
 	<?php endif; ?>

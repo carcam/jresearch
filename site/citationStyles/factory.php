@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Citation
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @package		Joomla
+* @subpackage		JResearch
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file declares the factory for citation styles objects.
 */
@@ -14,6 +14,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
 * Factory for citation styles objects
 *
+* @subpackage		JResearch
 */
 class JResearchCitationStyleFactory{
 	
@@ -39,6 +40,7 @@ class JResearchCitationStyleFactory{
 			$filename = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.$citationStyleFolder.DS.strtolower($citationStyle).'.php';
 		else
 			$filename = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.$citationStyleFolder.DS.strtolower($citationStyle.'_'.$publicationType).'.php';
+		
 		if(!isset($instances[$classname])){	
 			if(!class_exists($classname)){
 				if(!file_exists($filename))

@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Theses
+* @package		Joomla
+* @subpackage	JResearch
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for the presentation of a
@@ -18,6 +18,7 @@ jimport( 'joomla.application.component.view');
  * HTML View class for presentation of a single thesis 
  * information.
  *
+ * @package   JResearch
  */
 
 class JResearchViewThesis extends JView

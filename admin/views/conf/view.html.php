@@ -2,8 +2,8 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Configuration
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @subpackage		Projects
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
@@ -14,6 +14,8 @@ jimport( 'joomla.application.component.view');
 
 /**
  * HTML View class for configuration form in JResearch Component backend
+ *
+ * @package    		JResearch
  */
 
 class JResearchAdminViewConf extends JView

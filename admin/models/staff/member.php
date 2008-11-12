@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Staff
+* @package		Joomla
+* @subpackage		JResearch
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -21,6 +21,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 /**
 * Model class for holding a single member record.
 *
+* @subpackage		JResearch
 */
 class JResearchModelMember extends JResearchModelSingleRecord{
 
@@ -31,7 +32,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 	public function getItem($itemId){
 		$db =& JFactory::getDBO();
 		
-		$member = new JResearchMember($db);
+		$member = new JResearchMember(&$db);
 		$member->load($itemId);
 		return $member;
 	}
@@ -48,7 +49,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$results = $db->loadAssoc();		
 		
-		$member = new JResearchMember($db);
+		$member = new JResearchMember(&$db);
 		$member->bind($results);
 		return $member;
 	}
@@ -118,7 +119,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 
 		$result = $db->loadResultArray();
 		foreach($result as $id){
-			$project = new JResearchProject($db);
+			$project = new JResearchProject(&$db);
 			$project->load($id);
 			$latestProj[] = $project;
 		}
@@ -161,7 +162,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadResultArray();
 		foreach($result as $id){
-			$thesis = new JResearchThesis($db);
+			$thesis = new JResearchThesis(&$db);
 			$thesis->load($id);
 			$latestThes[] = $thesis;
 		}

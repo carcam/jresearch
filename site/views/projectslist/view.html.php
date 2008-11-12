@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Projects
+* @package		Joomla
+* @subpackage	JResearch
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of presentation of
@@ -17,6 +17,7 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for presentation of projects list in frontend.
  *
+ * @package   JResearch
  */
 
 class JResearchViewProjectsList extends JView
@@ -42,11 +43,6 @@ class JResearchViewProjectsList extends JView
     	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
-    	
-    	$params = $mainframe->getParams();
-		$ids = explode(',',$params->get('project_id'));    
-		
-		$model->setIds($ids);
     	$projects =  $model->getData(null, true, true);   
     	
     	$this->assignRef('params', $params);

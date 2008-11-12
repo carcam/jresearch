@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Publications
+* @subpackage		Projects
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of list of publications
@@ -17,6 +17,7 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for management of publications lists in JResearch Component backend
  *
+ * @package    		JResearch
  */
 
 class JResearchAdminViewPublicationsList extends JView

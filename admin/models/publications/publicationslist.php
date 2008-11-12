@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Publications
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @package		Joomla
+* @subpackage		JResearch
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
@@ -17,6 +17,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 /**
 * Model class for holding lists of publication records.
 *
+* @subpackage		JResearch
 */
 class JResearchModelPublicationsList extends JResearchModelList{
 	
@@ -74,6 +75,8 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		return $db->loadResultArray();
 	}
 
+	
+
 	/**
 	* Like method _buildQuery, but it does not consider LIMIT clause.
 	* 
@@ -85,7 +88,9 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();		
 		return $resultQuery;
 	}
-
+	
+	
+	
 	/**
 	* Returns an array of ALL the items of an entity independently of its published state considering
 	* pagination parameters. 
@@ -130,7 +135,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$orders = array('title', 'published', 'year', 'citekey', 'pubtype', 'id_research_area');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order', 'title');
-		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('publicationsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
+		$filter_order_Dir = $mainframe->getUserStateFromRequest('publicationsfilter_order_Dir', 'filter_order_Dir', 'ASC');
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -212,7 +217,9 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$db->setQuery($query);
 		return $db->loadAssocList();
 	}
+	
 
+	
 	/**
 	 * Returns an array with the items related to the prefix sent as parameter.
 	 * @param string $prefix Search key

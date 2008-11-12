@@ -1,9 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Staff
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @package		Joomla
+* @subpackage		JResearch
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
@@ -18,25 +18,15 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 /**
 * Model class for holding lists of members records.
 *
+* @subpackage		JResearch
 */
 class JResearchModelStaff extends JResearchModelList{
-	/**
-	 * Private field for checking if we need all members,
-	 * only former members or all members except former members
-	 * @var int 0=all,1=only former, -1=all except former
-	*/
-	private $_former = 0;
 	
 	public function __construct(){
 		parent::__construct();
 		$this->_tableName = '#__jresearch_member';
 		
 	}	
-	
-	public function setFormer($former)
-	{
-		$this->_former = (int) $former;
-	}
 	
 	/**
 	* Returns an array of the items of an entity independently of its published state and
@@ -61,7 +51,7 @@ class JResearchModelStaff extends JResearchModelList{
 			$ids = $db->loadResultArray();
 			$this->_items = array();
 			foreach($ids as $id){				
-				$member = new JResearchMember($db);
+				$member = new JResearchMember(&$db);
 				$member->load($id);
 				$this->_items[] = $member;
 			}
@@ -85,11 +75,11 @@ class JResearchModelStaff extends JResearchModelList{
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
-		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy(); 	
+		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
 		
 		// Deal with pagination issues
 		if($paginate){
+			$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();
 			$limit = (int)$this->getState('limit');
 			if($limit != 0)
 					$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');
@@ -106,10 +96,10 @@ class JResearchModelStaff extends JResearchModelList{
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('lastname', 'published', 'id_research_area', 'ordering');
+		$orders = array('lastname', 'published', 'id_research_area');
 		
-		$filter_order = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order', 'ordering');
-		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('stafffilter_order_Dir', 'filter_order_Dir', 'ASC'));
+		$filter_order = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order', 'lastname');
+		$filter_order_Dir = $mainframe->getUserStateFromRequest('stafffilter_order_Dir', 'filter_order_Dir', 'ASC');
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -117,7 +107,7 @@ class JResearchModelStaff extends JResearchModelList{
 			
 		//if order column is unknown, use the default
 		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('ordering');	
+			$filter_order = $db->nameQuote('lastname');	
 		
 		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
 	}	
@@ -142,16 +132,7 @@ class JResearchModelStaff extends JResearchModelList{
 				$where[] = $db->nameQuote('published').' = 0 '; 	
 		}else
 			$where[] = $db->nameQuote('published').' = 1 ';		
-
-		//Added former member for where clause
-		if($this->_former != 0)
-		{
-			if($this->_former > 0)
-				$where[] = $db->nameQuote('former_member').' = 1 ';
-			elseif($this->_former < 0)
-				$where[] = $db->nameQuote('former_member').' = 0 ';
-		}
-			
+					
 		if($filter_search = trim($filter_search)){
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
@@ -174,55 +155,5 @@ class JResearchModelStaff extends JResearchModelList{
 		return $resultQuery;
 	}
 
-	/**
-	 * Ordering item
-	*/
-	function orderItem($item, $movement)
-	{
-		$db =& JFactory::getDBO();
-		$row =& new JResearchMember($db);
-		$row->load($item);
-		
-		if (!$row->move($movement))
-		{
-			$this->setError($row->getError());
-			return false;
-		}
-
-		return true;
-	}
-	
-	/**
-	 * Set ordering
-	*/
-	function setOrder($items)
-	{
-		$db 		=& JFactory::getDBO();
-		$total		= count($items);
-		$row		=& new JResearchMember($db);
-
-		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
-		JArrayHelper::toInteger($order);
-
-		// update ordering values
-		for( $i=0; $i < $total; $i++ )
-		{
-			$row->load( $items[$i] );
-			
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-				if (!$row->store())
-				{
-					$this->setError($row->getError());
-					return false;
-				}
-			} // if
-		} // for
-
-		$row->reorder('published >=0');
-
-		return true;
-	}
 }
 ?>

@@ -2,7 +2,6 @@
 /** 
 * @version		$Id$
 * @package		JResearch
-* @subpackage	ResearchAreas
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * Joomla! is free software. This version may have been modified pursuant
@@ -93,7 +92,7 @@ class JResearchArea extends JTable{
 		$result = $db->loadAssocList();
 		
 		foreach($result as $r){
-			$ra = new JResearchArea($db);
+			$ra = new JResearchArea(&$db);
 			$ra->bind($r);
 			$areas[] = $ra;	
 		}

@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	ResearchAreas
+* @subpackage		ResearchAreas
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
@@ -14,6 +14,7 @@ jimport('joomla.application.component.controller');
 /**
  * Research Areas Component Controller
  *
+ * @package		JResearch
  */
 class JResearchResearchAreasController extends JController
 {
@@ -53,7 +54,7 @@ class JResearchResearchAreasController extends JController
 		// Set the view and the model
 		$model =& $this->getModel('ResearchAreasList', 'JResearchModel');
 		$view =& $this->getView('ResearchAreasList', 'html', 'JResearchView');
-		$view->setModel($model, true);
+		$view->setModel(&$model, true);
 		$view->display();
 		
 	}
@@ -66,7 +67,7 @@ class JResearchResearchAreasController extends JController
 	function show(){
 		$model =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('ResearchArea', 'html', 'JResearchView');
-		$view->setModel($model, true);
+		$view->setModel(&$model, true);
 		$view->display();				
 
 	}

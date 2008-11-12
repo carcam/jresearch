@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Publications
+* @subpackage		Projects
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of a single publication
@@ -17,6 +17,7 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for single publication management in JResearch Component backend
  *
+ * @package    		JResearch
  */
 
 class JResearchAdminViewPublication extends JView
@@ -50,7 +51,7 @@ class JResearchAdminViewPublication extends JView
 		$cid = JRequest::getVar('cid');
 		$isNew = !isset($cid);
 		$pubtype = JRequest::getVar('pubtype');
-    		$model = $this->getModel('researchareaslist');
+    	$model = $this->getModel('researchareaslist');
 		$authors = null;
 
     	// Retrieve the list of research areas   	

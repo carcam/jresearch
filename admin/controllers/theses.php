@@ -2,8 +2,8 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Theses
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @subpackage		Theses
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
 * of theses in the backend interface.
@@ -15,8 +15,8 @@ jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 /**
  * Theses Backend Controller
+ *
  * @package		JResearch
- * @subpackage	Theses
  */
 class JResearchAdminThesesController extends JController
 {
@@ -51,8 +51,8 @@ class JResearchAdminThesesController extends JController
 		$view = &$this->getView('ThesesList', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('ThesesList', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
+		$view->setModel(&$model, true);
+		$view->setModel(&$areaModel);
 		$view->display();
 		
 	}
@@ -77,15 +77,15 @@ class JResearchAdminThesesController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
 			}else{	
 				$thesis->checkout($user->get('id'));
-				$view->setModel($model, true);
-				$view->setModel($areaModel);
+				$view->setModel(&$model, true);
+				$view->setModel(&$areaModel);
 				$view->display();
 			}		
 		}else{
 			$session =& JFactory::getSession();
 			$session->set('citedRecords', array(), 'jresearch');			
-			$view->setModel($model, true);
-			$view->setModel($areaModel);
+			$view->setModel(&$model, true);
+			$view->setModel(&$areaModel);
 			$view->display();
 		}
 	}
@@ -99,7 +99,7 @@ class JResearchAdminThesesController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$thesis = new JResearchThesis($db);
+		$thesis = new JResearchThesis(&$db);
 		$thesis->publish($cid, 1);
 		$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 		
@@ -115,7 +115,7 @@ class JResearchAdminThesesController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$thesis = new JResearchThesis($db);
+		$thesis = new JResearchThesis(&$db);
 		$thesis->publish($cid, 0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
 		
@@ -130,7 +130,7 @@ class JResearchAdminThesesController extends JController
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 		
-		$thesis = new JResearchThesis($db);
+		$thesis = new JResearchThesis(&$db);
 		foreach($cid as $id){
 			if(!$thesis->delete($id)){
 				JError::raiseWarning(1, JText::sprintf('JRESEARCH_THESIS_NOT_DELETED', $id));
@@ -148,7 +148,7 @@ class JResearchAdminThesesController extends JController
 	function save(){
 		global $mainframe;
 		$db =& JFactory::getDBO();
-		$thesis = new JResearchThesis($db);
+		$thesis = new JResearchThesis(&$db);
 		
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');		

@@ -1,11 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Publications
- * View for showing the type of a publication
- */
-
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); 
 
 $n = count($this->items);

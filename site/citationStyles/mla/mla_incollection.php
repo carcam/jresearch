@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Citation
+* @package		Joomla
+* @subpackage		JResearch
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,8 +16,26 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of MLA citation style for incollection records.
 *
+* @subpackage		JResearch
 */
 class JResearchMLAIncollectionCitationStyle extends JResearchMLACitationStyle{
+	
+	/**
+	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
+	* page and in the Works Cited section at the end of a document.
+	* @return 	string
+	*/
+	function getReferenceText(JResearchPublication $publication){
+		return $this->getReference($publication);		
+	}
+	
+	/**
+	* Takes a publication and returns the complete reference text in HTML format.
+	* @return 	string
+	*/
+	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
+		return $this->getReference($publication, true, $authorLinks);
+	}
 	
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 

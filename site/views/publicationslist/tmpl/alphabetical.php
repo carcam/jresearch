@@ -1,9 +1,4 @@
 <?php
-/**
- * @package JResearch
- * @subpackage Publications
- */
-
 defined('_JEXEC') or die('Restricted access'); 
 foreach($this->items as $pub): 
 	$publicationText = $this->style->getReferenceHTMLText($pub, true, true);

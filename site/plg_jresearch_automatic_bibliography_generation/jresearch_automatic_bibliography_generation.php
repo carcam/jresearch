@@ -2,8 +2,7 @@
 
 /**
  * @version		$Id: image.php 9764 2007-12-30 07:48:11Z ircmaxell $
-* @package		JResearch
-* @subpackage	Plugins
+ * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant

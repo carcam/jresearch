@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Theses
+* @package		Joomla
+* @subpackage		JResearch
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -19,6 +19,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 /**
 * Model class for holding a single thesis record.
 *
+* @subpackage		JResearch
 */
 class JResearchModelThesis extends JResearchModelSingleRecord{
 
@@ -29,7 +30,7 @@ class JResearchModelThesis extends JResearchModelSingleRecord{
 	public function getItem($itemId){
 		$db =& JFactory::getDBO();
 
-		$thesis = new JResearchThesis($db);
+		$thesis = new JResearchThesis(&$db);
 		$thesis->load($itemId);
 		
 		return $thesis;

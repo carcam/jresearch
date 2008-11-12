@@ -2,8 +2,8 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Publications
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @subpackage		Publications
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
 * of bibliographical references or publications in the backend interface.
@@ -13,8 +13,8 @@ jimport('joomla.application.component.controller');
 
 /**
 * Publications Backend Controller
-* @package		JResearch
-* @subpackage	Publications
+*
+* @package 		JResearch
 */
 class JResearchAdminPublicationsController extends JController
 {
@@ -56,8 +56,8 @@ class JResearchAdminPublicationsController extends JController
 		$view = &$this->getView('PublicationsList', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('PublicationsList', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
+		$view->setModel(&$model, true);
+		$view->setModel(&$areaModel);
 		$view->display();
 	}
 
@@ -93,12 +93,12 @@ class JResearchAdminPublicationsController extends JController
 			}else{
 				$publication->checkout($user->get('id'));
 				$view->setLayout('default');
-				$view->setModel($model);
+				$view->setModel(&$model);
 				$view->display();	
 			}				
 		}else{			
 			$view->setLayout('default');
-			$view->setModel($model);
+			$view->setModel(&$model);
 			$view->display();
 		}
 		
@@ -114,7 +114,7 @@ class JResearchAdminPublicationsController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		
-		$publication = new JResearchPublication($db);
+		$publication = new JResearchPublication(&$db);
 		$publication->publish($cid, 1);
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 		
@@ -130,7 +130,7 @@ class JResearchAdminPublicationsController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		
-		$publication = new JResearchPublication($db);
+		$publication = new JResearchPublication(&$db);
 		$publication->publish($cid, 0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications', 'JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY');
 	}
@@ -143,7 +143,7 @@ class JResearchAdminPublicationsController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		$n = 0;		
-		$publication = new JResearchPublication($db);
+		$publication = new JResearchPublication(&$db);
 		foreach($cid as $id){
 			if(!$publication->delete($id))
 				JError::raiseWarning(1, JText::sprintf('JRESEARCH_PUBLICATION_NOT_DELETED', $id));
@@ -152,6 +152,7 @@ class JResearchAdminPublicationsController extends JController
 		}
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', $n));
 	}
+	
 	
 	/**
 	* Invoked when an administrator has decided to import publications from a file.
@@ -175,7 +176,7 @@ class JResearchAdminPublicationsController extends JController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
 		$view = &$this->getView('PublicationsList', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('PublicationsList', 'JResearchModel');
-		$view->setModel($model, true);
+		$view->setModel(&$model, true);
 		$view->setLayout('export');
 		$view->display();
 	}
