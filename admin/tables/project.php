@@ -131,11 +131,11 @@ class JResearchProject extends JResearchActivity{
 			}
 		}
 		
-		if(!empty($this->funding))
+		if(!empty($this->finance_value))
 		{
-			$this->funding = round($this->funding, 2);
+			$this->finance_value = round($this->finance_value, 2);
 			
-			if($this->funding <= 0.0)
+			if($this->finance_value <= 0.0)
 			{
 				$this->setError(JText::_('Funding must be greater than 0'));
 			}
@@ -160,6 +160,7 @@ class JResearchProject extends JResearchActivity{
 	public function load($oid = null){
 		$result = parent::load($oid);
 		$this->_loadAuthors($oid);
+		$this->_loadFinanciers($oid);
 		return $result;
 	}
 	
@@ -186,6 +187,9 @@ class JResearchProject extends JResearchActivity{
 		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_internal_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
 		$deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_external_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
 		
+		//Delete information of financiers
+		$deleteFinQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_financier').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
+		
 		$db->setQuery($deleteInternalQuery);
 		if(!$db->query()){
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -194,6 +198,13 @@ class JResearchProject extends JResearchActivity{
 		
 		$db->setQuery($deleteExternalQuery);
 		if(!$db->query()){
+			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+			return false;
+		}
+		
+		$db->setQuery($deleteFinQuery);
+		if(!$db->query())
+		{
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 			return false;
 		}
@@ -227,12 +238,24 @@ class JResearchProject extends JResearchActivity{
 				$this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
 				return false;
 			}
-		}     		
-     
-		/**
-		 * @todo Add funders to project
-		 * @author Florian Prinz
-		 */
+		}  
+
+		$idProjectField = $db->nameQuote('id_project');
+		$idFinField = $db->nameQuote('id_financier');
+		$tableName = $db->nameQuote('#__jresearch_project_financier');
+		foreach($this->_financiers as $fin)
+		{
+			$idFin = (int) $fin['id_financier'];
+			$insertFinQuery = 'INSERT INTO '.$tableName.' ('.$idProjectField.', '.$idFinField.') VALUES('.$this->id.', '.$idFin.')';
+			
+			$db->setQuery($insertFinQuery);
+			
+			if(!$db->query())
+			{
+				$this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
+				return false;
+			}
+		}
 		
       	return true;
 			
@@ -246,7 +269,8 @@ class JResearchProject extends JResearchActivity{
 	 */
 	public function setFinancier($financier)
 	{
-		$this->_financiers[] = array('id' => $this->id, 'id_financier' => $financier);
+		if($financier > 0)
+			$this->_financiers[] = array('id' => $this->id, 'id_financier' => $financier);
 		
 		return true;
 	}
@@ -279,6 +303,27 @@ class JResearchProject extends JResearchActivity{
 	public function countFinanciers()
 	{
 		return count($this->_financiers);
+	}
+	
+	protected function _loadFinanciers($oid)
+	{
+		$db = &$this->getDBO();
+		
+		$table = $db->nameQuote('#__jresearch_project_financier');
+		$idProject = $db->nameQuote('id_project');
+		
+		$qoid = $db->Quote($oid);
+		
+		// Get internal authors
+        $internalAuthorsQuery = "SELECT * FROM $table WHERE $idProject = $qoid";
+		$db->setQuery($internalAuthorsQuery);
+        
+		if($result = $db->loadAssocList())
+        {
+        	$this->_financiers = $result;
+        }else{
+        	$this->_financiers = array();	
+        }
 	}
 }
 

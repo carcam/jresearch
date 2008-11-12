@@ -61,6 +61,7 @@ class JResearchAdminViewProject extends JView
     	
     	//Financier options
     	$financierOptions = array();
+    	$financierOptions[0] = JHTML::_('select.option', '', JText::_('JRESEARCH_PROJECT_NO_FINANCIERS'));
     	foreach($financiers as $fin)
     	{
     		$financierOptions[] = JHTML::_('select.option', $fin->id, $fin->name);
@@ -88,7 +89,16 @@ class JResearchAdminViewProject extends JView
     	}
 
 		$membersControl = JHTML::_('AuthorsSelector._', 'members', $members);	
-		$finHTML = JHTML::_('select.genericlist', $financierOptions, 'id_financier[]', 'class="inputbox" size="3"', 'value', 'text');
+		
+		//Get financiers for project
+		$projectFins = $project->getFinanciers();
+		$fins = array();
+		foreach($projectFins as $fin)
+		{
+			$fins[] = $fin->id;
+		}
+		
+		$finHTML = JHTML::_('select.genericlist', $financierOptions, 'id_financier[]', 'class="inputbox" size="3" multiple="multiple"', 'value', 'text', (count($fins) > 0) ? $fins : '');
 
     	$this->assignRef('project', $project);
     	$this->assignRef('publishedRadio', $publishedRadio);
