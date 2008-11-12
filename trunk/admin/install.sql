@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_external_author` (
 DROP TABLE IF EXISTS `#__jresearch_project_financier`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_financier` (
   `id_project` int(10) unsigned NOT NULL,
-  `id_financier` int(10) unsigned NOT NULL
+  `id_financier` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_project`,`id_financier`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

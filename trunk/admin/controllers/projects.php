@@ -214,10 +214,18 @@ class JResearchAdminProjectsController extends JController
 			}			
 		}
 		
-		/**
-		 * @todo Get funders from post and set funder in table
-		 * @author Florian Prinz
-		 */
+		//Set financiers for the project
+		$financiers = JRequest::getVar('id_financier');
+		
+		if(is_array($financiers))
+		{
+			foreach($financiers as $fin)
+			{
+				$id = (int) $fin;
+				
+				$project->setFinancier($id);
+			}
+		}
 		
 		// Validate and save
 		if($project->check()){
