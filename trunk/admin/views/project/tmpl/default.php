@@ -58,9 +58,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_PROJECT_PAGE').' (Url) : ' ?></td>
 		<td>
-			<input name="url_project_page" id="url_project_page" class="validate-url" size="30" maxlength="255" value="<?php echo $this->project?$this->project->url_project_page:'' ?>" />
+			<input name="url" id="url" class="validate-url" size="30" maxlength="255" value="<?php echo $this->project?$this->project->url:'' ?>" />
 			<br />
-			<label for="url_project_page" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
+			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
 		</td>
 		<td><?php echo JText::_('JRESEARCH_PROJECT_IMAGE').': '; ?></td>
 		<td><input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS')); ?>
