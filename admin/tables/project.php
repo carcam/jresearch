@@ -58,7 +58,7 @@ class JResearchProject extends JResearchActivity{
 	 *
 	 * @var string
 	 */
-	public $url_project_page;
+	public $url;
 	
 	/**
 	 * Project's complete description
