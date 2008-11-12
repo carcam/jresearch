@@ -1,8 +1,9 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @package		Joomla
+* @subpackage		JResearch
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
@@ -15,6 +16,7 @@ jimport( 'joomla.application.component.model' );
 /**
 * Base class for models that hold a single record.
 *
+* @subpackage		JResearch
 */
 abstract class JResearchModelSingleRecord extends JModel{
 	// If the user sends the same id twice, we just return it.

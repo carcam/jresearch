@@ -2,7 +2,6 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Staff
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * Joomla! is free software. This version may have been modified pursuant
@@ -28,13 +27,6 @@ class JResearchMember extends JTable{
 	 * @var int
 	 */
 	public $id;
-	
-	/**
-	 * Is it a former member?
-	 *
-	 * @var bool
-	 */
-	public $former_member;
 	
 	/**
 	* Member's username
@@ -88,12 +80,6 @@ class JResearchMember extends JTable{
 	 * @var boolean
 	 */
 	public $published;
-	
-	/**
-	 * Ordering number
-	 * @var int
-	*/
-	public $ordering;
 	
 	/**
 	 * Member's phone number

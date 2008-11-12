@@ -2,7 +2,6 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Publications
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * Joomla! is free software. This version may have been modified pursuant
@@ -456,9 +455,9 @@ class JResearchPublication extends JResearchActivity{
 		}
  		// Time to insert the attributes
       	if($this->$j){
-          	$ret = $db->updateObject( $this->_tbl, $parentObject, $this->_tbl_key, $updateNulls );
+          	$ret = $db->updateObject( $this->_tbl, &$parentObject, $this->_tbl_key, $updateNulls );
       	}else{
-          	$ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
+          	$ret = $db->insertObject( $this->_tbl, &$parentObject, $this->_tbl_key );
           	$this->$j = $db->insertid();
       	}
 
@@ -497,9 +496,9 @@ class JResearchPublication extends JResearchActivity{
 	
 	 		// Time to insert the derived attributes
 	  		if( !$isNew){
-	          $ret = $db->updateObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key, $updateNulls );
+	          $ret = $db->updateObject( $this->_derivedTable, &$derivedObject, $this->_d_tbl_key, $updateNulls );
 	      }else{
-	          $ret = $db->insertObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key );
+	          $ret = $db->insertObject( $this->_derivedTable, &$derivedObject, $this->_d_tbl_key );
 	      }
 
 	      

@@ -1,10 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Projects
- * Default view for adding/editing a single project
- */
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <form name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" class="form-validate" onSubmit="return validate(this);">
 <table class="editpublication" cellpadding="5" cellspacing="5">
@@ -50,17 +44,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_FUNDED_BY').': '; ?></td>
-		<td><?php echo $this->finList; ?></td>
-		<td><?php echo JText::_('JRESEARCH_FINANCE_LEVEL').': '; ?></td>
-		<td><input name="finance_value" id="finance_value" size="10" maxlength="10" value="<?php echo $this->project?$this->project->finance_value:'' ?>" /> <?php echo $this->currencyList; ?></td>
-	</tr>
-	<tr>
 		<td><?php echo JText::_('JRESEARCH_PROJECT_PAGE').' (Url) : ' ?></td>
 		<td>
-			<input name="url_project_page" id="url_project_page" class="validate-url" size="30" maxlength="255" value="<?php echo $this->project?$this->project->url_project_page:'' ?>" />
+			<input name="url" id="url" class="validate-url" size="30" maxlength="255" value="<?php echo $this->project?$this->project->url:'' ?>" />
 			<br />
-			<label for="url_project_page" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
+			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
 		</td>
 		<td><?php echo JText::_('JRESEARCH_PROJECT_IMAGE').': '; ?></td>
 		<td><input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS')); ?>

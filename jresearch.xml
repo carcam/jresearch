@@ -8,7 +8,7 @@
 	<authorUrl>http://joomla-research.com</authorUrl>
 	<copyright>Copyright (C) 2008 Luis Gal&#225;rraga</copyright>
 	<license>GPL</license>
-	<version>1.0 Stable</version>
+	<version>1.0 Beta 2</version>
 	<description>Component for the management of research-related work in research departments.</description>
 	<installfile>install.php</installfile>
 	<uninstallfile>uninstall.php</uninstallfile>
@@ -34,7 +34,6 @@
 		<folder>css</folder>
 		<folder>helpers</folder>
 		<folder>includes</folder>
-		<folder>js</folder>
 		<folder>plg_jresearch</folder>
 		<folder>plg_jresearch_automatic_bibliography_generation</folder>
 		<folder>plg_jresearch_automatic_citation</folder>
@@ -49,15 +48,6 @@
 	</languages>
 	<administration>
 		<menu>J!Research</menu>
-		<submenu>
-			<menu controller="cooperations">JRESEARCH_COOPERATIONS</menu>
-			<menu controller="facilities">JRESEARCH_FACILITIES</menu>
-			<menu controller="projects">JRESEARCH_PROJECTS</menu>
-			<menu controller="publications">JRESEARCH_PUBLICATIONS</menu>
-			<menu controller="researchAreas">JRESEARCH_RESEARCH_AREAS</menu>
-			<menu controller="staff">JRESEARCH_STAFF</menu>
-			<menu controller="theses">JRESEARCH_THESES</menu>
-		</submenu>
 		<files folder="admin">
 			<filename>index.html</filename>
 			<filename>admin.jresearch.php</filename>
@@ -68,16 +58,13 @@
 			<filename>config.xml</filename>
 			<folder>assets</folder>
 			<folder>controllers</folder>
-			<folder>elements</folder>
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
 		</files>		
 		<languages folder="admin">
 			<language tag="en-GB">en-GB.com_jresearch.ini</language>
-			<language tag="en-GB">en-GB.com_jresearch.menu.ini</language>
-			<language tag="es-ES">es-ES.com_jresearch.ini</language>	
-			<language tag="es-ES">es-ES.com_jresearch.menu.ini</language>		
+			<language tag="es-ES">es-ES.com_jresearch.ini</language>			
 		</languages>
 	</administration>
 </install>

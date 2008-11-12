@@ -2,8 +2,8 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	ResearchAreas
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @subpackage		ResearchAreas
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
 * of research areas in the backend interface.
@@ -14,8 +14,8 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researchArea.php');
 
 /**
  * Research Areas Backend Controller
+ *
  * @package		JResearch
- * @subpackage	ResearchAreas
  */
 class JResearchAdminResearchAreasController extends JController
 {
@@ -44,7 +44,7 @@ class JResearchAdminResearchAreasController extends JController
 	function save(){
 		global $mainframe;
 		$db =& JFactory::getDBO();
-		$area = new JResearchArea($db);
+		$area = new JResearchArea(&$db);
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');		
@@ -91,7 +91,7 @@ class JResearchAdminResearchAreasController extends JController
 		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'researchareaslist');
 		$view = &$this->getView('ResearchAreasList', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('ResearchAreasList', 'JResearchModel');
-		$view->setModel($model, true);
+		$view->setModel(&$model, true);
 		$view->setLayout('default');
 		$view->display();
 	}
@@ -104,7 +104,7 @@ class JResearchAdminResearchAreasController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 				
-		$area = new JResearchArea($db);
+		$area = new JResearchArea(&$db);
 		$area->publish($cid, 1);
 		$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 	}
@@ -118,7 +118,7 @@ class JResearchAdminResearchAreasController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		
-		$area = new JResearchArea($db);
+		$area = new JResearchArea(&$db);
 		$area->publish($cid, 0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::_('JRESEARCH_AREAS_UNPUBLISHED_SUCCESSFULLY'));
 	}
@@ -132,7 +132,7 @@ class JResearchAdminResearchAreasController extends JController
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 		
-		$area = new JResearchArea($db);
+		$area = new JResearchArea(&$db);
 		foreach($cid as $id){
 			if(!$area->delete($id)){
 				JError::raiseWarning(1, JText::sprintf('JRESEARCH_AREA_NOT_DELETED', $id));
@@ -164,14 +164,14 @@ class JResearchAdminResearchAreasController extends JController
 			}else{
 				$area->checkout($user->get('id'));
 				$view->setLayout('default');
-				$view->setModel($model, true);
+				$view->setModel(&$model, true);
 				$view->display();
 			}
 		}else{
 			$session =& JFactory::getSession();
 			$session->set('citedRecords', array(), 'jresearch');
 			$view->setLayout('default');
-			$view->setModel($model, true);
+			$view->setModel(&$model, true);
 			$view->display();
 		}		
 	}

@@ -1,10 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Configuration
- * Default view for the control panel
- */
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <table class="adminform">
 	<tbody>
@@ -16,30 +10,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<a class="modal" rel="{handler: 'iframe', size: {x: 750, y: 500}}" href="index.php?option=com_config&controller=component&component=com_jresearch&path=">
 						<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/config.png" alt="<?php echo JText::_('JRESEARCH_CONFIGURATION'); ?>">					
 						<span><?php echo JText::_('JRESEARCH_CONFIGURATION'); ?></span>
-					</a>
-				</div>
-			</div>
-			<div style="float: left;">
-				<div class="icon">
-					<a href="index.php?option=com_jresearch&amp;controller=cooperations">
-						<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/cooperations.png" alt="<?php echo JText::_('JRESEARCH_COOPERATIONS'); ?>">					
-						<span><?php echo JText::_('JRESEARCH_COOPERATIONS'); ?></span>
-					</a>
-				</div>
-			</div>
-			<div style="float: left;">
-				<div class="icon">
-					<a href="index.php?option=com_jresearch&amp;controller=facilities">
-						<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/facilities.png" alt="<?php echo JText::_('JRESEARCH_FACILITIES'); ?>">					
-						<span><?php echo JText::_('JRESEARCH_FACILITIES'); ?></span>
-					</a>
-				</div>
-			</div>
-			<div style="float: left;">
-				<div class="icon">
-					<a href="index.php?option=com_jresearch&amp;controller=financiers">
-						<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/financier.png" alt="<?php echo JText::_('JRESEARCH_FINANCIERS'); ?>">					
-						<span><?php echo JText::_('JRESEARCH_FINANCIERS'); ?></span>
 					</a>
 				</div>
 			</div>
@@ -82,7 +52,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</a>
 				</div>
 			</div>
-		</div>	
 	</td>
 	<td valign="top" width="45%">
 		<div id="content-pane" class="pane-sliders">
@@ -104,7 +73,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</tr>
 					<tr>
 						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_VERSION').': '; ?></td>
-						<td>1.1</td>
+						<td>1.0 Stable</td>
 					</tr>
 					<tr>
 						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_COPYRIGHT').': '; ?></td>
@@ -122,7 +91,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				</table>		
 			</div>
 		</div>		
-	</div>	
 	</td>
 	</tr>
 	</tbody>

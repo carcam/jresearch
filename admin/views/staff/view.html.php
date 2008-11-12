@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Staff
+* @package		Joomla
+* @subpackage	JResearch
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of staff list
@@ -17,6 +17,7 @@ jimport( 'joomla.application.component.view');
 /**
  * HTML View class for management of members lists in JResearch Component backend
  *
+ * @package   JResearch
  */
 
 class JResearchAdminViewStaff extends JView
@@ -51,8 +52,8 @@ class JResearchAdminViewStaff extends JView
     	
 		// Filters and pagination
 		$lists = array();    	
-    	$filter_order = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order', 'ordering');
-    	$filter_order_Dir = $mainframe->getUserStateFromRequest('stafffilter_order_Dir', 'filter_order_Dir', 'ASC');
+    	$filter_order = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order', 'lastname');
+    	$filter_order_Dir = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order_Dir', 'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('stafffilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('stafffilter_search', 'filter_search');
     	
@@ -63,13 +64,10 @@ class JResearchAdminViewStaff extends JView
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
     	
-		//Ordering allowed ?
-		$ordering = ($lists['order'] == 'ordering');
     	
     	$this->assignRef('items', $members);
     	$this->assignRef('areaModel', $areaModel);
     	$this->assignRef('lists', $lists);
-    	$this->assignRef('ordering', $ordering);
     	$this->assignRef('page', $model->getPagination());	
 
     }

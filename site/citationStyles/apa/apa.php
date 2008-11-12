@@ -1,8 +1,8 @@
 <?php
 /**
- * @version		$Id$
-* @package		JResearch
-* @subpackage	Citation
+ * @version			$Id$
+ * @package			Joomla
+ * @subpackage		JResearch	
  * @copyright		Copyright (C) 2008 Luis Galarraga.
  * @license			GNU/GPL
  * Joomla! is free software. This version may have been modified pursuant
@@ -21,6 +21,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Base class for implementation of APA citation style
 *
+* @subpackage		JResearch
 */
 class JResearchAPACitationStyle implements JResearchCitationStyle{
 	
@@ -258,10 +259,10 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 				$authorsArray[$authorsText][] = '';	
 		}
 		// Sort the array
-		ksort($authorsArray);
+		ksort(&$authorsArray);
 
 		foreach($authorsArray as &$years){
-			sort($years, SORT_NUMERIC);
+			sort(&$years, SORT_NUMERIC);
 
 			$n = count($years);
 			
@@ -471,9 +472,9 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		}
 		
 		// Sort the array
-		ksort($authorsArray);		
+		ksort(&$authorsArray);		
 		foreach($authorsArray as &$arr){
-			ksort($arr);
+			ksort(&$arr);
 			foreach($arr as $yearArray)
 				foreach($yearArray as $pub)
 					$result[] = $pub;

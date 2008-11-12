@@ -1,11 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Publications
- * View for exporting publications
- */
-
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1><?php echo $this->exportAll? JText::_('JRESEARCH_EXPORT_ALL_PUBLICATIONS'): JText::_('JRESEARCH_EXPORT_SELECTED_RECORDS'); ?></h1>
 <form name="adminForm" id="adminForm" method="post">

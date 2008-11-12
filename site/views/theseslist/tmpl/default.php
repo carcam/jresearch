@@ -1,11 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Theses
- * Default view for showing a list of theses
- */
-
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></div>
 <ul style="padding-left:0px;">

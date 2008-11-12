@@ -1,13 +1,3 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Publications
- * View for importing publications
- */
-
-// no direct access
-defined('_JEXEC') or die('Restricted access'); 
-?>
 <form name="adminForm" id="adminForm" enctype="multipart/form-data" method="post">
 <table class="adminform">
 	<tbody>

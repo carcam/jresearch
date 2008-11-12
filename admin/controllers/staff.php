@@ -2,8 +2,8 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Staff
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @subpackage		Staff
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
 * of staff members in the backend interface.
@@ -13,8 +13,8 @@ jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 /**
  * Staff Backend Controller
+ *
  * @package		JResearch
- * @subpackage	Staff
  */
 class JResearchAdminStaffController extends JController
 {
@@ -50,8 +50,8 @@ class JResearchAdminStaffController extends JController
 		$view = &$this->getView('Staff', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Staff', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
+		$view->setModel(&$model, true);
+		$view->setModel(&$areaModel);
 		$view->setLayout('default');
 		$view->display();
 	}
@@ -89,8 +89,8 @@ class JResearchAdminStaffController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
 			}else{	
 				$member->checkout($user->get('id'));
-				$view->setModel($model, true);
-				$view->setModel($researchAreaModel);
+				$view->setModel(&$model, true);
+				$view->setModel(&$researchAreaModel);
 				$view->display();
 			}
 		}
@@ -107,7 +107,7 @@ class JResearchAdminStaffController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		
-		$member = new JResearchMember($db);
+		$member = new JResearchMember(&$db);
 		$member->publish($cid, 1);
 		$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 
@@ -122,7 +122,7 @@ class JResearchAdminStaffController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		
-		$member = new JResearchMember($db);
+		$member = new JResearchMember(&$db);
 		$member->publish($cid, 0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
 	}
@@ -136,7 +136,7 @@ class JResearchAdminStaffController extends JController
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 		
-		$member = new JResearchMember($db);
+		$member = new JResearchMember(&$db);
 		foreach($cid as $id){
 			if(!$member->delete($id)){
 				JError::raiseWarning(1, JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id));
@@ -162,7 +162,7 @@ class JResearchAdminStaffController extends JController
 		for($i=0; $i<= $n; $i++){
 			$username = JRequest::getVar('member'.$i);
 			if($username !== null){
-				$newMember = new JResearchMember($db);
+				$newMember = new JResearchMember(&$db);
 				$newMember->bindFromUser($username);
 				if($newMember->store())
 					$count++;
@@ -182,7 +182,7 @@ class JResearchAdminStaffController extends JController
 		$db =& JFactory::getDBO();
 		$photosFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'members';
 		$photosUrl = JURI::base().'components/com_jresearch/assets/members/';
-		$member = new JResearchMember($db);
+		$member = new JResearchMember(&$db);
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');
@@ -219,9 +219,8 @@ class JResearchAdminStaffController extends JController
 		$member->bind($post);	
 		$member->firstname = trim($member->firstname);
 		$member->lastname = trim($member->lastname);
-		
-		$member->former_member = (int) JRequest::getVar('former_member', '0', 'post', 'string');
 		$member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+
 		
 		if($member->check()){		
 			if($member->store()){
@@ -242,9 +241,6 @@ class JResearchAdminStaffController extends JController
 			JError::raiseWarning(1, $member->getError());
 			$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id);					
 		}
-		
-		//Reordering other members
-		$member->reorder();
 		
 		$user =& JFactory::getUser();
 		if(!$member->isCheckedOut($user->get('id'))){
@@ -272,98 +268,5 @@ class JResearchAdminStaffController extends JController
 		$this->setRedirect('index.php?option=com_jresearch&controller=staff');
 	}
 
-	/**
-	* Save the item(s) to the menu selected
-	*/
-	function orderup()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		JArrayHelper::toInteger($cid);
-
-		if (isset($cid[0]) && $cid[0])
-		{
-			$id = $cid[0];
-		}
-		else
-		{
-			$this->setRedirect( 'index.php?option=com_jresearch&controller=staff', JText::_('No Items Selected') );
-			return false;
-		}
-
-		$model =& $this->getModel('Staff', 'JResearchModel');
-		
-		if ($model->orderItem($id, -1))
-		{
-			$msg = JText::_( 'Member Item Moved Up' );
-		}
-		else
-		{
-			$msg = $model->getError();
-		}
-		
-		$this->setRedirect( 'index.php?option=com_jresearch&controller=staff', $msg );
-	}
-
-	/**
-	* Save the item(s) to the menu selected
-	*/
-	function orderdown()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		JArrayHelper::toInteger($cid);
-
-		if (isset($cid[0]) && $cid[0])
-		{
-			$id = $cid[0];
-		}
-		else
-		{
-			$this->setRedirect( 'index.php?option=com_jresearch&controller=staff', JText::_('No Items Selected') );
-			return false;
-		}
-
-		$model =& $this->getModel('Staff', 'JResearchModel');
-		if ($model->orderItem($id, 1))
-		{
-			$msg = JText::_( 'Member Item Moved Up' );
-		}
-		else
-		{
-			$msg = $model->getError();
-		}
-		
-		$this->setRedirect( 'index.php?option=com_jresearch&controller=staff', $msg );
-	}
-
-	/**
-	* Save the item(s) to the menu selected
-	*/
-	function saveorder()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		JArrayHelper::toInteger($cid);
-
-		$model =& $this->getModel('Staff', 'JResearchModel');
-		
-		if ($model->setOrder($cid))
-		{
-			$msg = JText::_( 'New ordering saved' );
-		}
-		else
-		{
-			$msg = $model->getError();
-		}
-		
-		$this->setRedirect( 'index.php?option=com_jresearch&controller=staff', $msg );
-	}
 }
 ?>

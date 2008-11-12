@@ -1,11 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Theses
- * Default view for adding/editing a single theses
- */
-
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <form name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" class="form-validate" onSubmit="return validate(this);">
 <table class="editpublication" cellpadding="5" cellspacing="5">

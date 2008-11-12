@@ -2,7 +2,6 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Helpers
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * Joomla! is free software. This version may have been modified pursuant
@@ -51,7 +50,7 @@ class JResearchMODSImporter extends JResearchPublicationImporter{
 		// Invoke the conversion command
 		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'xml2bib'.' '.$filename;
 		$output = array();
-		exec($conversionCommand, $output);
+		exec($conversionCommand, &$output);
 		$bibtexText = implode("\n", $output); 
 
 	

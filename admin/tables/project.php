@@ -2,7 +2,6 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Projects
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * Joomla! is free software. This version may have been modified pursuant
@@ -15,8 +14,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.utilities.date');
-
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'financier.php');
 
 /**
  * This class represents a JResearch project in database.
@@ -46,6 +43,7 @@ class JResearchProject extends JResearchActivity{
 	*/	
 	public $end_date;
 	
+	
 	/**
 	* Url to the an image that represents the project
 	*
@@ -53,12 +51,13 @@ class JResearchProject extends JResearchActivity{
 	*/
 	public $url_project_image;	
 	
+	
 	/**
 	 * Url to the project official page
 	 *
 	 * @var string
 	 */
-	public $url_project_page;
+	public $url;
 	
 	/**
 	 * Project's complete description
@@ -66,22 +65,6 @@ class JResearchProject extends JResearchActivity{
 	 * @var string
 	 */
 	public $description;
-	
-	/**
-	 * Project's full funding value
-	 *
-	 * @var float
-	 */
-	public $finance_value;
-	
-	/**
-	 * Fundings currency
-	 *
-	 * @var string
-	 */
-	public $finance_currency;
-	
-	protected $_financiers;
 	
 	
 	/**
@@ -128,16 +111,6 @@ class JResearchProject extends JResearchActivity{
 			if($endDateObj->toUnix() < $startDateObj->toUnix()){
 				$this->setError(JText::_('Start date is greater than end date'));
 				return false;
-			}
-		}
-		
-		if(!empty($this->funding))
-		{
-			$this->funding = round($this->funding, 2);
-			
-			if($this->funding <= 0.0)
-			{
-				$this->setError(JText::_('Funding must be greater than 0'));
 			}
 		}
 			
@@ -229,57 +202,10 @@ class JResearchProject extends JResearchActivity{
 			}
 		}     		
      
-		/**
-		 * @todo Add funders to project
-		 * @author Florian Prinz
-		 */
-		
       	return true;
 			
 	}
 
-	/**
-	 * Sets a funder for the project
-	 *
-	 * @param int $funder
-	 * @return bool
-	 */
-	public function setFinancier($financier)
-	{
-		$this->_financiers[] = array('id' => $this->id, 'id_financier' => $financier);
-		
-		return true;
-	}
-	
-	/**
-	 * Gets all funders, an array of financier objects
-	 *
-	 * @return array
-	 */
-	public function getFinanciers()
-	{
-		$db = &$this->getDBO();
-		$finObjects = array(); 
-		
-		foreach($this->_financiers as $financier)
-		{
-			$finObject = new JResearchFinancier($db);
-			$finObject->load($financier['id_financier']);
-			$finObjects[] = $finObject;
-		}
-		
-		return $finObjects;
-	}
-	
-	/**
-	 * Counts the financiers for this project
-	 *
-	 * @return int
-	 */
-	public function countFinanciers()
-	{
-		return count($this->_financiers);
-	}
 }
 
 ?>

@@ -2,7 +2,6 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Publications
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * Joomla! is free software. This version may have been modified pursuant
@@ -49,7 +48,7 @@ class JResearchIncollection extends JResearchPublication{
 	public $editor;
 	
 	/**
-	 * The organization that sponsors the publication of the book.
+	 * The series the book is part of.
 	 * 
 	 * @var string
 	 */

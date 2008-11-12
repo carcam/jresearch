@@ -2,8 +2,8 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Projects
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @subpackage		Projects
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
 * of research projects in the backend interface.
@@ -16,8 +16,8 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
 
 /**
 * Projects Backend Controller
+*
 * @package		JResearch
-* @subpackage	Projects
 */
 class JResearchAdminProjectsController extends JController
 {
@@ -50,8 +50,8 @@ class JResearchAdminProjectsController extends JController
 		$view = &$this->getView('ProjectsList', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('ProjectsList', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
+		$view->setModel(&$model, true);
+		$view->setModel(&$areaModel);
 		$view->display();
 
 	}
@@ -63,13 +63,9 @@ class JResearchAdminProjectsController extends JController
 	*/
 	function edit(){
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers');
-		
 		$cid = JRequest::getVar('cid');
 		
 		$view = &$this->getView('Project', 'html', 'JResearchAdminView');	
-		
-		$finModel = &$this->getModel('Financiers', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
 		$model =& $this->getModel('Project', 'JResearchModel');
 
@@ -81,17 +77,15 @@ class JResearchAdminProjectsController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
 			}else{
 				$project->checkout($user->get('id'));
-				$view->setModel($model, true);
-				$view->setModel($areaModel);
-				$view->setModel($finModel);
+				$view->setModel(&$model, true);
+				$view->setModel(&$areaModel);
 				$view->display();
 			}	
 		}else{
 			$session =& JFactory::getSession();
 			$session->set('citedRecords', array(), 'jresearch');
-			$view->setModel($model, true);
-			$view->setModel($areaModel);
-			$view->setModel($finModel);
+			$view->setModel(&$model, true);
+			$view->setModel(&$areaModel);
 			$view->display();
 		}
 	}
@@ -105,7 +99,7 @@ class JResearchAdminProjectsController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$project = new JResearchProject($db);
+		$project = new JResearchProject(&$db);
 		$project->publish($cid, 1);
 		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 		
@@ -120,7 +114,7 @@ class JResearchAdminProjectsController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 				
-		$project = new JResearchProject($db);
+		$project = new JResearchProject(&$db);
 		$project->publish($cid, 0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));		
 		
@@ -135,7 +129,7 @@ class JResearchAdminProjectsController extends JController
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 		
-		$project = new JResearchProject($db);
+		$project = new JResearchProject(&$db);
 		foreach($cid as $id){
 			if(!$project->delete($id)){
 				JError::raiseWarning(1, JText::sprintf('JRESEARCH_PROJECT_NOT_DELETED', $id));
@@ -156,7 +150,7 @@ class JResearchAdminProjectsController extends JController
 		$db =& JFactory::getDBO();
 		$photosFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'projects';
 		$photosUrl = JURI::base().'components/com_jresearch/assets/projects/';
-		$project = new JResearchProject($db);
+		$project = new JResearchProject(&$db);
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');		
@@ -192,7 +186,7 @@ class JResearchAdminProjectsController extends JController
 					
 		
 		$project->bind($post);
-		$project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
+		$project->title = trim($project->title);
 		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		//Time to set the authors
@@ -213,11 +207,6 @@ class JResearchAdminProjectsController extends JController
 				$k++;
 			}			
 		}
-		
-		/**
-		 * @todo Get funders from post and set funder in table
-		 * @author Florian Prinz
-		 */
 		
 		// Validate and save
 		if($project->check()){

@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Projects
+* @subpackage		Projects
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the controller for all operations related to the management
@@ -14,6 +14,7 @@ jimport('joomla.application.component.controller');
 /**
 * JResearch Component Projects Controller
 *
+* @package		JResearch
 */
 class JResearchProjectsController extends JController
 {
@@ -58,7 +59,7 @@ class JResearchProjectsController extends JController
 		$model =& $this->getModel('ProjectsList', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('ProjectsList', 'html', 'JResearchView');
-		$view->setModel($model, true);
+		$view->setModel(&$model, true);
 		$view->setModel($areaModel);
 		$view->display();		
 	}
@@ -84,8 +85,8 @@ class JResearchProjectsController extends JController
 		$model =& $this->getModel('Project', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('Project', 'html', 'JResearchView');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
+		$view->setModel(&$model, true);
+		$view->setModel(&$areaModel);
 		$view->display();
 	}
 

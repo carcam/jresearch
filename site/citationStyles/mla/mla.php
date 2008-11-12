@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Citation
+* @package		Joomla
+* @subpackage		JResearch
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,6 +16,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Base class for implementation of MLA citation style
 *
+* @subpackage		JResearch
 */
 class JResearchMLACitationStyle implements JResearchCitationStyle{
 	
@@ -392,7 +393,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 			}
 		}
 		// Sort the array
-		ksort($authorsArray);		
+		ksort(&$authorsArray);		
 		return array_values($authorsArray);
 	}		
 	

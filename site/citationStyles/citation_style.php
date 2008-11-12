@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
-* @subpackage	Citation
+* @package		Joomla
+* @subpackage		JResearch
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file declares the base interface for all citation styles.
@@ -14,6 +14,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
 * Base interface for all citation styles
 *
+* @subpackage		JResearch
 */
 interface JResearchCitationStyle{
 	

@@ -1,7 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		JResearch
+* @package		Joomla
+* @subpackage	Content
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -16,6 +17,8 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php');
 
 /**
+* @package		Joomla
+* @subpackage	JResearch
 * 
 * This is a helper class for rendering backend toolbars
 * 
@@ -152,21 +155,6 @@ class JResearchToolbar
 		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
 	}
 	
-	public static function mdmListToolbar(){
-		JToolBarHelper::title(JText::_('JRESEARCH_MDM'));
-		
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		JToolBarHelper::divider();
-		JToolBarHelper::addNewX('add', JText::_('Add'));
-		JToolBarHelper::editListX('edit', JText::_('Edit'));
-		JToolBarHelper::deleteList(JText::_('Are you sure you want to delete the selected items?'),'remove', JText::_('Delete'));		
-
-		JToolBarHelper::divider();		
-		
-		JToolBarHelper::publishList('publish', JText::_('Publish'));
-		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
-	}
-	
 	/**
 	 * Prints an 'Export' button
 	 */
@@ -230,23 +218,6 @@ class JResearchToolbar
 			$title = JText::_('JRESEARCH_NEW_PROJECT');	
 
 		JToolBarHelper::title($title);
-		self::editItemAdminToolbar();
-	}
-	
-	/**
-	* Renders the toolbar displayed when creating/editing a mdm.
-	*/
-	public static function editMdmAdminToolbar()
-	{
-		$cid = JRequest::getVar('cid');
-		
-		if($cid)
-			$title = JText::_('JRESEARCH_EDIT_MDM');
-		else
-			$title = JText::_('JRESEARCH_NEW_MDM');	
-
-		JToolBarHelper::title($title);
-		
 		self::editItemAdminToolbar();
 	}
 
@@ -316,87 +287,6 @@ class JResearchToolbar
 	 */
 	public static function controlPanelToolbar(){
 		JToolBarHelper::title(JText::_('JRESEARCH_CONTROL_PANEL'));
-	}
-	
-	/**
-	* Prints the toolbar menu for cooperations
-	*/	
-	public static function cooperationsAdminListToolbar()
-	{
-		JToolBarHelper::title(JText::_('JRESEARCH_COOPERATIONS'));
-		
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		JToolBarHelper::divider();
-		self::adminListToolbar();
-	}
-	
-	public static function editCooperationAdminToolbar()
-	{
-		$cid = JRequest::getVar('cid');
-		if($cid)
-			$title = JText::_('JRESEARCH_EDIT_COOPERATION');
-		else
-			$title = JText::_('JRESEARCH_NEW_COOPERATION');	
-		
-		JToolBarHelper::title($title);
-		
-		self::editItemAdminToolbar();
-	}
-	
-	public static function facilitiesAdminListToolbar()
-	{
-		JToolBarHelper::title(JText::_('JRESEARCH_FACILITIES'));
-
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		JToolBarHelper::divider();		
-		self::adminListToolbar();
-	}
-	
-	public static function editFacilityAdminToolbar()
-	{
-		$cid = JRequest::getVar('cid');
-		if($cid)
-			$title = JText::_('JRESEARCH_EDIT_FACILITY');
-		else
-			$title = JText::_('JRESEARCH_NEW_FACILITY');	
-		
-		JToolBarHelper::title($title);
-		
-		self::editItemAdminToolbar();
-	}
-
-	public static function financiersAdminListToolbar()
-	{
-		JToolBarHelper::title(JText::_('JRESEARCH_FINANCIERS'));
-
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		JToolBarHelper::divider();		
-		self::adminListToolbar();
-	}
-	
-	public static function editFinancierAdminToolbar()
-	{
-		$cid = JRequest::getVar('cid');
-		if($cid)
-			$title = JText::_('JRESEARCH_EDIT_FINANCIER');
-		else
-			$title = JText::_('JRESEARCH_NEW_FINANCIER');	
-		
-		JToolBarHelper::title($title);
-		
-		self::editItemAdminToolbar();
-	}
-	
-	public static function adminListToolbar()
-	{
-		JToolBarHelper::addNewX('add', JText::_('Add'));
-		JToolBarHelper::editListX('edit', JText::_('Edit'));
-		JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_ITEM_CONFIRMATION'),'remove', JText::_('Delete'));		
-
-		JToolBarHelper::divider();
-		
-		JToolBarHelper::publishList('publish', JText::_('Publish'));
-		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
 	}
 }
 ?>

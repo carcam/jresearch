@@ -1,11 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage Staff
- * Default view for showing a list of staff members
- */
-
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo JText::_('Staff Members'); ?></div>
 <table width="100%" cellpadding="2" cellspacing="2" align="center">

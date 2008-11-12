@@ -1,11 +1,4 @@
-<?php
-/**
- * @package JResearch
- * @subpackage ResearchAreas
- * Default view for showing a single research area
- */
-
-// no direct access
+<?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo $this->area->name; ?></div>
 <h1><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h1>

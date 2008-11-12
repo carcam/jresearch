@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Publications
+* @subpackage		Projects
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for generating the RSS feed
@@ -18,6 +18,7 @@ jimport( 'joomla.application.component.view');
 /**
  * RSS Feed view class for management of publications lists in JResearch Component frontend
  *
+ * @package    		JResearch
  */
 
 class JResearchViewPublicationsList extends JView{
