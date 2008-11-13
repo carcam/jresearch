@@ -388,7 +388,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_mdm` (
 DROP TABLE IF EXISTS `#__jresearch_cooperations`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_cooperations` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `image_url` varchar(256) DEFAULT NULL,
   `description` tinytext NOT NULL,
   `url` varchar(255) DEFAULT NULL,

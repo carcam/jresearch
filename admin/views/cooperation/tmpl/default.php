@@ -14,15 +14,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_COOPERATION_NAME').': '?></td>
-		<td colspan="3">
-			<input name="name" id="name" size="30" maxlength="30" class="required" value="<?php echo $this->coop?$this->coop->name:'' ?>" />
+		<td>
+			<input name="name" id="name" size="50" maxlength="100" class="required" value="<?php echo $this->coop?$this->coop->name:'' ?>" />
 			<br /><label for="name" class="labelform"><?php echo JText::_('Please provide a name. Alphabetic characters plus _- and spaces are allowed.'); ?></label>
 		</td>
-	</tr>
-	<tr>
 		<td><?php echo JText::_('JRESEARCH_COOPERATION_URL').': '; ?></td>
-		<td colspan="3">
-			<input name="url" id="url" size="30" maxlength="30" class="required" value="<?php echo $this->coop?$this->coop->url:''; ?>" />
+		<td>
+			<input name="url" id="url" size="50" maxlength="255" class="required" value="<?php echo $this->coop?$this->coop->url:''; ?>" />
 			<br /><label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_URL'); ?></label>			
 		</td>
 	</tr>
