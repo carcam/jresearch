@@ -15,7 +15,7 @@ defined("_JEXEC") or die("Restricted access");
 	foreach($this->items as $coop)
 	{
 	?>
-		<li class="licooperation" style="background: none; clear: both;">
+		<li class="licooperation" style="background: none; clear: both; margin-bottom: 10px;">
 			<?php 
 			if($coop->image_url != "")
 			{
@@ -41,14 +41,20 @@ defined("_JEXEC") or die("Restricted access");
 					<div class="description">
 						<?=$contentArray[0];?>
 					</div>
+				<?php
+				}
+				
+				if(count($contentArray) > 1)
+				{
+				?>
+					<div style="text-align:left">
+						<a href="index.php?option=com_jresearch&task=show&view=cooperation&id=<?=$coop->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >
+							<?=JText::_('Read more...'); ?>
+						</a>
+					</div>
 				<?php 
 				}
 				?>
-				<div style="text-align:left">
-					<a href="index.php?option=com_jresearch&task=show&view=cooperation&id=<?=$coop->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >
-						<?=JText::_('Read more...'); ?>
-					</a>
-				</div>
 			</div>
 		</li>
 	<?php
