@@ -25,6 +25,11 @@ class JResearchFinancier extends JTable
 		parent::__construct ('#__jresearch_financier', 'id', $db);
 	}
 	
+	function __toString()
+	{
+		return $this->name;
+	}
+	
 	function check()
     {
     	$url_pattern = "!^((ht|f)tp(s?)\:\/\/|~/|/)?([\w]+:\w+@)?([a-zA-Z]{1}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?((/?\w+/)+|/?)(\w+\.[\w]{3,4})?((\?\w+=\w+)?(&\w+=\w+)*)?$!";
