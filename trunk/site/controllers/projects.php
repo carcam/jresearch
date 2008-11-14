@@ -50,9 +50,13 @@ class JResearchProjectsController extends JController
 		if($limitstart === null)
 			JRequest::setVar('limitstart', 0);		
 
-		JRequest::setVar('limit', $limit);		
-		JRequest::setVar('filter_order', 'start_date');
-		JRequest::setVar('filter_order_Dir', 'DESC');
+		JRequest::setVar('limit', $limit);	
+		
+		$order = $params->get('order');
+		$order_Dir = $params->get('order_Dir');
+		
+		JRequest::setVar('filter_order', $order);
+		JRequest::setVar('filter_order_Dir', $order_Dir);
 		
 		// Set the view and the model
 		$model =& $this->getModel('ProjectsList', 'JResearchModel');

@@ -125,9 +125,9 @@ class JResearchModelProjectsList extends JResearchModelList{
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('title', 'published', 'start_date', 'id_research_area');
+		$orders = array('title', 'published', 'start_date', 'id_research_area', 'finance_value');
 		
-		$filter_order = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order', 'title');
+		$filter_order = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order', 'finance_value');
 		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('projectsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
@@ -135,7 +135,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 			$filter_order_Dir = 'ASC';
 		//if order column is unknown, use the default
 		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('published');	
+			$filter_order = $db->nameQuote('finance_value');	
 		
 		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->nameQuote('created').' DESC';
 	}	
