@@ -32,13 +32,23 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			{
 				$members = implode(', ',$project->getAuthors());
 			?>			
-			<div><span style="font-weight: bold;"><?=JText::_('JRESEARCH_MEMBERS').': '?></span><span><?=$members?></span></div>
+			<div><strong><?=JText::_('JRESEARCH_MEMBERS').': '?></strong><span><?=$members?></span></div>
 			<?php 
 			}
+			
+			$financiers = implode(', ', $project->getFinanciers());
+			$value = str_replace(array(",00",".00"), ",-", $project->finance_value); //Replace ,/.00 with ,-
 			?>
-			<div>&nbsp;</div>
-			<div><?php echo $contentArray[0]; ?></div>
+			<div><strong><?=JText::_('JRESEARCH_PROJECT_FUNDING').': '?></strong><span><?=$financiers?></span>, <strong><?=$project->finance_currency." ".$value?></strong></div>
 			<?php
+			if($contentArray[0] != "")
+			{
+			?>
+				<div>&nbsp;</div>
+				<div><?=$contentArray[0]; ?></div>
+			<?php
+			}
+			
 			if(count($contentArray) > 1)
 			{
 			?>

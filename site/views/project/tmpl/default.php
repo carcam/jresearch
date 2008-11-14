@@ -51,6 +51,25 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>	
 	<?php endif; ?>
 	
+	<?php
+	$financiers = $this->project->getFinanciers();
+	$value = str_replace(array(",00",".00"), ",-", $this->project->finance_value); //Replace ,/.00 with ,-
+	?>
+	<tr>
+		<td style="width:15%;" class="publicationlabel"><?=JText::_('JRESEARCH_PROJECT_FUNDING').': '?></td>
+		<td colspan="2">
+			<ul>
+			<?php
+			foreach($financiers as $financier)
+			{
+				echo "<li>".$financier."</li>";
+			}
+			?>
+			</ul>
+		</td>
+		<td><?=$this->project->finance_currency." ".$value?></td>
+	</tr>
+	
 	<tr>
 		<?php $startDate = trim($this->project->start_date); ?>
 		<?php $colspan = 4; ?>
