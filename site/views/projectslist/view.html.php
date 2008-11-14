@@ -44,7 +44,7 @@ class JResearchViewProjectsList extends JView
     	$areaModel = &$this->getModel('researcharea');
     	
     	$params = $mainframe->getParams();
-		$ids = explode(',',$params->get('project_id'));    
+		$ids = explode(',',$params->get('project_id'));  
 		
 		$model->setIds($ids);
     	$projects =  $model->getData(null, true, true);   

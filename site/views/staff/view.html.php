@@ -85,16 +85,12 @@ class JResearchViewStaff extends JView
     	
     	$params =& JComponentHelper::getParams('com_jresearch');
     	$former = (int) $params->get('former_members');
-    	$ordering = (int) $params->get('ordering');
     	
     	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
     	
     	$model->setFormer($former);
-    	
-    	//Set ordering
-    	$mainframe->setUserState('stafffilter_order',(($ordering == 1) ? 'ordering' : 'lastname'));
     	
     	$members =& $model->getData(null, true, false);
 

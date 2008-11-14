@@ -61,7 +61,7 @@ class JElementProjects extends JElement
 		
 		//Generate element
 		$html = '<input type="text" name="'.$fieldName.'" id="'.$name.'" readonly="readonly" value="'.$value.'" maxlength="65535" /> ';
-		$html .= '<input type="button" name="resetbtn" id="resetbtn" value="Reset" onclick="document.getElementById(\''.$name.'\').value=\'0\';" /><br />';
+		$html .= '<input type="button" name="resetbtn" id="resetbtn" value="Reset" onclick="document.getElementById(\''.$name.'\').value=\''.$value.'\';" /><br />';
 		$html .= JHTML::_('select.genericlist', $projectsOptions, 'projectslist', 'class="inputbox" size="5" onchange="changeValue();"', 'value', 'text');
 		
 		return $html;
