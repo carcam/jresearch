@@ -36,8 +36,21 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php 
 			}
 			
+			//Get values and financiers for project
 			$financiers = implode(', ', $project->getFinanciers());
 			$value = str_replace(array(",00",".00"), ",-", $project->finance_value); //Replace ,/.00 with ,-
+			
+			//Convert value to format 1.000.000,xx
+			$aFloat = substr($value, strpos($value, ","));
+			$cValue = array_reverse(str_split(strrev(substr($value, 0, strpos($value, ","))), 3));
+			
+			$convertedArray = array();
+			foreach($cValue as $val)
+			{
+				$convertedArray[] = strrev($val);
+			}
+			
+			$value = implode(".",$convertedArray).$aFloat;
 			?>
 			<div><strong><?=JText::_('JRESEARCH_PROJECT_FUNDING').': '?></strong><span><?=$financiers?></span>, <strong><?=$project->finance_currency." ".$value?></strong></div>
 			<?php
