@@ -6,5 +6,9 @@
 	<state>
 		<name>Cooperations list</name>
 		<description>Shows the list of published cooperations.</description>
+		
+		<params>
+			<param name="intro_text" type="textarea" label="Intro Text" description="Intro text for cooperations" cols="30" rows="5" />
+		</params>
 	</state>
 </metadata>

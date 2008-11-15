@@ -6,10 +6,21 @@
 */
 
 defined("_JEXEC") or die("Restricted access");
+
+$intro_text = $this->params->get('intro_text');
 ?>
 <div class="componentheading">
 	<?=JText::_('Cooperations');?>
 </div>
+<?php
+if($intro_text != "")
+{
+?>
+	<div><?=$intro_text?></div>
+	<div>&nbsp;</div>
+<?php
+}
+?>
 <ul style="padding-left:0px;">
 	<?php
 	foreach($this->items as $coop)
@@ -24,7 +35,7 @@ defined("_JEXEC") or die("Restricted access");
 			<?php 
 			}
 			?>
-			<div>
+			<div style="width: 85%; margin-left: auto; margin-right: auto;">
 				<?php
 				$contentArray = explode('<hr id="system-readmore" />', $coop->description);
 				$itemId = JRequest::getVar('Itemid');
@@ -56,6 +67,8 @@ defined("_JEXEC") or die("Restricted access");
 				}
 				?>
 			</div>
+			<div style="clear: both;">&nbsp;</div>
+			<hr style="clear: both;" />
 		</li>
 	<?php
 	}

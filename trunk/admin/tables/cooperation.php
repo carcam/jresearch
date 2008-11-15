@@ -35,8 +35,10 @@ class JResearchCooperation extends JTable
     
     function check()
     {
-    	$url_pattern = "!^((ht|f)tp(s?)\:\/\/|~/|/)?([\w]+:\w+@)?([a-zA-Z]{1}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?((/?\w+/)+|/?)(\w+\.[\w]{3,4})?((\?\w+=\w+)?(&\w+=\w+)*)?$!";
-        
+    	//@todo Find correct URL Pattern
+    	//$url_pattern = "!^((ht|f)tp(s?)\:\/\/|~/|/)?([\w]+:\w+@)?([a-zA-Z]{1}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?((/?\w+/)+|/?)(\w+\.[\w]{3,4})?((\?\w+=\w+)?(&\w+=\w+)*)?$!";
+    	
+    	/*
         if(!empty($this->url))
         {
         	if(!preg_match($url_pattern, $this->url))
@@ -50,6 +52,7 @@ class JResearchCooperation extends JTable
         	$this->setError(JText::_('Please provide a valid URL'));
         	return false;
         }
+		*/
         	
         return true;
     }
