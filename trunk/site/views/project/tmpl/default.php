@@ -53,8 +53,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	
 	<?php
 	//Get values and financiers for project
-	$financiers = implode(', ', $project->getFinanciers());
-	$value = str_replace(array(",00",".00"), ",-", $project->finance_value); //Replace ,/.00 with ,-
+	$financiers = $this->project->getFinanciers();
+	$value = str_replace(array(",00",".00"), ",-", $this->project->finance_value); //Replace ,/.00 with ,-
 	
 	//Convert value to format 1.000.000,xx
 	$aFloat = substr($value, strpos($value, ","));
@@ -71,14 +71,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td style="width:15%;" class="publicationlabel"><?=JText::_('JRESEARCH_PROJECT_FUNDING').': '?></td>
 		<td colspan="2">
-			<ul>
 			<?php
-			foreach($financiers as $financier)
+			if(count($financiers) > 0)
 			{
-				echo "<li>".$financier."</li>";
+				echo "<ul>";
+				foreach($financiers as $financier)
+				{
+					echo "<li>".$financier."</li>";
+				}
+				echo "</ul>";
 			}
 			?>
-			</ul>
 		</td>
 		<td><?=$this->project->finance_currency." ".$value?></td>
 	</tr>
