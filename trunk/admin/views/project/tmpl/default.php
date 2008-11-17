@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>		
 		<td><?php echo $this->areasList; ?></td>
-		<td><?php echo JText::_('JRESEARCH_STATUS').' :' ?></td>
+		<td><?php echo JText::_('JRESEARCH_PROJECT_STATUS').' :' ?></td>
 		<td><?php echo $this->status; ?></td>
 	</tr>
 	<tr>
