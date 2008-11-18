@@ -135,7 +135,8 @@ function addSearchResults(response, responseXML){
 			
 		var aTitle = document.createElement('a');
 		title2 = title.replace(/\'/, "\\'");
-		aTitle.setAttribute('href', "javascript:addRecordToCiteList('"+title2+"','"+citekey+"')");	
+		citekey2 = citekey.replace(/\'/, "\\'");
+		aTitle.setAttribute('href', "javascript:addRecordToCiteList('"+title2+"','"+citekey2+"')");	
 		aTitle.appendChild(document.createTextNode(title));
 		
 		var authorsElement = publications[i].getElementsByTagName('authors');

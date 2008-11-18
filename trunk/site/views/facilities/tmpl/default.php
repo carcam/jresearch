@@ -8,6 +8,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></div>
+<div>&nbsp;</div>
 <ul style="padding-left:0px;">
 	<?php foreach($this->items as $fac): ?>
 		<?php $researchArea = $this->areaModel->getItem($fac->id_research_area); ?>

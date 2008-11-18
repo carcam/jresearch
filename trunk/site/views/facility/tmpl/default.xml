@@ -4,7 +4,7 @@
 		<message>JRESEARCH_FACILITY_DESCRIPTION_VIEW_MESSAGE</message>
 	</layout>
 	<state>
-		<name>Facility page</name>
+		<name>JRESEARCH_FACILITY_PAGE</name>
 		<description>JRESEARCH_FACILITY_DESCRIPTION_VIEW_MESSAGE</description>
 		<url>
 			<param type="sql" name="id" label="JRESEARCH_FACILITY" 
