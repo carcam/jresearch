@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
 <install type="component" version="1.5.0">
-	<name>Jresearch</name>
+	<name>JResearch</name>
 	<creationDate>June 2008</creationDate>
 	<author>Luis Gal&#225;rraga</author>
 	<authorEmail>shamantobi@gmail.com</authorEmail>
 	<authorUrl>http://joomla-research.com</authorUrl>
 	<copyright>Copyright (C) 2008 Luis Gal&#225;rraga</copyright>
 	<license>GPL</license>
-	<version>1.0 Stable</version>
-	<description>Component for the management of research-related work in research departments.</description>
+	<version>1.1 Stable</version>
+	<description><![CDATA[
+	<div align="center"><img src="components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" /></div>
+	<div align="center"><h2>Successfully installed J!Research&nbsp;</h2></div>
+	J!Research is a component for Joomla!™ 1.5 which allows for management of 
+	research-related work such as; publications, projects, and theses categorized 
+	by research area. 
+	The extension is oriented to University researchers and research departments 
+	which utilize or plan to adopt Joomla! as their content management system 
+	for publishing research.
+	]]></description>
 	<installfile>install.php</installfile>
 	<uninstallfile>uninstall.php</uninstallfile>
 	<install>
@@ -57,6 +66,7 @@
 			<menu controller="researchAreas">JRESEARCH_RESEARCH_AREAS</menu>
 			<menu controller="staff">JRESEARCH_STAFF</menu>
 			<menu controller="theses">JRESEARCH_THESES</menu>
+			<menu controller="financiers">JRESEARCH_FINANCIERS</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>index.html</filename>
