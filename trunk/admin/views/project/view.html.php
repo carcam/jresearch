@@ -74,6 +74,7 @@ class JResearchAdminViewProject extends JView
     	
     	if($cid){
         	$project = $model->getItem($cid[0]);
+        	$projectFins = $project->getFinanciers();
         	$arguments[] = $project->id;
     	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $project->published);   	
     	  	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $project->id_research_area);
@@ -82,6 +83,7 @@ class JResearchAdminViewProject extends JView
     	  	$members = $project->getAuthors();
     	}else{
     		$arguments[] = null;
+    		$projectFins = array();
     	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);   		
     	 	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox"" size="5"', 'value', 'text', 1); 
     	 	$statusHTML = JHTML::_('select.genericlist', $statusOptions, 'status', 'class="inputbox" size="5"', 'value', 'text', 'not_started');
@@ -90,8 +92,6 @@ class JResearchAdminViewProject extends JView
 
 		$membersControl = JHTML::_('AuthorsSelector._', 'members', $members);	
 		
-		//Get financiers for project
-		$projectFins = $project->getFinanciers();
 		$fins = array();
 		foreach($projectFins as $fin)
 		{
