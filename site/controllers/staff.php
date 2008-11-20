@@ -42,6 +42,10 @@ class JResearchStaffController extends JController
 
 	function display(){
 		global $mainframe;
+		
+		//Layout
+		$layout = JRequest::getVar('layout','default');
+		
 		//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
     	$limit = $params->get('staff_entries_per_page');
@@ -56,6 +60,8 @@ class JResearchStaffController extends JController
 		$view =& $this->getView('Staff', 'html', 'JResearchView');
 		$view->setModel($model, true);
 		$view->setModel($areaModel);
+		$view->setLayout($layout);
+		
 		$view->display();
 	}
 
@@ -90,35 +96,7 @@ class JResearchStaffController extends JController
 		$view->setModel($model, true);
 		$view->setModel($areaModel);
 		$view->display();				
-	}
-	
-	/**
-	 * Invoked when selected the staffflow layout, it shows the flow of published staff members.
-	 *
-	 * @access public
-	 */
-	function displayflow()
-	{
-		global $mainframe;
-		
-		//Get and use configuration
-    	$params = $mainframe->getPageParameters('com_jresearch');
-    	$limit = $params->get('staff_entries_per_page');
-		JRequest::setVar('limit', $limit);
-		$limitstart = JRequest::getVar('limitstart', null);		
-		if($limitstart === null)
-			JRequest::setVar('limitstart', 0);
-			
-		
-		$model =& $this->getModel('Staff', 'JResearchModel');
-		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-		$view =& $this->getView('Staff', 'html', 'JResearchView');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
-		$view->setLayout('staffflow');
-		$view->display();
-	}
-	
+	}	
 	
 	/**
 	* Invoked when the user has decided to save a profile, by clicking buttons Save or 
