@@ -119,7 +119,7 @@ class JResearchModelStaff extends JResearchModelList{
 		if(!in_array($filter_order, $orders))
 			$filter_order = $db->nameQuote('ordering');	
 		
-		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
+		return ' ORDER BY former_member ASC, '.$filter_order.' '.$filter_order_Dir;
 	}	
 	
 		/**
@@ -209,6 +209,7 @@ class JResearchModelStaff extends JResearchModelList{
 		{
 			$row->load( $items[$i] );
 			
+			$groupings[] = $row->former_member;
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
@@ -220,7 +221,12 @@ class JResearchModelStaff extends JResearchModelList{
 			} // if
 		} // for
 
-		$row->reorder('published >=0');
+		// execute updateOrder
+		$groupings = array_unique($groupings);
+		foreach ($groupings as $group)
+		{
+			$row->reorder('former_member = '.(int) $group.' AND published >=0');
+		}
 
 		return true;
 	}

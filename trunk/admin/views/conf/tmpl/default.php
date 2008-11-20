@@ -96,7 +96,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</tr>
 					<tr>
 						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_AUTHOR').': '; ?></td>
-						<td>Luis Gal&aacute;rraga, (<a href="mailto:shamantobi@gmail.com">shamantobi@gmail.com</a>)</td>
+						<td>Luis Gal&aacute;rraga (<a href="mailto:shamantobi@gmail.com">shamantobi@gmail.com</a>) and Florian Prinz (<a href="mailto:prinz.florian@chello.at">prinz.florian@chello.at</a>)</td>
 					</tr>
 					<tr>
 						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_MENTOR').': '; ?></td>
