@@ -175,11 +175,11 @@ class JResearchAdminFacilitiesController extends JController
 
 			if(!in_array($fileArr['type'],$availableTypes))
 			{
-				JError::raiseWarning(1, JText::_('Image format not supported. Please provide images with extension jpg, gif, png'));
+				JError::raiseWarning(1, JText::_('JRESEARCH_IMAGE_FORMAT_NOT_SUPPORTED'));
 			}
 			elseif($width > _FACILITY_IMAGE_MAX_WIDTH_ || $height > _FACILITY_IMAGE_MAX_HEIGHT_)
 			{
-				JError::raiseWarning(1, JText::_('The image exceeds maximum size allowed ('._FACILITY_IMAGE_MAX_WIDTH_.'x'._FACILITY_IMAGE_MAX_HEIGHT_.')'));
+				JError::raiseWarning(1, JText::sprintf('JRESEARCH_EXCEEDS_SIZE',_FACILITY_IMAGE_MAX_WIDTH_,_FACILITY_IMAGE_MAX_HEIGHT_));
 			}
 			else
 			{
@@ -190,7 +190,7 @@ class JResearchAdminFacilitiesController extends JController
 				
 				if(!move_uploaded_file($uploadedFile, $newName))
 				{
-					JError::raiseWarning(1, JText::_('The photo could not be imported into JResearch space.'));
+					JError::raiseWarning(1, JText::_('JRESEARCH_PHOTO_NOT_UPLOADED'));
 				}
 				else
 				{
@@ -227,7 +227,7 @@ class JResearchAdminFacilitiesController extends JController
 			else
 			{
 				JError::raiseWarning(1, $fac->getError());
-				$this->setRedirect('index.php?option=com_jresearch&controller=facilities&task=edit&cid[]='.$fac->id, JText::_('The information could not be saved.'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=facilities&task=edit&cid[]='.$fac->id, JText::_('JRESEARCH_SAVE_FAILED'));
 			}
 		}
 		else
@@ -244,7 +244,7 @@ class JResearchAdminFacilitiesController extends JController
 		if(!$fac->isCheckedOut($user->get('id')))
 		{
 			if(!$fac->checkin())
-				JError::raiseWarning(1, JText::_('The record could not be unlocked.'));
+				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
 		}
 	}
 

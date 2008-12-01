@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?=JText::_('JRESEARCH_FACILITY_IMAGE').': '; ?>
 		</td>
 		<td>
-			<input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?=JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_FORMATS_SIZE', 1024, 768)); ?><br />
+			<input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?=JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 1024, 768)); ?><br />
 			<label for="delete" /><?=JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
 		</td>
 		<td colspan="2" rowspan="2">

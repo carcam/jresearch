@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td><?php echo JText::_('JRESEARCH_COOPERATION_URL').': '; ?></td>
 		<td>
 			<input name="url" id="url" size="50" maxlength="255" class="required" value="<?php echo $this->coop?$this->coop->url:''; ?>" />
-			<br /><label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_URL'); ?></label>			
+			<br /><label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>			
 		</td>
 	</tr>
 	<tr>
@@ -33,7 +33,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('Photo').': ' ?></td>
 		<td>
-			<input class="inputbox" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS')); ?><br />
+			<input class="inputbox" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', _COOPERATION_IMAGE_MAX_WIDTH_, _COOPERATION_IMAGE_MAX_HEIGHT_)); ?><br />
 			<label for="delete" /><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" />
 		</td>
 		<td>

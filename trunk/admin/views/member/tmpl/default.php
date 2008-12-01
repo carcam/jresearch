@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('Photo').': ' ?></td>
-		<td><input class="inputbox" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS')); ?></td>
+		<td><input class="inputbox" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 400, 400)); ?></td>
 		<td><img src="<?php echo $this->member->url_photo; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" /></td>
 		<td><label for="delete" /><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" /></td>
 	</tr>

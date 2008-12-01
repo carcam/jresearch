@@ -174,7 +174,7 @@ class JResearchAdminProjectsController extends JController
 			if($fileArray['type'] != 'image/gif' && $fileArray['type'] != 'image/png' && $fileArray['type']	!= 'image/jpg' && $fileArray['type'] != 'image/jpeg')
 				JError::raiseWarning(1, JText::_('JRESEARCH_IMAGE_FORMAT_NOT_SUPPORTED'));
 			elseif($width > 400 || $height > 400){
-				JError::raiseWarning(1, JText::_('JRESEARCH_EXCEEDS_SIZE'));
+				JError::raiseWarning(1, JText::_('JRESEARCH_EXCEEDS_SIZE', 400, 400));
 			}else{
 				// Get extension 
 				$extArray = explode('/', $fileArray['type']);				

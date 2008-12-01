@@ -63,7 +63,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
 		</td>
 		<td><?php echo JText::_('JRESEARCH_PROJECT_IMAGE').': '; ?></td>
-		<td><input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS')); ?>
+		<td><input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 400, 400)); ?>
 		<br /><label for="delete" /><?php echo JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" /></td>		
 	</tr>
 	<tr>
