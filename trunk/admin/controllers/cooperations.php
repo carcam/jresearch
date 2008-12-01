@@ -82,15 +82,11 @@ class JResearchAdminCooperationsController extends JController
 			else
 			{
 				$coop->checkout($user->get("id"));
-				$view->setModel($model,true);
-				$view->display();
 			}
 		}
-		else
-		{
-			$view->setModel($model,true);
-			$view->display();
-		}
+		
+		$view->setModel($model,true);
+		$view->display();
 	}
 
 	function publish()
