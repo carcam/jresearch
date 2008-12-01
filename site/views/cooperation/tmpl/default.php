@@ -5,24 +5,24 @@
 * Default view for showing a single cooperation
 */
 
-$contentArr = explode('<hr id="system-readmore" />', $this->item->description);
+$contentArr = explode('<hr id="system-readmore" />', $this->coop->description);
 ?>
 <div class="componentheading">
 	<?=JText::_('Cooperations');?>
 	-
-	<?=$this->item->name;?>
+	<?=$this->coop->name;?>
 </div>
 <?php 
-if($this->item->image_url != "")
+if($this->coop->image_url != "")
 {
 ?>
-	<img src="<?=$this->item->image_url;?>" title="Cooperation image of <?=$this->item->name?>" alt="Cooperation image of <?=$this->item->name?>" />
+	<img src="<?=$this->coop->image_url;?>" title="Cooperation image of <?=$this->coop->name?>" alt="Cooperation image of <?=$this->coop->name?>" />
 <?php
 }
 ?>
 <div class="content">
 	<div>
-		<strong>URL:</strong> <?=$this->item->url;?>
+		<strong>URL:</strong> <?=$this->coop->url;?>
 	</div>
 	<div>
 		<?=$contentArr[0];?>
