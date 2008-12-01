@@ -9,8 +9,8 @@
 * of cooperations in the backend interface.
 */
 
-define('_PROJECT_IMAGE_MAX_WIDTH_', 400);
-define('_PROJECT_IMAGE_MAX_HEIGHT_', 400);
+define('_COOPERATION_IMAGE_MAX_WIDTH_', 400);
+define('_COOPERATION_IMAGE_MAX_HEIGHT_', 400);
 
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
@@ -170,11 +170,11 @@ class JResearchAdminCooperationsController extends JController
 
 			if(!in_array($fileArr['type'],$availableTypes))
 			{
-				JError::raiseWarning(1, JText::_('Image format not supported. Please provide images with extension jpg, gif, png'));
+				JError::raiseWarning(1, JText::_('JRESEARCH_IMAGE_FORMAT_NOT_SUPPORTED'));
 			}
-			elseif($width > _PROJECT_IMAGE_MAX_WIDTH_ || $height > _PROJECT_IMAGE_MAX_HEIGHT_)
+			elseif($width > _COOPERATION_IMAGE_MAX_WIDTH_ || $height > _COOPERATION_IMAGE_MAX_HEIGHT_)
 			{
-				JError::raiseWarning(1, JText::_('The image exceeds maximum size allowed (400x400)'));
+				JError::raiseWarning(1, JText::sprintf('JRESEARCH_EXCEEDS_SIZE', _COOPERATION_IMAGE_MAX_WIDTH_, _COOPERATION_IMAGE_MAX_HEIGHT_));
 			}
 			else
 			{
@@ -185,7 +185,7 @@ class JResearchAdminCooperationsController extends JController
 
 				if(!move_uploaded_file($uploadedFile, $newName))
 				{
-					JError::raiseWarning(1, JText::_('The photo could not be imported into JResearch space.'));
+					JError::raiseWarning(1, JText::_('JRESEARCH_PHOTO_NOT_UPLOADED'));
 				}
 				else
 				{
@@ -222,7 +222,7 @@ class JResearchAdminCooperationsController extends JController
 			else
 			{
 				JError::raiseWarning(1, $coop->getError());
-				$this->setRedirect('index.php?option=com_jresearch&controller=cooperations&task=edit&cid[]='.$coop->id, JText::_('The information could not be saved.'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=cooperations&task=edit&cid[]='.$coop->id, JText::_('JRESEARCH_SAVE_FAILED'));
 			}
 		}
 		else
@@ -239,7 +239,7 @@ class JResearchAdminCooperationsController extends JController
 		if(!$coop->isCheckedOut($user->get('id')))
 		{
 			if(!$coop->checkin())
-				JError::raiseWarning(1, JText::_('The record could not be unlocked.'));
+				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
 		}
 	}
 

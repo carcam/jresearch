@@ -174,7 +174,7 @@ class JResearchAdminFinanciersController extends JController
 		if(!$fin->isCheckedOut($user->get('id')))
 		{
 			if(!$fin->checkin())
-				JError::raiseWarning(1, JText::_('The record could not be unlocked.'));
+				JError::raiseWarning(1, JText::_(JRESEARCH_UNLOCK_FAILED));
 		}
 	}
 
