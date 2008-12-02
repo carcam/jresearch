@@ -412,7 +412,9 @@ class JResearchPublication extends JResearchActivity{
 		}
 		
 		if(!empty($this->keywords)){
-			if(!preg_match('/^\w+(,\w+)*$/', $this->keywords)){
+			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
+			$extra = extra_word_characters();
+			if(!preg_match("/^[\w$extra\s\d]+(,[\w$extra\s\d]+)*$/", $this->keywords)){
 				$this->setError(JText::_('Error in the keywords field. They must be provided as several words separated by commas'));
 				return false;
 			}
