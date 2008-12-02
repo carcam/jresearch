@@ -9,9 +9,7 @@
 		<url>
 			<param type="sql" name="id" label="JRESEARCH_FACILITY" 
 			description="JRESEARCH_ITEM_DISPLAYED" query="SELECT id as value, name as id FROM #__jresearch_facilities WHERE published = 1" />	
-			<param type="radio" name="task" label="Task" default="show">
-				<option value="show">JRESEARCH_FACILITY_DESCRIPTION_VIEW_MESSAGE</option>
-			</param>
+			<param type="hidden" name="task" default="show" />
 		</url>
 		
 	</state>

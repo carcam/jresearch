@@ -9,9 +9,7 @@
 		<url>
 			<param type="sql" name="id" label="JRESEARCH_MEMBER" 
 			description="JRESEARCH_MEMBER_PROFILE_DISPLAYED" query="SELECT id as value, CONCAT_WS(' ', firstname, lastname) as id FROM #__jresearch_member WHERE published = 1" />	
-			<param type="radio" name="task" label="Task" default="show">
-				<option value="show">JRESEARCH_MEMBER_PROFILE_VIEW_INFORMATION</option>
-			</param>
+			<param type="hidden" name="task" default="show" />
 		</url>
 		
 	</state>

@@ -7,9 +7,7 @@
 		<name>JRESEARCH_EDIT_MEMBER_PROFILE</name>
 		<description>JRESEARCH_EDIT_PROFILE_VIEW_MESSAGE</description>
 		<url>	
-			<param type="radio" name="task" label="Task" default="edit">
-				<option value="edit">JRESEARCH_EDIT_MEMBER_PROFILE</option>
-			</param>
+			<param type="hidden" name="task" default="edit" />
 		</url>
 		
 	</state>
