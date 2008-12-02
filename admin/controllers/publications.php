@@ -51,7 +51,13 @@ class JResearchAdminPublicationsController extends JController
 	 */
 
 	function display(){
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$view = &$this->getView('PublicationsList', 'html', 'JResearchAdminView');
+		$pubModel = &$this->getModel('PublicationsList', 'JResearchModel');	
+		$model = &$this->getModel('ResearchAreasList', 'JResearchModel');
+		
+		$view->setModel($pubModel, true);
+		$view->setModel($model);
 		$view->display();
 	}
 
