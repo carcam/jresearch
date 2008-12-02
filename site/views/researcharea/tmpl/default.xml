@@ -9,9 +9,7 @@
 		<url>
 			<param type="sql" name="id" label="JRESEARCH_RESEARCH_AREA" 
 			       description="JRESEARCH_RESEARCH_AREA_DISPLAYED" query="SELECT id as value, name as id FROM #__jresearch_research_area" />	
-			<param type="radio" name="task" label="Task" default="show">
-				<option value="show">JRESEARCH_AREA_VIEW_INFORMATION</option>
-			</param>
+			<param type="hidden" name="task" default="show" />
 		</url>		
 	</state>
 </metadata>

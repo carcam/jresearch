@@ -7,10 +7,8 @@
 		<name>JRESEARCH_EDIT_COOPERATION</name>
 		<description>JRESEARCH_EDIT_COOPERATION_VIEW_DESCRIPTION</description>
 		<url>
-			<param type="sql" name="id" label="JRESEARCH_EDIT_COOPERATION" description="JRESEARCH_EDIT_COOPERATION_DISPLAYED" query="SELECT id as value, name as id FROM #__jresearch_cooperations WHERE published = 1" />	
-			<param type="radio" name="task" label="Task" default="edit">
-				<option value="edit">JRESEARCH_EDIT_COOPERATION_VIEW_INFORMATION</option>
-			</param>
+			<param type="sql" name="id" label="JRESEARCH_EDIT_COOPERATION" description="JRESEARCH_EDIT_COOPERATION_DISPLAYED" query="SELECT id as value, name as id FROM #__jresearch_cooperations WHERE published = 1" />
+			<param type="hidden" name="task" default="edit" />	
 		</url>
 	</state>
 </metadata>

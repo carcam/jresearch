@@ -8,9 +8,7 @@
 		<description>JRESEARCH_COOPERATION_VIEW_DESCRIPTION</description>
 		<url>
 			<param type="sql" name="id" label="JRESEARCH_COOPERATION" description="JRESEARCH_COOPERATION_DISPLAYED" query="SELECT id as value, name as id FROM #__jresearch_cooperations WHERE published = 1" />	
-			<param type="radio" name="task" label="Task" default="show">
-				<option value="show">JRESEARCH_COOPERATION_VIEW_INFORMATION</option>
-			</param>
+			<param type="hidden" name="task" default="show" />
 		</url>
 	</state>
 </metadata>
