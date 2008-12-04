@@ -393,19 +393,19 @@ class JResearchPublication extends JResearchActivity{
 		
 			
 		if(empty($this->citekey)){
-			$this->setError(JText::_('Must provide a citekey for the publication'));
+			$this->setError(JText::_('JRESEARCH_PROVIDE_CITEKEY'));
 			return false;
 		}	
 		
 		// Verify if title is not empty
 		if(empty($this->title)){
-			$this->setError(JText::_('Must provide a title for the publication'));
+			$this->setError(JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'));
 			return false;
 		}
 		// Verify year
 		if(!empty($this->year)){
 			if(!preg_match('/^\d{4}$/',$this->year)){
-				$this->setError(JText::_('Provide a valid number for year of publication')); 
+				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); 
 				return false;
 			}
 					
@@ -414,7 +414,7 @@ class JResearchPublication extends JResearchActivity{
 		if(!empty($this->keywords)){
 			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
 			$extra = extra_word_characters();
-			if(!preg_match("/^[\w$extra\s\d]+(,[\w$extra\s\d]+)*$/", $this->keywords)){
+			if(!preg_match("/^[-_'\w$extra\s\d]+(,[-_'\w$extra\s\d]+)*,*$/", $this->keywords)){
 				$this->setError(JText::_('Error in the keywords field. They must be provided as several words separated by commas'));
 				return false;
 			}
