@@ -41,7 +41,6 @@ class JResearchViewCooperation extends JView
 	
 	private function _editCooperation(&$coop)
 	{
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
 		JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 		JHTML::_('Validator._');
 		
