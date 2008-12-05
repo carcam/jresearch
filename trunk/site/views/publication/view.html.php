@@ -28,6 +28,9 @@ class JResearchViewPublication extends JView
         	case 'default':
         		$this->_displayPublication();
         		break;
+        	case 'edit':
+        		$this->_editPublication();
+        		break;
         }
 	
         parent::display($tpl);
@@ -127,6 +130,55 @@ class JResearchViewPublication extends JView
     	$this->assignRef('captcha', $captchaInformation);
 
 
+    }
+    
+    private function _editPublication()
+    {
+    	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+		JHTML::_('Validator._');		
+		
+		$cid = JRequest::getInt('id', 0);
+		
+		$this->assignRef('id', $cid);
+		
+		if($cid > 0)
+		{
+	    	$model = $this->getModel('researchareaslist');
+			$authors = null;
+	
+	    	// Retrieve the list of research areas   	
+	    	$researchAreas = $model->getData(null, true, false);
+	
+	    	$researchAreasOptions = array();
+	    	foreach($researchAreas as $r){
+	    		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
+	    	}
+	    	
+	    	//Published options
+	    	$publishedOptions = array();
+	    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
+	    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
+			
+			$publication = JResearchPublication::getById($cid);
+			$pubtype = $publication->pubtype;
+			$this->assignRef('publication', $publication);			
+		    $researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" id="researchAreas" size="5"', 'value', 'text', $publication->id_research_area);
+			
+		    //Published radio
+			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $publication->published);
+			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', $publication->internal  );
+			$authors = $publication->getAuthors();
+			
+			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' ,$authors);
+
+
+			$this->assignRef('areasList', $researchAreasHTML);
+			$this->assignRef('publishedRadio', $publishedRadio);
+			$this->assignRef('internalRadio', $internalRadio );
+			$this->assignRef('pubtype', $pubtype);
+			$this->assignRef('authors', $authorsControl);
+		}
     }
 }
 
