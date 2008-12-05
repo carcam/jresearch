@@ -55,9 +55,11 @@ class JResearchAdminPublicationsController extends JController
 		$view = &$this->getView('PublicationsList', 'html', 'JResearchAdminView');
 		$pubModel = &$this->getModel('PublicationsList', 'JResearchModel');	
 		$model = &$this->getModel('ResearchAreasList', 'JResearchModel');
+		$raModel = &$this->getModel('ResearchArea', 'JResearchModel');
 		
 		$view->setModel($pubModel, true);
 		$view->setModel($model);
+		$view->setModel($raModel);
 		$view->display();
 	}
 

@@ -100,11 +100,33 @@ class JResearchPublicationsController extends JController
 	* that belongs to him/her.
 	* @access public
 	*/
-	function edit(){
+	function edit()
+	{	
+		$cid = JRequest::getVar('id');
 		
-		JRequest::setVar('view', 'publications');
-		JRequest::serVar('layout', 'edit');
-		parent::display();
+		$view = &$this->getView('Publication', 'html', 'JResearchView');
+		$pubModel = &$this->getModel('Publication', 'JResearchModel');	
+		$model = &$this->getModel('ResearchAreasList', 'JResearchModel');
+		
+		if($cid)
+		{
+			$publication = $pubModel->getItem($cid);
+			$user =& JFactory::getUser();
+			
+			// Verify if it is checked out
+			if($publication->isCheckedOut($user->get('id')))
+			{
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+			}
+			else
+			{
+				$publication->checkout($user->get('id'));	
+			}				
+		}
+		
+		$view->setLayout('edit');
+		$view->setModel($model);
+		$view->display();
 	}
 
 	/**
