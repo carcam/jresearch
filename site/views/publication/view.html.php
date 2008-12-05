@@ -141,6 +141,27 @@ class JResearchViewPublication extends JView
 		$cid = JRequest::getInt('id', 0);
 		
 		$this->assignRef('id', $cid);
+		$doc = JFactory::getDocument();
+		$doc->addScriptDeclaration('
+		function msubmitform(pressbutton){
+			if (pressbutton) {
+				document.adminForm.task.value=pressbutton;
+			}
+			if (typeof document.adminForm.onsubmit == "function") {
+				if(!document.adminForm.onsubmit())
+				{
+					return;
+				}
+				else
+				{
+					document.adminForm.submit();
+				}
+    		}
+    		else
+    		{
+    			document.adminForm.submit();
+    		}
+    	}');
 		
 		if($cid > 0)
 		{

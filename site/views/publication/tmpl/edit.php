@@ -6,7 +6,7 @@ if($this->id > 0)
 {
 ?>
 	<div style="float: right;">
-		<button type="button" onclick="javascript:msubmitform('save');">Save</button>
+		<button type="button" onclick="javascript:msubmitform('apply');">Apply</button>
 		<button type="button" onclick="javascript:msubmitform('cancel')">Cancel</button>
 	</div>
 	<div style="clear: both;">&nbsp;</div>
