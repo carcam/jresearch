@@ -88,13 +88,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $number = trim($this->publication->number);  ?>
 	<?php if(!empty($number)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('Number').': ' ?></td>		
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_NUMBER').': ' ?></td>		
 	<td style="width:35%;"><?php echo $number; ?></td>
 	<?php endif; ?>
 	<?php $edition = trim($this->publication->edition); ?>
 	<?php if(!empty($edition)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('Edition').': ' ?></td>
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_EDITION').': ' ?></td>
 	<td style="width:35%;"><?php echo $edition; ?></td>
 	<?php else: ?>
 	<?php if($colspan > 0): ?>
@@ -107,7 +107,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $month = trim($this->publication->month);  ?>
 	<?php if(!empty($month)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('Month').': ' ?></td>		
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></td>		
 	<td style="width:35%;"><?php echo $month; ?></td>
 	<?php endif; ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	

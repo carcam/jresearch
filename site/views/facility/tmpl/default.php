@@ -17,7 +17,7 @@ if($this->fac->image_url)
 ?>
 	<div style="text-align: center;">
 		<a href="<?=$this->fac->image_url?>" class="modal" rel="{handler: 'image'}">
-			<img src="<?=$this->fac->image_url?>" alt="Image from <?=$this->fac->name?>" title="Image from <?=$this->fac->name?>" style="width: 500px;" />
+			<img src="<?=$this->fac->image_url?>" alt="<?=JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" title="<?=JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" style="width: 500px;" />
 		</a>
 	</div>
 <?php 

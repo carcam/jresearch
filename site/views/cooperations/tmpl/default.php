@@ -31,7 +31,7 @@ if($intro_text != "")
 			if($coop->image_url != "")
 			{
 			?>
-				<img src="<?=$coop->image_url;?>" title="Cooperation image of <?=$coop->name?>" alt="Cooperation image of <?=$coop->name?>" style="float: left; margin-right: 10px;" />
+				<img src="<?=$coop->image_url;?>" title="<?=JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name)?>" alt="<?=JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name)?>" style="float: left; margin-right: 10px;" />
 			<?php 
 			}
 			?>
