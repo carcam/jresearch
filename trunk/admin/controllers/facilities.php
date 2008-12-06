@@ -29,6 +29,9 @@ class JResearchAdminFacilitiesController extends JController
 	{
 		parent::__construct();
 
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.facilities');
+		
 		$this->registerDefaultTask('display');
 		$this->registerTask('add', 'edit');
 		$this->registerTask('edit', 'edit');

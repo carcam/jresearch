@@ -25,6 +25,10 @@ class JResearchAdminResearchAreasController extends JController
  	 */
 	function __construct(){
 		parent::__construct();
+		
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.researchareas');
+		
 		$this->registerTask('add', 'edit');
 		$this->registerTask('publish', 'publish');
 		$this->registerTask('unpublish', 'unpublish');

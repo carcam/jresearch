@@ -24,6 +24,7 @@ class JResearchModelStaff extends JResearchModelList{
 	 * Private field for checking if we need all members,
 	 * only former members or all members except former members
 	 * @var int 0=all,1=only former, -1=all except former
+	 * @todo NOT NEEDED IF WE MAKE A FORMER_MEMBER FILTERING VARIABLE!
 	*/
 	private $_former = 0;
 	
