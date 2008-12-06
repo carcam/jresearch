@@ -31,6 +31,9 @@ class JResearchAdminCooperationsController extends JController
 	{
 		parent::__construct();
 
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.cooperations');
+		
 		$this->registerDefaultTask('display');
 		$this->registerTask('add', 'edit');
 		$this->registerTask('edit', 'edit');

@@ -19,6 +19,9 @@ class JResearchAdminFinanciersController extends JController
 	{
 		parent::__construct ($config);
 		
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.financiers');
+		
 		$this->registerDefaultTask('display');
 		$this->registerTask('add', 'edit');
 		$this->registerTask('edit', 'edit');

@@ -26,6 +26,10 @@ class JResearchAdminThesesController extends JController
  	 */
 	function __construct(){
 		parent::__construct();
+		
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.theses');
+		
 		// Tasks for edition of theses when the user is authenticated
 		$this->registerTask('add', 'edit');
 		$this->registerTask('edit', 'edit');

@@ -24,6 +24,10 @@ class JResearchAdminStaffController extends JController
  	 */
 	function __construct(){
 		parent::__construct();
+		
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.staff');
+		
 		// Task for edition of profile
 		$this->registerTask('add', 'add');
 		$this->registerTask('import', 'import');
