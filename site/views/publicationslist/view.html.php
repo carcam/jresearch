@@ -19,8 +19,6 @@ jimport( 'joomla.application.component.view');
  *
  */
 
-
-
 class JResearchViewPublicationsList extends JView
 {
     public function display($tpl = null)
@@ -54,6 +52,14 @@ class JResearchViewPublicationsList extends JView
     private function _displayFrontendList(){
     	global $mainframe;
     	
+    	$params = $mainframe->getParams('com_jresearch');
+    	$filter_pubtype = $params->get('filter_pubtype','0');
+    	
+    	if($filter_pubtype != '')
+    	{
+    		JRequest::setVar('filter_pubtype', $filter_pubtype);
+    	}
+    	
     	$document =& JFactory::getDocument();    	
     	$document->setTitle('Publications');
     	$feed = 'index.php?option=com_jresearch&view=publicationslist&format=feed';
@@ -67,7 +73,6 @@ class JResearchViewPublicationsList extends JView
     	$publications = $model->getData(null, true, true);
 
     	// Get the current citation style
-    	$params = $mainframe->getPageParameters('com_jresearch');
     	$citationStyle = $params->get('citationStyle', 'APA');
     	$style =& JResearchCitationStyleFactory::getInstance($citationStyle);
     	

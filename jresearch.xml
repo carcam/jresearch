@@ -83,9 +83,22 @@
 			<folder>tables</folder>
 			<folder>views</folder>
 		</files>		
-		<languages folder="admin">
+		<languages folder="languages/admin">
 			<language tag="en-GB">en-GB.com_jresearch.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.menu.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.citation.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.config.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.cooperations.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.facilities.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.financiers.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.projects.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.publications.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.researchareas.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.views.ini</language>
+		</languages>
+		<languages folder="admin">
 			<language tag="es-ES">es-ES.com_jresearch.ini</language>	
 			<language tag="es-ES">es-ES.com_jresearch.menu.ini</language>		
 		</languages>
