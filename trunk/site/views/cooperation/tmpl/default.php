@@ -8,7 +8,7 @@
 $contentArr = explode('<hr id="system-readmore" />', $this->coop->description);
 ?>
 <div class="componentheading">
-	<?=JText::_('Cooperations');?>
+	<?=JText::_('JRESEARCH_COOPERATIONS');?>
 	-
 	<?=$this->coop->name;?>
 </div>
@@ -16,13 +16,13 @@ $contentArr = explode('<hr id="system-readmore" />', $this->coop->description);
 if($this->coop->image_url != "")
 {
 ?>
-	<img src="<?=$this->coop->image_url;?>" title="Cooperation image of <?=$this->coop->name?>" alt="Cooperation image of <?=$this->coop->name?>" />
+	<img src="<?=$this->coop->image_url;?>" title="<?=JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $this->coop->name)?>" alt="<?=JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $this->coop->name)?>" />
 <?php
 }
 ?>
 <div class="content">
 	<div>
-		<strong>URL:</strong> <?=$this->coop->url;?>
+		<strong><?=JText::_('JRESEARCH_COOPERATION_URL');?></strong> <?=$this->coop->url;?>
 	</div>
 	<div>
 		<?=$contentArr[0];?>
