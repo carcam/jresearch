@@ -36,6 +36,7 @@
 			<option value="MLA">MLA</option>
 			<option value="CSE">CSE</option>
 			<option value="Chicago">Chicago (Author-Date system)</option>
+			<option value="Vancouver">Vancouver</option>
 		</param>
 	
 		<param type="spacer" />

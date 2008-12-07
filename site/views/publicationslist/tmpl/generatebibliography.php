@@ -25,9 +25,9 @@ function startSelectedRecordRemoval(){
 }
 	
 function removeSelectedRecord(response){
-	if(response.text == 'success'){
+	if(response == 'success'){
 		alert("<?php echo JText::_('CITED_RECORD_REMOVAL_SUCCESSFUL', true) ?>");
-	}else if(response.text == 'not found'){
+	}else if(response == 'not found'){
 		alert("<?php echo JText::_('CITED_RECORD_NOT_FOUND', true) ?>");
 	}
 	// Remove the record from the list

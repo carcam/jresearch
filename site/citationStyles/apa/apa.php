@@ -151,9 +151,10 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks = false){
 		$this->lastAuthorSeparator = '&';
 				
-		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
-		$title = $html?"<i>$publication->title</i>":$publication->title;
-		$title = trim($title);
+		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));		
+		$title = trim($publication->title);
+		$title = $html?"<i>$title</i>":$title;
+
 		
 		$year = $publication->year;
 		if($year != null && $year != '0000')
