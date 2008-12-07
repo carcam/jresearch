@@ -24,6 +24,11 @@ class JResearchFacilitiesController extends JController
 	function __construct()
 	{
 		parent::__construct();
+		
+		//Load additionally language files
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.facilities');
+		
 		$this->registerTask('show', 'show');
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'facilities');

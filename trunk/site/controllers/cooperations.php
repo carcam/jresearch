@@ -24,6 +24,10 @@ class JResearchCooperationsController extends JController
 	{
 		parent::__construct();
 		
+		//Load additionally language files
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.cooperations');
+		
 		// Task for edition of profile
 		$this->registerTask('show', 'show');
 		$this->registerTask('edit', 'edit');

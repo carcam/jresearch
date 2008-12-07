@@ -22,6 +22,11 @@ class JResearchStaffController extends JController
  	 */
 	function __construct(){
 		parent::__construct();
+		
+		//Load additionally language files
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.staff');
+		
 		// Task for edition of profile
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('show', 'show');
@@ -31,7 +36,6 @@ class JResearchStaffController extends JController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
-
 	}
 
 	/**
