@@ -34,10 +34,12 @@ class JResearchAPABookCitationStyle extends JResearchAPACitationStyle{
 	function getCitationHTMLText($publication){
 		if($publication instanceof JResearchPublication){
 			if($publication->countAuthors() == 0){
-				if($publication->year != '0000' && $publication->year != null)
-					return "<i>$publication->title</i> ($publication->year)";
+				$year = trim($publication->year);
+				$title = trim($publication->title);
+				if($year != '0000' && $year != null)
+					return "<i>$title</i> ($year)";
 				else
-					return "<i>$publication->title</i>";
+					return "<i>$title</i>";
 			}
 		}
 		
@@ -58,10 +60,12 @@ class JResearchAPABookCitationStyle extends JResearchAPACitationStyle{
 	function getParentheticalCitationText($publication){
 		if($publication instanceof JResearchPublication){
 			if($publication->countAuthors() == 0){
-				if($publication->year != '0000' && $publication->year != null)
-					return "$publication->title ($publication->year)";
+				$year = trim($publication->year);
+				$title = trim($publication->title);				
+				if($year != '0000' && $year != null)
+					return "$title ($year)";
 				else
-					return $publication->title;
+					return $title;
 				
 			}
 		}
@@ -80,10 +84,12 @@ class JResearchAPABookCitationStyle extends JResearchAPACitationStyle{
 	function getParentheticalCitationHTMLText($publication){
 		if($publication instanceof JResearchPublication){
 			if($publication->countAuthors() == 0){
-				if($publication->year != '0000' && $publication->year != null)
-					return "<i>$publication->title</i> ($publication->year)";
+				$year = trim($publication->year);
+				$title = trim($publication->title);				
+				if($year != '0000' && $year != null)
+					return "<i>$title</i> ($year)";
 				else
-					return "<i>$publication->title</i>";
+					return "<i>$title</i>";
 			}
 		}
 		$citation = parent::getParentheticalCitationText($publication);		
@@ -104,8 +110,9 @@ class JResearchAPABookCitationStyle extends JResearchAPACitationStyle{
 		$this->lastAuthorSeparator = '&';
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
+		$text = '';
 		
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_EDITORS'):JText::_('JRESEARCH_EDITOR');
 
 		if($nAuthors <= 0){
 
@@ -123,33 +130,37 @@ class JResearchAPABookCitationStyle extends JResearchAPACitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$ed = JText::_('ed.');
+		$ed = JText::_('JRESEARCH_ED');
+		
+		$usedTitle = false;
+		$title = trim($publication->title);	
+		$title = $html?"<i>$title</i>":$title;
+		if(!empty($authorsText))
+			$text .= $authorsText; 
+		else{
+			$text .= $title;
+			$usedTitle = true;
+		}
+		
+		$year = trim($publication->year);
+		if($year != '0000' && $year != null){
+			$year = "($year)";
+			$text .= '. '.$year;
+		}
 
-		$address = $this->_getAddressText($publication);
+		if(!$usedTitle)
+			$text .= '. '.$title;
 				
 		$edition = trim($publication->edition);
-		if(!empty($edition))
+		if(!empty($edition)){
 			$edition = "($edition $ed)";
-		else
-			$edition = "";	
+			$text .= ' '.$edition;
+		}
+			
+		$address = $this->_getAddressText($publication);
+		$text .= '. '.$address;		
 		
-		$title = $html?"<i>$publication->title</i>":$publication->title;
-		
-		$year = $publication->year;
-		if($year != '0000' && $year != null)
-			$year = "($year)";
-		else
-			$year = '';			
-		
-		if(!empty($authorsText))
-			if(!empty($year))
-				$header = "$authorsText. $year. $title $edition";
-			else
-				$header = "$authorsText. $title $edition";	
-		else
-			$header = "$title $year";	
-		
-		return "$header. $address.";
+		return $text.'.';
 	}
 
 }

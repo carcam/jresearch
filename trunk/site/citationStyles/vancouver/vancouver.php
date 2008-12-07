@@ -19,12 +19,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 */
 class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 	
-	/**
-	 * The string used to enumerate the last of author of publication with several ones.
-	 * & --> For parenthetical citation, JText_('and') for non-parenthetical citation
-	 * @var string
-	 */
-	protected $lastAuthorSeparator;
 	public static $name = 'Vancouver';
 	
 	/**
@@ -63,12 +57,9 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 		if($publication instanceof JResearchPublication){
 			$key = array_search($publication->citekey, $citedRecords);
 			if($key !==  false)
-				$result = '['.($key+1).']';
+				$result = '('.($key+1).')';
 			else
-				$result = '['.($n+1).']';
-
-			if($html)
-				$result = "<sup>$result</sup>";
+				$result = '('.($n+1).')';
 
 			return $result;
 		}else{
@@ -76,9 +67,9 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 			foreach($publication as $pub){
 				$key = array_search($pub->citekey, $citedRecords);
 				if($key !==  false)
-					$result = '['.($key+1).']';
+					$result = $key+1;
 				else
-					$result = '['.($n+1).']';
+					$result = $n+1;
 				
 				$citations[] = $result;	
 			}		
@@ -91,16 +82,14 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 	 * abbreviation text according to Vancouver citation style rules. For example, the following
 	 * array [1 2 3 10 12 13 14 15] would output [1-3, 10, 12-15].
 	 * @param $indexes Input array
-	 * @param $html Defines if the output must include HTML tags.
 	 *
 	 */
-	protected function abbreviate($indexes, $html){
-		$start = 1;
-		$end = 1;
-		if($html)
-			$output = '<sup>[';
-		else
-			$output = '[';
+	protected function abbreviate($indexes){
+		sort($indexes);
+		$firstStart = $indexes[0];	
+		$start = $indexes[0];
+		$end = $indexes[0];
+		$output = '(';
 				
 		for($j=1; $j<=count($indexes); $j++){
 			if(1 + $indexes[$j-1] == $indexes[$j])
@@ -112,15 +101,17 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 					$fragment = "$start,$end";
 				else
 					$fragment = "$start";
-				if($start > 1)
+				if($start > $firstStart)
 					$output .= ",$fragment"; 
 				else
 					$output .= $fragment;					
 				$start = $end = $indexes[$j];
+	
+	
 			}
 		}
 		
-		$output .= ']</sup>';
+		$output .= ')';
 		return $output;
 	}
 	
@@ -156,43 +147,7 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = '&';
-		$nAuthors = $publication->countAuthors();
-		$nEditors = count($publication->getEditors());
-		
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
-		
-		if(!$publication->__authorPreviouslyCited){
-			if($nAuthors <= 0){
-				if($nEditors == 0){
-					// If neither authors, nor editors
-					$authorsText = '';
-					$address = '';
-					$editorsText = '';
-				}else{
-					// If no authors, but editors
-					$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-					$authorsText .= " ($eds)";
-				}
-			}else{
-				$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
-			}
-		}else{
-			$authorsText = '---';
-		}
-		
-		$title = trim($publication->title);
-		$title = $html?"<i>$title</i>":$title;
-		
-		if(!empty($authorsText))
-				$header = "$authorsText. $title";
-		else
-				$header = "$title";	
-		
-		if($publication->year != null && $publication->year != '0000')		
-			return "$header, $publication->year";
-		else
-			return $header;	
+		return "";
 	}
 	
 	
@@ -216,28 +171,6 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 	}
 	
 		
-	/**
-	 * Takes an array of publications and returns the string that would be printed when citing   
-	 * the work in a parenthetical way.
-	 *
-	 * @param array $publicationsArray
-	 * @return string Cite text
-	 */
-	protected function getParentheticalCitationFromPublicationArray($publicationsArray){
-		$textArray = array();
-		
-		// Apply the transformation to every publication
-		foreach($publicationsArray as $pub){
-			$text  = $this->getAuthorsCitationTextFromSinglePublication($pub);
-			$text .= ' {pages}';
-			if(!in_array($text, $textArray))
-				$textArray[] = $text;
-		}		
-		
-		$result = implode(', ', $textArray);
-		return "($result)";
-		
-	}
 	
 	/**
 	 * Returns the editors text that is printed in book related references.
@@ -284,31 +217,17 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 	 * @param boolean $isFirst If true, the authorName will be formatted according MLA rules
 	 * for the first author of a reference.
 	 */
-	protected function formatAuthorForReferenceOutput($authorName, $isFirst = false){
+	protected function formatAuthorForReferenceOutput($authorName){
 		$authorComponents = JResearchPublicationsHelper::getAuthorComponents($authorName);
-
-		if($isFirst){
-			// We have two components: firstname and lastname
-			if(count($authorComponents) == 1){
-				$text = ucfirst($authorComponents['lastname']);
-			}elseif(count($authorComponents) == 2){
-				$text = ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']); 
-			}elseif(count($authorComponents) == 3){
-				$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']);
-			}else{
-				$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']).', '.ucfirst($authorComponents['jr']);
-			}
+		// We have two components: firstname and lastname
+		if(count($authorComponents) == 1){
+			$text = ucfirst($authorComponents['lastname']);
+		}elseif(count($authorComponents) == 2){
+			$text = ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']{0}); 
+		}elseif(count($authorComponents) == 3){
+			$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']{0});
 		}else{
-			// We have two components: firstname and lastname
-			if(count($authorComponents) == 1){
-				$text = ucfirst($authorComponents['lastname']);
-			}elseif(count($authorComponents) == 2){
-				$text = ucfirst($authorComponents['firstname']).' '.ucfirst($authorComponents['lastname']); 
-			}elseif(count($authorComponents) == 3){
-				$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']);
-			}else{
-				$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']).' '.ucfirst($authorComponents['jr']);
-			}
+			$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']{0}).ucfirst($authorComponents['jr']{0});
 		}
 		
 		return $text;
@@ -327,8 +246,7 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 		
 		$k = 0;
 		foreach($authors as $auth){
-			$isFirst = $k == 0?true:false;
-			$text = $this->formatAuthorForReferenceOutput($auth, $isFirst);
+			$text = $this->formatAuthorForReferenceOutput($auth);
 			if($authorLinks){
 				if($auth instanceof JResearchMember)				
 					$text = "<a href=\"index.php?option=com_jresearch&view=member&task=show&id=$auth->id\">$text</a>";
@@ -339,50 +257,16 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 		}
 
 		$n = count($authors);
-		if($n <= 3){
-			if($n == 1)
-				$text = $formattedAuthors[0];
-			else{	
-				$subtotal = array_slice($formattedAuthors, 0, $n-1);
-				$text = implode(', ', $subtotal)." $this->lastAuthorSeparator ".$formattedAuthors[$n-1];
-			}
+		if($n <= 6){
+			$text = implode(', ', $formattedAuthors);
 		}else{
-			$text = "$formattedAuthors[0] et al.";
+			$subtotal = array_slice($formattedAuthors, 0, 6);			
+			$text = implode(', ', $subtotal).' et al';
 		}	
 
 		return $text;		
 	}
 	
-	
-	/**
-	* Returns an array of sorted publications according to MLA citation styles rules for generation
-	* of "References" section. Publications should be sorted alphabetically by first author lastname or
-	* title when authors are absent. Additionally, the method sets a flag (field authorPreviouslyCited=true) 
-	* to a publication if the previous record in the array belongs to the same author. That is useful for
-	* the method that generates the complete text.
-	* 
-	* @param array $publicationsArray Array of cited publications
-	* @return array Sorted array, according to MLA rules for "Works Cited" section.
-	* 
-	*/
-	protected function sort($publicationsArray){
-		$authorsArray = array();
-		$result = array();
-		$k = 1;
-		foreach($publicationsArray as $p){
-			$authorsText = $this->getAuthorsCitationTextFromSinglePublication($p); 
-			if(isset($authorsArray[$authorsText])){
-				$p->__authorPreviouslyCited = true;
-				$authorsArray[$authorsText.$k] = $p;
-				$k++;
-			}else{
-				$authorsArray[$authorsText] = $p;	
-			}
-		}
-		// Sort the array
-		ksort($authorsArray);		
-		return array_values($authorsArray);
-	}		
 	
 	/**
 	 * Returns the address text according to MLA rules for reference text.
@@ -399,7 +283,7 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 			if(empty($address))
 				$address = $publ;
 			else
-				$address .= " : $publ";	
+				$address .= ": $publ";	
 		}
 		
 		return $address;
@@ -414,16 +298,14 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 	 */
 	function getBibliographyHTMLText($publicationsArray){
 		$entries = array();
+		$k = 1;
 		
-		$sortedArray = $this->sort($publicationsArray);	
-		
-		foreach($sortedArray as $pub){
+		foreach($publicationsArray as $pub){
 			$appStyle =& JResearchCitationStyleFactory::getInstance(self::$name, $pub->pubtype);
 			$entries[] = $appStyle->getReferenceHTMLText($pub);
+			$k++;
 		}
-		
-		return '<h1>'.JText::_('JRESEARCH_WORKS_CITED').'</h1><ul><li>'.implode('</li><li>', $entries)."</li></ul>";
-		
+		return '<h1>'.JText::_('JRESEARCH_REFERENCES').'</h1><ol><li>'.implode('</li><li>', $entries)."</li></ol>";		
 	}
 	
 	
