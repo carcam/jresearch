@@ -136,6 +136,17 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_misc` (
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `#__jresearch_patent`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_patent` (
+  `id_publication` int(10) unsigned NOT NULL,
+  `patent_number` varchar(10) NOT NULL,
+  `filing_date` date DEFAULT NULL,
+  `issue_date` date DEFAULT NULL,
+  `claims` longtext DEFAULT NULL,
+  `drawings_dir` varchar(255) DEFAULT NULL,
+  PRIMARY KEY  (`id_publication`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `#__jresearch_phdthesis`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_phdthesis` (
   `id_publication` int(10) unsigned NOT NULL,
@@ -460,6 +471,7 @@ INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('inproceedings');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('manual');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('mastersthesis');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('misc');
+INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('patent');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('phdthesis');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('proceedings');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('techreport');
