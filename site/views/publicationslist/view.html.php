@@ -53,6 +53,7 @@ class JResearchViewPublicationsList extends JView
     	global $mainframe;
     	
     	$params = $mainframe->getParams('com_jresearch');
+    	
     	$filter_pubtype = $params->get('filter_pubtype','0');
     	
     	if($filter_pubtype != '')
@@ -60,8 +61,31 @@ class JResearchViewPublicationsList extends JView
     		JRequest::setVar('filter_pubtype', $filter_pubtype);
     	}
     	
+    	$user = JFactory::getUser();
+    	$filter_show = $params->get('filter_show');
+    	
+    	//My publications
+    	if($filter_show == "my")
+    	{
+    		//Filter only my publications
+	    	$db = JFactory::getDBO();
+	    	$member = new JResearchMember($db);
+	    	
+	    	if(!$user->guest)
+	    	{
+	    		$member->bindFromUser($user->username);
+	    		$id_member = $member->id;
+	    	}
+	    	else 
+	    	{
+	    		$id_member = -1;
+	    	}
+	    	
+	    	JRequest::setVar('filter_author', $id_member);
+    	}
+    	
     	$document =& JFactory::getDocument();    	
-    	$document->setTitle('Publications');
+    	//$document->setTitle('Publications');
     	$feed = 'index.php?option=com_jresearch&view=publicationslist&format=feed';
 		$rss = array(
 			'type' => 'application/rss+xml',

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout title="JRESEARCH_EDIT_COOPERATION">
-		<message>JRESEARCH_EDIT_COOPERATION_VIEW_DESCRIPTION</message>
+		<message>JRESEARCH_EDIT_COOPERATION_VIEW_MESSAGE</message>
 	</layout>
 	<state>
 		<name>JRESEARCH_EDIT_COOPERATION</name>
-		<description>JRESEARCH_EDIT_COOPERATION_VIEW_DESCRIPTION</description>
+		<description>JRESEARCH_EDIT_COOPERATION_VIEW_MESSAGE</description>
 		<url>
 			<param type="sql" name="id" label="JRESEARCH_EDIT_COOPERATION" description="JRESEARCH_EDIT_COOPERATION_DISPLAYED" query="SELECT id as value, name as id FROM #__jresearch_cooperations WHERE published = 1" />
 			<param type="hidden" name="task" default="edit" />	
