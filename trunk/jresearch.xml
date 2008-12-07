@@ -63,9 +63,6 @@
 		<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
 	</languages>
-	<languages>
-		<language tag="es-ES">es-ES.com_jresearch.ini</language>
-	</languages>
 	<administration>
 		<menu>J!Research</menu>
 		<submenu>
@@ -107,10 +104,6 @@
 			<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.views.ini</language>
-		</languages>
-		<languages folder="admin">
-			<language tag="es-ES">es-ES.com_jresearch.ini</language>	
-			<language tag="es-ES">es-ES.com_jresearch.menu.ini</language>		
 		</languages>
 	</administration>
 </install>
