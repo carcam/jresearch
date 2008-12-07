@@ -68,7 +68,7 @@ class plgButtonJResearch_Automatic_Bibliography_Generation extends JPlugin
 			   "background: url($image) 100% 0 no-repeat;".
 			   "}";
 		
-		$doc->addStyleDeclaration($css);
+		//$doc->addStyleDeclaration($css);
 		return $button;
 	}
 }
