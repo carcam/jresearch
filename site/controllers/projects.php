@@ -23,14 +23,17 @@ class JResearchProjectsController extends JController
  	 */
 	function __construct(){
 		parent::__construct();
+		
+		//Load additionally language files
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.projects');
+		
 		$this->registerTask('show', 'show');
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'projectslist');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'project');		
-		
-		
 	}
 
 	/**

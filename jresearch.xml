@@ -51,9 +51,19 @@
 		<folder>plg_jresearch_persistent_cited_records</folder>
 		<folder>plg_jresearch_native_plugins</folder>
 		<folder>views</folder>
-	</files>	
-	<languages>
+	</files>
+	<languages folder="languages/site">
 		<language tag="en-GB">en-GB.com_jresearch.ini</language>
+		<language tag="en-GB">en-GB.com_jresearch.cooperations.ini</language>
+		<language tag="en-GB">en-GB.com_jresearch.facilities.ini</language>
+		<language tag="en-GB">en-GB.com_jresearch.financiers.ini</language>
+		<language tag="en-GB">en-GB.com_jresearch.projects.ini</language>
+		<language tag="en-GB">en-GB.com_jresearch.publications.ini</language>
+		<language tag="en-GB">en-GB.com_jresearch.researchareas.ini</language>
+		<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
+		<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
+	</languages>
+	<languages>
 		<language tag="es-ES">es-ES.com_jresearch.ini</language>
 	</languages>
 	<administration>

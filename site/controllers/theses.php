@@ -23,6 +23,11 @@ class JResearchThesesController extends JController
  	 */
 	function __construct(){
 		parent::__construct();
+		
+		//Load additionally language files
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.theses');
+		
 		// When the user sees the detailed information of a thesis
 		$this->registerTask('show', 'show');
 		// Add models paths
@@ -30,9 +35,6 @@ class JResearchThesesController extends JController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'theseslist');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'thesis');		
-		
-		
-		
 	}
 
 	/**

@@ -27,6 +27,9 @@ class JResearchPublicationsController extends JController
 	function __construct(){
 		parent::__construct();
 		
+		//Load additionally language files
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.publications');
 		
 		// Tasks for edition of publications when the user is authenticated
 		$this->registerTask('add', 'edit');
