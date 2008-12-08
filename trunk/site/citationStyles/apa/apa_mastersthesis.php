@@ -34,11 +34,13 @@ class JResearchAPAMastersthesisCitationStyle extends JResearchAPACitationStyle{
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = '&';
+		$text = '';
 				
 		$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
-		$title = $html?"<i>$publication->title</i>":$publication->title;
+		$title = trim($publication->title);
+		$title = $html?"<i>$title</i>":$title;
 
-		$year = $publication->year;
+		$year = trim($publication->year);
 		if($year != '0000' && $year != null)
 			$year = " ($year)";
 		else
@@ -52,7 +54,17 @@ class JResearchAPAMastersthesisCitationStyle extends JResearchAPACitationStyle{
 		}else
 			$header = "$title$year";	
 		
-		return "$header. $publication->school. $publication->address.";
+		$text .= $header;
+
+		$school = trim($publication->school);
+		if(!empty($school))
+			$text .= '. '.$school;
+
+		$address = trim($publication->address);
+		if(!empty($address))
+			$text .= '. '.$address;	
+			
+		return $text;
 	}
 }
 

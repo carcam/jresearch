@@ -51,13 +51,13 @@ class JResearchIEEEBookletCitationStyle extends JResearchIEEECitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
 		
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
 		if($nAuthors > 0){
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$ed = JText::_('ed.');
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'. ';
 		
 		$title = trim($publication->title);	
 		$title = $html?"<i>$title</i>":$title;
@@ -78,12 +78,13 @@ class JResearchIEEEBookletCitationStyle extends JResearchIEEECitationStyle{
 		$month = trim($publication->month);
 		if(!empty($month))
 			$header .= ". $month";
-			
-		if($publication->year != null && $publication->year != '0000')		
+
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
 			if(!empty($month))
-				return "$header, $publication->year";
+				return "$header, $year";
 			else
-				return "$header. $publication->year";	
+				return "$header. $year";	
 		else
 			return $header;	
 

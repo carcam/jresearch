@@ -34,11 +34,12 @@ class JResearchAPAInbookCitationStyle extends JResearchAPACitationStyle{
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = '&';
-		$in = JText::_('In');
+		$in = JText::_('JRESEARCH_IN');
+		$text = '';
 		if(count($publication->getEditors()) > 1){
-			$ed = JText::_('Eds.');
+			$ed = JText::_('JRESEARCH_APA_EDS').'. ';
 		}else{
-			$ed = JText::_('Ed. ');
+			$ed = JText::_('JRESEARCH_APA_ED').'. ';
 		} 
 				
 		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
@@ -51,10 +52,11 @@ class JResearchAPAInbookCitationStyle extends JResearchAPACitationStyle{
 				$editorsText = "$in $editorsText ($ed),";
 		}
 		
-		$title = $html?"<i>$publication->title</i>":$publication->title;
-		$title = trim($title);
+		$title = trim($publication->title);
+		$title = $html?"<i>$title</i>":$title;
 		
-		$year = $publication->year;
+		
+		$year =trim($publication->year);
 		if($year != '0000' && $year != null)
 			$year = " ($year)";
 		else
@@ -63,16 +65,24 @@ class JResearchAPAInbookCitationStyle extends JResearchAPACitationStyle{
 		if(empty($authorsText))
 			$header = "$title$year";
 		else
-			$header = "$authorsText$year. $publication->title"; 	
+			$header = "$authorsText$year. $title"; 	
 		
-		$pages = str_replace('--', '-', trim($publication->pages));
-		if(!empty($pages))
-			$pages = "(pp. $publication->pages)";
+		$text .= $header;	
 
-
-		$address = $this->_getAddressText($publication);
+		if(!empty($editorsText))
+			$text .= '. '.$editorsText;
 			
-		return "$header. $editorsText $pages. $address.";
+		$pages = str_replace('--', '-', trim($publication->pages));
+		if(!empty($pages)){
+			$pages = "(pp. $pages)";
+			$text .= ' '.$pages;	
+		}
+		
+		$address = $this->_getAddressText($publication);
+		if(!empty($address))
+			$text .= '. '.$address;
+			
+		return $text.'.';
 	}
 	
 }

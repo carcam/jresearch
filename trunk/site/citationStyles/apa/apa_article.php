@@ -35,18 +35,30 @@ class JResearchAPAArticleCitationStyle extends JResearchAPACitationStyle{
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = '&';		
-		
+		$text = '';
 		$header = parent::getReference($publication, false, $authorLinks);
 
 		$numberText = trim($publication->number);
 		$numberText = !empty($numberText)?"($numberText)":"";
-		$journal = $html?"<i>$publication->journal</i>":$publication->journal;
-		$journal = trim($journal);
-		$volume = $html?"<i>$publication->volume</i>":$publication->volume;
-		$volume = trim($volume);
+		$journal = trim($publication->journal);
+		$journal = $html?"<i>$journal</i>":$journal;
+		$volume = trim($publication->volume);
+		$volume = $html?"<i>$volume</i>":$volume;
 		$pages = str_replace('--', '-', trim($publication->pages));
 		
-		return "$header $journal, $volume$numberText, $pages.";
+		$text.= $header;
+		if(!empty($journal))
+			$text .= '. '.$journal.', ';
+		
+		if(!empty($volume))
+			$text .= $volume;
+		if(!empty($numberText))
+			$text .= $numberText.', ';
+
+		if(!empty($pages))
+			$text .= $pages;	
+		
+		return $text.'.';
 	}
 	
 	

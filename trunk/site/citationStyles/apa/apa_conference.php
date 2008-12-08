@@ -34,12 +34,13 @@ class JResearchAPAConferenceCitationStyle extends JResearchAPACitationStyle{
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = '&';
-		$in = JText::_('In');
+		$in = JText::_('JRESEARCH_IN');
 		if(count($publication->getEditors()) > 1){
-			$ed = JText::_('Eds.');
+			$ed = JText::_('RESEARCH_APA_EDS').'.';
 		}else{
-			$ed = JText::_('Ed.');
+			$ed = JText::_('RESEARCH_APA_ED').'.';
 		} 
+		$text = '';
 				
 		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
 
@@ -48,21 +49,39 @@ class JResearchAPAConferenceCitationStyle extends JResearchAPACitationStyle{
 		}else{			 
 			$editorsText = trim($this->getEditorsReferenceTextFromSinglePublication($publication));
 			if(!empty($editorsText))
-				$editorsText = " $in $editorsText ($ed), ";
+				$editorsText = "$editorsText ($ed)";
 		}
+		$title = trim($publication->title);
+
+				
+		$year = trim($publication->year);
+		$header = $year != '0000' && $year?"$authorsText ($year)":$authorsText;
 		
-		$address = $this->_getAddressText($publication);
-		
+		$text .= $header;
+		if(!empty($text))
+			$text .= '. '.$title;
+		else
+			$text .= $title;
+
+		$text .= '. '.$in;	
+		if(!empty($editorsText))
+			$text .= ' '.$editorsText.',';
+			
+		$booktitle = trim($publication->booktitle);				
+		if(!empty($booktitle)){
+			$booktitle = $html?"<i>$booktitle</i>":$booktitle;
+			$text .= ' '.$booktitle;	
+		}
 		
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))
-			$pages = "(pp. $pages)";
+			$text .= " (pp. $pages)";
+			
+		$address = $this->_getAddressText($publication);
+		if(!empty($address))
+			$text .= '. '.$address;	
 		
-		$booktitle = $html?"<i>$publication->booktitle</i>":$publication->booktitle;
-		
-		$header = $publication->year != '0000' && $publication->year?"$authorsText ($publication->year)":$authorsText;
-		
-		return "$header. $publication->title.$editorsText $booktitle $pages. $address.";
+		return $text.'.';
 		
 	}
 	

@@ -46,7 +46,7 @@ class JResearchVancouverArticleCitationStyle extends JResearchVancouverCitationS
 		else
 			$text .= $title;
 			
-		$journal = trim($publication->journal);
+		$journal = $html?"<i>".trim($publication->journal)."</i>":trim($publication->journal);
 		if(!empty($journal))
 			$text .= '. '.$journal;
 		
@@ -66,9 +66,14 @@ class JResearchVancouverArticleCitationStyle extends JResearchVancouverCitationS
 		if(!empty($volume) || !empty($number))
 			$text .= ';'.$volume.(!empty($number)?"($number)":'');	
 		
-		$pages = trim($publication->pages);
-		if(!empty($pages))
-			$text .= ':'.str_replace('--', '-', $pages);	
+		$pages = str_replace('--', '-', trim($publication->pages));
+		if(!empty($pages)){
+			if(preg_match('/^\d+-\d+\$/', $pages))
+				$text .= '. pp. '.$pages;
+			else
+				$text .= '. p. '.$pages;
+					
+		}	
 		
 		return $text.'.';	
 	}

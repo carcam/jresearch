@@ -34,28 +34,41 @@ class JResearchAPATechreportCitationStyle extends JResearchAPACitationStyle{
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = '&';
+		$text = '';
 		
 		$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
-		$title = $html?"<i>$publication->title</i>":$publication->title;
-		$title = trim($title);
+		$title = trim($publication->title);
+		$title = $html?"<i>$title</i>":$title;
 		$month = trim($publication->month);
 		
-		$year = $publication->year;
+		$year = trim($publication->year);
 		if($year == '0000' || $year == null)
 			$year = '';			
 		
-		
-		if(!empty($month))
+		if(!empty($month) && !empty($year))
 			$year = "$year, $month";
-		else
-			$year = "$year";	
 		
-		if(!empty($authorsText))
-			$header = "$authorsText. ($year). $title.";
-		else
-			$header = "$title ($year).";	
+		if(!empty($authorsText)){
+			$header = $authorsText;
+			if(!empty($year))
+				$header .= ". ($year)";
+			$header .= 	'. '.$title;
+		}else{
+			$header = $title;
+			if(!empty($year))
+				$header .= " ($year)";	
+		}
+		$text .= $header;
+			
+		$address = trim($publication->address);
+		if(!empty($address))
+			$text .= '. '.$address;
 		
-		return "$header. $publication->address: $publication->institution.";
+		$institution = trim($publication->institution);
+		if(!empty($institution))
+			$text .= ': '.$institution;
+			
+		return $text.'.';
 	}
 	
 }

@@ -156,7 +156,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		$title = $html?"<i>$title</i>":$title;
 
 		
-		$year = $publication->year;
+		$year = trim($publication->year);
 		if($year != null && $year != '0000')
 			$year = ". ($year)";
 		else

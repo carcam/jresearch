@@ -34,7 +34,7 @@ class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyl
 		$nEditors = count($publication->getEditors());
 		$text = '';
 		
-		$eds = $nEditors > 1? JText::_('JRESEARCH_EDITORS'):JText::_('JRESEARCH_EDITOR');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_VANCOUVER_EDITORS'):JText::_('JRESEARCH_VANCOUVER_EDITOR');
 		
 		if($nAuthors <= 0){
 			if($nEditors == 0){
@@ -50,10 +50,13 @@ class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyl
 		}
 		$text .= $authorsText;		
 		
-		$title = trim($publication->title);	
-		$text .= '. '.$title;
+		$title = $html?"<i>".trim($publication->title)."</i>":trim($publication->title);	
+		if(!empty($authorsText))
+			$text .= '. '.$title;
+		else
+			$text .= $title;				
 		
-		$ed = JText::_('JRESEARCH_ED').'. ';		
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'. ';		
 		$edition = trim($publication->edition); 
 		if(!empty($edition)){
 			$edition = "$edition $ed";
