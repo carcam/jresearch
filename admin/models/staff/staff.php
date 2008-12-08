@@ -146,7 +146,7 @@ class JResearchModelStaff extends JResearchModelList{
 				$where[] = $db->nameQuote('former_member').' = 0 ';
 		}
 			
-		if($filter_search = trim($filter_search)){
+		if(($filter_search = trim($filter_search))){
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
 			$where[] = 'LOWER('.$db->nameQuote('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');

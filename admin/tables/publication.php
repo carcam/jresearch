@@ -305,7 +305,7 @@ class JResearchPublication extends JResearchActivity{
       . " WHERE $this->_tbl.$this->_tbl_key = $derivedTable.$this->_d_tbl_key"
       . " AND $this->_tbl.citekey = ".$db->Quote($citekey);
       $db->setQuery( $query );
-      if ($result = $db->loadAssoc( )) {
+      if (($result = $db->loadAssoc())) {
         	$rs = $this->bind($result);
         	$this->_loadAuthors($this->id);
          return $rs;
@@ -369,7 +369,7 @@ class JResearchPublication extends JResearchActivity{
         . " AND $this->_tbl.$this->_tbl_key = $db->Quote($oid)";        
         $db->setQuery( $query );
         
-        if ($result = $db->loadAssoc( )) {
+        if (($result = $db->loadAssoc( ))) {
             return $this->bind($result);
         }else{
             $this->setError( $db->getErrorMsg() );
