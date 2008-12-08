@@ -20,14 +20,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 *
 */
 class JResearchModelStaff extends JResearchModelList{
-	/**
-	 * Private field for checking if we need all members,
-	 * only former members or all members except former members
-	 * @var int 0=all,1=only former, -1=all except former
-	 * @todo NOT NEEDED IF WE MAKE A FORMER_MEMBER FILTERING VARIABLE!
-	*/
-	private $_former = 0;
-	
+		
 	public function __construct(){
 		parent::__construct();
 		$this->_tableName = '#__jresearch_member';
@@ -131,7 +124,7 @@ class JResearchModelStaff extends JResearchModelList{
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('stafffilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('stafffilter_search', 'filter_search');
-
+		$filter_former = $mainframe->getUserStateFromRequest('stafffilter_former', 'filter_former');
 		
 		// prepare the WHERE clause
 		$where = array();
@@ -145,11 +138,11 @@ class JResearchModelStaff extends JResearchModelList{
 			$where[] = $db->nameQuote('published').' = 1 ';		
 
 		//Added former member for where clause
-		if($this->_former != 0)
+		if($filter_former != 0)
 		{
-			if($this->_former > 0)
+			if($filter_former > 0)
 				$where[] = $db->nameQuote('former_member').' = 1 ';
-			elseif($this->_former < 0)
+			elseif($filter_former < 0)
 				$where[] = $db->nameQuote('former_member').' = 0 ';
 		}
 			
