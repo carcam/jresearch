@@ -14,10 +14,10 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of Vancouver citation style for book records.
+* Implementation of Vancouver citation style for techreport records.
 *
 */
-class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyle{
+class JResearchVancouverTechreportCitationStyle extends JResearchVancouverCitationStyle{
 		
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -56,31 +56,17 @@ class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyl
 		else
 			$text .= $title;				
 		
-		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'. ';		
-		$edition = trim($publication->edition); 
-		if(!empty($edition)){
-			$edition = "$edition $ed";
-			$text.= '. '.$edition;
-		}
-
-		$address = $this->_getAddressText($publication);
-		if(!empty($address))
-			$text .= '. '.$address;	
+		$institution = trim($publication->institution);
+		if(!empty($institution))
+			$text .= '. '.$institution;	
+			
+		$number = trim($publication->number);
+		if(!empty($number))
+			$text .= '. '.JText::_('JRESEARCH_REPORT_NUMBER').': '.$number;
 		
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$year = '; '.$year;
-
-		$series = trim($publication->series);
-		$volume = trim($publication->volume);
-		if(!empty($series) || !empty($volume)){
-			$text .= ' (';
-			if(!empty($series))
-				$text .= $series;
-			if(!empty($volume))	
-				$text .= ((!empty($series))?'; ':' ').JText::_('JRESEARCH_VOL').'. '.$volume;
-			$text .= ')';
-		}
+			$year = ', '.$year;
 		
 		return $text.'.';	
 	}

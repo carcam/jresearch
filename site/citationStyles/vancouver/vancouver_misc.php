@@ -17,7 +17,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 * Implementation of Vancouver citation style for book records.
 *
 */
-class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyle{
+class JResearchVancouverMiscCitationStyle extends JResearchVancouverCitationStyle{
 		
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -31,20 +31,10 @@ class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyl
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$nAuthors = $publication->countAuthors();
-		$nEditors = count($publication->getEditors());
 		$text = '';
 		
-		$eds = $nEditors > 1? JText::_('JRESEARCH_VANCOUVER_EDITORS'):JText::_('JRESEARCH_VANCOUVER_EDITOR');
-		
 		if($nAuthors <= 0){
-			if($nEditors == 0){
-				// If neither authors, nor editors
-				$authorsText = '';
-			}else{
-				// If no authors, but editors
-				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-				$authorsText .= ", $eds";
-			}
+			$authorsText = '';
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
@@ -56,32 +46,14 @@ class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyl
 		else
 			$text .= $title;				
 		
-		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'. ';		
-		$edition = trim($publication->edition); 
-		if(!empty($edition)){
-			$edition = "$edition $ed";
-			$text.= '. '.$edition;
-		}
-
-		$address = $this->_getAddressText($publication);
-		if(!empty($address))
-			$text .= '. '.$address;	
-		
+		$howpublished = trim($publication->howpublished);
+		if(!empty($howpublished))
+			$text = '. '.$howpublished;
+				
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
 			$year = '; '.$year;
 
-		$series = trim($publication->series);
-		$volume = trim($publication->volume);
-		if(!empty($series) || !empty($volume)){
-			$text .= ' (';
-			if(!empty($series))
-				$text .= $series;
-			if(!empty($volume))	
-				$text .= ((!empty($series))?'; ':' ').JText::_('JRESEARCH_VOL').'. '.$volume;
-			$text .= ')';
-		}
-		
 		return $text.'.';	
 	}
 }

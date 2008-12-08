@@ -147,7 +147,27 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		return "";
+		$nAuthors = $publication->countAuthors();
+		$text = '';
+		
+		if($nAuthors <= 0){
+			$authorsText = '';
+		}else{
+			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+		}
+		$text .= $authorsText;		
+		
+		$title = $html?"<i>".trim($publication->title)."</i>":trim($publication->title);	
+		if(!empty($authorsText))
+			$text .= '. '.$title;
+		else
+			$text .= $title;				
+				
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
+			$year = '; '.$year;
+
+		return $text.'.';	
 	}
 	
 	

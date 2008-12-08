@@ -14,10 +14,10 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of Vancouver citation style for book records.
+* Implementation of Vancouver citation style for inbook records.
 *
 */
-class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyle{
+class JResearchVancouverInbookCitationStyle extends JResearchVancouverCitationStyle{
 		
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -34,7 +34,8 @@ class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyl
 		$nEditors = count($publication->getEditors());
 		$text = '';
 		
-		$eds = $nEditors > 1? JText::_('JRESEARCH_VANCOUVER_EDITORS'):JText::_('JRESEARCH_VANCOUVER_EDITOR');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_EDITORS'):JText::_('JRESEARCH_EDITOR');
+		$editorsConsidered = false;
 		
 		if($nAuthors <= 0){
 			if($nEditors == 0){
@@ -44,19 +45,35 @@ class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyl
 				// If no authors, but editors
 				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
 				$authorsText .= ", $eds";
+				$editorsConsidered = true;
 			}
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		$text .= $authorsText;		
 		
-		$title = $html?"<i>".trim($publication->title)."</i>":trim($publication->title);	
+		$title = trim($publication->title);	
 		if(!empty($authorsText))
 			$text .= '. '.$title;
 		else
 			$text .= $title;				
+
+		$in = JText::_('JRESEARCH_IN');				
+		$text = '. '.$in.': ';	
+
+		$editors = $this->getEditorsReferenceTextFromSinglePublication($publication);
+		if(!empty($editors))
+			$text .= $editors.', '.$eds.'.';	
+
+		$series = trim($publication->series);
+		if(!empty($series))
+			$text .= ' '.$series;
+			
+		$number = trim($publication->number);
+		if(!empty($number))
+			$text .= ' '.$number;	
 		
-		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'. ';		
+		$ed = JText::_('JRESEARCH_ED').'. ';		
 		$edition = trim($publication->edition); 
 		if(!empty($edition)){
 			$edition = "$edition $ed";
@@ -71,16 +88,15 @@ class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyl
 		if($year != null && $year != '0000')		
 			$year = '; '.$year;
 
-		$series = trim($publication->series);
-		$volume = trim($publication->volume);
-		if(!empty($series) || !empty($volume)){
-			$text .= ' (';
-			if(!empty($series))
-				$text .= $series;
-			if(!empty($volume))	
-				$text .= ((!empty($series))?'; ':' ').JText::_('JRESEARCH_VOL').'. '.$volume;
-			$text .= ')';
+		$pages = str_replace('--', '-', trim($publication->pages));
+		if(!empty($pages)){
+			if(preg_match('/^\d+-\d+\$/', $pages))
+				$text .= '. pp. '.$pages;
+			else
+				$text .= '. p. '.$pages;
+					
 		}
+			
 		
 		return $text.'.';	
 	}

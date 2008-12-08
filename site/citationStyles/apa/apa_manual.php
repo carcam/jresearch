@@ -34,15 +34,16 @@ class JResearchAPAManualCitationStyle extends JResearchAPACitationStyle{
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = '&';
-		$ed = JText::_('ed.');		
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'.';		
 		$authorsText =trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
+		$text .= '';
 
-		$title = $html?"<i>$publication->title</i>":$publication->title;
-		$title = trim($title);
+		$title = trim($publication->title);
+		$title = $html?"<i>$title</i>":$title;
 		
 		$organization = trim($publication->organization);
 
-		$year = $publication->year;
+		$year = trim($publication->year);
 		if($year != '0000' && $year != null)
 			$year = " ($year)";
 		else
@@ -56,14 +57,22 @@ class JResearchAPAManualCitationStyle extends JResearchAPACitationStyle{
 			else
 				$header = "$organization. $title";	
 		}
+		$text .= $header;
 		
 		$edition = trim($publication->edition);	
-		if(!empty($edition))
-			$editonText = " ($edition $ed). ";
+		if(!empty($edition)){
+			$editonText = " ($edition $ed)";
+			$text .= $editionText;
+		}
 		
 		$address = trim($publication->address);	
+		if(!empty($address))
+			$text .= '. '.$address;	
+		
+		if(!empty($authorsText))
+			$text .= ': '.$authorsText;	
 			
-		return "$header.$editionText$address: $authorsText.";
+		return $text.'.';
 	}
 }
 

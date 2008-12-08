@@ -51,7 +51,7 @@ class JResearchIEEEBookCitationStyle extends JResearchIEEECitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
 		
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
 		if($nAuthors <= 0){
 			if($nEditors == 0){
@@ -68,7 +68,7 @@ class JResearchIEEEBookCitationStyle extends JResearchIEEECitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$ed = JText::_('ed.');
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'. ';
 		
 		$title = trim($publication->title);	
 		$title = $html?"<i>$title</i>":$title;
@@ -84,16 +84,16 @@ class JResearchIEEEBookCitationStyle extends JResearchIEEECitationStyle{
 
 		$volume = trim($publication->volume);
 		if(!empty($volume))
-			$header .= ' '.JText::_('Vol.').' '.$volume;
+			$header .= ' '.JText::_('JRESEARCH_VOL').'. '.$volume;
 
 			
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
 			$header .= " .$address";
 	
-				
-		if($publication->year != null && $publication->year != '0000')		
-			return "$header, $publication->year";
+		$year = trim($publication->year);		
+		if($year != null && $year != '0000')		
+			return "$header, $year";
 		else
 			return $header;	
 
