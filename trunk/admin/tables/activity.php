@@ -122,7 +122,7 @@ class JResearchActivity extends JTable{
 		// Get internal authors
         $internalAuthorsQuery = "SELECT * FROM $internalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
 		$db->setQuery($internalAuthorsQuery);
-        if($result = $db->loadAssocList()){
+        if(($result = $db->loadAssocList())){
         	$this->_internalAuthors = $result;
         }else{
         	$this->_internalAuthors = array();	
@@ -131,7 +131,7 @@ class JResearchActivity extends JTable{
         // Get external authors
         $externalAuthorsQuery = "SELECT * FROM $externalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
 	    $db->setQuery($externalAuthorsQuery);
-        if($result = $db->loadAssocList()){
+        if(($result = $db->loadAssocList())){
         	$this->_externalAuthors = $result;
         }else{
         	$this->_externalAuthors = array();	

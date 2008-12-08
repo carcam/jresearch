@@ -50,7 +50,7 @@ class JResearchRISImporter extends JResearchPublicationImporter{
 		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'ris2xml'.' '.$filename;
 		
 		$output = array();
-		exec($conversionCommand, &$output);
+		exec($conversionCommand, $output);
 		$modsText = implode("\n", $output); 
 		
 		fclose($inputFile);
