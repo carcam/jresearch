@@ -199,8 +199,8 @@ class JResearchToolbar
 		global $mainframe;
 	  	$doc =& JFactory::getDocument();
     	$url = $mainframe->getSiteUrl();
-		$doc->addStyleDeclaration($css);
 		$css = ".icon-32-config{background: url(".$url."administrator/components/com_jresearch/assets/config32.png) 100% 0 no-repeat;}";		
+		$doc->addStyleDeclaration($css);
 		JToolBarHelper::custom('tocontrolPanel', 'config', '', $text, false);		
 	}	
 	
