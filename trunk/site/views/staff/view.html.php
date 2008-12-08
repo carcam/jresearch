@@ -44,15 +44,29 @@ class JResearchViewStaff extends JView
     function display($tpl = null)
     {
         $layout = &$this->getLayout();
+        
+        $params =& JComponentHelper::getParams('com_jresearch');
+    	$former = (int) $params->get('former_members');
+    	
+    	//Get the model
+    	$model =& $this->getModel();
+    	$areaModel = &$this->getModel('researcharea');
+    	
+    	//$model->setFormer($former);
+    	JRequest::setVar('filter_former', $former);
+    	
         switch($layout){
         	case 'staffflow':
-	        	$this->_displayStaffFlow();
+	        	$this->_displayStaffFlow($model);
 	        	break;
 	        	
         	default:
-       			$this->_displayDefaultList();
+       			$this->_displayDefaultList($model);
        			break;
         }
+        
+        $this->assignRef('params', $params);
+        $this->assignRef('areaModel', $areaModel);
 	
         parent::display($tpl);
     }
@@ -60,17 +74,12 @@ class JResearchViewStaff extends JView
     /**
     * Display the list of published staff members.
     */
-    private function _displayDefaultList(){
+    private function _displayDefaultList(&$model){
       	global $mainframe;
+
+      	$members =  $model->getData(null, true, true);   
     	
-    	//Get the model
-    	$model =& $this->getModel();
-    	$areaModel = &$this->getModel('researcharea');
-    	$members =  $model->getData(null, true, true);   
-    	
-    	$this->assignRef('params', $params);
     	$this->assignRef('items', $members);
-    	$this->assignRef('areaModel', $areaModel);
     	$this->assignRef('page', $model->getPagination());	
 
     }
@@ -79,26 +88,14 @@ class JResearchViewStaff extends JView
 	* Display coverflow of published staff members
 	* @author Florian Prinz
 	*/
-    private function _displayStaffFlow()
+    private function _displayStaffFlow(&$model)
     {
     	global $mainframe;
     	
-    	$params =& JComponentHelper::getParams('com_jresearch');
-    	$former = (int) $params->get('former_members');
-    	
-    	//Get the model
-    	$model =& $this->getModel();
-    	$areaModel = &$this->getModel('researcharea');
-    	
-    	$model->setFormer($former);
-    	
-    	$members =& $model->getData(null, true, false);
-
+		$members =& $model->getData(null, true, false);
     	$images = $this->getImages($members);
     	
-    	$this->assignRef('params', $params);
     	$this->assignRef('images', $images);
-    	$this->assignRef('areaModel', $areaModel);
     }
     
     /**
