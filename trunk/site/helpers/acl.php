@@ -17,7 +17,23 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 function setACL()
 {
 	//@todo Add ACL to authorize users against J!Research component
-	//$acl = JFactory::getACL();
-	//$acl->addACL('com_jresearch', 'edit', 'users', 'super_administrator', 'publications', 'all');
+	$acl = JFactory::getACL();
+	
+	//Add
+	$acl->addACL('com_jresearch', 'add', 'users', 'author', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'editor', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'publisher', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'manager', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'administrator', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'super administrator', 'publications', 'all');
+	
+	//Edit
+	$acl->addACL('com_jresearch', 'edit', 'users', 'registered', 'publications', 'own');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'author', 'publications', 'own');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'editor', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'publisher', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'manager', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'administrator', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'super administrator', 'publications', 'all');
 }
 ?>
