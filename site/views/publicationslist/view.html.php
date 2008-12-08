@@ -108,6 +108,7 @@ class JResearchViewPublicationsList extends JView
     	$this->assignRef('items', $publications);
     	$this->assignRef('style', $style);
     	$this->assignRef('page', $model->getPagination());
+    	$this->assignRef('user', $user);
     }
     
     /**

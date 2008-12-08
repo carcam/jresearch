@@ -6,7 +6,10 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+
+$canEdit = ($this->user->authorize('com_jresearch','edit','publications','all') != 0 || $this->user->authorize('com_jresearch','edit','publications','own') != 0) ? true : false;
+?>
 <div class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></div>
 <table align="left" width="100%" cellspacing="2" cellpadding="2">
 <tbody>
