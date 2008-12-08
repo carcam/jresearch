@@ -94,7 +94,6 @@
 			<language tag="en-GB">en-GB.com_jresearch.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.menu.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.citation.ini</language>
-			<language tag="en-GB">en-GB.com_jresearch.config.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.cooperations.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.facilities.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.financiers.ini</language>
@@ -103,7 +102,6 @@
 			<language tag="en-GB">en-GB.com_jresearch.researchareas.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
-			<language tag="en-GB">en-GB.com_jresearch.views.ini</language>
 		</languages>
 	</administration>
 </install>

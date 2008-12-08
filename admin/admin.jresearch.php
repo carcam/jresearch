@@ -39,7 +39,6 @@ $prefix = 'JResearchAdmin';
 
 //Load additionally language files
 $lang = JFactory::getLanguage();
-$lang->load('com_jresearch.config');
 $lang->load('com_jresearch.citation');
 
 if($controller == null){
