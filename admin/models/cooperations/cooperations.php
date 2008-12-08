@@ -116,7 +116,7 @@ class JResearchModelCooperations extends JResearchModelList
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere($published = false){
-		global $mainframe, $option;
+		global $mainframe;
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('coopsfilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('coopsfilter_search', 'filter_search');
@@ -135,7 +135,7 @@ class JResearchModelCooperations extends JResearchModelList
 			$where[] = $db->nameQuote('published').' = 1 ';		
 
 			
-		if($filter_search = trim($filter_search))
+		if(($filter_search = trim($filter_search)))
 		{
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
@@ -164,7 +164,7 @@ class JResearchModelCooperations extends JResearchModelList
 	function orderItem($item, $movement)
 	{
 		$db =& JFactory::getDBO();
-		$row =& new JResearchCooperation($db);
+		$row = new JResearchCooperation($db);
 		$row->load($item);
 		
 		if (!$row->move($movement))
@@ -183,7 +183,7 @@ class JResearchModelCooperations extends JResearchModelList
 	{
 		$db 		=& JFactory::getDBO();
 		$total		= count($items);
-		$row		=& new JResearchCooperation($db);
+		$row		= new JResearchCooperation($db);
 
 		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($order);

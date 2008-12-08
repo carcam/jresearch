@@ -318,7 +318,7 @@ class JResearchProject extends JResearchActivity{
         $internalAuthorsQuery = "SELECT * FROM $table WHERE $idProject = $qoid";
 		$db->setQuery($internalAuthorsQuery);
         
-		if($result = $db->loadAssocList())
+		if(($result = $db->loadAssocList()))
         {
         	$this->_financiers = $result;
         }else{

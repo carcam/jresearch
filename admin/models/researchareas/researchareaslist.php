@@ -135,7 +135,7 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 		}else
 			$where[] = $db->nameQuote('published').' = 1 AND '.$db->nameQuote('id').' > 1 ';		
 					
-		if($filter_search = trim($filter_search)){
+		if(($filter_search = trim($filter_search))){
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
 			$where[] = 'LOWER('.$db->nameQuote('name').') LIKE '.$db->Quote('%'.$filter_search.'%');

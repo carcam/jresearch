@@ -115,7 +115,7 @@ class JResearchModelFacilities extends JResearchModelList
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere($published = false){
-		global $mainframe, $option;
+		global $mainframe;
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('facsfilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('facsfilter_search', 'filter_search');
@@ -134,7 +134,7 @@ class JResearchModelFacilities extends JResearchModelList
 			$where[] = $db->nameQuote('published').' = 1 ';		
 
 			
-		if($filter_search = trim($filter_search))
+		if(($filter_search = trim($filter_search)))
 		{
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);

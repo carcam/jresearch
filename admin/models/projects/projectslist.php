@@ -192,7 +192,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 				$where[] = (count($where)) ? ' '.implode(' OR ', $orWhere).' ' : '';
 		}
 					
-		if($filter_search = trim($filter_search)){
+		if(($filter_search = trim($filter_search))){
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
 			$where[] = 'LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%');

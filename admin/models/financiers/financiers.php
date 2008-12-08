@@ -118,7 +118,7 @@ class JResearchModelFinanciers extends JResearchModelList
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere($published = false){
-		global $mainframe, $option;
+		global $mainframe;
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('financierfilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('financierfilter_search', 'filter_search');
@@ -134,7 +134,7 @@ class JResearchModelFinanciers extends JResearchModelList
 		}else
 			$where[] = $db->nameQuote('published').' = 1 AND '.$db->nameQuote('id').' > 1 ';		
 					
-		if($filter_search = trim($filter_search)){
+		if(($filter_search = trim($filter_search))){
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
 			$where[] = 'LOWER('.$db->nameQuote('name').') LIKE '.$db->Quote('%'.$filter_search.'%');
