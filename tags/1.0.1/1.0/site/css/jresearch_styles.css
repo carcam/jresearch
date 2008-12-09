@@ -1,0 +1,116 @@
+.button2-left .bibliography{
+	background: url(../assets/j_button2_bibliography.png) 100% 0 no-repeat;
+}
+
+table.adminlist {
+	background-color:#E7E7E7;
+	border-spacing:3px;
+	color:#666666;
+	width:100%;
+}
+
+table.adminlist td{
+	border: #666666;
+	background-color:#FFFFFF;
+}
+
+
+table.editpublication{
+	border: 1px solid rgb(213, 213, 213); 
+	background-color: rgb(249, 249, 249); 
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	
+}
+
+table.editpublication th{
+	background-color: rgb(102, 102, 102); 
+	width: 100%;
+	color: white; 
+	font-weight: bold;
+	font-size: 12px;
+}
+
+table.editpublication td{
+	font-weight: bold;
+}
+
+.information{
+	font-weight: normal;
+	font-size: 10px;
+	color: rgb(0, 0, 225);
+}
+
+#div_sample{
+	display: none;	
+}
+
+table.staffimporter{
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;	
+}
+
+select.staffimporter{
+	width: 150px;
+}
+
+.staffimporter th{
+	text-align:center;
+}
+
+.staffimporter td{
+	text-align:center;
+}
+
+label.invalid{
+	color: red;
+	display: inline;
+}
+
+input.invalid{
+	background-color: #f6f1a4;
+}
+
+.labelform{
+ 	display:none;
+}
+
+.field{
+	font-weight: bold;
+}
+
+.publicationlabel{
+	font-weight:bold;
+	width:20%;
+}
+
+ul.comments{
+	margin:0px;
+	padding:0px;	
+	
+}
+
+li.comments{
+	list-style: none;
+	border-top: 1px dotted;
+	margin-top: 5px;
+}
+
+#divcomments, #commentForm{
+	width: 80%;
+	margin-left:auto;
+	margin-right:auto;	
+	
+}
+
+.subjectComment{
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.liresearcharea{
+	list-style: none;
+	margin-top: 10px;
+}
