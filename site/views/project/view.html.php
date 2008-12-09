@@ -28,11 +28,12 @@ class JResearchViewProject extends JView
         $layout = &$this->getLayout();
         switch($layout){
         	case 'default':
-        		$this->_displayProject();
+        		$value = $this->_displayProject();
         		break;
         }
 	
-        parent::display($tpl);
+        if(!empty($value))
+        	parent::display($tpl);
     }
     
     /**
@@ -64,6 +65,7 @@ class JResearchViewProject extends JView
     	$this->assignRef('project', $project);
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('area', $area);
+    	return true;
 
     }
 }

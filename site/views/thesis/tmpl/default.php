@@ -61,7 +61,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</ul>
 		</td>
 		<?php else: ?>
-		<td colspan="2">&nsbp;</td>
+		<td colspan="2">&nbsp;</td>
 		<?php endif; ?>
 	</tr>	
 	<?php endif; ?>

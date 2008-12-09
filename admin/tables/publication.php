@@ -2,6 +2,7 @@
 /**
 * @version		$Id$
 * @package		JResearch
+* @subpackage	Publications
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * Joomla! is free software. This version may have been modified pursuant
@@ -392,26 +393,28 @@ class JResearchPublication extends JResearchActivity{
 		
 			
 		if(empty($this->citekey)){
-			$this->setError(JText::_('Must provide a citekey for the publication'));
+			$this->setError(JText::_('JRESEARCH_PROVIDE_CITEKEY'));
 			return false;
 		}	
 		
 		// Verify if title is not empty
 		if(empty($this->title)){
-			$this->setError(JText::_('Must provide a title for the publication'));
+			$this->setError(JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'));
 			return false;
 		}
 		// Verify year
 		if(!empty($this->year)){
 			if(!preg_match('/^\d{4}$/',$this->year)){
-				$this->setError(JText::_('Provide a valid number for year of publication')); 
+				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); 
 				return false;
 			}
 					
 		}
 		
 		if(!empty($this->keywords)){
-			if(!preg_match('/^\w+(,\w+)*$/', $this->keywords)){
+			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
+			$extra = extra_word_characters();
+			if(!preg_match("/^[-_'\w$extra\s\d]+(,[-_'\w$extra\s\d]+)*,*$/", $this->keywords)){
 				$this->setError(JText::_('Error in the keywords field. They must be provided as several words separated by commas'));
 				return false;
 			}
@@ -455,9 +458,9 @@ class JResearchPublication extends JResearchActivity{
 		}
  		// Time to insert the attributes
       	if($this->$j){
-          	$ret = $db->updateObject( $this->_tbl, &$parentObject, $this->_tbl_key, $updateNulls );
+          	$ret = $db->updateObject( $this->_tbl, $parentObject, $this->_tbl_key, $updateNulls );
       	}else{
-          	$ret = $db->insertObject( $this->_tbl, &$parentObject, $this->_tbl_key );
+          	$ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
           	$this->$j = $db->insertid();
       	}
 
@@ -496,9 +499,9 @@ class JResearchPublication extends JResearchActivity{
 	
 	 		// Time to insert the derived attributes
 	  		if( !$isNew){
-	          $ret = $db->updateObject( $this->_derivedTable, &$derivedObject, $this->_d_tbl_key, $updateNulls );
+	          $ret = $db->updateObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key, $updateNulls );
 	      }else{
-	          $ret = $db->insertObject( $this->_derivedTable, &$derivedObject, $this->_d_tbl_key );
+	          $ret = $db->insertObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key );
 	      }
 
 	      

@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage		HTML
+* @subpackage	HTML
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -15,7 +15,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'lang
  * JHTML helper class used for enabling client side validation of JResearch
  * forms.
  *
- * @package    		JResearch
  */
 class JHTMLValidator{
 	
@@ -46,13 +45,20 @@ class JHTMLValidator{
     	
     	$doc->addScriptDeclaration("window.onDomReady(function() {
 			document.formvalidator.setHandler('url', function(value) {
-			regex=/^(http|https|ftp)\:\/\/[a-z0-9\-\.]+\.[a-z]{2,3}(:[a-z0-9]*)?\/?([a-z0-9\-\._\?\,\'\/\\\+&amp;%\$#\=~])*$/i;
+			regex=/^(ftp|http|https|ftps):\/\/([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}|localhost|\d{1,3}(\.\d{1,3}){3})(:\d{2,5})?(([0-9]{1,5})?\/.*)?$/i;
 			return regex.test(value); })
 		})");
     	
     	$doc->addScriptDeclaration("window.onDomReady(function() {
 			document.formvalidator.setHandler('year', function(value) {
 			regex=/^\d{4}$/i;
+			return regex.test(value); })
+		})");
+    	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
+		$extra = extra_word_characters();
+    	$doc->addScriptDeclaration("window.onDomReady(function() {
+			document.formvalidator.setHandler('keywords', function(value) {
+			regex=/^[-_'\w$extra\s\d]+(,[-_'\w$extra\s\d]+)*,*$/i;
 			return regex.test(value); })
 		})");
     	

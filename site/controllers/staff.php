@@ -27,6 +27,7 @@ class JResearchStaffController extends JController
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('show', 'show');
 		$this->registerTask('save', 'save');
+		$this->registerTask('cancel', 'cancel');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
@@ -170,6 +171,25 @@ class JResearchStaffController extends JController
 			if(!$member->checkin())
 				JError::raiseWarning(1, JText::_('The record could not be unlocked.'));		
 		}		
+	}
+	
+	/**
+	 * Invoked when the user has decided to cancel frontend edition
+	 *
+	 */
+	function cancel(){
+		$user = JFactory::getUser();
+		$username = $user->get('username');
+		$model = &$this->getModel('Member', 'JResearchModel');		
+		
+		if($id != null){
+			$member = $model->getByUsername($username);			
+			if(!$member->checkin()){
+				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+			}
+		}
+		
+		$this->setRedirect('index.php?option=com_jresearch&view=staff');		
 	}
 	
 }
