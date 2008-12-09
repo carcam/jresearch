@@ -57,7 +57,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$exportLinks[] = JHTML::_('link', 'index.php?option=com_jresearch&controller=publications&task=exportSingle&format=bibtex&id='.$this->items[$i]->id, 'Bibtex');	
 					$exportLinks[] = JHTML::_('link', 'index.php?option=com_jresearch&controller=publications&task=exportSingle&format=mods&id='.$this->items[$i]->id, 'MODS');	
 					$exportLinks[] = JHTML::_('link', 'index.php?option=com_jresearch&controller=publications&task=exportSingle&format=ris&id='.$this->items[$i]->id, 'RIS');
-					$exportLinks[] = JHTML::_('link', 'index.php?option=com_jresearch&controller=publications&task=exportSingle&format=rdf&id='.$this->items[$i]->id, 'RDF');
 					$researchArea = $this->area->getItem((int)$this->items[$i]->id_research_area);
 		?>
 			
