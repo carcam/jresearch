@@ -29,7 +29,7 @@ class JResearchMLAManualCitationStyle extends JResearchMLACitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = 'and';
+		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$authors = $publication->getAuthors();
 		$n = count($authors);
 		

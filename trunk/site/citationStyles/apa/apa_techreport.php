@@ -33,7 +33,7 @@ class JResearchAPATechreportCitationStyle extends JResearchAPACitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = '&';
+		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		$text = '';
 		
 		$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);

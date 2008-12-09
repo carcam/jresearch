@@ -41,6 +41,44 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </tr>
 <tr>
 	<?php $colspan = 4; ?>
+	<?php $filing_date = trim($this->publication->filing_date);  ?>
+	<?php if(!empty($filing_date)): ?>
+	<?php $colspan -= 2; ?>
+	<td style="width:15%;" class="publicationlabel"><?=JText::_('JRESEARCH_FILING_DATE').': ' ?></td>		
+	<td style="width:35%;"><?php echo $filing_date; ?></td>
+	<?php endif; ?>
+	<?php $issue_date = trim($this->publication->issue_date); ?>
+	<?php if(!empty($issue_date)): ?>
+	<?php $colspan -= 2; ?>
+	<td style="width:15%;" class="publicationlabel"><?=JText::_('JRESEARCH_ISSUE_DATE').': ' ?></td>
+	<td style="width:35%;"><?=$issue_date; ?></td>
+	<?php else: ?>
+	<?php if($colspan > 0): ?>
+	<td colspan="<?php echo $colspan; ?>"></td>	
+	<?php endif; ?>
+	<?php endif; ?>
+</tr>
+<tr>
+	<?php $colspan = 4; ?>
+	<?php $country = trim($this->publication->country);  ?>
+	<?php if(!empty($country)): ?>
+	<?php $colspan -= 2; ?>
+	<td style="width:15%;" class="publicationlabel"><?=JText::_('JRESEARCH_COUNTRY').': ' ?></td>		
+	<td style="width:35%;"><?php echo $country; ?></td>
+	<?php endif; ?>
+	<?php $office = trim($this->publication->office); ?>
+	<?php if(!empty($office)): ?>
+	<?php $colspan -= 2; ?>
+	<td style="width:15%;" class="publicationlabel"><?=JText::_('JRESEARCH_PATENT_OFFICE').': ' ?></td>
+	<td style="width:35%;"><?=$office; ?></td>
+	<?php else: ?>
+	<?php if($colspan > 0): ?>
+	<td colspan="<?php echo $colspan; ?>"></td>	
+	<?php endif; ?>
+	<?php endif; ?>
+</tr>
+<tr>
+	<?php $colspan = 4; ?>
 	<?php $claims = trim($this->publication->claims);  ?>
 	<?php if(!empty($claims)): ?>
 	<?php $colspan -= 2; ?>

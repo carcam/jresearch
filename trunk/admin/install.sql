@@ -144,6 +144,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_patent` (
   `issue_date` date DEFAULT NULL,
   `claims` longtext DEFAULT NULL,
   `drawings_dir` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `office` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
