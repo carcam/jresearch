@@ -34,7 +34,7 @@ class JResearchVancouverInbookCitationStyle extends JResearchVancouverCitationSt
 		$nEditors = count($publication->getEditors());
 		$text = '';
 		
-		$eds = $nEditors > 1? JText::_('JRESEARCH_EDITORS'):JText::_('JRESEARCH_EDITOR');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_VANCOUVER_EDITORS'):JText::_('JRESEARCH_VANCOUVER_EDITOR');
 		$editorsConsidered = false;
 		
 		if($nAuthors <= 0){

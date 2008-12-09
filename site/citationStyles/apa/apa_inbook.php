@@ -33,7 +33,7 @@ class JResearchAPAInbookCitationStyle extends JResearchAPACitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = '&';
+		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		$in = JText::_('JRESEARCH_IN');
 		$text = '';
 		if(count($publication->getEditors()) > 1){

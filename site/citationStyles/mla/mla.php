@@ -149,7 +149,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = '&';
+		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
 		
@@ -196,7 +196,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 	* @return 	string
 	*/  
 	function getParentheticalCitationText($publication){
-		$this->lastAuthorSeparator = '&';
+		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		if($publication instanceof JResearchPublication){
 			$text = $this->getParentheticalCitationFromSinglePublication($publication); 
 		}else{

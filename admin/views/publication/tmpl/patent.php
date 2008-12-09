@@ -28,6 +28,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <tr>
+	<td><?=JText::_('JRESEARCH_COUNTRY').': ' ?></td>
+	<td>
+		<input name="address" id="address" type="text" size="30" maxlength="255" value="<?= $this->publication?$this->publication->address:''; ?>" />
+	</td>
+	<td><?=JText::_('JRESEARCH_PATENT_OFFICE').': ' ?></td>
+	<td>
+		<input name="office" id="office" type="text" size="30" maxlength="255" value="<?= $this->publication?$this->publication->office:''; ?>" />
+	</td>
+</tr>
+<tr>
 	<td><?=JText::_('JRESEARCH_CLAIMS').': ' ?></td>
 	<td colspan="3">
 		<textarea cols="30" rows="5" name="claims" id="claims"><?=$this->publication?$this->publication->claims:''?></textarea>

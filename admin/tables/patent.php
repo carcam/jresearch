@@ -32,6 +32,8 @@ class JResearchPatent extends JResearchPublication
 	public $issue_date;
 	public $claims;
 	public $drawings_dir;
+	public $country;
+	public $office;
 
 	/**
 	 * Class constructor.  It maps the entity to Joomla tables
