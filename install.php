@@ -22,6 +22,25 @@ require_once(JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'database'.DS.'table'.DS.'
  * @return boolean True if operations are executed successfully
  */
 function com_install(){
+	//@TODO DELETE FOLDERS AFTER COPYING IN ANOTHER DIRECTORY! (PLUGINS)
+	
+	// Copy Joom!Fish content elements if Joom!Fish extension exists
+	$joomFishCheckFile = JPATH_SITE.'components'.DS.'com_joomfish'.DS.'config.joomfish.php';
+	$srcFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'contentelements';
+	$destFolder = JPATH_SITE.'components'.DS.'com_joomfish'.DS.'contentelements';
+	
+	/* @todo Add content elements for install and removing
+	if(file_exists($joomFishCheckFile))
+	{
+		//Install content elements
+		@rename($srcFolder.DS.'ce_jresearch_facility.xml', $destFolder.DS.'ce_jresearch_facility.xml');
+	}
+	else 
+	{
+		//Remove files from component installation
+		@unlink($srcFolder.DS.'ce_jresearch_facility.xml');
+		@rmdir($srcFolder);
+	}*/
 	
 	// Copy TinyMCE plugin files to the right folder
 	$srcFolder = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'automatic_citation';
