@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
+<install type="component" version="1.5.0">
+	<name>Jresearch</name>
+	<creationDate>June 2008</creationDate>
+	<author>Luis Gal&#225;rraga</author>
+	<authorEmail>shamantobi@gmail.com</authorEmail>
+	<authorUrl>http://joomla-research.com</authorUrl>
+	<copyright>Copyright (C) 2008 Luis Gal&#225;rraga</copyright>
+	<license>GPL</license>
+	<version>1.0 Beta 2</version>
+	<description>Component for the management of research-related work in research departments.</description>
+	<installfile>install.php</installfile>
+	<uninstallfile>uninstall.php</uninstallfile>
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">install.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file charset="utf8" driver="mysql">uninstall.sql</file>
+		</sql>
+	</uninstall>
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>jresearch.php</filename>
+		<filename>tinymce.php</filename>
+		<folder>assets</folder>
+		<folder>automatic_citation</folder>
+		<folder>bibutils</folder>
+		<folder>citationStyles</folder>
+		<folder>controllers</folder>
+		<folder>css</folder>
+		<folder>helpers</folder>
+		<folder>includes</folder>
+		<folder>plg_jresearch</folder>
+		<folder>plg_jresearch_automatic_bibliography_generation</folder>
+		<folder>plg_jresearch_automatic_citation</folder>
+		<folder>plg_jresearch_load_cited_records</folder>
+		<folder>plg_jresearch_persistent_cited_records</folder>
+		<folder>plg_jresearch_native_plugins</folder>
+		<folder>views</folder>
+	</files>	
+	<languages>
+		<language tag="en-GB">en-GB.com_jresearch.ini</language>
+		<language tag="es-ES">es-ES.com_jresearch.ini</language>
+	</languages>
+	<administration>
+		<menu>J!Research</menu>
+		<files folder="admin">
+			<filename>index.html</filename>
+			<filename>admin.jresearch.php</filename>
+			<filename>install.sql</filename>
+			<filename>toolbar.jresearch.html.php</filename>
+			<filename>uninstall.sql</filename>
+			<filename>controller.php</filename>
+			<filename>config.xml</filename>
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>		
+		<languages folder="admin">
+			<language tag="en-GB">en-GB.com_jresearch.ini</language>
+			<language tag="es-ES">es-ES.com_jresearch.ini</language>			
+		</languages>
+	</administration>
+</install>
