@@ -13,10 +13,35 @@ defined('_JEXEC') or die('Restricted access');
 
 class JResearchCooperation extends JTable
 {
+	/**
+	 * Database integer id
+	 *
+	 * @var int
+	 */
     public $id;
+    /**
+     * Cooperation name
+     *
+     * @var string
+     */
   	public $name;
+  	/**
+  	 * Cooperation Image URL
+  	 *
+  	 * @var string
+  	 */
   	public $image_url;
+  	/**
+  	 * Cooperation description
+  	 *
+  	 * @var string
+  	 */
   	public $description;
+  	/**
+  	 * Cooperation URL
+  	 *
+  	 * @var string
+  	 */
   	public $url;
   	public $checked_out;
   	public $checked_out_time;
@@ -35,10 +60,9 @@ class JResearchCooperation extends JTable
     
     function check()
     {
-    	//@todo Find correct URL Pattern
+    	$url_pattern = '!^((mailto\:|(news|(ht|f)tp(s?))\://){1}\S+)$!';
     	//$url_pattern = "!^((ht|f)tp(s?)\:\/\/|~/|/)?([\w]+:\w+@)?([a-zA-Z]{1}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?((/?\w+/)+|/?)(\w+\.[\w]{3,4})?((\?\w+=\w+)?(&\w+=\w+)*)?$!";
     	
-    	/*
         if(!empty($this->url))
         {
         	if(!preg_match($url_pattern, $this->url))
@@ -52,7 +76,6 @@ class JResearchCooperation extends JTable
         	$this->setError(JText::_('Please provide a valid URL'));
         	return false;
         }
-		*/
         	
         return true;
     }
