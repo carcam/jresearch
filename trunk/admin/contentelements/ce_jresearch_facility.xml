@@ -1,6 +1,6 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <joomfish type="contentelement">
-	<name>Facility</name>
+	<name>J!Research Facility</name>
 	<author>F. Prinz</author>
 	<version>0.1</version>
 	<description>Definition for the facility content of the J!Research component</description>
