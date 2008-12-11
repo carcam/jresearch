@@ -5,6 +5,7 @@
  * Default view for showing a single member
  */
 
+
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="componentheading"><?php echo $this->member; ?></div>
@@ -26,7 +27,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
   ?>
 	  <tr>
 	  	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_EMAIL').': ' ?></td>
-	  	<td><a href="mailto:<?php echo $this->member->email; ?>"><?php echo $this->member->email; ?></a></td>
+	  	<td><?=JHTML::_('email.cloak',$this->member->email);?></td>
 	  	<td colspan="2"></td>
 	  </tr>
   <?php 
