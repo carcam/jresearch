@@ -37,10 +37,13 @@ function com_install(){
 	}
 	else 
 	{
-		//Remove files from component installation
+		//Remove files from component installation, isn't necessary for the current joomla installation
 		@unlink($srcFolder.DS.'ce_jresearch_facility.xml');
-		@rmdir($srcFolder);
-	}*/
+	}
+
+	//Remove folder from component
+	@rmdir($srcFolder);
+ 	*/
 	
 	// Copy TinyMCE plugin files to the right folder
 	$srcFolder = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'automatic_citation';
