@@ -20,11 +20,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <td colspan="2" rowspan="3"><img src="<?php echo $this->member->url_photo; ?>" border="0" alt="<?php echo $this->member; ?>" /></td>
     <?php endif; ?>		
   </tr>
-  <tr>
-  	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_EMAIL').': ' ?></td>
-  	<td><a href="mailto:<?php echo $this->member->email; ?>"><?php echo $this->member->email; ?></a></td>
-  	<td colspan="2"></td>
-  </tr> 
+  <?php
+  if($this->member->former_member == 0)
+  {
+  ?>
+	  <tr>
+	  	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_EMAIL').': ' ?></td>
+	  	<td><a href="mailto:<?php echo $this->member->email; ?>"><?php echo $this->member->email; ?></a></td>
+	  	<td colspan="2"></td>
+	  </tr>
+  <?php 
+  }
+  ?>
   <tr>
   	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
   	<td><?php echo $this->area->name; ?></td>
