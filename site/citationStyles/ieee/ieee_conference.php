@@ -73,7 +73,7 @@ class JResearchIEEEConferenceCitationStyle extends JResearchIEEECitationStyle{
 					
 		$volume = trim($publication->volume);
 		if(!empty($volume))
-			$header .= ', '.JText::_('Vol.').' '.$volume;
+			$header .= ', '.JText::_('JRESEARCH_VOL').'. '.$volume;
 				
 		if($publication->year != null && $publication->year != '0000')		
 			$header .= ', '.$publication->year;

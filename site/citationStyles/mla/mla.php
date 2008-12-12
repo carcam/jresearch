@@ -65,9 +65,9 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 			$text = "({pages or volumes})";
 		}
 		
-		
+		$title = trim($pub->title);
 		if($pub->countAuthors() == 0){
-			return "\"$pub->title\" $text";
+			return "\"$title\" $text";
 		}else{
 			$authorText = $this->getAuthorsCitationTextFromSinglePublication($pub); 
 			return "$authorText $text";
@@ -180,12 +180,13 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		if(!empty($authorsText))
 				$header = "$authorsText. $title";
 		else
-				$header = "$title";	
+				$header = $title;	
 		
-		if($publication->year != null && $publication->year != '0000')		
-			return "$header, $publication->year";
+		$year = trim($publication->year);		
+		if($year != null && $year != '0000')		
+			return "$header, $year.";
 		else
-			return $header;	
+			return $header.'.';	
 	}
 	
 	
@@ -267,7 +268,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		
 		$k = 0;	
 		foreach($editorsArray as $ed){
-			$isFirst = $k==0?true:false;
+			$isFirst = ($k==0);
 			$formattedEditors[] = $this->formatAuthorForReferenceOutput($ed, $isFirst);	
 			$k++;
 		}

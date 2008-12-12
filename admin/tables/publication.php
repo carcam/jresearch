@@ -68,6 +68,13 @@ class JResearchPublication extends JResearchActivity{
 	public $journal_acceptance_rate;	
 	
 	/**
+	 * The impact factor of the publication
+	 *
+	 * @var float
+	 */
+	public $impact_factor;
+	
+	/**
 	 * @var string
 	 */
 	public $awards;
@@ -144,6 +151,8 @@ class JResearchPublication extends JResearchActivity{
 	* Associative array with supported records types and their printable names.
 	*/
 	static $_types;
+	
+	
 
 	/**
 	 * Class constructor. It maps the entity to a Joomla table.

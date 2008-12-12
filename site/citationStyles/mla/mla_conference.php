@@ -32,8 +32,9 @@ class JResearchMLAConferenceCitationStyle extends JResearchMLACitationStyle{
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
+		$text = '';
 		
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
 		if(!$publication->__authorPreviouslyCited){
 			if($nAuthors <= 0){
@@ -55,28 +56,34 @@ class JResearchMLAConferenceCitationStyle extends JResearchMLACitationStyle{
 			$authorsText = '---';
 		}
 
-		$address = $this->_getAddressText($publication);
-		
 		$booktitle = trim($publication->booktitle);
 		$booktitle = $html?"<u>$booktitle</u>":$booktitle;
 		
 		$title = '"'.trim($publication->title).'"';
-
+		$ed = JText::_('JRESEARCH_APA_ED');
 		if(!empty($authorsText)){
 			if(!empty($editorsText))
-				$header = "$authorsText. $title. $booktitle. Ed. $editorsText.";
+				$header = "$authorsText. $title. $booktitle. $ed. $editorsText.";
 			else
 				$header = "$authorsText. $title. $booktitle";	
 		}else{
 			$header = "$title. $booktitle";	
 		}
+		$text .= $header;
+
+		$address = $this->_getAddressText($publication);
+		if(!empty($address))
+			$text .= '. '.$address;
 		
+		$year = trim($publication->year);
+		if($year!= null && $year != '0000')
+			$text .= ', '.$year;
+				
 		$pages = str_replace('--', '-', trim($publication->pages));
+		if(!empty($pages))
+			$text .= '. '.$pages;
 		
-		if($publication->year!= null && $publication->year != '0000')
-			return "$header. $address, $publication->year. $pages";
-		else
-			return "$header. $address. $pages";	
+		return $text;	
 	}
 }
 ?>

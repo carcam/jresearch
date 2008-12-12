@@ -24,8 +24,9 @@ class JResearchMLAPhdthesisCitationStyle extends JResearchMLACitationStyle{
 	* @return 	string
 	*/
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		$this->lastAuthorSeparator = JText::_('JRESEARCH_BIBTEXT_AUTHOR_SEP');
+		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$nAuthors = $publication->countAuthors();
+		$text = '';
 		
 		if(!$publication->__authorPreviouslyCited){
 			if($nAuthors <= 0){
@@ -39,20 +40,24 @@ class JResearchMLAPhdthesisCitationStyle extends JResearchMLACitationStyle{
 
 		$address = $this->_getAddressText($publication);
 		
-		$title = '"'.trim($publication->title).'"';
+		$title = '"'.$publication->title.'"';
 
 		if(!empty($authorsText)){
 			$header = "$authorsText. $title.";
 		}else{
-			$header = "$title";	
+			$header = $title;	
 		}
+		$text = $header;
 		
 		$school = trim($publication->school);
+		if(!empty($school))
+			$text .= '. '.$school;
 
-		if($publication->year != null && $publication->year != '0000')		
-			return "$header. $school, $publication->year";
-		else
-			return "$header. $school";			
+		$year = trim($publication->year);			
+		if($year != null && $year != '0000')		
+			$text .= ', '.$year;
+			
+		return $text;			
 	}
 	
 }

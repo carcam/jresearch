@@ -32,8 +32,9 @@ class JResearchMLAIncollectionCitationStyle extends JResearchMLACitationStyle{
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
+		$text = '';
 		
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
 		if(!$publication->__authorPreviouslyCited){
 			if($nAuthors <= 0){
@@ -44,7 +45,7 @@ class JResearchMLAIncollectionCitationStyle extends JResearchMLACitationStyle{
 					$editorsText = '';
 				}else{
 					// If no authors, but editors
-					$authorsText = trim($this->getEditorsReferenceTextFromSinglePublication($publication));
+					$authorsText = trim($this->getEditorsReferenceTextFromSinglePublication($publication, $authorLinks));
 					$authorsText .= " ($eds)";
 				}
 			}else{
@@ -54,29 +55,38 @@ class JResearchMLAIncollectionCitationStyle extends JResearchMLACitationStyle{
 		}else{
 			$authorsText = '---';
 		}
-
-		$address = $this->_getAddressText($publication);
+		
+		
+		$title = '"'.trim($publication->title).'"';
+		$ed = JText::_('JRESEARCH_APA_ED');
 		
 		$booktitle = trim($publication->booktitle);
 		$booktitle = $html?"<u>$booktitle</u>":$booktitle;
 		
-		$title = '"'.trim($publication->title).'"';
-
 		if(!empty($authorsText)){
 			if(!empty($editorsText))
-				$header = "$authorsText. $title. $booktitle. Ed. $editorsText.";
+				$header = "$authorsText. $title. $booktitle. $ed. $editorsText.";
 			else
 				$header = "$authorsText. $title. $booktitle";	
 		}else{
-			$header = "$title. $booktitle";	
+			$header = "$title. $series";	
 		}
+		$text .= $header;
 		
+		$address = $this->_getAddressText($publication);
+		if(!empty($address))
+			$text .= '. '.$address;
+		
+
+		$year = trim($publication->year);
+		if($year != null && $year != '0000')
+			$text .= ', '.$year;
+			
 		$pages = str_replace('--', '-', trim($publication->pages));
-		
-		if($publication->year != null && $publication->year != '0000')
-			return "$header. $address, $publication->year. $pages";
-		else
-			return "$header. $address. $pages";	
+		if(!empty($pages))
+			$text .= '. '.$pages;			
+
+		return $text;
 	}
 	
 }

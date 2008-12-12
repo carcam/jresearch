@@ -30,6 +30,7 @@ class JResearchMLAArticleCitationStyle extends JResearchMLACitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$nAuthors = $publication->countAuthors();
+		$text = '';
 				
 		if(!$publication->__authorPreviouslyCited){
 			if($nAuthors > 0){
@@ -38,27 +39,41 @@ class JResearchMLAArticleCitationStyle extends JResearchMLACitationStyle{
 		}else{
 			$authorsText = '---';
 		}
-				
+		
 		$title = '"'.trim($publication->title).'"';
-		$journal = trim($publication->journal);
-		$journal = $html? "<u>$journal</u>":$journal;
+		
 
 		if(!empty($authorsText))
-			$header = "$authorsText. $title $edition";
+			$header = "$authorsText. $title";
 		else
 			$header = "$title";	
 
-		if(!empty($publication->volume)){
-			$vol = trim($publication->volume);
-			if(!empty($publication->number))
-				$vol .= '.'.trim($publication->number);
+		$text .= $header;					
+
+		$journal = trim($publication->journal);
+		$journal = $html? "<u>$journal</u>":$journal;
+		if(!empty($journal))
+			$text .= '. '.$journal;
+					
+		$volume = trim($publication->volume);	
+		if(!empty($volume)){
+			$number = trim($publication->number);
+			if(!empty($number))
+				$volume .= '.'.$number;
+
+			$text .= ' '.$vol;	
 		}
-				
-		$pages = str_replace('--', '-', $publication->pages);
-		if($publication->year!= null && $publication->year != '0000')
-			return "$header. $journal $vol ($publication->year): $pages.";
-		else
-			return "$header. $journal $vol: $pages.";	
+						
+
+		$year = trim($publication->year);
+		if($year!= null && $year != '0000')
+			$text .= " ($year)";		
+		
+		$pages = str_replace('--', '-', trim($publication->pages));
+		if(!empty($pages))
+			$text .= ': '.$pages;
+			
+		return $text.'.';	
 	}
 	
 	

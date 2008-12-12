@@ -67,12 +67,13 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 		$month = trim($publication->month);
 		if(!empty($month))
 			$header .= ', '.$month;	
-				
-		if($publication->year != null && $publication->year != '0000')		
+
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
 			if(!empty($month))
-				$header =  "$header $publication->year";
+				$header =  "$header $year";
 			else
-				$header =  "$header, $publication->year";
+				$header =  "$header, $year";
 	
 		return $header;	
 			

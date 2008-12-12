@@ -84,7 +84,7 @@ class JResearchIEEEBookCitationStyle extends JResearchIEEECitationStyle{
 
 		$volume = trim($publication->volume);
 		if(!empty($volume))
-			$header .= ' '.JText::_('JRESEARCH_VOL').'. '.$volume;
+			$header .= ' '.JText::_('JRESEARCH_VOL_LOWER').'. '.$volume;
 
 			
 		$address = $this->_getAddressText($publication);
