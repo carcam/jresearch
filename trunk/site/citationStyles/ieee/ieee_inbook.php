@@ -52,7 +52,7 @@ class JResearchIEEEInbookCitationStyle extends JResearchIEEECitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
 		$editorsConsidered = false;		
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
 		if($nAuthors <= 0){
 			if($nEditors == 0){
@@ -70,7 +70,7 @@ class JResearchIEEEInbookCitationStyle extends JResearchIEEECitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$ed = JText::_('ed.');
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'.';
 		
 		$title = '"'.trim($publication->title).'",';	
 		
@@ -79,10 +79,12 @@ class JResearchIEEEInbookCitationStyle extends JResearchIEEECitationStyle{
 		else
 			$header = $title;	
 		
-		$booktitle = trim($publication->booktitle);
-		if(!empty($booktitle))
-			$booktitle = " in ".($html?"<i>$booktitle</i>":$booktitle);	
-			
+		$series = trim($publication->series);
+		if(!empty($series)){
+			$in = JText::_('JRESEARCH_IN');
+			$series = " $in ".($html?"<i>$series</i>":$series);	
+		}
+		
 		$edition = trim($publication->edition); 
 		if(!empty($edition))
 			$header .= ", $edition $ed";
@@ -90,7 +92,7 @@ class JResearchIEEEInbookCitationStyle extends JResearchIEEECitationStyle{
 					
 		$volume = trim($publication->volume);
 		if(!empty($volume))
-			$header .= ', '.JText::_('Vol.').' '.$volume;
+			$header .= ', '.JText::_('JRESEARCH_VOL').'. '.$volume;
 
 		$editors = $this->getEditorsReferenceTextFromSinglePublication($publication);	
 		if(!$editorsConsidered && !empty($editors))
@@ -100,9 +102,9 @@ class JResearchIEEEInbookCitationStyle extends JResearchIEEECitationStyle{
 		if(!empty($address))
 			$header .= " .$address";
 	
-				
-		if($publication->year != null && $publication->year != '0000')		
-			$header .= ', '.$publication->year;
+		$year = trim($publication->year);		
+		if($year != null && $year != '0000')		
+			$header .= ', '.$year;
 			
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))

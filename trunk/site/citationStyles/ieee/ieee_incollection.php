@@ -65,9 +65,10 @@ class JResearchIEEEIncollectionCitationStyle extends JResearchIEEECitationStyle{
 			$header = $title;	
 		
 		$booktitle = trim($publication->booktitle);
-		if(!empty($booktitle))
+		if(!empty($booktitle)){
+			$in = JText::_('JRESEARCH_IN');
 			$booktitle = " in ".($html?"<i>$booktitle</i>":$booktitle);	
-
+		}
 
 		$editors = $this->getEditorsReferenceTextFromSinglePublication($publication);	
 		if(!empty($editors))
@@ -81,11 +82,12 @@ class JResearchIEEEIncollectionCitationStyle extends JResearchIEEECitationStyle{
 		if(!empty($month))
 			$header .= ', '.$month;	
 				
-		if($publication->year != null && $publication->year != '0000')		
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
 			if(!empty($month))
-				$header =  "$header $publication->year";
+				$header =  "$header $year";
 			else
-				$header =  "$header, $publication->year";	
+				$header =  "$header, $year";	
 			
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))

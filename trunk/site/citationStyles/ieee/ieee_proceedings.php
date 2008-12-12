@@ -50,7 +50,7 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){				
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
 		if($nAuthors <= 0){
 			if($nEditors == 0){
@@ -68,7 +68,7 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$ed = JText::_('ed.');
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'.';
 		
 		$title = trim($publication->title);	
 		$title = $html?"<i>$title</i>":$title;
@@ -80,11 +80,12 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 			
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
-			$header .= " .$address";
+			$header .= ". $address";
 	
 				
-		if($publication->year != null && $publication->year != '0000')		
-			$header .= ', '.$publication->year;
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
+			$header .= ', '.$year;
 			
 		return $header;
 				

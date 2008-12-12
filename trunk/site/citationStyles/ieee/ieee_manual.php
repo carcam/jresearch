@@ -48,17 +48,22 @@ class JResearchIEEEManualCitationStyle extends JResearchIEEECitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){				
+		$nAuthors = $publication->countAuthors();
+		if($nAuthors > 0){
+			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+		}
+		
 		$title = trim($publication->title);
 		$title = $html? "<i>$title</i>":$title;
 		
 		if(!empty($authorsText))
-			$header = "$authorsText. $title $journal";
+			$header = "$authorsText. $title";
 		else
-			$header = "$title $journal";	
+			$header = $title;	
 					
 		$volume = trim($publication->volume);
 		if(!empty($volume))
-			$header .= ', '.JText::_('vol.').' '.$volume;
+			$header .= ', '.JText::_('JRESEARCH_VOL').'. '.$volume;
 	
 		$organization = trim($publication->organization);
 		if(!empty($organization))
@@ -72,11 +77,12 @@ class JResearchIEEEManualCitationStyle extends JResearchIEEECitationStyle{
 		if(!empty($month))
 			$header .= ', '.$month;	
 				
-		if($publication->year != null && $publication->year != '0000')		
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
 			if(!empty($month))
-				return "$header $publication->year";
+				return "$header $year";
 			else
-				return "$header, $publication->year";	
+				return "$header, $year";	
 		else
 			return $header;	
 

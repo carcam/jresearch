@@ -224,6 +224,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `id_research_area` int(10) unsigned NOT NULL default '1',
   `comments` text,
   `journal_acceptance_rate` float unsigned default NULL,
+  `impact_factor` float unsigned default NULL,
   `pubtype` varchar(20) NOT NULL default 'book',
   `awards` text,
   `url` varchar(255) default NULL,

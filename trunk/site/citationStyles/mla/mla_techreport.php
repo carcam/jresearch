@@ -33,6 +33,7 @@ class JResearchMLATechreportCitationStyle extends JResearchMLACitationStyle{
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$authors = $publication->getAuthors();
 		$n = count($authors);
+		$text = '';
 		
 		// For techreports, authors are usually organizations, so do not extract lastnames
 		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorsLinks));
@@ -43,12 +44,18 @@ class JResearchMLATechreportCitationStyle extends JResearchMLACitationStyle{
 			$head = "$title";
 		else
 			$head = "$authorsText. $title";	
-		
+
+		$text .= $head;
+			
 		$institution = trim($publication->institution);	
-		if($publication->year != null && $publication->year != '0000')		
-			return "$head. $institution, $publication->year";
-		else
-			return "$head. $institution";	
+		if(!empty($institution))
+			$text .= '. '.$institution;
+		
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')
+			$text .= ', '.$year;		
+
+		return $text;	
 
 	}
 	

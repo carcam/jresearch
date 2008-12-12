@@ -60,7 +60,7 @@ class JResearchIEEEMasterthesisCitationStyle extends JResearchIEEECitationStyle{
 		else
 			$header = $title;			
 		
-		$header .= 'Ph.D. dissertation';
+		$header .= JText::_('JRESEARCH_IEEE_PHDTHESIS');
 		
 		$school = trim($publication->school);
 		if(!empty($school))
@@ -70,8 +70,9 @@ class JResearchIEEEMasterthesisCitationStyle extends JResearchIEEECitationStyle{
 		if(!empty($address))
 			$header .= ', '.$address;			
 
-		if($publication->year != null && $publication->year != '0000')		
-			$header =  "$header, $publication->year";
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
+			$header =  "$header, $year";
 	
 		return $header;	
 			

@@ -87,8 +87,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_AWARDS').': '?></td>
 		<td><textarea cols="30" rows="5" name="awards" id="awards"  ><?php echo $this->publication?$this->publication->awards:''; ?></textarea></td>
-		<td></td>
-		<td></td>
+		<td><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></td>
+		<td>	
+			<input value="<?php echo $this->impact_factor?$this->publication->impact_factor:'' ?>" size="10" name="impact_factor" id="impact_factor" maxlength="8" class="validate-numeric" />
+			&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR_TOOLTIP')) ?>
+			<br />
+			<label for="impact_factor" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_NUMBER'); ?></label>
+		</td>
 	</tr>
 
 </tbody>
