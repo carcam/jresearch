@@ -143,7 +143,7 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	* @return 	string
 	*/
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks = false){
-		
+		return $this->getReference($publication, true ,$authorLinks);
 	}
 			
 	/**

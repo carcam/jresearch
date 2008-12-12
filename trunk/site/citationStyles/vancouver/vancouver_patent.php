@@ -48,11 +48,11 @@ class JResearchVancouverPatentCitationStyle extends JResearchVancouverCitationSt
 
 		$number = trim($publication->patent_number);
 		if(!empty($number))
-			$text .= '. '.$number.' '.JText::_('JRESEARCH_PATENT');
+			$text .= '. '.$number.' ('.JText::_('JRESEARCH_PATENT').')';
 		
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$year = ' '.$year;
+			$text .= ' '.$year;
 		
 		return $text.'.';	
 	}

@@ -60,11 +60,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </tr>
 <tr>
 	<?php $colspan = 4; ?>
-	<?php $country = trim($this->publication->country);  ?>
-	<?php if(!empty($country)): ?>
+	<?php $country = trim($this->publication->address);  ?>
+	<?php if(!empty($address)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?=JText::_('JRESEARCH_COUNTRY').': ' ?></td>		
-	<td style="width:35%;"><?php echo $country; ?></td>
+	<td style="width:15%;" class="publicationlabel"><?=JText::_('JRESEARCH_ADDRESS').': ' ?></td>		
+	<td style="width:35%;"><?php echo $address; ?></td>
 	<?php endif; ?>
 	<?php $office = trim($this->publication->office); ?>
 	<?php if(!empty($office)): ?>

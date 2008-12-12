@@ -28,7 +28,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <tr>
-	<td><?=JText::_('JRESEARCH_COUNTRY').': ' ?></td>
+	<td><?=JText::_('JRESEARCH_ADDRESS').': ' ?></td>
 	<td>
 		<input name="address" id="address" type="text" size="30" maxlength="255" value="<?= $this->publication?$this->publication->address:''; ?>" />
 	</td>

@@ -11,7 +11,7 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'apa'.DS.'mla.php');
+require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'mla'.DS.'mla.php');
 
 /**
  * Implementation of MLA citation style applied to patents.
@@ -38,10 +38,11 @@ class JResearchMLAPatentCitationStyle extends JResearchMLACitationStyle{
 		$title = '"'.$publication->title.'"';
 
 		if(!empty($authorsText)){
-			$header = "$authorsText. $title.";
+			$header = "$authorsText. $title";
 		}else{
 			$header = $title;	
 		}
+		$text .= $header;
 		
 		$number = trim($publication->patent_number);
 		$country = trim($publication->country);

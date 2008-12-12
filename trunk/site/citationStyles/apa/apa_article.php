@@ -48,15 +48,15 @@ class JResearchAPAArticleCitationStyle extends JResearchAPACitationStyle{
 		
 		$text.= $header;
 		if(!empty($journal))
-			$text .= '. '.$journal.', ';
+			$text .= ' '.$journal;
 		
 		if(!empty($volume))
-			$text .= $volume;
+			$text .= ', '.$volume;
 		if(!empty($numberText))
-			$text .= $numberText.', ';
+			$text .= ', '.$numberText;
 
 		if(!empty($pages))
-			$text .= $pages;	
+			$text .= ', '.$pages;	
 		
 		return $text.'.';
 	}
