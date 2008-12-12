@@ -32,7 +32,7 @@ class JResearchPatent extends JResearchPublication
 	public $issue_date;
 	public $claims;
 	public $drawings_dir;
-	public $country;
+	public $address;
 	public $office;
 
 	/**
