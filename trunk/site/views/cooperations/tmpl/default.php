@@ -31,7 +31,7 @@ if($intro_text != "")
 			if($coop->image_url != "")
 			{
 			?>
-				<img src="<?=$coop->image_url;?>" title="<?=JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name)?>" alt="<?=JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name)?>" style="float: left; margin-right: 10px;" />
+				<img src="<?=$coop->image_url;?>" title="<?=JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name))?>" alt="<?=JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name))?>" style="float: left; margin-right: 10px;" />
 			<?php 
 			}
 			?>
@@ -41,8 +41,8 @@ if($intro_text != "")
 				$itemId = JRequest::getVar('Itemid');
 				?>
 				<div class="contentheading">
-					<a href="<?=$coop->url?>">
-						<?=$coop->name;?>
+					<a href="<?=JFilterOutput::ampReplace($coop->url)?>">
+						<?=JFilterOutput::ampReplace($coop->name)?>
 					</a>
 				</div>
 				<?php 
