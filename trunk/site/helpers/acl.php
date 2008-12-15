@@ -19,7 +19,8 @@ function setACL()
 	//@todo Add ACL to authorize users against J!Research component
 	$acl = JFactory::getACL();
 	
-	//Add
+	//Publications
+	//Add publications
 	$acl->addACL('com_jresearch', 'add', 'users', 'author', 'publications', 'all');
 	$acl->addACL('com_jresearch', 'add', 'users', 'editor', 'publications', 'all');
 	$acl->addACL('com_jresearch', 'add', 'users', 'publisher', 'publications', 'all');
@@ -27,7 +28,7 @@ function setACL()
 	$acl->addACL('com_jresearch', 'add', 'users', 'administrator', 'publications', 'all');
 	$acl->addACL('com_jresearch', 'add', 'users', 'super administrator', 'publications', 'all');
 	
-	//Edit
+	//Edit publications
 	$acl->addACL('com_jresearch', 'edit', 'users', 'registered', 'publications', 'own');
 	$acl->addACL('com_jresearch', 'edit', 'users', 'author', 'publications', 'own');
 	$acl->addACL('com_jresearch', 'edit', 'users', 'editor', 'publications', 'all');
@@ -35,5 +36,23 @@ function setACL()
 	$acl->addACL('com_jresearch', 'edit', 'users', 'manager', 'publications', 'all');
 	$acl->addACL('com_jresearch', 'edit', 'users', 'administrator', 'publications', 'all');
 	$acl->addACL('com_jresearch', 'edit', 'users', 'super administrator', 'publications', 'all');
+	
+	//Theses
+	//Add theses
+	$acl->addACL('com_jresearch', 'add', 'users', 'author', 'theses', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'editor', 'theses', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'publisher', 'theses', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'manager', 'theses', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'administrator', 'theses', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'super administrator', 'theses', 'all');
+	
+	//Edit theses
+	$acl->addACL('com_jresearch', 'edit', 'users', 'registered', 'theses', 'own');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'author', 'theses', 'own');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'editor', 'theses', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'publisher', 'theses', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'manager', 'theses', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'administrator', 'theses', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'super administrator', 'theses', 'all');
 }
 ?>

@@ -221,12 +221,12 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function executeImport(){
-		global $mainframe;
+		//global $mainframe;
 		$fileArray = JRequest::getVar('inputfile', null, 'FILES');
 		$format = JRequest::getVar('formats');
 		$idResearchArea = JRequest::getVar('researchAreas');
 		$uploadedFile = $fileArray['tmp_name'];
-		$savedRecords = 0;
+		//$savedRecords = 0;
 
 		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'factory.php');
 
@@ -295,7 +295,7 @@ class JResearchAdminPublicationsController extends JController
 	* Invoked when the user has decided to save a publication.
 	*/	
 	function save(){
-		global $mainframe;
+		//global $mainframe;
 		$db =& JFactory::getDBO();
 
 		// Bind request variables to publication attributes	
@@ -379,7 +379,7 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function toggle_internal(){
-		$db =& JFactory::getDBO();
+		//$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		$publication =& JResearchPublication::getById($cid[0]);
 		$publication->internal = !$publication->internal;

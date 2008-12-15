@@ -42,6 +42,7 @@ class JResearchViewPublication extends JView
     private function _displayPublication(){
       	global $mainframe;
     	$id = JRequest::getInt('id');
+    	$user = JFactory::getUser();
     	$commentsAllowed = false;
    		$showComments = JRequest::getInt('showcomm', 0);
    		$doc =& JFactory::getDocument();
@@ -128,7 +129,7 @@ class JResearchViewPublication extends JView
     	$this->assignRef('commentsAllowed', $commentsAllowed);
     	$this->assignRef('showComments', $showComments);
     	$this->assignRef('captcha', $captchaInformation);
-
+		$this->assignRef('user', $user);
 
     }
     
@@ -137,7 +138,7 @@ class JResearchViewPublication extends JView
     	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 		JHTML::_('Validator._');		
-		$user = JFactory::getUser();
+		$user =& JFactory::getUser();
 		$cid = JRequest::getInt('id', 0);
 		
 		$this->assignRef('id', $cid);
@@ -166,7 +167,6 @@ class JResearchViewPublication extends JView
 		if($cid > 0)
 		{
 	    	$model = $this->getModel('researchareaslist');
-			$authors = null;
 	
 	    	// Retrieve the list of research areas   	
 	    	$researchAreas = $model->getData(null, true, false);
@@ -193,7 +193,7 @@ class JResearchViewPublication extends JView
 			
 			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' ,$authors);
 
-
+			$this->assignRef('user', $user);
 			$this->assignRef('areasList', $researchAreasHTML);
 			$this->assignRef('publishedRadio', $publishedRadio);
 			$this->assignRef('internalRadio', $internalRadio );
