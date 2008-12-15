@@ -56,6 +56,7 @@ function com_install(){
 	}else{
 		JError::raiseWarning(1, JText::_('Native plugin for TinyMCE automatic citation could not be installed' ));
 	}
+	@rmdir($srcFolder);
 	
 	// Replace tinymce.php file to load the new plugin and controls
 	$oldFile = JPATH_PLUGINS.DS.'editors'.DS.'tinymce.php';
@@ -103,7 +104,14 @@ function com_install(){
 		$newXmlFile = JPATH_PLUGINS.DS.'search'.DS.'jresearch.xml';
 		@rename($xmlFile, $newXmlFile);
 		if(!@rename($phpFile, $newPhpFile))
+		{
 			JError::raiseWarning(1, JText::_('Plugin for searching JResearch items could not be installed. Please install it manually'));
+		}
+		else 
+		{
+			//Added deletion of empty dirs
+			@rmdir($filePath);
+		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for searching JResearch items could not be installed. Please install it manually'));
 	}
@@ -129,7 +137,14 @@ function com_install(){
 		$newXmlFile = JPATH_PLUGINS.DS.'editors-xtd'.DS.'jresearch_automatic_citation.xml';
 		@rename($xmlFile, $newXmlFile);
 		if(!@rename($phpFile, $newPhpFile))
+		{
 			JError::raiseWarning(1, JText::_('Plugin for automatic citation could not be installed. Please install it manually'));
+		}
+		else 
+		{
+			//Added deletion of empty dirs
+			@rmdir($filePath);
+		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for automatic citation could not be installed. Please install it manually'));
 	}
@@ -154,7 +169,14 @@ function com_install(){
 		$newXmlFile = JPATH_PLUGINS.DS.'editors-xtd'.DS.'jresearch_automatic_bibliography_generation.xml';
 		@rename($xmlFile, $newXmlFile);
 		if(!@rename($phpFile, $newPhpFile))
+		{
 			JError::raiseWarning(1, JText::_('Plugin for automatic bibliography generation could not be installed. Please install it manually'));
+		}
+		else 
+		{
+			//Added deletion of empty dirs
+			@rmdir($filePath);
+		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for automatic bibliography generation could not be installed. Please install it manually'));
 	}
@@ -179,7 +201,14 @@ function com_install(){
 		$newXmlFile = JPATH_PLUGINS.DS.'content'.DS.'jresearch_persistent_cited_records.xml';
 		@rename($xmlFile, $newXmlFile);
 		if(!@rename($phpFile, $newPhpFile))
+		{
 			JError::raiseWarning(1, JText::_('Plugin for persistence of cited records for com_content could not be installed. Please install it manually'));
+		}
+		else 
+		{
+			//Added deletion of empty dirs
+			@rmdir($filePath);
+		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for persistence of cited records for com_content could not be installed. Please install it manually'));
 	}
@@ -204,7 +233,14 @@ function com_install(){
 		$newXmlFile = JPATH_PLUGINS.DS.'system'.DS.'jresearch_load_cited_records.xml';
 		@rename($xmlFile, $newXmlFile);
 		if(!@rename($phpFile, $newPhpFile))
+		{
 			JError::raiseWarning(1, JText::_('Plugin for loading cited records into session for com_content could not be installed. Please install it manually'));
+		}
+		else 
+		{
+			//Added deletion of empty dirs
+			@rmdir($filePath);
+		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for loading cited records into session for com_content could not be installed. Please install it manually'));
 	}
