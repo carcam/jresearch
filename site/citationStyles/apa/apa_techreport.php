@@ -45,9 +45,6 @@ class JResearchAPATechreportCitationStyle extends JResearchAPACitationStyle{
 		if($year == '0000' || $year == null)
 			$year = '';			
 		
-		if(!empty($month) && !empty($year))
-			$year = "$year, $month";
-		
 		if(!empty($authorsText)){
 			$header = $authorsText;
 			if(!empty($year))
@@ -66,7 +63,7 @@ class JResearchAPATechreportCitationStyle extends JResearchAPACitationStyle{
 		
 		$institution = trim($publication->institution);
 		if(!empty($institution))
-			$text .= ': '.$institution;
+			$text .= ', '.$institution;
 			
 		return $text.'.';
 	}

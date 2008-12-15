@@ -38,7 +38,7 @@ class JResearchAPAProceedingsCitationStyle extends JResearchAPACitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
 		$text = '';
-		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDITORS'):JText::_('JRESEARCH_APA_EDITOR');
 
 		if($nEditors <= 0){
 
@@ -53,11 +53,9 @@ class JResearchAPAProceedingsCitationStyle extends JResearchAPACitationStyle{
 			}
 		}else{
 			$authorsText = trim($this->getEditorsReferenceTextFromSinglePublication($publication));
-			$authorsText .= " ($eds)";
+			$authorsText .= ", $eds";
 		}
-		
-		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'.';
-				
+						
 		$title = trim($publication->title);
 		$title = $html?"<i>$title</i>":$title;
 
@@ -73,17 +71,34 @@ class JResearchAPAProceedingsCitationStyle extends JResearchAPACitationStyle{
 				$header = "$authorsText.$year. $title";
 			else
 				$header = "$authorsText. $title";
-			
-			$edition = trim($publication->edition);				
-			if(!empty($edition))
-				$header .= ' '.$edition.' '.$ed;		
 		}else
-			$header = "$title ($publication->year)";	
+			$header = "$title.$year";	
 		
 		$text .= $header;	
-		$address = $this->_getAddressText($publication);	
+		
+		$number = trim($publication->number);
+		if(!empty($number))
+			$text .= ', '.JText::_('JRESEARCH_NUMBER_LOWER').' '.$number;
+
+		$series = trim($publication->series);
+		if(!empty($series)){
+			if(!empty($number))
+				$text .= ', '.JText::_('JRESEARCH_IN').' '.$series;
+			else
+				$text .= ', '.$series;				
+		}
+		
+		$address = trim($publication->address);	
 		if(!empty($address))
-			$text .= '. '.$address;
+			$text .= ', '.$address;
+
+		$publisher = trim($publication->publisher);
+		if(!empty($publisher))
+			$text .= ', '.$publisher;
+
+		$organization = trim($publication->organization);
+		if(!empty($organization))
+			$text .= ', '.$organization;
 			
 		return $text.'.';
 	}

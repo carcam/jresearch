@@ -35,47 +35,37 @@ class JResearchAPAInbookCitationStyle extends JResearchAPACitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		$in = JText::_('JRESEARCH_IN');
-		$text = '';
-		if(count($publication->getEditors()) > 1){
-			$ed = JText::_('JRESEARCH_APA_EDS').'. ';
-		}else{
-			$ed = JText::_('JRESEARCH_APA_ED').'. ';
-		} 
+		$text = ''; 
+		$titleUsed = false;
 				
 		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
-
 		if(empty($authorsText)){
-			$authorsText = trim($this->getEditorsReferenceTextFromSinglePublication($publication))." ($eds)";
-		}else{			 
-			$editorsText = trim($this->getEditorsReferenceTextFromSinglePublication($publication));
-			if(!empty($editorsText))
-				$editorsText = "$in $editorsText ($ed),";
+			$authorsText = trim($publication->title);
+			$titleUsed = true;
 		}
 		
-		$title = trim($publication->title);
-		$title = $html?"<i>$title</i>":$title;
+		$text .= $authorsText;
 		
-		
-		$year =trim($publication->year);
-		if($year != '0000' && $year != null)
+		$year = trim($publication->year);
+		if($year != '0000' && $year != null){
 			$year = " ($year)";
-		else
-			$year = '';			
+			$text .= $year;				
+		}
 		
-		if(empty($authorsText))
-			$header = "$title$year";
-		else
-			$header = "$authorsText$year. $title"; 	
-		
-		$text .= $header;	
 
-		if(!empty($editorsText))
-			$text .= '. '.$editorsText;
-			
+		if(!$titleUsed){
+			$title = trim($publication->title);
+			$title = $html?"<i>$title</i>":$title;
+			$text .= '. '.$title;
+		}
+		
+		$chapter = trim($publication->chapter);
+		if(!empty($chapter))
+			$text .= ', '.JText::_('JRESEARCH_CHAPTER_LOWER').' '.$chapter;
+					
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages)){
-			$pages = "(pp. $pages)";
-			$text .= ' '.$pages;	
+			$text .= ', '.JText::_('JRESEARCH_PAGES_LOWER').' '.$pages;	
 		}
 		
 		$address = $this->_getAddressText($publication);

@@ -23,7 +23,11 @@
    * @link       http://pear.php.net/package/Structures_BibTex
    */
 
-require_once(JPATH_SITE.DS.'libraries'.DS.'pear'.DS.'pear.php');
+if(!file_exists(JPATH_SITE.DS.'libraries'.DS.'pear'.DS.'pear.php')){
+	require_once(JPATH_SITE.DS.'libraries'.DS.'pear'.DS.'PEAR.php');
+}else{
+	require_once(JPATH_SITE.DS.'libraries'.DS.'pear'.DS.'pear.php');	
+}
 /**
  * Structures_BibTex
  *

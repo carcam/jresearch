@@ -54,17 +54,18 @@ class JResearchAPAMastersthesisCitationStyle extends JResearchAPACitationStyle{
 		}else
 			$header = "$title$year";	
 		
-		$text .= $header;
+		$text .= $header.'. '.JText::_('JRESEARCH_MASTERSTHESIS');
+
 
 		$school = trim($publication->school);
 		if(!empty($school))
-			$text .= '. '.$school;
+			$text .= ', '.$school;
 
 		$address = trim($publication->address);
 		if(!empty($address))
-			$text .= '. '.$address;	
+			$text .= ', '.$address;	
 			
-		return $text;
+		return $text.'.';
 	}
 }
 
