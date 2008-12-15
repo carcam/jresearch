@@ -46,7 +46,7 @@ class JResearchVancouverManualCitationStyle extends JResearchVancouverCitationSt
 		else
 			$text .= $title;				
 		
-		$ed = JText::_('JRESEARCH_ED').'. ';		
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');		
 		$edition = trim($publication->edition); 
 		if(!empty($edition)){
 			$edition = "$edition $ed";
@@ -59,7 +59,7 @@ class JResearchVancouverManualCitationStyle extends JResearchVancouverCitationSt
 		
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$year = '; '.$year;
+			$text .= '; '.$year;
 
 		
 		return $text.'.';	

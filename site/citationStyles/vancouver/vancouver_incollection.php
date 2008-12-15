@@ -38,15 +38,7 @@ class JResearchVancouverIncollectionCitationStyle extends JResearchVancouverCita
 		$editorsConsidered = false;
 		
 		if($nAuthors <= 0){
-			if($nEditors == 0){
-				// If neither authors, nor editors
-				$authorsText = '';
-			}else{
-				// If no authors, but editors
-				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-				$authorsText .= ", $eds";
-				$editorsConsidered = true;
-			}
+			$authorsText = '';
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
@@ -59,17 +51,21 @@ class JResearchVancouverIncollectionCitationStyle extends JResearchVancouverCita
 			$text .= $title;				
 
 		$in = JText::_('JRESEARCH_IN');				
-		$text = '. '.$in.': ';	
+		$text .= '. '.$in.': ';	
 
 		$editors = $this->getEditorsReferenceTextFromSinglePublication($publication);
 		if(!empty($editors))
 			$text .= $editors.', '.$eds.'.';	
 
 		$booktitle = $html?"<i>".trim($publication->booktitle)."</i>":trim($publication->booktitle);
-		if(!empty($booktitle))
-			$text .= ' '.$booktitle;
+		if(!empty($booktitle)){
+			if($text{strlen($text) - 1} == '.')
+				$text .= ' '.$booktitle;
+			else
+				$text.= '. '.$booktitle;	
+		}
 		
-		$ed = JText::_('JRESEARCH_ED').'. ';		
+		$ed = JText::_('JRESEARCH_ED').'.';		
 		$edition = trim($publication->edition); 
 		if(!empty($edition)){
 			$edition = "$edition $ed";
@@ -77,9 +73,12 @@ class JResearchVancouverIncollectionCitationStyle extends JResearchVancouverCita
 		}
 
 		$address = $this->_getAddressText($publication);
-		if(!empty($address))
-			$text .= '. '.$address;	
-		
+		if(!empty($address)){
+			if($text{strlen($text) - 1} == '.')
+				$text .= ' '.$address;
+			else
+				$text.= '. '.$address;		
+		}		
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
 			$year = '; '.$year;

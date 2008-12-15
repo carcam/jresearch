@@ -56,7 +56,7 @@ class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyl
 		else
 			$text .= $title;				
 		
-		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'. ';		
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');		
 		$edition = trim($publication->edition); 
 		if(!empty($edition)){
 			$edition = "$edition $ed";
@@ -64,12 +64,13 @@ class JResearchVancouverBookCitationStyle extends JResearchVancouverCitationStyl
 		}
 
 		$address = $this->_getAddressText($publication);
-		if(!empty($address))
-			$text .= '. '.$address;	
+		if(!empty($address)){
+			$text .= '. '.$address;		
+		}
 		
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$year = '; '.$year;
+			$text .= '; '.$year;
 
 		$series = trim($publication->series);
 		$volume = trim($publication->volume);

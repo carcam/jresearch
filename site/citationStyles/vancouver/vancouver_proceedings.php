@@ -58,13 +58,17 @@ class JResearchVancouverProceedingsCitationStyle extends JResearchVancouverCitat
 		else
 			$text .= $title;				
 
+		$organization = trim($publication->organization);
+		if(!empty($organization))
+			$text .= '. '.$organization;
+		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
 			$text .= '. '.$address;	
 		
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$year = '; '.$year;
+			$text .= '; '.$year;
 		
 		return $text.'.';	
 	}

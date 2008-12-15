@@ -137,7 +137,7 @@ class JResearchViewPublication extends JView
     	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 		JHTML::_('Validator._');		
-		
+		$user = JFactory::getUser();
 		$cid = JRequest::getInt('id', 0);
 		
 		$this->assignRef('id', $cid);

@@ -326,7 +326,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 			}
 		}else{
 			$subtotal = array_slice($formattedAuthors, 0, 6);
-			$text = implode(', ', $subtotal)." et al.";
+			$text = implode(', ', $subtotal)." et al";
 		}	
 
 		return $text;		

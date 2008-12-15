@@ -38,42 +38,31 @@ class JResearchVancouverInbookCitationStyle extends JResearchVancouverCitationSt
 		$editorsConsidered = false;
 		
 		if($nAuthors <= 0){
-			if($nEditors == 0){
-				// If neither authors, nor editors
-				$authorsText = '';
-			}else{
-				// If no authors, but editors
-				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-				$authorsText .= ", $eds";
-				$editorsConsidered = true;
-			}
+			$authorsText = '';
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
+		
 		$text .= $authorsText;		
+
+		$chapter = trim($publication->chapter);
+		if(!empty($chapter))
+			$text .= '. '.$chapter;
+		
+		$in = JText::_('JRESEARCH_IN');				
+		$text .= '. '.$in.': ';			
+		
+		$editors = $this->getEditorsReferenceTextFromSinglePublication($publication);
+		if(!empty($editors)){			
+			$text .= $editors.', '.$eds.'.';	
+		}
 		
 		$title = trim($publication->title);	
-		if(!empty($authorsText))
-			$text .= '. '.$title;
-		else
-			$text .= $title;				
-
-		$in = JText::_('JRESEARCH_IN');				
-		$text = '. '.$in.': ';	
-
-		$editors = $this->getEditorsReferenceTextFromSinglePublication($publication);
-		if(!empty($editors))
-			$text .= $editors.', '.$eds.'.';	
-
-		$series = trim($publication->series);
-		if(!empty($series))
-			$text .= ' '.$series;
-			
-		$number = trim($publication->number);
-		if(!empty($number))
-			$text .= ' '.$number;	
+		if(!empty($title)){		
+			$text .= ' '.$title;					
+		}
 		
-		$ed = JText::_('JRESEARCH_ED').'. ';		
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'.';		
 		$edition = trim($publication->edition); 
 		if(!empty($edition)){
 			$edition = "$edition $ed";
@@ -81,8 +70,12 @@ class JResearchVancouverInbookCitationStyle extends JResearchVancouverCitationSt
 		}
 
 		$address = $this->_getAddressText($publication);
-		if(!empty($address))
-			$text .= '. '.$address;	
+		if(!empty($address)){
+			if($text{strlen($text) - 1}  == '.')
+				$text .= ' '.$address;
+			else	
+				$text .= '. '.$address;	
+		}
 		
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
@@ -90,14 +83,13 @@ class JResearchVancouverInbookCitationStyle extends JResearchVancouverCitationSt
 
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages)){
-			if(preg_match('/^\d+-\d+\$/', $pages))
+			if(preg_match('/^(\d)+-(\d)+$/', $pages))
 				$text .= '. pp. '.$pages;
 			else
 				$text .= '. p. '.$pages;
 					
 		}
 			
-		
 		return $text.'.';	
 	}
 }
