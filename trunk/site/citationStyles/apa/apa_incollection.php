@@ -36,9 +36,9 @@ class JResearchAPAIncollectionCitationStyle extends JResearchAPACitationStyle{
 		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		$in = JText::_('JRESEARCH_IN');
 		if(count($publication->getEditors()) > 1){
-			$ed = JText::_('JRESEARCH_APA_EDS').'.';
+			$ed = JText::_('JRESEARCH_APA_EDITORS');
 		}else{
-			$ed = JText::_('JRESEARCH_APA_ED').' ';
+			$ed = JText::_('JRESEARCH_APA_EDITOR');
 		} 
 				
 		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
@@ -48,7 +48,7 @@ class JResearchAPAIncollectionCitationStyle extends JResearchAPACitationStyle{
 		}else{			 
 			$editorsText = trim($this->getEditorsReferenceTextFromSinglePublication($publication));
 			if(!empty($editorsText))
-				$editorsText =  "$in $editorsText ($ed),";
+				$editorsText =  "$in $editorsText ($ed)";
 		}
 		
 		$title = trim($publication->title);
@@ -58,24 +58,24 @@ class JResearchAPAIncollectionCitationStyle extends JResearchAPACitationStyle{
 			$year = " ($year)";
 		else
 			$year = '';			
-		
+				
 		if(!empty($editorsText))
-			$header = "$authorsText$year. $title. $editorsText";
+			$header = "$authorsText$year. $title";
 		else
-			$header = "$authorsText$year. $title.";	
+			$header = "$authorsText$year. $title";	
 		
 		$text .= $header;
+			
+		if(!empty($editorsText))
+			$text .= '. '.$editorsText;
 			
 		$booktitle = trim($publication->booktitle);		
 		if(!empty($booktitle)){
 			$booktitle = $html?"<i>$booktitle</i>":$booktitle;
-			$text .= ' '.$booktitle;
-		}
-		
-		$pages = str_replace('--', '-', trim($publication->pages));
-		if(!empty($pages)){
-			$pages = "(pp. $publication->pages)";
-			$text .= ' '.$pages;
+			if(!empty($editorsText))
+				$text .= ', '.$booktitle;
+			else
+				$text .= '. '.$booktitle;					
 		}
 		
 		$address = $this->_getAddressText($publication);

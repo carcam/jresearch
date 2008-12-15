@@ -112,7 +112,7 @@ class JResearchAPABookCitationStyle extends JResearchAPACitationStyle{
 		$nEditors = count($publication->getEditors());
 		$text = '';
 		
-		$eds = $nEditors > 1? JText::_('JRESEARCH_EDITORS'):JText::_('JRESEARCH_EDITOR');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDITORS'):JText::_('JRESEARCH_APA_EDITOR');
 
 		if($nAuthors <= 0){
 
@@ -158,7 +158,8 @@ class JResearchAPABookCitationStyle extends JResearchAPACitationStyle{
 		}
 			
 		$address = $this->_getAddressText($publication);
-		$text .= '. '.$address;		
+		if(!empty($address))
+			$text .= '. '.$address;		
 		
 		return $text.'.';
 	}

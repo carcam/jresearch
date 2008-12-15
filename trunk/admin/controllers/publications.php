@@ -239,7 +239,7 @@ class JResearchAdminPublicationsController extends JController
 			foreach($parsedPublications as $p){
 				$p->id_research_area = $idResearchArea;
 				if(!$p->store()){					
-					JError::raiseWarning(1, JText::_('Publication could not be saved').': '.$p->getError());
+					JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
 				}else{
 					$n++;
 				}

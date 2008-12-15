@@ -20,12 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * language. 
 */
 function extra_word_characters(){
-	$doc = JFactory::getDocument();
-	$languageFunction = str_replace('-', '_', $doc->getLanguage()).'_extra_word_characters';
-	if(!function_exists($languageFunction))
-		return '';
-	
-	return $languageFunction();
+	return es_ES_extra_word_characters().de_DE_extra_word_characters();
 }
 
 

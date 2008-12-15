@@ -40,8 +40,6 @@ class JResearchAPAManualCitationStyle extends JResearchAPACitationStyle{
 
 		$title = trim($publication->title);
 		$title = $html?"<i>$title</i>":$title;
-		
-		$organization = trim($publication->organization);
 
 		$year = trim($publication->year);
 		if($year != '0000' && $year != null)
@@ -49,28 +47,29 @@ class JResearchAPAManualCitationStyle extends JResearchAPACitationStyle{
 		else
 			$year = '';			
 		
-		if(empty($organization))
+		if(empty($authorsText))
 			$header = "$title$year";
 		else{
 			if(!empty($year))
-				$header = "$organization.$year. $title"; 
+				$header = "$authorsText.$year. $title"; 
 			else
-				$header = "$organization. $title";	
+				$header = "$authorsText. $title";	
 		}
 		$text .= $header;
 		
+		$organization = trim($publication->organization);		
+		if(!empty($organization))
+			$text .= '. '.$organization;
+		
 		$edition = trim($publication->edition);	
 		if(!empty($edition)){
-			$editonText = " ($edition $ed)";
+			$editonText = ", $edition $ed";
 			$text .= $editionText;
 		}
 		
 		$address = trim($publication->address);	
 		if(!empty($address))
 			$text .= '. '.$address;	
-		
-		if(!empty($authorsText))
-			$text .= ': '.$authorsText;	
 			
 		return $text.'.';
 	}

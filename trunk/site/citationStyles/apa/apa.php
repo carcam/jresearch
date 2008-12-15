@@ -316,7 +316,9 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 
 		$n = count($authors);
 		if($n <= 6){
-			if($n == 1)
+			if($n == 0)
+				return '';
+			elseif($n == 1)
 				$text = $formattedAuthors[0];
 			else{	
 				$subtotal = array_slice($formattedAuthors, 0, $n-1);
@@ -375,30 +377,6 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 	}
 	
 	/**
-	 * Returns an editor name with the format used for APA in the reference list. 
-	 * Editors names are formatted like authors where the publication has no authors, otherwise
-	 * the format changes with initials before lastname.
-	 *
-	 * @param string $editorName In any of the formats supported by Bibtex.
-	 */
-	protected function formatEditorForReferenceOutput($editorName){
-		$editorComponents = JResearchPublicationsHelper::getAuthorComponents($editorName);
-		$text = "";
-		
-		// We have two components: firstname and lastname
-		if(count($editorComponents) == 1){
-			$text .= ucfirst($editorComponents['lastname']);
-		}elseif(count($editorComponents) == 2){
-			$text .= ucfirst($editorComponents['firstname']{0}).'. '.ucfirst($editorComponents['lastname']); 
-		}else{
-			$text .= ucfirst($editorComponents['firstname']{0}).'. '.ucfirst($editorComponents['von']).' '.ucfirst($editorComponents['firstname']);
-		}
-		
-		return $text;
-		
-	}
-	
-	/**
 	 * Returns the editors text that is printed in book related references.
 	 *
 	 * @param JResearchPublication $publication
@@ -413,7 +391,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 			return '';
 		
 		foreach($editorsArray as $ed){
-			$formattedEditors[] = $this->formatEditorForReferenceOutput($ed);	
+			$formattedEditors[] = $this->formatAuthorForReferenceOutput($ed);	
 		}
 		
 		$n = count($formattedEditors);

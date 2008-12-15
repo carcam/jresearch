@@ -53,7 +53,7 @@ class JResearchAPAArticleCitationStyle extends JResearchAPACitationStyle{
 		if(!empty($volume))
 			$text .= ', '.$volume;
 		if(!empty($numberText))
-			$text .= ', '.$numberText;
+			$text .= $numberText;
 
 		if(!empty($pages))
 			$text .= ', '.$pages;	
