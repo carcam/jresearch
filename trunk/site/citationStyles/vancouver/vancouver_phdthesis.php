@@ -31,10 +31,7 @@ class JResearchVancouverPhdthesisCitationStyle extends JResearchVancouverCitatio
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$nAuthors = $publication->countAuthors();
-		$nEditors = count($publication->getEditors());
 		$text = '';
-		
-		$eds = $nEditors > 1? JText::_('JRESEARCH_EDITORS'):JText::_('JRESEARCH_EDITOR');
 		
 		if($nAuthors <= 0){
 			$authorsText = '';
@@ -49,19 +46,23 @@ class JResearchVancouverPhdthesisCitationStyle extends JResearchVancouverCitatio
 		else
 			$text .= $title;				
 
-		$type .= JText::_('JRESEARCH_VANCOUVER_PHD_THESIS');
-		$text .=  '. '.$type;
+		$type = trim($publication->type);
+		if(!empty($type))	
+			$text .=  " [$type]";
 		
-		$institution = trim($publication->institution);
-		if(!empty($institution))
-			$text .= '. '.$institution;
+		$school = trim($publication->school);
+		if(!empty($school))
+			$text .= '. '.$school;
 
+		$address = $this->_getAddressText($publication);
+		if(!empty($address))
+			$text .= '. '.$address;	
 		
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$year = '; '.$year;
+			$text .= '; '.$year;
 		
-		return $text.'.';	
+		return $text.'.';		
 	}
 }
 ?>

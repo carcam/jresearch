@@ -6,8 +6,9 @@
  */
 ?>
 <div style="float: right;">
-	<button type="button" onclick="javascript:msubmitform('save');">Save</button>
-	<button type="button" onclick="javascript:msubmitform('cancel')">Cancel</button>
+	<button type="button" onclick="javascript:msubmitform('apply');"><?php echo JText::_('Apply'); ?></button>
+	<button type="button" onclick="javascript:msubmitform('save')"><?php echo JText::_('Save') ?></button>
+	<button type="button" onclick="javascript:msubmitform('cancel')"><?php echo JText::_('Cancel'); ?></button>
 </div>
 <div style="clear: right">&nbsp;</div>
 <?php 

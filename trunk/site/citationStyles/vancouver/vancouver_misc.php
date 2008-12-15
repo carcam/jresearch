@@ -45,14 +45,15 @@ class JResearchVancouverMiscCitationStyle extends JResearchVancouverCitationStyl
 			$text .= '. '.$title;
 		else
 			$text .= $title;				
-		
-		$howpublished = trim($publication->howpublished);
-		if(!empty($howpublished))
-			$text = '. '.$howpublished;
-				
+
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$year = '; '.$year;
+			$text .= '; '.$year;
+						
+		$howpublished = trim($publication->howpublished);
+		if(!empty($howpublished))
+			$text .= '. '.$howpublished;
+				
 
 		return $text.'.';	
 	}

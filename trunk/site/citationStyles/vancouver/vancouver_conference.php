@@ -57,19 +57,33 @@ class JResearchVancouverConferenceCitationStyle extends JResearchVancouverCitati
 			$text .= '. '.$title;
 		else
 			$text .= $title;		
-
+			
+		$in = JText::_('JRESEARCH_IN');	
+		$text .= '. '.$in.': ';	
+		
 		if(!$editorsConsidered){	
 			$editors = $this->getEditorsReferenceTextFromSinglePublication($publication);
 			if(!empty($editors)){
-				$in = JText::_('JRESEARCH_IN');
-				$text .= '. '.$in.': '.$editors.', '.JText::_('JRESEARCH_VANCOUVER_EDITORS');
+				$text .= $editors.', '.JText::_('JRESEARCH_VANCOUVER_EDITORS').'.';
 			}
 		}
 		
 		$booktitle = trim($publication->booktitle);
 		if(!empty($booktitle))
-			$text .= '. '.$booktitle;
-					
+			$text .= ' '.$booktitle;
+
+		$number = trim($publication->number);
+		if(!empty($number))
+			$text .= ', '.JText::_('JRESEARCH_ABB_NUMBER').'. '.$number;
+
+		$series = trim($publication->series);
+		if(!empty($series)){
+			if(!empty($number))
+				$text .= ', '.JText::_('JRESEARCH_IN').' '.$series;
+			else
+				$text .= ', '.$series;				
+		}	
+			
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
 			$text .= '; '.$address;	
@@ -77,11 +91,11 @@ class JResearchVancouverConferenceCitationStyle extends JResearchVancouverCitati
 		
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$text = '; '.$year;
-			
+			$text .= '; '.$year;
+				
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages)){
-			if(preg_match('/^\d+-\d+\$/', $pages))
+			if(preg_match('/^(\d)+-(\d)+$/', $pages))
 				$text .= '. pp. '.$pages;
 			else
 				$text .= '. p. '.$pages;

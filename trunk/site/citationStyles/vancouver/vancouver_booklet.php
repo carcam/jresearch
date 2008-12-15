@@ -45,11 +45,7 @@ class JResearchVancouverBookletCitationStyle extends JResearchVancouverCitationS
 			$text .= '. '.$title;
 		else
 			$text .= $title;
-			
-		$howpublished = trim($publication->howpublished);
-		if(!empty($howpublished))
-			$text .= '. '.$howpublished;
-		
+					
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
 			$text .= '. '.$address;
@@ -58,6 +54,11 @@ class JResearchVancouverBookletCitationStyle extends JResearchVancouverCitationS
 		if($year != null && $year != '0000'){		
 			$text .= '; '.$year;
 		}
+		
+		$howpublished = trim($publication->howpublished);
+		if(!empty($howpublished))
+			$text .= '. '.$howpublished;
+		
 		
 		return $text.'.';	
 	}

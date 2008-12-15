@@ -52,23 +52,24 @@ class JResearchVancouverArticleCitationStyle extends JResearchVancouverCitationS
 		
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000'){		
-			$text .= ' '.$year;
+			$text .= '. '.$year;
 			$month = trim($publication->month);
 			if(!empty($month)){
 				if(strlen($month) > 3)
 					$month = substr($month, 0, 3);
+				$text .= ' '.$month;					
 			}			
-			$text .= ' '.$month;
+			
 		}
 		
-		$volume = trim($publication->month);
+		$volume = trim($publication->volume);
 		$number = trim($publication->number);
 		if(!empty($volume) || !empty($number))
 			$text .= ';'.$volume.(!empty($number)?"($number)":'');	
 		
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages)){
-			if(preg_match('/^\d+-\d+\$/', $pages))
+			if(preg_match('/^(\d)+-(\d)+$/', $pages))
 				$text .= '. pp. '.$pages;
 			else
 				$text .= '. p. '.$pages;

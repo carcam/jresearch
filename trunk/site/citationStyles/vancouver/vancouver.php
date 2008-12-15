@@ -165,7 +165,7 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 				
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$year = '; '.$year;
+			$text .= '; '.$year;
 
 		return $text.'.';	
 	}
@@ -217,9 +217,8 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 		if($n <= 3){
 			if($n == 1)
 				$text = $formattedEditors[0];
-			else{	
-				$subtotal = array_slice($formattedEditors, 0, $n-1);
-				$text = implode(', ', $subtotal)." $this->lastAuthorSeparator ".$formattedEditors[$n-1];
+			else{
+				$text = implode(', ', $formattedEditors);
 			}
 		}else{
 			$text = "$formattedEditors[0] et al";

@@ -32,6 +32,7 @@ class JResearchStaffController extends JController
 		$this->registerTask('show', 'show');
 		$this->registerTask('displayflow', 'displayflow');
 		$this->registerTask('save', 'save');
+		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
@@ -108,7 +109,9 @@ class JResearchStaffController extends JController
 	* Apply in the edit profile form.
 	*/
 	function save(){
-		global $mainframe;
+		global $mainframe;		
+		$task = JRequest::getVar('task');
+		
 		$db =& JFactory::getDBO();
 		$photosFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'members';
 		if($mainframe->isAdmin())
@@ -162,8 +165,10 @@ class JResearchStaffController extends JController
 			if($member->store()){
 				$itemId = JRequest::getVar('Itemid');
 
-				$this->setRedirect('index.php?option=com_jresearch&view=staff'.$itemText, JText::_('The profile was successfully saved.'));
-				
+				if($task == 'save')
+					$this->setRedirect('index.php?option=com_jresearch&view=staff'.$itemText, JText::_('The profile was successfully saved.'));
+				else
+					$this->setRedirect('index.php?option=com_jresearch&view=member&task=edit&layout=edit'.$itemText, JText::_('The profile was successfully saved.'));
 				// Trigger event
 				$arguments = array('member', $member->id);
 				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);			

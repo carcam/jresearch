@@ -56,18 +56,23 @@ class JResearchVancouverTechreportCitationStyle extends JResearchVancouverCitati
 		else
 			$text .= $title;				
 		
+		$address = $this->_getAddressText($publication);
+		if(!empty($address))
+			$text .= '. '.$address;	
+			
+			
 		$institution = trim($publication->institution);
 		if(!empty($institution))
 			$text .= '. '.$institution;	
-			
-		$number = trim($publication->number);
-		if(!empty($number))
-			$text .= '. '.JText::_('JRESEARCH_REPORT_NUMBER').': '.$number;
-		
+					
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$year = ', '.$year;
-		
+			$text .= '; '.$year;
+
+		$number = trim($publication->number);
+		if(!empty($number))
+			$text .= '. '.$number;
+			
 		return $text.'.';	
 	}
 }
