@@ -24,14 +24,8 @@ class JResearchModelStaff extends JResearchModelList{
 	public function __construct(){
 		parent::__construct();
 		$this->_tableName = '#__jresearch_member';
-		
 	}	
-	
-	public function setFormer($former)
-	{
-		$this->_former = (int) $former;
-	}
-	
+
 	/**
 	* Returns an array of the items of an entity independently of its published state and
 	* considering pagination issues and authoring.
@@ -120,7 +114,7 @@ class JResearchModelStaff extends JResearchModelList{
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere($published = false){
-		global $mainframe, $option;
+		//global $mainframe, $option;
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('stafffilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('stafffilter_search', 'filter_search');
@@ -174,7 +168,7 @@ class JResearchModelStaff extends JResearchModelList{
 	function orderItem($item, $movement)
 	{
 		$db =& JFactory::getDBO();
-		$row =& new JResearchMember($db);
+		$row = new JResearchMember($db);
 		$row->load($item);
 		
 		if (!$row->move($movement))
@@ -193,7 +187,7 @@ class JResearchModelStaff extends JResearchModelList{
 	{
 		$db 		=& JFactory::getDBO();
 		$total		= count($items);
-		$row		=& new JResearchMember($db);
+		$row		= new JResearchMember($db);
 
 		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($order);
