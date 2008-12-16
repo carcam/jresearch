@@ -13,24 +13,24 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class JHTMLJResearch
 {
 	/**
-	 * Renders edit icon for specific item, if user is authorized for it
+	 * Renders task icon for specific item, if user is authorized for it
 	 *
+	 * @param string $task
 	 * @param string $controller
 	 * @param int $id
 	 * @param int $userid
 	 */
-	public static function edit($controller, $itemid, $userid=null)
+	public static function icon($task, $controller, $itemid, $userid=null)
 	{
-		$editAuthorized = false;
+		$authorized = false;
 		$availableController = array('publications');
 		
 		if(in_array($controller, $availableController))
 		{
-			$editAuthorized = JHTMLJResearch::authorize('edit', $controller, $itemid, $userid);
+			$authorized = JHTMLJResearch::authorize($task, $controller, $itemid, $userid);
 			
-			//@todo Add JRESEARCH_NOT_AUTHORIZED and JRESEARCH_CONTROLLER_NOT_AVAILABLE to language file
-			if($editAuthorized)
-				echo '<img src="" alt="Edit '.$controller.'"/>';
+			if($authorized)
+				echo '<img src="'.JURI::base().'/joomla/images/M_images/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>';
 			else
 				echo JText::sprintf('JRESEARCH_ACCESS_NOT_ALLOWED', $controller, 'edit', $itemid);
 		}
