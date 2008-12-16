@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </tr>
 <tr>
 	<td><?php echo JText::_('JRESEARCH_MONTH').': ' ?></td>
-	<td><input type="text" name="month" id="number" size="20" maxlength="20" value="<?php echo $this->publication?$this->publication->month:'' ?>" /></td>
+	<td><input type="text" name="month" id="month" size="20" maxlength="20" value="<?php echo $this->publication?$this->publication->month:'' ?>" /></td>
 	<td><?php echo JText::_('JRESEARCH_CROSS_REFERENCE').': ' ?></td>
 	<td><input type="text" name="crossref" id="crossref" size="20" maxlength="255" value="<?php echo $this->publication?$this->publication->crossref:''; ?>" /></td>
 </tr>

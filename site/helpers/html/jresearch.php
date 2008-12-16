@@ -56,46 +56,49 @@ class JHTMLJResearch
 		$user =& JFactory::getUser($userid);
 		$itemid = (int) $itemid;
 		
-		//If task isn't available, return false
-		if(!in_array($task, $availableTasks))
-			return false;
-			
-		//Can do the specific task with "all" rights
-		$canDo = ($user->authorize('com_jresearch',$task,$controller,'all') != 0)
-					? true 
-					: false;
-
-		//Can do the specific task with "own" rights
-		$canDoOwn = (($user->authorize('com_jresearch',$task,$controller,'own') != 0) 
-						&& ($task == 'edit' || $task == 'remove'))
-					? true 
-					: false;
-		
-		//I'm able to do specific task?
-		if($canDo || $canDoOwn)
+		if($user->guest == 0)
 		{
-			$member = new JResearchMember($db);
-			$member->bindFromUser($user->username);
+			//If task isn't available, return false
+			if(!in_array($task, $availableTasks))
+				return false;
+				
+			//Can do the specific task with "all" rights
+			$canDo = ($user->authorize('com_jresearch',$task,$controller,'all') != 0)
+						? true 
+						: false;
+	
+			//Can do the specific task with "own" rights
+			$canDoOwn = (($user->authorize('com_jresearch',$task,$controller,'own') != 0) 
+							&& ($task == 'edit' || $task == 'remove'))
+						? true 
+						: false;
 			
-			switch($controller)
+			//I'm able to do specific task?
+			if($canDo || $canDoOwn)
 			{
-				case 'publications':
-					$pub = new JResearchPublication($db);
-					$pub->load($itemid);
-					
-					$authors = $pub->getAuthors();
-					
-					foreach($authors as $author)
-					{
-						//Return true if I'm able to edit all publications or only mine
-						if(is_a($author, 'JResearchMember') && ($canDo || ($canDoOwn && ($author->id == $userid))))
+				$member = new JResearchMember($db);
+				$member->bindFromUser($user->username);
+				
+				switch($controller)
+				{
+					case 'publications':
+						$pub = new JResearchPublication($db);
+						$pub->load($itemid);
+						
+						$authors = $pub->getAuthors();
+						
+						foreach($authors as $author)
 						{
-							return true;
+							//Return true if I'm able to edit all publications or only mine
+							if(is_a($author, 'JResearchMember') && ($canDo || ($canDoOwn && ($author->id == $userid))))
+							{
+								return true;
+							}
 						}
-					}
-					break;
-				default:
-					break;
+						break;
+					default:
+						break;
+				}
 			}
 		}
 		
