@@ -32,11 +32,7 @@ class JHTMLJResearch
 			if($editAuthorized)
 				echo '<img src="" alt="Edit '.$controller.'"/>';
 			else
-				echo JText::sprintf('JRESEARCH_NOT_AUTHORIZED', $controller, 'edit', $itemid);
-		}
-		else
-		{
-			echo JText::sprintf('JRESEARCH_CONTROLLER_NOT_AVAILABLE', $controller);
+				echo JText::sprintf('JRESEARCH_ACCESS_NOT_ALLOWED', $controller, 'edit', $itemid);
 		}
 	}
 	
