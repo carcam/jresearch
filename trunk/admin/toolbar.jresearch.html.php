@@ -387,6 +387,32 @@ class JResearchToolbar
 		self::editItemAdminToolbar();
 	}
 	
+	/**
+	* Prints the toolbar menu for teams
+	*/	
+	public static function teamsAdminListToolbar()
+	{
+		JToolBarHelper::title(JText::_('JRESEARCH_TEAMS'));
+		
+		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+		JToolBarHelper::divider();
+		self::adminListToolbar();
+	}
+	
+	public static function editTeamAdminToolbar()
+	{
+		$cid = JRequest::getVar('cid');
+		if($cid)
+			$title = JText::_('JRESEARCH_EDIT_TEAM');
+		else
+			$title = JText::_('JRESEARCH_NEW_TEAM');	
+		
+		JToolBarHelper::title($title);
+		
+		self::editItemAdminToolbar();
+	}
+	
+	
 	public static function adminListToolbar()
 	{
 		JToolBarHelper::addNewX('add', JText::_('Add'));

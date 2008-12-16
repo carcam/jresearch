@@ -329,6 +329,26 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_techreport` (
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `#__jresearch_team`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_team` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `id_leader` int(11) unsigned NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text,
+  `published` tinyint(4) NOT NULL default '0',
+  `checked_out` tinyint(11) unsigned NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL,
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `description` (`description`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `#__jresearch_team_member`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_team_member` (
+  `id_team` int(11) unsigned NOT NULL auto_increment,
+  `id_member` int(11) unsigned NOT NULL,
+  PRIMARY KEY  (`id_team`, `id_member`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `#__jresearch_thesis`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_thesis` (
   `id` int(10) unsigned NOT NULL auto_increment,
