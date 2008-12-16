@@ -22,7 +22,6 @@ require_once(JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'database'.DS.'table'.DS.'
  * @return boolean True if operations are executed successfully
  */
 function com_install(){
-	//@TODO DELETE FOLDERS AFTER COPYING IN ANOTHER DIRECTORY! (PLUGINS)
 	
 	// Copy Joom!Fish content elements if Joom!Fish extension exists
 	$joomFishCheckFile = JPATH_SITE.'components'.DS.'com_joomfish'.DS.'config.joomfish.php';

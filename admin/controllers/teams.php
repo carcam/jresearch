@@ -13,6 +13,8 @@ jimport('joomla.application.component.controller');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'team.php');
 
+//@todo Removing of team members if team is deleted
+
 /**
  * Team Backend Controller
  * @package		JResearch
