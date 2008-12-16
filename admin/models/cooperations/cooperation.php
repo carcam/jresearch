@@ -24,8 +24,12 @@ class JResearchModelCooperation extends JResearchModelSingleRecord
 		$db =& JFactory::getDBO();
 		
 		$coop = new JResearchCooperation($db);
-		$coop->load($itemId);
-		return $coop;
+		$result = $coop->load($itemId);
+		
+		if($result)
+			return $coop;
+		else
+			return null;	
 	}
 }
 ?>

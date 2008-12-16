@@ -84,23 +84,28 @@ class JResearchAdminPublicationsController extends JController
 	*/	
 	function edit(){
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$cid = JRequest::getVar('cid');
+		$cid = JRequest::getVar('cid', array());
 		
 		$view = &$this->getView('Publication', 'html', 'JResearchAdminView');
 		$pubModel = &$this->getModel('Publication', 'JResearchModel');	
 		$model = &$this->getModel('ResearchAreasList', 'JResearchModel');
 
-		if($cid){
+		if(!empty($cid)){
 			$publication = $pubModel->getItem($cid[0]);
-			$user =& JFactory::getUser();
-			// Verify if it is checked out
-			if($publication->isCheckedOut($user->get('id'))){
-				$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+			if(!empty($publication)){
+				$user =& JFactory::getUser();
+				// Verify if it is checked out
+				if($publication->isCheckedOut($user->get('id'))){
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+				}else{
+					$publication->checkout($user->get('id'));
+					$view->setLayout('default');
+					$view->setModel($model);
+					$view->display();	
+				}
 			}else{
-				$publication->checkout($user->get('id'));
-				$view->setLayout('default');
-				$view->setModel($model);
-				$view->display();	
+				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications');
 			}				
 		}else{			
 			$view->setLayout('default');

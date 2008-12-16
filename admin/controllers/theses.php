@@ -75,15 +75,21 @@ class JResearchAdminThesesController extends JController
 		
 		if($cid){
 			$thesis = $model->getItem($cid[0]);
-			$user =& JFactory::getUser();
-			// Verify if it is checked out
-			if($thesis->isCheckedOut($user->get('id'))){
-				$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-			}else{	
-				$thesis->checkout($user->get('id'));
-				$view->setModel($model, true);
-				$view->setModel($areaModel);
-				$view->display();
+			
+			if(!empty($thesis)){
+				$user =& JFactory::getUser();
+				// Verify if it is checked out
+				if($thesis->isCheckedOut($user->get('id'))){
+					$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+				}else{	
+					$thesis->checkout($user->get('id'));
+					$view->setModel($model, true);
+					$view->setModel($areaModel);
+					$view->display();
+				}
+			}else{
+				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=theses');				
 			}		
 		}else{
 			$session =& JFactory::getSession();

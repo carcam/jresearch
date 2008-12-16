@@ -32,8 +32,12 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 		$db =& JFactory::getDBO();
 		
 		$member = new JResearchMember($db);
-		$member->load($itemId);
-		return $member;
+		$result = $member->load($itemId);
+		
+		if($result)
+			return $member;
+		else
+			return null;	
 	}
 	
 	/**

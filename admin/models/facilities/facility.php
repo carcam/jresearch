@@ -23,8 +23,12 @@ class JResearchModelFacility extends JResearchModelSingleRecord
 		$db =& JFactory::getDBO();
 		
 		$fac = new JResearchFacility($db);
-		$fac->load($itemId);
-		return $fac;
+		$result = $fac->load($itemId);
+		
+		if($result)
+			return $fac;
+		else
+			return null;	
 	}
 
 }

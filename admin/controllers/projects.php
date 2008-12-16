@@ -69,7 +69,7 @@ class JResearchAdminProjectsController extends JController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers');
 		
-		$cid = JRequest::getVar('cid');
+		$cid = JRequest::getVar('cid', array());
 		
 		$view = &$this->getView('Project', 'html', 'JResearchAdminView');	
 		
@@ -77,18 +77,23 @@ class JResearchAdminProjectsController extends JController
 		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
 		$model =& $this->getModel('Project', 'JResearchModel');
 
-		if($cid){
+		if(!empty($cid)){
 			$project = $model->getItem($cid[0]);
-			$user =& JFactory::getUser();
-			// Verify if it is checked out
-			if($project->isCheckedOut($user->get('id'))){
-				$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+			if(!empty($project)){
+				$user =& JFactory::getUser();
+				// Verify if it is checked out
+				if($project->isCheckedOut($user->get('id'))){
+					$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+				}else{
+					$project->checkout($user->get('id'));
+					$view->setModel($model, true);
+					$view->setModel($areaModel);
+					$view->setModel($finModel);
+					$view->display();
+				}
 			}else{
-				$project->checkout($user->get('id'));
-				$view->setModel($model, true);
-				$view->setModel($areaModel);
-				$view->setModel($finModel);
-				$view->display();
+				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=projects');
 			}	
 		}else{
 			$session =& JFactory::getSession();

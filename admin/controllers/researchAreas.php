@@ -161,15 +161,20 @@ class JResearchAdminResearchAreasController extends JController
 				
 		if($cid){
 			$area = $model->getItem($cid[0]);
-			$user =& JFactory::getUser();
-			// Verify if it is checked out
-			if($area->isCheckedOut($user->get('id'))){
-				$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+			if(!empty($area)){
+				$user =& JFactory::getUser();
+				// Verify if it is checked out
+				if($area->isCheckedOut($user->get('id'))){
+					$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+				}else{
+					$area->checkout($user->get('id'));
+					$view->setLayout('default');
+					$view->setModel($model, true);
+					$view->display();
+				}
 			}else{
-				$area->checkout($user->get('id'));
-				$view->setLayout('default');
-				$view->setModel($model, true);
-				$view->display();
+				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas');
 			}
 		}else{
 			$session =& JFactory::getSession();

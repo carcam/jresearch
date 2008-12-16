@@ -60,19 +60,25 @@ class JResearchAdminFinanciersController extends JController
 		if($cid)
 		{
 			$fin = $model->getItem($cid[0]);
-			$user = &JFactory::getUser();
-
-			//Check if it is checked out
-			if($fin->isCheckedOut($user->get("id")))
-			{
-				$this->setRedirect('index.php?option=com_jresearch&controller=financier', JText::_('You cannot edit this item. Another user has locked it.'));
+			if(!empty($fin)){
+				$user = &JFactory::getUser();
+	
+				//Check if it is checked out
+				if($fin->isCheckedOut($user->get("id")))
+				{
+					$this->setRedirect('index.php?option=com_jresearch&controller=financier', JText::_('You cannot edit this item. Another user has locked it.'));
+				}
+				else
+				{
+					$fin->checkout($user->get("id"));
+					$view->setModel($model,true);
+					$view->display();
+				}
+			}else{
+				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=financiers');				
 			}
-			else
-			{
-				$fin->checkout($user->get("id"));
-				$view->setModel($model,true);
-				$view->display();
-			}
+			
 		}
 		else
 		{
