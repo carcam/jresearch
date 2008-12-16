@@ -184,7 +184,7 @@ class JResearchViewPublication extends JView
 			$publication = JResearchPublication::getById($cid);
 			$pubtype = $publication->pubtype;
 			$this->assignRef('publication', $publication);			
-		    $researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" id="researchAreas" size="5"', 'value', 'text', $publication->id_research_area);
+		    $researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $publication->id_research_area);
 			
 		    //Published radio
 			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $publication->published);
