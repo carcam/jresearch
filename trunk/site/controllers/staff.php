@@ -79,7 +79,7 @@ class JResearchStaffController extends JController
 	function edit(){
 		$user =& JFactory::getUser();
 		if($user->guest){
-			JError::raiseWarning(1, JText::_('Access not allowed.'));
+			JError::raiseWarning(1, JText::_('JRESEARCH_ACCESS_NOT_ALLOWED'));
 			return;
 		}	
 		

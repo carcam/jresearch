@@ -89,13 +89,19 @@ class JResearchAdminStaffController extends JController
 		
 		if($cid){
 			$member = $model->getItem($cid[0]);
-			if($member->isCheckedOut($user->get('id'))){
-				$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-			}else{	
-				$member->checkout($user->get('id'));
-				$view->setModel($model, true);
-				$view->setModel($researchAreaModel);
-				$view->display();
+			
+			if(!empty($member)){
+				if($member->isCheckedOut($user->get('id'))){
+					$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+				}else{	
+					$member->checkout($user->get('id'));
+					$view->setModel($model, true);
+					$view->setModel($researchAreaModel);
+					$view->display();
+				}
+			}else{
+				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=staff');				
 			}
 		}
 

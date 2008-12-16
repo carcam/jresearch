@@ -69,28 +69,33 @@ class JResearchAdminFacilitiesController extends JController
 	{
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 	
-		$cid = JRequest::getVar("cid");
+		$cid = JRequest::getVar('cid', array());
 
 		$view = &$this->getView('Facility', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Facility', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
 
-		if($cid)
-		{
+		if(!empty($cid)){
 			$fac = $model->getItem($cid[0]);
-			$user = &JFactory::getUser();
-
-			//Check if it is checked out
-			if($fac->isCheckedOut($user->get("id")))
-			{
-				$this->setRedirect('index.php?option=com_jresearch&controller=facilities', JText::_('You cannot edit this item. Another user has locked it.'));
-			}
-			else
-			{
-				$fac->checkout($user->get("id"));
-				$view->setModel($model,true);
-				$view->setModel($areaModel);
-				$view->display();
+			
+			if(!empty($fac)){
+				$user = &JFactory::getUser();
+	
+				//Check if it is checked out
+				if($fac->isCheckedOut($user->get("id")))
+				{
+					$this->setRedirect('index.php?option=com_jresearch&controller=facilities', JText::_('You cannot edit this item. Another user has locked it.'));
+				}
+				else
+				{
+					$fac->checkout($user->get("id"));
+					$view->setModel($model,true);
+					$view->setModel($areaModel);
+					$view->display();
+				}
+			}else{
+				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=facilities');
 			}
 		}
 		else

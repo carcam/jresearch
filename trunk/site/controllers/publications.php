@@ -115,25 +115,29 @@ class JResearchPublicationsController extends JController
 		$pubModel = &$this->getModel('Publication', 'JResearchModel');	
 		$model = &$this->getModel('ResearchAreasList', 'JResearchModel');
 		
-		if($cid)
-		{
+		if(!empty($cid)){
 			$publication = $pubModel->getItem($cid);
-			$user =& JFactory::getUser();
-			
-			// Verify if it is checked out
-			if($publication->isCheckedOut($user->get('id')))
-			{
-				$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-			}
-			else
-			{
-				$publication->checkout($user->get('id'));	
+			if(!empty($publication)){
+				$user =& JFactory::getUser();
+				
+				// Verify if it is checked out
+				if($publication->isCheckedOut($user->get('id')))
+				{
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+				}
+				else
+				{
+					$publication->checkout($user->get('id'));	
+				}
+				$view->setLayout('edit');
+				$view->setModel($model);
+				$view->display();
+			}else{
+				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			}				
+		}else{
+			JError::raiseWarning(1, JText::_('JRESEARCH_ACCESS_NOT_ALLOWED'));
 		}
-		
-		$view->setLayout('edit');
-		$view->setModel($model);
-		$view->display();
 	}
 
 	/**

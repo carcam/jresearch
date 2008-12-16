@@ -67,29 +67,34 @@ class JResearchAdminCooperationsController extends JController
 	function edit()
 	{
 		JResearchToolbar::editCooperationAdminToolbar();
-		$cid = JRequest::getVar("cid");
+		$cid = JRequest::getVar('cid', array());
 
 		$view = &$this->getView('Cooperation', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Cooperation', 'JResearchModel');
 
-		if($cid)
-		{
+		if(!empty($cid)){
 			$coop = $model->getItem($cid[0]);
-			$user = &JFactory::getUser();
-
-			//Check if it is checked out
-			if($coop->isCheckedOut($user->get("id")))
-			{
-				$this->setRedirect('index.php?option=com_jresearch&controller=cooperations', JText::_('You cannot edit this item. Another user has locked it.'));
-			}
-			else
-			{
-				$coop->checkout($user->get("id"));
-			}
+			if(!empty($coop)){
+				$user = &JFactory::getUser();
+				//Check if it is checked out
+				if($coop->isCheckedOut($user->get("id")))
+				{
+					$this->setRedirect('index.php?option=com_jresearch&controller=cooperations', JText::_('You cannot edit this item. Another user has locked it.'));
+				}
+				else
+				{
+					$coop->checkout($user->get("id"));
+					$view->setModel($model,true);
+					$view->display();					
+				}
+			}else{
+				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=cooperations');
+			}			
+		}else{
+			$view->setModel($model,true);
+			$view->display();
 		}
-		
-		$view->setModel($model,true);
-		$view->display();
 	}
 
 	function publish()

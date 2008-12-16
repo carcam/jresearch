@@ -31,8 +31,12 @@ class JResearchModelFinancier extends JResearchModelSingleRecord
 		$db =& JFactory::getDBO();
 		
 		$fin = new JResearchFinancier($db);
-		$fin->load($itemId);
-		return $fin;
+		$result = $fin->load($itemId);
+		
+		if($result)
+			return $fin;
+		else
+			return null;	
 	}
 
 }

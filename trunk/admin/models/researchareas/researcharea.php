@@ -33,7 +33,10 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		
 		$researchArea = new JResearchArea($db);
 		$researchArea->load($itemId);
-		return $researchArea;
+		if(!empty($researchArea->id))
+			return $researchArea;
+		else
+			return null;	
 	}
 	
 	/**

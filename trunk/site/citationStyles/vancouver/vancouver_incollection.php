@@ -72,6 +72,18 @@ class JResearchVancouverIncollectionCitationStyle extends JResearchVancouverCita
 			$text.= '. '.$edition;
 		}
 
+		$number = trim($publication->number);
+		if(!empty($number))
+			$text .= ', '.JText::_('JRESEARCH_ABB_NUMBER').'. '.$number;
+
+		$series = trim($publication->series);
+		if(!empty($series)){
+			if(!empty($number))
+				$text .= ', '.JText::_('JRESEARCH_IN').' '.$series;
+			else
+				$text .= ', '.$series;				
+		}
+
 		$address = $this->_getAddressText($publication);
 		if(!empty($address)){
 			if($text{strlen($text) - 1} == '.')
