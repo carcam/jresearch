@@ -315,8 +315,8 @@ class JResearchProject extends JResearchActivity{
 		$qoid = $db->Quote($oid);
 		
 		// Get internal authors
-        $internalAuthorsQuery = "SELECT * FROM $table WHERE $idProject = $qoid";
-		$db->setQuery($internalAuthorsQuery);
+        $financiersQuery = "SELECT * FROM $table WHERE $idProject = $qoid";
+		$db->setQuery($financiersQuery);
         
 		if(($result = $db->loadAssocList()))
         {
