@@ -114,7 +114,7 @@ class JResearchModelStaff extends JResearchModelList{
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere($published = false){
-		//global $mainframe, $option;
+		global $mainframe, $option;
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('stafffilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('stafffilter_search', 'filter_search');
