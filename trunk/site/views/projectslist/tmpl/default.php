@@ -30,9 +30,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			//Show members?
 			if($this->params->get('show_members') == 1)
 			{
-				$members = implode(', ',$project->getAuthors());
+				$members = implode(', ',$project->getPrincipalInvestigators());
 			?>			
-			<div><strong><?=JText::_('JRESEARCH_MEMBERS').': '?></strong><span><?=$members?></span></div>
+			<div><strong><?=JText::_('JRESEARCH_PROJECT_LEADERS').': '?></strong><span><?=$members?></span></div>
 			<?php 
 			}
 			
