@@ -216,7 +216,6 @@ class JResearchProject extends JResearchActivity{
        	$isPrincipalField = $db->nameQuote('is_principal');
        	
 		foreach($this->_internalAuthors as $author){
-			JError::raiseWarning(1, var_export($author, true));			
 			$id_staff_member = $author['id_staff_member'];
 			$order = $author['order'];
 			$principal = $db->Quote($author['is_principal'], false);
