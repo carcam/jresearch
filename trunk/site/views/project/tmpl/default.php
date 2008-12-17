@@ -26,31 +26,64 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td colspan="2">&nbsp;</td>
 	</tr>
 	
-	<?php $authors = $this->project->getAuthors(); ?>
-	<?php if(!empty($authors)): ?>
-	<tr>
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_MEMBERS').': ' ?></td>
-		<td style="width:35%;">
-			<ul style="margin:0px;padding:0px;">
-				<?php foreach($authors as $auth): ?>
-					<li style="list-style:none;">
-						<?php if($auth instanceof JResearchMember): ?>
-							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a>
-							<?php else: ?>
-								<?php echo $auth; ?>
-							<?php endif; ?>	
-						<?php else: ?>
-								<?php echo $auth; ?>
-						<?php endif; ?>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		</td>
-		<td colspan="2">&nbsp;</td>
-	</tr>	
-	<?php endif; ?>
+	<?php $authors = $this->project->getPrincipalInvestigators(); ?>
+	<?php $label = JText::_('JRESEARCH_PROJECT_LEADERS'); ?>
+	<?php $flag = true; ?>
 	
+	<?php if(empty($authors)): ?>
+		<?php $label = JText::_('JRESEARCH_MEMBERS'); ?>
+		<?php $authors = $this->project->getAuthors(); ?>
+		<?php $flag = false; ?>
+	<?php endif; ?>	
+	<?php if(!empty($authors)): ?>
+		<tr>
+			<td style="width:15%;" class="publicationlabel"><?php echo $label.': ' ?></td>
+			<td style="width:35%;">
+				<ul style="margin:0px;padding:0px;">
+					<?php foreach($authors as $auth): ?>
+						<li style="list-style:none;">
+							<?php if($auth instanceof JResearchMember): ?>
+								<?php if($auth->published): ?>
+									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a>
+								<?php else: ?>
+									<?php echo $auth; ?>
+								<?php endif; ?>	
+							<?php else: ?>
+									<?php echo $auth; ?>
+							<?php endif; ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</td>
+			<?php if($flag): ?>
+			<?php $nonleaders = $this->project->getNonPrincipalInvestigators(); ?>
+			<?php if(!empty($nonleaders)): ?>
+				<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_PROJECT_COLLABORATORS').': ' ?></td>
+				<td style="width:35%;">
+					<ul style="margin:0px;padding:0px;">
+						<?php foreach($nonleaders as $auth): ?>
+							<li style="list-style:none;">
+								<?php if($auth instanceof JResearchMember): ?>
+									<?php if($auth->published): ?>
+										<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a>
+									<?php else: ?>
+										<?php echo $auth; ?>
+									<?php endif; ?>	
+								<?php else: ?>
+										<?php echo $auth; ?>
+								<?php endif; ?>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</td>
+			<?php else: ?>
+				<td colspan="2">&nbsp;</td>			
+			<?php endif; ?>				
+			<?php else: ?>
+				<td colspan="2">&nbsp;</td>
+			<?php endif; ?>	
+		</tr>	
+	<?php endif; ?>
 	<?php
 	//Get values and financiers for project
 	$financiers = $this->project->getFinanciers();

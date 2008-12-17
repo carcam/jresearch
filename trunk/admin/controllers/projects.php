@@ -210,13 +210,15 @@ class JResearchAdminProjectsController extends JController
 	
 		for($j=0; $j<=$maxAuthors; $j++){
 			$value = JRequest::getVar("members".$j);
+			$flagValue = JRequest::getVar("check_members".$j);
+			$flag = $flagValue == 'on'?true:false;
 			if(!empty($value)){
 				if(is_numeric($value)){
 					// In that case, we are talking about a staff member
-					$project->setAuthor(trim($value), $k, true); 
+					$project->setAuthor(trim($value), $k, true, $flag); 
 				}else{
 					// For external authors 
-					$project->setAuthor(trim($value), $k);
+					$project->setAuthor(trim($value), $k, false, $flag);
 				}
 				
 				$k++;
