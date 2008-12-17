@@ -5,7 +5,7 @@
 * @param controlName Name of the control holding the last author. Usually in 
 * the format someName{index} where index is an integer greater than 0.
 */
-function addControl(controlName, addAuthorText, deleteAuthorText, buttonTextInternal, buttonText, maxAuthors){
+function addControl(controlName, addAuthorText, deleteAuthorText, buttonTextInternal, buttonText, maxAuthors, allowPrincipals, allowPrincipalsText){
 	indexField = document.getElementById(maxAuthors);
 	index = indexField.getAttribute('value');
 
@@ -38,6 +38,14 @@ function addControl(controlName, addAuthorText, deleteAuthorText, buttonTextInte
 		deleteAuthor.setAttribute("href", "javascript:deleteControl('"+baseControl.getAttribute('id')+index+"')");
 		deleteAuthor.appendChild(document.createTextNode(deleteAuthorText));
 		
+		if(allowPrincipals){
+			principalCheck = document.createElement("input");
+			principalCheck.setAttribute('type', 'checkbox');
+			principalCheck.setAttribute('name', 'check_'+baseControl.getAttribute('id')+index);
+			principalCheck.setAttribute('id', 'check_'+baseControl.getAttribute('id')+index);
+			principalCheckText = document.createTextNode(allowPrincipalsText+':  ');
+		}
+		
 		enter = document.createElement("br");
 		
 		div.appendChild(input);
@@ -45,6 +53,13 @@ function addControl(controlName, addAuthorText, deleteAuthorText, buttonTextInte
 		div.appendChild(button);
 		div.appendChild(enter);
 		div.appendChild(deleteAuthor);
+		
+		if(allowPrincipals){
+			div.appendChild(document.createTextNode("   "));		
+			div.appendChild(principalCheckText);
+			div.appendChild(principalCheck);
+		}
+		
 		baseControl.appendChild(div);
 	}	
 	

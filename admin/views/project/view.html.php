@@ -38,7 +38,8 @@ class JResearchAdminViewProject extends JView
     	$finModel =& $this->getModel('financiers');
     	$researchAreas = $areaModel->getData(null, true, false);
     	$financiers = $finModel->getData(null, true, false);
-    	
+
+    	$principalFlags = null;    	
     	$members = null;
     	$arguments = array('project');
     	
@@ -81,6 +82,7 @@ class JResearchAdminViewProject extends JView
     	  	$statusHTML = JHTML::_('select.genericlist', $statusOptions, 'status', 'class="inputbox" size="5"', 'value', 'text', $project->status);
     	  	$currencyHTML = JHTML::_('select.genericlist', $currencyOptions, 'finance_currency', 'class="inputbox"', 'value', 'text', $project->finance_currency);
     	  	$members = $project->getAuthors();
+    		$principalFlags = $project->getPrincipalsFlagsArray();    	  	
     	}else{
     		$arguments[] = null;
     		$projectFins = array();
@@ -90,7 +92,7 @@ class JResearchAdminViewProject extends JView
     	 	$currencyHTML = JHTML::_('select.genericlist', $currencyOptions, 'currency', 'class="inputbox"', 'value', 'text');
     	}
 
-		$membersControl = JHTML::_('AuthorsSelector._', 'members', $members);	
+		$membersControl = JHTML::_('AuthorsSelector._', 'members', $members, true, $principalFlags);	
 		
 		$fins = array();
 		foreach($projectFins as $fin)

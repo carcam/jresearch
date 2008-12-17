@@ -213,12 +213,15 @@ class JResearchProject extends JResearchActivity{
 		$orderField = $db->nameQuote('order');
 		$idPubField = $db->nameQuote('id_project');
        	$idStaffField = $db->nameQuote('id_staff_member');
+       	$isPrincipalField = $db->nameQuote('is_principal');
        	
-		foreach($this->_internalAuthors as $author){			
+		foreach($this->_internalAuthors as $author){
+			JError::raiseWarning(1, var_export($author, true));			
 			$id_staff_member = $author['id_staff_member'];
 			$order = $author['order'];
+			$principal = $db->Quote($author['is_principal'], false);
 			$tableName = $db->nameQuote('#__jresearch_project_internal_author');
-			$insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField) VALUES ($this->id, $id_staff_member,$order)";
+			$insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField,$isPrincipalField) VALUES ($this->id, $id_staff_member,$order,$principal)";
 			$db->setQuery($insertInternalQuery);			
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
@@ -230,9 +233,10 @@ class JResearchProject extends JResearchActivity{
 		foreach($this->_externalAuthors as $author){
 			$order = $db->Quote($author['order'], false);
 			$authorName = $db->Quote($db->getEscaped($author['author_name'], true), false);
+			$principal = $db->Quote($author['is_principal'], false);
 			
 			$tableName = $db->nameQuote('#__jresearch_project_external_author');
-			$insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField) VALUES($this->id, $authorName, $order)";			
+			$insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField, $isPrincipalField) VALUES($this->id, $authorName, $order, $principal)";			
 			$db->setQuery($insertExternalQuery);
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
@@ -324,6 +328,131 @@ class JResearchProject extends JResearchActivity{
         }else{
         	$this->_financiers = array();	
         }
+	}
+	
+	/**
+	* Sets an author. 
+	* 
+	* @param mixed $member. It has two interpretations depending on the $internal parameter. If $internal
+	* is true, $member must be a member database integer id, otherwise it will be a name.
+	* @param int $order. The order of the author in the publication. Order is important in publications
+	* as it shows the relevance of author's participation. Small numbers indicate more relevance. It must be
+	* a non negative number.
+	* @param boolean $internal If true, the author is part of staff and $member is the id, otherwise
+	* the author is not part of the center. 
+	* @param principal $isPrincipal If true, the author is considered as one of the leaders of the project.
+	* 
+	* @return true If the author could be correctly added (order is >= 0 and there is not any other author associated
+	* to the order number), false otherwise.
+	*/	
+	function setAuthor($member, $order, $internal=false, $isPrincipal=false){
+		$result = parent::setAuthor($member, $order, $internal);
+		
+		if($result){		
+			//Get the last entry in the array and set the principal flag
+			if($internal){
+				$n = count($this->_internalAuthors);
+				$this->_internalAuthors[$n - 1]['is_principal'] = $isPrincipal;
+			}else{
+				$n = count($this->_externalAuthors);
+				$this->_externalAuthors[$n - 1]['is_principal'] = $isPrincipal;			
+			}
+		}
+		
+		return $result;
+		
+	}
+	
+	/**
+	 * Returns an array of booleans indicating the principal flag of every member of the
+	 * project in the order they were defined when the project was created.
+	 * 
+	 * @return array
+	 *
+	 */
+	function getPrincipalsFlagsArray(){
+		$nAuthors = $this->countAuthors();
+		$result = array();
+		$i = 0;
+		
+		while($i < $nAuthors){
+			$result[] = $this->getPrincipalFlag($i); 
+			$i++;
+		}
+		
+		return $result;		
+	}
+	
+	/**
+	 * Returns the boolean flag indicating an author is one of the principal investigators
+	 * in a project.
+	 *
+	 * @param int $authorIndex The index of the author which is defined when the user assigns
+	 * the members to the project.
+	 */
+	function getPrincipalFlag($index){
+		$n = $this->countAuthors();
+		if($index < 0 || $index >= $n){
+			return null;		
+		}else{
+			// Search in internal authors
+			foreach($this->_internalAuthors as $inauth){
+				if($inauth['order'] == $index)
+					return (boolean)$inauth['is_principal'];
+			}
+			
+			// Then search in external ones
+			foreach($this->_externalAuthors as $extauth){
+				if($extauth['order'] == $index)
+					return (boolean)$extauth['is_principal'];
+			}
+			
+			return null;
+		}		
+	}
+	
+	/**
+	 * Get the members that were defined as principal investigators in the 
+	 * project.
+	 * 
+	 * @return array
+	 */
+	function getPrincipalInvestigators(){
+		$result = array();
+		
+		foreach($this->_externalAuthors as $extAuth){
+			if($extAuth['is_principal'])
+				$result[] = $this->getAuthor($extAuth['order']);
+		}
+		
+		foreach($this->_internalAuthors as $intAuth){
+			if($intAuth['is_principal'])
+				$result[] = $this->getAuthor($intAuth['order']);
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Get the members that were not defined as principal investigators in the 
+	 * project.
+	 * 
+	 * @return array
+	 */
+	function getNonPrincipalInvestigators(){
+		$result = array();
+		
+		foreach($this->_externalAuthors as $extAuth){
+			if(!$extAuth['is_principal'])
+				$result[] = $this->getAuthor($extAuth['order']);
+		}
+		
+		foreach($this->_internalAuthors as $intAuth){
+			if(!$intAuth['is_principal'])
+				$result[] = $this->getAuthor($intAuth['order']);
+		}
+		
+		return $result;		
 	}
 }
 

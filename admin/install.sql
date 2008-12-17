@@ -200,6 +200,7 @@ DROP TABLE IF EXISTS `#__jresearch_project_external_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_external_author` (
   `id_project` int(10) unsigned NOT NULL,
   `author_name` varchar(60) NOT NULL,
+  `is_principal` tinyint(4) NOT NULL default '0',
   `order` smallint(5) unsigned NOT NULL,
   PRIMARY KEY  (`id_project`,`author_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -215,6 +216,7 @@ DROP TABLE IF EXISTS `#__jresearch_project_internal_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_internal_author` (
   `id_project` int(10) unsigned NOT NULL,
   `id_staff_member` int(10) unsigned NOT NULL,
+  `is_principal` tinyint(4) NOT NULL default '0',
   `order` smallint(5) unsigned NOT NULL,
   PRIMARY KEY  (`id_project`,`id_staff_member`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
