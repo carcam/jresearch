@@ -109,6 +109,22 @@ class JResearchTeam extends JTable
 		
 		return $memberObjects;
 	}
+	
+	/**
+	 * Gets leader from the team as a member object
+	 *
+	 * @param DBO $db
+	 * @return JResearchMember
+	 */
+	public function getLeader(&$db)
+	{
+		$leader = new JResearchMember($db);
+		
+		if($this->id_leader > 0)
+			$leader->load($this->id_leader);
+		
+		return $leader;
+	}
 
 	/**
 	 * Sets a member for the team
