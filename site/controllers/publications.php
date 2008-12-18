@@ -48,7 +48,8 @@ class JResearchPublicationsController extends JController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('save', 'save');
 		$this->registerTask('cancel', 'cancel');
-		
+		$this->registerTask('listpergroup', 'listpergroup');
+				
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
@@ -477,6 +478,20 @@ class JResearchPublicationsController extends JController
 		}
 		
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications');
+	}
+	
+
+	function listpergroup(){
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
+		$view = &$this->getView('PublicationsList', 'html', 'JResearchView');
+		$pubModel = &$this->getModel('PublicationsList', 'JResearchModel');	
+		$model = &$this->getModel('Teams', 'JResearchModel');
+		
+		$view->setModel($pubModel, true);
+		$view->setModel($model);
+		$view->setLayout('filtered');
+		$view->display();
+		
 	}
 }
 ?>

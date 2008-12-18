@@ -36,12 +36,49 @@ class JResearchViewPublicationsList extends JView
 			case 'generatebibliography':
 				$this->_displayGenerateBibliographyDialog();
 				break;	
+    		case 'pergroup':
+    			$this->displayFilteredList();
+    			break;						
 			default:
 				$this->_displayFrontendList();
 				break;	
 		}
 
         parent::display($tpl);
+    }
+    
+	/**
+     * Invoked when the user has selected the option to show lists of publications
+     * filtered by team groups and showing the journal acceptance rate per each publication
+     * and calculating the average per group.
+     */
+    private function _displayFilteredList(){
+    	global $mainframe;
+    	
+    	$teamId = JRequest::getVar('teamid');
+    	$model = $this->getModel();
+    	$teamsModel = $this->getModel('teams');
+    	$lists = array();
+    	
+    	$params = $mainframe->getParams('com_jresearch');
+    	
+    	$teams = $teamsModel->getData();
+        $teamsOptions = array();        
+        $teamsOptions[] = JHTML::_('select.option', 0 ,JText::_('JRESEARCH_ALL_TEAMS'));
+        foreach($teams as $t){
+    		$teamsOptions[] = JHTML::_('select.option', $t->id, $t->name);
+    	}    	
+    	$filter_team = $mainframe->getUserStateFromRequest('publicationsfilter_team', 'filter_team');
+		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';    	
+    	$lists['teams'] = JHTML::_('select.genericlist',  $teamsOptions, 'teamid', 'class="inputbox" size="5" '.$js, 'value', 'text', $filter_team );
+    	
+    	$items = $model->getData(null, true, true);
+    	$page = $model->getPagination();
+    	
+    	$this->assignRef('items', $items);
+    	$this->assignRef('page', $page);
+    	$this->assignRef('lists', $lists);
+    	
     }
     
     /**

@@ -32,7 +32,7 @@ class JResearchAdminViewPublicationsList extends JView
     			break;
     		case 'export':
     			$this->_displayExportForm();
-    			break;	
+    			break;
     		default:
     			$this->_displayDefaultList();
     			break;		
@@ -40,6 +40,8 @@ class JResearchAdminViewPublicationsList extends JView
     	
         parent::display($tpl);
     }
+    
+    
     
     /**
     * Invoked when the user has selected the option Publications from the

@@ -74,6 +74,7 @@
 			<menu controller="staff">JRESEARCH_STAFF</menu>
 			<menu controller="theses">JRESEARCH_THESES</menu>
 			<menu controller="financiers">JRESEARCH_FINANCIERS</menu>
+			<menu controller="teams">JRESEARCH_TEAMS</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>index.html</filename>
@@ -102,6 +103,7 @@
 			<language tag="en-GB">en-GB.com_jresearch.researchareas.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
+			<language tag="en-GB">en-GB.com_jresearch.teams.ini</language>
 		</languages>
 	</administration>
 </install>

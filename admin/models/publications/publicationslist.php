@@ -73,6 +73,30 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$db->setQuery($query);
 		return $db->loadResultArray();
 	}
+	
+	/**
+	 * Returns the internal publications developed by members of the specified team.
+	 *
+	 * @param int $teamId
+	 */
+	private function _getTeamPublicationIds($teamId){
+		$db = JFactory::getDBO();
+		
+		$id_staff_member = $db->nameQuote('id_staff_member');
+		$team_member = $db->nameQuote('#__jresearch_team_member');
+		$id_publication = $db->nameQuote('id_publication');
+		$pub_internal_author = $db->nameQuote('#__jresearch_publication_internal_author');
+		$teamValue = $db->Quote($teamId);
+		$id_team = $db->nameQuote('id_team');
+		$id = $db->nameQuote('id');
+		$id_member = $db->nameQuote('id_member');
+		
+		$query = "SELECT DISTINCT $id_publication FROM $pub_internal_author, $team_member, WHERE $team_member.$id_team = $teamValue "
+				 ." AND $pub_internal_author.$id_staff_member = $team_member.$id_member";
+		
+		$db->setQuery($query);
+		return $db->loadResultArray();
+	}
 
 	/**
 	* Like method _buildQuery, but it does not consider LIMIT clause.
@@ -85,6 +109,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();		
 		return $resultQuery;
 	}
+	
 
 	/**
 	* Returns an array of ALL the items of an entity independently of its published state considering
@@ -94,6 +119,8 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* only those items of the member's authoring.
 	* @param $onlyPublished If true, returns only published items.
 	* @param $paginate If true, the method considers pagination user parameters
+	* @param $teamId If not null, the method only return those items authored by members of the 
+	* specified team.
 	* @return 	array
 	*/
 	public function getData($memberId = null, $onlyPublished = false, $paginate = false){
@@ -105,7 +132,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$this->_items = array();
 			
 			$db = &JFactory::getDBO();
-			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
+			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate, $teamId);
 			$db->setQuery($query);
 			$ids = $db->loadResultArray();
 			$this->_items = array();
@@ -155,6 +182,8 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');
 		$filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');
 		$filter_author = $mainframe->getUserStateFromRequest('publicationsfilter_author', 'filter_author');
+		$filter_team = $mainframe->getUserStateFromRequest('publicationsfilter_team', 'filter_team');
+
 		// prepare the WHERE clause
 		$where = array();
 		
@@ -189,6 +218,14 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$ids = $this->_getAuthorPublicationIds(trim($filter_author));			
 			if(count($ids) > 0)
 				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
+			else
+				$where[] = '0 = 1';
+		}
+		
+		if(!empty($filter_team)){
+			$tmids = $this->_getTeamPublicationIds(trim($filter_team));
+			if(count($tmids) > 0)
+				$where[] = $db->nameQuote('id').' IN ('.implode(',', $tmids).')';
 			else
 				$where[] = '0 = 1';
 		}
