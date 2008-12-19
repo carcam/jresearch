@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_EDIT_MEMBER_PROFILE">
+		<message>JRESEARCH_EDIT_PROFILE_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_EDIT_MEMBER_PROFILE</name>
+		<description>JRESEARCH_EDIT_PROFILE_VIEW_MESSAGE</description>
+		<url>	
+			<param type="radio" name="task" label="Task" default="edit">
+				<option value="edit">JRESEARCH_EDIT_MEMBER_PROFILE</option>
+			</param>
+		</url>
+		
+	</state>
+</metadata>
