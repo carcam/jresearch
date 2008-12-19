@@ -56,7 +56,7 @@ class JResearchAdminViewTeam extends JView
     		$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $team->published);    		
 			//Leader and members list
     		$leaderList = JHTML::_('select.genericlist', $memberOptions ,'id_leader', 'class="inputbox" size="1"' ,'value', 'text' , $team->id_leader);    		
-			$selectedMembers = $team->getMembers(JFactory::getDBO());
+			$selectedMembers = $team->getMembers();
 			foreach($selectedMembers as $member)
 			{
 				$selectedMemberOptions[] = $member->id;

@@ -46,7 +46,6 @@ class JResearchAdminViewTeams extends JView
     	
     	//Get the model
     	$model =& $this->getModel();
-    	$memberModel =& $this->getModel('Member');
     	$teams = $model->getData(null, false, true);
     	
 		// Filters and pagination
@@ -64,7 +63,6 @@ class JResearchAdminViewTeams extends JView
 		$lists['search'] = $filter_search;
     	
     	$this->assignRef('items', $teams);
-    	$this->assignRef('member', $memberModel);
     	$this->assignRef('lists', $lists);
     	$this->assignRef('page', $model->getPagination());
     }

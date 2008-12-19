@@ -25,21 +25,14 @@ defined("_JEXEC") or die("Restricted access");
 				<div class="contentheading">
 					<?=JFilterOutput::ampReplace($team->name)?>
 				</div>
-				<?php 
-				if($contentArray[0] != "")
-				{
-				?>
-					<div class="description">
-						<?=$contentArray[0];?>
-					</div>
-				<?php
-				}
-				?>
-					<div style="text-align:left">
-						<a href="index.php?option=com_jresearch&task=show&view=team&id=<?=$team->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >
-							<?=JText::_('Read more...'); ?>
-						</a>
-					</div>
+				<div>
+					<strong><?=JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?=$team->getLeader();?>
+				</div>
+				<div style="text-align:left">
+					<a href="index.php?option=com_jresearch&task=show&view=team&id=<?=$team->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >
+						<?=JText::_('Read more...'); ?>
+					</a>
+				</div>
 			</div>
 			<div style="clear: both;">&nbsp;</div>
 			<hr style="clear: both;" />
