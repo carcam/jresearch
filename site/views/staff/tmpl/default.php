@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div class="componentheading"><?php echo JText::_('Staff Members'); ?></div>
+<div class="componentheading"><?php echo JText::_('JRESEARCH_STAFF_MEMBERS'); ?></div>
 <table width="100%" cellpadding="2" cellspacing="2" align="center">
 <thead>
 	<tr align="center">

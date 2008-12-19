@@ -1,8 +1,8 @@
 <?php 
 /**
  * @version			$Id$
- * @package			Joomla
- * @subpackage		JResearch	
+* @package		JResearch
+* @subpackage	Citation
  * @copyright		Copyright (C) 2008 Luis Galarraga.
  * @license			GNU/GPL
  * Joomla! is free software. This version may have been modified pursuant
@@ -20,9 +20,26 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of APA citation style for misc records.
 *
-* @subpackage		JResearch
 */
 class JResearchAPAMiscCitationStyle extends JResearchAPACitationStyle{
+	/**
+	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
+	* page and in the Works Cited section at the end of a document.
+	* 
+	* @param JResearchPublication $publication
+	* @param $html Add html tags for formats like italics or bold
+	* @param $authorLinks If true, internal authors names are included as links to their profiles.
+	* @return 	string
+	*/
+	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks = false){
+		$header = parent::getReference($publication, $html, $authorsLinks);
+
+		$howpublished = trim($publication->howpublished);
+		if(!empty($howpublished))
+			$header .= ' '.$howpublished;
+			
+		return $header.'.';	
+	}
 	
 }
 

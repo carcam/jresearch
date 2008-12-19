@@ -1,8 +1,8 @@
 <?php
 /**
- * @version			$Id$
- * @package			Joomla
- * @subpackage		JResearch	
+ * @version		$Id$
+* @package		JResearch
+* @subpackage	Citation
  * @copyright		Copyright (C) 2008 Luis Galarraga.
  * @license			GNU/GPL
  * Joomla! is free software. This version may have been modified pursuant
@@ -21,7 +21,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Base class for implementation of APA citation style
 *
-* @subpackage		JResearch
 */
 class JResearchAPACitationStyle implements JResearchCitationStyle{
 	
@@ -150,13 +149,14 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks = false){
-		$this->lastAuthorSeparator = '&';
+		$this->lastAuthorSeparator = $html?'&amp;':'&';
 				
-		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
-		$title = $html?"<i>$publication->title</i>":$publication->title;
-		$title = trim($title);
+		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));		
+		$title = trim($publication->title);
+		$title = $html?"<i>$title</i>":$title;
+
 		
-		$year = $publication->year;
+		$year = trim($publication->year);
 		if($year != null && $year != '0000')
 			$year = ". ($year)";
 		else
@@ -259,10 +259,10 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 				$authorsArray[$authorsText][] = '';	
 		}
 		// Sort the array
-		ksort(&$authorsArray);
+		ksort($authorsArray);
 
 		foreach($authorsArray as &$years){
-			sort(&$years, SORT_NUMERIC);
+			sort($years, SORT_NUMERIC);
 
 			$n = count($years);
 			
@@ -316,7 +316,9 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 
 		$n = count($authors);
 		if($n <= 6){
-			if($n == 1)
+			if($n == 0)
+				return '';
+			elseif($n == 1)
 				$text = $formattedAuthors[0];
 			else{	
 				$subtotal = array_slice($formattedAuthors, 0, $n-1);
@@ -324,7 +326,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 			}
 		}else{
 			$subtotal = array_slice($formattedAuthors, 0, 6);
-			$text = implode(', ', $subtotal)." et al.";
+			$text = implode(', ', $subtotal)." et al";
 		}	
 
 		return $text;		
@@ -375,30 +377,6 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 	}
 	
 	/**
-	 * Returns an editor name with the format used for APA in the reference list. 
-	 * Editors names are formatted like authors where the publication has no authors, otherwise
-	 * the format changes with initials before lastname.
-	 *
-	 * @param string $editorName In any of the formats supported by Bibtex.
-	 */
-	protected function formatEditorForReferenceOutput($editorName){
-		$editorComponents = JResearchPublicationsHelper::getAuthorComponents($editorName);
-		$text = "";
-		
-		// We have two components: firstname and lastname
-		if(count($editorComponents) == 1){
-			$text .= ucfirst($editorComponents['lastname']);
-		}elseif(count($editorComponents) == 2){
-			$text .= ucfirst($editorComponents['firstname']{0}).'. '.ucfirst($editorComponents['lastname']); 
-		}else{
-			$text .= ucfirst($editorComponents['firstname']{0}).'. '.ucfirst($editorComponents['von']).' '.ucfirst($editorComponents['firstname']);
-		}
-		
-		return $text;
-		
-	}
-	
-	/**
 	 * Returns the editors text that is printed in book related references.
 	 *
 	 * @param JResearchPublication $publication
@@ -413,7 +391,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 			return '';
 		
 		foreach($editorsArray as $ed){
-			$formattedEditors[] = $this->formatEditorForReferenceOutput($ed);	
+			$formattedEditors[] = $this->formatAuthorForReferenceOutput($ed);	
 		}
 		
 		$n = count($formattedEditors);
@@ -472,9 +450,9 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		}
 		
 		// Sort the array
-		ksort(&$authorsArray);		
+		ksort($authorsArray);		
 		foreach($authorsArray as &$arr){
-			ksort(&$arr);
+			ksort($arr);
 			foreach($arr as $yearArray)
 				foreach($yearArray as $pub)
 					$result[] = $pub;

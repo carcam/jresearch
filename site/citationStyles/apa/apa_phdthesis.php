@@ -1,8 +1,8 @@
 <?php 
 /**
  * @version			$Id$
- * @package			Joomla
- * @subpackage		JResearch	
+* @package		JResearch
+* @subpackage	Citation
  * @copyright		Copyright (C) 2008 Luis Galarraga.
  * @license			GNU/GPL
  * Joomla! is free software. This version may have been modified pursuant
@@ -20,7 +20,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of APA citation style for phd thesis records.
 *
-* @subpackage		JResearch
 */
 class JResearchAPAPhdthesisCitationStyle extends JResearchAPACitationStyle{
 	/**
@@ -33,13 +32,14 @@ class JResearchAPAPhdthesisCitationStyle extends JResearchAPACitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = '&';
+		$this->lastAuthorSeparator = $html?'&amp;':'&';
+		$text = '';
 				
-		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
-		$title = $html?"<i>$publication->title</i>":$publication->title;
-		$title = trim($title);
+		$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+		$title = trim($publication->title);
+		$title = $html?"<i>$title</i>":$title;
 
-		$year = $publication->year;
+		$year = trim($publication->year);
 		if($year != '0000' && $year != null)
 			$year = " ($year)";
 		else
@@ -52,31 +52,19 @@ class JResearchAPAPhdthesisCitationStyle extends JResearchAPACitationStyle{
 				$header = "$authorsText. $title";	
 		}else
 			$header = "$title$year";	
-			
 		
-		return "$header. $publication->school. $publication->address.";
-	}
-	
-	
-	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* 
-	* @param JResearchPublication $publication
-	* @return 	string
-	*/
-	function getReferenceText(JResearchPublication $publication){
-		return $this->getReference($publication);		
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text in HTML format.
-	* 
-	* @param mixed $publication JResearchPublication object or array of them
-	* @return 	string
-	*/
-	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true, $authorLinks);
+		$text .= $header.'. '.JText::_('JRESEARCH_PHDTHESIS');
+		
+		$school = trim($publication->school);
+		if(!empty($school))
+			$text .= ', '.$school;
+
+		$address = trim($publication->address);
+		if(!empty($address))
+			$text .= ', '.$address;	
+			
+		return $text.'.';
+		
 	}
 	
 }

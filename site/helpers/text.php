@@ -31,22 +31,22 @@ class JResearchText{
 		static $translations;
 		
 		if(!isset($translations)){
-			$translations = array('article'=> JText::_('Article'), 
-								'book'=> JText::_('Book'),
-								'booklet' => JText::_('Booklet'),
-								'conference' => JText::_('Conference'),
-								'inbook' => JText::_('Inbook'),
-								'incollection' => JText::_('Incollection'),
-								'inproceedings' => JText::_('Inproceedings'),
-								'manual' => JText::_('Manual'),
-								'masterthesis' => JText::_('Master Thesis'),
-								'misc' => JText::_('Misc'),
-								'phdthesis' => JText::_('Phd Thesis'),
-								'proceedings' => JText::_('Proceedings'),
-								'techreport' => JText::_('Technical Report'),
-								'unpublished' => JText::_('Unpublished'),
-								'abstract' => JText::_('Abstract'),
-								'howpublished' => JText::_('How published')
+			$translations = array('article'=> JText::_('JRESEARCH_ARTICLE'), 
+								'book'=> JText::_('JRESEARCH_BOOK'),
+								'booklet' => JText::_('JRESEARCH_BOOKLET'),
+								'conference' => JText::_('JRESEARCH_CONFERENCE'),
+								'inbook' => JText::_('JRESEARCH_INBOOK'),
+								'incollection' => JText::_('JRESEARCH_INCOLLECTION'),
+								'inproceedings' => JText::_('JRESEARCH_INPROCEEDINGS'),
+								'manual' => JText::_('JRESEARCH_MANUAL'),
+								'masterthesis' => JText::_('JRESEARCH_MASTERSTHESIS'),
+								'misc' => JText::_('JRESEARCH_MISC'),
+								'phdthesis' => JText::_('JRESEARCH_PHDTHESIS'),
+								'proceedings' => JText::_('JRESEARCH_PROCEEDINGS'),
+								'techreport' => JText::_('JRESEARCH_TECHREPORT'),
+								'unpublished' => JText::_('JRESEARCH_UNPUBLISHED'),
+								'abstract' => JText::_('JRESEARCH_ABSTRACT'),
+								'howpublished' => JText::_('JRESEARCH_HOWPUBLISHED')
 								  	
 			);
 		}
