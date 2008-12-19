@@ -1,8 +1,8 @@
 <?php 
 /**
  * @version			$Id$
- * @package			Joomla
- * @subpackage		JResearch	
+* @package		JResearch
+* @subpackage	Citation
  * @copyright		Copyright (C) 2008 Luis Galarraga.
  * @license			GNU/GPL
  * Joomla! is free software. This version may have been modified pursuant
@@ -20,7 +20,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of APA citation style for article records.
 *
-* @subpackage		JResearch
 */
 class JResearchAPAArticleCitationStyle extends JResearchAPACitationStyle{
 	
@@ -31,46 +30,37 @@ class JResearchAPAArticleCitationStyle extends JResearchAPACitationStyle{
 	* 
 	* @param JResearchPublication $publication
 	* @param $html Add html tags for formats like italics or bold
-	* 
+	* @param boolean $authorLinks If true, internal authors profile links will be included.
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = '&';		
-		
+		$this->lastAuthorSeparator = $html?'&amp;':'&';		
+		$text = '';
 		$header = parent::getReference($publication, false, $authorLinks);
 
 		$numberText = trim($publication->number);
 		$numberText = !empty($numberText)?"($numberText)":"";
-		$journal = $html?"<i>$publication->journal</i>":$publication->journal;
-		$journal = trim($journal);
-		$volume = $html?"<i>$publication->volume</i>":$publication->volume;
-		$volume = trim($volume);
+		$journal = trim($publication->journal);
+		$journal = $html?"<i>$journal</i>":$journal;
+		$volume = trim($publication->volume);
+		$volume = $html?"<i>$volume</i>":$volume;
 		$pages = str_replace('--', '-', trim($publication->pages));
 		
-		return "$header $journal, $volume$numberText, $pages.";
+		$text.= $header;
+		if(!empty($journal))
+			$text .= ' '.$journal;
+		
+		if(!empty($volume))
+			$text .= ', '.$volume;
+		if(!empty($numberText))
+			$text .= $numberText;
+
+		if(!empty($pages))
+			$text .= ', '.$pages;	
+		
+		return $text.'.';
 	}
 	
-	
-	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* 
-	* @param JResearchPublication $publication
-	* @return 	string
-	*/
-	function getReferenceText(JResearchPublication $publication){
-		return $this->getReference($publication);		
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text in HTML format.
-	* 
-	* @param mixed $publication JResearchPublication object or array of them
-	* @return 	string
-	*/
-	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks = false){
-		return $this->getReference($publication, true, $authorLinks);
-	}
 	
 }
 

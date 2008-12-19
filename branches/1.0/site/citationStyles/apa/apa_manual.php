@@ -1,8 +1,8 @@
 <?php 
 /**
  * @version			$Id$
- * @package			Joomla
- * @subpackage		JResearch	
+* @package		JResearch
+* @subpackage	Citation
  * @copyright		Copyright (C) 2008 Luis Galarraga.
  * @license			GNU/GPL
  * Joomla! is free software. This version may have been modified pursuant
@@ -20,7 +20,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of APA citation style for manual records.
 *
-* @subpackage		JResearch
 */
 class JResearchAPAManualCitationStyle extends JResearchAPACitationStyle{
 		
@@ -34,61 +33,46 @@ class JResearchAPAManualCitationStyle extends JResearchAPACitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = '&';
-		$ed = JText::_('ed.');		
+		$this->lastAuthorSeparator = $html?'&amp;':'&';
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'.';		
 		$authorsText =trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
+		$text .= '';
 
-		$title = $html?"<i>$publication->title</i>":$publication->title;
-		$title = trim($title);
-		
-		$organization = trim($publication->organization);
+		$title = trim($publication->title);
+		$title = $html?"<i>$title</i>":$title;
 
-		$year = $publication->year;
+		$year = trim($publication->year);
 		if($year != '0000' && $year != null)
 			$year = " ($year)";
 		else
 			$year = '';			
 		
-		if(empty($organization))
+		if(empty($authorsText))
 			$header = "$title$year";
 		else{
 			if(!empty($year))
-				$header = "$organization.$year. $title"; 
+				$header = "$authorsText.$year. $title"; 
 			else
-				$header = "$organization. $title";	
+				$header = "$authorsText. $title";	
 		}
+		$text .= $header;
+		
+		$organization = trim($publication->organization);		
+		if(!empty($organization))
+			$text .= '. '.$organization;
 		
 		$edition = trim($publication->edition);	
-		if(!empty($edition))
-			$editonText = " ($edition $ed). ";
+		if(!empty($edition)){
+			$editonText = ", $edition $ed";
+			$text .= $editionText;
+		}
 		
 		$address = trim($publication->address);	
+		if(!empty($address))
+			$text .= '. '.$address;	
 			
-		return "$header.$editionText$address: $authorsText.";
+		return $text.'.';
 	}
-	
-	
-	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* 
-	* @param JResearchPublication $publication
-	* @return 	string
-	*/
-	function getReferenceText(JResearchPublication $publication){
-		return $this->getReference($publication);		
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text in HTML format.
-	* 
-	* @param mixed $publication JResearchPublication object or array of them
-	* @return 	string
-	*/
-	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks){
-		return $this->getReference($publication, true, $authorLinks);
-	}
-	
 }
 
 
