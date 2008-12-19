@@ -59,9 +59,8 @@ class JResearchAdminTeamsController extends JController
 		
 		$view = &$this->getView('Teams', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Teams', 'JResearchModel');
-		$memberModel = &$this->getModel('Member', 'JResearchModel');
+		
 		$view->setModel($model, true);
-		$view->setModel($memberModel);
 		
 		$view->setLayout('default');
 		$view->display();

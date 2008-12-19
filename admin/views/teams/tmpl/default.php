@@ -48,7 +48,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$k = $i % 2;
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
-					$leader = $this->member->getItem($this->items[$i]->id_leader);
+					$leader = $this->items[$i]->getLeader();
 			?>
 				<tr class="<?="row$k"; ?>">
 					<td><?=$this->page->getRowOffset( $i ); ?></td>
@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						</a>
 					</td>
 					<td align="center"><?=$published; ?></td>
-					<td align="center"><?=$leader->username?></td>
+					<td align="center"><?=$leader?></td>
 				</tr>
 			<?php } ?>
 		</tbody>

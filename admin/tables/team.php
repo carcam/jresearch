@@ -96,8 +96,9 @@ class JResearchTeam extends JTable
 	 *
 	 * @return array
 	 */
-	public function getMembers(&$db)
+	public function getMembers()
 	{
+		$db =& JFactory::getDBO();
 		$memberObjects = array(); 
 		
 		foreach($this->_members as $member)
@@ -116,8 +117,9 @@ class JResearchTeam extends JTable
 	 * @param DBO $db
 	 * @return JResearchMember
 	 */
-	public function getLeader(&$db)
+	public function getLeader()
 	{
+		$db =& JFactory::getDBO();
 		$leader = new JResearchMember($db);
 		
 		if($this->id_leader > 0)
