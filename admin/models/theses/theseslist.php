@@ -139,7 +139,7 @@ class JResearchModelThesesList extends JResearchModelList{
 			$filter_order_Dir = 'ASC';
 		//if order column is unknown, use the default
 		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('published');	
+			$filter_order = $db->nameQuote('title');	
 		
 		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->nameQuote('created').' DESC';
 	}	
