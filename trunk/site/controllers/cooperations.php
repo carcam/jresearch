@@ -43,7 +43,6 @@ class JResearchCooperationsController extends JController
 	 *
 	 * @access public
 	 */
-
 	function display()
 	{
 		global $mainframe;
@@ -66,7 +65,7 @@ class JResearchCooperationsController extends JController
 	}
 
 	/**
-	* Invoked when the visitant has decided to see a member's profile
+	* Invoked when the visitant has decided to see a cooperation
 	*/
 	function show()
 	{

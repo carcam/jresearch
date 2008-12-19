@@ -2,7 +2,7 @@
 	<?=JText::_('JRESEARCH_EDIT_PUBLICATION');?>
 </div>
 <?php 
-if(JHTML::_('jresearch.authorize','edit', 'publications', $this->id))
+if(JHTML::_('Jresearch.authorize','edit', 'publications', $this->id))
 {
 	if($this->id > 0)
 	{

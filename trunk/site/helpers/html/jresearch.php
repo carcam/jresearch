@@ -10,7 +10,7 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class JHTMLJResearch
+class JHTMLJresearch
 {
 	/**
 	 * Renders task icon for specific item, if user is authorized for it
