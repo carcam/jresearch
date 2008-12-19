@@ -77,7 +77,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<div style="float: left;">
 				<div class="icon">
 					<a href="index.php?option=com_jresearch&amp;controller=teams">
-						<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/staff.png" alt="<?php echo JText::_('JRESEARCH_TEAMS'); ?>">					
+						<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/teams.png" alt="<?php echo JText::_('JRESEARCH_TEAMS'); ?>">					
 						<span><?php echo JText::_('JRESEARCH_TEAMS'); ?></span>
 					</a>
 				</div>
