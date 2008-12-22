@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		JResearch
 * @subpackage	HTML
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
 */
 
@@ -30,7 +30,7 @@ class JHTMLJresearch
 			$authorized = JHTMLJResearch::authorize($task, $controller, $itemid, $userid);
 			
 			if($authorized)
-				echo '<img src="'.JURI::base().'/joomla/images/M_images/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>';
+				echo '<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>';
 			else
 				echo JText::sprintf('JRESEARCH_ACCESS_NOT_ALLOWED', $controller, 'edit', $itemid);
 		}
