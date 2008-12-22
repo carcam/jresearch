@@ -58,7 +58,7 @@ class JHTMLValidator{
 		$extra = extra_word_characters();
     	$doc->addScriptDeclaration("window.onDomReady(function() {
 			document.formvalidator.setHandler('keywords', function(value) {
-			regex=/^[-_'\w$extra\s\d]+(,[-_'\w$extra\s\d]+)*,*$/i;
+			regex=/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/i;
 			return regex.test(value); })
 		})");
     	

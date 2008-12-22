@@ -52,6 +52,11 @@ class JResearchAdminViewTeam extends JView
     	
     	if($cid){
     		$team = $model->getItem($cid[0]);
+    		if(empty($team)){
+    			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+    			return;
+    		}
+    		
     		$arguments[] = $team->id;
     		$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $team->published);    		
 			//Leader and members list

@@ -17,7 +17,16 @@ for($i = 0; $i < $n; $i++ ):
 ?>
 		<tr><td class="sectiontableheader"><?php echo $header; ?></td></tr>
 	<?php endif; ?>
-	<tr><td><?php echo $publicationText;  ?>&nbsp;<a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $this->items[$i]->id; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a></td></tr>
+	<?php $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
+	<?php $url = $this->items[$i]->url; ?>	
+	<tr><td><?php echo $publicationText;  ?>&nbsp;
+		<?php if($this->showmore): ?>
+		<a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $this->items[$i]->id; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a>&nbsp;
+	<?php endif; ?>
+	<?php if($this->showdigital): ?>
+		<?php echo !empty($url)?"<a href=\"$url\">[$digitalVersion]</a>":''; ?>
+	<?php endif; ?>
+	</td></tr>
 	<?php $previousYear = $this->items[$i]->pubtype; ?>
 <?php endfor; ?>
 

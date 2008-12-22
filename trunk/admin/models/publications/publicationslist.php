@@ -91,7 +91,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$id = $db->nameQuote('id');
 		$id_member = $db->nameQuote('id_member');
 		
-		$query = "SELECT DISTINCT $id_publication FROM $pub_internal_author, $team_member, WHERE $team_member.$id_team = $teamValue "
+		$query = "SELECT DISTINCT $id_publication FROM $pub_internal_author, $team_member WHERE $team_member.$id_team = $teamValue "
 				 ." AND $pub_internal_author.$id_staff_member = $team_member.$id_member";
 		
 		$db->setQuery($query);
@@ -161,10 +161,10 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
-			$filter_order_Dir = 'ASC';
+			$filter_order_Dir = 'ASC';	
 		//if order column is unknown, use the default
 		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('published');	
+			$filter_order = $db->nameQuote('title');	
 		
 		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->nameQuote('created').' DESC';
 	}	
@@ -285,7 +285,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$authorname = $db->nameQuote('author_name');
 		$pu = $db->nameQuote('published');
 
-		$whereKeywords = " LOWER(".$db->nameQuote('keywords').") LIKE $newprefix";
+		$whereKeywords = " LOCATE($prefix, LOWER(".$db->nameQuote('keywords').")) > 0";
 		$whereTitle = " LOWER(".$db->nameQuote('title').") LIKE $newprefix";
 		$whereYear = " ".$db->nameQuote('year')."= $prefix";
 		$whereCitekey = " LOWER(".$db->nameQuote('citekey').") LIKE $newprefix";
@@ -333,6 +333,46 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			}
 		}
 		return $records;
+	}
+	
+	/**
+	 * Returns the average value of the indicated field for the data returned by the 
+	 * model. Items with null values in the specified field are not considered in the 
+	 * average. This function assumes method getData was previously invoked and always
+	 * return a float even if the data values are integers.
+	 *
+	 * @param string $fieldname The name of the field used for the average. If the field 
+	 * does not correspond to a numeric value, the results are neither predictable nor
+	 * trustable.
+	 * @param boolean $ignoreZeros If true, items with zero values are not considered in 
+	 * the average.
+	 * @param float Calculated average. null if there is no data to analyze.
+	 */
+	public function getAverage($fieldname, $ignoreZeros=true){
+		$result = 0.0;
+		$n = 0;
+		if(empty($this->_items))
+			return null;
+			
+		foreach($this->_items as $item){
+			if(isset($item->$fieldname)){
+				$value = (float)trim($item->$fieldname);				
+				if($value === 0.0){
+					if(!$ignoreZeros){
+						$result += $value;
+						$n++;
+					}
+				}else{
+					$result += $value;
+					$n++;
+				}
+			}
+		}
+		
+		if($n == 0)
+			return null;
+			
+		return $result / $n;
 	}
 }
 ?>
