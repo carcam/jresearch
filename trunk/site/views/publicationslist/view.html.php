@@ -25,8 +25,10 @@ class JResearchViewPublicationsList extends JView
     {
     	// Require css and styles
         $document =& JFactory::getDocument();
+        
         //Add template path explicitly (useful when requesting from the backend)
-        $this->addTemplatePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publicationslist'.DS.'tmpl');   
+        $this->addTemplatePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publicationslist'.DS.'tmpl');  
+        JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 
 		switch($this->getLayout()){
 			// Template for making citations from TinyMCE editor

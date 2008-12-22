@@ -10,7 +10,7 @@ foreach($this->items as $pub):
 ?>
 	<?php $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 	<?php $url = $pub->url; ?>
-
+	<tr><td align="right"><?php JHTML::_('Jresearch.icon','edit', 'publications', $pub->id); ?></td></tr>
 	<tr><td><?php echo $publicationText;  ?>&nbsp;
 	<?php if($this->showmore): ?>
 		<a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a>&nbsp;

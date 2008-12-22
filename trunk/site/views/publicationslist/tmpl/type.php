@@ -12,9 +12,12 @@ $n = count($this->items);
 $previousType = null;
 for($i = 0; $i < $n; $i++ ): 
 	$publicationText = $this->style->getReferenceHTMLText($this->items[$i], true, true);
+	?>
+	<tr><td align="right"><?php JHTML::_('Jresearch.icon','edit', 'publications', $this->items[$i]->id); ?></td></tr>
+	<?php
 	if($previousYear != $this->items[$i]->pubtype):
 		$header = JText::_('JRESEARCH_PUBLICATION_TYPE').': '.$this->items[$i]->pubtype;			
-?>
+	?>
 		<tr><td class="sectiontableheader"><?php echo $header; ?></td></tr>
 	<?php endif; ?>
 	<?php $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>

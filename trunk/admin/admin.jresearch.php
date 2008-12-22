@@ -37,10 +37,6 @@ $controller = JRequest::getVar('controller', null);
 $task = JRequest::getVar('task');
 $prefix = 'JResearchAdmin';
 
-//Load additionally language files
-$lang = JFactory::getLanguage();
-$lang->load('com_jresearch.citation');
-
 if($controller == null){
 	// It is the default controller
 	require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
