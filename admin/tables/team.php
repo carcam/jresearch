@@ -47,7 +47,7 @@ class JResearchTeam extends JTable
 	public function load($oid=null)
 	{
 		$result = parent::load($oid);
-		$this->_loadMembers($oid);
+		$this->_loadMembers();
 		
 		return $result;
 	}
@@ -89,6 +89,12 @@ class JResearchTeam extends JTable
 		}
 		
 		return true;
+	}
+
+	public function delete($oid = null)
+	{
+		$this->_deleteMembers($oid);
+		parent::delete($oid);
 	}
 	
 	/**
@@ -150,6 +156,27 @@ class JResearchTeam extends JTable
 	public function countMembers()
 	{
 		return count($this->_members);
+	}
+	
+	private function _deleteMembers($oid = null)
+	{
+		$db = &$this->getDBO();
+		$j = $this->_tbl_key;
+		$oid = ($oid == null) ? $this->$j : $oid;
+		$tableName = $db->nameQuote('#__jresearch_team_member');
+		
+		// Delete the information about internal and external references
+		$deleteQuery = 'DELETE FROM '.$tableName.' WHERE '.$db->nameQuote('id_team').' = '.$db->Quote($oid);
+		$db->setQuery($deleteQuery);
+		if(!$db->query())
+		{
+			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+			return false;
+		}
+		
+		$this->_members = array();
+		
+		return true;
 	}
 	
 	private function _loadMembers($oid)
