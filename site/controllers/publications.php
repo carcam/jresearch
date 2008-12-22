@@ -48,7 +48,7 @@ class JResearchPublicationsController extends JController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('save', 'save');
 		$this->registerTask('cancel', 'cancel');
-		$this->registerTask('listpergroup', 'listpergroup');
+		$this->registerTask('filtered', 'filtered');
 				
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
@@ -481,14 +481,32 @@ class JResearchPublicationsController extends JController
 	}
 	
 
-	function listpergroup(){
+	function filtered(){
+		global $mainframe;
+		//Get and use configuration
+    	$params = $mainframe->getPageParameters('com_jresearch');
+	
+		// Use configuration parameters
+		$limit = $params->get('publications_entries_per_page');			
+		$filter_order_Dir = $params->get('publications_order', 'DESC');
+		$filter_order = $params->get('publications_default_sorting', 'title');
+		
+		JRequest::setVar('limitstart', JRequest::getInt('limitstart', 0));
+		JRequest::setVar('limit', $limit);		
+		JRequest::setVar('filter_order', $filter_order);
+		JRequest::setVar('filter_order_Dir', $filter_order_Dir);
+		
+		
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$view = &$this->getView('PublicationsList', 'html', 'JResearchView');
-		$pubModel = &$this->getModel('PublicationsList', 'JResearchModel');	
-		$model = &$this->getModel('Teams', 'JResearchModel');
+		$pubModel = $this->getModel('PublicationsList', 'JResearchModel');	
+		$areaModel = $this->getModel('ResearchAreasList', 'JResearchModel'); 
+		$teamsModel = $this->getModel('Teams', 'JResearchModel');
 		
 		$view->setModel($pubModel, true);
-		$view->setModel($model);
+		$view->setModel($areaModel);
+		$view->setModel($teamsModel);
 		$view->setLayout('filtered');
 		$view->display();
 		

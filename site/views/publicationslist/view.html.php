@@ -36,8 +36,8 @@ class JResearchViewPublicationsList extends JView
 			case 'generatebibliography':
 				$this->_displayGenerateBibliographyDialog();
 				break;	
-    		case 'pergroup':
-    			$this->displayFilteredList();
+    		case 'filtered':
+    			$this->_displayFilteredList();
     			break;						
 			default:
 				$this->_displayFrontendList();
@@ -55,26 +55,86 @@ class JResearchViewPublicationsList extends JView
     private function _displayFilteredList(){
     	global $mainframe;
     	
+    	$doc = JFactory::getDocument();
+    	$doc->addStyleDeclaration(".title{text-align:center;}");
+    	
     	$teamId = JRequest::getVar('teamid');
     	$model = $this->getModel();
     	$teamsModel = $this->getModel('teams');
+    	$areasModel = $this->getModel('researchareaslist');
     	$lists = array();
-    	
-    	$params = $mainframe->getParams('com_jresearch');
-    	
-    	$teams = $teamsModel->getData();
-        $teamsOptions = array();        
-        $teamsOptions[] = JHTML::_('select.option', 0 ,JText::_('JRESEARCH_ALL_TEAMS'));
-        foreach($teams as $t){
-    		$teamsOptions[] = JHTML::_('select.option', $t->id, $t->name);
-    	}    	
-    	$filter_team = $mainframe->getUserStateFromRequest('publicationsfilter_team', 'filter_team');
-		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';    	
-    	$lists['teams'] = JHTML::_('select.genericlist',  $teamsOptions, 'teamid', 'class="inputbox" size="5" '.$js, 'value', 'text', $filter_team );
-    	
+
     	$items = $model->getData(null, true, true);
     	$page = $model->getPagination();
+    	$params = $mainframe->getParams('com_jresearch'); 
+    	$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
+
+    	if($params->get('filter_teams') == 'yes'){
+	    	$filter_team = $mainframe->getUserStateFromRequest('publicationsfilter_team', 'filter_team');    		
+    		$teams = $teamsModel->getData();
+        	$teamsOptions = array();        
+	        $teamsOptions[] = JHTML::_('select.option', -1 ,JText::_('JRESEARCH_ALL_TEAMS'));
+	        foreach($teams as $t){
+	    		$teamsOptions[] = JHTML::_('select.option', $t->id, $t->name);
+	    	}    		
+	    	$lists['teams'] = JHTML::_('select.genericlist',  $teamsOptions, 'filter_team', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_team );
+    	}
     	
+    	if($params->get('show_average') == 'yes'){
+    		$average = $model->getAverage('journal_acceptance_rate');
+    		$this->assignRef('average', $average);
+    	}
+    	
+    	if($params->get('filter_areas') == 'yes'){
+			$filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');    		
+    		$areas = $areasModel->getData();
+        	$areasOptions = array();        
+	        $areasOptions[] = JHTML::_('select.option', 0 ,JText::_('JRESEARCH_RESEARCH_AREAS'));
+	        foreach($areas as $a){
+	    		$areasOptions[] = JHTML::_('select.option', $a->id, $a->name);
+	    	}    		
+    		$filter_area = $filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');    	
+	    	$lists['areas'] = JHTML::_('select.genericlist',  $areasOptions, 'filter_area', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_area );
+    	}
+    	
+    	if($params->get('filter_year') == 'yes'){
+			// Year filter
+			$filter_year = $mainframe->getUserStateFromRequest('publicationsfilter_year', 'filter_year');			
+			$db = &JFactory::getDBO();
+			$db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
+			$years = $db->loadResultArray();
+			$yearsHTML = array();
+			$yearsHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
+			foreach($years as $y)
+				$yearsHTML[] = JHTML::_('select.option', $y, $y);
+				
+			$lists['years'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
+    		
+    	}
+    	
+    	if($params->get('filter_type') == 'yes'){
+    		// Publication type filter
+			$filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');    		
+			$types = JResearchPublication::getPublicationsSubtypes();
+			$typesHTML = array();
+			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
+			foreach($types as $type){
+				$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
+			}
+			$lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
+    	}
+    	
+    	if($params->get('filter_authors') == 'yes'){
+			$filter_author = $mainframe->getUserStateFromRequest('publicationsfilter_author', 'filter_author');
+			$authors = $model->getAllAuthors();
+			$authorsHTML = array();
+			$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
+			foreach($authors as $auth){
+				$authorsHTML[] = JHTML::_('select.option', $auth['id'], $auth['name']); 
+			}
+			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
+    	}
+    
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $page);
     	$this->assignRef('lists', $lists);
@@ -141,11 +201,16 @@ class JResearchViewPublicationsList extends JView
     	$filter_order = JRequest::getVar('filter_order', 'year');
     	$filter_order_Dir = JRequest::getVar('filter_order_Dir', 'DESC');
     	
+    	$showmore = ($params->get('show_more') == 'yes');
+    	$showdigital = ($params->get('show_more') == 'yes');
+    	
     	// Bind variables used in layout
     	$this->assignRef('items', $publications);
     	$this->assignRef('style', $style);
     	$this->assignRef('page', $model->getPagination());
     	$this->assignRef('user', $user);
+    	$this->assignRef('showmore', $showmore);
+    	$this->assignRef('showdigital', $showdigital);    	
     }
     
     /**

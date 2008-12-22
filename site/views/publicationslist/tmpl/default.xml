@@ -27,6 +27,14 @@
 				<option value="techreport">JRESEARCH_TECHREPORT</option>
 				<option value="unpublished">JRESEARCH_UNPUBLISHED</option>
 			</param>
+			<param name="show_more" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_MORE" description="JRESEARCH_PUBLICATIONS_SHOW_MORE_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="show_digital" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL" description="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
 		</params>
 	</state>
 </metadata>

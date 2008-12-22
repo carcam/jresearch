@@ -7,25 +7,35 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
+<div class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></div>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<div style="text-align:left">
-		<?php echo $this->lists['teams'] ?>
+		<?php echo !empty($this->lists['teams'])?'<span>'.$this->lists['teams'].'</span>':''; ?>	
+		<?php echo !empty($this->lists['areas'])?'<span>'.$this->lists['areas'].'</span>':''; ?>
+		<?php echo !empty($this->lists['years'])?'<span>'.$this->lists['years'].'</span>':''; ?>
+		<?php echo !empty($this->lists['pubtypes'])?'<span>'.$this->lists['pubtypes'].'</span>':''; ?>
+		<?php echo !empty($this->lists['authors'])?'<span>'.$this->lists['authors'].'</span>':''; ?>				
 	</div>
-	<table class="adminlist" cellspacing="1">
+	<?php $label = JText::_('JRESEARCH_PUNCTUATION_AVERAGE'); ?>
+	<?php if(!empty($this->average))
+		printf("<div><h2>%s:&nbsp;%.2f</h2></div>", $label, $this->average); 
+	?>
+	<table>
 		<thead>
 		<tr>		
-			<th width="1%">#</th>
-			<th class="title" width="30%"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
-			<th class="title" width="30%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
-			<th class="title" width="19%"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
-			<th width="20%" nowrap="nowrap"><?php echo JText::_('JOURNAL_ACCEPTANCE_RATE'); ?></th>
+			<th width="5%">#</th>
+			<th style="text-align:center;" class="title" width="40%"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
+			<th style="text-align:center;" class="title" nowrap="nowrap" width="35%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
+			<th style="text-align:center;" class="title" width="10%"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
+			<th style="text-align:center;" class="title" width="10%"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'); ?></th>
 		</tr>
 		</thead>
 		
 		<tfoot>
 			<tr>
-				<td colspan="3">
-					<?php echo $this->page->getListFooter(); ?>
+				<td colspan="5">
+					<div>&nbsp;</div>
+					<div style="text-align:center;"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>
 				</td>
 			</tr>
 		</tfoot>
@@ -39,16 +49,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			
 				<?php $Itemid = JRequest::getVar('Itemid'); ?>
 				<tr class="<?php echo "row$k"; ?>">
-				<td width="40%"><a href="index.php?option=com_jresearch&controller=publications&task=show&id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
-				<td width="22%" align="center"><?php echo $authors; ?></td>
-				<td width="5%" align="center"><?php echo $this->items[$i]->year; ?></td>
-				<td width="15%" align="center"><?php echo $this->items[$i]->journal_acceptance_rate; ?></td>
+					<td width="5%"><?php echo $i; ?></td>
+					<td width="40%"><a href="index.php?option=com_jresearch&controller=publications&task=show&id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
+					<td width="35%" align="center"><?php echo $authors; ?></td>
+					<td width="10%" align="center"><?php echo $this->items[$i]->year; ?></td>
+					<td width="10%" align="center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
 				</tr>
 			<?php } ?>
 		</tbody>
 	</table>
 	<input type="hidden" name="option" value="com_jresearch" />
-	<input type="hidden" name="task" value="listpergroup" />
+	<input type="hidden" name="task" value="filtered" />
 	<input type="hidden" name="controller" value="publications"  />
+	<input type="hidden" name="limitstart" value="0" />
+	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />	
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
