@@ -8,7 +8,7 @@
 		<description>JRESEARCH_PUBLICATIONS_LIST_VIEW_MESSAGE</description>
 		<params>
 			<param name="filter_show" type="radio" default="0" label="JRESEARCH_PUBLICATIONS_SHOW" description="JRESEARCH_PUBLICATIONS_SHOW_DESCRIPTION">
-				<option value="">All publications</option>
+				<option value="0">All publications</option>
 				<option value="my">Only my publications</option>
 			</param>
 			<param name="filter_pubtype" type="list" default="" label="JRESEARCH_PUBLICATIONS_SHOW_TYPE" description="JRESEARCH_PUBLICATIONS_SHOW_TYPE_DESCRIPTION">

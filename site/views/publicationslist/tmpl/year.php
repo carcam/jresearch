@@ -12,12 +12,15 @@ $n = count($this->items);
 $previousYear = null;
 for($i = 0; $i < $n; $i++ ): 
 	$publicationText = $this->style->getReferenceHTMLText($this->items[$i], true, true);
+	?>
+	<tr><td align="right"><?php JHTML::_('Jresearch.icon','edit', 'publications', $this->items[$i]->id); ?></td></tr>
+	<?php
 	if($previousYear != $this->items[$i]->year):
 		if($this->items[$i]->year == '0000' || $this->items[$i]->year == null )
 			$yearHeader = JText::_('JRESEARCH_NO_YEAR');
 		else
 			$yearHeader = JText::_('JRESEARCH_YEAR').': '.$this->items[$i]->year;			
-?>
+	?>
 		<tr><td class="sectiontableheader"><?php echo $yearHeader; ?></td></tr>
 	<?php endif; ?>
 	<?php $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>

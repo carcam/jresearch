@@ -30,7 +30,18 @@ class JHTMLJresearch
 			$authorized = JHTMLJResearch::authorize($task, $controller, $itemid, $userid);
 			
 			if($authorized)
-				echo '<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>';
+			{
+				switch($controller)
+				{
+					case 'publications':
+						echo '<a href="index.php?option=com_jresearch&view=publication&task='.$task.'&id='.$itemid.'" title="Edit publication">'
+						.'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
+						.'</a>';
+						break;
+					default:
+						break;
+				}
+			}
 			else
 				echo JText::sprintf('JRESEARCH_ACCESS_NOT_ALLOWED', $controller, 'edit', $itemid);
 		}
