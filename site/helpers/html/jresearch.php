@@ -42,8 +42,6 @@ class JHTMLJresearch
 						break;
 				}
 			}
-			else
-				echo JText::sprintf('JRESEARCH_ACCESS_NOT_ALLOWED', $controller, 'edit', $itemid);
 		}
 	}
 	
