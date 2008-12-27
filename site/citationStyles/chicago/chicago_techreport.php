@@ -57,6 +57,10 @@ class JResearchChicagoTechreportCitationStyle extends JResearchChicagoCitationSt
 		if(empty($titleCons))	
 			$text .= '. '.$title;
 		
+		$type = trim($publication->type);
+		if(!empty($type))
+			$text .= '. '.$type;
+				
 		$adr = trim($publication->address);
 		if(!empty($adr))
 			$address = $adr;
@@ -71,9 +75,13 @@ class JResearchChicagoTechreportCitationStyle extends JResearchChicagoCitationSt
 
 		if(!empty($address)){
 			$text .= '. '.$address;
-		}		
+		}
+
+		$month = trim($publication->month);
+		if(!empty($month))
+			$text .= ', '.$month;		
 		
-		return $text;
+		return $text.'.';
 	}
 	
 

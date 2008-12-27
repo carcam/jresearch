@@ -56,7 +56,7 @@ class JResearchMLABookCitationStyle extends JResearchMLACitationStyle{
 			$authorsText = '---';
 		}
 		
-		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'.';
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');
 		
 		$title = trim($publication->title);	
 		$title = $html?"<u>$title</u>":$title;

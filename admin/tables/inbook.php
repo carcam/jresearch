@@ -99,6 +99,13 @@ class JResearchInbook extends JResearchPublication{
 	 */
 	public $month;
 	
+	/**
+	 * Book's series
+	 *
+	 * @var string
+	 */
+	public $series;
+	
 
 	function __construct(&$db){
 		parent::__construct($db);

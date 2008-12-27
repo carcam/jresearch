@@ -56,6 +56,10 @@ class JResearchChicagoUnpublishedCitationStyle extends JResearchChicagoCitationS
 
 		if(empty($titleCons))	
 			$text .= '. '.$title;
+			
+		$month = trim($publication->month);
+		if(!empty($month))
+			$text .= '. '.$month;			
 		
 		return $text;
 	}

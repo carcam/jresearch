@@ -56,28 +56,31 @@ class JResearchChicagoManualCitationStyle extends JResearchChicagoCitationStyle{
 
 		if(empty($titleCons))	
 			$text .= '. '.$title;
-		
-		$edition = trim($publication->edition);
-		if(!empty($edition))
-			$text .= ', '.$edition;	
 			
-		$adr = trim($publication->address);
-		if(!empty($adr))
-			$address = $adr;
-		
-		$publ = trim($publication->organization);	
-		if(!empty($publ)){
-			if(empty($address))
-				$address = $publ;
-			else
-				$address .= " : $publ";	
-		}	
-
-		if(!empty($address)){
-			$text .= '. '.$address;
+		$edition = trim($publication->edition);
+		if(!empty($edition)){
+			$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');
+			$text .= '. '.$edition.' '.$ed;	
 		}
 		
-		return $text;
+		$adr = trim($publication->address);
+		if(!empty($adr))
+			$text .= '. '.$adr;
+		
+		$publ = trim($publication->organization);	
+		if(!empty($adr)){
+			if(!empty($publ))
+				$text .= " : $publ";		
+		}else{
+			if(!empty($publ))
+				$text .= '. '.$publ;
+		}	
+		
+		$month = trim($publication->month);
+		if(!empty($month))
+			$text .= ', '.$month;
+			
+		return $text.'.';
 	}
 	
 

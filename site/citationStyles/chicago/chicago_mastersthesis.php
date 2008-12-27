@@ -57,14 +57,19 @@ class JResearchChicagoMastersthesisCitationStyle extends JResearchChicagoCitatio
 		if(empty($titleCons))	
 			$text .= '. '.$title;
 		
-			
-		$text .= '. '.JText::_('JRESEARCH_CHICAGO_MASTERSTHESIS');
+		$type = trim($publication->type);
+		if(!empty($type))
+			$text .= '. '.$type;
 		
-		$institution = trim($publication->institution);
+		$institution = trim($publication->school);
 		if(!empty($institution))
 			$text .= ', '.$institution;
 		
-		return $text;
+		$month = trim($publication->month);
+		if(!empty($month))
+			$text .= ', '.$month;
+			 	
+		return $text.'.';
 	}
 	
 

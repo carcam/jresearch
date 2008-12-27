@@ -37,9 +37,19 @@ class JResearchChicagoInbookCitationStyle extends JResearchChicagoCitationStyle{
 		$in = JText::_('JRESEARCH_IN');
 				
 		if($nAuthors <= 0){
-			$authorsText = '';
+			if($nEditors == 0){
+				// If neither authors, nor editors
+				$authorsText = '';
+				$editorsText = '';
+			}else{
+				// If no authors, but editors
+				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
+				$authorsText .= ' '.$eds.' ';
+			}
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
+			
 		}
 
 		$title = trim($publication->title);
@@ -57,25 +67,31 @@ class JResearchChicagoInbookCitationStyle extends JResearchChicagoCitationStyle{
 
 		if(empty($titleCons))	
 			$text .= '. '.$title;
-				
-		$booktitle = $html?'<i>'.trim($publication->booktitle).'</i>':trim($publication->booktitle);
-		if(!empty($booktitle))
-			$text .= ' '.$in.' '.$booktitle;					
 		
-		$editors = trim($publication->editors);
-		if(!empty($editors))
-			$text .= ', '.JText::_('JRESEARCH_CHICAGO_EDITED_BY').' '.$editors;
-		
+		if(!empty($editorsText))
+			$text .= ', '.JText::_('JRESEARCH_CHICAGO_EDITED_BY').' '.$editorsText;
+
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))
-			$text .= ', '.$pages;	
+			$text .= ', '.$pages;			
+			
+		$edition = trim($publication->edition); 
+		if(!empty($edition)){
+			$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');			
+			$text .= '. '.$edition.' '.$ed;
+		}
+
+		$series = trim($publication->series);
+		if(!empty($series)){
+			$text .= '. '.$series;
+		}			
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address)){
 			$text .= '. '.$address;
 		}
 		
-		return $text;
+		return $text.'.';
 	}
 	
 

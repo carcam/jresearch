@@ -41,7 +41,7 @@ class JResearchChicagoMiscCitationStyle extends JResearchChicagoCitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 
-		$title = trim($publication->title);
+		$title = $html?'<i>'.trim($publication->title).'</i>':trim($publication->title);
 		
 		if(!empty($authorsText))
 			$text .= $authorsText;
@@ -61,7 +61,11 @@ class JResearchChicagoMiscCitationStyle extends JResearchChicagoCitationStyle{
 		if(!empty($howpublished))
 			$text .= '. '.$howpublished;		
 		
-		return $text;
+		$month = trim($publication->month);
+		if(!empty($month))
+			$text .= ', '.$month;
+						
+		return $text.'.';
 	}
 
 }

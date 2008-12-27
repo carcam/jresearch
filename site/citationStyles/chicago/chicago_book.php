@@ -34,6 +34,7 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
 		$text = '';
+		$titleCons = false;
 		
 		$eds = $nEditors > 1? JText::_('JRESEARCH_LC_EDITORS'):JText::_('JRESEARCH_LC_EDITOR');
 		
@@ -61,12 +62,17 @@ class JResearchChicagoBookCitationStyle extends JResearchChicagoCitationStyle{
 		}	
 		
 		$year = trim($publication->year);		
-		if(!empty($year) && $year != '0000')		
-			$text .= '. '.$year;			
+		if(!empty($year) && $year != '0000')
+			$text .= $text{strlen($text) - 1} == '.'?$year:'. '.$year;			
 
-		if(empty($titleCons))	
-			$text .= '. '.$title;
-
+		if(!$titleCons)	
+			$text .= $text{strlen($text) - 1} == '.'?$title:'. '.$title;
+		
+		$edition = trim($publication->edition); 
+		if(!empty($edition)){
+			$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');			
+			$text .= '. '.$edition.' '.$ed;
+		}
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))

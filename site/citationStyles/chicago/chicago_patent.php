@@ -68,7 +68,7 @@ class JResearchChicagoPatentCitationStyle extends JResearchChicagoCitationStyle{
 		if(!empty($issue_date))
 			$text .= ', '.JText::_('JRESEARCH_AND').' '.JText::_('JRESEARCH_ISSUED').' '.$issue_date;		
 
-		return $text;
+		return $text.'.';
 	}
 	
 }
