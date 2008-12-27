@@ -61,10 +61,11 @@ class JResearchMLABookCitationStyle extends JResearchMLACitationStyle{
 		$title = trim($publication->title);	
 		$title = $html?"<u>$title</u>":$title;
 		
-		if(!empty($authorsText))
-				$header = "$authorsText. $title";
-		else
-				$header = $title;	
+		if(!empty($authorsText)){
+			$header = $authorsText{strlen($authorsText) - 1} == '.'?$authorsText:$authorsText.'.';
+			$header .= ' '.$title;
+		}else
+			$header = $title;	
 
 		$text .= $header;
 		

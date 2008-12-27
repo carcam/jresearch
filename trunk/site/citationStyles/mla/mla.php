@@ -113,7 +113,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 					$text .= ', ';		
 			} 
 		}elseif($nAuthors >= 6){
-			$text .= $formattedAuthors[0].' et al. ';
+			$text .= $formattedAuthors[0].' et al ';
 		}
 		
 		return $text;
@@ -177,10 +177,11 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		$title = trim($publication->title);
 		$title = $html?"<i>$title</i>":$title;
 		
-		if(!empty($authorsText))
-				$header = "$authorsText. $title";
-		else
-				$header = $title;	
+		if(!empty($authorsText)){
+			$header = $authorsText{strlen($authorsText) - 1} == '.'?$authorsText:$authorsText.'.';
+			$header .= ' '.$title;
+		}else
+			$header = $title;	
 		
 		$year = trim($publication->year);		
 		if($year != null && $year != '0000')		
@@ -360,7 +361,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 				$text = implode(', ', $subtotal)." $this->lastAuthorSeparator ".$formattedAuthors[$n-1];
 			}
 		}else{
-			$text = "$formattedAuthors[0] et al.";
+			$text = "$formattedAuthors[0] et al";
 		}	
 
 		return $text;		

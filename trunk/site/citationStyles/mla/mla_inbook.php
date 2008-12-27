@@ -60,18 +60,17 @@ class JResearchMLAInbookCitationStyle extends JResearchMLACitationStyle{
 		$title = '"'.trim($publication->title).'"';
 		$ed = JText::_('JRESEARCH_APA_ED');
 		
-		$series = trim($publication->series);
-		$series = $html?"<u>$series</u>":$series;
-		
 		if(!empty($authorsText)){
-			if(!empty($editorsText))
-				$header = "$authorsText. $title. $series. $ed. $editorsText.";
-			else
-				$header = "$authorsText. $title. $series";	
+			$header = $authorsText{strlen($authorsText) - 1} == '.'?$authorsText:$authorsText.'.';
+			$header .= ' '.$title;
 		}else{
-			$header = "$title. $series";	
+			$header = $title;	
 		}
 		$text .= $header;
+										
+		if(!empty($editorsText))
+			$text .= ". $ed. $editorsText";	
+		
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
@@ -86,7 +85,7 @@ class JResearchMLAInbookCitationStyle extends JResearchMLACitationStyle{
 		if(!empty($pages))
 			$text .= '. '.$pages;			
 
-		return $text;	
+		return $text.'.';	
 	}
 	
 	

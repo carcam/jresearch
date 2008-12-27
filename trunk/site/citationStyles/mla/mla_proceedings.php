@@ -54,35 +54,40 @@ class JResearchMLAProceedingsCitationStyle extends JResearchMLACitationStyle{
 		}else{
 			$authorsText = '---';
 		}
-		
-		$booktitle = trim($publication->booktitle);
-		$booktitle = $html?"<u>$publication->booktitle</u>":$publication->booktitle;
-		
-		$title = '"'.trim($publication->title).'"';
+				
+		$title = $html?"<u>$title</u>":$title;
 		$ed = JText::_('JRESEARCH_APA_ED');
 
 		if(!empty($authorsText)){
-			if(!empty($editorsText))
-				$header = "$authorsText. $title. $booktitle. $ed. $editorsText.";
-			else
-				$header = "$authorsText. $title. $booktitle";	
+			$header = $authorsText{strlen($authorsText) - 1} == '.'?$authorsText:$authorsText.'.';
+			$header .= ' '.$title;	
 		}else{
-			$header = "$title. $booktitle";	
+			$header = $title;	
 		}
 		$text .= $header;
+
+		$booktitle = trim($publication->booktitle);
+		if(!empty($booktitle)){
+			$booktitle = $html?"<u>$publication->booktitle</u>":$publication->booktitle;			
+			$text .= '. '.$booktitle;
+		}
+		
+		if(!empty($editorsText))
+			$text .= ". $ed. $editorsText";
 
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
 			$text .= '. '.$address;
 		
-		if($publication->year != null && $publication->year != '0000')		
+		$year = trim($publication->year);
+		if($year != null && $year != '0000')		
 			$text .= ', '.$year;
 				
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))
 			$text .= '. '.$pages;
 			
-		return $text;			
+		return $text.'.';			
 	}
 	
 }

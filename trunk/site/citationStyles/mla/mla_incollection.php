@@ -60,18 +60,22 @@ class JResearchMLAIncollectionCitationStyle extends JResearchMLACitationStyle{
 		$title = '"'.trim($publication->title).'"';
 		$ed = JText::_('JRESEARCH_APA_ED');
 		
-		$booktitle = trim($publication->booktitle);
-		$booktitle = $html?"<u>$booktitle</u>":$booktitle;
-		
 		if(!empty($authorsText)){
-			if(!empty($editorsText))
-				$header = "$authorsText. $title. $booktitle. $ed. $editorsText.";
-			else
-				$header = "$authorsText. $title. $booktitle";	
+			$header = $authorsText{strlen($authorsText) - 1} == '.'?$authorsText:$authorsText.'.';
+			$header .= ' '.$title;			
 		}else{
 			$header = "$title. $series";	
 		}
 		$text .= $header;
+
+		$booktitle = trim($publication->booktitle);		
+		if(!empty($booktitle)){
+			$booktitle = $html?"<u>$booktitle</u>":$booktitle;			
+			$text .= '. '.$booktitle;
+		}
+		
+		if(!empty($editorsText))
+			$text .= ". $ed. $editorsText";
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))

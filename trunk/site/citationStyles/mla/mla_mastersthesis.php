@@ -65,11 +65,16 @@ class JResearchMLAMastersthesisCitationStyle extends JResearchMLACitationStyle{
 		$title = '"'.$publication->title.'"';
 
 		if(!empty($authorsText)){
-			$header = "$authorsText. $title.";
+			$header = $authorsText{strlen($authorsText) - 1} == '.'?$authorsText:$authorsText.'.';
+			$header .= ' '.$title;
 		}else{
 			$header = $title;	
 		}
-		$text = $header;
+		$text .= $header;
+		
+		$type = trim($publication->type);
+		if(!empty($type))
+			$text .= '. '.$type;
 		
 		$school = trim($publication->school);
 		if(!empty($school))
@@ -79,7 +84,7 @@ class JResearchMLAMastersthesisCitationStyle extends JResearchMLACitationStyle{
 		if($year != null && $year != '0000')		
 			$text .= ', '.$year;
 			
-		return $text;
+		return $text.'.';
 	}
 	
 	
