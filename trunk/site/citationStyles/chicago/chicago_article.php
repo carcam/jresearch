@@ -33,6 +33,7 @@ class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_BIBTEXT_AUTHOR_SEP');
 		$nAuthors = $publication->countAuthors();
 		$text = '';
+		$titleCons = false;
 		
 		if($nAuthors <= 0){
 			$authorsText = '';
@@ -51,16 +52,18 @@ class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle
 		
 		$year = trim($publication->year);		
 		if(!empty($year) && $year != '0000')
-			$text .= '. '.$year;			
+			$text .= $text{strlen($text) - 1} == '.'?$year:'. '.$year;			
 
-		if(empty($titleCons))	
-			$text .= '. '.$title;
+		if(!$titleCons)	
+			$text .= $text{strlen($text) - 1} == '.'?$title:'. '.$title;
 		
 		
-		$journal = $html?'<i>'.trim($publication->journal).'</i>':trim($publication->journal);		 
-		if(!empty($journal))
+		$journal = trim($publication->journal);			 
+		if(!empty($journal)){
+			$journal = $html?'<i>'.trim($publication->journal).'</i>':trim($publication->journal);			
 			$text .= '. '.$journal;
-			
+		}
+		
 		$volume = trim($publication->volume);
 		if(!empty($volume))
 			$text .= ' '.$volume;	
@@ -73,7 +76,7 @@ class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle
 			$text .= ': '.$pages;		
 			
 		
-		return $text;
+		return $text.'.';
 	}
 	
 

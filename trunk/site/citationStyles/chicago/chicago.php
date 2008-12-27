@@ -175,7 +175,7 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 				$subtotal = array_slice($formattedAuthors, 0, count($formattedAuthors) - 1);
 				$text .= implode(', ', $subtotal)." $this->lastAuthorSeparator ".$formattedAuthors[count($formattedAuthors) - 1];
 		}elseif($nAuthors > 3){
-			$text .= $formattedAuthors[0].' et al. ';
+			$text .= $formattedAuthors[0].' et al ';
 		}
 		return $text;
 	}
@@ -267,7 +267,7 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 		}
 
 		$n = count($authors);
-		if($n < 3){
+		if($n <= 3){
 			if($n == 1)
 				$text = $formattedAuthors[0];
 			else{	
@@ -355,7 +355,7 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 		}
 		
 		$n = count($formattedEditors);
-		if($n < 3){
+		if($n <= 3){
 			if($n == 1)
 				$text = $formattedEditors[0];
 			else{	

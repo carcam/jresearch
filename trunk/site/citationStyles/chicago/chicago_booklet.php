@@ -57,12 +57,19 @@ class JResearchChicagoBookletCitationStyle extends JResearchChicagoCitationStyle
 		if(empty($titleCons))	
 			$text .= '. '.$title;
 		
+		$address = $this->_getAddressText($publication);
+		if(!empty($address))
+			$text .= '. '.$address;	
 		
 		$howpublished = trim($publication->howpublished);
 		if(!empty($howpublished))
 			$text .= '. '.$howpublished;			
 		
-		return $text;
+		$month = trim($publication->month);
+		if(!empty($month))
+			$text .= ', '.$month;
+			
+		return $text.'.';
 	}
 	
 

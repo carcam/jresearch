@@ -46,7 +46,7 @@ class JResearchChicagoProceedingsCitationStyle extends JResearchChicagoCitationS
 			}else{
 				// If no authors, but editors
 				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-				$authorsText .= ' '.$eds.' ';
+				$authorsText .= ', '.$eds;
 			}
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
@@ -68,11 +68,19 @@ class JResearchChicagoProceedingsCitationStyle extends JResearchChicagoCitationS
 		if(empty($titleCons))	
 			$text .= '. '.$title;
 		
+		$series = trim($publication->series);
+		if(!empty($series))
+			$text .= '. '.$series;
+		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
 			$text .= '. '.$address;		
-		
-		return $text;
+
+		$month = trim($publication->month);
+		if(!empty($month))
+			$text .= ', '.$month;			
+			
+		return $text.'.';
 	}
 	
 

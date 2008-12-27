@@ -35,11 +35,21 @@ class JResearchChicagoConferenceCitationStyle extends JResearchChicagoCitationSt
 		$nAuthors = $publication->countAuthors();
 		$text = '';
 		$in = JText::_('JRESEARCH_IN');
-				
+		$eds = $nEditors > 1? JText::_('JRESEARCH_LC_EDITORS'):JText::_('JRESEARCH_LC_EDITOR');
+						
 		if($nAuthors <= 0){
-			$authorsText = '';
+			if($nEditors == 0){
+				// If neither authors, nor editors
+				$authorsText = '';
+				$editorsText = '';
+			}else{
+				// If no authors, but editors
+				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
+				$authorsText .= ' '.$eds.' ';
+			}
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
 		}
 
 		$title = trim($publication->title);
@@ -58,21 +68,31 @@ class JResearchChicagoConferenceCitationStyle extends JResearchChicagoCitationSt
 		if(empty($titleCons))	
 			$text .= '. '.$title;
 				
-		$booktitle = $html?'<i>'.trim($publication->booktitle).'</i>':trim($publication->booktitle);
+		$booktitle = trim($publication->booktitle);
 		if(!empty($booktitle))
-			$text .= ' '.$in.' '.$booktitle;			
+			$text .= '. '.$in.' '.($html?'<i>'.$booktitle.'</i>':$booktitle);			
 		
-		$month = trim($publication->month);
-		if(!empty($month)){
-			$text .= ', '.$month;
+		if(!empty($editorsText)){
+			$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');
+			$text .= ', '.$ed.'. '.$editorsText;
 		}	
+		
+		$series = trim($publication->series);
+		if(!empty($series)){
+			$text .= '. '.$series;
+		}
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address)){
 			$text .= '. '.$address;
 		}
 		
-		return $text;
+		$month = trim($publication->month);
+		if(!empty($month)){
+			$text .= ', '.$month;
+		}
+		
+		return $text.'.';
 	}
 	
 

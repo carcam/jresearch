@@ -41,7 +41,6 @@ class JResearchMLAConferenceCitationStyle extends JResearchMLACitationStyle{
 				if($nEditors == 0){
 					// If neither authors, nor editors
 					$authorsText = '';
-					$address = '';
 					$editorsText = '';
 				}else{
 					// If no authors, but editors

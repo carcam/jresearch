@@ -37,9 +37,18 @@ class JResearchChicagoIncollectionCitationStyle extends JResearchChicagoCitation
 		$in = JText::_('JRESEARCH_IN');
 				
 		if($nAuthors <= 0){
-			$authorsText = '';
+			if($nEditors == 0){
+				// If neither authors, nor editors
+				$authorsText = '';
+				$editorsText = '';
+			}else{
+				// If no authors, but editors
+				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
+				$authorsText .= ' '.$eds.' ';
+			}
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);		
 		}
 
 		$title = trim($publication->title);
@@ -71,7 +80,7 @@ class JResearchChicagoIncollectionCitationStyle extends JResearchChicagoCitation
 			$text .= '. '.$address;
 		}
 		
-		return $text;
+		return $text.'.';
 	}
 	
 
