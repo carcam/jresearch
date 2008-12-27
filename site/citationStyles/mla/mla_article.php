@@ -43,25 +43,26 @@ class JResearchMLAArticleCitationStyle extends JResearchMLACitationStyle{
 		$title = '"'.trim($publication->title).'"';
 		
 
-		if(!empty($authorsText))
-			$header = "$authorsText. $title";
-		else
-			$header = "$title";	
+		if(!empty($authorsText)){
+			$header = $authorsText{strlen($authorsText) - 1} == '.'?$authorsText:$authorsText.'.';
+			$header .= ' '.$title;
+		}else
+			$header = $title;	
 
 		$text .= $header;					
 
 		$journal = trim($publication->journal);
-		$journal = $html? "<u>$journal</u>":$journal;
-		if(!empty($journal))
+		if(!empty($journal)){
+			$journal = $html? "<u>$journal</u>":$journal;			
 			$text .= '. '.$journal;
-					
+		}
 		$volume = trim($publication->volume);	
 		if(!empty($volume)){
 			$number = trim($publication->number);
 			if(!empty($number))
 				$volume .= '.'.$number;
 
-			$text .= ' '.$vol;	
+			$text .= ' '.$volume;	
 		}
 						
 
