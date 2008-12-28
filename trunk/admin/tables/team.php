@@ -158,6 +158,43 @@ class JResearchTeam extends JTable
 		return count($this->_members);
 	}
 	
+	/**
+	 * Returns true if the given member id is a member or not. This function also returns true if the member id is the leader of the team
+	 *
+	 * @param int $id
+	 * @return bool
+	 */
+	public function isMember($id)
+	{
+		$id = intval($id);
+		
+		foreach($this->_members as $member)
+		{
+			if(($member['id'] == $id) || $this->isLeader($id))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Returns true if the given user id is leader of the team
+	 *
+	 * @param int $id
+	 * @return bool
+	 */
+	public function isLeader($id)
+	{
+		$id = intval($id);
+		
+		if($this->id_leader == $id)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	private function _deleteMembers($oid = null)
 	{
 		$db = &$this->getDBO();
@@ -186,6 +223,7 @@ class JResearchTeam extends JTable
 		$idTeam = $db->nameQuote('id_team');
 		
 		$qoid = $db->Quote($oid);
+		
 		
 		// Get internal authors
         $membersQuery = "SELECT * FROM $table WHERE $idTeam = $qoid";
