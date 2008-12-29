@@ -188,6 +188,21 @@ function com_install(){
 		JError::raiseWarning(1, JText::_('Plugin for loading cited records into session for com_content could not be installed. Please install it manually'));
 	}
 	
+	//Check if sh404SEF is installed and install the plugin language
+	$sh404sefPluginLanguageFolder=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_sh404sef'.DS.'language'.DS.'plugins';
+	$srcSefFolder = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch'.DS.'sef_ext';
+	$srcLanguageFolder = $srcSefFolder.DS.'language';
+	if(file_exists($srcSefFolder) && file_exists($sh404sefPluginLanguageFolder)){
+		$srcPluginLanguageFile=$srcLanguageFolder.DS.'com_jresearch.php';
+		$dtnPluginLanguageFile=$sh404sefPluginLanguageFolder.DS.'com_jresearch.php';
+		//Install content elements
+		@rename($srcPluginLanguageFile,$dtyPluginLanguageFile);
+	}else 
+	{
+		//Remove files from component installation, isn't necessary for the current joomla installation
+		@rmdir($srcSefFolder);
+	}
+	
 	//Verify we can execute bibtutils tools
 	if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'){
 		$folder = 'win32';
