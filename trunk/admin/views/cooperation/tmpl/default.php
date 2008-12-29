@@ -5,7 +5,9 @@
 * Default view for adding/editing a cooperation
 */
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+JHTML::_('behavior.modal');
+?>
 <form name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" class="form-validate" onSubmit="return validate(this);">
 <table class="editpublication" cellpadding="5" cellspacing="5">
 <tbody>
@@ -34,14 +36,22 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td><?php echo JText::_('Photo').': ' ?></td>
 		<td>
 			<input class="inputbox" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', _COOPERATION_IMAGE_MAX_WIDTH_, _COOPERATION_IMAGE_MAX_HEIGHT_)); ?><br />
-			<label for="delete" /><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" />
+			<?php
+			if($this->coop->image_url)
+			{
+			?>
+				<label for="delete" /><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" />
+			<?php
+			}
+			?>
 		</td>
 		<td>
 			<?php
 			if($this->coop->image_url)
 			{
 			?>
-				<img src="<?php echo $this->coop->image_url; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" class="modal" />
+				<img src="<?=$this->coop->image_url;?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" class="modal" />
+				<input type="hidden" name="image_url" id="image_url" value="<?=$this->coop->image_url;?>" />
 			<?php
 			}
 			?>
