@@ -43,6 +43,14 @@ function com_uninstall(){
 		echo "Error: File $backupFile does not exist. This file is used to restore TinyMCE plugin file to ommit automatic citation plugin. Please solve the problem manually.";
 	}
 	
+	$sh404sefPluginLanguageFolder=JPATH_ADMINISTRATOR.DS.'components'.DS.'com_sh404sef'.DS.'language'.DS.'plugins';
+	if(file_exists($sh404sefPluginLanguageFolder)){
+	$sh404sefPluginLanguageFile=$sh404sefPluginLanguageFolder.DS.'com_jresearch.php';
+		if(!@unlink($sh404sefPluginLanguageFile)){
+			echo "Warning: sh404SEF plugin language file could not be deleted. Please do it manually.";
+		}
+	}
+	
 	// Time to uninstall plugins
 	$db = &JFactory::getDBO();
 	

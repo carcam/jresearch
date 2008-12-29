@@ -61,6 +61,7 @@
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
+			<folder>sef_ext</folder>
 		</files>		
 		<languages folder="admin">
 			<language tag="en-GB">en-GB.com_jresearch.ini</language>
