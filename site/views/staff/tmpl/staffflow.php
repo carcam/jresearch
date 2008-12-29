@@ -102,7 +102,7 @@ $document->addScriptDeclaration($scrpt);
 $document->addStyleSheet($css_path.'/imageflow.css');
 ?>
 <div class="componentheading">
-	<?php echo JText::_('Staff Members'); ?>
+	<?php echo JText::_('JRESEARCH_MEMBERS'); ?>
 </div>
 
 <div id="imageflow" class="imageflow">
