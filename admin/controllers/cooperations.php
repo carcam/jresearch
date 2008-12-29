@@ -147,64 +147,30 @@ class JResearchAdminCooperationsController extends JController
 	function save()
 	{
 		global $mainframe;
-
-		$availableTypes = array("image/png","image/gif","image/jpg","image/jpeg");
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		
 		$db =& JFactory::getDBO();
 
-		$imageFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'cooperations';
-		$imageUrl = JURI::base().'components/com_jresearch/assets/cooperations/';
 		$coop = new JResearchCooperation($db);
 
 		// Bind request variables
 		$post = JRequest::get('post');
-		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
-		$uploadedFile = $fileArr['tmp_name'];
-		$del = JRequest::getVar('delete');
-
-		//Set image to null, if delete is on
-		if($del == 'on')
-			$coop->image_url = null;
-
-		//Save image file
-		if($fileArr != null && $uploadedFile != null)
-		{
-			$newName = $imageFolder.DS.basename($uploadedFile);
-
-			list($width, $height, $type, $attr) = getimagesize($uploadedFile);
-
-			if(!in_array($fileArr['type'],$availableTypes))
-			{
-				JError::raiseWarning(1, JText::_('JRESEARCH_IMAGE_FORMAT_NOT_SUPPORTED'));
-			}
-			elseif($width > _COOPERATION_IMAGE_MAX_WIDTH_ || $height > _COOPERATION_IMAGE_MAX_HEIGHT_)
-			{
-				JError::raiseWarning(1, JText::sprintf('JRESEARCH_EXCEEDS_SIZE', _COOPERATION_IMAGE_MAX_WIDTH_, _COOPERATION_IMAGE_MAX_HEIGHT_));
-			}
-			else
-			{
-				// Get extension
-				$extArr = explode('/', $fileArr['type']);
-				$ext = $extArr[1];
-				$newName = $newName.'.'.$ext;
-
-				if(!move_uploaded_file($uploadedFile, $newName))
-				{
-					JError::raiseWarning(1, JText::_('JRESEARCH_PHOTO_NOT_UPLOADED'));
-				}
-				else
-				{
-					if($coop->image_url)
-						@unlink($coop->image_url);
-
-					$coop->image_url = $imageUrl.basename($newName);
-				}
-			}
-		}
 
 		$coop->bind($post);
 		$coop->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$coop->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
+		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
+		$del = JRequest::getVar('delete');
+		
+		JResearch::uploadImage(	$coop->image_url, 	//Image string to save
+								$fileArr, 			//Uploaded File array
+								'assets'.DS.'cooperations'.DS, //Relative path from administrator folder of the component
+								($del == 'on')?true:false,	//Delete?
+								 _COOPERATION_IMAGE_MAX_WIDTH_, //Max Width
+								 _COOPERATION_IMAGE_MAX_HEIGHT_ //Max Height
+		); 
+		
 		// Validate and save
 		if($coop->check())
 		{
