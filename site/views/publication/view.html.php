@@ -41,6 +41,7 @@ class JResearchViewPublication extends JView
     */
     private function _displayPublication(){
       	global $mainframe;
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');      	
     	$id = JRequest::getInt('id');
     	$user = JFactory::getUser();
     	$commentsAllowed = false;
