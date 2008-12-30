@@ -30,6 +30,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 		$resultArray = array();
 		$parser = new Structures_BibTex();
 		$parser->content = $text;
+		$user = JFactory::getUser();
 		if($parser->parse()){
 			foreach($parser->data as $data){
 				$type = strtolower($data['entryType']);
@@ -51,6 +52,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 				$newPub->bind($data);
 				$newPub->internal = false;
 				$newPub->published = true;
+				$newPub->created_by = $user->get('id');	
 				
 				$resultArray[] = $newPub;
 			}

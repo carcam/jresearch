@@ -159,6 +159,7 @@ class JResearchAdminThesesController extends JController
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		$thesis = new JResearchThesis($db);
+		$user = JFactory::getUser();
 		
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');		
@@ -201,6 +202,9 @@ class JResearchAdminThesesController extends JController
 			}	
 		}
 		
+		// Set the id of the author if the item is new
+		if(empty($thesis->id))
+			$thesis->created_by = $user->get('id');
 
 		// Time to store information in the database
 		if($thesis->check()){
