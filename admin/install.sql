@@ -191,6 +191,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
+  `created_by` int(10) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`),
   INDEX `id_research_area` (`id_research_area`)
@@ -242,6 +243,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
+  `created_by` int(10) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `citekey` (`citekey`),
   INDEX `year` (`year`),
@@ -366,6 +368,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_thesis` (
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
+  `created_by` int(10) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`),
   INDEX `id_research_area` (`id_research_area`)

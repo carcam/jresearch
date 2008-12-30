@@ -67,7 +67,13 @@ class JResearchActivity extends JTable{
 	 */
 	public $checked_out_time;
 	
-
+	/**
+	 * Holds the id of the user who created the publication.
+	 *
+	 * @var string
+	 */
+	public $created_by;
+	
 	/**
 	 * Array of internal authors ids
 	 *

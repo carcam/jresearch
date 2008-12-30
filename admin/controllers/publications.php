@@ -308,6 +308,7 @@ class JResearchAdminPublicationsController extends JController
 		$type = JRequest::getVar('pubtype');
 		$publication =& JResearchPublication::getSubclassInstance($type);
 		$publication->bind($post);
+		$user = JFactory::getUser();
 		
 		// Validate publication
 		if(!$publication->check()){
@@ -336,6 +337,10 @@ class JResearchAdminPublicationsController extends JController
 				}			
 			}
 		
+			// Set the id of the author if the item is new
+			if(empty($publication->id))
+				$publication->created_by = $user->get('id');
+			
 			// Now, save the record
 			if($publication->store(true)){			
 				

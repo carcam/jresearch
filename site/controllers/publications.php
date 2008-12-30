@@ -404,6 +404,7 @@ class JResearchPublicationsController extends JController
 	function save(){
 		global $mainframe;
 		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');
@@ -438,6 +439,10 @@ class JResearchPublicationsController extends JController
 				}			
 			}
 		
+			// Set the id of the author if the item is new
+			if(empty($publication->id))
+				$publication->created_by = $user->get('id');
+			
 			// Now, save the record
 			if($publication->store(true)){			
 				

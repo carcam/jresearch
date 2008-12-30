@@ -166,6 +166,7 @@ class JResearchAdminProjectsController extends JController
 		$photosFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'projects';
 		$photosUrl = JURI::base().'components/com_jresearch/assets/projects/';
 		$project = new JResearchProject($db);
+		$user = JFactory::getUser();
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');		
@@ -237,6 +238,9 @@ class JResearchAdminProjectsController extends JController
 				$project->setFinancier($id);
 			}
 		}
+		// Set the id of the author if the item is new
+		if(empty($project->id))
+			$project->created_by = $user->get('id');
 		
 		// Validate and save
 		if($project->check()){
