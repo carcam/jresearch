@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Restricted access');
 		<td colspan="2">&nbsp;</td>
 		<?php endif; ?>
 	</tr>
-	<?php $authors = $this->publication->getAuthors(); ?>
+	<?php $authors = JResearchPublicationsHelper::bibCharsToUtf8FromArray($this->publication->getAuthors()); ?>
 	<?php if(!empty($authors)): ?>
 	<tr>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_AUTHORS').': ' ?></td>

@@ -55,6 +55,8 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 	*/
 	private function parseSingle($publication){
 		$output = null;
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');	
+
 		if($publication instanceof JResearchPublication){
 			$properties = $publication->__toArray();
 			$citekey = $publication->citekey;
@@ -63,7 +65,7 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 			$output = '@'.$type. '{'.$citekey.','."\n";
 			$authors = $publication->getAuthors();
 
-			$authorsText = implode(" and ", $authors);
+			$authorsText = implode(" and ", JResearchPublicationsHelper::utf8ToBibCharsFromArray($authors));
 			$output .= "author = \"$authorsText\",\n";
 			$properties = JResearchPublicationBibtexExporter::getSupportedFields();
 			foreach($properties as $p){
