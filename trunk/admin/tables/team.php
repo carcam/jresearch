@@ -159,19 +159,28 @@ class JResearchTeam extends JTable
 	}
 	
 	/**
-	 * Returns true if the given member id is a member or not. This function also returns true if the member id is the leader of the team
+	 * Returns true if the given user id is a member of the team otherwise false
 	 *
-	 * @param int $id
+	 * @param int $userid
 	 * @return bool
 	 */
-	public function isMember($id)
+	public function isMember($userid)
 	{
-		$id = intval($id);
+		$id = intval($userid);
+		$db =& JFactory::getDBO();
 		
-		foreach($this->_members as $member)
+		$user = JFactory::getUser($id);
+		$umember = new JResearchMember($db);
+		
+		if($user->username)
 		{
-			if(($member['id'] == $id) || $this->isLeader($id))
-				return true;
+			$umember->bindFromUser($user->username);
+		
+			foreach($this->_members as $member)
+			{
+				if(($member['id'] == $umember->id) || $this->isLeader($id))
+					return true;
+			}
 		}
 		
 		return false;
@@ -183,13 +192,22 @@ class JResearchTeam extends JTable
 	 * @param int $id
 	 * @return bool
 	 */
-	public function isLeader($id)
+	public function isLeader($userid)
 	{
-		$id = intval($id);
+		$id = intval($userid);
+		$db =& JFactory::getDBO();
 		
-		if($this->id_leader == $id)
+		$user = JFactory::getUser($id);
+		$umember = new JResearchMember($db);
+		
+		if($user->username)
 		{
-			return true;
+			$umember->bindFromUser($user->username);
+			
+			if($this->id_leader == $umember->id)
+			{
+				return true;
+			}
 		}
 		
 		return false;

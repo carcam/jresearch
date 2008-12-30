@@ -95,6 +95,7 @@ class JHTMLJresearch
 						foreach($authors as $author)
 						{
 							//Return true if I'm able to edit all publications or only mine
+							//@todo Add team authorization and author authorization
 							if(is_a($author, 'JResearchMember') && ($canDo || ($canDoOwn && ($author->id == $userid))))
 							{
 								return true;
