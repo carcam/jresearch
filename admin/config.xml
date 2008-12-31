@@ -64,6 +64,10 @@
 			<option value="yes">Yes</option>
 			<option value="no">No</option>
 		</param>
+		<param name="staff_list_arrangement" type="list" default="vertical" label="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT" description="JRESEARCH_CITATION_STYLE_DESCRIPTION">
+			<option value="vertical">JRESEARCH_VERTICAL</option>
+			<option value="horizontal">JRESEARCH_HORIZONTAL</option>
+		</param>
 		<param name="staff_number_last_publications" label="JRESEARCH_CONFIG_PROFILES_NUMBER_PUBLICATIONS" default="5" type="text" />
 		<param name="staff_show_projects" label="JRESEARCH_CONFIG_SHOW_PROJECTS_IN_PROFILES" type="radio" default="yes">
 			<option value="yes">Yes</option>
