@@ -29,6 +29,21 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if(!empty($authors)): ?>
 	<tr>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_AUTHORS').': ' ?></td>
+		<?php if($this->publication->author_arrangement=='horizontal'): ?>
+		<td style="width:100%;" colspan="3">
+				<?php foreach($authors as $auth): ?>
+						<?php if($auth instanceof JResearchMember): ?>
+							<?php if($auth->published): ?>
+								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a>,
+							<?php else: ?>
+								<?php echo $auth; ?>,
+							<?php endif; ?>	
+						<?php else: ?>
+								<?php echo $auth; ?>,
+						<?php endif; ?>
+				<?php endforeach; ?>
+		</td>		
+		<?php else: ?>
 		<td style="width:35%;">
 			<ul style="margin:0px;padding:0px;">
 				<?php foreach($authors as $auth): ?>
@@ -46,6 +61,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php endforeach; ?>
 			</ul>
 		</td>
+		<?php endif; ?>
 		<td colspan="2">&nbsp;</td>		
 	</tr>	
 	<?php endif; ?>

@@ -39,6 +39,7 @@ class JResearchViewPublication extends JView
     */
     private function _displayPublication(){
       	global $mainframe;
+
     	$id = JRequest::getInt('id');
     	$commentsAllowed = false;
    		$showComments = JRequest::getInt('showcomm', 0);
@@ -58,7 +59,7 @@ class JResearchViewPublication extends JView
     	//Get the model
     	$model =& $this->getModel();
     	$publication = $model->getItem($id);
-    	
+
 		if(!$publication->internal || !$publication->published){
 			JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));
 			return;
@@ -119,6 +120,9 @@ class JResearchViewPublication extends JView
 			$this->assignRef('reference', $crossrefData);	
 		}
 		
+		// We get the author list arrangement for the publications
+		$publication->author_arrangement=$params->get('staff_list_arrangement');
+
     	// Bind variables for layout
     	$this->assignRef('params', $params);
     	$this->assignRef('publication', $publication);
