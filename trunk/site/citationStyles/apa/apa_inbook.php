@@ -39,6 +39,7 @@ class JResearchAPAInbookCitationStyle extends JResearchAPACitationStyle{
 		$titleUsed = false;
 				
 		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
+		$authorsText = rtrim($authorsText, '.');					
 		if(empty($authorsText)){
 			$authorsText = trim($publication->title);
 			$titleUsed = true;

@@ -42,9 +42,10 @@ class JResearchMLATechreportCitationStyle extends JResearchMLACitationStyle{
 
 		if(empty($authorsText))
 			$head = "$title";
-		else
-			$head = "$authorsText. $title";	
-
+		else{
+			$authorsText = rtrim($authorsText, '.');
+			$head .= $authorsText.'. '.$title;
+		}
 		$text .= $head;
 			
 		$institution = trim($publication->institution);	

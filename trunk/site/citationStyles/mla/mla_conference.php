@@ -58,8 +58,8 @@ class JResearchMLAConferenceCitationStyle extends JResearchMLACitationStyle{
 		$title = '"'.trim($publication->title).'"';
 		$ed = JText::_('JRESEARCH_APA_ED');
 		if(!empty($authorsText)){
-			$header = $authorsText{strlen($authorsText) - 1} == '.'?$authorsText:$authorsText.'.';
-			$header .= ' '.$title;			
+			$authorsText = rtrim($authorsText, '.');
+			$header = $authorsText.'. '.$title;			
 		}else{
 			$header = $title;	
 		}

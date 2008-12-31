@@ -67,6 +67,7 @@ class JResearchAPAProceedingsCitationStyle extends JResearchAPACitationStyle{
 		
 		
 		if(!empty($authorsText)){
+			$authorsText = rtrim($authorsText, '.');						
 			if(!empty($year))
 				$header = "$authorsText.$year. $title";
 			else

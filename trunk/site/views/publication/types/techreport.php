@@ -53,7 +53,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if(!empty($number)): ?>
 	<?php $colspan -= 2; ?>
 	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('Month of publication').': ' ?></td>		
-	<td style="width:35%;"><?php echo $month; ?></td>
+	<td style="width:35%;"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
 	<?php endif; ?>
 	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	

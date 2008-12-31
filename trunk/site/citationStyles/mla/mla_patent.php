@@ -38,7 +38,8 @@ class JResearchMLAPatentCitationStyle extends JResearchMLACitationStyle{
 		$title = '"'.$publication->title.'"';
 
 		if(!empty($authorsText)){
-			$header = "$authorsText. $title";
+			$authorsText = rtrim($authorsText, '.');
+			$header .= $authorsText.'. '.$title;
 		}else{
 			$header = $title;	
 		}
