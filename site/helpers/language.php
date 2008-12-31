@@ -38,5 +38,4 @@ function en_GB_extra_word_characters(){
 	return '';
 }
 
-
 ?>

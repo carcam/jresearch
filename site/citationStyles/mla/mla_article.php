@@ -44,8 +44,8 @@ class JResearchMLAArticleCitationStyle extends JResearchMLACitationStyle{
 		
 
 		if(!empty($authorsText)){
-			$header = $authorsText{strlen($authorsText) - 1} == '.'?$authorsText:$authorsText.'.';
-			$header .= ' '.$title;
+			$authorsText = rtrim($authorsText, '.');
+			$header = $authorsText.'. '.$title;
 		}else
 			$header = $title;	
 

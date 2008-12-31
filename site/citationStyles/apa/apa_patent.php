@@ -31,6 +31,7 @@ class JResearchAPAPatentCitationStyle extends JResearchAPACitationStyle{
 			$year = '';			
 		
 		if(!empty($authorsText)){
+			$authorsText = rtrim($authorsText, '.');						
 			if(!empty($year))		
 				$text .= "$authorsText.$year";
 		}

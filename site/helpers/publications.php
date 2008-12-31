@@ -18,6 +18,8 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'lang
 jimport('phputf8.native.case');
 jimport('phputf8.native.strlen');
 jimport('phputf8.utils.unicode');
+jimport('phputf8.ucfirst');
+jimport('phputf8.mbstring.core');
 
 /**
  * This class holds useful methods for dealing with publications records.
@@ -28,6 +30,8 @@ class JResearchPublicationsHelper{
 	const UPPERCASE = 1;
 	const LOWERCASE = -1;
 	const CASELESS = 0;
+	
+	private static $months = array('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec');
 	
 	/**
 	 * Returns an associative array with the components of an author name according to 
@@ -140,6 +144,21 @@ class JResearchPublicationsHelper{
 		}
 
 		return $result;
+	}
+	
+	/**
+	 * Gets the initials of a given name component.
+	 *
+	 * @param string $nameComponent
+	 */
+	public static function getInitials($nameComponent){
+		if(substr_count($nameComponent, '-') == 1){
+			$components = explode('-', $nameComponent);
+			return utf8_ucfirst(utf8_substr($components[0], 0, 1)).'.-'.utf8_ucfirst(utf8_substr($components[1], 0, 1)).'.';
+		}
+		$result = utf8_ucfirst(utf8_substr($nameComponent, 0, 1)); 
+		return $result;
+		
 	}
 
 	
@@ -308,6 +327,32 @@ class JResearchPublicationsHelper{
 
 	    $string = preg_replace($specialBibtexChars, $replaceChars, $string);
 	    return $string;
+	}
+	
+	/**
+	 * Takes Bibtex code for months and translate it into a printable form.
+	 *
+	 * @return string
+	 */
+	public static function formatMonth($month){
+		$pieces = explode('#', $month);
+		$monthsText = implode('|', self::$months);
+		$result = '';		
+
+		
+		foreach($pieces as $piece){
+			$piece = trim($piece);	
+			if(preg_match("/^($monthsText)$/i", $piece)){
+				$content = JText::_('JRESEARCH_'.strtoupper($piece));
+			}elseif(preg_match('/^[{"](.)+[}"]$/', $piece, &$matches)){
+				$content = $matches[1];
+			}else{
+				$content = $piece;
+			}
+			$result .= $content.' ';
+		}	
+
+		return rtrim($result);
 	}
 
 	/**

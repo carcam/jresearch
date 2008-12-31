@@ -36,9 +36,9 @@ class JResearchAPAConferenceCitationStyle extends JResearchAPACitationStyle{
 		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		$in = JText::_('JRESEARCH_IN');
 		if(count($publication->getEditors()) > 1){
-			$ed = JText::_('RESEARCH_APA_EDITORS');
+			$ed = JText::_('JRESEARCH_APA_EDITORS');
 		}else{
-			$ed = JText::_('RESEARCH_APA_EDITOR');
+			$ed = JText::_('JRESEARCH_APA_EDITOR');
 		} 
 		$text = '';
 				
@@ -48,6 +48,7 @@ class JResearchAPAConferenceCitationStyle extends JResearchAPACitationStyle{
 			$authorsText = trim($this->getEditorsReferenceTextFromSinglePublication($publication))." ($eds) ";
 		}
 		
+		$authorsText = rtrim($authorsText, '.');
 		$title = trim($publication->title);
 
 				
