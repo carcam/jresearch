@@ -97,7 +97,7 @@ class JHTMLJresearch
 							foreach($authors as $author)
 							{
 								//Return true if I'm able to edit all publications or only mine
-								if(is_a($author, 'JResearchMember') && ($canDo || ($canDoOwn && ($author->id == $userid))))
+								if(is_a($author, 'JResearchMember') && ($canDo || ($canDoOwn && ($author->id == $userid)) || $pub->created_by == $userid))
 								{
 									return true;
 								}
