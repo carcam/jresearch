@@ -20,7 +20,7 @@ class JHTMLJresearch
 	 * @param int $id
 	 * @param int $userid
 	 */
-	public static function icon($task, $controller, $itemid, $userid=null)
+	public static function icon($task, $controller, $itemid=0, $userid=null)
 	{
 		$authorized = false;
 		$availableController = array('publications');
@@ -28,13 +28,13 @@ class JHTMLJresearch
 		if(in_array($controller, $availableController))
 		{
 			$authorized = JHTMLJResearch::authorize($task, $controller, $itemid, $userid);
-			
+
 			if($authorized)
 			{
 				switch($controller)
 				{
 					case 'publications':
-						echo '<a href="index.php?option=com_jresearch&view=publication&task='.$task.'&id='.$itemid.'" title="Edit publication">'
+						echo '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').'" title="Edit publication">'
 						.'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
 						.'</a>';
 						break;
@@ -54,7 +54,7 @@ class JHTMLJresearch
 	 * @param int $userid
 	 * @return bool
 	 */
-	public static function authorize($task, $controller, $itemid, $userid=null)
+	public static function authorize($task, $controller, $itemid=0, $userid=null)
 	{
 		$availableTasks = array('edit','add','remove');
 		$db =& JFactory::getDBO();
@@ -87,19 +87,26 @@ class JHTMLJresearch
 				switch($controller)
 				{
 					case 'publications':
-						$pub = new JResearchPublication($db);
-						$pub->load($itemid);
-						
-						$authors = $pub->getAuthors();
-						
-						foreach($authors as $author)
+						if($itemid > 0)
 						{
-							//Return true if I'm able to edit all publications or only mine
-							//@todo Add team authorization and author authorization
-							if(is_a($author, 'JResearchMember') && ($canDo || ($canDoOwn && ($author->id == $userid))))
+							$pub = new JResearchPublication($db);
+							$pub->load($itemid);
+							
+							$authors = $pub->getAuthors();
+							
+							foreach($authors as $author)
 							{
-								return true;
+								//Return true if I'm able to edit all publications or only mine
+								//@todo Add team authorization and author authorization
+								if(is_a($author, 'JResearchMember') && ($canDo || ($canDoOwn && ($author->id == $userid))))
+								{
+									return true;
+								}
 							}
+						}
+						elseif($itemid <= 0 && $canDo)
+						{
+							return true;
 						}
 						break;
 					default:

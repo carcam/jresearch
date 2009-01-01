@@ -32,7 +32,7 @@ class JResearchPublicationsController extends JController
 		$lang->load('com_jresearch.publications');
 		
 		// Tasks for edition of publications when the user is authenticated
-		$this->registerTask('add', 'edit');
+		$this->registerTask('add', 'add');
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('admin', 'administer');
 		// When the user sees the profile of a single publication
@@ -116,29 +116,29 @@ class JResearchPublicationsController extends JController
 		$pubModel = &$this->getModel('Publication', 'JResearchModel');	
 		$model = &$this->getModel('ResearchAreasList', 'JResearchModel');
 		
-		if(!empty($cid)){
-			$publication = $pubModel->getItem($cid);
-			if(!empty($publication)){
-				$user =& JFactory::getUser();
-				
-				// Verify if it is checked out
-				if($publication->isCheckedOut($user->get('id')))
-				{
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-				}
-				else
-				{
-					$publication->checkout($user->get('id'));	
-				}
-				$view->setLayout('edit');
-				$view->setModel($model);
-				$view->display();
-			}else{
-				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-			}				
-		}else{
-			JError::raiseWarning(1, JText::_('JRESEARCH_ACCESS_NOT_ALLOWED'));
+		$publication = $pubModel->getItem($cid);
+		
+		if(!empty($publication)){
+			$user =& JFactory::getUser();
+			
+			// Verify if it is checked out
+			if($publication->isCheckedOut($user->get('id')))
+			{
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+			}
+			else
+			{
+				$publication->checkout($user->get('id'));	
+			}
 		}
+		else
+		{
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+		}		
+		
+		$view->setLayout('edit');
+		$view->setModel($model);
+		$view->display();
 	}
 
 	/**

@@ -2,10 +2,8 @@
 	<?=JText::_('JRESEARCH_EDIT_PUBLICATION');?>
 </div>
 <?php 
-if(JHTML::_('Jresearch.authorize','edit', 'publications', $this->id))
+if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this->id > 0)) || (JHTML::_('Jresearch.authorize','add', 'publications') && ($this->id <= 0)))
 {
-	if($this->id > 0)
-	{
 ?>
 	<div style="float: right;">
 		<button type="button" onclick="javascript:msubmitform('apply');"><?php echo JText::_('Apply'); ?></button>
@@ -13,16 +11,8 @@ if(JHTML::_('Jresearch.authorize','edit', 'publications', $this->id))
 		<button type="button" onclick="javascript:msubmitform('cancel')"><?php echo JText::_('Cancel'); ?></button>
 	</div>
 	<div style="clear: both;">&nbsp;</div>
-<?php
-		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.'default.php');
-	}
-	else
-	{
-?>
-	<div style="clear: both;">&nbsp;</div>
-	<div style="text-align:center;"><?=JText::_('JRESEARCH_PUBLICATION_EDIT_NO_VALID_ID')?></div>
-<?php
-	}
+	<?php
+	include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.'default.php');
 }
 else
 {
