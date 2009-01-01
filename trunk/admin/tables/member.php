@@ -211,6 +211,35 @@ class JResearchMember extends JTable{
 		return true;
 		
 	}
+	
+	/**
+	 * Returns array of teams, where the member is a member of these teams.
+	 * @return array
+	 */
+	public function getTeams()
+	{
+		$teams = array();
+		
+		//Get teams
+		$db =& JFactory::getDBO();
+		$table = '#__jresearch_team_member';
+		$id = $db->nameQuote('id_team');
+		$id_member = $db->nameQuote('id_member');
+		
+		$query = 'SELECT '.$id.' FROM '.$table.' WHERE '.$id_member.'='.$this->id;
+		$db->setQuery($query);
+		
+		$ids = $db->loadResultArray();
+		
+		foreach($ids as $id)
+		{
+			$team = new JResearchTeam($db);
+			$team->load($id);
+			$teams[] = $team;
+		}
+		
+		return $teams;
+	}
 }
 
 ?>
