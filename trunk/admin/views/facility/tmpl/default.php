@@ -44,9 +44,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			if($this->fac->image_url)
 			{
 			?>
-			<a href="<?=$this->fac->image_url;?>" class="modal">
-				<img src="<?=$this->fac->image_url; ?>" alt="Image of <?=$this->fac->name?>" width="100" />
-			</a>
+				<a href="<?=$this->fac->image_url;?>" class="modal">
+					<img src="<?=$this->fac->image_url; ?>" alt="Image of <?=$this->fac->name?>" width="100" />
+				</a>
+				<input type="hidden" name="image_url" id="image_url" value="<?=$this->fac->image_url;?>" />
 			<?php
 			}
 			?>

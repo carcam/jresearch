@@ -190,48 +190,29 @@ class JResearchAdminStaffController extends JController
 	function save(){
 		global $mainframe;
 		$db =& JFactory::getDBO();
-		$photosFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'members';
-		$photosUrl = JURI::base().'components/com_jresearch/assets/members/';
 		$member = new JResearchMember($db);
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');
-		$fileArray = JRequest::getVar('inputfile', null, 'FILES');
-		$uploadedFile = $fileArray['tmp_name'];		
-		$delete = JRequest::getVar('delete');
-			
-		if($delete == 'on')
-			$member->url_photo = '';
-		
-		if($fileArray != null && $uploadedFile != null){								
-			$newName = $photosFolder.DS.basename($uploadedFile);
-			list($width, $height, $type, $attr) = getimagesize($uploadedFile);			
 
-			if($fileArray['type'] != 'image/gif' && $fileArray['type'] != 'image/png' && $fileArray['type']	!= 'image/jpg' && $fileArray['type'] != 'image/jpeg')
-				JError::raiseWarning(1, JText::_('JRESEARCH_IMAGE_FORMAT_NOT_SUPPORTED'));
-			elseif($width > 400 || $height > 400){
-				JError::raiseWarning(1, JText::_('JRESEARCH_EXCEEDS_SIZE', 400, 400));
-			}else{
-				// Get extension 
-				$extArray = explode('/', $fileArray['type']);				
-				$extension = $extArray[1];
-				$newName = $newName.'.'.$extension;
-				if(!move_uploaded_file($uploadedFile, $newName ))
-					JError::raiseWarning(1, JText::_('JRESEARCH_PHOTO_NOT_UPLOADED'));
-				else{
-					if($member->url_photo)
-						@unlink($member->url_photo);
-					$member->url_photo = $photosUrl.basename($newName);
-				}
-			}		
-		}
-		
 		$member->bind($post);	
 		$member->firstname = trim($member->firstname);
 		$member->lastname = trim($member->lastname);
 		
 		$member->former_member = (int) JRequest::getVar('former_member', '0', 'post', 'string');
 		$member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		
+		//Upload photo
+		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
+		$delete = JRequest::getVar('delete');
+		
+		JResearch::uploadImage(	$member->url_photo, 	//Image string to save
+								$fileArr, 			//Uploaded File array
+								'assets'.DS.'members'.DS, //Relative path from administrator folder of the component
+								($delete == 'on')?true:false,	//Delete?
+								 _PROJECT_IMAGE_MAX_WIDTH_, //Max Width
+								 _PROJECT_IMAGE_MAX_HEIGHT_ //Max Height
+		);
 		
 		if($member->check()){		
 			if($member->store()){
