@@ -55,7 +55,7 @@ class JResearchCSEIncollectionCitationStyle extends JResearchCSECitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$text .= $authorsText;
+		$text .= rtrim($authorsText, '.');
 
 		$year = trim($publication->year);
 		if(!empty($year) && $year != '0000'){		
@@ -88,7 +88,7 @@ class JResearchCSEIncollectionCitationStyle extends JResearchCSECitationStyle{
 		if(!empty($pages))
 			$text .= '. p '.$pages;
 		
-		return $text;
+		return $text.'.';
 	}
 
 }

@@ -58,7 +58,7 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 
 
 
-		$text .= $authorsText;
+		$text .= rtrim($authorsText, '.');
 
 		$year = trim($publication->year);
 		if(!empty($year) && $year != '0000'){		
@@ -69,18 +69,14 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		}
 				
 		$title = trim($publication->title);	
-		$text .= '. '.$title.'. '.$in.': ';
+		$text .= '. '.$title;
 
 
 		if(!$editorsConsidered){
 			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
 			$editorsText .= ' '.$eds;
-			$text.= $editorsText;
+			$text.= '. '.$in.': '.$editorsText;
 		}
-
-		$booktitle = trim($publication->booktitle);
-		if(!empty($booktitle))		
-			$text .= '. '.$booktitle;
 
 		$edition = trim($publication->edition);
 		if(!empty($edition)){
@@ -95,7 +91,7 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		if(!empty($pages))
 			$text .= '. p '.$pages;
 		
-		return $text;
+		return $text.'.';
 	}
 	
 

@@ -46,7 +46,7 @@ class JResearchCSEConferenceCitationStyle extends JResearchCSECitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$text .= $authorsText;
+		$text .= rtrim($authorsText, '.');
 
 		$year = trim($publication->year);
 		if(!empty($year) && $year != '0000'){		
@@ -57,23 +57,18 @@ class JResearchCSEConferenceCitationStyle extends JResearchCSECitationStyle{
 		}
 				
 		$title = trim($publication->title);	
-		$text .= '. '.$title.'. '.$in.': ';
+		$text .= '. '.$title;
 
 		$editors = trim($publication->editor);
 		if(!empty($editors)){
 			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-			$editorsText .= '. '.$in.' '.$eds;
+			$editorsText = '. '.$in.' '.$editorsText.' '.$eds;
 			$text.= $editorsText;
 		}
 
 		$booktitle = trim($publication->booktitle);
 		if(!empty($booktitle))		
 			$text .= '. '.$booktitle;
-
-
-		$month = trim($publication->month);
-		if(!empty($month))
-			$text .= '; '.$month;
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
@@ -88,7 +83,7 @@ class JResearchCSEConferenceCitationStyle extends JResearchCSECitationStyle{
 		if(!empty($url))
 			$text .= '. '.JText::_('JRESEARCH_AVAILABLE_FROM').': '.$url;	
 			
-		return $text;
+		return $text.'.';
 	}
 
 }

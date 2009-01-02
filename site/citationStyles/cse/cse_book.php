@@ -54,7 +54,7 @@ class JResearchCSEBookCitationStyle extends JResearchCSECitationStyle{
 
 
 
-		$text .= $authorsText;
+		$text .= rtrim($authorsText, '.');
 
 		$year = trim($publication->year);
 		if(!empty($year) && $year != '0000'){		
@@ -71,7 +71,7 @@ class JResearchCSEBookCitationStyle extends JResearchCSECitationStyle{
 		if(!empty($address))
 			$text .= '. '.$address;
 		
-		return $text;
+		return $text.'.';
 	}
 	
 

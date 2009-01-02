@@ -42,7 +42,7 @@ class JResearchCSEMastersthesisCitationStyle extends JResearchCSECitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$text .= $authorsText;
+		$text .= rtrim($authorsText, '.');
 
 		$year = trim($publication->year);
 		if(!empty($year) && $year != '0000'){		
@@ -63,7 +63,7 @@ class JResearchCSEMastersthesisCitationStyle extends JResearchCSECitationStyle{
 		if(!empty($school))
 			$text .= ': '.$school;	
 			
-		return $text;
+		return $text.'.';
 	}
 
 }

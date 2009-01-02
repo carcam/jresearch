@@ -42,7 +42,7 @@ class JResearchCSEArticleCitationStyle extends JResearchCSECitationStyle{
 		}
 		
 
-		$text .= $authorsText;
+		$text .= rtrim($authorsText, '.');
 
 		$year = trim($publication->year);
 		if(!empty($year) && $year != '0000'){		
@@ -72,7 +72,7 @@ class JResearchCSEArticleCitationStyle extends JResearchCSECitationStyle{
 		if(!empty($pages))
 			$text .= ': '.$pages;
 
-		return $text;
+		return $text.'.';
 	}
 
 }
