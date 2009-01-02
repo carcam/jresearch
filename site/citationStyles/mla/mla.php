@@ -153,7 +153,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
 		
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
 		if(!$publication->__authorPreviouslyCited){
 			if($nAuthors <= 0){
@@ -301,29 +301,33 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 	protected function formatAuthorForReferenceOutput($authorName, $isFirst = false){
 		$authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
 
+		$firstname = $authorComponents['firstname']; 
+			
+		$jr = $authorComponents['jr']; 
 		if($isFirst){
 			// We have two components: firstname and lastname
 			if(count($authorComponents) == 1){
 				$text = utf8_ucfirst($authorComponents['lastname']);
 			}elseif(count($authorComponents) == 2){
-				$text = utf8_ucfirst($authorComponents['lastname']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']); 
+				$text = utf8_ucfirst($authorComponents['lastname']).', '.$firstname; 
 			}elseif(count($authorComponents) == 3){
-				$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
+				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.$firstname;
 			}else{
-				$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).', '.$authorComponents['jr'].', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
+				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.$jr.', '.$firstname;
 			}
 		}else{
 			// We have two components: firstname and lastname
 			if(count($authorComponents) == 1){
 				$text = utf8_ucfirst($authorComponents['lastname']);
 			}elseif(count($authorComponents) == 2){
-				$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.ucfirst($authorComponents['lastname']); 
+				$text = $firstname.' '.utf8_ucfirst($authorComponents['lastname']); 
 			}elseif(count($authorComponents) == 3){
-				$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).' '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
+				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).' '.$firstname;
 			}else{
-				$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['jr']).' '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
+				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.$jr.' '.$firstname;
 			}
 		}
+
 		
 		return $text;
 	}

@@ -207,17 +207,17 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	 * @param string $authorName In any of the formats supported by Bibtex.
 	 */
 	protected function formatAuthorForReferenceOutput($authorName){
-		$authorComponents = JResearchPublicationsHelper::getAuthorComponents($authorName);
+		$authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
 
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
-			$text = ucfirst($authorComponents['lastname']);
+			$text = utf8_ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
-			$text = ucfirst($authorComponents['firstname']{0}).'. '.ucfirst($authorComponents['lastname']); 
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).'. '.utf8_ucfirst($authorComponents['lastname']); 
 		}elseif(count($authorComponents) == 3){
-			$text = ucfirst($authorComponents['firstname']{0}).'. '.ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']);
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).'. '.$authorComponents['von'].' '.uft8_ucfirst($authorComponents['lastname']);
 		}else{
-			$text = ucfirst($authorComponents['firstname']{0}).'. '.ucfirst($authorComponents['jr']{0}).'. '.ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']);
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).'. '.JResearchPublicationsHelper::getInitials($authorComponents['jr']).'. '.$authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']);
 		}
 		
 		return $text;

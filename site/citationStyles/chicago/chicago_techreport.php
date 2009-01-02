@@ -77,7 +77,7 @@ class JResearchChicagoTechreportCitationStyle extends JResearchChicagoCitationSt
 			$text .= '. '.$address;
 		}
 
-		$month = trim($publication->month);
+		$month = JResearchPublicationsHelper::formatMonth(trim($publication->month));
 		if(!empty($month))
 			$text .= ', '.$month;		
 		

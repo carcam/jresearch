@@ -50,12 +50,13 @@ class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle
 			$text .= $title;
 		}	
 		
-		$year = trim($publication->year);		
+		$year = trim($publication->year);
+		$text = rtrim($text, '.');		
 		if(!empty($year) && $year != '0000')
-			$text .= $text{strlen($text) - 1} == '.'?$year:'. '.$year;			
+			$text .= '. '.$year;			
 
 		if(!$titleCons)	
-			$text .= $text{strlen($text) - 1} == '.'?$title:'. '.$title;
+			$text .= '. '.$title;
 		
 		
 		$journal = trim($publication->journal);			 
