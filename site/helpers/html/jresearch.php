@@ -97,22 +97,25 @@ class JHTMLJresearch
 							foreach($authors as $author)
 							{
 								//Return true if I'm able to edit all publications or only mine
-								if(is_a($author, 'JResearchMember') && ($canDo || ($canDoOwn && ($author->id == $userid)) || $pub->created_by == $userid))
+								if(is_a($author, 'JResearchMember'))
 								{
-									return true;
-								}
-								
-								//Check teams of author 
-								//If user is member of one team of the author, 
-								//he will get authorized
-								$teams = $author->getTeams();
-								
-								foreach($teams as $team)
-								{
-									//If user is member of one team, he is authorized to do the task
-									if($team->isMember($userid))
+									if($canDo || ($canDoOwn && ($author->id == $userid)) || $pub->created_by == $userid)
 									{
 										return true;
+									}
+									
+									//Check teams of author 
+									//If user is member of one team of the author, 
+									//he will get authorized
+									$teams = $author->getTeams();
+									
+									foreach($teams as $team)
+									{
+										//If user is member of one team, he is authorized to do the task
+										if($team->isMember($userid))
+										{
+											return true;
+										}
 									}
 								}
 							}

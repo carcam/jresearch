@@ -47,7 +47,9 @@ class JResearchTeam extends JTable
 	public function load($oid=null)
 	{
 		$result = parent::load($oid);
-		$this->_loadMembers();
+		
+		if($oid != null)
+			$this->_loadMembers($oid);
 		
 		return $result;
 	}
@@ -241,7 +243,6 @@ class JResearchTeam extends JTable
 		$idTeam = $db->nameQuote('id_team');
 		
 		$qoid = $db->Quote($oid);
-		
 		
 		// Get internal authors
         $membersQuery = "SELECT * FROM $table WHERE $idTeam = $qoid";
