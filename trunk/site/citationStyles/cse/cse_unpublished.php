@@ -41,7 +41,7 @@ class JResearchCSEUnpublishedCitationStyle extends JResearchCSECitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$text .= $authorsText;
+		$text .= rtrim($authorsText, '.');
 
 		$year = trim($publication->year);
 		if(!empty($year) && $year != '0000'){		
@@ -54,7 +54,7 @@ class JResearchCSEUnpublishedCitationStyle extends JResearchCSECitationStyle{
 		$title = trim($publication->title);	
 		$text .= '. '.$title;
 		
-		return $text;
+		return $text.'.';
 	}
 
 }

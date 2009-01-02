@@ -178,13 +178,13 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$authors = $publication->getAuthors();
 		$formattedAuthors  = array();
-		$firstnames[] = array();
+		$firstnames = array();
 		if(count($authors) == 0)
 			$authors = explode(',', trim($publication->editors));		
 				
 		foreach($authors as $auth){
-			$result = JResearchPublicationsHelper::getAuthorComponents($auth);
-			$formattedAuthors[] = $result['lastname'];		
+			$result = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($auth));
+			$formattedAuthors[] = (isset($result['von'])?$result['von'].' ':'').$result['lastname'];		
 			$firstnames[] = $result['firstname'];
 		}
 		
@@ -194,12 +194,12 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		}elseif($nAuthors == 1){
 			$text .= $formattedAuthors[0];
 		}elseif($nAuthors == 2){
-			if($formattedAuthors[0] == $formattedAuthors[1])
-				$text .= $formattedAuthors[0].' '.$firstnames[0]{0}.$firstnames[1]{0};
-			else
+			if($formattedAuthors[0] == $formattedAuthors[1]){
+				$text .= $formattedAuthors[0].' '.utf8_substr($firstnames[0], 0, 1).utf8_substr($firstnames[1], 0, 1);
+			}else
 				$text .= $formattedAuthors[0]." $this->lastAuthorSeparator ".$formattedAuthors[1];
 		}elseif($nAuthors >= 3){
-			$text .= $formattedAuthors[0].' et al. ';
+			$text .= $formattedAuthors[0].' et al.';
 		}
 		return $text;
 	}
@@ -332,19 +332,29 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	 * @param string $authorName In any of the formats supported by Bibtex.
 	 */
 	protected function formatAuthorForReferenceOutput($authorName){
-		$authorComponents = JResearchPublicationsHelper::getAuthorComponents($authorName);
+		$authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
 		$text = '';
 
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
-			$text = ucfirst($authorComponents['lastname']);
+			$text = utf8_ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
-			$text = ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']{0}); 
+			$text = utf8_ucfirst($authorComponents['lastname']).' '.$this->_getInitials($authorComponents['firstname']); 
 		}elseif(count($authorComponents) > 2){
-			$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']{0});
+			$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).' '.$this->_getInitials($authorComponents['firstname']);
 		}
 		
 		return $text;
+	}
+	
+	private function _getInitials($authorname){
+		$components = preg_split('/([-\s])/', $authorname, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);		
+		if(count($components) > 1){
+			return utf8_ucfirst(utf8_substr($components[0], 0, 1)).utf8_ucfirst(utf8_substr($components[2], 0, 1));
+		}
+		$result = utf8_ucfirst(utf8_substr($authorname, 0, 1)); 
+		return $result;
+		
 	}
 
 	

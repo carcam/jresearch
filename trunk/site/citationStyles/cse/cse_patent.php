@@ -36,7 +36,7 @@ class JResearchCSEPatentCitationStyle extends JResearchCSECitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$text .= $authorsText;				
+		$text .= rtrim($authorsText, '.');				
 		$title = trim($publication->title);	
 		$text .= '; '.$title;
 		
@@ -48,7 +48,7 @@ class JResearchCSEPatentCitationStyle extends JResearchCSECitationStyle{
 		if(!empty($issue_date))
 			$text .= '. '.$issue_date;
 			
-		return $text;
+		return $text.'.';
 	}
 }
 ?>
