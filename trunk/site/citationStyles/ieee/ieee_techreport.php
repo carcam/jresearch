@@ -17,7 +17,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 * Implementation of IEEE citation style for techreport records.
 *
 */
-class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
+class JResearchIEEETechreportCitationStyle extends JResearchIEEECitationStyle{
 	
 
 	/**
@@ -53,37 +53,32 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 		if($nAuthors > 0){
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
-		$title = '"'.trim($publication->title).'",';	
+		$title = '"'.trim($publication->title).'"';	
 
 		if(!empty($authorsText))
 			$header = "$authorsText. $title";
 		else
 			$header = $title;			
 		
-		$institution = trim($publication->institution);	
-		if(!empty($institution))
-			$header .= $institution;			
-
 		$address = trim($publication->address);
 		if(!empty($address))
-			$header .= ', '.$address;	
+			$header .= '. '.$address;	
 
+		$institution = trim($publication->institution);	
+		if(!empty($institution))
+			$header .= '. '.$institution;			
+			
+			
 		$number = trim($publication->number);
 		if(!empty($number))
-			$header .= ', '.JText::_('JRESEARCH_IEEE_TECHREPORT').' '.$number;	
+			$header .= '. '.JText::_('JRESEARCH_IEEE_TECHREPORT').' '.$number;	
 			
-		$month = trim($publication->month);
-		if(!empty($month))
-			$header .= ', '.$month;	
 
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			if(!empty($month))
-				$header =  "$header $year";
-			else
-				$header =  "$header, $year";
+			$header .=  ". $year";
 	
-		return $header;	
+		return $header.'.';	
 				
 			
 	}

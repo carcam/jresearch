@@ -50,7 +50,7 @@ class JResearchIEEEPatentCitationStyle extends JResearchIEEECitationStyle{
 			$header .= ', '.$issue_date;		
 			
 	
-		return $header;	
+		return $header.'.';	
 			
 	}
 }

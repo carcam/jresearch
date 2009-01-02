@@ -152,9 +152,9 @@ class JResearchPublicationsHelper{
 	 * @param string $nameComponent
 	 */
 	public static function getInitials($nameComponent){
-		if(substr_count($nameComponent, '-') == 1){
-			$components = explode('-', $nameComponent);
-			return utf8_ucfirst(utf8_substr($components[0], 0, 1)).'.-'.utf8_ucfirst(utf8_substr($components[1], 0, 1)).'.';
+		$components = preg_split('/([-\s])/', $nameComponent, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);		
+		if(count($components) > 1){
+			return utf8_ucfirst(utf8_substr($components[0], 0, 1)).'.'.$components[1].utf8_ucfirst(utf8_substr($components[2], 0, 1)).'.';
 		}
 		$result = utf8_ucfirst(utf8_substr($nameComponent, 0, 1)).'.'; 
 		return $result;
@@ -346,7 +346,7 @@ class JResearchPublicationsHelper{
 	 *
 	 * @return string
 	 */
-	public static function formatMonth($month){
+	public static function formatMonth($month, $abbreviate=false){
 		$pieces = explode('#', $month);
 		$monthsText = implode('|', self::$months);
 		$result = '';		
@@ -355,8 +355,11 @@ class JResearchPublicationsHelper{
 		foreach($pieces as $piece){
 			$piece = trim($piece);	
 			if(preg_match("/^($monthsText)$/i", $piece)){
-				$content = JText::_('JRESEARCH_'.strtoupper($piece));
-			}elseif(preg_match('/^[{"](.)+[}"]$/', $piece, &$matches)){
+				if($abbreviate)
+					$content = JText::_('JRESEARCH_ABB_'.strtoupper($piece));
+				else	
+					$content = JText::_('JRESEARCH_'.strtoupper($piece));		
+			}elseif(preg_match('/^[{"](.+)[}"]$/', $piece, &$matches)){
 				$content = $matches[1];
 			}else{
 				$content = $piece;

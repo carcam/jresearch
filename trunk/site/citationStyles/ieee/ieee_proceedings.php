@@ -17,7 +17,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 * Implementation of IEEE citation style for proceedings records.
 *
 */
-class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
+class JResearchIEEEProceedingsCitationStyle extends JResearchIEEECitationStyle{
 	
 
 	/**
@@ -50,7 +50,7 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){				
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
-		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS_LOWER'):JText::_('JRESEARCH_APA_ED_LOWER');
 		
 		if($nAuthors <= 0){
 			if($nEditors == 0){
@@ -61,14 +61,13 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 			}else{
 				// If no authors, but editors
 				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-				$authorsText .= " ($eds)";
+				$authorsText .= " $eds";
 
 			}
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);			
 		}
-		
-		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'.';
 		
 		$title = trim($publication->title);	
 		$title = $html?"<i>$title</i>":$title;
@@ -77,6 +76,9 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 			$header = "$authorsText. $title";
 		else
 			$header = $title;	
+
+		if(!empty($editorsText))
+			$header .= '. '.$editorsText.' '.$eds;				
 			
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
@@ -85,9 +87,9 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 				
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$header .= ', '.$year;
+			$header .= '. '.$year;
 			
-		return $header;
+		return $header.'.';
 				
 			
 	}

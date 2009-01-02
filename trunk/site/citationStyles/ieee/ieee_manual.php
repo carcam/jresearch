@@ -61,30 +61,20 @@ class JResearchIEEEManualCitationStyle extends JResearchIEEECitationStyle{
 		else
 			$header = $title;	
 					
-		$volume = trim($publication->volume);
-		if(!empty($volume))
-			$header .= ', '.JText::_('JRESEARCH_VOL').'. '.$volume;
 	
 		$organization = trim($publication->organization);
 		if(!empty($organization))
-			$header .= ', '.$organization;
+			$header .= '. '.$organization;
 			
 		$address = trim($publication->address);
 		if(!empty($address))
-			$header .= ", $address";			
-			
-		$month = trim($publication->month);
-		if(!empty($month))
-			$header .= ', '.$month;	
+			$header .= ". $address";			
 				
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			if(!empty($month))
-				return "$header $year";
-			else
-				return "$header, $year";	
-		else
-			return $header;	
+			$header .= '. '.$year;	
+		
+		return $header.'.';	
 
 	}
 
