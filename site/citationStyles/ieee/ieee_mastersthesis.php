@@ -53,28 +53,30 @@ class JResearchIEEEMastersthesisCitationStyle extends JResearchIEEECitationStyle
 		if($nAuthors > 0){
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
-		$title = '"'.trim($publication->title).'",';	
+		$title = '"'.trim($publication->title).'"';	
 
 		if(!empty($authorsText))
 			$header = "$authorsText. $title";
 		else
 			$header = $title;			
 		
-		$header .= JText::_('JRESEARCH_CHICAGO_MASTERSTHESIS');
+		$type = trim($publication->type);	
+		if(!empty($type))	
+			$header .= '. '.$type;
 		
 		$school = trim($publication->school);
 		if(!empty($school))
-			$header .= ', '.$school;
+			$header .= '. '.$school;
 			
 		$address = trim($publication->address);
 		if(!empty($address))
-			$header .= ', '.$address;			
+			$header .= '. '.$address;			
 
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			$header =  "$header, $year";
+			$header .=  '. '.$year;
 	
-		return $header;	
+		return $header.'.';	
 			
 	}
 

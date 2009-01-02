@@ -51,13 +51,25 @@ class JResearchIEEEIncollectionCitationStyle extends JResearchIEEECitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS_LOWER'):JText::_('JRESEARCH_APA_ED_LOWER');
 		
-		if($nAuthors > 0){
+		if($nAuthors <= 0){
+			if($nEditors == 0){
+				// If neither authors, nor editors
+				$authorsText = '';
+				$address = '';
+				$editorsText = '';
+			}else{
+				// If no authors, but editors
+				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
+				$authorsText .= " $eds";
+			}
+		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+			$editors = $this->getEditorsReferenceTextFromSinglePublication($publication);			
 		}
 		
-		$title = '"'.trim($publication->title).'",';	
+		$title = '"'.trim($publication->title).'"';	
 		
 		if(!empty($authorsText))
 			$header = "$authorsText. $title";
@@ -67,33 +79,27 @@ class JResearchIEEEIncollectionCitationStyle extends JResearchIEEECitationStyle{
 		$booktitle = trim($publication->booktitle);
 		if(!empty($booktitle)){
 			$in = JText::_('JRESEARCH_IN');
-			$booktitle = " in ".($html?"<i>$booktitle</i>":$booktitle);	
+			$booktitle = ($html?"<i>$booktitle</i>":$booktitle);	
 		}
 
-		$editors = $this->getEditorsReferenceTextFromSinglePublication($publication);	
+
 		if(!empty($editors))
-			$header .= ', '.$editors.' '.$eds;	
+			$header .= '. '.$editors.' '.$eds;	
 			
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
-			$header .= " .$address";
+			$header .= ". $address";
 	
-		$month = trim($publication->month);
-		if(!empty($month))
-			$header .= ', '.$month;	
 				
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			if(!empty($month))
-				$header =  "$header $year";
-			else
-				$header =  "$header, $year";	
+			$header .=  ". $year";	
 			
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))
-			$header .= ', pp. '.$pages;	
+			$header .= '. pp. '.$pages;	
 			
-		return $header;
+		return $header.'.';
 
 	}
 	

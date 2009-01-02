@@ -72,27 +72,21 @@ class JResearchIEEEArticleCitationStyle extends JResearchIEEECitationStyle{
 		$volume = trim($publication->volume);
 		if(!empty($volume))
 			$header .= ', '.JText::_('JRESEARCH_VOL').'. '.$volume;
-	
-		$number = trim($publication->number);
-		if(!empty($number))
-			$header .= ', '.JText::_('JRESEARCH_ABB_NUMBER_LOWER').'. '.$number;
+				
+		$month = trim($publication->month);
+		if(!empty($month))
+			$header .= ', '.JResearchPublicationsHelper::formatMonth($month, true);	
+				
+		$year = trim($publication->year);	
+		
+		if($year != null && $year != '0000')		
+			$header .= (empty($month)?'.':',').' '.$year;
 			
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))
 			$header .= ', pp. '.$pages;	
-			
-		$month = trim($publication->month);
-		if(!empty($month))
-			$header .= ', '.$month;	
-				
-		$year = trim($publication->year);	
-		if($year != null && $year != '0000')		
-			if(!empty($month))
-				return "$header $year";
-			else
-				return "$header, $year";	
-		else
-			return $header;	
+		
+		return $header.'.';	
 
 	}
 

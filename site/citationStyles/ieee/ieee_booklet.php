@@ -49,9 +49,8 @@ class JResearchIEEEBookletCitationStyle extends JResearchIEEECitationStyle{
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$nAuthors = $publication->countAuthors();
-		$nEditors = count($publication->getEditors());
 		
-		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
+		$eds = count($publication->getEditors())>1?JText::_('JRESEARCH_APA_EDS_LOWER'):JText::_('JRESEARCH_APA_ED_LOWER');
 		
 		if($nAuthors > 0){
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
@@ -69,24 +68,14 @@ class JResearchIEEEBookletCitationStyle extends JResearchIEEECitationStyle{
 			
 		$address = trim($publication->address);
 		if(!empty($address))
-			$header .= ", $address";
-	
-		$howpublished = trim($publication->howpublished);
-		if(!empty($howpublished))
-			$header .= ", $howpublished";	
-		
-		$month = trim($publication->month);
-		if(!empty($month))
-			$header .= ". $month";
+			$header .= ". $address";
 
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000')		
-			if(!empty($month))
-				return "$header, $year";
-			else
-				return "$header. $year";	
-		else
-			return $header;	
+			$header .= ': '.$year;		
+		
+			
+		return $header.'.';	
 
 	}
 	

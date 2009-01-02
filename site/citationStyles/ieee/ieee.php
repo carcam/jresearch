@@ -173,6 +173,7 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	 */
 	protected function getEditorsReferenceTextFromSinglePublication($publication){
 		$editorsArray = $publication->getEditors();
+		$and = JText::_('JRESEARCH_AND');
 		
 		$formattedEditors = array();
 		$n = count($editorsArray);
@@ -190,7 +191,7 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 				$text = $formattedEditors[0];
 			else{	
 				$subtotal = array_slice($formattedEditors, 0, $n-1);
-				$text = implode(', ', $subtotal)." $this->lastAuthorSeparator ".$formattedEditors[$n-1];
+				$text = implode(', ', $subtotal)." $and ".$formattedEditors[$n-1];
 			}
 		}else{
 			$text = $formattedEditors[0]." et al";
@@ -213,11 +214,11 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 		if(count($authorComponents) == 1){
 			$text = utf8_ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
-			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).'. '.utf8_ucfirst($authorComponents['lastname']); 
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.utf8_ucfirst($authorComponents['lastname']); 
 		}elseif(count($authorComponents) == 3){
-			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).'. '.$authorComponents['von'].' '.uft8_ucfirst($authorComponents['lastname']);
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.$authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']);
 		}else{
-			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).'. '.JResearchPublicationsHelper::getInitials($authorComponents['jr']).'. '.$authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']);
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.JResearchPublicationsHelper::getInitials($authorComponents['jr']).' '.$authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']);
 		}
 		
 		return $text;
