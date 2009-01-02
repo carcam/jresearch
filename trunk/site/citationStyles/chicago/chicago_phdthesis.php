@@ -65,7 +65,7 @@ class JResearchChicagoPhdthesisCitationStyle extends JResearchChicagoCitationSty
 		if(!empty($institution))
 			$text .= ', '.$institution;
 		
-		$month = trim($publication->month);
+		$month = JResearchPublicationsHelper::formatMonth(trim($publication->month));
 		if(!empty($month))
 			$text .= ', '.$month;
 			 	

@@ -237,16 +237,17 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 	 * for the first author of a reference.
 	 */
 	protected function formatAuthorForReferenceOutput($authorName){
-		$authorComponents = JResearchPublicationsHelper::getAuthorComponents($authorName);
+		$authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
+
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
-			$text = ucfirst($authorComponents['lastname']);
+			$text = utf8_ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
-			$text = ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']{0}); 
+			$text = utf8_ucfirst($authorComponents['lastname']).' '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']); 
 		}elseif(count($authorComponents) == 3){
-			$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']{0});
+			$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).' '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
 		}else{
-			$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']{0}).ucfirst($authorComponents['jr']{0});
+			$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).' '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']).JResearchPublicationsHelper::getInitials($authorComponents['jr']);
 		}
 		
 		return $text;

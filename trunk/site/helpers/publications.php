@@ -156,7 +156,7 @@ class JResearchPublicationsHelper{
 			$components = explode('-', $nameComponent);
 			return utf8_ucfirst(utf8_substr($components[0], 0, 1)).'.-'.utf8_ucfirst(utf8_substr($components[1], 0, 1)).'.';
 		}
-		$result = utf8_ucfirst(utf8_substr($nameComponent, 0, 1)); 
+		$result = utf8_ucfirst(utf8_substr($nameComponent, 0, 1)).'.'; 
 		return $result;
 		
 	}
@@ -203,9 +203,20 @@ class JResearchPublicationsHelper{
 	 * @param string $authorName.
 	 */
 	public static function getWordsArray($authorName){
-		$separators = '/[,\\s;.:]/';
-		$words =  preg_split($separators, $authorName, -1, PREG_SPLIT_NO_EMPTY);
-		return $words;
+		$separators = '/([,\\s;.:])/';
+		$words =  preg_split($separators, $authorName, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
+		$newWords = array();
+		$k = 0;
+		for($i=0; $i<count($words); $i++){
+			if($words[$i] == '.')
+				$newWords[$k - 1] .= $words[$i];
+			elseif(preg_match('/^([,\\s;:])$/', $words[$i]) == 0){
+				$newWords[] = $words[$i];
+				$k++;				
+			}	
+		}
+		
+		return $newWords;
 	}
 	
 	/**
@@ -224,7 +235,7 @@ class JResearchPublicationsHelper{
 		$lowerCharacters = array_keys($GLOBALS['UTF8_LOWER_TO_UPPER']);
 		$upperCharacters = array_values($GLOBALS['UTF8_LOWER_TO_UPPER']);
 		// Now divide the word into several tokens
-		$tokens = self::getWordBibtexTokens($word);
+		$tokens = self::getWordBibtexTokens($printableWord);
 		// The first token that is no caseless determines the case of the word
 		foreach($tokens as $token){
 			// For single characters
@@ -260,6 +271,7 @@ class JResearchPublicationsHelper{
 		preg_match_all("/([-$codesString\w\d]|\{[-$codesString\w\d]+\})/ui", $word, &$matches);
 		return $matches[0];
 	}
+	
 	
 	/**
 	 * Encodes all the strings in the array by replacing non-ascii word characters with

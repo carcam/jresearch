@@ -367,9 +367,9 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		}elseif(count($authorComponents) == 2){
 			$text = utf8_ucfirst($authorComponents['lastname']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']); 
 		}elseif(count($authorComponents) == 3){
-			$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
+			$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
 		}else{
-			$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).', '.utf8_ucfirst($authorComponents['jr']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
+			$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.utf8_ucfirst($authorComponents['jr']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
 		}
 		
 		return $text;

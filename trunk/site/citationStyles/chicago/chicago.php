@@ -163,7 +163,7 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 				
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::getAuthorComponents($auth);
-			$formattedAuthors[] = $result['lastname'];		
+			$formattedAuthors[] = (isset($result['von'])?$result['von'].' ':'').$result['lastname'];		
 		}
 		
 		$text = "";
@@ -309,27 +309,27 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 	 * @param boolean $isLast Chicago citation style formats in a different way the last author.
 	 */
 	protected function formatAuthorForReferenceOutput($authorName, $isLast = false){
-		$authorComponents = JResearchPublicationsHelper::getAuthorComponents($authorName);
+		$authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
 		$text = '';
 
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
-			$text = ucfirst($authorComponents['lastname']);
+			$text = utf8_ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
 			if($isLast)
-				$text = ucfirst($authorComponents['firstname']).' '.ucfirst($authorComponents['lastname']);			
+				$text = utf8_ucfirst($authorComponents['firstname']).' '.utf8_ucfirst($authorComponents['lastname']);			
 			else
-				$text = ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']); 
+				$text = utf8_ucfirst($authorComponents['lastname']).', '.utf8_ucfirst($authorComponents['firstname']); 
 		}elseif(count($authorComponents) == 3){
 			if($isLast)
-				$text = ucfirst($authorComponents['firstname']).' '.ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']);			
+				$text = utf8_ucfirst($authorComponents['firstname']).' '.utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']);			
 			else
-				$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']);			
+				$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).', '.utf8_ucfirst($authorComponents['firstname']);			
 		}else{
 			if($isLast)
-				$text = ucfirst($authorComponents['firstname']).' '.ucfirst($authorComponents['jr']{0}).'. '.ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']);			
+				$text = utf8_ucfirst($authorComponents['firstname']).' '.$authorComponents['jr'].' '.$authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']);			
 			else
-				$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']).' '.ucfirst($authorComponents['jr']{0}).'.';						
+				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.utf8_ucfirst($authorComponents['firstname']).' '.$authorComponents['jr'];						
 		}
 		
 		return $text;

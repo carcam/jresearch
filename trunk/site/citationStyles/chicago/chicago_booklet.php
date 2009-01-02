@@ -65,7 +65,7 @@ class JResearchChicagoBookletCitationStyle extends JResearchChicagoCitationStyle
 		if(!empty($howpublished))
 			$text .= '. '.$howpublished;			
 		
-		$month = trim($publication->month);
+		$month = JResearchPublicationsHelper::formatMonth(trim($publication->month));
 		if(!empty($month))
 			$text .= ', '.$month;
 			
