@@ -45,12 +45,14 @@ JHTML::_('behavior.modal');
 			}
 			?>
 		</td>
-		<td>
+		<td colspan="2">
 			<?php
 			if($this->coop->image_url)
 			{
 			?>
-				<img src="<?=$this->coop->image_url;?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" class="modal" />
+				<a href="<?=$this->coop->image_url;?>" class="modal">
+					<img src="<?=$this->coop->image_url;?>" alt="<?php echo JText::_('Photo'); ?>" class="modal" />
+				</a>
 				<input type="hidden" name="image_url" id="image_url" value="<?=$this->coop->image_url;?>" />
 			<?php
 			}

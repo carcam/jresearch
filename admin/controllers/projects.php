@@ -8,11 +8,11 @@
 * This file implements the controller for all operations related to the management
 * of research projects in the backend interface.
 */
+define('_PROJECT_IMAGE_MAX_WIDTH_', 400);
+define('_PROJECT_IMAGE_MAX_HEIGHT_', 400);
 
 jimport('joomla.application.component.controller');
-
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
-
 
 /**
 * Projects Backend Controller
@@ -163,47 +163,27 @@ class JResearchAdminProjectsController extends JController
 	function save(){
 		global $mainframe;
 		$db =& JFactory::getDBO();
-		$photosFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'projects';
-		$photosUrl = JURI::base().'components/com_jresearch/assets/projects/';
 		$project = new JResearchProject($db);
 		$user = JFactory::getUser();
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');		
-		$fileArray = JRequest::getVar('inputfile', null, 'FILES');
-		$uploadedFile = $fileArray['tmp_name'];		
-		$delete = JRequest::getVar('delete');
-			
-		if($delete == 'on')
-			$project->url_project_image = null;
-		
-		if($fileArray != null && $uploadedFile != null){								
-			$newName = $photosFolder.DS.basename($uploadedFile);
-			list($width, $height, $type, $attr) = getimagesize($uploadedFile);			
-
-			if($fileArray['type'] != 'image/gif' && $fileArray['type'] != 'image/png' && $fileArray['type']	!= 'image/jpg' && $fileArray['type'] != 'image/jpeg')
-				JError::raiseWarning(1, JText::_('JRESEARCH_IMAGE_FORMAT_NOT_SUPPORTED'));
-			elseif($width > 400 || $height > 400){
-				JError::raiseWarning(1, JText::_('JRESEARCH_EXCEEDS_SIZE', 400, 400));
-			}else{
-				// Get extension 
-				$extArray = explode('/', $fileArray['type']);				
-				$extension = $extArray[1];
-				$newName = $newName.'.'.$extension;
-				if(!move_uploaded_file($uploadedFile, $newName))
-					JError::raiseWarning(1, JText::_('JRESEARCH_PHOTO_NOT_UPLOADED'));
-				else{
-					if($project->url_project_image)
-						@unlink($project->url_project_image);
-					$project->url_project_image = $photosUrl.basename($newName);
-				}
-			}		
-		}
-					
 		
 		$project->bind($post);
 		$project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
 		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		
+		//Upload photo
+		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
+		$delete = JRequest::getVar('delete');
+		
+		JResearch::uploadImage(	$project->url_project_image, 	//Image string to save
+								$fileArr, 			//Uploaded File array
+								'assets'.DS.'projects'.DS, //Relative path from administrator folder of the component
+								($delete == 'on')?true:false,	//Delete?
+								 _PROJECT_IMAGE_MAX_WIDTH_, //Max Width
+								 _PROJECT_IMAGE_MAX_HEIGHT_ //Max Height
+		);
 
 		//Time to set the authors
 		$maxAuthors = JRequest::getInt('maxmembers');
