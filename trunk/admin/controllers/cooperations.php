@@ -8,7 +8,6 @@
 * This file implements the controller for all operations related to the management
 * of cooperations in the backend interface.
 */
-
 define('_COOPERATION_IMAGE_MAX_WIDTH_', 400);
 define('_COOPERATION_IMAGE_MAX_HEIGHT_', 400);
 
