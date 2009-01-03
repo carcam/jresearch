@@ -66,19 +66,24 @@ class JResearchCSEIncollectionCitationStyle extends JResearchCSECitationStyle{
 		}
 				
 		$title = trim($publication->title);	
-		$text .= '. '.$title.'. '.$in.': ';
+		$text .= '. '.$title;
 
 
 		if(!$editorsConsidered){
 			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-			$editorsText .= ' '.$eds;
-			$text.= $editorsText;
+			if(!empty($editorsText)){
+				$editorsText .= ' '.$eds;
+				$text.= '. '.$in.': '.$editorsText;
+			}
 		}
 
 		$booktitle = trim($publication->booktitle);
-		if(!empty($booktitle))		
-			$text .= '. '.$booktitle;
-
+		if(!empty($booktitle)){
+			if(empty($editorsText))		
+				$text .= '. '.$in.': '.$booktitle;
+			else
+				$text .= '. '.$booktitle;	
+		}
 
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))

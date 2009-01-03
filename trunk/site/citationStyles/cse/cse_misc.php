@@ -17,7 +17,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 * Implementation of CSE citation style for phdthesis records.
 *
 */
-class JResearchCSEMastersthesisCitationStyle extends JResearchCSECitationStyle{
+class JResearchCSEMiscCitationStyle extends JResearchCSECitationStyle{
 	
 		
 	/**

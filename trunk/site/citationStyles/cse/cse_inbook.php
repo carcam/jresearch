@@ -79,8 +79,9 @@ class JResearchCSEInbookCitationStyle extends JResearchCSECitationStyle{
 		}
 
 		$edition = trim($publication->edition);
+		$ed = JText::_('JRESEARCH_APA_ED_LOWER');
 		if(!empty($edition)){
-			$text .= '. '.$edition;
+			$text .= '. '.$edition.' '.$ed;
 		}
 
 		$address = $this->_getAddressText($publication);

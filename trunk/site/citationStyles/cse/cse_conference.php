@@ -67,8 +67,12 @@ class JResearchCSEConferenceCitationStyle extends JResearchCSECitationStyle{
 		}
 
 		$booktitle = trim($publication->booktitle);
-		if(!empty($booktitle))		
-			$text .= '. '.$booktitle;
+		if(!empty($booktitle)){		
+			if(!empty($editors))
+				$text .= '. '.$booktitle;
+			else
+				$text .= '. '.$in.': '.$booktitle;	
+		}
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
