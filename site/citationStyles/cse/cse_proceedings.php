@@ -64,15 +64,16 @@ class JResearchProceedingsCitationStyle extends JResearchCSECitationStyle{
 		$title = trim($publication->title);	
 		$text .= '. '.$title;
 		
-		$text .= '. '.$in.': ';
 		
 		$series = trim($publication->series);
-		if(!empty($series))
+		if(!empty($series)){
+			$text .= '. '.$in.': ';			
 			$text .= $series;
+		}
 
 		$month = trim($publication->month);
 		if(!empty($month))
-			$text .= '; '.$month;	
+			$text .= '; '.JResearchPublicationsHelper::formatMonth($month);	
 		
 		$address = trim($publication->address);
 		$institution = trim($publication->institution);

@@ -57,10 +57,10 @@ class JResearchCSEManualCitationStyle extends JResearchCSECitationStyle{
 				
 		$title = trim($publication->title);	
 
-
+		$ed = JText::_('JRESEARCH_APA_ED_LOWER');
 		$edition = trim($publication->edition);
 		if(!empty($edition)){
-			$text .= '. '.$edition;
+			$text .= '. '.$edition.' '.$ed;
 		}
 		
 		$address = $this->_getAddressText($publication);
