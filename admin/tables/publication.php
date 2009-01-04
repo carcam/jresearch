@@ -414,7 +414,7 @@ class JResearchPublication extends JResearchActivity{
 		if(!empty($this->keywords)){
 			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
 			$extra = extra_word_characters();
-			if(!preg_match("/^[-_'\w$extra\s\d]+(,[-_'\w$extra\s\d]+)*,*$/", $this->keywords)){
+			if(!preg_match("/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/", $this->keywords)){
 				$this->setError(JText::_('Error in the keywords field. They must be provided as several words separated by commas'));
 				return false;
 			}
@@ -457,12 +457,12 @@ class JResearchPublication extends JResearchActivity{
 				$parentObject->$prop = $this->$prop;
 		}
  		// Time to insert the attributes
-      	if($this->$j){
-          	$ret = $db->updateObject( $this->_tbl, $parentObject, $this->_tbl_key, $updateNulls );
-      	}else{
-          	$ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
-          	$this->$j = $db->insertid();
-      	}
+	      	if($this->$j){
+		  	$ret = $db->updateObject( $this->_tbl, $parentObject, $this->_tbl_key, $updateNulls );
+	      	}else{
+		  	$ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
+		  	$this->$j = $db->insertid();
+	      	}
 
 		// Delete the information about internal and external references
 		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);

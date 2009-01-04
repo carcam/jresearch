@@ -211,19 +211,36 @@ class JResearchPublicationsController extends JController
 	function removeCitedRecord(){
 		$citekey = JRequest::getVar('citekey', null);
 		$document = &JFactory::getDocument();
-		$document->setMimeEncoding("text/plain");
+		$document->setMimeEncoding("text/xml");		
+		
+		$writer = new XMLWriter;
+		$writer->openMemory();
+		$writer->startDocument('1.0');
+		
 		if($citekey != null){
 			$session =& JSession::getInstance(null, null);
 			$citedRecords =& $session->get('citedRecords', array(), 'jresearch');
 			$index = array_search($citekey, $citedRecords);
 			//Output the result
 			if($index !== false){
-				unset($citedRecords[$index]);
-				echo 'success';				
+				unset($citedRecords[$index]);				
+				
+				$writer->startElement("publications");
+				foreach($citedRecords as $key){
+					$writer->startElement('publication');
+					$writer->writeElement('key', $key);
+					$pub = JResearchPublication::getByCitekey($key);
+					$writer->writeElement('title', $pub->title);
+					$writer->endElement();
+				}
+				$writer->endElement();											
 			}else{
-				echo 'not found';
+				$writer->writeElement('answer', 'not found');
 			}
 		}	
+		$writer->endDocument();
+		$output = $writer->outputMemory();
+		echo $output;	
 	}
 	
 	/**

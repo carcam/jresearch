@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,9 +16,8 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of IEEE citation style for proceedings records.
 *
-* @subpackage		JResearch
 */
-class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
+class JResearchIEEEProceedingsCitationStyle extends JResearchIEEECitationStyle{
 	
 
 	/**
@@ -35,7 +34,7 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 	* @return 	string
 	*/
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true);
+		return $this->getReference($publication, true, $authorLinks);
 	}
 	
 		
@@ -51,7 +50,7 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){				
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS_LOWER'):JText::_('JRESEARCH_APA_ED_LOWER');
 		
 		if($nAuthors <= 0){
 			if($nEditors == 0){
@@ -62,14 +61,13 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 			}else{
 				// If no authors, but editors
 				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
-				$authorsText .= " ($eds)";
+				$authorsText .= " $eds";
 
 			}
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);			
 		}
-		
-		$ed = JText::_('ed.');
 		
 		$title = trim($publication->title);	
 		$title = $html?"<i>$title</i>":$title;
@@ -78,16 +76,20 @@ class JResearchIEEEMiscCitationStyle extends JResearchIEEECitationStyle{
 			$header = "$authorsText. $title";
 		else
 			$header = $title;	
+
+		if(!empty($editorsText))
+			$header .= '. '.$editorsText.' '.$eds;				
 			
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
-			$header .= " .$address";
+			$header .= ". $address";
 	
 				
-		if($publication->year != null && $publication->year != '0000')		
-			$header .= ', '.$publication->year;
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
+			$header .= '. '.$year;
 			
-		return $header;
+		return $header.'.';
 				
 			
 	}

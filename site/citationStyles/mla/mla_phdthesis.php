@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,34 +16,17 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of MLA citation style for master thesis records.
 *
-* @subpackage		JResearch
 */
 class JResearchMLAPhdthesisCitationStyle extends JResearchMLACitationStyle{
 	
 	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* @return 	string
-	*/
-	function getReferenceText(JResearchPublication $publication){
-		return $this->getReference($publication);
-	}
-	
-	/**
 	* Takes a publication and returns the complete reference text in HTML format.
 	* @return 	string
 	*/
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true, $authorLinks);
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text in HTML format.
-	* @return 	string
-	*/
-	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		$this->lastAuthorSeparator = 'and';
+		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$nAuthors = $publication->countAuthors();
+		$text = '';
 		
 		if(!$publication->__authorPreviouslyCited){
 			if($nAuthors <= 0){
@@ -57,20 +40,29 @@ class JResearchMLAPhdthesisCitationStyle extends JResearchMLACitationStyle{
 
 		$address = $this->_getAddressText($publication);
 		
-		$title = '"'.trim($publication->title).'"';
+		$title = '"'.$publication->title.'"';
 
 		if(!empty($authorsText)){
-			$header = "$authorsText. $title.";
+			$authorsText = rtrim($authorsText, '.');
+			$header .= $authorsText.'. '.$title;
 		}else{
-			$header = "$title";	
+			$header = $title;	
 		}
+		$text .= $header;
+		
+		$type = trim($publication->type);
+		if(!empty($type))
+			$text .= '. '.$type;
 		
 		$school = trim($publication->school);
+		if(!empty($school))
+			$text .= '. '.$school;
 
-		if($publication->year != null && $publication->year != '0000')		
-			return "$header. $school, $publication->year";
-		else
-			return "$header. $school";			
+		$year = trim($publication->year);			
+		if($year != null && $year != '0000')		
+			$text .= ', '.$year;
+			
+		return $text.'.';			
 	}
 	
 }

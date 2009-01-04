@@ -3,8 +3,11 @@ defined('_JEXEC') or die('Restricted access');
 
 $n = count($this->items);
 $previousYear = null;
+global $mainframe;
+$style = $mainframe->getParams('com_jresearch')->get('citationStyle', 'APA');
 for($i = 0; $i < $n; $i++ ): 
-	$publicationText = $this->style->getReferenceHTMLText($this->items[$i], true, true);
+	$styleObj = JResearchCitationStyleFactory::getInstance($style, $this->items[$i]->pubtype);
+	$publicationText = $styleObj->getReferenceHTMLText($this->items[$i], true, true);
 	if($previousYear != $this->items[$i]->year):
 		if($this->items[$i]->year == '0000' || $this->items[$i]->year == null )
 			$yearHeader = JText::_('JRESEARCH_NO_YEAR');

@@ -13,6 +13,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
+require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
 
 /**
  * HTML View class for management of publications lists in JResearch Component backend

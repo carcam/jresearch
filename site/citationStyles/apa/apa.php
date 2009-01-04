@@ -155,16 +155,16 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		$title = trim($publication->title);
 		$title = $html?"<i>$title</i>":$title;
 
-		
 		$year = trim($publication->year);
 		if($year != null && $year != '0000')
 			$year = ". ($year)";
 		else
 			$year = '';	
 		
-		if(!empty($authorsText))
+		if(!empty($authorsText)){
+			$authorsText = rtrim($authorsText, '.');
 			$header = "$authorsText$year. $title.";
-		else
+		}else
 			$header = "$title$year.";	
 			
 		return $header;	
@@ -203,7 +203,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 				
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::getAuthorComponents($auth);
-			$formattedAuthors[] = $result['lastname'];		
+			$formattedAuthors[] = (isset($result['von'])?JResearchPublicationsHelper::bibCharsToUtf8FromString($result['von']).' ':'').JResearchPublicationsHelper::bibCharsToUtf8FromString($result['lastname']);		
 		}
 		
 		$text = "";
@@ -300,9 +300,12 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		$authors = $publication->getAuthors();
 		$formattedAuthors = array();
 		
+		$k = 0;
+		$n = count($authors);		
 		foreach($authors as $auth){
 			$text = $this->formatAuthorForReferenceOutput($auth);			
-			
+			if($k == $n - 1)
+				$text = rtrim($text, '.');
 			if($authorsLinks){
 				if($auth instanceof JResearchMember){
 					if($auth->published){
@@ -310,11 +313,11 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 					}
 				}	
 			}
-					
+			$k++;		
 			$formattedAuthors[] = $text;
 		}
 
-		$n = count($authors);
+
 		if($n <= 6){
 			if($n == 0)
 				return '';
@@ -360,17 +363,16 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 	 * @param string $authorName In any of the formats supported by Bibtex.
 	 */
 	protected function formatAuthorForReferenceOutput($authorName){
-		$authorComponents = JResearchPublicationsHelper::getAuthorComponents($authorName);
-
+		$authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
-			$text = ucfirst($authorComponents['lastname']);
+			$text = utf8_ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
-			$text = ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']{0}); 
+			$text = utf8_ucfirst($authorComponents['lastname']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']); 
 		}elseif(count($authorComponents) == 3){
-			$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']{0});
+			$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
 		}else{
-			$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']{0}).', '.ucfirst($authorComponents['jr']);
+			$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.utf8_ucfirst($authorComponents['jr']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
 		}
 		
 		return $text;

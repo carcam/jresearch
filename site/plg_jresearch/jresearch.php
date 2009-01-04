@@ -311,7 +311,8 @@ class plgSearchJResearch extends JPlugin{
 		switch($phrase){
 			case 'exact':
 				$key = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
-				$whereClause = "r.id = p.id_research_area AND p.published = 1 AND p.internal = 1 AND (LOWER( p.title ) LIKE $key OR LOWER( p.abstract ) LIKE $key OR LOWER( p.comments ) LIKE $key OR LOWER(p.keywords) like '%,$text,%')";
+				$qtext = strtolower($db->Quote($text));
+				$whereClause = "r.id = p.id_research_area AND p.published = 1 AND p.internal = 1 AND (LOWER( p.title ) LIKE $key OR LOWER( p.abstract ) LIKE $key OR LOWER( p.comments ) LIKE $key OR LOCATE($qtext, LOWER(p.keywords)) > 0)";
 				break;
 			case 'all':
 			case 'any':
@@ -324,8 +325,9 @@ class plgSearchJResearch extends JPlugin{
 				$n = count($words);
 				foreach($words as $word){
 					$unscapedWord = $word;
+					$qtext = $db->Quote(strtolower($unscapedWord));
 					$word = $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
-					$whereClause.= " (LOWER(p.title) LIKE $word OR LOWER( p.abstract ) LIKE $word OR LOWER( p.comments ) LIKE $word OR LOWER(p.keywords) LIKE $word ) ";
+					$whereClause.= " (LOWER(p.title) LIKE $word OR LOWER( p.abstract ) LIKE $word OR LOWER( p.comments ) LIKE $word OR LOCATE($qtext, LOWER(p.keywords)) > 0)";
 					if($i <= $n-2)
 						$whereClause .= $operator;
 					$i++;
@@ -334,7 +336,7 @@ class plgSearchJResearch extends JPlugin{
 		}
 		$section = $db->Quote($section, false);
 		$query = "SELECT p.id as id, p.title AS title, CONCAT_WS( '/', r.name, $section) AS section, '' AS created, '2' AS browsernav, CONCAT_WS('\n', p.abstract, p.comments) AS text FROM #__jresearch_publication p INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
-		$results = $db->setQuery( $query, 0, $this->limit );
+		$db->setQuery( $query, 0, $this->limit );
 		$results = $db->loadObjectList();
 		$this->debugQuery($db->getQuery());	
 		if(isset($results)){

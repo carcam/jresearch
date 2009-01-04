@@ -1,4 +1,11 @@
-<?php // no direct access
+<?php
+/**
+ * @package JResearch
+ * @subpackage Publications
+ * Specific type view for book
+ */
+
+// no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 
 <tr>
@@ -71,7 +78,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if(!empty($month)): ?>
 	<?php $colspan -= 2; ?>
 	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></td>
-	<td style="width:35%;"><?php echo $month ?></td>
+	<td style="width:35%;"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
 	<?php else: ?>
 	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	

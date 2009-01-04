@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,9 +16,8 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of IEEE citation style for phd thesis records.
 *
-* @subpackage		JResearch
 */
-class JResearchIEEEMasterthesisCitationStyle extends JResearchIEEECitationStyle{
+class JResearchIEEEPhdthesisCitationStyle extends JResearchIEEECitationStyle{
 	
 
 	/**
@@ -35,7 +34,7 @@ class JResearchIEEEMasterthesisCitationStyle extends JResearchIEEECitationStyle{
 	* @return 	string
 	*/
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true);
+		return $this->getReference($publication, true, $authorLinks);
 	}
 	
 		
@@ -54,27 +53,30 @@ class JResearchIEEEMasterthesisCitationStyle extends JResearchIEEECitationStyle{
 		if($nAuthors > 0){
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
-		$title = '"'.trim($publication->title).'",';	
+		$title = '"'.trim($publication->title).'"';	
 
 		if(!empty($authorsText))
 			$header = "$authorsText. $title";
 		else
 			$header = $title;			
 		
-		$header .= 'Ph.D. dissertation';
+		$type = trim($publication->type);	
+		if(!empty($type))	
+			$header .= '. '.$type;
 		
 		$school = trim($publication->school);
 		if(!empty($school))
-			$header .= ', '.$school;
+			$header .= '. '.$school;
 			
 		$address = trim($publication->address);
 		if(!empty($address))
-			$header .= ', '.$address;			
+			$header .= '. '.$address;			
 
-		if($publication->year != null && $publication->year != '0000')		
-			$header =  "$header, $publication->year";
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
+			$header .=  '. '.$year;
 	
-		return $header;	
+		return $header.'.';	
 			
 	}
 

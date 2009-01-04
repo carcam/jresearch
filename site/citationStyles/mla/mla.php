@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,7 +16,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Base class for implementation of MLA citation style
 *
-* @subpackage		JResearch
 */
 class JResearchMLACitationStyle implements JResearchCitationStyle{
 	
@@ -66,9 +65,9 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 			$text = "({pages or volumes})";
 		}
 		
-		
+		$title = trim($pub->title);
 		if($pub->countAuthors() == 0){
-			return "\"$pub->title\" $text";
+			return "\"$title\" $text";
 		}else{
 			$authorText = $this->getAuthorsCitationTextFromSinglePublication($pub); 
 			return "$authorText $text";
@@ -93,7 +92,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 				
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::getAuthorComponents($auth);
-			$formattedAuthors[] = $result['lastname'];		
+			$formattedAuthors[] = (isset($result['von'])?JResearchPublicationsHelper::bibCharsToUtf8FromString($result['von']).' ':'').JResearchPublicationsHelper::bibCharsToUtf8FromString($result['lastname']);		
 		}
 		
 		$text = "";
@@ -114,7 +113,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 					$text .= ', ';		
 			} 
 		}elseif($nAuthors >= 6){
-			$text .= $formattedAuthors[0].' et al. ';
+			$text .= $formattedAuthors[0].' et al ';
 		}
 		
 		return $text;
@@ -150,11 +149,11 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = '&';
+		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
 		
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
 		if(!$publication->__authorPreviouslyCited){
 			if($nAuthors <= 0){
@@ -178,15 +177,17 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		$title = trim($publication->title);
 		$title = $html?"<i>$title</i>":$title;
 		
-		if(!empty($authorsText))
-				$header = "$authorsText. $title";
-		else
-				$header = "$title";	
+		if(!empty($authorsText)){
+			$authorsText = rtrim($authorsText, '.');			
+			$header = $authorsText.'. '.$title;
+		}else
+			$header = $title;	
 		
-		if($publication->year != null && $publication->year != '0000')		
-			return "$header, $publication->year";
+		$year = trim($publication->year);		
+		if($year != null && $year != '0000')		
+			return "$header, $year.";
 		else
-			return $header;	
+			return $header.'.';	
 	}
 	
 	
@@ -197,7 +198,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 	* @return 	string
 	*/  
 	function getParentheticalCitationText($publication){
-		$this->lastAuthorSeparator = '&';
+		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		if($publication instanceof JResearchPublication){
 			$text = $this->getParentheticalCitationFromSinglePublication($publication); 
 		}else{
@@ -268,7 +269,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		
 		$k = 0;	
 		foreach($editorsArray as $ed){
-			$isFirst = $k==0?true:false;
+			$isFirst = ($k==0);
 			$formattedEditors[] = $this->formatAuthorForReferenceOutput($ed, $isFirst);	
 			$k++;
 		}
@@ -298,31 +299,35 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 	 * for the first author of a reference.
 	 */
 	protected function formatAuthorForReferenceOutput($authorName, $isFirst = false){
-		$authorComponents = JResearchPublicationsHelper::getAuthorComponents($authorName);
+		$authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
 
+		$firstname = $authorComponents['firstname']; 
+			
+		$jr = $authorComponents['jr']; 
 		if($isFirst){
 			// We have two components: firstname and lastname
 			if(count($authorComponents) == 1){
-				$text = ucfirst($authorComponents['lastname']);
+				$text = utf8_ucfirst($authorComponents['lastname']);
 			}elseif(count($authorComponents) == 2){
-				$text = ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']); 
+				$text = utf8_ucfirst($authorComponents['lastname']).', '.$firstname; 
 			}elseif(count($authorComponents) == 3){
-				$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']);
+				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.$firstname;
 			}else{
-				$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).', '.ucfirst($authorComponents['firstname']).', '.ucfirst($authorComponents['jr']);
+				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.$jr.', '.$firstname;
 			}
 		}else{
 			// We have two components: firstname and lastname
 			if(count($authorComponents) == 1){
-				$text = ucfirst($authorComponents['lastname']);
+				$text = utf8_ucfirst($authorComponents['lastname']);
 			}elseif(count($authorComponents) == 2){
-				$text = ucfirst($authorComponents['firstname']).' '.ucfirst($authorComponents['lastname']); 
+				$text = $firstname.' '.utf8_ucfirst($authorComponents['lastname']); 
 			}elseif(count($authorComponents) == 3){
-				$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']);
+				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).' '.$firstname;
 			}else{
-				$text = ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']).' '.ucfirst($authorComponents['firstname']).' '.ucfirst($authorComponents['jr']);
+				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.$jr.' '.$firstname;
 			}
 		}
+
 		
 		return $text;
 	}
@@ -339,9 +344,13 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		$formattedAuthors = array();
 		
 		$k = 0;
+		$n = count($authors);
 		foreach($authors as $auth){
 			$isFirst = $k == 0?true:false;
 			$text = $this->formatAuthorForReferenceOutput($auth, $isFirst);
+			if($k == $n - 1)
+				$text = rtrim($text, '.');
+				
 			if($authorLinks){
 				if($auth instanceof JResearchMember)				
 					$text = "<a href=\"index.php?option=com_jresearch&view=member&task=show&id=$auth->id\">$text</a>";
@@ -360,7 +369,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 				$text = implode(', ', $subtotal)." $this->lastAuthorSeparator ".$formattedAuthors[$n-1];
 			}
 		}else{
-			$text = "$formattedAuthors[0] et al.";
+			$text = "$formattedAuthors[0] et al";
 		}	
 
 		return $text;		
@@ -393,7 +402,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 			}
 		}
 		// Sort the array
-		ksort(&$authorsArray);		
+		ksort($authorsArray);		
 		return array_values($authorsArray);
 	}		
 	

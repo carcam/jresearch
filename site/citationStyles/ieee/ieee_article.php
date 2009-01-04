@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,7 +16,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of IEEE citation style for article records.
 *
-* @subpackage		JResearch
 */
 class JResearchIEEEArticleCitationStyle extends JResearchIEEECitationStyle{
 	
@@ -35,7 +34,7 @@ class JResearchIEEEArticleCitationStyle extends JResearchIEEECitationStyle{
 	* @return 	string
 	*/
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true);
+		return $this->getReference($publication, true, $authorLinks);
 	}
 	
 		
@@ -59,40 +58,39 @@ class JResearchIEEEArticleCitationStyle extends JResearchIEEECitationStyle{
 		}
 		
 		$title = trim($publication->title);	
-		$title = '"'.$title.',"';
+		$title = '"'.$title.'"';
 		
 		$journal = trim($publication->journal);
-		$journal = $html? "<i>$journal</i>":$journal;
 		
 		if(!empty($authorsText))
-			$header = "$authorsText. $title $journal";
+			$header = rtrim($authorsText, '.').'. '.$title;
 		else
-			$header = "$title $journal";	
-			
-			
+			$header = $title;	
+
+		if(!empty($journal)){
+			$journal = $html? "<i>$journal</i>":$journal;			
+			$header .= ', '.$journal;	
+		}
+		
 		$volume = trim($publication->volume);
 		if(!empty($volume))
-			$header .= ', '.JText::_('vol.').' '.$volume;
-	
-		$number = trim($publication->number);
-		if(!empty($number))
-			$header .= ', '.JText::_('no.').' '.$number;
-			
+			$header .= ', '.JText::_('JRESEARCH_VOL').'. '.$volume;
+				
+		$month = trim($publication->month);	
+		$year = trim($publication->year);	
+		
+		if($year != null && $year != '0000'){
+			if(!empty($month))
+				$header .= ', '.JResearchPublicationsHelper::formatMonth($month, true);							
+			$header .= (empty($month)?'.':',').' '.$year;
+		}
+		
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))
 			$header .= ', pp. '.$pages;	
-			
-		$month = trim($publication->month);
-		if(!empty($month))
-			$header .= ', '.$month;	
-				
-		if($publication->year != null && $publication->year != '0000')		
-			if(!empty($month))
-				return "$header $publication->year";
-			else
-				return "$header, $publication->year";	
-		else
-			return $header;	
+		
+		
+		return $header.'.';	
 
 	}
 

@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,7 +16,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of IEEE citation style for manual records.
 *
-* @subpackage		JResearch
 */
 class JResearchIEEEManualCitationStyle extends JResearchIEEECitationStyle{
 	
@@ -35,7 +34,7 @@ class JResearchIEEEManualCitationStyle extends JResearchIEEECitationStyle{
 	* @return 	string
 	*/
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true);
+		return $this->getReference($publication, true, $authorLinks);
 	}
 	
 		
@@ -49,37 +48,33 @@ class JResearchIEEEManualCitationStyle extends JResearchIEEECitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){				
+		$nAuthors = $publication->countAuthors();
+		if($nAuthors > 0){
+			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+		}
+		
 		$title = trim($publication->title);
 		$title = $html? "<i>$title</i>":$title;
 		
 		if(!empty($authorsText))
-			$header = "$authorsText. $title $journal";
+			$header = "$authorsText. $title";
 		else
-			$header = "$title $journal";	
+			$header = $title;	
 					
-		$volume = trim($publication->volume);
-		if(!empty($volume))
-			$header .= ', '.JText::_('vol.').' '.$volume;
 	
 		$organization = trim($publication->organization);
 		if(!empty($organization))
-			$header .= ', '.$organization;
+			$header .= '. '.$organization;
 			
 		$address = trim($publication->address);
 		if(!empty($address))
-			$header .= ", $address";			
-			
-		$month = trim($publication->month);
-		if(!empty($month))
-			$header .= ', '.$month;	
+			$header .= ". $address";			
 				
-		if($publication->year != null && $publication->year != '0000')		
-			if(!empty($month))
-				return "$header $publication->year";
-			else
-				return "$header, $publication->year";	
-		else
-			return $header;	
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
+			$header .= '. '.$year;	
+		
+		return $header.'.';	
 
 	}
 

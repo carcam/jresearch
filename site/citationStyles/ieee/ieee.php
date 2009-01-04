@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,7 +16,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Base class for implementation of IEEE citation style
 *
-* @subpackage		JResearch
 */
 class JResearchIEEECitationStyle implements JResearchCitationStyle{
 
@@ -109,31 +108,21 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	* @param JResearchPublication $publication
 	* @return 	string
 	*/
-	function getReferenceText(JResearchPublication $publication){
-		$nAuthors = $publication->countAuthors();
-		
-		if($nAuthors > 0){
-			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
-		}
-		$title = '"'.trim($publication->title).'",';	
-
-		if(!empty($authorsText))
-			$header = "$authorsText. $title";
-		else
-			$header = $title;			
-			
-		$month = trim($publication->month);
-		if(!empty($month))
-			$header .= ', '.$month;	
-			
-		if($publication->year != null && $publication->year != '0000')		
-			if(!empty($month))
-				$header =  "$header $publication->year";
-			else
-				$header =  "$header, $publication->year";
+	function getReferenceText(JResearchPublication $publication){			
+		$this->getReference($publication, false);
+	}
 	
-		return $header;			
-		
+	/**
+	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
+	* page and in the Works Cited section at the end of a document.
+	* 
+	* @param JResearchPublication $publication
+	* @param boolean $html Add html tags for formats like italics or bold
+	* 
+	* @return 	string
+	*/
+	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){				
+		return '';		
 	}
 	
 	/**
@@ -144,8 +133,9 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	* @return 	string
 	*/
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks = false){
-		
+		return $this->getReference($publication, true ,$authorLinks);
 	}
+	
 			
 	/**
 	 * Takes an array of JResearchPublication objects and returns the HTML that
@@ -174,6 +164,7 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	 */
 	protected function getEditorsReferenceTextFromSinglePublication($publication){
 		$editorsArray = $publication->getEditors();
+		$and = JText::_('JRESEARCH_AND');
 		
 		$formattedEditors = array();
 		$n = count($editorsArray);
@@ -191,7 +182,7 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 				$text = $formattedEditors[0];
 			else{	
 				$subtotal = array_slice($formattedEditors, 0, $n-1);
-				$text = implode(', ', $subtotal)." $this->lastAuthorSeparator ".$formattedEditors[$n-1];
+				$text = implode(', ', $subtotal)." $and ".$formattedEditors[$n-1];
 			}
 		}else{
 			$text = $formattedEditors[0]." et al";
@@ -208,17 +199,17 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	 * @param string $authorName In any of the formats supported by Bibtex.
 	 */
 	protected function formatAuthorForReferenceOutput($authorName){
-		$authorComponents = JResearchPublicationsHelper::getAuthorComponents($authorName);
+		$authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
 
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
-			$text = ucfirst($authorComponents['lastname']);
+			$text = utf8_ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
-			$text = ucfirst($authorComponents['firstname']{0}).'. '.ucfirst($authorComponents['lastname']); 
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.utf8_ucfirst($authorComponents['lastname']); 
 		}elseif(count($authorComponents) == 3){
-			$text = ucfirst($authorComponents['firstname']{0}).'. '.ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']);
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.$authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']);
 		}else{
-			$text = ucfirst($authorComponents['firstname']{0}).'. '.ucfirst($authorComponents['jr']{0}).'. '.ucfirst($authorComponents['von']).' '.ucfirst($authorComponents['lastname']);
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.JResearchPublicationsHelper::getInitials($authorComponents['jr']).' '.$authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']);
 		}
 		
 		return $text;
@@ -235,10 +226,14 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	protected function getAuthorsReferenceTextFromSinglePublication(JResearchPublication $publication, $authorsLinks = false){
 		$authors = $publication->getAuthors();
 		$formattedAuthors = array();
-		
+
+		$k = 0;
+		$n = count($authors);
 		foreach($authors as $auth){
 			$text = $this->formatAuthorForReferenceOutput($auth);			
-			
+			if($k == $n - 1)
+				$text = rtrim($text, '.');
+
 			if($authorsLinks){
 				if($auth instanceof JResearchMember){
 					if($auth->published){
@@ -246,7 +241,7 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 					}
 				}	
 			}
-					
+			$k++;		
 			$formattedAuthors[] = $text;
 		}
 

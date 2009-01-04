@@ -135,9 +135,10 @@ class JResearchAPABookCitationStyle extends JResearchAPACitationStyle{
 		$usedTitle = false;
 		$title = trim($publication->title);	
 		$title = $html?"<i>$title</i>":$title;
-		if(!empty($authorsText))
+		if(!empty($authorsText)){
+			$authorsText = rtrim($authorsText, '.');			
 			$text .= $authorsText; 
-		else{
+		}else{
 			$text .= $title;
 			$usedTitle = true;
 		}

@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -15,28 +15,9 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of MLA citation style for article records.
 *
-* @subpackage		JResearch
 */
 class JResearchMLAArticleCitationStyle extends JResearchMLACitationStyle{
-	
-	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* @return 	string
-	*/
-	function getReferenceText(JResearchPublication $publication){
-		return $this->getReference($publication);
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text in HTML format.
-	* @return 	string
-	*/
-	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true, $authorLinks);
-	}
-	
-			
+				
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
 	* page and in the Works Cited section at the end of a document.
@@ -47,8 +28,9 @@ class JResearchMLAArticleCitationStyle extends JResearchMLACitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = 'and';
+		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$nAuthors = $publication->countAuthors();
+		$text = '';
 				
 		if(!$publication->__authorPreviouslyCited){
 			if($nAuthors > 0){
@@ -57,27 +39,42 @@ class JResearchMLAArticleCitationStyle extends JResearchMLACitationStyle{
 		}else{
 			$authorsText = '---';
 		}
-				
+		
 		$title = '"'.trim($publication->title).'"';
+		
+
+		if(!empty($authorsText)){
+			$authorsText = rtrim($authorsText, '.');
+			$header = $authorsText.'. '.$title;
+		}else
+			$header = $title;	
+
+		$text .= $header;					
+
 		$journal = trim($publication->journal);
-		$journal = $html? "<u>$journal</u>":$journal;
-
-		if(!empty($authorsText))
-			$header = "$authorsText. $title $edition";
-		else
-			$header = "$title";	
-
-		if(!empty($publication->volume)){
-			$vol = trim($publication->volume);
-			if(!empty($publication->number))
-				$vol .= '.'.trim($publication->number);
+		if(!empty($journal)){
+			$journal = $html? "<u>$journal</u>":$journal;			
+			$text .= '. '.$journal;
 		}
-				
-		$pages = str_replace('--', '-', $publication->pages);
-		if($publication->year!= null && $publication->year != '0000')
-			return "$header. $journal $vol ($publication->year): $pages.";
-		else
-			return "$header. $journal $vol: $pages.";	
+		$volume = trim($publication->volume);	
+		if(!empty($volume)){
+			$number = trim($publication->number);
+			if(!empty($number))
+				$volume .= '.'.$number;
+
+			$text .= ' '.$volume;	
+		}
+						
+
+		$year = trim($publication->year);
+		if($year!= null && $year != '0000')
+			$text .= " ($year)";		
+		
+		$pages = str_replace('--', '-', trim($publication->pages));
+		if(!empty($pages))
+			$text .= ': '.$pages;
+			
+		return $text.'.';	
 	}
 	
 	
