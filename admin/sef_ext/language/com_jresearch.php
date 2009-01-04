@@ -27,17 +27,17 @@
   $sh_LANG['es']['_COM_SEF_SH_THESIS_LIST']= 'Tesis';
   $sh_LANG['es']['_COM_SEF_SH_THESIS'] = 'Tesis';
   // German
-  $sh_LANG['es']['_COM_SEF_SH_PUBLICATIONS_LIST'] = 'Publikationen';
-  $sh_LANG['es']['_COM_SEF_SH_PUBLICATION'] = 'Publikation';
-  $sh_LANG['es']['_COM_SEF_SH_PROJECTS_LIST'] = 'Projekte';
-  $sh_LANG['es']['_COM_SEF_SH_PROJECT'] = 'Projekt';
-  $sh_LANG['es']['_COM_SEF_SH_RESEARCH_AREAS'] = 'Forschungsbereiche';
-  $sh_LANG['es']['_COM_SEF_SH_RESEARCH_AREA'] = 'Forschungsbereich';
-  $sh_LANG['es']['_COM_SEF_SH_STAFF'] = 'Mitarbeiter';
-  $sh_LANG['es']['_COM_SEF_SH_MEMBER'] = 'Mitarbeiter';
-  $sh_LANG['es']['_COM_SEF_SH_EDIT'] = 'Mitarbeiterprofil bearbeiten';
-  $sh_LANG['es']['_COM_SEF_SH_THESIS_LIST']= 'Dissertationen';
-  $sh_LANG['es']['_COM_SEF_SH_THESIS'] = 'Dissertation';
+  $sh_LANG['de']['_COM_SEF_SH_PUBLICATIONS_LIST'] = 'Publikationen';
+  $sh_LANG['de']['_COM_SEF_SH_PUBLICATION'] = 'Publikation';
+  $sh_LANG['de']['_COM_SEF_SH_PROJECTS_LIST'] = 'Projekte';
+  $sh_LANG['de']['_COM_SEF_SH_PROJECT'] = 'Projekt';
+  $sh_LANG['de']['_COM_SEF_SH_RESEARCH_AREAS'] = 'Forschungsbereiche';
+  $sh_LANG['de']['_COM_SEF_SH_RESEARCH_AREA'] = 'Forschungsbereich';
+  $sh_LANG['de']['_COM_SEF_SH_STAFF'] = 'Mitarbeiter';
+  $sh_LANG['de']['_COM_SEF_SH_MEMBER'] = 'Mitarbeiter';
+  $sh_LANG['de']['_COM_SEF_SH_EDIT'] = 'Mitarbeiterprofil bearbeiten';
+  $sh_LANG['de']['_COM_SEF_SH_THESIS_LIST']= 'Dissertationen';
+  $sh_LANG['de']['_COM_SEF_SH_THESIS'] = 'Dissertation';
 
 
 ?>
