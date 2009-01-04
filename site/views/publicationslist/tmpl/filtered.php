@@ -67,6 +67,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 	<input type="hidden" name="task" value="filtered" />
 	<input type="hidden" name="controller" value="publications"  />
 	<input type="hidden" name="limitstart" value="0" />
+	<input type="hidden" name="modelkey" value="tabular" />
 	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />	
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

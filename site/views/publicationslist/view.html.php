@@ -40,7 +40,7 @@ class JResearchViewPublicationsList extends JView
 				$this->_displayGenerateBibliographyDialog();
 				break;	
     		case 'filtered':
-    			$this->_displayFilteredList();
+    			$this->_displayTabularList();
     			break;						
 			default:
 				$this->_displayFrontendList();
@@ -55,7 +55,7 @@ class JResearchViewPublicationsList extends JView
      * filtered by team groups and showing the journal acceptance rate per each publication
      * and calculating the average per group.
      */
-    private function _displayFilteredList(){
+    private function _displayTabularList(){
     	global $mainframe;    	
     	
     	$doc = JFactory::getDocument();
@@ -73,7 +73,7 @@ class JResearchViewPublicationsList extends JView
     	$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 
     	if($params->get('filter_teams') == 'yes'){
-	    	$filter_team = $mainframe->getUserStateFromRequest('publicationsfilter_team', 'filter_team');    		
+	    	$filter_team = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_team', 'filter_team');    		
     		$teams = $teamsModel->getData();
         	$teamsOptions = array();        
 	        $teamsOptions[] = JHTML::_('select.option', -1 ,JText::_('JRESEARCH_ALL_TEAMS'));
@@ -89,20 +89,20 @@ class JResearchViewPublicationsList extends JView
     	}
     	
     	if($params->get('filter_areas') == 'yes'){
-			$filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');    		
+			$filter_area = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_area', 'filter_area');    		
     		$areas = $areasModel->getData();
         	$areasOptions = array();        
 	        $areasOptions[] = JHTML::_('select.option', 0 ,JText::_('JRESEARCH_RESEARCH_AREAS'));
 	        foreach($areas as $a){
 	    		$areasOptions[] = JHTML::_('select.option', $a->id, $a->name);
 	    	}    		
-    		$filter_area = $filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');    	
+    		$filter_area = $filter_area = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_area', 'filter_area');    	
 	    	$lists['areas'] = JHTML::_('select.genericlist',  $areasOptions, 'filter_area', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_area );
     	}
     	
     	if($params->get('filter_year') == 'yes'){
 			// Year filter
-			$filter_year = $mainframe->getUserStateFromRequest('publicationsfilter_year', 'filter_year');			
+			$filter_year = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_year', 'filter_year');			
 			$db = &JFactory::getDBO();
 			$db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
 			$years = $db->loadResultArray();
@@ -117,7 +117,7 @@ class JResearchViewPublicationsList extends JView
     	
     	if($params->get('filter_type') == 'yes'){
     		// Publication type filter
-			$filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');    		
+			$filter_pubtype = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_pubtype', 'filter_pubtype');    		
 			$types = JResearchPublication::getPublicationsSubtypes();
 			$typesHTML = array();
 			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
@@ -128,7 +128,7 @@ class JResearchViewPublicationsList extends JView
     	}
     	
     	if($params->get('filter_authors') == 'yes'){
-			$filter_author = $mainframe->getUserStateFromRequest('publicationsfilter_author', 'filter_author');
+			$filter_author = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_author', 'filter_author');
 			$authors = $model->getAllAuthors();
 			$authorsHTML = array();
 			$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	

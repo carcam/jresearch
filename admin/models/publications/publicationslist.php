@@ -134,7 +134,6 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$db = &JFactory::getDBO();
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate, $teamId);
 			$db->setQuery($query);
-//			var_dump($query);
 			$ids = $db->loadResultArray();
 			$this->_items = array();
 			foreach($ids as $id){
@@ -153,12 +152,14 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	*/
 	private function _buildQueryOrderBy(){
 		global $mainframe;
+		$modelKey = JRequest::getVar('modelkey', '');
+		
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
 		$orders = array('title', 'published', 'year', 'citekey', 'pubtype', 'id_research_area');
 		
-		$filter_order = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order', 'title');
-		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('publicationsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
+		$filter_order = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_order', 'filter_order', 'title');
+		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -177,13 +178,15 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		global $mainframe;
 		
 		$db = & JFactory::getDBO();
-		$filter_state = $mainframe->getUserStateFromRequest('publicationsfilter_state', 'filter_state');
-		$filter_year = $mainframe->getUserStateFromRequest('publicationsfilter_year', 'filter_year');
-		$filter_search = $mainframe->getUserStateFromRequest('publicationsfilter_search', 'filter_search');
-		$filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');
-		$filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');
-		$filter_author = $mainframe->getUserStateFromRequest('publicationsfilter_author', 'filter_author');
-		$filter_team = $mainframe->getUserStateFromRequest('publicationsfilter_team', 'filter_team');
+		$modelKey = JRequest::getVar('modelkey', '');
+				
+		$filter_state = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_state', 'filter_state');
+		$filter_year = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_year', 'filter_year');
+		$filter_search = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_search', 'filter_search');
+		$filter_pubtype = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_pubtype', 'filter_pubtype');
+		$filter_area = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_area', 'filter_area');
+		$filter_author = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_author', 'filter_author');
+		$filter_team = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_team', 'filter_team');
 
 		// prepare the WHERE clause
 		$where = array();
@@ -219,12 +222,18 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$ids = $this->_getAuthorPublicationIds(trim($filter_author));			
 			if(count($ids) > 0)
 				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
+			else
+				$where[] = '0 = 1';	
 		}
 		
 		if(!empty($filter_team)){
-			$tmids = $this->_getTeamPublicationIds(trim($filter_team));
-			if(count($tmids) > 0)
-				$where[] = $db->nameQuote('id').' IN ('.implode(',', $tmids).')';
+			if($filter_team > 0){
+				$tmids = $this->_getTeamPublicationIds(trim($filter_team));
+				if(count($tmids) > 0)
+					$where[] = $db->nameQuote('id').' IN ('.implode(',', $tmids).')';
+				else
+					$where[] = '0 = 1';
+			}					
 		}
 		
 		if(!$mainframe->isAdmin()){
