@@ -172,15 +172,15 @@ class JResearchTeam extends JTable
 		$db =& JFactory::getDBO();
 		
 		$user = JFactory::getUser($id);
-		$umember = new JResearchMember($db);
 		
 		if($user->username)
 		{
-			$umember->bindFromUser($user->username);
+			$umember = new JResearchMember($db);
+			$umember->bindFromUsername($user->username);
 		
 			foreach($this->_members as $member)
 			{
-				if(($member['id'] == $umember->id) || $this->isLeader($id))
+				if(($member['id_member'] == $umember->id) || $this->isLeader($id))
 					return true;
 			}
 		}

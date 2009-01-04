@@ -82,7 +82,7 @@ class JHTMLJresearch
 			if($canDo || $canDoOwn)
 			{
 				$member = new JResearchMember($db);
-				$member->bindFromUser($user->username);
+				$member->bindFromUsername($user->username);
 				
 				switch($controller)
 				{
@@ -99,7 +99,7 @@ class JHTMLJresearch
 								//Return true if I'm able to edit all publications or only mine
 								if(is_a($author, 'JResearchMember'))
 								{
-									if($canDo || ($canDoOwn && ($author->id == $userid)) || $pub->created_by == $userid)
+									if($canDo || ($canDoOwn && ($author->id == $user->id)) || $pub->created_by == $user->id)
 									{
 										return true;
 									}
@@ -112,7 +112,7 @@ class JHTMLJresearch
 									foreach($teams as $team)
 									{
 										//If user is member of one team, he is authorized to do the task
-										if($team->isMember($userid))
+										if($team->isMember($user->id))
 										{
 											return true;
 										}
