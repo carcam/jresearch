@@ -71,7 +71,12 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
 		}
 		$db->setQuery($query);
-		return $db->loadResultArray();
+		
+		$result = $db->loadResultArray();
+		
+		//@todo Add id_author comparison
+		
+		return $result;
 	}
 	
 	/**

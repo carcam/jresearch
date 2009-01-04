@@ -268,7 +268,7 @@ class JResearchPublicationsHelper{
 	public static function getWordBibtexTokens($word){
 		$codes = self::getLatinCharsCodesArray();	
 		$codesString = implode($codes, '');		
-		preg_match_all("/([-$codesString\w\d]|\{[-$codesString\w\d]+\})/ui", $word, &$matches);
+		preg_match_all("/([-$codesString\w\d]|\{[-$codesString\w\d]+\})/ui", $word, $matches);
 		return $matches[0];
 	}
 	
@@ -359,7 +359,7 @@ class JResearchPublicationsHelper{
 					$content = JText::_('JRESEARCH_ABB_'.strtoupper($piece));
 				else	
 					$content = JText::_('JRESEARCH_'.strtoupper($piece));		
-			}elseif(preg_match('/^[{"](.+)[}"]$/', $piece, &$matches)){
+			}elseif(preg_match('/^[{"](.+)[}"]$/', $piece, $matches)){
 				$content = $matches[1];
 			}else{
 				$content = $piece;

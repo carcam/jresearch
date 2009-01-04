@@ -168,17 +168,13 @@ class JResearchViewPublicationsList extends JView
     	{
     		//Filter only my publications
 	    	$db = JFactory::getDBO();
-	    	$member = new JResearchMember($db);
 	    	
-	    	if(!$user->guest)
-	    	{
-	    		$member->bindFromUser($user->username);
-	    		$id_member = $member->id;
-	    	}
-	    	else 
-	    	{
-	    		$id_member = -1;
-	    	}
+    		$member = new JResearchMember($db);
+    		$member->bindFromUsername($user->username);
+    		$id_member = $member->id;
+    		
+    		if($id_member == null)
+    			$id_member = -1;
 	    	
 	    	JRequest::setVar('filter_author', $id_member);
     	}
