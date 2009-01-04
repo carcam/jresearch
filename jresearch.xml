@@ -41,6 +41,7 @@
 		<folder>plg_jresearch_persistent_cited_records</folder>
 		<folder>plg_jresearch_native_plugins</folder>
 		<folder>views</folder>
+		<folder>sef_ext</folder>		
 	</files>	
 	<languages>
 		<language tag="en-GB">en-GB.com_jresearch.ini</language>
@@ -61,7 +62,6 @@
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
-			<folder>sef_ext</folder>
 		</files>		
 		<languages folder="admin">
 			<language tag="en-GB">en-GB.com_jresearch.ini</language>
