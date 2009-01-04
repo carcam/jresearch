@@ -31,7 +31,7 @@ class JResearchCitationStyleFactory{
 		
 		if(!$instances){
 			$instances = array();
-		}			
+		}
 		// We just construct the name of the class based on the standard defined: {CitationStyleName}{Reference type}CitationStyle
 		$classname = 'JResearch'.$citationStyle.$publicationType.'CitationStyle';
 		$citationStyleFolder = strtolower($citationStyle);

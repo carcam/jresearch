@@ -10,8 +10,12 @@ defined('_JEXEC') or die('Restricted access');
 
 $n = count($this->items);
 $previousYear = null;
-for($i = 0; $i < $n; $i++ ): 
-	$publicationText = $this->style->getReferenceHTMLText($this->items[$i], true, true);
+global $mainframe;
+$style = $mainframe->getParams('com_jresearch')->get('citationStyle', 'APA');
+
+for($i = 0; $i < $n; $i++): 
+	$styleObj = JResearchCitationStyleFactory::getInstance($style, $this->items[$i]->pubtype);
+	$publicationText = $styleObj->getReferenceHTMLText($this->items[$i], true, true);
 	?>
 	<tr><td align="right"><?php JHTML::_('Jresearch.icon','edit', 'publications', $this->items[$i]->id); ?></td></tr>
 	<?php

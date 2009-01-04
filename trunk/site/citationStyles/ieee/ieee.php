@@ -108,31 +108,21 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	* @param JResearchPublication $publication
 	* @return 	string
 	*/
-	function getReferenceText(JResearchPublication $publication){
-		$nAuthors = $publication->countAuthors();
-		
-		if($nAuthors > 0){
-			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
-		}
-		$title = '"'.trim($publication->title).'",';	
-
-		if(!empty($authorsText))
-			$header = "$authorsText. $title";
-		else
-			$header = $title;			
-			
-		$month = trim($publication->month);
-		if(!empty($month))
-			$header .= ', '.$month;	
-			
-		if($publication->year != null && $publication->year != '0000')		
-			if(!empty($month))
-				$header =  "$header $publication->year";
-			else
-				$header =  "$header, $publication->year";
+	function getReferenceText(JResearchPublication $publication){			
+		$this->getReference($publication, false);
+	}
 	
-		return $header;			
-		
+	/**
+	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
+	* page and in the Works Cited section at the end of a document.
+	* 
+	* @param JResearchPublication $publication
+	* @param boolean $html Add html tags for formats like italics or bold
+	* 
+	* @return 	string
+	*/
+	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){				
+		return '';		
 	}
 	
 	/**
@@ -145,6 +135,7 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks = false){
 		return $this->getReference($publication, true ,$authorLinks);
 	}
+	
 			
 	/**
 	 * Takes an array of JResearchPublication objects and returns the HTML that
@@ -235,10 +226,14 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	protected function getAuthorsReferenceTextFromSinglePublication(JResearchPublication $publication, $authorsLinks = false){
 		$authors = $publication->getAuthors();
 		$formattedAuthors = array();
-		
+
+		$k = 0;
+		$n = count($authors);
 		foreach($authors as $auth){
 			$text = $this->formatAuthorForReferenceOutput($auth);			
-			
+			if($k == $n - 1)
+				$text = rtrim($text, '.');
+
 			if($authorsLinks){
 				if($auth instanceof JResearchMember){
 					if($auth->published){
@@ -246,7 +241,7 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 					}
 				}	
 			}
-					
+			$k++;		
 			$formattedAuthors[] = $text;
 		}
 

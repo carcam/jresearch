@@ -155,7 +155,7 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
-		$text .= $authorsText;		
+		$text .= rtrim($authorsText, '.');		
 		
 		$title = $html?"<i>".trim($publication->title)."</i>":trim($publication->title);	
 		if(!empty($authorsText))
@@ -265,8 +265,12 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 		$formattedAuthors = array();
 		
 		$k = 0;
+		$n = count($authors);
 		foreach($authors as $auth){
 			$text = $this->formatAuthorForReferenceOutput($auth);
+			if($k == $n - 1)
+				$text = rtrim($text, '.');
+						
 			if($authorLinks){
 				if($auth instanceof JResearchMember)				
 					$text = "<a href=\"index.php?option=com_jresearch&view=member&task=show&id=$auth->id\">$text</a>";

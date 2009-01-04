@@ -34,7 +34,7 @@ class JResearchIEEEArticleCitationStyle extends JResearchIEEECitationStyle{
 	* @return 	string
 	*/
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true);
+		return $this->getReference($publication, true, $authorLinks);
 	}
 	
 		
@@ -58,33 +58,37 @@ class JResearchIEEEArticleCitationStyle extends JResearchIEEECitationStyle{
 		}
 		
 		$title = trim($publication->title);	
-		$title = '"'.$title.',"';
+		$title = '"'.$title.'"';
 		
 		$journal = trim($publication->journal);
-		$journal = $html? "<i>$journal</i>":$journal;
 		
 		if(!empty($authorsText))
-			$header = "$authorsText. $title $journal";
+			$header = rtrim($authorsText, '.').'. '.$title;
 		else
-			$header = "$title $journal";	
-			
-			
+			$header = $title;	
+
+		if(!empty($journal)){
+			$journal = $html? "<i>$journal</i>":$journal;			
+			$header .= ', '.$journal;	
+		}
+		
 		$volume = trim($publication->volume);
 		if(!empty($volume))
 			$header .= ', '.JText::_('JRESEARCH_VOL').'. '.$volume;
 				
-		$month = trim($publication->month);
-		if(!empty($month))
-			$header .= ', '.JResearchPublicationsHelper::formatMonth($month, true);	
-				
+		$month = trim($publication->month);	
 		$year = trim($publication->year);	
 		
-		if($year != null && $year != '0000')		
+		if($year != null && $year != '0000'){
+			if(!empty($month))
+				$header .= ', '.JResearchPublicationsHelper::formatMonth($month, true);							
 			$header .= (empty($month)?'.':',').' '.$year;
-			
+		}
+		
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))
 			$header .= ', pp. '.$pages;	
+		
 		
 		return $header.'.';	
 

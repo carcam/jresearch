@@ -163,7 +163,7 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 				
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::getAuthorComponents($auth);
-			$formattedAuthors[] = (isset($result['von'])?$result['von'].' ':'').$result['lastname'];		
+			$formattedAuthors[] = (isset($result['von'])?JResearchPublicationsHelper::bibCharsToUtf8FromString($result['von']).' ':'').JResearchPublicationsHelper::bibCharsToUtf8FromString($result['lastname']);		
 		}
 		
 		$text = "";
@@ -254,7 +254,9 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 		$i = 0;
 		foreach($authors as $auth){
 			$text = $this->formatAuthorForReferenceOutput($auth, ($i == $n - 1));			
-			
+			if($i == $n -1)
+				$text = rtrim($text, '.');
+				
 			if($authorsLinks){
 				if($auth instanceof JResearchMember){
 					if($auth->published){
@@ -264,6 +266,7 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 			}
 					
 			$formattedAuthors[] = $text;
+			$i++;
 		}
 
 		$n = count($authors);

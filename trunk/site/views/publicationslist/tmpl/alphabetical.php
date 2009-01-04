@@ -5,8 +5,11 @@
  */
 
 defined('_JEXEC') or die('Restricted access'); 
+global $mainframe;
+$style = $mainframe->getParams('com_jresearch')->get('citationStyle', 'APA');
 foreach($this->items as $pub): 
-	$publicationText = $this->style->getReferenceHTMLText($pub, true, true);
+	$styleObj = JResearchCitationStyleFactory::getInstance($style, $this->items[$i]->pubtype);
+	$publicationText = $styleObj->getReferenceHTMLText($this->items[$i], true, true);
 ?>
 	<?php $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 	<?php $url = $pub->url; ?>

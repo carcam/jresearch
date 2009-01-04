@@ -43,7 +43,7 @@ class JResearchVancouverInbookCitationStyle extends JResearchVancouverCitationSt
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$text .= $authorsText;		
+		$text .= rtrim($authorsText, '.');		
 
 		$chapter = trim($publication->chapter);
 		if(!empty($chapter))
