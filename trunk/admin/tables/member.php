@@ -171,6 +171,22 @@ class JResearchMember extends JTable{
 			
 	}
 
+	/**
+	 * Binds data from the member table if the username exists in the member-table
+	 *
+	 * @param string $username
+	 */
+	function bindFromUsername($username)
+	{
+		$db =& JFactory::getDBO();
+		
+		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('username').' = '.$db->quote($username);
+		$db->setQuery($query);
+		
+		$result = $db->loadAssoc();
+		
+		$this->bind($result);
+	}
 	
 	/**
 	* Validates the content of the member's profile information.
