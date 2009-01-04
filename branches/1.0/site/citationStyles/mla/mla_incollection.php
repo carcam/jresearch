@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,26 +16,8 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of MLA citation style for incollection records.
 *
-* @subpackage		JResearch
 */
 class JResearchMLAIncollectionCitationStyle extends JResearchMLACitationStyle{
-	
-	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* @return 	string
-	*/
-	function getReferenceText(JResearchPublication $publication){
-		return $this->getReference($publication);		
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text in HTML format.
-	* @return 	string
-	*/
-	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true, $authorLinks);
-	}
 	
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -47,11 +29,12 @@ class JResearchMLAIncollectionCitationStyle extends JResearchMLACitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = 'and';
+		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
+		$text = '';
 		
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
 		if(!$publication->__authorPreviouslyCited){
 			if($nAuthors <= 0){
@@ -62,7 +45,7 @@ class JResearchMLAIncollectionCitationStyle extends JResearchMLACitationStyle{
 					$editorsText = '';
 				}else{
 					// If no authors, but editors
-					$authorsText = trim($this->getEditorsReferenceTextFromSinglePublication($publication));
+					$authorsText = trim($this->getEditorsReferenceTextFromSinglePublication($publication, $authorLinks));
 					$authorsText .= " ($eds)";
 				}
 			}else{
@@ -72,29 +55,42 @@ class JResearchMLAIncollectionCitationStyle extends JResearchMLACitationStyle{
 		}else{
 			$authorsText = '---';
 		}
-
-		$address = $this->_getAddressText($publication);
 		
-		$booktitle = trim($publication->booktitle);
-		$booktitle = $html?"<u>$booktitle</u>":$booktitle;
 		
 		$title = '"'.trim($publication->title).'"';
-
+		$ed = JText::_('JRESEARCH_APA_ED');
+		
 		if(!empty($authorsText)){
-			if(!empty($editorsText))
-				$header = "$authorsText. $title. $booktitle. Ed. $editorsText.";
-			else
-				$header = "$authorsText. $title. $booktitle";	
+			$authorsText = rtrim($authorsText, '.');
+			$header .= $authorsText.'. '.$title;			
 		}else{
-			$header = "$title. $booktitle";	
+			$header = "$title. $series";	
+		}
+		$text .= $header;
+
+		$booktitle = trim($publication->booktitle);		
+		if(!empty($booktitle)){
+			$booktitle = $html?"<u>$booktitle</u>":$booktitle;			
+			$text .= '. '.$booktitle;
 		}
 		
-		$pages = str_replace('--', '-', trim($publication->pages));
+		if(!empty($editorsText))
+			$text .= ". $ed. $editorsText";
 		
-		if($publication->year != null && $publication->year != '0000')
-			return "$header. $address, $publication->year. $pages";
-		else
-			return "$header. $address. $pages";	
+		$address = $this->_getAddressText($publication);
+		if(!empty($address))
+			$text .= '. '.$address;
+		
+
+		$year = trim($publication->year);
+		if($year != null && $year != '0000')
+			$text .= ', '.$year;
+			
+		$pages = str_replace('--', '-', trim($publication->pages));
+		if(!empty($pages))
+			$text .= '. '.$pages;			
+
+		return $text;
 	}
 	
 }

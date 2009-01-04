@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,7 +16,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of IEEE citation style for conference records.
 *
-* @subpackage		JResearch
 */
 class JResearchIEEEConferenceCitationStyle extends JResearchIEEECitationStyle{
 	
@@ -35,7 +34,7 @@ class JResearchIEEEConferenceCitationStyle extends JResearchIEEECitationStyle{
 	* @return 	string
 	*/
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true);
+		return $this->getReference($publication, true, $authorLinks);
 	}
 	
 		
@@ -50,40 +49,48 @@ class JResearchIEEEConferenceCitationStyle extends JResearchIEEECitationStyle{
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$nAuthors = $publication->countAuthors();
-
-		$authorsText = '';
-		if($nAuthors > 0){
-			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
-		}
+		$eds = count($publication->getEditors())>1?JText::_('JRESEARCH_APA_EDS_LOWER'):JText::_('JRESEARCH_APA_ED_LOWER');
 		
-		$title = '"'.trim($publication->title).'",';	
+		if($nAuthors <= 0){
+			if($nEditors == 0){
+				// If neither authors, nor editors
+				$authorsText = '';
+				$editorsText = '';
+			}else{
+				// If no authors, but editors
+				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
+				$authorsText .= " $eds";
+			}
+		}else{
+			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);			
+			$editorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
+		}
+
+		$title = '"'.trim($publication->title).'"';	
 		
 		if(!empty($authorsText))
 			$header = "$authorsText. $title";
 		else
 			$header = $title;	
 		
+		$in = JText::_('JRESEARCH_IN');	
 		$booktitle = trim($publication->booktitle);
 		if(!empty($booktitle))
-			$header .= " in ".($html?"<i>$booktitle</i>":$booktitle);	
+			$header .= $html?". <i>$booktitle</i>":'. '.$booktitle;	
 			
-		$edition = trim($publication->edition); 
-		if(!empty($edition))
-			$header .= ", $edition $ed";
-
-					
-		$volume = trim($publication->volume);
-		if(!empty($volume))
-			$header .= ', '.JText::_('Vol.').' '.$volume;
-				
-		if($publication->year != null && $publication->year != '0000')		
-			$header .= ', '.$publication->year;
+		if(!empty($editorsText))
+			$header .= '. '.$editorsText.' '.$eds;
+								
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
+			$header .= '. '.$year;
 			
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))
-			$header .= ', pp. '.$pages;	
+			$header .= '. pp. '.$pages;	
 			
-		return $header;
+			
+		return $header.'.';
 	}
 	
 

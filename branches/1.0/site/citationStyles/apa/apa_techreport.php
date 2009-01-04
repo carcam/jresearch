@@ -46,6 +46,7 @@ class JResearchAPATechreportCitationStyle extends JResearchAPACitationStyle{
 			$year = '';			
 		
 		if(!empty($authorsText)){
+			$authorsText = rtrim($authorsText, '.');						
 			$header = $authorsText;
 			if(!empty($year))
 				$header .= ". ($year)";

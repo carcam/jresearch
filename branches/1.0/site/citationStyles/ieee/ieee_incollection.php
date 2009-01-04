@@ -2,8 +2,8 @@
 
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -17,7 +17,6 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of IEEE citation style for incollection records.
 *
-* @subpackage		JResearch
 */
 class JResearchIEEEIncollectionCitationStyle extends JResearchIEEECitationStyle{
 	
@@ -36,7 +35,7 @@ class JResearchIEEEIncollectionCitationStyle extends JResearchIEEECitationStyle{
 	* @return 	string
 	*/
 	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true);
+		return $this->getReference($publication, true, $authorLinks);
 	}
 	
 		
@@ -52,13 +51,25 @@ class JResearchIEEEIncollectionCitationStyle extends JResearchIEEECitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
-		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
+		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS_LOWER'):JText::_('JRESEARCH_APA_ED_LOWER');
 		
-		if($nAuthors > 0){
+		if($nAuthors <= 0){
+			if($nEditors == 0){
+				// If neither authors, nor editors
+				$authorsText = '';
+				$address = '';
+				$editorsText = '';
+			}else{
+				// If no authors, but editors
+				$authorsText = $this->getEditorsReferenceTextFromSinglePublication($publication);
+				$authorsText .= " $eds";
+			}
+		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+			$editors = $this->getEditorsReferenceTextFromSinglePublication($publication);			
 		}
 		
-		$title = '"'.trim($publication->title).'",';	
+		$title = '"'.trim($publication->title).'"';	
 		
 		if(!empty($authorsText))
 			$header = "$authorsText. $title";
@@ -66,33 +77,29 @@ class JResearchIEEEIncollectionCitationStyle extends JResearchIEEECitationStyle{
 			$header = $title;	
 		
 		$booktitle = trim($publication->booktitle);
-		if(!empty($booktitle))
-			$booktitle = " in ".($html?"<i>$booktitle</i>":$booktitle);	
+		if(!empty($booktitle)){
+			$in = JText::_('JRESEARCH_IN');
+			$booktitle = ($html?"<i>$booktitle</i>":$booktitle);	
+		}
 
 
-		$editors = $this->getEditorsReferenceTextFromSinglePublication($publication);	
 		if(!empty($editors))
-			$header .= ', '.$editors.' '.$eds;	
+			$header .= '. '.$editors.' '.$eds;	
 			
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))
-			$header .= " .$address";
+			$header .= ". $address";
 	
-		$month = trim($publication->month);
-		if(!empty($month))
-			$header .= ', '.$month;	
 				
-		if($publication->year != null && $publication->year != '0000')		
-			if(!empty($month))
-				$header =  "$header $publication->year";
-			else
-				$header =  "$header, $publication->year";	
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')		
+			$header .=  ". $year";	
 			
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))
-			$header .= ', pp. '.$pages;	
+			$header .= '. pp. '.$pages;	
 			
-		return $header;
+		return $header.'.';
 
 	}
 	

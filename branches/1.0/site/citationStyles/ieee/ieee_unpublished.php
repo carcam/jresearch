@@ -2,8 +2,8 @@
 
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage	JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -17,10 +17,62 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of IEEE citation style for techreport records.
 *
-* @subpackage		JResearch
 */
 class JResearchIEEEUnpublishedCitationStyle extends JResearchIEEECitationStyle{
 
+	
+	/**
+	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
+	* page and in the Works Cited section at the end of a document.
+	* @return 	string
+	*/
+	function getReferenceText(JResearchPublication $publication){
+		return $this->getReference($publication);
+	}
+	
+	/**
+	* Takes a publication and returns the complete reference text in HTML format.
+	* @return 	string
+	*/
+	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
+		return $this->getReference($publication, true, $authorLinks);
+	}
+	
+		
+	/**
+	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
+	* page and in the Works Cited section at the end of a document.
+	* 
+	* @param JResearchPublication $publication
+	* @param boolean $html Add html tags for formats like italics or bold
+	* 
+	* @return 	string
+	*/
+	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){				
+		$nAuthors = $publication->countAuthors();
+		
+		if($nAuthors > 0){
+			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
+		}
+		$title = '"'.trim($publication->title).'"';	
+
+		if(!empty($authorsText))
+			$header = "$authorsText. $title";
+		else
+			$header = $title;			
+
+		$month = trim($publication->month);	
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000'){		
+			if(!empty($month))
+				$header .=  '. '.JResearchPublicationsHelper::formatMonth($month, true);
+			$header .= ". $year";	
+		}
+	
+		return $header.'.';	
+				
+			
+	}
 }
 
 ?>

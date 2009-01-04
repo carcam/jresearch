@@ -255,7 +255,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$authorname = $db->nameQuote('author_name');
 		$pu = $db->nameQuote('published');
 
-		$whereKeywords = " LOWER(".$db->nameQuote('keywords').") LIKE $newprefix";
+		$whereKeywords = " LOCATE($prefix, LOWER(".$db->nameQuote('keywords').")) > 0";
 		$whereTitle = " LOWER(".$db->nameQuote('title').") LIKE $newprefix";
 		$whereYear = " ".$db->nameQuote('year')."= $prefix";
 		$whereCitekey = " LOWER(".$db->nameQuote('citekey').") LIKE $newprefix";

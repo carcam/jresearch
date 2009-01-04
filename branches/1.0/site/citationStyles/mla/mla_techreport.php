@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,28 +16,8 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of MLA citation style for technical reports.
 *
-* @subpackage		JResearch
 */
 class JResearchMLATechreportCitationStyle extends JResearchMLACitationStyle{
-	
-	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* @return 	string
-	*/
-	function getReferenceText(JResearchPublication $publication){
-		return $this->getReference($publication);
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text in HTML format.
-	* @return 	string
-	*/
-	function getReferenceHTMLText(JResearchPublication $publication, $authorsLinks=false){
-		return $this->getReference($publication, true, $authorsLinks);
-	}
-	
-	
 		
 			
 	/**
@@ -50,25 +30,37 @@ class JResearchMLATechreportCitationStyle extends JResearchMLACitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorsLinks=false){		
-		$this->lastAuthorSeparator = 'and';
+		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$authors = $publication->getAuthors();
 		$n = count($authors);
+		$text = '';
 		
 		// For techreports, authors are usually organizations, so do not extract lastnames
 		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorsLinks));
 		$title = trim($publication->title);
-		$title = $html? "<u>$title</u>":$title;
+		$title = $html? "<i>$title</i>":$title;
 
 		if(empty($authorsText))
 			$head = "$title";
-		else
-			$head = "$authorsText. $title";	
-		
+		else{
+			$authorsText = rtrim($authorsText, '.');
+			$head .= $authorsText.'. '.$title;
+		}
+		$text .= $head;
+			
 		$institution = trim($publication->institution);	
-		if($publication->year != null && $publication->year != '0000')		
-			return "$head. $institution, $publication->year";
-		else
-			return "$head. $institution";	
+		if(!empty($institution))
+			$text .= '. '.$institution;
+		
+		$address = $this->_getAddressText($publication);
+		if(!empty($address))
+			$text .= !empty($institution)?', '.$address:'. '.$address;
+			
+		$year = trim($publication->year);	
+		if($year != null && $year != '0000')
+			$text .= ', '.$year;		
+
+		return $text.'.';	
 
 	}
 	

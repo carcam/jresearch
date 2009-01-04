@@ -50,7 +50,7 @@ class JResearchAPAIncollectionCitationStyle extends JResearchAPACitationStyle{
 			if(!empty($editorsText))
 				$editorsText =  "$in $editorsText ($ed)";
 		}
-		
+		$authorsText = rtrim($authorsText, '.');			
 		$title = trim($publication->title);
 				
 		$year = trim($publication->year);

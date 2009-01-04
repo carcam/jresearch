@@ -1,8 +1,8 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
-* @subpackage		JResearch
+* @package		JResearch
+* @subpackage	Citation
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -16,28 +16,8 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 /**
 * Implementation of MLA citation style for manual records.
 *
-* @subpackage		JResearch
 */
 class JResearchMLAManualCitationStyle extends JResearchMLACitationStyle{
-	
-
-	/**
-	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
-	* page and in the Works Cited section at the end of a document.
-	* @return 	string
-	*/
-	function getReferenceText(JResearchPublication $publication){
-		return $this->getReference($publication);
-	}
-	
-	/**
-	* Takes a publication and returns the complete reference text in HTML format.
-	* @return 	string
-	*/
-	function getReferenceHTMLText(JResearchPublication $publication, $authorLinks=false){
-		return $this->getReference($publication, true, $authorLinks);
-	}
-			
 			
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -49,26 +29,42 @@ class JResearchMLAManualCitationStyle extends JResearchMLACitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
-		$this->lastAuthorSeparator = 'and';
+		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$authors = $publication->getAuthors();
 		$n = count($authors);
+		$text .= '';
 		
 		// For techreports, authors are usually organizations, so do not extract lastnames
 		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
 		$title = trim($publication->title);
-		$title = $html? "<u>$title</u>":$title;
+		$title = $html? "<i>$title</i>":$title;
 
 		if(empty($authorsText))
-			$head = "$title";
-		else
-			$head = "$authorsText. $title";	
+			$head = $title;
+		else{
+			$authorsText = rtrim($authorsText, '.');
+			$head .= $authorsText.'. '.$title;
+		}
+		$text .= $head;	
+		
+		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');
+		$edition = trim($publication->edition);
+		if(!empty($edition))
+			$text .= '. '.$edition.' '.$ed;
+
 		$organization = trim($publication->organization);
+		if(!empty($organization))
+			$text .= '. '.$organization;
+	
+		$address = trim($publication->address);
+		if(!empty($address))
+			$text .= '. '.$address;	
 
-		if($publication->year != null && $publication->year != '0000')		
-			return "$head. $organization, $publication->year";
-		else
-			return "$head. $organization";	
+		$year = trim($publication->year);			
+		if($year != null && $year != '0000')		
+			$text .= ', '.$year;
 
+		return $text.'.';	
 	}
 	
 	

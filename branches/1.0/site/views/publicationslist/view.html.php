@@ -69,8 +69,6 @@ class JResearchViewPublicationsList extends JView
 
     	// Get the current citation style
     	$params = $mainframe->getPageParameters('com_jresearch');
-    	$citationStyle = $params->get('citationStyle', 'APA');
-    	$style =& JResearchCitationStyleFactory::getInstance($citationStyle);
     	
     	// Get certain variables
     	$filter_order = JRequest::getVar('filter_order', 'year');
@@ -78,7 +76,6 @@ class JResearchViewPublicationsList extends JView
     	
     	// Bind variables used in layout
     	$this->assignRef('items', $publications);
-    	$this->assignRef('style', $style);
     	$this->assignRef('page', $model->getPagination());
     }
     

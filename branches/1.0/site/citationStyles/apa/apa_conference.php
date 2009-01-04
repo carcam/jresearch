@@ -48,6 +48,7 @@ class JResearchAPAConferenceCitationStyle extends JResearchAPACitationStyle{
 			$authorsText = trim($this->getEditorsReferenceTextFromSinglePublication($publication))." ($eds) ";
 		}
 		
+		$authorsText = rtrim($authorsText, '.');
 		$title = trim($publication->title);
 
 				
