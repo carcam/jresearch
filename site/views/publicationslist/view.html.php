@@ -30,6 +30,7 @@ class JResearchViewPublicationsList extends JView
         $this->addTemplatePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publicationslist'.DS.'tmpl');  
         JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 
+
 		switch($this->getLayout()){
 			// Template for making citations from TinyMCE editor
 			case 'cite':
@@ -55,7 +56,7 @@ class JResearchViewPublicationsList extends JView
      * and calculating the average per group.
      */
     private function _displayFilteredList(){
-    	global $mainframe;
+    	global $mainframe;    	
     	
     	$doc = JFactory::getDocument();
     	$doc->addStyleDeclaration(".title{text-align:center;}");
@@ -151,8 +152,7 @@ class JResearchViewPublicationsList extends JView
     private function _displayFrontendList(){
     	global $mainframe;
     	
-    	$params = $mainframe->getParams('com_jresearch');
-    	
+    	$params = $mainframe->getParams('com_jresearch');    	
     	$filter_pubtype = $params->get('filter_pubtype','0');
     	
     	if($filter_pubtype != '')
@@ -195,10 +195,6 @@ class JResearchViewPublicationsList extends JView
     	$model = $this->getModel();
     	$publications = $model->getData(null, true, true);
 
-    	// Get the current citation style
-    	$citationStyle = $params->get('citationStyle', 'APA');
-    	$style =& JResearchCitationStyleFactory::getInstance($citationStyle);
-    	
     	// Get certain variables
     	$filter_order = JRequest::getVar('filter_order', 'year');
     	$filter_order_Dir = JRequest::getVar('filter_order_Dir', 'DESC');
@@ -208,7 +204,6 @@ class JResearchViewPublicationsList extends JView
     	
     	// Bind variables used in layout
     	$this->assignRef('items', $publications);
-    	$this->assignRef('style', $style);
     	$this->assignRef('page', $model->getPagination());
     	$this->assignRef('user', $user);
     	$this->assignRef('showmore', $showmore);

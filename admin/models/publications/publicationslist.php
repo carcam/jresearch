@@ -134,6 +134,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$db = &JFactory::getDBO();
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate, $teamId);
 			$db->setQuery($query);
+//			var_dump($query);
 			$ids = $db->loadResultArray();
 			$this->_items = array();
 			foreach($ids as $id){
@@ -218,16 +219,12 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$ids = $this->_getAuthorPublicationIds(trim($filter_author));			
 			if(count($ids) > 0)
 				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
-			else
-				$where[] = '0 = 1';
 		}
 		
 		if(!empty($filter_team)){
 			$tmids = $this->_getTeamPublicationIds(trim($filter_team));
 			if(count($tmids) > 0)
 				$where[] = $db->nameQuote('id').' IN ('.implode(',', $tmids).')';
-			else
-				$where[] = '0 = 1';
 		}
 		
 		if(!$mainframe->isAdmin()){

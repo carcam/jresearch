@@ -184,8 +184,8 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 				
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($auth));
-			$formattedAuthors[] = (isset($result['von'])?$result['von'].' ':'').$result['lastname'];		
-			$firstnames[] = $result['firstname'];
+			$formattedAuthors[] = (isset($result['von'])?JResearchPublicationsHelper::bibCharsToUtf8FromString($result['von']).' ':'').JResearchPublicationsHelper::bibCharsToUtf8FromString($result['lastname']);		
+			$firstnames[] = JResearchPublicationsHelper::bibCharsToUtf8FromString($result['firstname']);
 		}
 		
 		$text = "";
@@ -274,10 +274,14 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	protected function getAuthorsReferenceTextFromSinglePublication(JResearchPublication $publication, $authorsLinks = false){
 		$authors = $publication->getAuthors();
 		$formattedAuthors = array();
-		
+
+		$n = count($authors);
+		$k = 0;
 		foreach($authors as $auth){
 			$text = $this->formatAuthorForReferenceOutput($auth);			
-			
+			if($k == $n - 1)
+				$text = rtrim($text, '.');
+							
 			if($authorsLinks){
 				if($auth instanceof JResearchMember){
 					if($auth->published){
@@ -285,11 +289,11 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 					}
 				}	
 			}
-					
+			$k++;		
 			$formattedAuthors[] = $text;
 		}
 
-		$n = count($authors);
+
 		if($n <= 10){
 			if($n == 1)
 				$text = $formattedAuthors[0];

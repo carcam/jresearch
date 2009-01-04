@@ -203,7 +203,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 				
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::getAuthorComponents($auth);
-			$formattedAuthors[] = (isset($result['von'])?$result['von'].' ':'').$result['lastname'];		
+			$formattedAuthors[] = (isset($result['von'])?JResearchPublicationsHelper::bibCharsToUtf8FromString($result['von']).' ':'').JResearchPublicationsHelper::bibCharsToUtf8FromString($result['lastname']);		
 		}
 		
 		$text = "";
@@ -300,9 +300,12 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		$authors = $publication->getAuthors();
 		$formattedAuthors = array();
 		
+		$k = 0;
+		$n = count($authors);		
 		foreach($authors as $auth){
 			$text = $this->formatAuthorForReferenceOutput($auth);			
-			
+			if($k == $n - 1)
+				$text = rtrim($text, '.');
 			if($authorsLinks){
 				if($auth instanceof JResearchMember){
 					if($auth->published){
@@ -310,11 +313,11 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 					}
 				}	
 			}
-					
+			$k++;		
 			$formattedAuthors[] = $text;
 		}
 
-		$n = count($authors);
+
 		if($n <= 6){
 			if($n == 0)
 				return '';

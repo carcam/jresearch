@@ -38,7 +38,7 @@ class JResearchVancouverBookletCitationStyle extends JResearchVancouverCitationS
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
-		$text .= $authorsText;		
+		$text .= rtrim($authorsText, '.');		
 		
 		$title = trim($publication->title);	
 		if(!empty($text))

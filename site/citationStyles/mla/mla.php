@@ -92,7 +92,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 				
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::getAuthorComponents($auth);
-			$formattedAuthors[] = (isset($result['von'])?$result['von'].' ':'').$result['lastname'];		
+			$formattedAuthors[] = (isset($result['von'])?JResearchPublicationsHelper::bibCharsToUtf8FromString($result['von']).' ':'').JResearchPublicationsHelper::bibCharsToUtf8FromString($result['lastname']);		
 		}
 		
 		$text = "";
@@ -344,9 +344,13 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		$formattedAuthors = array();
 		
 		$k = 0;
+		$n = count($authors);
 		foreach($authors as $auth){
 			$isFirst = $k == 0?true:false;
 			$text = $this->formatAuthorForReferenceOutput($auth, $isFirst);
+			if($k == $n - 1)
+				$text = rtrim($text, '.');
+				
 			if($authorLinks){
 				if($auth instanceof JResearchMember)				
 					$text = "<a href=\"index.php?option=com_jresearch&view=member&task=show&id=$auth->id\">$text</a>";

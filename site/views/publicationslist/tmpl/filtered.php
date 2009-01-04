@@ -6,7 +6,9 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access'); 
+require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
+?>
 <div class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></div>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<div style="text-align:left">
@@ -14,7 +16,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php echo !empty($this->lists['areas'])?'<span>'.$this->lists['areas'].'</span>':''; ?>
 		<?php echo !empty($this->lists['years'])?'<span>'.$this->lists['years'].'</span>':''; ?>
 		<?php echo !empty($this->lists['pubtypes'])?'<span>'.$this->lists['pubtypes'].'</span>':''; ?>
-		<?php echo !empty($this->lists['authors'])?'<span>'.$this->lists['authors'].'</span>':''; ?>				
+		<?php echo !empty($this->lists['authors'])?'<span>'.$this->lists['authors'].'</span>':''; ?>
+		<div><?php JHTML::_('Jresearch.icon','add','publications'); ?></div>						
 	</div>
 	<?php $label = JText::_('JRESEARCH_PUNCTUATION_AVERAGE'); ?>
 	<?php if(!empty($this->average))
@@ -23,17 +26,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<table>
 		<thead>
 		<tr>		
-			<th width="5%">#</th>
+			<th width="3%">#</th>
 			<th style="text-align:center;" class="title" width="40%"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
 			<th style="text-align:center;" class="title" nowrap="nowrap" width="35%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
 			<th style="text-align:center;" class="title" width="10%"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
 			<th style="text-align:center;" class="title" width="10%"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'); ?></th>
+			<th width="2%"></th>
 		</tr>
 		</thead>
 		
 		<tfoot>
 			<tr>
-				<td colspan="5">
+				<td colspan="6">
 					<div>&nbsp;</div>
 					<div style="text-align:center;"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>
 				</td>
@@ -44,16 +48,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php 
 			$n = count($this->items);
 			for($i=0; $i<$n; $i++){
-					$authors = implode(' ; ', $this->items[$i]->getAuthors());
+					$authors = implode(' ; ', JResearchPublicationsHelper::bibCharsToUtf8FromArray($this->items[$i]->getAuthors()));
 		?>
 			
 				<?php $Itemid = JRequest::getVar('Itemid'); ?>
 				<tr class="<?php echo "row$k"; ?>">
-					<td width="5%"><?php echo $i; ?></td>
+					<td width="3%"><?php echo $i; ?></td>
 					<td width="40%"><a href="index.php?option=com_jresearch&controller=publications&task=show&id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td width="35%" align="center"><?php echo $authors; ?></td>
 					<td width="10%" align="center"><?php echo $this->items[$i]->year; ?></td>
 					<td width="10%" align="center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
+					<td width="2%"><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
 				</tr>
 			<?php } ?>
 		</tbody>

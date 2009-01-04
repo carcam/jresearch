@@ -48,7 +48,7 @@ class JResearchVancouverTechreportCitationStyle extends JResearchVancouverCitati
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
-		$text .= $authorsText;		
+		$text .= rtrim($authorsText, '.');		
 		
 		$title = $html?"<i>".trim($publication->title)."</i>":trim($publication->title);	
 		if(!empty($authorsText))
