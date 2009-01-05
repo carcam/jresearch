@@ -73,6 +73,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						<td>Nereyda Valentin-Macias, (<a href="mailto:neri@valenciasconsulting.com">neri@valenciasconsulting.com</a>)</td>
 					</tr>
 					<tr>
+						<td width="20%"><?php echo JText::_('JRESEARCH_OTHER_CREDITS').': '; ?></td>
+						<td>Florian Prinz, (<a href="mailto:prinz.florian@chello.at">prinz.florian@chello.at</a>), Carlos C&aacute;mara, (<a href="mailto:cmcamara@gmail.com">cmcamara@gmail.com</a>)</td>
+					</tr>
+					<tr>
 						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_VERSION').': '; ?></td>
 						<td>1.0 Stable</td>
 					</tr>
