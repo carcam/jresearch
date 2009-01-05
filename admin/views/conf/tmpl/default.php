@@ -58,7 +58,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<div id="content-pane" class="pane-sliders">
 			<div class="panel">
 				<h3 class="title jpane-toggler-down" id="cpanel-panel-logged"><span><?php echo JText::_('JRESEARCH_CREDITS'); ?></span></h3>
-				<div style="border-top: medium none; border-bottom: medium none; overflow: hidden; padding-top: 0px; padding-bottom: 0px; height: 250px;" class="jpane-slider content">
+				<div style="border-top: medium none; border-bottom: medium none; overflow: hidden; padding-top: 0px; padding-bottom: 0px; height: 280px;" class="jpane-slider content">
 				<table class="adminlist">
 					<tbody>
 					<tr>
