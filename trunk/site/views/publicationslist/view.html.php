@@ -164,6 +164,8 @@ class JResearchViewPublicationsList extends JView
     	$filter_show = $params->get('filter_show');
     	
     	//My publications
+    	$id_member = null;
+    	
     	if($filter_show == "my")
     	{
     		//Filter only my publications
@@ -172,12 +174,12 @@ class JResearchViewPublicationsList extends JView
     		$member = new JResearchMember($db);
     		$member->bindFromUsername($user->username);
     		$id_member = $member->id;
-    		
-    		if($id_member == null)
+    	}
+    	
+    	if($id_member == null)
     			$id_member = -1;
 	    	
-	    	JRequest::setVar('filter_author', $id_member);
-    	}
+	    JRequest::setVar('filter_author', $id_member);
     	
     	$document =& JFactory::getDocument();    	
     	//$document->setTitle('Publications');
