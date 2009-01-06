@@ -223,7 +223,8 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
 		}
 
-		if(!empty($filter_author)){
+		
+		if(!empty($filter_author) && $filter_author != -1){
 			$ids = $this->_getAuthorPublicationIds(trim($filter_author));			
 			if(count($ids) > 0)
 				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';

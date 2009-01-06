@@ -160,7 +160,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 		}else
 			$where[] = $db->nameQuote('published').' = 1 ';
 				
-		if(!empty($filter_author)){
+		if(!empty($filter_author) && $filter_author != -1){
 			$ids = $this->_getAuthorProjectsIds(trim($filter_author));			
 			if(count($ids) > 0)
 				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
