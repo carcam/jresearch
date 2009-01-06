@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="language" version="1.5" client="both" method="upgrade">
+  <name>German (Germany-Switzerland-Austria)</name>
+	<tag>de-DE</tag>
+	<version>1.5.7.1</version>
+	<creationDate>07.10.2008</creationDate>
+	<author>CirTap</author>
+	<authorEmail></authorEmail>
+	<description></description>
+  <administration>
+    <files folder="admin">
+  	<filename file="meta">de-DE.xml</filename>
+  	<filename>de-DE.com_jresearch.ini</filename>
+    </files>
+  </administration>
+  <site>
+    <files folder="site">
+	<filename file="meta">de-DE.xml</filename>
+	<filename>de-DE.com_jresearch.ini</filename>	
+  	</files>
+  </site>
+  <params />
+</install>
