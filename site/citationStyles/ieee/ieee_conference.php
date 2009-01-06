@@ -73,7 +73,7 @@ class JResearchIEEEConferenceCitationStyle extends JResearchIEEECitationStyle{
 		else
 			$header = $title;	
 		
-		$in = JText::_('JRESEARCH_IN');	
+
 		$booktitle = trim($publication->booktitle);
 		if(!empty($booktitle))
 			$header .= $html?". <i>$booktitle</i>":'. '.$booktitle;	

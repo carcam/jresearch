@@ -16,7 +16,6 @@ function startSelectedRecordRemoval(){
 	
 	citedRecordsList = getRecordsList();
 	selectedIndex = citedRecordsList.selectedIndex;
-	
 	if(selectedIndex >= 0){
 		citekey = citedRecordsList.options[selectedIndex].value;
 		removeRequest = new XHR({method: 'get', onSuccess: removeSelectedRecord, onFailure: onRemovalFailure});
@@ -24,17 +23,27 @@ function startSelectedRecordRemoval(){
 	}
 }
 	
-function removeSelectedRecord(response){
-	if(response == 'success'){
+function removeSelectedRecord(response, responseXML){
+	answer = responseXML.getElementsByTagName('answer');
+	if(answer.length > 0){
+		alert("<?php echo JText::_('CITED_RECORD_NOT_FOUND', true) ?>");			
+	}else{
 		alert("<?php echo JText::_('CITED_RECORD_REMOVAL_SUCCESSFUL', true) ?>");
-	}else if(response == 'not found'){
-		alert("<?php echo JText::_('CITED_RECORD_NOT_FOUND', true) ?>");
+		var list = getRecordsList();
+		clean(list);
+		keyList = responseXML.getElementsByTagName('key');
+		titleList = responseXML.getElementsByTagName('title');
+		for(i = 0; i< keyList.length; i++){
+			keyText = keyList[i].firstChild.nodeValue;
+			titleText = titleList[i].firstChild.nodeValue;
+			
+			option = document.createElement('option');
+			option.setAttribute('value', keyText);
+			option.appendChild(document.createTextNode(keyText+': '+titleText));
+			list.appendChild(option);
+		}
 	}
-	// Remove the record from the list
-	if(selectedIndex >= 0){
-		selectedOption = getRecordsList().options[selectedIndex];
-		getRecordsList().remove(selectedOption);
-	}
+
 }
 
 function onRemovalFailure(){
