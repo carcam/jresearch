@@ -189,6 +189,8 @@ class JResearchAdminStaffController extends JController
 	*/
 	function save(){
 		global $mainframe;
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		
 		$db =& JFactory::getDBO();
 		$member = new JResearchMember($db);
 
