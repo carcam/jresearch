@@ -162,6 +162,8 @@ class JResearchAdminProjectsController extends JController
 	 */
 	function save(){
 		global $mainframe;
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		
 		$db =& JFactory::getDBO();
 		$project = new JResearchProject($db);
 		$user = JFactory::getUser();
