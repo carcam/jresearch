@@ -124,7 +124,7 @@ class JResearchViewPublication extends JView
 		}
 		
     	// Bind variables for layout
-    	$this->assignRef('params', $params);
+    	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
     	$this->assignRef('publication', $publication);
     	$this->assignRef('area', $area);
     	$this->assignRef('commentsAllowed', $commentsAllowed);

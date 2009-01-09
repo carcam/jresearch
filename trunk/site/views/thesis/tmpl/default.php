@@ -31,41 +31,75 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php if(!empty($directors)): ?>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_DIRECTORS').': ' ?></td>
 		<td style="width:35%;">
-			<ul style="margin:0px;padding:0px;">
-				<?php foreach($directors as $dir): ?>
-					<li style="list-style:none;">
-						<?php if($dir instanceof JResearchMember): ?>
-							<?php if($dir->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $dir->id ?>"><?php echo $dir; ?></a>
+			<?php if($this->staff_list_arrangement == 'vertical'): ?>
+				<ul style="margin:0px;padding:0px;">
+					<?php foreach($directors as $dir): ?>
+						<li style="list-style:none;">
+							<?php if($dir instanceof JResearchMember): ?>
+								<?php if($dir->published): ?>
+									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $dir->id ?>"><?php echo $dir; ?></a>
+								<?php else: ?>
+									<?php echo $dir; ?>
+								<?php endif; ?>	
 							<?php else: ?>
-								<?php echo $dir; ?>
+									<?php echo $dir; ?>
+							<?php endif; ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			<?php else: ?>
+				<?php $n = count($directors); 
+					  $i = 0; ?>
+				<?php foreach($directors as $auth): ?>
+						<?php if($auth instanceof JResearchMember): ?>
+							<?php if($auth->published): ?>
+								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a><?php echo $i == $n - 1?'':',' ?>
+							<?php else: ?>
+								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo $dir; ?>
+								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
 						<?php endif; ?>
-					</li>
-				<?php endforeach; ?>
-			</ul>
+						<?php $i++; ?>
+				<?php endforeach; ?>				
+			<?php endif; ?>
 		</td>
 		<?php endif; ?>
 		<?php if(!empty($students)): ?>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_STUDENTS').': ' ?></td>
 		<td style="width:35%;">
-			<ul style="margin:0px;padding:0px;">
-				<?php foreach($students as $stud): ?>
-					<li style="list-style:none;">
-						<?php if($stud instanceof JResearchMember): ?>
-							<?php if($stud->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $stud->id ?>"><?php echo $stud; ?></a>
+			<?php if($this->staff_list_arrangement == 'vertical'): ?>	
+				<ul style="margin:0px;padding:0px;">
+					<?php foreach($students as $stud): ?>
+						<li style="list-style:none;">
+							<?php if($stud instanceof JResearchMember): ?>
+								<?php if($stud->published): ?>
+									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $stud->id ?>"><?php echo $stud; ?></a>
+								<?php else: ?>
+									<?php echo $stud; ?>
+								<?php endif; ?>	
 							<?php else: ?>
-								<?php echo $stud; ?>
+									<?php echo $stud; ?>
+							<?php endif; ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			<?php else: ?>
+				<?php $n = count($students); 
+					  $i = 0; ?>
+				<?php foreach($students as $auth): ?>
+						<?php if($auth instanceof JResearchMember): ?>
+							<?php if($auth->published): ?>
+								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a><?php echo $i == $n - 1?'':',' ?>
+							<?php else: ?>
+								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo $stud; ?>
+								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
 						<?php endif; ?>
-					</li>
-				<?php endforeach; ?>
-			</ul>
+						<?php $i++; ?>
+				<?php endforeach; ?>				
+			<?php endif; ?>
 		</td>
 		<?php else: ?>
 		<td colspan="2">&nbsp;</td>
