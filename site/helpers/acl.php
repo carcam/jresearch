@@ -37,6 +37,15 @@ function setACL()
 	$acl->addACL('com_jresearch', 'edit', 'users', 'administrator', 'publications', 'all');
 	$acl->addACL('com_jresearch', 'edit', 'users', 'super administrator', 'publications', 'all');
 	
+	//Remove publications
+	$acl->addACL('com_jresearch', 'remove', 'users', 'registered', 'publications', 'own');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'author', 'publications', 'own');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'editor', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'publisher', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'manager', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'administrator', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'super administrator', 'publications', 'all');
+	
 	//Theses
 	//Add theses
 	$acl->addACL('com_jresearch', 'add', 'users', 'author', 'theses', 'all');
