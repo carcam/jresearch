@@ -17,7 +17,7 @@ for($i = 0; $i < $n; $i++):
 	$styleObj = JResearchCitationStyleFactory::getInstance($style, $this->items[$i]->pubtype);
 	$publicationText = $styleObj->getReferenceHTMLText($this->items[$i], true, true);
 	?>
-	<tr><td align="right"><?php JHTML::_('Jresearch.icon','edit', 'publications', $this->items[$i]->id); ?></td></tr>
+	<tr><td align="right"><?php JHTML::_('Jresearch.icon','edit', 'publications', $this->items[$i]->id); ?> <?php JHTML::_('Jresearch.icon','remove', 'publications', $pub->id); ?></td></tr>
 	<?php
 	if($previousYear != $this->items[$i]->year):
 		if($this->items[$i]->year == '0000' || $this->items[$i]->year == null )

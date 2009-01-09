@@ -28,6 +28,9 @@ class JResearchViewPublication extends JView
         	case 'default':
         		$this->_displayPublication();
         		break;
+        	case 'new':
+        		$this->_displayNewPublicationForm();
+        		break;
         	case 'edit':
         		$this->_editPublication();
         		break;
@@ -140,7 +143,8 @@ class JResearchViewPublication extends JView
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 		JHTML::_('Validator._');		
 		$user =& JFactory::getUser();
-		$cid = JRequest::getInt('id', 0);
+		$cid = JRequest::getVar('id', 0);
+		$pubtype = JRequest::getVar('pubtype');
 		
 		$this->assignRef('id', $cid);
 		$doc = JFactory::getDocument();
@@ -198,10 +202,33 @@ class JResearchViewPublication extends JView
 			$this->assignRef('areasList', $researchAreasHTML);
 			$this->assignRef('publishedRadio', $publishedRadio);
 			$this->assignRef('internalRadio', $internalRadio );
-			$this->assignRef('pubtype', $pubtype);
 			$this->assignRef('authors', $authorsControl);
 		}
+		
+		$this->assignRef('pubtype', $pubtype);
     }
+    
+	/**
+	* Binds the variables for the form used to select the type 
+	* for a new publication.
+	*/
+	private function _displayNewPublicationForm(){
+		JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		$subtypes = JResearchPublication::getPublicationsSubtypes();
+		$typesOptions = array();
+		
+		JRequest::setVar('id', 0);
+		
+		foreach($subtypes as $type){
+			// Inproceedings is the same as conference 
+			if($type != 'inproceedings')
+				$typesOptions[] = JHTML::_('select.option', $type, $type.': '.JText::_('JRESEARCH_'.strtoupper($type)));			
+		}
+		
+		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
+		
+		$this->assignRef('types', $typesList);
+	}
 }
 
 ?>
