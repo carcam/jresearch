@@ -8,7 +8,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1><?php echo JText::_('JRESEARCH_NEW_PUBLICATION'); ?></h1>
-<form name="adminForm" id="adminForm" method="post">
+<form name="adminForm" id="adminForm" method="post" action="index.php">
 <table class="adminform">
 	<tbody>
 	<tr>

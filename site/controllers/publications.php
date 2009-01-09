@@ -32,7 +32,8 @@ class JResearchPublicationsController extends JController
 		$lang->load('com_jresearch.publications');
 		
 		// Tasks for edition of publications when the user is authenticated
-		$this->registerTask('add', 'add');
+		$this->registerTask('new', 'add');
+		$this->registerTask('add', 'edit');
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('admin', 'administer');
 		// When the user sees the profile of a single publication
@@ -103,6 +104,18 @@ class JResearchPublicationsController extends JController
 		$view->display();
 	}
 
+	/**
+	* Invoked when an authenticated user decides to create a publication. Prints
+	* a form where the user can select the type of publication to select.
+	* @access public
+	*/
+	function add()
+	{
+		$view = &$this->getView('Publication', 'html', 'JResearchView');	
+		$view->setLayout('new');
+		$view->display();
+	}
+	
 	/**
 	* Invoked when an authenticated user decides to create/edit a publication
 	* that belongs to him/her.
@@ -533,6 +546,25 @@ class JResearchPublicationsController extends JController
 		$view->setLayout('filtered');
 		$view->display();
 		
+	}
+	
+	/**
+	* Invoked when an administrator has decided to remove one or more items
+	* @access	public
+	*/ 
+	function remove()
+	{
+		$db =& JFactory::getDBO();
+		$cid = JRequest::getVar('id');
+		$n = 0;		
+		$publication = new JResearchPublication($db);
+		
+		if(!$publication->delete($cid))
+			JError::raiseWarning(1, JText::sprintf('JRESEARCH_PUBLICATION_NOT_DELETED', $cid));
+		else
+			$n++;
+			
+		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', 1));
 	}
 }
 ?>
