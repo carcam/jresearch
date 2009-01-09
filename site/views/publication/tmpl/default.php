@@ -34,10 +34,29 @@ defined('_JEXEC') or die('Restricted access');
 		<td colspan="2">&nbsp;</td>
 		<?php endif; ?>
 	</tr>
-	<?php $authors = JResearchPublicationsHelper::bibCharsToUtf8FromArray($this->publication->getAuthors()); ?>
+	<?php $authors = $this->publication->getAuthors(); ?>
 	<?php if(!empty($authors)): ?>
 	<tr>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_AUTHORS').': ' ?></td>
+		
+		<?php if($this->staff_list_arrangement == 'horizontal'): ?>
+		<td style="width:85%;" colspan="3">
+				<?php $n = count($authors); 
+					  $i = 0; ?>
+				<?php foreach($authors as $auth): ?>
+						<?php if($auth instanceof JResearchMember): ?>
+							<?php if($auth->published): ?>
+								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a><?php echo $i == $n - 1?'':',' ?>
+							<?php else: ?>
+								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+							<?php endif; ?>	
+						<?php else: ?>
+								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+						<?php endif; ?>
+						<?php $i++; ?>
+				<?php endforeach; ?>
+		</td>		
+		<?php else: ?>
 		<td style="width:35%;">
 			<ul style="margin:0px;padding:0px;">
 				<?php foreach($authors as $auth): ?>
@@ -55,6 +74,7 @@ defined('_JEXEC') or die('Restricted access');
 				<?php endforeach; ?>
 			</ul>
 		</td>
+		<?php endif; ?>
 		<td colspan="2">&nbsp;</td>		
 	</tr>	
 	<?php endif; ?>

@@ -14,9 +14,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
 		<td style="width:35%;"><?php echo $this->area->name; ?></td>
 	   	<?php if(empty($this->project->url_project_image)): ?>
-    		<td colspan="2" rowspan="3"></td>
+    		<td colspan="2"></td>
        	<?php else: ?>		
-    		<td colspan="2" rowspan="3"><img src="<?php echo $this->project->url_project_image; ?>" border="0" alt="<?php echo $this->project->title; ?>" /></td>
+    		<td colspan="2"><img src="<?php echo $this->project->url_project_image; ?>" border="0" alt="<?php echo $this->project->title; ?>" /></td>
     	<?php endif; ?>	
 	</tr>
 	<tr>
@@ -38,30 +38,27 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if(!empty($authors)): ?>
 		<tr>
 			<td style="width:15%;" class="publicationlabel"><?php echo $label.': ' ?></td>
-			<td style="width:35%;">
-				<ul style="margin:0px;padding:0px;">
-					<?php foreach($authors as $auth): ?>
-						<li style="list-style:none;">
-							<?php if($auth instanceof JResearchMember): ?>
-								<?php if($auth->published): ?>
-									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a>
+			<?php if($this->staff_list_arrangement == 'horizontal'): ?>
+				<td style="width:35%;">
+						<?php $n = count($authors); 
+							  $i = 0; ?>
+						<?php foreach($authors as $auth): ?>
+								<?php if($auth instanceof JResearchMember): ?>
+									<?php if($auth->published): ?>
+										<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a><?php echo $i == $n - 1?'':',' ?>
+									<?php else: ?>
+										<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+									<?php endif; ?>	
 								<?php else: ?>
-									<?php echo $auth; ?>
-								<?php endif; ?>	
-							<?php else: ?>
-									<?php echo $auth; ?>
-							<?php endif; ?>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-			</td>
-			<?php if($flag): ?>
-			<?php $nonleaders = $this->project->getNonPrincipalInvestigators(); ?>
-			<?php if(!empty($nonleaders)): ?>
-				<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_PROJECT_COLLABORATORS').': ' ?></td>
+										<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+								<?php endif; ?>
+								<?php $i++; ?>
+						<?php endforeach; ?>
+				</td>		
+			<?php else: ?>
 				<td style="width:35%;">
 					<ul style="margin:0px;padding:0px;">
-						<?php foreach($nonleaders as $auth): ?>
+						<?php foreach($authors as $auth): ?>
 							<li style="list-style:none;">
 								<?php if($auth instanceof JResearchMember): ?>
 									<?php if($auth->published): ?>
@@ -76,6 +73,47 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						<?php endforeach; ?>
 					</ul>
 				</td>
+			<?php endif; ?>	
+			<?php if($flag): ?>
+			<?php $nonleaders = $this->project->getNonPrincipalInvestigators(); ?>
+			<?php if(!empty($nonleaders)): ?>
+				<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_PROJECT_COLLABORATORS').': ' ?></td>
+				<?php if($this->staff_list_arrangement == 'horizontal'): ?>
+					<td style="width:35%;">
+							<?php $n = count($nonleaders); 
+								  $i = 0; ?>
+							<?php foreach($nonleaders as $auth): ?>
+									<?php if($auth instanceof JResearchMember): ?>
+										<?php if($auth->published): ?>
+											<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a><?php echo $i == $n - 1?'':',' ?>
+										<?php else: ?>
+											<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+										<?php endif; ?>	
+									<?php else: ?>
+											<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+									<?php endif; ?>
+									<?php $i++; ?>
+							<?php endforeach; ?>
+					</td>
+				<?php else: ?>
+					<td style="width:35%;">
+						<ul style="margin:0px;padding:0px;">
+							<?php foreach($nonleaders as $auth): ?>
+								<li style="list-style:none;">
+									<?php if($auth instanceof JResearchMember): ?>
+										<?php if($auth->published): ?>
+											<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a>
+										<?php else: ?>
+											<?php echo $auth; ?>
+										<?php endif; ?>	
+									<?php else: ?>
+											<?php echo $auth; ?>
+									<?php endif; ?>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					</td>
+				<?php endif; ?>
 			<?php else: ?>
 				<td colspan="2">&nbsp;</td>			
 			<?php endif; ?>				

@@ -58,8 +58,10 @@ class JResearchViewProject extends JView
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($project->id_research_area);
+    	$params = $mainframe->getPageParameters('com_jresearch');
     			
     	// Bind variables for layout
+    	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
     	$this->assignRef('project', $project);
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('area', $area);

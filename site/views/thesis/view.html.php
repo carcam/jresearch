@@ -59,8 +59,10 @@ class JResearchViewThesis extends JView
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($thesis->id_research_area);
-    			
+    	$params = $mainframe->getPageParameters('com_jresearch');    	
+
     	// Bind variables for layout
+    	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));    	
     	$this->assignRef('thesis', $thesis);
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('degreeArray', $degreeArray);
