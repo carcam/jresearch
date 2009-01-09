@@ -144,7 +144,9 @@ class JResearchViewPublication extends JView
 		JHTML::_('Validator._');		
 		$user =& JFactory::getUser();
 		$cid = JRequest::getVar('id', 0);
+		
 		$pubtype = JRequest::getVar('pubtype');
+		$model = $this->getModel('researchareaslist');
 		
 		$this->assignRef('id', $cid);
 		$doc = JFactory::getDocument();
@@ -169,26 +171,24 @@ class JResearchViewPublication extends JView
     		}
     	}');
 		
+    	// Retrieve the list of research areas   	
+    	$researchAreas = $model->getData(null, true, false);
+
+    	$researchAreasOptions = array();
+    	foreach($researchAreas as $r){
+    		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
+    	}
+    	
+    	//Published options
+    	$publishedOptions = array();
+    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
+    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));
+		
 		if($cid > 0)
-		{
-	    	$model = $this->getModel('researchareaslist');
-	
-	    	// Retrieve the list of research areas   	
-	    	$researchAreas = $model->getData(null, true, false);
-	
-	    	$researchAreasOptions = array();
-	    	foreach($researchAreas as $r){
-	    		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
-	    	}
-	    	
-	    	//Published options
-	    	$publishedOptions = array();
-	    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
-	    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
-			
+		{    		
 			$publication = JResearchPublication::getById($cid);
 			$pubtype = $publication->pubtype;
-			$this->assignRef('publication', $publication);			
+					
 		    $researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $publication->id_research_area);
 			
 		    //Published radio
@@ -197,15 +197,26 @@ class JResearchViewPublication extends JView
 			$authors = $publication->getAuthors();
 			
 			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' ,$authors);
-
-			$this->assignRef('user', $user);
-			$this->assignRef('areasList', $researchAreasHTML);
-			$this->assignRef('publishedRadio', $publishedRadio);
-			$this->assignRef('internalRadio', $internalRadio );
-			$this->assignRef('authors', $authorsControl);
+			
+			$this->assignRef('publication', $publication);	
+		}
+		else 
+		{
+			$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', null);
+			
+		    //Published radio
+			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 0);
+			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', 0);
+			
+			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' , array());
 		}
 		
+		$this->assignRef('user', $user);
 		$this->assignRef('pubtype', $pubtype);
+		$this->assignRef('areasList', $researchAreasHTML);
+		$this->assignRef('publishedRadio', $publishedRadio);
+		$this->assignRef('internalRadio', $internalRadio );
+		$this->assignRef('authors', $authorsControl);
     }
     
 	/**
