@@ -7,7 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div class="componentheading"><?php echo $this->area->name; ?></div>
+<h1 class="componentheading"><?php echo $this->area->name; ?></h1>
 <h1><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h1>
 <div><?php echo str_replace('<hr id="system-readmore" />', '', $this->area->description);  ?></div>
 <div>&nbsp;&nbsp;</div>

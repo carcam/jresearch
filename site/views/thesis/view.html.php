@@ -57,6 +57,8 @@ class JResearchViewThesis extends JView
 			return;
 		}		    	
 		
+		$doc->setTitle(JText::_('JRESEARCH_THESIS').' - '.$thesis->title);
+		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($thesis->id_research_area);
     	$params = $mainframe->getPageParameters('com_jresearch');    	

@@ -7,11 +7,11 @@
 
 $contentArr = explode('<hr id="system-readmore" />', $this->coop->description);
 ?>
-<div class="componentheading">
-	<?=JText::_('JRESEARCH_COOPERATIONS');?>
+<h1 class="componentheading">
+	<?=JText::_('JRESEARCH_COOPERATION');?>
 	-
 	<?=JFilterOutput::ampReplace($this->coop->name);?>
-</div>
+</h1>
 <?php 
 if($this->coop->image_url != "")
 {

@@ -41,7 +41,8 @@ class JResearchViewFacilities extends JView
     private function _displayDefaultList()
     {
       	global $mainframe;
-    	
+    	$doc = JFactory::getDocument();
+      	
     	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
@@ -50,6 +51,7 @@ class JResearchViewFacilities extends JView
 		
     	$facs =  $model->getData(null, true, true);   
     	
+    	$doc->setTitle('JRESEARCH_FACILITIES');
     	$this->assignRef('params', $params);
     	$this->assignRef('items', $facs);
     	$this->assignRef('areaModel', $areaModel);

@@ -10,7 +10,7 @@ defined("_JEXEC") or die("Restricted access");
 $intro_text = $this->params->get('intro_text');
 ?>
 <div class="componentheading">
-	<?=JText::_('Cooperations');?>
+	<?=JText::_('JRESEARCH_COOPERATIONS');?>
 </div>
 <?php
 if($intro_text != "")

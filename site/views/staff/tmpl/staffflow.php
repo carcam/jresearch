@@ -101,9 +101,9 @@ $document->addScriptDeclaration($scrpt);
 
 $document->addStyleSheet($css_path.'/imageflow.css');
 ?>
-<div class="componentheading">
+<h1 class="componentheading">
 	<?php echo JText::_('JRESEARCH_MEMBERS'); ?>
-</div>
+</h1>
 
 <div id="imageflow" class="imageflow">
 	<div id="imageflow_loading">

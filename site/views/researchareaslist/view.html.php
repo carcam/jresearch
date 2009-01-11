@@ -26,9 +26,13 @@ class JResearchViewResearchAreasList extends JView
 {
     public function display($tpl = null)
     {
+    	$doc = JFactory::getDocument();
+    	
     	// Require css and styles
         $model =& $this->getModel();
         $areas = $model->getData(null, true, true);
+        
+        $doc->setTitle(JText::_('JRESEARCH_RESEARCH_AREAS'));
         
 		$this->assignRef('items', $areas);
 		$this->assignRef('page', $model->getPagination());

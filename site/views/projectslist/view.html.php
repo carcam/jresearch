@@ -39,6 +39,7 @@ class JResearchViewProjectsList extends JView
     private function _displayDefaultList(){
       	global $mainframe;
     	
+      	$doc = JFactory::getDocument();
     	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
@@ -49,6 +50,7 @@ class JResearchViewProjectsList extends JView
 		$model->setIds($ids);
     	$projects =  $model->getData(null, true, true);   
     	
+    	$doc->setTitle(JText::_('JRESEARCH_PROJECTS'));
     	$this->assignRef('params', $params);
     	$this->assignRef('items', $projects);
     	$this->assignRef('areaModel', $areaModel);

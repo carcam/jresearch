@@ -7,7 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div class="componentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></div>
+<h1 class="componentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h1>
 <table width="100%" cellpadding="2" cellspacing="2" align="center">
 <thead>
 	<tr align="center">

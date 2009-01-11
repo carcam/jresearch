@@ -9,7 +9,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-<div class="componentheading"><div style="float: right;"><?php JHTML::_('Jresearch.icon','add','publications'); ?></div><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></div>
+<h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
+<div style="float: right;"><?php JHTML::_('Jresearch.icon','add','publications'); ?></div>
 <table align="left" width="100%" cellspacing="2" cellpadding="2">
 <tbody>
 	<?php 
