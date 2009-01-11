@@ -76,8 +76,10 @@ class JResearchViewStaff extends JView
     */
     private function _displayDefaultList(&$model){
       	global $mainframe;
+      	$doc = JFactory::getDocument();
 
       	$members =  $model->getData(null, true, true);   
+    	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));
     	
     	$this->assignRef('items', $members);
     	$this->assignRef('page', $model->getPagination());	
@@ -91,10 +93,12 @@ class JResearchViewStaff extends JView
     private function _displayStaffFlow(&$model)
     {
     	global $mainframe;
+    	$doc = JFactory::getDocument();
     	
 		$members =& $model->getData(null, true, false);
     	$images = $this->getImages($members);
     	
+		$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));    	
     	$this->assignRef('images', $images);
     }
     

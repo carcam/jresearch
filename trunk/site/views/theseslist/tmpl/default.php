@@ -7,7 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div class="componentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></div>
+<h1 class="componentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h1>
 <ul style="padding-left:0px;">
  
 <?php foreach($this->items as $thesis): ?>

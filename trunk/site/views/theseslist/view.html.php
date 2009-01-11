@@ -39,10 +39,12 @@ class JResearchViewThesesList extends JView
     private function _displayDefaultList(){
       	global $mainframe;
     	
+      	$doc = JFactory::getDocument();
     	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
-    	$theses =  $model->getData(null, true, true);   
+    	$theses =  $model->getData(null, true, true); 
+    	$doc->setTitle(JText::_('JRESEARCH_THESES'));  
     	
     	$this->assignRef('params', $params);
     	$this->assignRef('items', $theses);

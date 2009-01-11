@@ -44,20 +44,19 @@ class JResearchViewPublication extends JView
     */
     private function _displayPublication(){
       	global $mainframe;
-		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');      	
-    	$id = JRequest::getInt('id');
-    	$user = JFactory::getUser();
+      	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');      	
+    	
+      	$id = JRequest::getInt('id');
+    	$user = JFactory::getUser();    	    	
     	$commentsAllowed = false;
    		$showComments = JRequest::getInt('showcomm', 0);
    		$doc =& JFactory::getDocument();
+   		
       	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');   		
    		JHTML::_('Validator._');   
    		$config = array('filePath'=>JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publication'.DS.'captcha');   			
-   		
    		$doc->addScript(JURI::base().'components/com_jresearch/views/publication/comments.js');
    		
-   		
-
     	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
     		return;
@@ -126,6 +125,7 @@ class JResearchViewPublication extends JView
 			$this->assignRef('reference', $crossrefData);	
 		}
 		
+	$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
     	$this->assignRef('publication', $publication);

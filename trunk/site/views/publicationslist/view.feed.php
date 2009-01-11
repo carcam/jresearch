@@ -24,6 +24,8 @@ class JResearchViewPublicationsList extends JView{
 	
 	function display($tpl = null){
 		$doc =& JFactory::getDocument();
+		$doc->setTitle('JRESEARCH_PUBLICATIONS');
+		
 		$model =& $this->getModel();
 		$areaModel =& $this->getModel('ResearchArea'); 
 		$publications = $model->getData(null, true, true);

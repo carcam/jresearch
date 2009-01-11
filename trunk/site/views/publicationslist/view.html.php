@@ -137,6 +137,8 @@ class JResearchViewPublicationsList extends JView
 			}
 			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
     	}
+    	
+    	$doc->setTitle('JRESEARCH_PUBLICATIONS');
     
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $page);
@@ -152,6 +154,7 @@ class JResearchViewPublicationsList extends JView
     private function _displayFrontendList(){
     	global $mainframe;
     	
+    	$doc = JFactory::getDocument();
     	$params = $mainframe->getParams('com_jresearch');    	
     	$filter_pubtype = $params->get('filter_pubtype','0');
     	
@@ -199,7 +202,9 @@ class JResearchViewPublicationsList extends JView
     	
     	$showmore = ($params->get('show_more') == 'yes');
     	$showdigital = ($params->get('show_more') == 'yes');
-    	
+
+    	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
+    	    	
     	// Bind variables used in layout
     	$this->assignRef('items', $publications);
     	$this->assignRef('page', $model->getPagination());

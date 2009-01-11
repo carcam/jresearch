@@ -54,6 +54,7 @@ class JResearchViewMember extends JView
     	$model = $this->getModel();
     	$member = $model->getByUsername($user->username);
     	$areaModel = $this->getModel('ResearchArea');
+    	$doc = JFactory::getDocument();
     
     	// Modify it, so administrators may edit the item.
     	if(empty($member->username)){
@@ -85,7 +86,7 @@ class JResearchViewMember extends JView
     	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $member->published);   	
 		$editor =& JFactory::getEditor();    	
     	
-    	
+    	$doc->setTitle(JText::_('JRESEARCH_MEMBER').' - '.$member);
     	$this->assignRef('member', $member);
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('publishedRadio', $publishedRadio);

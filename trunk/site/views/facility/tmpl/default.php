@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.modal');
 
 ?>
-<div class="componentheading"><?=$this->fac->name; ?></div>
+<h1 class="componentheading"><?=$this->fac->name; ?></h1>
 <?php 
 if($this->fac->image_url)
 {

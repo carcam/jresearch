@@ -34,6 +34,7 @@ class JResearchViewTeam extends JView
 			margin: 5px 0;
 		}
 		');
+		$doc->setTitle(JText::_('JRESEARCH_TEAM').' - '.$item->name);
 
 		$this->assignRef('item', $item);
 

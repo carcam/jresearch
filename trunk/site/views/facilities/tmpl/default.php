@@ -7,7 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div class="componentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></div>
+<h1 class="componentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h1>
 <div>&nbsp;</div>
 <ul style="padding-left:0px;">
 	<?php foreach($this->items as $fac): ?>

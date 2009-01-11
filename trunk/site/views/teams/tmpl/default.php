@@ -8,9 +8,9 @@
 defined("_JEXEC") or die("Restricted access");
 
 ?>
-<div class="componentheading">
+<h1 class="componentheading">
 	<?=JText::_('JRESEARCH_TEAMS');?>
-</div>
+</h1>
 <ul style="padding-left:0px;">
 	<?php
 	foreach($this->items as $team)

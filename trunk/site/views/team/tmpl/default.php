@@ -7,11 +7,11 @@
 
 $contentArr = explode('<hr id="system-readmore" />', $this->item->description);
 ?>
-<div class="componentheading">
+<h1 class="componentheading">
 	<?=JText::_('JRESEARCH_TEAM');?>
 	-
 	<?=JFilterOutput::ampReplace($this->item->name);?>
-</div>
+</h1>
 <div class="content">
 	<div class="tr">
 		<strong><?=JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?=$this->item->getLeader()?>

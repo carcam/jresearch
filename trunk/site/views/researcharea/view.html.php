@@ -26,6 +26,8 @@ class JResearchViewResearchArea extends JView
     public function display($tpl = null)
     {
     	global $mainframe;
+    	$doc = JFactory::getDocument();
+    	
     	// Require css and styles
     	$id = JRequest::getInt('id', 1);
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);
@@ -43,10 +45,10 @@ class JResearchViewResearchArea extends JView
         $members = $model->getStaffMembers($id);
         //Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
-	if(!$area->published){
-		JError::raiseWarning(1, JText::_('JRESEARCH_AREA_NOT_FOUND'));
-		return;
-	}
+		if(!$area->published){
+			JError::raiseWarning(1, JText::_('JRESEARCH_AREA_NOT_FOUND'));
+			return;
+		}
         
 		$latestPublications = $params->get('area_number_last_publications', 5);        
         if($publications_view_all == 0)	
@@ -72,6 +74,8 @@ class JResearchViewResearchArea extends JView
 		else
     		$theses = $model->getLatestTheses($area->id);		
     	
+    	$doc->setTitle(JText::_('JRESEARCH_RESEARCH_AREA').' - '.$area->name);	
+    		
     	$this->assignRef('theses', $theses);
     	$this->assignRef('ntheses', $model->countTheses($area->id));    	
 

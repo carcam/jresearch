@@ -8,7 +8,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div class="componentheading"><?php echo $this->member; ?></div>
+<h1 class="componentheading"><?php echo $this->member; ?></h1>
 <table cellspacing="5">
   <tr><th colspan="4" class="contentheading"><?php echo JText::_('JRESEARCH_PERSONAL_INFORMATION').': '; ?></th></tr>	
   <tr><td colspan="4"></td></tr>  

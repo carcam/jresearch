@@ -9,7 +9,7 @@
 defined('_JEXEC') or die('Restricted access'); 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
 ?>
-<div class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></div>
+<h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<div style="text-align:left">
 		<?php echo !empty($this->lists['teams'])?'<span>'.$this->lists['teams'].'</span>':''; ?>	

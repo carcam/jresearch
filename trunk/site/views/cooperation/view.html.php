@@ -17,13 +17,13 @@ class JResearchViewCooperation extends JView
 	{	
 		$id = JRequest::getInt('id');
 		$layout =& $this->getLayout();
+		$doc = JFactory::getDocument();
 		
 		// Get data from the model
 		$model = &$this->getModel();
 		$item = $model->getItem($id);
 		
 		$editor =& JFactory::getEditor();
-		
 		switch($layout)
 		{
 			case "edit":
@@ -33,6 +33,7 @@ class JResearchViewCooperation extends JView
 				break;
 		}
 
+		$doc->setTitle(JText::_('JRESEARCH_COOPERATION').' - '.$item->name);
 		$this->assignRef('coop', $item);
 		$this->assignRef('editor', $editor);
 

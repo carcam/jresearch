@@ -7,7 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div class="componentheading"><?php echo $this->project->title; ?></div>
+<h1 class="componentheading"><?php echo $this->project->title; ?></h1>
 <table cellspacing="2" cellpadding="2">
 <tbody>
 	<tr>
