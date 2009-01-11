@@ -8,6 +8,8 @@
 		<description>JRESEARCH_PUBLICATIONS_PER_GROUP_LIST_VIEW_MESSAGE</description>
 		<url>
 				<param type="hidden" name="task" default="filtered" />
+				<param type="hidden" name="modelkey" default="tabular" />
+
 		</url>
 		<params>
 			<param name="filter_teams" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM_DESCRIPTION">
