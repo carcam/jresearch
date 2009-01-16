@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('Url').': '?></td>
 		<td colspan="3">
-			<input name="url" id="url" size="50" maxlength="255" value="<?php echo $this->financier?$this->financier->url:'' ?>" class="required" />
+			<input name="url" id="url" size="50" maxlength="255" value="<?php echo $this->financier?$this->financier->url:'' ?>" class="validate-url" />
 			<br />
 			<label for="url" class="labelform" ><?php echo JText::_('JRESEARCH_FINANCIER_PROVIDE_VALID_URL'); ?></label>
 		</td>

@@ -51,7 +51,7 @@ class JResearchViewFacilities extends JView
 		
     	$facs =  $model->getData(null, true, true);   
     	
-    	$doc->setTitle('JRESEARCH_FACILITIES');
+    	$doc->setTitle(JText::_('JRESEARCH_FACILITIES'));
     	$this->assignRef('params', $params);
     	$this->assignRef('items', $facs);
     	$this->assignRef('areaModel', $areaModel);

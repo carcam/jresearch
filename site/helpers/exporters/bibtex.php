@@ -69,7 +69,7 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 			$output .= "author = \"$authorsText\",\n";
 			$properties = JResearchPublicationBibtexExporter::getSupportedFields();
 			foreach($properties as $p){
-				$value = trim($publication->$p);
+				$value = JResearchPublicationsHelper::utf8ToBibCharsFromString($publication->$p);
 				if(!empty($value)){
 					$output .= "$p = \"$value\",";
 					$output .= "\n";

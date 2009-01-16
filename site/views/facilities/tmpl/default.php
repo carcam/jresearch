@@ -29,7 +29,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<div>&nbsp;</div>
 				<div style="text-align:left">
 					<a href="index.php?option=com_jresearch&task=show&view=facility&id=<?php echo $fac->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" >
-						<?php echo JText::_('Read more...'); ?>
+						<?php echo JText::_('JRESEARCH_READ_MORE'); ?>
 					</a>
 				</div>
 			</div>

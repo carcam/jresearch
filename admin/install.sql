@@ -290,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication_internal_author` (
 DROP TABLE IF EXISTS `#__jresearch_research_area`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `name` varchar(60) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `description` text,
   `published` tinyint(4) NOT NULL default '1',
   `checked_out` tinyint(11) unsigned NOT NULL default '0',

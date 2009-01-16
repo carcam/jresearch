@@ -27,10 +27,10 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 		<thead>
 		<tr>		
 			<th width="3%">#</th>
-			<th style="text-align:center;" class="title" width="40%"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
-			<th style="text-align:center;" class="title" nowrap="nowrap" width="35%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
-			<th style="text-align:center;" class="title" width="10%"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
-			<th style="text-align:center;" class="title" width="10%"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'); ?></th>
+			<th style="text-align:center;" width="40%"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
+			<th style="text-align:center;" nowrap="nowrap" width="35%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
+			<th style="text-align:center;" width="10%"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
+			<th style="text-align:center;" width="10%"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'); ?></th>
 			<th width="2%"></th>
 		</tr>
 		</thead>

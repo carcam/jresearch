@@ -23,7 +23,7 @@ if($this->coop->image_url != "")
 ?>
 <div class="content">
 	<div>
-		<strong><?=JText::_('JRESEARCH_COOPERATION_URL');?></strong> <?=JFilterOutput::ampReplace($this->coop->url);?>
+		<strong><?=JText::_('JRESEARCH_COOPERATION_URL');?></strong> <a href="<?=JFilterOutput::ampReplace($this->coop->url);?>"><?=JFilterOutput::ampReplace($this->coop->url);?></a>
 	</div>
 	<div>
 		<?=$contentArr[0];?>

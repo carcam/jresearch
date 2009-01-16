@@ -23,7 +23,7 @@ class JResearchViewCooperations extends JView
 		$items = $model->getData(null, true, true);
 		$params = $mainframe->getParams();
 		
-		$doc->setTitle('JRESEARCH_COOPERATIONS');
+		$doc->setTitle(JText::_('JRESEARCH_COOPERATIONS'));
 		$this->assignRef('params', $params);
 		$this->assignRef('items', $items);
 		$this->assignRef('page', $model->getPagination());	
