@@ -20,10 +20,11 @@ if($this->coop->image_url != "")
 <?php
 }
 
+$ampReplacedUrl = JFilterOutput::ampReplace($this->coop->url);
 ?>
 <div class="content">
 	<div>
-		<strong><?=JText::_('JRESEARCH_COOPERATION_URL');?></strong> <a href="<?=JFilterOutput::ampReplace($this->coop->url);?>"><?=JFilterOutput::ampReplace($this->coop->url);?></a>
+		<strong><?=JText::_('JRESEARCH_COOPERATION_URL');?></strong> <a href="<?=$ampReplacedUrl;?>"><?=$ampReplacedUrl;?></a>
 	</div>
 	<div>
 		<?=$contentArr[0];?>
