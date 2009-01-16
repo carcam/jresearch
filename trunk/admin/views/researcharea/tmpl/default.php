@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('Name').': '?></td>
 		<td>
-			<input name="name" id="name" size="30" maxlength="30" value="<?php echo $this->area?$this->area->name:'' ?>" class="required" />
+			<input name="name" id="name" size="30" maxlength="255" value="<?php echo $this->area?$this->area->name:'' ?>" class="required" />
 			<br />
 			<label for="name" class="labelform" ><?php echo JText::_('JRESEARCH_RESEARCH_AREA_PROVIDE_VALID_NAME'); ?></label>
 		</td>

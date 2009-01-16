@@ -60,7 +60,7 @@ if($intro_text != "")
 				?>
 					<div style="text-align:left">
 						<a href="index.php?option=com_jresearch&task=show&view=cooperation&id=<?=$coop->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >
-							<?=JText::_('Read more...'); ?>
+							<?=JText::_('JRESEARCH_READ_MORE'); ?>
 						</a>
 					</div>
 				<?php 
