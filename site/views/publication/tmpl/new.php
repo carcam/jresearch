@@ -29,7 +29,7 @@ if(JHTML::_('Jresearch.authorize','add', 'publications'))
 		<input type="hidden" name="option" value="com_jresearch"  /> 
 		<input type="hidden" name="controller" value="publications" />
 		<input type="hidden" name="task" value="add" />
-		<input type="hidden" name="id" value="" />
+		<input type="hidden" name="id" value="0" />
 	</form>
 <?php
 }

@@ -228,8 +228,6 @@ class JResearchViewPublication extends JView
 		$subtypes = JResearchPublication::getPublicationsSubtypes();
 		$typesOptions = array();
 		
-		JRequest::setVar('id', 0);
-		
 		foreach($subtypes as $type){
 			// Inproceedings is the same as conference 
 			if($type != 'inproceedings')
