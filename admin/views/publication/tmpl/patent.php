@@ -9,9 +9,12 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td><?=JText::_('JRESEARCH_PATENT_NUMBER').': ' ?></td>		
-	<td><input name="patent_number" id="patent_number" type="text" size="10" maxlength="10" value="<?=$this->publication?$this->publication->patent_number:'' ?>" /></td>
-	<td>&nbsp;</td>
-	<td><input name="drawings_dir" id="drawings_dir" type="text" size="30" maxlength="255" value="<?=$this->publication?$this->publication->drawings_dir:'' ?>" /></td>
+	<td colspan="3"><input name="patent_number" id="patent_number" type="text" size="10" maxlength="10" value="<?=$this->publication?$this->publication->patent_number:'' ?>" /></td>
+	<!--
+		DRAWINGS DIR ISN'T IMPLEMENTED
+		<td><?=JText::_('JRESEARCH_DRAWINGS_DIR').': ' ?></td>
+		<td><input name="drawings_dir" id="drawings_dir" type="text" size="30" maxlength="255" value="<?=$this->publication?$this->publication->drawings_dir:'' ?>" /></td>
+	-->
 </tr>
 <tr>
 	<td><?=JText::_('JRESEARCH_FILING_DATE').': ' ?></td>
