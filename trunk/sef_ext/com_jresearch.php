@@ -1,10 +1,10 @@
 <?php
 /**
  * sh404SEF support for com_jresearch component.
- * Author : Carlos M. Cámara Mora
+ * Author : Carlos M. Cámara Mora from JResearch
  * contact : carcam@gnumla.com
  * 
- * {shSourceVersionTag: Version 0.1 - 2009-01-06}
+ * {shSourceVersionTag: Version 1.0 - 2009-01-01}
  * 
  * This is a Xmap sh404SEF native plugin file
  *    
@@ -52,6 +52,18 @@ shRemoveFromGETVarsList('layout');
 
 switch ($view)
 {
+	case 'cooperation'
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_COOPERATION'];
+		break;
+	case 'cooperations'
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_COOPERATIONS'];
+		break;
+	case 'facilities'
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_FACILITIES'];
+		break;
+	case 'facility'
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_FACILITY'];
+		break;
 	case 'publicationslist':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_PUBLICATIONS_LIST'];
 		break;
