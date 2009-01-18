@@ -52,16 +52,16 @@ shRemoveFromGETVarsList('layout');
 
 switch ($view)
 {
-	case 'cooperation'
+	case 'cooperation':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_COOPERATION'];
 		break;
-	case 'cooperations'
+	case 'cooperations':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_COOPERATIONS'];
 		break;
-	case 'facilities'
+	case 'facilities':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_FACILITIES'];
 		break;
-	case 'facility'
+	case 'facility':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_FACILITY'];
 		break;
 	case 'publicationslist':
