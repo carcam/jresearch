@@ -424,5 +424,13 @@ class JResearchToolbar
 		JToolBarHelper::publishList('publish', JText::_('Publish'));
 		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
 	}
+	
+	/**
+	 * Toolbar shown when visiting help page in backend interface.
+	 *
+	 */
+	public static function helpToolbar(){
+		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+	}
 }
 ?>

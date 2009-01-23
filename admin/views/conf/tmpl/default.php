@@ -90,6 +90,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</a>
 				</div>
 			</div>
+			<div style="float: left;">
+				<div class="icon">
+					<a href="index.php?option=com_jresearch&amp;task=help">
+						<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/help-browser.png" alt="<?php echo JText::_('Help'); ?>">					
+						<span><?php echo JText::_('Help'); ?></span>
+					</a>
+				</div>
+			</div>
 		</div>	
 	</td>
 	<td valign="top" width="45%">
