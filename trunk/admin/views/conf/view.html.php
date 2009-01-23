@@ -22,7 +22,6 @@ class JResearchAdminViewConf extends JView
     {
     	JHTML::_('behavior.modal');
     	
-    	echo $this->getLayout();
     	if($this->getLayout() == 'help'){
     		JResearchToolbar::helpToolbar();
     		$doc = JFactory::getDocument();
