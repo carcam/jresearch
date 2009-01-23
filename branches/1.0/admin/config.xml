@@ -64,7 +64,7 @@
 			<option value="yes">Yes</option>
 			<option value="no">No</option>
 		</param>
-		<param name="staff_list_arrangement" type="list" default="vertical" label="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT" description="JRESEARCH_CITATION_STYLE_DESCRIPTION">
+		<param name="staff_list_arrangement" type="list" default="vertical" label="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT" description="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT_DESCRIPTION">
 			<option value="vertical">JRESEARCH_VERTICAL</option>
 			<option value="horizontal">JRESEARCH_HORIZONTAL</option>
 		</param>
