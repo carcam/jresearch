@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
+<install type="language" version="1.5.5" client="both" method="upgrade">
+  <name>J!Research 1.0 Polish (Poland) Translation</name>
+  <tag>pl-PL</tag>
+  <version>1.0</version>
+	<creationDate>16.12.2008</creationDate>
+	<author>Tomasz Cieplak</author>
+	<authorEmail>poczta@cieplak.net</authorEmail>
+	<authorUrl>www.cieplak.net</authorUrl>
+	<copyright>(C) Tomasz Cieplak</copyright>
+	<description><![CDATA[ 
+	 <div align="center">
+    Pakiet języka polskiego komponentu J!Research(strony frontowej) i zaplecza (strony administracyjnej).
+	 </div>
+	 ]]></description>
+
+  <administration>
+    <files folder="admin">
+		  <filename>pl-PL.com_jresearch.ini</filename>		
+    </files>
+  </administration>
+  
+  <site>
+    <files folder="site">
+		  <filename>pl-PL.com_jresearch.ini</filename>		
+  	</files>
+  </site>
+  <params />
+</install>
