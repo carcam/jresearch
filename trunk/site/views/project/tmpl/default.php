@@ -122,40 +122,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php endif; ?>	
 		</tr>	
 	<?php endif; ?>
-	<?php
-	//Get values and financiers for project
-	$financiers = $this->project->getFinanciers();
-	$value = str_replace(array(",00",".00"), ",-", $this->project->finance_value); //Replace ,/.00 with ,-
-	
-	//Convert value to format 1.000.000,xx
-	$aFloat = substr($value, strpos($value, ","));
-	$cValue = array_reverse(str_split(strrev(substr($value, 0, strpos($value, ","))), 3));
-	
-	$convertedArray = array();
-	foreach($cValue as $val)
-	{
-		$convertedArray[] = strrev($val);
-	}
-	
-	$value = implode(".",$convertedArray).$aFloat;
-	?>
-	<tr>
-		<td style="width:15%;" class="publicationlabel"><?=JText::_('JRESEARCH_PROJECT_FUNDING').': '?></td>
-		<td colspan="2">
-			<?php
-			if(count($financiers) > 0)
-			{
-				echo "<ul>";
-				foreach($financiers as $financier)
-				{
-					echo "<li>".$financier."</li>";
-				}
-				echo "</ul>";
-			}
-			?>
-		</td>
-		<td><?=$this->project->finance_currency." ".$value?></td>
-	</tr>
 	
 	<tr>
 		<?php $startDate = trim($this->project->start_date); ?>

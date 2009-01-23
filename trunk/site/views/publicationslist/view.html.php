@@ -201,7 +201,7 @@ class JResearchViewPublicationsList extends JView
     	$filter_order_Dir = JRequest::getVar('filter_order_Dir', 'DESC');
     	
     	$showmore = ($params->get('show_more') == 'yes');
-    	$showdigital = ($params->get('show_more') == 'yes');
+    	$showdigital = ($params->get('show_digital') == 'yes');
 
     	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
     	    	

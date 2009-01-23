@@ -25,6 +25,7 @@ class JResearchAdminController extends JController
 		$this->registerDefaultTask('display');
 		$this->registerTask('show', 'show');
 		$this->registerTask('save', 'save');
+		$this->registerTask('help', 'help');
 		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'conf');
 	}
 
@@ -47,6 +48,17 @@ class JResearchAdminController extends JController
 	function save(){
 		parent::display();
 	}
+	
+	/**
+	 * Invoked when the user has decided to visit help page.
+	 *
+	 */
+	function help(){
+		$view = &$this->getView('conf', 'html', 'JResearchAdminView');
+		$view->setLayout('help');
+		$view->display();		
+	}
+	
 	
 	/**
 	* Invoked when an administrator has decided to see the configuration for the component

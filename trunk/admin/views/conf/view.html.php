@@ -21,8 +21,17 @@ class JResearchAdminViewConf extends JView
     function display($tpl = null)
     {
     	JHTML::_('behavior.modal');
-    	JResearchToolbar::controlPanelToolbar();
-        parent::display($tpl);
+    	
+    	echo $this->getLayout();
+    	if($this->getLayout() == 'help'){
+    		JResearchToolbar::helpToolbar();
+    		$doc = JFactory::getDocument();
+    		$prefix = str_replace($doc->getLanguage(), '_', '-');
+    		$this->assignRef('langprefix', $prefix);
+    	}else	
+    		JResearchToolbar::controlPanelToolbar();
+
+    	parent::display($tpl);
     }
 }
 
