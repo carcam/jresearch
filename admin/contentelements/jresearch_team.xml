@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <joomfish type="contentelement">
-	<name>J!Research Facility</name>
+	<name>J!Research Team</name>
 	<author>F. Prinz</author>
 	<version>0.1</version>
-	<description>Definition for the facility content of the J!Research component</description>
+	<description>Definition for the team content of the J!Research component</description>
 	<reference type="content">
-		<table name="jresearch_facility">
+		<table name="jresearch_team">
 			<field type="referenceid" name="id" translate="0">ID</field>
 			<field type="titletext" name="name" translate="1">Name</field>
-			<field type="text" name="image_url" translate="0">Image URL</field>
 			<field type="htmltext" name="description" translate="1">Description</field>
 			<field type="checked_out_by" name="checked_out" translate="0">Check out by</field>
 			<field type="checked_out_date" name="checked_out_time" translate="0">Check out date</field>
@@ -16,6 +15,6 @@
 	</reference>
 	<translationfilters>
   	  <published>published</published>
-  	  <id>id</id>
+  	  <teamleader>id_leader</teamleader>
   </translationfilters>
 </joomfish>
