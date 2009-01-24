@@ -35,10 +35,10 @@
   $sh_LANG['es']['_COM_SEF_SH_THESIS_LIST']= 'Tesis';
   $sh_LANG['es']['_COM_SEF_SH_THESIS'] = 'Tesis';
   // German
-  $sh_LANG['de']['_COM_SEF_SH_COOPERATION'] = '';
-  $sh_LANG['de']['_COM_SEF_SH_COOPERATIONS'] = '';
-  $sh_LANG['de']['_COM_SEF_SH_FACILITIES'] = '';
-  $sh_LANG['de']['_COM_SEF_SH_FACILITY'] = '';
+  $sh_LANG['de']['_COM_SEF_SH_COOPERATION'] = 'Kooperation';
+  $sh_LANG['de']['_COM_SEF_SH_COOPERATIONS'] = 'Kooperationen';
+  $sh_LANG['de']['_COM_SEF_SH_FACILITIES'] = 'Einrichtungen';
+  $sh_LANG['de']['_COM_SEF_SH_FACILITY'] = 'Einrichtung';
   $sh_LANG['de']['_COM_SEF_SH_PUBLICATIONS_LIST'] = 'Publikationen';
   $sh_LANG['de']['_COM_SEF_SH_PUBLICATION'] = 'Publikation';
   $sh_LANG['de']['_COM_SEF_SH_PROJECTS_LIST'] = 'Projekte';
