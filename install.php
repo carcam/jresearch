@@ -24,25 +24,36 @@ require_once(JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'database'.DS.'table'.DS.'
 function com_install(){
 	
 	// Copy Joom!Fish content elements if Joom!Fish extension exists
-	$joomFishCheckFile = JPATH_SITE.'components'.DS.'com_joomfish'.DS.'config.joomfish.php';
+	$joomFishCheckFile = JPATH_SITE.'components'.DS.'com_joomfish'.DS.'joomfish.php';
 	$srcFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'contentelements';
 	$destFolder = JPATH_SITE.'components'.DS.'com_joomfish'.DS.'contentelements';
 	
-	/* @todo Add content elements for install and removing
+	//Install Joomfish elements
 	if(file_exists($joomFishCheckFile))
 	{
 		//Install content elements
-		@rename($srcFolder.DS.'ce_jresearch_facility.xml', $destFolder.DS.'ce_jresearch_facility.xml');
+		@rename($srcFolder.DS.'jresearch_cooperations.xml', $destFolder.DS.'jresearch_cooperations.xml');
+		@rename($srcFolder.DS.'jresearch_facility.xml', $destFolder.DS.'jresearch_facility.xml');
+		@rename($srcFolder.DS.'jresearch_financier.xml', $destFolder.DS.'jresearch_financier.xml');
+		@rename($srcFolder.DS.'jresearch_member.xml', $destFolder.DS.'jresearch_member.xml');
+		@rename($srcFolder.DS.'jresearch_project.xml', $destFolder.DS.'jresearch_project.xml');
+		@rename($srcFolder.DS.'jresearch_research_area.xml', $destFolder.DS.'jresearch_research_area.xml');
+		@rename($srcFolder.DS.'jresearch_team.xml', $destFolder.DS.'jresearch_team.xml');
 	}
 	else 
 	{
 		//Remove files from component installation, isn't necessary for the current joomla installation
-		@unlink($srcFolder.DS.'ce_jresearch_facility.xml');
+		@unlink($srcFolder.DS.'jresearch_cooperations.xml');
+		@unlink($srcFolder.DS.'jresearch_facility.xml');
+		@unlink($srcFolder.DS.'jresearch_financier.xml');
+		@unlink($srcFolder.DS.'jresearch_member.xml');
+		@unlink($srcFolder.DS.'jresearch_project.xml');
+		@unlink($srcFolder.DS.'jresearch_research_area.xml');
+		@unlink($srcFolder.DS.'jresearch_team.xml');
 	}
 
 	//Remove folder from component
 	@rmdir($srcFolder);
- 	*/
 	
 	// Copy TinyMCE plugin files to the right folder
 	$srcFolder = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'automatic_citation';
