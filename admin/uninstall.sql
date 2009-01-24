@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS `#__jresearch_manual`;
 DROP TABLE IF EXISTS `#__jresearch_mastersthesis`;
 DROP TABLE IF EXISTS `#__jresearch_member`;
 DROP TABLE IF EXISTS `#__jresearch_misc`;
+DROP TABLE IF EXISTS `#__jresearch_patent`;
 DROP TABLE IF EXISTS `#__jresearch_phdthesis`;
 DROP TABLE IF EXISTS `#__jresearch_proceedings`;
 DROP TABLE IF EXISTS `#__jresearch_project`;

@@ -413,18 +413,6 @@ CREATE TABLE `#__jresearch_property` (
 	PRIMARY KEY ( `name` )
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_mdm`;
-CREATE TABLE IF NOT EXISTS `#__jresearch_mdm` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `id_member` int(19) unsigned NOT NULL,
-  `month` date NOT NULL,
-  `description` tinytext NOT NULL,
-  `published` tinyint(4) NOT NULL default '1',
-  `checked_out` tinyint(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL,
-  PRIMARY KEY  (`id`)
-)ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
 DROP TABLE IF EXISTS `#__jresearch_cooperations`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_cooperations` (
   `id` int(11) unsigned NOT NULL auto_increment,
