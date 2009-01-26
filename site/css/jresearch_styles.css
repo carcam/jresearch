@@ -114,3 +114,22 @@ li.comments{
 	list-style: none;
 	margin-top: 10px;
 }
+
+
+div.help{
+	margin-left: 15px;
+}
+
+div.help p, div.help ul{
+	font-size: 12px;	
+	text-align: justify;
+}
+
+
+.helpindex{
+	margin-bottom: 50px;
+}
+
+.helpindex a{
+	font-size: 14px;
+}

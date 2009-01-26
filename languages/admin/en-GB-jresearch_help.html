@@ -1,0 +1,129 @@
+<div class="help">
+<div><img src="components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo"/></div>
+<h1>
+	<span>J!Research Help</span>
+</h1>
+<div style="position: fixed; right: 0pt; top: 0pt;"><a href="#top">Top</a></div>
+
+<h2><a name="top">Index</a></h2>
+<ol class="helpindex">
+	<li><a href="#researchareas">Research areas</a></li>
+	<li><a href="#cooperations">Cooperations</a></li>
+	<li><a href="#facilities">Facilities</a></li>
+	<li><a href="#financiers">Financiers</a></li>
+	<li><a href="#projects">Projects</a></li>
+	<li><a href="#publications">Publications</a></li>
+	<li><a href="#staff">Staff</a></li>
+	<li><a href="#teams">Teams</a></li>
+	<li><a href="#theses">Theses</a></li>
+	<li><a href="#authorization">Authorization</a></li>
+</ol>
+		
+<ol>
+	<li>
+		<h2><a name="researchareas">Research areas</a></h2>
+		<p>Research centers usually work in different areas of knowledge. J!Research allows the categorization of information the research area. It provides views for listing available research areas and showing a detailed description of a single research area including related projects, publications and theses.</p>
+	</li>
+	
+	<li>
+		<h2><a name="cooperations">Cooperations</a></h2>
+		<p>J!Research includes support for cooperations which are entries that hold
+		information about external organizations or institutions that
+		collaborate in any way with a research center. J!Research provides
+		frontend views for a single cooperation description and for listing all
+		available cooperations.</p>
+	</li>
+	
+	<li>
+		<h2><a name="facilities">Facilities</a></h2>
+		<p>Facilities
+		are used to hold information about any appliance or equipment available
+		for research activites in the center. J!Research allows the
+		management of facilities by defining a name, related research area,&nbsp;photo and description. &nbsp;</p>
+	</li>
+	
+	<li><h2><a name="financiers">Financiers</a></h2>
+		<p>Financiers are external institutions or organizations that provide funding for research projects. J!Research allows the management of financiers which can be
+		associated to projects.</p>
+	</li>
+	
+	<li><h2><a name="projects">Projects</a></h2><p>Projects are the main activities in a research center. J!Research allows to publish detailed information about research projects, including research area, brief completion status, associated members (allowing to define leader members), start date and deadline, financiers, finance level, project homepage, project logo and description. The administrator can publish highly configurable lists of projects or single projects description pages.</p>
+	
+	<li><h2><a name="publications">Publications</a></h2>
+	<p>Publications are the key feature of J!Research. J!Research provides a complete set of functionalities for the management of publications. Next sections explains this in more detail.</p>
+	<ol>
+		<li>
+			<h3>Citation styles</h3>
+			<p>J!Research includes support for the most popular citation styles used in the different academic fields to list sets of publications:</p>
+			<ul>
+				<li>APA (American Psychological Association's Style)</li>
+				<li>MLA (Modern Language Association's Style)</li>
+				<li>Chicago (15th Chicago Manual of Style)</li>
+				<li>IEEE (Institute of Electrical and Electronics Engineers' Style)</li>
+				<li>CSE (Council of Science Editors' Style)</li>
+				<li>Vancouver citation style</li>
+			</ul>
+		</li>	
+		<li>
+			<h3>Management</h3>
+			<p>J!Research was initially designed to be compatible with <a href="http://bibtex.org" target="blank">Bibtex</a> publications types, however since 1.1 release, support for other types of publications has been included. Publications can be internal or not. Internal items are those that were written with the organization's sponsorship and can be published in the public site as work done in the center. J!Research provides three views related to publications:</p>
+			<ul>
+				<li>
+					<h4>Default publications list</h4>
+					<p>It shows a list of publications organized by criteria like year of publication, type or title. The publications are displayed using the specified citation style.
+					<p>
+				</li>
+	
+				<li>
+					<h4>Single publication description</h4>
+				</li>
+				<li>
+					<h4>Tabular presentation</h4>
+					<p>It shows a list of publications in a tabular format including filters by team, research area, author and type.</p>
+				</li>
+			</ul>
+	
+	 		<p>Publications admin interface allows to import and export sets of publications in the following formats:			</p>
+			<ul>
+				<li>Bibtex</li>
+				<li>RIS</li>
+				<li><a href="http://www.loc.gov/standards/mods/" target="_blank">MODS</a> (Metadata Object Description Schema)</li>
+			</ul> 
+		</li>	
+		<li><h3>Citation</h3>
+		<p>Research activities usually rely on knowledge published previously. For that reason, J!Research allows the citation of publications stored in the database via its plugin for automatic citation available in the Joomla WYSIWYG editor.</p>
+		<p><img src="components/com_jresearch/assets/help/citebar.png"/> This bar can be found ONLY in Joomla TinyMCE editor if J!Research was successfully installed. Every button inserts a command in the editor that is automatically replaced by the correct cite text in the configured citation style when right parameters are provided. Except for bibliography command, the citekey of the publications must be provided. </p>
+		<ul>
+			<li><img src="../plugins/editors/tinymce/jscripts/tiny_mce/plugins/jresearch_automatic_citation/images/cite.png" /> <strong>cite{citekey}</strong> Allows the citation of one publication in a non-parenthetical way. In non-parenthetical citations, the authors are the subject of the sentence. Non-parenthetical citations do not make sense with more than one publication. Some citation styles could not define non-parenthetical cites.</li>
+			<li><img src="../plugins/editors/tinymce/jscripts/tiny_mce/plugins/jresearch_automatic_citation/images/citep.png" /> <strong>citep{citekey1, citekey2, ... }</strong> Allows the citation of one or more publications in a parenthetical way. In parenthetical citations, the authors are NOT the subject of the sentence. Some citation styles could not define parenthetical cites.</li>
+			<li><img src="../plugins/editors/tinymce/jscripts/tiny_mce/plugins/jresearch_automatic_citation/images/citeyear.png" /> <strong>citeyear{citekey1, citekey2, ... }</strong> Allows to cite the year of publication of one or more entries.</li>
+			<li><img src="../plugins/editors/tinymce/jscripts/tiny_mce/plugins/jresearch_automatic_citation/images/nocite.png" /> <strong>nocite{citekey1, citekey2, ... }</strong> Allows to cite one or more publications, but inserts nothing. However, the cited items will be considered when generating the list of references in response to <em>bibliography</em> command.</li>
+			<li><img src="../plugins/editors/tinymce/jscripts/tiny_mce/plugins/jresearch_automatic_citation/images/bibliography.png" /> <strong>bibliography{}</strong> Inserts a list of references based on document's cited records and the configured citation style.</li>
+		</ul>
+		<p><img src="components/com_jresearch/assets/help/joomlacitebar.png"/>Additionally, J!Research provides an interface to cite records and generate lists of references for those users not using TinyMCE editor. They appear at the bottom of any editor instance.</p>
+		</li>
+	
+	</ol>
+	
+	<li>
+	<h2><a name="staff">Staff</a></h2>
+	<p>J!Research provides management of staff members. Basic members information like name and email is imported from Joomla users table. Views for listing staff members in a tabular way and using a coverflow are provided. Additionally, authenticated users that were defined as J!Research members can edit their profile from public site. Frontend profile pages include personal information and a summary of the last activities the member has been involved (publications, theses and projects). It is important to mention that J!Research permits to associate people without membership to activities, by entering their names instead of selecting them from available staff.</p>
+	</li>
+	
+	<li>
+	<h2><a name="teams">Teams</a></h2>
+	<p></p>
+	</li>
+	
+	<li>
+	<h2><a name="theses">Theses</a></h2>
+	<p>Management of degree theses is part of J!Research as it is common for staff members to be involved in this kind of  activity in the role of students or directors. Theses as well as other entities, can be listed and detailed from frontend.
+	</p>
+	</li>
+	<li>
+	<h2><a name="authorization">Authorization</a></h2>
+	<p></p>
+	</li>
+	
+</ol>
+</div>
