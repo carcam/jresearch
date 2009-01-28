@@ -124,7 +124,7 @@
 	
 	<li>
 	<h2><a name="teams">Grupos de trabajo</a></h2>
-	<p></p>
+	<p>Un grupo de trabajo es una entidad organizacional que re&uacute;ne un conjunto de miembros. Son empleados para brindar autorizaci&oacute;n sobre un grupo de entidades. Estas operaciones son explicadas en el cap&iacute;tulo "<a href="#authorization">Autorizaci&oacute;n</a>".</p>
 	</li>
 	
 	<li>
@@ -135,9 +135,63 @@
 
 	</li>
 	<li>
-	<h2><a name="authorization">Authorization</a></h2>
-	<p></p>
-	</li>
-	
+	<h2><a name="authorization">Autorizaci&oacute;n</a></h2>
+		<p>J!Research cuenta con una serie de reglas en relaci&oacute;n a las operaciones que los usuarios pueden realizar sobre las entidades desde el frontend. Dichas reglas se encuentran implementadas en una clase auxiliar(helper) en el archivo <i>acl.php</i>. Las reglas se encuentran est&aacute;ticamente definidas en dicho archivo.</p>
+		<ol>
+			<li>
+				<h3>Publicaciones</h3>
+				<p>
+					A continuaci&oacute;n se muestran las reglas definidas en el archivo <i>acl.php</i> en relaci&oacute;n a las publicaciones:
+				</p>
+				<pre>
+//Add publications				
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'author', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'editor', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'publisher', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'manager', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'administrator', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'super administrator', 'publications', 'all');
+
+//Edit publications
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'registered', 'publications', 'own');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'author', 'publications', 'own');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'editor', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'publisher', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'manager', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'administrator', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'super administrator', 'publications', 'all');
+
+//Remove publications
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'registered', 'publications', 'own');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'author', 'publications', 'own');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'editor', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'publisher', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'manager', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'administrator', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'super administrator', 'publications', 'all');
+				</pre>
+				
+<p style="text-align:center"><img src="components/com_jresearch/assets/help/acl.png" alt="ACL Sample"/></p>	
+<p>donde:</p>
+	<ul>
+		<li>(1) es la acci&oacute;n permitida. Para nuestro caso, la edici&oacute;n de algo.</li>
+		<li>(2) es el grupo de usuarios Joomla sobre el cual se aplica la regla.</li>
+		<li>(3) es la entidad sobre la cual se permite la acci&oacute;n.</li>
+		<li>(4) define en nivel de acceso; <strong>own</strong> significa que la acci&oacute;n puede ser aplicada a las entidades que le pertenencen al usuario. Un usuario es due&ntilde;o de una entidad cuando ha sido definido como su autor.
+			<strong>all</strong> se aplica a todas las entidades publicadas. No olvidar que para el caso de las publicaciones, &eacute;stas deben estar marcadas como <i>internal</i> para aparecer en el frontend. 
+		</li>
+	</ul>
+			<p>
+				Tambi&eacute;n se ha implementado autorizaci&oacute;n a nivel de grupos de trabajo para las publicaciones. Si un miembro es parte del equipo (el equipo del creador de la publicaci&oacute;n), entonces el usuario puede editar esa publicaci&oacute;n. 
+				</p>
+			</li>
+			<li>
+				<h3>Tesis de grado</h3>
+				<p>
+					Las mismas reglas mencionadas anteriormente han sido implementadas para las tesis, pero no son aplicadas a las tesis a&uacute;n. Su aplicaci&oacute;n en tesis de grado estar&aacute; disponible en pr&oacute;ximas versiones.
+				</p>
+			</li>
+		</ol>
+	</li>	
 </ol>
 </div>
