@@ -130,33 +130,44 @@
 					Below the <i>acl.php</i> file is printed with the authorization content for publications.
 				</p>
 				<pre>
-//Add publications
-$acl->addACL('com_jresearch', 'add', 'users', 'author', 'publications', 'all');
-$acl->addACL('com_jresearch', 'add', 'users', 'editor', 'publications', 'all');
-$acl->addACL('com_jresearch', 'add', 'users', 'publisher', 'publications', 'all');
-$acl->addACL('com_jresearch', 'add', 'users', 'manager', 'publications', 'all');
-$acl->addACL('com_jresearch', 'add', 'users', 'administrator', 'publications', 'all');
-$acl->addACL('com_jresearch', 'add', 'users', 'super administrator', 'publications', 'all');
+//Add publications				
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'author', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'editor', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'publisher', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'manager', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'administrator', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'add', 'users', 'super administrator', 'publications', 'all');
 
 //Edit publications
-$acl->addACL('com_jresearch', 'edit', 'users', 'registered', 'publications', 'own');
-$acl->addACL('com_jresearch', 'edit', 'users', 'author', 'publications', 'own');
-$acl->addACL('com_jresearch', 'edit', 'users', 'editor', 'publications', 'all');
-$acl->addACL('com_jresearch', 'edit', 'users', 'publisher', 'publications', 'all');
-$acl->addACL('com_jresearch', 'edit', 'users', 'manager', 'publications', 'all');
-$acl->addACL('com_jresearch', 'edit', 'users', 'administrator', 'publications', 'all');
-$acl->addACL('com_jresearch', 'edit', 'users', 'super administrator', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'registered', 'publications', 'own');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'author', 'publications', 'own');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'editor', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'publisher', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'manager', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'administrator', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'edit', 'users', 'super administrator', 'publications', 'all');
 
 //Remove publications
-$acl->addACL('com_jresearch', 'remove', 'users', 'registered', 'publications', 'own');
-$acl->addACL('com_jresearch', 'remove', 'users', 'author', 'publications', 'own');
-$acl->addACL('com_jresearch', 'remove', 'users', 'editor', 'publications', 'all');
-$acl->addACL('com_jresearch', 'remove', 'users', 'publisher', 'publications', 'all');
-$acl->addACL('com_jresearch', 'remove', 'users', 'manager', 'publications', 'all');
-$acl->addACL('com_jresearch', 'remove', 'users', 'administrator', 'publications', 'all');
-$acl->addACL('com_jresearch', 'remove', 'users', 'super administrator', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'registered', 'publications', 'own');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'author', 'publications', 'own');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'editor', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'publisher', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'manager', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'administrator', 'publications', 'all');
+$acl-&gt;addACL('com_jresearch', 'remove', 'users', 'super administrator', 'publications', 'all');
 				</pre>
-				<p>
+				
+<p style="text-align:center"><img src="components/com_jresearch/assets/help/acl.png" alt="ACL Sample"/></p>	
+<p>where:</p>
+	<ul>
+		<li>(1) is the action allowed. For our sample, the edition of something.</li>
+		<li>(2) is the group of Joomla users the rule is applied</li>
+		<li>(3) is the entity, the action is applied to: edition of publications in this case.</li>
+		<li>(4) defines the access level; <strong>own</strong> means the action can be applied only on user's entities. A user owns an entity when he/she is defined as author.
+			<strong>all</strong> applies to all published items. Remember that in the case of publications, the items need to be marked as internal to appear in frontend. 
+		</li>
+	</ul>
+			<p>
 					There are also team authorizations implemented for publications. If a member is part of the team (team of the publicaton creator!), the user can edit this publication.
 				</p>
 			</li>
