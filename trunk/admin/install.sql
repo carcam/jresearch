@@ -322,7 +322,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   INDEX `id_research_area` (`id_research_area`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `#__jresearch_research_techreport`;
+DROP TABLE IF EXISTS `#__jresearch_techreport`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_techreport` (
   `id_publication` int(10) unsigned NOT NULL,
   `institution` varchar(255) NOT NULL,
