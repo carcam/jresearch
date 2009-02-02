@@ -42,6 +42,7 @@ $task = isset($task) ? @$task : null;
 $shLangName = isset($shLangName) ? @$shLangName : null;
 $id = isset($id) ? @$id : null;
 
+
 $view = isset($view) ? @$view : null;
 $layout = isset($layout) ? @$layout : null;
 
@@ -73,8 +74,11 @@ switch ($view)
 	case 'researchareaslist':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_RESEARCH_AREAS'];
 		break;
-	case 'staff':
-		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_STAFF'];
+	case 'staff':		
+		if($layout=='staffflow')
+			$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_STAFF_FLOW'];
+		else
+			$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_STAFF'];
 		break;
 	case 'theseslist':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_THESIS_LIST'];
@@ -101,19 +105,18 @@ switch ($view)
 		$title[] = $shPublication->name;
 		break;
 	case 'member':
-		switch($task){
-			case 'edit':
-				$title[]= $sh_LANG[$shLangIso]['_COM_SEF_SH_EDIT'];
-				break;
-			case 'show':
-				// we get the firstname and the lastname from the author
-				$q = 'SELECT id, firstname, lastname  FROM #__jresearch_member WHERE id = '.$id;
-		        	$database->setQuery($q);
-			        $shMember = $database->loadObject( );
-				$id = isset($id) ? @$id : null;		
-				$title[]= 'Miembro';		
-				$title[] =$shMember->firstname . '-' . $shMember->lastname;
-				break;}
+		if($layout=='edit'){
+			$title[]= $sh_LANG[$shLangIso]['_COM_SEF_SH_MEMBER_EDIT'];
+		}else{
+			$title[]= $sh_LANG[$shLangIso]['_COM_SEF_SH_MEMBER'];
+			// we get the firstname and the lastname from the author
+			$q = 'SELECT id, firstname, lastname  FROM #__jresearch_member WHERE id = '.$id;
+	      $database->setQuery($q);
+		   $shMember = $database->loadObject( );
+			$id = isset($id) ? @$id : null;		
+			$title[]= 'Miembro';		
+			$title[] =$shMember->firstname . '-' . $shMember->lastname;
+		}
 		break;
 	case 'thesis':
 		$q = 'SELECT id, title  FROM #__jresearch_thesis WHERE id = '.$id;
