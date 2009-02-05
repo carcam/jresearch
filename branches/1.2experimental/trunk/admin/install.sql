@@ -6,6 +6,7 @@
 DROP TABLE IF EXISTS `#__jresearch_article`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_article` (
   `id_publication` int(11) NOT NULL,
+  `issn` varchar(32) default NULL,
   `journal` varchar(255) NOT NULL,
   `volume` varchar(30) default NULL,
   `number` varchar(10) default NULL,
@@ -18,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_article` (
 DROP TABLE IF EXISTS `#__jresearch_book`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_book` (
   `id_publication` int(10) unsigned NOT NULL,
+  `isbn` varchar(32) default NULL,	
   `publisher` varchar(60) NOT NULL,
   `editor` varchar(255) NOT NULL,
   `volume` varchar(30) default NULL,
@@ -50,6 +52,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_citing_style` (
 DROP TABLE IF EXISTS `#__jresearch_conference`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_conference` (
   `id_publication` int(10) unsigned NOT NULL,
+  `issn` varchar(32) default NULL,
+  `isbn` varchar(32) default NULL,
   `editor` varchar(255) default NULL,
   `volume` varchar(30) default NULL,
   `booktitle` varchar(255) default NULL,
@@ -79,6 +83,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_financier` (
 DROP TABLE IF EXISTS `#__jresearch_inbook`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_inbook` (
   `id_publication` int(10) unsigned NOT NULL,
+  `isbn` varchar(32) default NULL,
   `editor` varchar(255) default NULL,
   `chapter` varchar(10) default NULL,
   `pages` varchar(20) default NULL,
@@ -96,6 +101,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_inbook` (
 DROP TABLE IF EXISTS `#__jresearch_incollection`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_incollection` (
   `id_publication` int(11) NOT NULL,
+  `isbn` varchar(32) default NULL,
   `booktitle` varchar(255) NOT NULL,
   `publisher` varchar(60) NOT NULL,
   `editor` varchar(255) default NULL,
@@ -163,6 +169,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_phdthesis` (
 DROP TABLE IF EXISTS `#__jresearch_proceedings`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_proceedings` (
   `id_publication` int(10) unsigned NOT NULL,
+  `isbn` varchar(32) default NULL,
+  `issn` varchar(32) default NULL,
   `editor` varchar(255) default NULL,
   `volume` varchar(30) default NULL,
   `number` varchar(10) default NULL,
@@ -234,6 +242,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `url` varchar(255) default NULL,
   `published` tinyint(4) NOT NULL default '1' ,
   `title` varchar(255) NOT NULL,
+  `doi` varchar(255) default NULL,
   `year` year(4) NULL,	
   `citekey` varchar(255) NOT NULL,
   `abstract` text,
@@ -454,6 +463,8 @@ INSERT INTO `#__jresearch_property` (`name`) VALUES ('edition');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('editor');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('howpublished');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('institution');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('isbn');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('issn');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('journal');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('key');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('month');

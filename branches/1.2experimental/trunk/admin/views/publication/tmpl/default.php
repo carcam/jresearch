@@ -68,6 +68,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td><?php echo $this->internalRadio; ?>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_INTERNAL_TOOLTIP')) ?></td>
 	</tr>
 	<tr>
+		<td><?php echo JText::_('JRESEARCH_DOI').': '?></td>
+		<td>
+			<input size="20" maxlength="255" name="doi" id="doi" class="validate-doi" value="<?php echo $this->publication?$this->publication->doi:'' ?>" />
+			<br />
+			<label for="citekey" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_CITEKEY'); ?></label>
+		</td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
 		<th class="editpublication" colspan="4"><?php echo JText::_('JRESEARCH_SPECIFIC'); ?></th>
 	</tr>
 		<?php include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.$this->pubtype.'.php'); ?>

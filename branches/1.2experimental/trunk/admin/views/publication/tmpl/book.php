@@ -31,3 +31,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td><?php echo JText::_('JRESEARCH_MONTH').': ' ?></td>
 	<td><input type="text" name="month" id="number" size="20" maxlength="20" value="<?php echo $this->publication?$this->publication->month:'' ?>" /></td>
 </tr>
+<tr>
+	<td><?php echo JText::_('JRESEARCH_ISBN').': ' ?></td>
+	<td>
+		<input type="text" name="isbn" id="isbn" size="20" maxlength="32" class="validate-isbn" value="<?php echo $this->publication?$this->publication->isbn:''; ?>" />
+		<br />
+		<label for="isbn" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_ISBN'); ?></label>
+	</td>
+	<td></td>
+	<td></td>
+</tr>

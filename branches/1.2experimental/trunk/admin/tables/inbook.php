@@ -36,6 +36,13 @@ class JResearchInbook extends JResearchPublication{
 	public $editor;
 	
 	/**
+	 * Book's isbn
+	 *
+	 * @var string
+	 */
+	public $isbn;
+	
+	/**
 	 * Book's chapter
 	 * 
 	 * @var string

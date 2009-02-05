@@ -25,7 +25,7 @@ class JHTMLValidator{
 		$doc =& JFactory::getDocument();
 		$token = JUtility::getToken();
 		JHTML::_('behavior.formvalidation');
-	$message = JText::_('JRESEARCH_FORM_NOT_VALID');
+		$message = JText::_('JRESEARCH_FORM_NOT_VALID');
     	$doc->addScriptDeclaration("function validate(f) {
 			if(document.adminForm.task.value != 'cancel'){
 	    		if (document.formvalidator.isValid(f)) {
@@ -61,7 +61,30 @@ class JHTMLValidator{
 			regex=/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/i;
 			return regex.test(value); })
 		})");
+		
+		$doc->addScriptDeclaration("window.onDomReady(function() {
+			document.formvalidator.setHandler('isbn', function(value) {
+			regex=/^$/i;
+			return regex.test(value); })
+		})");
     	
+		$doc->addScriptDeclaration("window.onDomReady(function() {
+			document.formvalidator.setHandler('issn', function(value) {
+			regex=/^\d{4}-?\d{4}$/i;
+			return regex.test(value); })
+		})");
+		
+		$doc->addScriptDeclaration("window.onDomReady(function() {
+			document.formvalidator.setHandler('isbn', function(value) {
+			regex=/^(\d{10}|\d{13})$/i;
+			return regex.test(value); })
+		})");
+    	
+		$doc->addScriptDeclaration("window.onDomReady(function() {
+			document.formvalidator.setHandler('doi', function(value) {
+			regex=/^\d+\.\d+\/\d+$/i;
+			return regex.test(value); })
+		})");
     	
 	}
 }

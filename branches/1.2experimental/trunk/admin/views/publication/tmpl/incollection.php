@@ -38,3 +38,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td><?php echo JText::_('JRESEARCH_KEY').': ' ?></td>		
 	<td><input name="key" id="key" type="text" size="30" maxlength="255" value="<?php echo $this->publication?$this->publication->key:'' ?>" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_KEY_TOOLTIP'));  ?></td>
 </tr>
+<tr>
+	<td><?php echo JText::_('JRESEARCH_ISBN').': ' ?></td>
+	<td>
+		<input type="text" name="isbn" id="isbn" size="20" maxlength="32" class="validate-isbn" value="<?php echo $this->publication?$this->publication->isbn:''; ?>" />
+		<br />
+		<label for="isbn" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_ISBN'); ?></label>
+	</td>
+	<td></td>
+	<td></td>
+</tr>

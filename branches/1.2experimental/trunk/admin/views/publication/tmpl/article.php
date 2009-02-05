@@ -26,3 +26,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td><?php echo JText::_('JRESEARCH_CROSS_REFERENCE').': ' ?></td>
 	<td><input type="text" name="crossref" id="crossref" size="20" maxlength="255" value="<?php echo $this->publication?$this->publication->crossref:''; ?>" /></td>
 </tr>
+<tr>
+	<td><?php echo JText::_('JRESEARCH_ISSN').': ' ?></td>
+	<td>
+		<input type="text" name="issn" id="issn" size="20" maxlength="32" class="validate-issn" value="<?php echo $this->publication?$this->publication->issn:''; ?>" />
+		<br />
+		<label for="issn" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_ISSN'); ?></label>
+	</td>
+	<td></td>
+	<td></td>
+</tr>

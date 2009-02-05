@@ -44,3 +44,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td></td>
 	<td></td>
 </tr>
+<tr>
+	<td><?php echo JText::_('JRESEARCH_ISBN').': ' ?></td>
+	<td>
+		<input type="text" name="isbn" id="isbn" size="20" maxlength="32" class="validate-isbn" value="<?php echo $this->publication?$this->publication->isbn:''; ?>" />
+		<br />
+		<label for="isbn" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_ISBN'); ?></label>
+	</td>
+	<td><?php echo JText::_('JRESEARCH_ISSN').': ' ?></td>
+	<td>
+		<input type="text" name="issn" id="issn" size="20" maxlength="32" class="validate-issn" value="<?php echo $this->publication?$this->publication->issn:''; ?>" />
+		<br />
+		<label for="isbn" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_ISSN'); ?></label>
+	</td>
+</tr>
