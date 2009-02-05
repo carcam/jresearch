@@ -9,19 +9,18 @@ defined("_JEXEC") or die("Restricted access");
 
 $intro_text = $this->params->get('intro_text');
 ?>
-<div class="componentheading">
+<h1 class="componentheading">
 	<?=JText::_('JRESEARCH_COOPERATIONS');?>
-</div>
+</h1>
 <?php
 if($intro_text != "")
 {
 ?>
-	<div><?=$intro_text?></div>
-	<div>&nbsp;</div>
+	<p><?=$intro_text?></p>
 <?php
 }
 ?>
-<ul style="padding-left:0px;">
+<ul id="jresearch-cooperation-list" style="padding-left:0px;">
 	<?php
 	foreach($this->items as $coop)
 	{
@@ -40,18 +39,18 @@ if($intro_text != "")
 				$contentArray = explode('<hr id="system-readmore" />', $coop->description);
 				$itemId = JRequest::getVar('Itemid');
 				?>
-				<div class="contentheading">
+				<h2 class="contentheading">
 					<a href="<?=JFilterOutput::ampReplace($coop->url)?>">
 						<?=JFilterOutput::ampReplace($coop->name)?>
 					</a>
-				</div>
+				</h2>
 				<?php 
 				if($contentArray[0] != "")
 				{
 				?>
-					<div class="description">
+					<p class="description">
 						<?=$contentArray[0];?>
-					</div>
+					</p>
 				<?php
 				}
 				

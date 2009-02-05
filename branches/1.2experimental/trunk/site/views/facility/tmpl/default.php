@@ -15,19 +15,17 @@ JHTML::_('behavior.modal');
 if($this->fac->image_url)
 {
 ?>
-	<div style="text-align: center;">
-		<a href="<?=$this->fac->image_url?>" class="modal" rel="{handler: 'image'}">
-			<img src="<?=$this->fac->image_url?>" alt="<?=JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" title="<?=JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" style="width: 500px;" />
-		</a>
-	</div>
+<div style="text-align: center;">
+	<a href="<?=$this->fac->image_url?>" class="modal" rel="{handler: 'image'}">
+		<img src="<?=$this->fac->image_url?>" alt="<?=JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" title="<?=JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" style="width: 500px;" />
+	</a>
+</div>
 <?php 
 }
-
-if($this->fac->description)
-{
-	echo $this->fac->description;
-}
 ?>
+<p>
+<?=$this->fac->description?$this->fac->description:'&nbsp;'?>
+</p>
 <div style="text-align: center;">
 	<a href="javascript:history.go(-1)"><?=JText::_('Back'); ?></a>
 </div>

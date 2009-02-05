@@ -11,16 +11,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <table cellspacing="2" cellpadding="2">
 <tbody>
 	<tr>
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
+		<th scope="row" style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
 		<td style="width:35%;"><?php echo $this->area->name; ?></td>
     	<td colspan="2">&nbsp;</td>
 	</tr>
 	<tr>
 		<?php $status = $this->statusArray[$this->thesis->status]; ?>
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_STATUS').': ' ?></td>
+		<th scope="row" style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_STATUS').': ' ?></th>
 		<td style="width:35%;"><?php echo $status; ?></td>
 		<?php $degree = $this->degreeArray[$this->thesis->degree]; ?>
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_DEGREE').': ' ?></td>
+		<th scope="row" style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_DEGREE').': ' ?></th>
 		<td style="width:35%;"><?php echo $degree; ?></td>
 	</tr>
 	
@@ -29,7 +29,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if(!empty($directors) || !empty($students)): ?>
 	<tr>
 		<?php if(!empty($directors)): ?>
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_DIRECTORS').': ' ?></td>
+		<th scope="row" style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_DIRECTORS').': ' ?></th>
 		<td style="width:35%;">
 			<?php if($this->staff_list_arrangement == 'vertical'): ?>
 				<ul style="margin:0px;padding:0px;">
@@ -66,7 +66,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 		<?php endif; ?>
 		<?php if(!empty($students)): ?>
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_STUDENTS').': ' ?></td>
+		<th scope="row" style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_STUDENTS').': ' ?></th>
 		<td style="width:35%;">
 			<?php if($this->staff_list_arrangement == 'vertical'): ?>	
 				<ul style="margin:0px;padding:0px;">
@@ -112,12 +112,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php $colspan = 4; ?>
 		<?php if(!empty($startDate) && $startDate != '0000-00-00'): ?>
 		<?php $colspan = 2; ?>
-	  	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_START_DATE').': ' ?></td>
+	  	<th scope="row" style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_START_DATE').': ' ?></th>
 	  	<td style="width:35%;"><?php echo $this->thesis->start_date; ?></td>
 	  	<?php endif; ?>
 		<?php $endDate = trim($this->thesis->end_date); ?>
 		<?php if(!empty($endDate) && $endDate != '0000-00-00'):  ?>  	
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_DEADLINE').': '; ?></td>
+		<th scope="row" style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_DEADLINE').': '; ?></th>
 		<td style="width:35%;"><?php echo $this->thesis->end_date; ?></td>  	
 		<?php else: ?>
 		<td colspan="<?php echo $colspan; ?>">&nbsp;</td>
@@ -131,7 +131,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $description = trim($this->thesis->description); ?>
 	<?php if(!empty($description)): ?>
 	<tr>
-		<td colspan="4" align="left" class="publicationlabel"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
+		<th scope="col" colspan="4" align="left" class="publicationlabel"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></th>
 	</tr>
 	<tr>
 		<td colspan="4" align="left" ><div style="text-align:justify"><?php echo str_replace('<hr id="system-readmore" />', '', $description); ?></div></td>

@@ -22,9 +22,9 @@ defined("_JEXEC") or die("Restricted access");
 				$contentArray = explode('<hr id="system-readmore" />', $team->description);
 				$itemId = JRequest::getVar('Itemid');
 				?>
-				<div class="contentheading">
+				<h2 class="contentheading">
 					<?=JFilterOutput::ampReplace($team->name)?>
-				</div>
+				</h2>
 				<div>
 					<strong><?=JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?=$team->getLeader();?>
 				</div>
