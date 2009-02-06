@@ -310,14 +310,18 @@ class JResearchAdminPublicationsController extends JController
 		$publication->bind($post);
 		$user = JFactory::getUser();
 		
+		$check = $publication->check();
+		//Report errors
+		foreach($publication->getErrors() as $error)
+			JError::raiseWarning(1, $error);
+		
 		// Validate publication
-		if(!$publication->check()){
-			JError::raiseWarning(1, $publication->getError());		
+		if(!$check){
 			if($publication->id)			
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype);
 			else
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);	
-		}else{
+		}else{				
 			//Time to set the authors
 			$maxAuthors = JRequest::getInt('maxauthors');
 			$k = 0;
@@ -336,6 +340,7 @@ class JResearchAdminPublicationsController extends JController
 					$k++;
 				}			
 			}
+			
 		
 			// Set the id of the author if the item is new
 			if(empty($publication->id))

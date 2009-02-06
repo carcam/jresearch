@@ -147,6 +147,19 @@ class JResearchPublicationsHelper{
 	}
 	
 	/**
+	 * Formats an issn with the format dddd-dddd. 
+	 *
+	 * @param string $issn
+	 */
+	public static function formatISSN($issn){
+		if(!preg_match("/^\d{4}-\d{4}$/", $issn, &$matches) && strlen($issn) == 8)
+			return substr($issn, 0, 4).'-'.substr($issn, 4, 4);
+		else{
+			return $issn;		 
+		}	
+	}
+	
+	/**
 	 * Gets the initials of a given name component.
 	 *
 	 * @param string $nameComponent

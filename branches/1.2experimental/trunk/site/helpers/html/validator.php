@@ -61,12 +61,6 @@ class JHTMLValidator{
 			regex=/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/i;
 			return regex.test(value); })
 		})");
-		
-		$doc->addScriptDeclaration("window.onDomReady(function() {
-			document.formvalidator.setHandler('isbn', function(value) {
-			regex=/^$/i;
-			return regex.test(value); })
-		})");
     	
 		$doc->addScriptDeclaration("window.onDomReady(function() {
 			document.formvalidator.setHandler('issn', function(value) {
@@ -76,7 +70,7 @@ class JHTMLValidator{
 		
 		$doc->addScriptDeclaration("window.onDomReady(function() {
 			document.formvalidator.setHandler('isbn', function(value) {
-			regex=/^(\d{10}|\d{13})$/i;
+			regex=/^(\d{10}|\d{13}|\d{9}x)$/i;
 			return regex.test(value); })
 		})");
     	

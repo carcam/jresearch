@@ -72,7 +72,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td>
 			<input size="20" maxlength="255" name="doi" id="doi" class="validate-doi" value="<?php echo $this->publication?$this->publication->doi:'' ?>" />
 			<br />
-			<label for="citekey" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_CITEKEY'); ?></label>
+			<label for="doi" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_DOI'); ?></label>
 		</td>
 		<td></td>
 		<td></td>
