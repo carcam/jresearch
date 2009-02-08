@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <?php endif; ?>		
   </tr>
   <?php
-  if($this->member->former_member == 0)
+  if($this->member->former_member == 0 && $this->params->get('member_show_email', 'no') == 'yes')
   {
   ?>
 	  <tr>
