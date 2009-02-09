@@ -25,7 +25,7 @@ class JResearchAdminViewResearchArea extends JView
     	global $mainframe;
       	JResearchToolbar::editResearchAreaAdminToolbar();
       	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
-		JHTML::_('Validator._');
+		JHTML::_('JResearch.validation');
         JRequest::setVar( 'hidemainmenu', 1 );
         
     	// Information about the member

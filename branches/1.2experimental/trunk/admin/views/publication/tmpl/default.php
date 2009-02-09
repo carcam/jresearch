@@ -45,11 +45,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<label for="keywords" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_KEYWORDS'); ?></label>			
 		</td>
 		<td><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) : ' ?></td>
-		<td>
-			<input name="url" id="url" size="30" maxlength="255" class="validate-url" value="<?php echo $this->publication?$this->publication->url:'' ?>" />
-			<br />
-			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
-		</td>		
+		<td><?php echo $this->url; ?></td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('Published').': '; ?></td>

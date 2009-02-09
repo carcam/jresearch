@@ -53,7 +53,7 @@ class JResearchViewPublication extends JView
    		$doc =& JFactory::getDocument();
    		
       	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');   		
-   		JHTML::_('Validator._');   
+   		JHTML::_('JResearch.validation');   
    		$config = array('filePath'=>JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publication'.DS.'captcha');   			
    		$doc->addScript(JURI::base().'components/com_jresearch/views/publication/comments.js');
    		
@@ -196,7 +196,7 @@ class JResearchViewPublication extends JView
 			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', $publication->internal  );
 			$authors = $publication->getAuthors();
 			
-			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' ,$authors);
+			$authorsControl = JHTML::_('JResearch.authorsSelector', 'authors' ,$authors);
 			
 			$this->assignRef('publication', $publication);	
 		}

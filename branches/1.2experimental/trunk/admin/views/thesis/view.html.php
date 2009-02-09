@@ -27,7 +27,7 @@ class JResearchAdminViewThesis extends JView
 		JResearchToolbar::editThesisAdminToolbar();
       	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
     	JRequest::setVar( 'hidemainmenu', 1 );
-    	JHTML::_('Validator._');
+    	JHTML::_('JResearch.validation');
     	
     	// Information about the member
     	$cid = JRequest::getVar('cid');
@@ -79,8 +79,8 @@ class JResearchAdminViewThesis extends JView
     	 	$degreeHTML = JHTML::_('select.genericlist', $degreeOptions, 'degree', 'class="inputbox" size="5"', 'value', 'text', 'bachellor');
     	}
 
-		$studentsControl = JHTML::_('AuthorsSelector._', 'students', $students);
-		$directorsControl = JHTML::_('AuthorsSelector._', 'directors', $directors);		    	
+		$studentsControl = JHTML::_('JResearch.authorsSelector', 'students', $students);
+		$directorsControl = JHTML::_('JResearch.authorsSelector', 'directors', $directors);		    	
 
     	$this->assignRef('thesis', $thesis);
     	$this->assignRef('publishedRadio', $publishedRadio);

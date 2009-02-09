@@ -96,7 +96,7 @@ class JResearchAdminViewStaff extends JView
     	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
     	$doc->addScript($url.'components/com_jresearch/helpers/html/staffimporter.js');
     	
-    	$control = JHTML::_('StaffImporter._', 'importedMembers');
+    	$control = JHTML::_('JResearch.staffImporter', 'importedMembers');
     	
     	$this->assignRef('control', $control);
     	

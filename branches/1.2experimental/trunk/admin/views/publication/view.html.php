@@ -45,7 +45,7 @@ class JResearchAdminViewPublication extends JView
 
 		JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
-		JHTML::_('Validator._');		
+		JHTML::_('JResearch.validation');		
 		
 		$cid = JRequest::getVar('cid');
 		$isNew = !isset($cid);
@@ -66,6 +66,7 @@ class JResearchAdminViewPublication extends JView
     	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
     	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
 
+    	
 		if(!$isNew){			
 			$publication = JResearchPublication::getById($cid[0]);
 			$this->assignRef('publication', $publication);			
@@ -82,13 +83,17 @@ class JResearchAdminViewPublication extends JView
 			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', 1);
 		}
 		
-		$authorsControl = JHTML::_('AuthorsSelector._', 'authors' ,$authors);		
+		$params = JComponentHelper::getParams('com_jresearch');
+		$authorsControl = JHTML::_('JResearch.authorsSelector', 'authors' ,$authors);		
 
+		$url = JHTML::_('JResearch.fileUpload', 'url', JPATH_SITE.DS.$params->get('files_root_path'), $publication?$publication->url:'' ,'size="30" maxlength="255" class="validate-url"', true);
+		
 		$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('pubtype', $pubtype);
 		$this->assignRef('authors', $authorsControl);
+		$this->assignRef('url', $url);
 		
 	}
 	

@@ -27,7 +27,7 @@ class JResearchAdminViewProject extends JView
     	global $mainframe;
       	JResearchToolbar::editProjectAdminToolbar();
       	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
-		JHTML::_('Validator._');      	
+		JHTML::_('JResearch.validation');      	
     	JRequest::setVar( 'hidemainmenu', 1 );
     	
     	// Information about the member
@@ -92,7 +92,7 @@ class JResearchAdminViewProject extends JView
     	 	$currencyHTML = JHTML::_('select.genericlist', $currencyOptions, 'currency', 'class="inputbox"', 'value', 'text');
     	}
 
-		$membersControl = JHTML::_('AuthorsSelector._', 'members', $members, true, $principalFlags);	
+		$membersControl = JHTML::_('JResearch.authorsSelector', 'members', $members, true, $principalFlags);	
 		
 		$fins = array();
 		foreach($projectFins as $fin)
