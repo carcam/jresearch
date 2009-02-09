@@ -455,10 +455,13 @@ class JHTMLJresearch
 		
 		$uploadField = '<div style="display:none;" id="div_upload_'.$name.'">';
 		$uploadField .= '<input id="file_'.$name.$k.'" name="file_'.$name.$k.'" type="file" />';
-		$uploadField .= '<a id="add_'.$name.'" href="javascript:addUploader(\''.$name.'\', \''.JText::_('Delete').'\')">'.JText::_('Add').'</a></div>'; 
+		if(!$oneFile)
+			$uploadField .= '<a id="add_'.$name.'" href="javascript:addUploader(\''.$name.'\', \''.JText::_('Delete').'\')">'.JText::_('Add').'</a>';
+
+		$uploadField .= '</div>';
 		$uploadField .= '<a style="display:block"  id="a_upload_'.$name.'" href="javascript:switchUploader(\''.$name.'\')">'.JText::_('JRESEARCH_UPLOAD_FILE').'</a>';	
 		$uploadField .= '<a style="display:none" id="a_enter_'.$name.'" href="javascript:switchUploader(\''.$name.'\')">'.JText::_('JRESEARCH_ENTER_URL').'</a>';			
-				
+		
 		return $textField.' '.$uploadField.' '.$textFields;
 	}
 	
