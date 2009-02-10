@@ -24,19 +24,21 @@ class JResearchViewPublication extends JView
     function display($tpl = null)
     {
         $layout = &$this->getLayout();
+        $result = true;
+
         switch($layout){
         	case 'default':
-        		$this->_displayPublication();
+        		$result = $this->_displayPublication();
         		break;
         	case 'new':
-        		$this->_displayNewPublicationForm();
+        		$result = $this->_displayNewPublicationForm();
         		break;
         	case 'edit':
-        		$this->_editPublication();
+        		$result = $this->_editPublication();
         		break;
         }
-	
-        parent::display($tpl);
+		if($result)
+        	parent::display($tpl);
     }
     
     /**
@@ -59,15 +61,15 @@ class JResearchViewPublication extends JView
    		
     	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		return;
+    		return false;
     	}
     	//Get the model
     	$model =& $this->getModel();
     	$publication = $model->getItem($id);
     	
 		if(!$publication->internal || !$publication->published){
-			JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));
-			return;
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+			return false;
 		}		    	
 		
     	$areaModel = &$this->getModel('researcharea');
@@ -125,7 +127,7 @@ class JResearchViewPublication extends JView
 			$this->assignRef('reference', $crossrefData);	
 		}
 		
-	$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
+		$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
     	$this->assignRef('publication', $publication);
@@ -134,6 +136,8 @@ class JResearchViewPublication extends JView
     	$this->assignRef('showComments', $showComments);
     	$this->assignRef('captcha', $captchaInformation);
 		$this->assignRef('user', $user);
+		
+		return true;
 
     }
     
@@ -217,6 +221,8 @@ class JResearchViewPublication extends JView
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('authors', $authorsControl);
+
+		return true;
     }
     
 	/**
@@ -237,6 +243,7 @@ class JResearchViewPublication extends JView
 		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
 		
 		$this->assignRef('types', $typesList);
+		return true;
 	}
 }
 

@@ -53,6 +53,12 @@ class JResearchViewMember extends JView
     	$user =& JFactory::getUser();
     	$model = $this->getModel();
     	$member = $model->getByUsername($user->username);
+    	
+    	if(empty($member)){
+    		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+    		return false;
+    	}
+    	
     	$areaModel = $this->getModel('ResearchArea');
     	$doc = JFactory::getDocument();
     
