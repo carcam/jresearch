@@ -15,11 +15,11 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
-jimport('phputf8.native.case');
-jimport('phputf8.native.strlen');
-jimport('phputf8.utils.unicode');
-jimport('phputf8.ucfirst');
-jimport('phputf8.mbstring.core');
+//jimport('phputf8.native.case');
+//jimport('phputf8.native.strlen');
+//jimport('phputf8.utils.unicode');
+//jimport('phputf8.ucfirst');
+//jimport('phputf8.mbstring.core');
 
 /**
  * This class holds useful methods for dealing with publications records.
@@ -152,6 +152,8 @@ class JResearchPublicationsHelper{
 	 * @param string $nameComponent
 	 */
 	public static function getInitials($nameComponent){
+		jimport('phputf8.ucfirst');
+		jimport('phputf8.mbstring.core');				
 		$components = preg_split('/([-\s])/', $nameComponent, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);		
 		if(count($components) > 1){
 			return utf8_ucfirst(utf8_substr($components[0], 0, 1)).'.'.$components[1].utf8_ucfirst(utf8_substr($components[2], 0, 1)).'.';
@@ -229,6 +231,8 @@ class JResearchPublicationsHelper{
 	 * @param int 1 if the word is considered UPPERCASE, 0 if CASELESS, -1 if LOWERCASE.
 	 */
 	public static function getBibtexCase($word){
+		jimport('phputf8.utils.unicode');
+		jimport('phputf8.native.strlen');		
 		// Always bring the word to a printable representation.
 		$printableWord = self::bibCharsToUtf8FromString($word);
 		// Get UTF8 lower characters

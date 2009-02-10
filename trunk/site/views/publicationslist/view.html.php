@@ -71,6 +71,7 @@ class JResearchViewPublicationsList extends JView
     	$page = $model->getPagination();
     	$params = $mainframe->getParams('com_jresearch'); 
     	$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
+    	$field = $params->get('field_for_average');    	
 
     	if($params->get('filter_teams') == 'yes'){
 	    	$filter_team = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_team', 'filter_team');    		
@@ -84,7 +85,7 @@ class JResearchViewPublicationsList extends JView
     	}
     	
     	if($params->get('show_average') == 'yes'){
-    		$average = $model->getAverage('journal_acceptance_rate');
+    		$average = $model->getAverage($field);
     		$this->assignRef('average', $average);
     	}
     	
@@ -120,11 +121,18 @@ class JResearchViewPublicationsList extends JView
 			$filter_pubtype = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_pubtype', 'filter_pubtype');    		
 			$types = JResearchPublication::getPublicationsSubtypes();
 			$typesHTML = array();
-			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
+			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_TYPE'));
 			foreach($types as $type){
 				$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
 			}
 			$lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
+    	}
+    	
+    	if($params->get('filter_search') == 'yes'){
+    		$filter_search = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_search', 'filter_search');
+     		$lists['search'].= JText::_('Filter').': <input type="text" name="filter_search" id="filter_search" value="'.$filter_search.'" class="text_area" onchange="document.adminForm.submit();" />
+								<button onclick="document.adminForm.submit();">'.JText::_('Go').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
+								.JText::_('Reset').'</button>';
     	}
     	
     	if($params->get('filter_authors') == 'yes'){
@@ -137,12 +145,13 @@ class JResearchViewPublicationsList extends JView
 			}
 			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
     	}
-    	
+
     	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
     
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $page);
     	$this->assignRef('lists', $lists);
+    	$this->assignRef('punctuationField', $field);
     	
     }
     

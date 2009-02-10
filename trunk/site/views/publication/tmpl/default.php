@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 		<?php endif; ?>
 	</tr>
 	<tr>
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_PUBLICATION_TYPE').': ' ?></td>
+		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></td>
 		<td style="width:35%;"><?php echo JResearchText::_($this->publication->pubtype); ?></td>
 		<?php $keywords = trim($this->publication->keywords); ?>
 		<?php if(!empty($keywords)): ?>		

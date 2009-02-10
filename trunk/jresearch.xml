@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
 <install type="component" version="1.5.0">
-	<name>JResearch</name>
+	<name>J!Research</name>
 	<creationDate>June 2008</creationDate>
 	<author>Luis Gal&#225;rraga</author>
 	<authorEmail>shamantobi@gmail.com</authorEmail>
 	<authorUrl>http://joomla-research.com</authorUrl>
 	<copyright>Copyright (C) 2008 Luis Gal&#225;rraga</copyright>
 	<license>GPL</license>
-	<version>1.1 Beta 1</version>
+	<version>1.1 Stable</version>
 	<description><![CDATA[
 	<div align="center"><img src="components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" /></div>
 	<div align="center"><h2>Successfully installed J!Research&nbsp;</h2></div>

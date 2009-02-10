@@ -24,14 +24,17 @@ class JResearchViewProject extends JView
 {
     function display($tpl = null)
     {
+    	$result = true;
         $layout = &$this->getLayout();
+
         switch($layout){
         	case 'default':
-        		$this->_displayProject();
+        		$result = $this->_displayProject();
         		break;
         }
 	
-        parent::display($tpl);
+        if($result)
+ 	       parent::display($tpl);
     }
     
     /**
@@ -45,15 +48,20 @@ class JResearchViewProject extends JView
 
    		if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		return;
+    		return false;
     	}
     	//Get the model
     	$model =& $this->getModel();
     	$project = $model->getItem($id);
     	
+    	if(empty($project)){
+    		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+    		return false;
+    	}
+    	
 		if(!$project->published){
-			JError::raiseWarning(1, JText::_('JRESEARCH_PROJECT_NOT_FOUND'));
-			return;
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+			return false;
 		}		    	
 		
     	$areaModel = &$this->getModel('researcharea');
@@ -66,6 +74,8 @@ class JResearchViewProject extends JView
     	$this->assignRef('project', $project);
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('area', $area);
+    	
+    	return true;
 
     }
 }

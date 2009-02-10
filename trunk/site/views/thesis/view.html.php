@@ -24,14 +24,17 @@ class JResearchViewThesis extends JView
 {
     function display($tpl = null)
     {
+    	$result = true;
         $layout = &$this->getLayout();
+
         switch($layout){
         	case 'default':
-        		$this->_displayThesis();
+        		$result = $this->_displayThesis();
         		break;
         }
 	
-        parent::display($tpl);
+        if($result)
+        	parent::display($tpl);
     }
     
     /**
@@ -46,15 +49,20 @@ class JResearchViewThesis extends JView
 
    		if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		return;
+    		return false;
     	}
     	//Get the model
     	$model =& $this->getModel();
     	$thesis = $model->getItem($id);
     	
+    	if(empty($thesis)){
+    		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+    		return false;
+    	}
+    	
 		if(!$thesis->published){
 			JError::raiseWarning(1, JText::_('JRESEARCH_THESIS_NOT_FOUND'));
-			return;
+			return false;
 		}		    	
 		
 		$doc->setTitle(JText::_('JRESEARCH_THESIS').' - '.$thesis->title);
@@ -69,6 +77,8 @@ class JResearchViewThesis extends JView
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('degreeArray', $degreeArray);
     	$this->assignRef('area', $area);
+    	
+    	return true;
 
     }
 }
