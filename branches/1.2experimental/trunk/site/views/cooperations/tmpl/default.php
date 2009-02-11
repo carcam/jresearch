@@ -16,14 +16,47 @@ $intro_text = $this->params->get('intro_text');
 if($intro_text != "")
 {
 ?>
-	<p><?=$intro_text?></p>
+	<p style="text-align: justify;"><?=$intro_text?></p>
 <?php
 }
 ?>
 <ul id="jresearch-cooperation-list" style="padding-left:0px;">
 	<?php
+	$lastCat = -1;
+	
 	foreach($this->items as $coop)
 	{
+		if($lastCat != $coop->catid && $coop->catid != 0)
+		{
+			$print = null;
+			foreach($this->cats as $cat)
+			{
+				if($cat->cid == $coop->catid)
+				{
+					$print = $cat;
+				}
+			}
+			//print Category
+			?>
+			<li style="background: none; list-style-type: none; text-align: center;">
+				<?php 
+				if(!empty($print->image))
+				{
+				?>
+					<img src="images/stories/<?=$print->image?>" alt="<?=$print->title?> Cooperation category" title="<?=$print->title?> Cooperation category" />
+				<?php 
+				}
+				else 
+				{
+					?>
+					<h2><?=$print->title?></h2>
+					<?php
+				}
+				?>
+			</li>
+			<?php
+			$lastCat = $coop->catid;
+		}
 	?>
 		<li class="licooperation" style="background: none; clear: both; margin-bottom: 10px;">
 			<?php 
@@ -48,7 +81,7 @@ if($intro_text != "")
 				if($contentArray[0] != "")
 				{
 				?>
-					<p class="description">
+					<p style="text-align: justify;" class="description">
 						<?=$contentArray[0];?>
 					</p>
 				<?php

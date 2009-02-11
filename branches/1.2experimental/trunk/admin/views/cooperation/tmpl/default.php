@@ -28,9 +28,15 @@ JHTML::_('behavior.modal');
 	</tr>
 	<tr>
 		<td><?php echo JText::_('Published').': '; ?></td>
-		<td><?php echo $this->publishedRadio; ?></td>
+		<td><?php echo $this->publishedList; ?></td>
 		<td><?php echo JText::_('Order').': '; ?></td>
 		<td><?php echo $this->orderList; ?></td>
+	</tr>
+	<tr>
+		<td><?php echo JText::_('JRESEARCH_COOPERATIONS_CATEGORY').': '?></td>
+		<td colspan="3">
+			<?=$this->categoryList?>
+		</td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('Photo').': ' ?></td>

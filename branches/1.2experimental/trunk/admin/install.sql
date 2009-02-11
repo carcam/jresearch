@@ -425,6 +425,7 @@ CREATE TABLE `#__jresearch_property` (
 DROP TABLE IF EXISTS `#__jresearch_cooperations`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_cooperations` (
   `id` int(11) unsigned NOT NULL auto_increment,
+  `catid` int(11) unsigned NOT NULL DEFAULT '0',
   `name` varchar(100) NOT NULL,
   `image_url` varchar(256) DEFAULT NULL,
   `description` tinytext NOT NULL,
@@ -507,3 +508,7 @@ INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('unpublished');
 
 
 INSERT INTO `#__jresearch_research_area`(`name`, `description`, `published` ) VALUES('Uncategorized', '', 1);
+
+DELETE FROM `#__categories` WHERE `section` = 'com_jresearch_cooperations';
+INSERT INTO `#__categories` (`title`, `name`, `alias`, `image`, `section`, `image_position`, `description`, `published`, `checked_out`, `checked_out_time`, `editor`, `ordering`, `access`, `count`, `params`) VALUES
+('Uncategorized', '', 'cooperations-category-uncategorized', '', 'com_jresearch_cooperations', 'left', 'Holds uncategorized cooperations of the component J!Research', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');

@@ -16,6 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<button onclick="document.adminForm.filter_search.value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 				</td>
 				<td nowrap="nowrap">
+					<?php echo $this->lists['category'];?>
 					<?php echo $this->lists['state'];?>
 				</td>
 			</tr>

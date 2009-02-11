@@ -465,5 +465,47 @@ class JHTMLJresearch
 		return $textField.' '.$uploadField.' '.$textFields;
 	}
 	
+	/**
+	 * Renders a HTML generic select list with researchareas
+	 * 
+	 * @param array $attributes Attributes for the select element, keys 'name' and 'selected' are currently used
+	 * @param array $additionElements Additional elements for the list element, each element must include the keys 'id' and 'name'
+	 * 
+	 * @return JHTMLSelect
+	 */
+	public static function researchareas(array $attributes=array(), array $additionalElements=array())
+	{
+		//Get research areas
+		$db =& JFactory::getDBO();
+		$sql = "SELECT id, name FROM #__jresearch_research_area WHERE published=1";
+		
+		$db->setQuery($sql);
+		$areas = $db->loadObjectList();
+	
+		//Adds additional options
+		foreach($additionalElements as $area)
+		{
+			if(array_key_exists('id', $area) && array_key_exists('name', $area))
+			{
+				$areasOptions[] = JHTML::_('select.option', $area['id'], $area['name']);
+			}
+		}
+		
+		//Add research areas
+		foreach($areas as $area)
+		{
+			$areasOptions[] = JHTML::_('select.option', $area->id, $area->name);
+		}
+		
+		return JHTML::_('select.genericlist', $areasOptions, self::getKey('name', $attributes, uniqid('select-')), 'class="inputbox" size="10"', 'value', 'text', self::getKey('selected', $attributes));
+	}
+	
+	/**
+	 * Gets value of array from given key if it exists, otherwise $default
+	 */
+	private static function getKey($key, array &$arr, $default=null)
+	{
+		return (array_key_exists($key, $arr)?$arr[$key]:$default);
+	}
 }
 ?>
