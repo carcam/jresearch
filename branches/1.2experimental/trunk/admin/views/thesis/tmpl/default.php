@@ -7,14 +7,14 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<form name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" class="form-validate" onSubmit="return validate(this);">
-<table class="editpublication" cellpadding="5" cellspacing="5">
+<form name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" class="form-validate" onsubmit="return validate(this);">
+<table class="edit" cellpadding="5" cellspacing="5">
 <tbody>
 	<tr>
-		<th colspan="4"><?php echo JText::_('JRESEARCH_REQUIRED')?></th>
+		<th class="title" colspan="4"><?php echo JText::_('JRESEARCH_REQUIRED')?></th>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('Title').': '?></td>
+		<th><?php echo JText::_('Title').': '?></th>
 		<td colspan="3">
 			<input name="title" id="title" size="80" maxlength="255" class="required" value="<?php echo $this->thesis?$this->thesis->title:'' ?>" />
 			<br />
@@ -22,34 +22,34 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>		
+		<th><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>		
 		<td><?php echo $this->areasList; ?></td>
-		<td><?php echo JText::_('Published').': '; ?></td>
+		<th><?php echo JText::_('Published').': '; ?></th>
 		<td><?php echo $this->publishedRadio; ?></td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_STATUS').' :' ?></td>
+		<th><?php echo JText::_('JRESEARCH_STATUS').' :' ?></th>
 		<td><?php echo $this->status; ?></td>
-		<td><?php echo JText::_('JRESEARCH_DEGREE').' :' ?></td>
+		<th><?php echo JText::_('JRESEARCH_DEGREE').' :' ?></th>
 		<td><?php echo $this->degree; ?></td>
 	</tr>	
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_STUDENTS').': '; ?></td>
+		<th><?php echo JText::_('JRESEARCH_STUDENTS').': '; ?></th>
 		<td><?php echo $this->studentsControl; ?></td>
-		<td><?php echo JText::_('JRESEARCH_DIRECTORS').': '; ?></td>
+		<th><?php echo JText::_('JRESEARCH_DIRECTORS').': '; ?></th>
 		<td><?php echo $this->directorsControl; ?></td>
 	</tr>
 	<tr>
-		<th class="editpublication" colspan="4"><?php echo JText::_('JRESEARCH_OPTIONAL'); ?></th>
+		<th class="title" colspan="4"><?php echo JText::_('JRESEARCH_OPTIONAL'); ?></th>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_START_DATE').': ' ?></td>
+		<th><?php echo JText::_('JRESEARCH_START_DATE').': ' ?></th>
 		<?php $startDate = $this->thesis?$this->thesis->start_date:''; ?>
 		<td>
 			<?php echo JHTML::_('calendar', $startDate ,'start_date', 'start_date', '%Y-%m-%d', array('class'=>'validate-date')); ?><br />
 			<label for="start_date" class="labelform"><?php echo JText::_('Please provide a valid date in format YYYY-MM-DD'); ?></label> 
 		</td>
-		<td><?php echo JText::_('JRESEARCH_DEADLINE').': ' ?></td>
+		<th><?php echo JText::_('JRESEARCH_DEADLINE').': ' ?></th>
 		<?php $endDate = $this->thesis?$this->thesis->end_date:''; ?>
 		<td>
 			<?php echo JHTML::_('calendar', $endDate ,'end_date', 'end_date', '%Y-%m-%d', array('class'=>'validate-date')); ?><br />
@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	
 	
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) : ' ?></td>
+		<th><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) : ' ?></th>
 		<td colspan="3">
 			<input name="url" class="validate-url" id="url" size="30" maxlength="255" value="<?php echo $this->thesis?$this->thesis->url:'' ?>" />
 			<br />

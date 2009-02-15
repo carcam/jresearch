@@ -70,7 +70,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td width="1%"><?php echo $checked; ?></td>
-					<td width="29%"><a href="index.php?option=com_jresearch&controller=publications&task=edit&cid[]=<?php echo $this->items[$i]->id; ?>&pubtype=<?php echo $this->items[$i]->pubtype ?>"><?php echo $this->items[$i]->title;  ?></a></td>
+					<td width="29%"><a href="<?=JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$this->items[$i]->id.'&pubtype='.$this->items[$i]->pubtype); ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td width="1%" align="center"><?php echo $published; ?></td>
 					<td width="1%" align="center">
 					<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_internal')" title="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>">

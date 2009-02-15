@@ -54,7 +54,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td><?=$this->page->getRowOffset( $i ); ?></td>
 					<td width="1%"><?=$checked; ?></td>
 					<td width="30%">
-						<a href="index.php?option=com_jresearch&controller=teams&task=edit&cid[]=<?=$this->items[$i]->id; ?>">
+						<a href="<?=JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=teams&task=edit&cid[]='.$this->items[$i]->id); ?>">
 							<?=$this->items[$i]->name; ?>
 						</a>
 					</td>

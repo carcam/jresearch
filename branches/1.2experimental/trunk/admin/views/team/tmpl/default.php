@@ -6,25 +6,27 @@
 */
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<form name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" class="form-validate" onSubmit="return validate(this);">
-<table class="editpublication" cellpadding="5" cellspacing="5">
-<tbody>
+<form name="adminForm" id="adminForm" action="./" method="post" enctype="multipart/form-data" class="form-validate" onsubmit="return validate(this);">
+<table class="edit" cellpadding="5" cellspacing="5">
+<thead>
 	<tr>
 		<th colspan="4"><?php echo JText::_('JRESEARCH_TEAM')?></th>
 	</tr>
+</thead>
+<tbody>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_TEAM_NAME').': '?></td>
+		<th><?php echo JText::_('JRESEARCH_TEAM_NAME').': '?></th>
 		<td>
 			<input name="name" id="name" size="50" maxlength="100" class="required" value="<?php echo $this->team?$this->team->name:'' ?>" />
 			<br /><label for="name" class="labelform"><?php echo JText::_('Please provide a name. Alphabetic characters plus _- and spaces are allowed.'); ?></label>
 		</td>
-		<td><?php echo JText::_('Published').': '; ?></td>
+		<th><?php echo JText::_('Published').': '; ?></th>
 		<td><?php echo $this->publishedRadio; ?></td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_TEAM_LEADER').': '; ?></td>
+		<th><?php echo JText::_('JRESEARCH_TEAM_LEADER').': '; ?></th>
 		<td><?=$this->leaderList; ?></td>
-		<td><?php echo JText::_('JRESEARCH_TEAM_MEMBERS').': '; ?></td>
+		<th><?php echo JText::_('JRESEARCH_TEAM_MEMBERS').': '; ?></th>
 		<td><?=$this->memberList; ?></td>
 	</tr>
 	<tr>

@@ -61,7 +61,7 @@ defined('_JEXEC') or die('Restricted access');
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td width="1%"><?php echo $checked; ?></td>
-					<td width="30%"><a href="index.php?option=com_jresearch&controller=staff&task=edit&cid[]=<?php echo $this->items[$i]->id; ?>"><?php echo $this->items[$i];  ?></a></td>
+					<td width="30%"><a href="<?=JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i];  ?></a></td>
 					<td align="center"><input type="checkbox" name="former_member" value="1" disabled="disabled" <?=(($this->items[$i]->former_member == 1) ? 'checked="checked"' : "")?> /></td>
 					<td align="center"><?php echo $published; ?></td>
 					<td class="order" nowrap="nowrap">
