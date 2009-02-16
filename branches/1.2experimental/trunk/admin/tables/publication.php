@@ -77,13 +77,7 @@ class JResearchPublication extends JResearchActivity{
 	/**
 	 * @var string
 	 */
-	public $awards;
-	
-	/**
-	 * @var string
-	 */
-	public $url;
-	
+	public $awards;	
 	
 	/**
 	 * Year of publication.

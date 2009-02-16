@@ -86,14 +86,18 @@ class JResearchAdminViewPublication extends JView
 		$params = JComponentHelper::getParams('com_jresearch');
 		$authorsControl = JHTML::_('JResearch.authorsSelector', 'authors' ,$authors);		
 
-		$url = JHTML::_('JResearch.fileUpload', 'url', JPATH_SITE.DS.$params->get('files_root_path'), $publication?$publication->url:'' ,'size="30" maxlength="255" class="validate-url"', true);
+		if(!empty($publication->files))
+			$uploadedFiles = explode(';', trim($publication->files));
+		else
+			$uploadedFiles = array();	
+		$files = JHTML::_('JResearch.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
 		
 		$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('pubtype', $pubtype);
 		$this->assignRef('authors', $authorsControl);
-		$this->assignRef('url', $url);
+		$this->assignRef('files', $files);
 		
 	}
 	

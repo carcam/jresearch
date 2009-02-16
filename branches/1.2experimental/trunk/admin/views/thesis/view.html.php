@@ -80,7 +80,15 @@ class JResearchAdminViewThesis extends JView
     	}
 
 		$studentsControl = JHTML::_('JResearch.authorsSelector', 'students', $students);
-		$directorsControl = JHTML::_('JResearch.authorsSelector', 'directors', $directors);		    	
+		$directorsControl = JHTML::_('JResearch.authorsSelector', 'directors', $directors);
+
+		$params = JComponentHelper::getParams('com_jresearch');
+		if(!empty($thesis->files))
+			$uploadedFiles = explode(';', trim($thesis->files));
+		else
+			$uploadedFiles = array();	
+		$files = JHTML::_('JResearch.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'theses','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
+		
 
     	$this->assignRef('thesis', $thesis);
     	$this->assignRef('publishedRadio', $publishedRadio);
@@ -90,6 +98,7 @@ class JResearchAdminViewThesis extends JView
 		$this->assignRef('directorsControl', $directorsControl);	
 		$this->assignRef('status', $statusHTML);
 		$this->assignRef('degree', $degreeHTML);
+		$this->assignRef('files', $files);
 
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);

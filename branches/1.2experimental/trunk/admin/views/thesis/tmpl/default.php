@@ -60,11 +60,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) : ' ?></th>
-		<td colspan="3">
+		<td>
 			<input name="url" class="validate-url" id="url" size="30" maxlength="255" value="<?php echo $this->thesis?$this->thesis->url:'' ?>" />
 			<br />
 			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_DATE'); ?></label>	
 		</td>
+		<td><?php echo JText::_('JRESEARCH_FILES').': '; ?></td>
+		<td><?php echo $this->files; ?></td>
 	</tr>
 	<tr>
 		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->thesis->description , '100%', '350', '75', '20' ) ; ?></td>

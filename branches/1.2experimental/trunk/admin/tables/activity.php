@@ -46,6 +46,20 @@ class JResearchActivity extends JTable{
 	 */
 	public $created;		
 	
+	/**
+	 * URL associated to the activity
+	 *
+	 * @var string
+	 */
+	public $url;
+	
+	/**
+	 * List of relative paths (in relation to site base path)
+	 * associated to the activity, separated by semicolons.
+	 *
+	 * @var string
+	 */
+	public $files;
 	
 	/**
 	 * Research area's publication database id

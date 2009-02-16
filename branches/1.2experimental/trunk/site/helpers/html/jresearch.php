@@ -440,29 +440,34 @@ class JHTMLJresearch
 	 * @param boolean $oneFile If true, the control allows the selection of a single file.
 	 * @param array $uploadedFiles List of previously uploaded files.
 	 */
-	public static function fileUpload($name, $filesFolder, $value="", $options="", $oneFile=true, $uploadedFiles = array()){
+	public static function fileUpload($name, $filesFolder, $options="", $oneFile=true, $uploadedFiles = array()){
 		global $mainframe;
 		$doc =& JFactory::getDocument();
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		$doc->addScript($url."components/com_jresearch/helpers/html/fileuploader.js");
 		
-		$textField = '<div style="display:block;" id="div_text_'.$name.'"><input type="text" name="'.$name.'" id="'.$name.'" '.$options.' value="'.$value.'" /></div>';
-		$textField .= '&nbsp;</div>';
-		
 		$k = count($uploadedFiles);
 		$textFields = '<input type="hidden" name="count_'.$name.'" id="count_'.$name.'" value="'.$k.'" />';
 		
 		
-		$uploadField = '<div style="display:none;" id="div_upload_'.$name.'">';
-		$uploadField .= '<input id="file_'.$name.$k.'" name="file_'.$name.$k.'" type="file" />';
+		$uploadField = '<div id="div_upload_'.$name.'">';
+		$uploadField .= '<input id="file_'.$name.'_'.$k.'" name="file_'.$name.'_'.$k.'" type="file" />&nbsp;';
 		if(!$oneFile)
 			$uploadField .= '<a id="add_'.$name.'" href="javascript:addUploader(\''.$name.'\', \''.JText::_('Delete').'\')">'.JText::_('Add').'</a>';
 
 		$uploadField .= '</div>';
-		$uploadField .= '<a style="display:block"  id="a_upload_'.$name.'" href="javascript:switchUploader(\''.$name.'\')">'.JText::_('JRESEARCH_UPLOAD_FILE').'</a>';	
-		$uploadField .= '<a style="display:none" id="a_enter_'.$name.'" href="javascript:switchUploader(\''.$name.'\')">'.JText::_('JRESEARCH_ENTER_URL').'</a>';			
 		
-		return $textField.' '.$uploadField.' '.$textFields;
+		//Render the uploaded files
+		$baseUrl = $url.'administrator/components/com_jresearch/'.str_replace(DS, '/', $filesFolder);
+		$result = '<ul style="list-style:none;">';
+		$n = 0;
+		foreach($uploadedFiles as $file){
+			$result .= '<li><a href="'.$baseUrl.'/'.$file.'">'.$file.'</a>&nbsp;&nbsp;<label for="delete_'.$name.'_'.$n.'">'.JText::_('Delete').'</label><input type="checkbox" name="delete_'.$name.'_'.$n.'" id="delete_'.$name.'_'.$n.'" /></li>';
+			$n++;
+		}
+		$result .= '</ul>';
+		
+		return $textField.' '.$uploadField.' '.$textFields.$result;
 	}
 	
 	/**

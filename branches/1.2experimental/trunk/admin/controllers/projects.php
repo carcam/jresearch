@@ -167,14 +167,11 @@ class JResearchAdminProjectsController extends JController
 		$db =& JFactory::getDBO();
 		$project = new JResearchProject($db);
 		$user = JFactory::getUser();
-
-		// Bind request variables to publication attributes	
-		$post = JRequest::get('post');		
-		
-		$project->bind($post);
-		$project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
-		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		
+		$id = JRequest::getInt('id');
+		$post = JRequest::get('post');
+		if(isset($id))
+			$project->load($id);
+				
 		//Upload photo
 		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
 		$delete = JRequest::getVar('delete');
@@ -186,7 +183,40 @@ class JResearchAdminProjectsController extends JController
 								 _PROJECT_IMAGE_MAX_WIDTH_, //Max Width
 								 _PROJECT_IMAGE_MAX_HEIGHT_ //Max Height
 		);
+		
+		$filesCount = JRequest::getInt('count_attachments');
+		$filesResults = array();
+		if(!empty($project->files)){
+			$projectFiles = explode(';', $project->files);
+		}else{
+			$projectFiles = array();
+		}
+		
+		for($k=0; $k<= $filesCount; $k++){
+			$file = JRequest::getVar('file_attachments_'.$k, null, 'FILES');
+			$params = JComponentHelper::getParams('com_jresearch');
+			if(!empty($file['name'])){
+				$filesResults[$k] = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'projects');
+			}else{
+				$delete = JRequest::getVar('delete_attachments_'.$k, null);
+				if($delete != null){
+					if($delete == 'on'){
+						if(!empty($projectFiles[$k])){
+							$path = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'projects'.DS.$projectFiles[$k];
+							@unlink($path);
+							unset($projectFiles[$k]);
+						}
+					}
+				}
+			}
+		}		
+		$project->files = implode(';', array_merge($projectFiles, $filesResults));
 
+		// Bind request variables to publication attributes			
+		$project->bind($post);
+		$project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
+		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		
 		//Time to set the authors
 		$maxAuthors = JRequest::getInt('maxmembers');
 		$k = 0;

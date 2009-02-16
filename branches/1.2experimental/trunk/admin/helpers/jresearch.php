@@ -50,15 +50,47 @@ class JResearch
 			$ext = $extArr[1];
 		}
 		
-		$path = JResearch::upload($imageVar, $file, $folder, $ext, $delete);
+		$path = JResearch::upload($imageVar, $file, $folder, $delete);
 		
 		return $path;
 	}
 	
 	/**
+	 * Allows the upload of a document. Supported formats are pdf, plain text, postscript, MSOffice (2003 and 2007) and Open Office
+	 * documents.
+	 *
+	 * @param array $fileArray Array with the information about the uploaded file, provided by the server
+	 * @param string $path Path within J!Research administrator space, where the file will be located.
+	 * @return string The basename of the uploaded file or null if there is a problem during the upload or a non-supported format file
+	 * has been provided.
+	 */
+	function uploadDocument($file, $path){
+		$uploadedFile = $file['tmp_name'];
+		$availableTypes = array('application/msword'=>'doc','application/vnd.openxmlformats-officedocument.wordprocessingml.document'=>'docx',
+		'application/pdf'=>'pdf','application/postscript'=>'ps', 
+		'application/vnd.oasis.opendocument.text'=>'odt', 'text/plain'=>'txt');
+		if($uploadedFile != null){
+			if(isset($availableTypes[$file['type']])){
+				$newName = JPATH_COMPONENT_ADMINISTRATOR.DS.$path.DS.basename($file['name']);
+				if(!move_uploaded_file($uploadedFile, $newName)){
+					JError::raiseWarning(1, JText::_('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED').$uploadedFile.$newName);
+					return null;
+				}else{
+					//Construct the file entry
+					return basename($newName);
+				}
+			}else{
+				JError::raiseWarning(1, JText::_('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED'));
+				return null;
+			}
+		}
+	}
+	
+	
+	/**
 	 * Uploads ONE file to specific folder (relative path from component administrator folder)
 	 */
-	public static function upload(&$fileVar, $file, $folder, $ext='tmp', $delete=false)
+	public static function upload(&$fileVar, $file, $folder, $delete=false)
 	{
 		$path = '';
 		
@@ -73,7 +105,7 @@ class JResearch
 		
 		if($uploadedFile != null)
 		{
-			$newName = JPATH_COMPONENT_ADMINISTRATOR.DS.$folder.DS.basename($uploadedFile).'.'.$ext;
+			$newName = JPATH_COMPONENT_ADMINISTRATOR.DS.$folder.DS.$file['name'];
 
 			if(!move_uploaded_file($uploadedFile, $newName))
 			{
@@ -87,5 +119,6 @@ class JResearch
 		
 		return $fileVar;
 	}
+	
 }
 ?>

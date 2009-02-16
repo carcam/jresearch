@@ -7,7 +7,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
-<form name="adminForm" id="adminForm" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
+<form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
 <table class="title" cellpadding="5" cellspacing="5">
 <tbody>
 	<tr>
@@ -50,8 +50,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<th><?php echo JText::_('Published').': '; ?></th>
 		<td><?php echo $this->publishedRadio; ?></td>
-		<th><?php echo JText::_('JRESEARCH_AUTHORS').': '; ?></th>
-		<td><?php echo $this->authors; ?></td>
+		<th><?php echo JText::_('JRESEARCH_FILE').': '; ?></th>
+		<td><?php echo $this->files; ?>&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_FILES_TOOLTIP')); ?></td>
+
 	</tr>
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_CITEKEY').': '?></th>
@@ -65,11 +66,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_DOI').': '?></th>
-		<td colspan="3">
+		<td>
 			<input size="20" maxlength="255" name="doi" id="doi" class="validate-doi" value="<?php echo $this->publication?$this->publication->doi:'' ?>" />
 			<br />
 			<label for="doi" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_DOI'); ?></label>
 		</td>
+		<th><?php echo JText::_('JRESEARCH_AUTHORS').': '; ?></th>
+		<td><?php echo $this->authors; ?></td>
 	</tr>
 	<tr>
 		<th class="title" colspan="4"><?php echo JText::_('JRESEARCH_SPECIFIC'); ?></th>

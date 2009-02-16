@@ -102,6 +102,14 @@ class JResearchAdminViewProject extends JView
 		
 		$finHTML = JHTML::_('select.genericlist', $financierOptions, 'id_financier[]', 'class="inputbox" size="3" multiple="multiple"', 'value', 'text', (count($fins) > 0) ? $fins : '');
 
+		$params = JComponentHelper::getParams('com_jresearch');
+		if(!empty($project->files))
+			$uploadedFiles = explode(';', trim($project->files));
+		else
+			$uploadedFiles = array();	
+		$files = JHTML::_('JResearch.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'projects','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
+		
+		
     	$this->assignRef('project', $project);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
@@ -110,6 +118,7 @@ class JResearchAdminViewProject extends JView
 		$this->assignRef('editor', $editor);    
 		$this->assignRef('membersControl', $membersControl);	
 		$this->assignRef('status', $statusHTML);
+		$this->assignRef('files', $files);
     	
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);

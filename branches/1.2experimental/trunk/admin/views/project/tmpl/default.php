@@ -75,7 +75,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 	</tr>
 	<tr>
-		<th colspan="4" align="left"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
+		<th><?php echo JText::_('JRESEARCH_FILES').': '; ?></th>
+		<td colspan="2"><?php echo $this->files; ?></td>
+		<td></td>
+	</tr>
+	<tr>
+		<th colspan="4" align="left"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></th>
 	</tr>
 	<tr>
 		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->project->description , '100%', '350', '75', '20' ) ; ?></td>

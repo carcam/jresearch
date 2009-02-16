@@ -54,13 +54,6 @@ class JResearchProject extends JResearchActivity{
 	public $url_project_image;	
 	
 	/**
-	 * Url to the project official page
-	 *
-	 * @var string
-	 */
-	public $url;
-	
-	/**
 	 * Project's complete description
 	 * 
 	 * @var string

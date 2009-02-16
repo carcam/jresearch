@@ -1,29 +1,3 @@
-
-/**
-* Allows to switch between single field for externals URLs or
-* a set of file uploaders.
-*/
-function switchUploader(controlName){
-	textdiv = document.getElementById('div_text_'+controlName);
-	uploaddiv = document.getElementById('div_upload_'+controlName);
-	aupload = document.getElementById('a_upload_'+controlName);
-	aenter = document.getElementById('a_enter_'+controlName);	
-
-	if(textdiv && uploaddiv && aupload && aenter){
-		if(textdiv.style.display == 'block'){
-			textdiv.style.display = 'none';
-			aenter.style.display = 'block';			
-			uploaddiv.style.display = 'block';
-			aupload.style.display = 'none';
-		}else{
-			textdiv.style.display = 'block';
-			aenter.style.display = 'none';						
-			uploaddiv.style.display = 'none';
-			aupload.style.display = 'block';				
-		}
-	}
-}
-
 /**
 * Appends a upload control.
 */
@@ -39,17 +13,17 @@ function addUploader(controlName, deleteMessage){
 	count++;
 	
 	newUpload = document.createElement('input');
-	newUpload.setAttribute('name', 'file_'+controlName+count);
-	newUpload.setAttribute('id', 'file_'+controlName+count);	
+	newUpload.setAttribute('name', 'file_'+controlName+'_'+count);
+	newUpload.setAttribute('id', 'file_'+controlName+'_'+count);	
 	newUpload.setAttribute('type', 'file');
 	
 	deleteAdd = document.createElement('a');
-	deleteAdd.setAttribute('id', 'delete_'+controlName+count);
+	deleteAdd.setAttribute('id', 'delete_'+controlName+'_'+count);
 	deleteAdd.setAttribute('href', 'javascript:deleteUpload(\''+controlName+'\', '+count+')');
 	deleteAdd.appendChild(document.createTextNode(deleteMessage));
 	
 	br = document.createElement('br');
-	br.setAttribute('id', 'br_'+controlName+count);
+	br.setAttribute('id', 'br_'+controlName+'_'+count);
 	
 	aAdd = document.getElementById('add_'+controlName);
 	uploaddiv.insertBefore(newUpload, aAdd);
@@ -65,9 +39,9 @@ function addUploader(controlName, deleteMessage){
 */
 function deleteUpload(controlName, count){
 	uploaddiv = document.getElementById('div_upload_'+controlName);
-	uploadControl = document.getElementById('file_'+controlName+count);
-	deleteA = document.getElementById('delete_'+controlName+count);
-	br = document.getElementById('br_'+controlName+count);
+	uploadControl = document.getElementById('file_'+controlName+'_'+count);
+	deleteA = document.getElementById('delete_'+controlName+'_'+count);
+	br = document.getElementById('br_'+controlName+'_'+count);
 	
 	if(uploaddiv){
 		if(uploadControl)

@@ -157,16 +157,50 @@ class JResearchAdminThesesController extends JController
 	 */
 	function save(){
 		global $mainframe;
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+				
 		$db =& JFactory::getDBO();
 		$thesis = new JResearchThesis($db);
 		$user = JFactory::getUser();
+		$id = JRequest::getInt('id');
+		if(isset($id))
+			$thesis->load($id);
+
+		$post = JRequest::get('post');		
+				
+		$filesCount = JRequest::getInt('count_attachments');
+		$filesResults = array();
+		if(!empty($thesis->files)){
+			$thesisFiles = explode(';', $thesis->files);
+		}else{
+			$thesisFiles = array();
+		}
+		
+		for($k=0; $k<= $filesCount; $k++){
+			$file = JRequest::getVar('file_attachments_'.$k, null, 'FILES');
+			$params = JComponentHelper::getParams('com_jresearch');
+			if(!empty($file['name'])){
+				$filesResults[$k] = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'theses');
+			}else{
+				$delete = JRequest::getVar('delete_attachments_'.$k, null);
+				if($delete != null){
+					if($delete == 'on'){
+						if(!empty($thesisFiles[$k])){
+							$path = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'theses'.DS.$thesisFiles[$k];
+							@unlink($path);
+							unset($thesisFiles[$k]);
+						}
+					}
+				}
+			}
+		}		
+		$thesis->files = implode(';', array_merge($thesisFiles, $filesResults));
+		
 		
 		// Bind request variables to publication attributes	
-		$post = JRequest::get('post');		
 		$thesis->bind($post);
 		$thesis->title = trim($thesis->title);
 		$thesis->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		
 		//Time to set the authors
 		$count = 0;
 		$maxStudents = JRequest::getInt('maxstudents');
