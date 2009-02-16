@@ -6,7 +6,9 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access'); 
+require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
+?>
 <h1 class="componentheading"><?php echo $this->project->title; ?></h1>
 <table cellspacing="2" cellpadding="2">
 <tbody>
@@ -140,8 +142,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php endif; ?>	
 	</tr>
 	<?php $url = trim($this->project->url_project_page); ?>
-	<? if(!empty($url)) : ?>
-		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span>
+	<?php if(!empty($url)): ?>
+		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span></td></tr>
+	<?php endif; ?>	
+	<?php $n = $this->project->countAttachments(); ?>
+	<?php if($n > 0): ?>
+		<tr><td class="publicationlabel"><?php echo JText::_('JRESEARCH_FILES').': ' ?></td><td colspan="3"><ul style="list-style:none;">
+		<?php for($i=0; $i<$n; $i++): ?>
+			<?php $attach = $this->project->getAttachment($i, 'projects'); ?>
+			<?php echo !empty($attach)?'<li>'.JHTML::_('JResearch.attachment', $attach).'<li>':''; ?>
+		<?php endfor; ?>
+		</ul>
+		</td></tr>
 	<?php endif; ?>	
 	<?php $description = trim($this->project->description); ?>
 	<?php if(!empty($description)): ?>

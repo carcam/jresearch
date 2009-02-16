@@ -6,7 +6,9 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access'); 
+require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
+?>
 <h1 class="componentheading"><?php echo $this->thesis->title; ?></h1>
 <table cellspacing="2" cellpadding="2">
 <tbody>
@@ -125,9 +127,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr><td>&nbsp;</td></tr>
 	<?php $doc = trim($this->thesis->url); ?>
-	<? if(!empty($doc)): ?>
+	<?php if(!empty($doc)): ?>
 		<tr><td colspan="4"><span><?php echo JHTML::_('link', $doc, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span></td></tr>	
-	<?php endif; ?>	
+	<?php endif; ?>
+	<?php $n = $this->thesis->countAttachments(); ?>
+	<?php if($n > 0): ?>
+		<tr><td class="publicationlabel"><?php echo JText::_('JRESEARCH_FILES').': ' ?></td><td colspan="3"><ul style="list-style:none;">
+		<?php for($i=0; $i<$n; $i++): ?>
+			<?php $attach = $this->thesis->getAttachment($i, 'theses'); ?>
+			<?php echo !empty($attach)?'<li>'.JHTML::_('JResearch.attachment', $attach).'<li>':''; ?>
+		<?php endfor; ?>
+		</ul>
+		</td></tr>
+	<?php endif; ?>			
 	<?php $description = trim($this->thesis->description); ?>
 	<?php if(!empty($description)): ?>
 	<tr>

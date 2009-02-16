@@ -506,6 +506,26 @@ class JHTMLJresearch
 	}
 	
 	/**
+	 * Renders an attachment download link
+	 *
+	 * @param string $url Resource URL
+	 */
+	public static function attachment($url){
+		$filename = basename($url);
+		$extension = explode('.', $filename);
+		$supportedExtensions = array('doc', 'docx', 'pdf', 'ps', 'odt', 'txt');
+		$assetsUrl = 'administrator/components/com_jresearch/assets/extensions/';
+	
+		if(in_array($extension[1], $supportedExtensions)){
+			$img = $assetsUrl.$extension[1].'.png';
+		}else{
+			$img = $assetsUrl.'default.png';				
+		}
+		
+		return "<a href=\"$url\" ><img style=\"border: 0px;\" src=\"$img\" />$filename</a>";
+	}
+	
+	/**
 	 * Gets value of array from given key if it exists, otherwise $default
 	 */
 	private static function getKey($key, array &$arr, $default=null)

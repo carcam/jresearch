@@ -196,7 +196,9 @@ class JResearchAdminProjectsController extends JController
 			$file = JRequest::getVar('file_attachments_'.$k, null, 'FILES');
 			$params = JComponentHelper::getParams('com_jresearch');
 			if(!empty($file['name'])){
-				$filesResults[$k] = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'projects');
+				 $result = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'projects');
+				 if($result != null)
+					 $filesResults[$k] = $result;
 			}else{
 				$delete = JRequest::getVar('delete_attachments_'.$k, null);
 				if($delete != null){

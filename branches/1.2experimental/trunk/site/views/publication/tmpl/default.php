@@ -143,7 +143,14 @@ defined('_JEXEC') or die('Restricted access');
 	
 	<?php $url = trim($this->publication->url); ?>
 	<?php if(!empty($url)): ?> 
-		<tr><td colspan="4"><span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span></td></tr>		
+		<tr><td colspan="4"><span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span></td></tr>
+	<?php endif; ?>
+	<?php $attach = $this->publication->getAttachment(0, 'publications'); ?>
+	<?php if(!empty($attach)): ?>
+		<tr><td class="publicationlabel"><?php echo JText::_('JRESEARCH_FILE').': ' ?></td>
+		<td><span><?php echo JHTML::_('JResearch.attachment', $attach); ?></span></td>		
+		<td colspan="2"></td>
+		</tr>
 	<?php endif; ?>
 	
 </tbody>

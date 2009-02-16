@@ -73,14 +73,14 @@ class JResearch
 			if(isset($availableTypes[$file['type']])){
 				$newName = JPATH_COMPONENT_ADMINISTRATOR.DS.$path.DS.basename($file['name']);
 				if(!move_uploaded_file($uploadedFile, $newName)){
-					JError::raiseWarning(1, JText::_('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED').$uploadedFile.$newName);
+					JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED', basename($newName)));
 					return null;
 				}else{
 					//Construct the file entry
 					return basename($newName);
 				}
 			}else{
-				JError::raiseWarning(1, JText::_('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED'));
+				JError::raiseWarning(1, JText::sprintf('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED', basename($newName)));
 				return null;
 			}
 		}
@@ -109,7 +109,7 @@ class JResearch
 
 			if(!move_uploaded_file($uploadedFile, $newName))
 			{
-				JError::raiseWarning(1, JText::_('The file could not be imported into J!Research space.'));
+				JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED', basename($newName)));
 			}
 			else
 			{
