@@ -15,11 +15,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
-//jimport('phputf8.native.case');
-//jimport('phputf8.native.strlen');
-//jimport('phputf8.utils.unicode');
-//jimport('phputf8.ucfirst');
-//jimport('phputf8.mbstring.core');
 
 /**
  * This class holds useful methods for dealing with publications records.
@@ -232,7 +227,9 @@ class JResearchPublicationsHelper{
 	 */
 	public static function getBibtexCase($word){
 		jimport('phputf8.utils.unicode');
-		jimport('phputf8.native.strlen');		
+		jimport('phputf8.native.strlen');	
+		jimport('phputf8.native.case');		
+
 		// Always bring the word to a printable representation.
 		$printableWord = self::bibCharsToUtf8FromString($word);
 		// Get UTF8 lower characters
