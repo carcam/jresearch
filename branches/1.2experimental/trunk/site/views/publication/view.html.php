@@ -208,8 +208,15 @@ class JResearchViewPublication extends JView
 			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 0);
 			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', 0);
 			
-			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' , array());
+			$authorsControl = JHTML::_('JResearch.authorsSelector', 'authors' , array());
 		}
+		$params = JComponentHelper::getParams('com_jresearch');
+		if(!empty($publication->files))
+			$uploadedFiles = explode(';', trim($publication->files));
+		else
+			$uploadedFiles = array();	
+		$files = JHTML::_('JResearch.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
+		
 		
 		$this->assignRef('user', $user);
 		$this->assignRef('pubtype', $pubtype);
@@ -217,6 +224,7 @@ class JResearchViewPublication extends JView
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('authors', $authorsControl);
+		$this->assignRef('files', $files);
     }
     
 	/**

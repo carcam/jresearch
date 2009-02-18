@@ -350,7 +350,7 @@ class JResearchActivity extends JTable{
 			$filesArr = explode(';', trim($this->files));
 			if(!empty($filesArr[$i])){
 				$params = JComponentHelper::getParams('com_jresearch'); 
-				return  JURI::base().'administrator/components/com_jresearch/'.str_replace(DS, '/', $params->get('files_path_root', 'files'))."/$controller/".$filesArr[$i];
+				return  JURI::base().'administrator/components/com_jresearch/'.str_replace(DS, '/', $params->get('files_root_path', 'files'))."/$controller/".$filesArr[$i];
 			}else
 				return null;
 		}else
