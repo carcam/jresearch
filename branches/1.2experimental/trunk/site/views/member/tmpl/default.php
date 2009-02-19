@@ -54,7 +54,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
   	<tr><td colspan="4">
 	  	<ul>
 		  	<?php foreach($this->publications as $pub): ?>
-	  			<li><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id ?><? echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo $pub->title; ?></a></li>
+		  		<?php if(!$this->applyStyle): ?>
+	  				<li><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id ?><? echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo $pub->title; ?></a></li>
+	  			<?php else: ?>
+	  				<li>
+	  					<?php  
+	  						$styleObj =& JResearchCitationStyleFactory::getInstance($this->style, $pub->pubtype);
+	  						echo $styleObj->getReferenceHTMLText($pub, true); 
+	  					?>
+	  					<a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id; ?><?php $Itemid = JRequest::getVar('Itemid'); echo !empty($Itemid)?'&Itemid='.$Itemid:''; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a>&nbsp;
+	  				</li>
+	  			<?php endif; ?>	
 	  		<?php endforeach; ?>
 	  	</ul>
 	  	<div>

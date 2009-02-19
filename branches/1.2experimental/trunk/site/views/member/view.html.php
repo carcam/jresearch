@@ -47,7 +47,7 @@ class JResearchViewMember extends JView
     	
     	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
       	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
-		JHTML::_('Validator._');
+		JHTML::_('JResearch.validation');
     	JResearchToolbar::editMemberAdminToolbar();		
 		    	
     	$user =& JFactory::getUser();
@@ -164,6 +164,9 @@ class JResearchViewMember extends JView
     		$this->assignRef('ntheses', $model->countTheses($member->id));
     	}
     	
+    	$applyStyle = ($params->get('publications_apply_style') == 'yes');
+    	$configuredCitationStyle = $params->get('citationStyle', 'APA');
+
     	// Bind variables for layout
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
@@ -171,6 +174,9 @@ class JResearchViewMember extends JView
     	$this->assignRef('params', $params);
     	$this->assignRef('member', $member);
     	$this->assignRef('area', $area);
+    	$this->assignRef('applyStyle', $applyStyle);
+    	$this->assignRef('style', $configuredCitationStyle);
+    	
     	return true;
     }
 }
