@@ -69,7 +69,7 @@ class JResearchViewPublicationsList extends JView
 
     	$items = $model->getData(null, true, true);
     	$page = $model->getPagination();
-    	$params = $mainframe->getParams('com_jresearch'); 
+    	$params = $mainframe->getParams(); 
     	$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
     	$field = $params->get('field_for_average');    	
 
