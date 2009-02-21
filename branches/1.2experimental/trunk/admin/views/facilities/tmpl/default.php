@@ -24,17 +24,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<table class="adminlist" cellspacing="1">
 		<thead>
 		<tr>		
-			<th width="1%">#</th>
-			<th width="20" align="center">
+			<th style="width:1%;">#</th>
+			<th style="width:1%; text-align: center;">
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?=count($this->items);?>);" />
 			</th>
-			<th align="center">
+			<th style="width: 50%; text-align: center;">
 				<?=JText::_('JRESEARCH_FACILITY');?>
 			</th>
-			<th width="1%" nowrap="nowrap">
+			<th style="width:1%;" nowrap="nowrap">
 				<?=JHTML::_('grid.sort','Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th width="8%" nowrap="nowrap">
+			<th style="width:8%;" nowrap="nowrap">
 				<?=JHTML::_('grid.sort', 'Order by', 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 				<?=JHTML::_('grid.order', $this->items ); ?>
 			</th>
@@ -65,15 +65,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td>
 						<?=$this->page->getRowOffset( $i ); ?>
 					</td>
-					<td width="1%">
+					<td>
 						<?=$checked; ?>
 					</td>
-					<td width="30%">
+					<td>
 						<a href="<?=JFilterOutput::ampReplace('index.php?option=com_jresearch&amp;controller=facilities&task=edit&cid[]='.$this->items[$i]->id);?>">
 							<?=$this->items[$i]->name; ?>
 						</a>
 					</td>
-					<td align="center">
+					<td class="center">
 						<?=$published; ?>
 					</td>
 					<td class="order" nowrap="nowrap">
@@ -86,7 +86,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						<?php $disabled = $this->ordering ?  '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5" value="<?=$this->items[$i]->ordering; ?>" <?=$disabled ?> class="text_area" style="text-align: center" />
 					</td>
-					<td align="center">
+					<td class="center">
 						<?=$researchArea->name;?>
 					</td>
 				</tr>
@@ -95,12 +95,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			?>
 		</tbody>
 	</table>
-	<input type="hidden" name="option" value="com_jresearch" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />  
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="controller" value="facilities"  />
 	<input type="hidden" name="hidemainmenu" value="" />
+	
+	<?php echo JHTML::_('jresearchhtml.hiddenfields', 'facilities'); ?>
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

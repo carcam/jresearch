@@ -222,6 +222,13 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_financier` (
   PRIMARY KEY  (`id_project`,`id_financier`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `#__jresearch_project_cooperation`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_project_cooperation` (
+  `id_project` int(10) unsigned NOT NULL,
+  `id_cooperation` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id_project`,`id_cooperation`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `#__jresearch_project_internal_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_internal_author` (
   `id_project` int(10) unsigned NOT NULL,

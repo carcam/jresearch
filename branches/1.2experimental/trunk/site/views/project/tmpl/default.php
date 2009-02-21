@@ -125,6 +125,30 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 		</tr>	
 	<?php endif; ?>
 	
+	<?php 
+	$coops = $this->project->getCooperations();
+	
+	if(!empty($coops)):
+	?>
+	<tr>
+		<th class="field"><?php echo JText::_('JRESEARCH_COOPERATION_WITH'); ?></th>
+		<td colspan="3">
+			<ul>
+				<?php
+				foreach($coops as $coop):
+				?>
+					<li>
+						<?php echo $coop->name; ?>
+					</li>
+				<?php
+				endforeach;
+				?>
+			</ul>
+		</td>
+	</tr>
+	<?php
+	endif;
+	?>
 	<tr>
 		<?php $startDate = trim($this->project->start_date); ?>
 		<?php $colspan = 4; ?>

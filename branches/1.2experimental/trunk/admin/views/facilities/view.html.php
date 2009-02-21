@@ -44,6 +44,7 @@ class JResearchAdminViewFacilities extends JView
     	
     	//Toolbar
     	JResearchToolbar::facilitiesAdminListToolbar();
+    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
     	
     	//Get the model
     	$model =& $this->getModel();

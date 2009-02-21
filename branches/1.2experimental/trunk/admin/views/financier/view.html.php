@@ -34,21 +34,15 @@ class JResearchAdminViewFinancier extends JView
     	$model =& $this->getModel();
     	$arguments = array('financier');
     	
-		//Published options
-    	$publishedOptions = array();
-    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
-    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
-
-    	
     	if($cid){
         	$fin = $model->getItem($cid[0]);
         	$arguments[] = $fin->id;
-    	    $publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $fin->published);   	
     	}else{
-    		$arguments[] = null;
-    	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);   		
+    		$arguments[] = null; 		
     	}
     	
+    	//HTML List for published selection
+    	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $fin?$fin->published:1));
     	
     	$this->assignRef('financier', $fin);
     	$this->assignRef('publishedRadio', $publishedRadio); 	

@@ -66,6 +66,7 @@ class JResearchAdminProjectsController extends JController
 	* @access public
 	*/
 	function edit(){
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'cooperations');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers');
 		
@@ -74,6 +75,7 @@ class JResearchAdminProjectsController extends JController
 		$view = &$this->getView('Project', 'html', 'JResearchAdminView');	
 		
 		$finModel = &$this->getModel('Financiers', 'JResearchModel');
+		$coopModel = &$this->getModel('Cooperations', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
 		$model =& $this->getModel('Project', 'JResearchModel');
 
@@ -86,10 +88,6 @@ class JResearchAdminProjectsController extends JController
 					$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
 				}else{
 					$project->checkout($user->get('id'));
-					$view->setModel($model, true);
-					$view->setModel($areaModel);
-					$view->setModel($finModel);
-					$view->display();
 				}
 			}else{
 				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
@@ -98,11 +96,14 @@ class JResearchAdminProjectsController extends JController
 		}else{
 			$session =& JFactory::getSession();
 			$session->set('citedRecords', array(), 'jresearch');
-			$view->setModel($model, true);
-			$view->setModel($areaModel);
-			$view->setModel($finModel);
-			$view->display();
 		}
+		
+		//Set models
+		$view->setModel($model, true);
+		$view->setModel($areaModel);
+		$view->setModel($finModel);
+		$view->setModel($coopModel);
+		$view->display();
 	}
 	
 	/**
@@ -241,7 +242,7 @@ class JResearchAdminProjectsController extends JController
 		}
 		
 		//Set financiers for the project
-		$financiers = JRequest::getVar('id_financier');
+		$financiers = JRequest::getVar('id_financier', array());
 		
 		if(is_array($financiers))
 		{
@@ -252,6 +253,18 @@ class JResearchAdminProjectsController extends JController
 				$project->setFinancier($id);
 			}
 		}
+		
+		//Set cooperations for the project
+		$cooperations = JRequest::getVar('id_cooperation', array());
+		
+		if(is_array($cooperations))
+		{
+			foreach($cooperations as $coop)
+			{
+				$project->setCooperation(intval($coop));
+			}
+		}
+		
 		// Set the id of the author if the item is new
 		if(empty($project->id))
 			$project->created_by = $user->get('id');

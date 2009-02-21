@@ -58,6 +58,7 @@ class JResearchViewProject extends JView
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($project->id_research_area);
+    	
     	$params = $mainframe->getPageParameters('com_jresearch');
 
     	$doc->setTitle(JText::_('JRESEARCH_PROJECT').' - '.$project->title);

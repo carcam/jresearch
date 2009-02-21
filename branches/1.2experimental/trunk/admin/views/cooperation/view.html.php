@@ -24,7 +24,8 @@ class JResearchAdminViewCooperation extends JView
 	{
     	global $mainframe;
       	
-      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+      	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 		JHTML::_('JResearch.validation');
     	JRequest::setVar( 'hidemainmenu', 1 );
 
@@ -34,11 +35,7 @@ class JResearchAdminViewCooperation extends JView
     	$coop = $model->getItem($cid[0]);
     	$arguments = array('coop', $coop->id);
     	
-		//Published options
-    	$publishedOptions = array();
-    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
-    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
-    	$publishedList = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $coop->published);
+		$publishedList = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $coop?$coop->published:1));
 
     	$orderOptions = array();
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations WHERE catid='.$coop->catid.' ORDER by ordering ASC');

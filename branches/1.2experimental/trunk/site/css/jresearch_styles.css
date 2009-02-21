@@ -22,31 +22,6 @@ table.adminlist td{
 	width:100%;
 }
 
-/* TABLE DEFINITIONS */
-/*
-OLD TABLE DEFINITIONS
-table.editpublication, table.editcooperation{
-	border: 1px solid rgb(213, 213, 213); 
-	background-color: rgb(249, 249, 249); 
-	width: 50%;
-	margin-left: auto;
-	margin-right: auto;
-	
-}
-
-table.editpublication th, table.editcooperation th{
-	background-color: rgb(102, 102, 102); 
-	width: 100%;
-	color: white; 
-	font-weight: bold;
-	font-size: 12px;
-}
-
-table.editpublication td,  table.editcooperation td{
-	font-weight: bold;
-}
-*/
-
 /* NEW TABLE DEFINITIONS */
 table.edit {
 	border: 1px solid rgb(213, 213, 213); 
@@ -61,12 +36,18 @@ table thead th, table tbody th.title, table tfoot th.title {
 	background-color: rgb(102, 102, 102); 
 	width: 100%;
 	color: white; 
+	text-align: center;
 	font-weight: bold;
 	font-size: 12px;
 }
 
 table tbody th {
-	font-weight: bold;	
+	font-weight: bold;
+	text-align: left;
+}
+
+table td.center {
+	text-align: center;	
 }
 
 /* OTHER */

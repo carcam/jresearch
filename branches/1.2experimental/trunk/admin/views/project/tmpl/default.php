@@ -7,7 +7,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <form name="adminForm" id="adminForm" action="./" method="post" enctype="multipart/form-data" class="form-validate" onsubmit="return validate(this);">
-<table class="editpublication" cellpadding="5" cellspacing="5">
+<table class="edit" cellpadding="5" cellspacing="5">
 <tbody>
 	<tr>
 		<th class="title" colspan="4"><?php echo JText::_('JRESEARCH_REQUIRED')?></th>
@@ -56,12 +56,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td><input name="finance_value" id="finance_value" size="12" maxlength="12" value="<?php echo $this->project?$this->project->finance_value:'' ?>" /> <?php echo $this->currencyList; ?></td>
 	</tr>
 	<tr>
+		<th><?php echo JText::_('JRESEARCH_COOPERATION_WITH'); ?></th>
+		<td><?php echo $this->coopList; ?></td>
 		<th><?php echo JText::_('JRESEARCH_PROJECT_PAGE').' (Url) : ' ?></th>
 		<td>
 			<input name="url" id="url" class="validate-url" size="30" maxlength="255" value="<?php echo $this->project?$this->project->url:'' ?>" />
 			<br />
 			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
-		</td>	
+		</td>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_PROJECT_IMAGE').': '; ?></th>

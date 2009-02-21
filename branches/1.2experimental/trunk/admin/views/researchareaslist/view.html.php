@@ -25,6 +25,8 @@ class JResearchAdminViewResearchAreasList extends JView
     {
 	      global $mainframe;	
 	      JResearchToolbar::researchAreasListToolbar();
+	      
+	      JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
 	      $model = &$this->getModel();
 	      $items = $model->getData(null, false, true);
 	     
