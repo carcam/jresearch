@@ -5,7 +5,7 @@
 	<version>0.1</version>
 	<description>Definition for the publication (article) content of the J!Research component</description>
 	<reference type="content">
-		<table name="jresearch_article">
+		<table name="jresearch_conference">
 			<field type="referenceid" name="id_publication" translate="0">ID</field>
 			<field type="titletext" name="booktitle" translate="1">Book title</field>
 			<field type="text" name="publisher" translate="1">Publisher</field>
