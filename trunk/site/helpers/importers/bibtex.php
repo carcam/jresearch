@@ -26,11 +26,11 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 	 * @param string $text
 	 * @param array of JResearchPublication objects
 	 */
-	public function parse($text){
+	public function parse($text){		
 		$resultArray = array();
 		$parser = new Structures_BibTex();
 		$parser->content = $text;
-		$user = JFactory::getUser();
+		$user = JFactory::getUser();		
 		if($parser->parse()){
 			foreach($parser->data as $data){
 				$type = strtolower($data['entryType']);

@@ -420,7 +420,7 @@ class Structures_BibTex
                 $entry       = substr($entry, 0, $position);
             }
             //Parsing cite and entry type
-            $arr = split('{', $entry);
+            $arr = split('\{', $entry);
             $ret['cite'] = trim($arr[1]);
             $ret['entryType'] = strtolower(trim($arr[0]));
             if ('@' == $ret['entryType']{0}) {
