@@ -38,7 +38,7 @@ class JResearchAdminViewCooperation extends JView
 		$publishedList = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $coop?$coop->published:1));
 
     	$orderOptions = array();
-    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations WHERE catid='.$coop->catid.' ORDER by ordering ASC');
+    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations WHERE catid='.($coop->catid?$coop->catid:0).' ORDER by ordering ASC');
     	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $coop->ordering);
     	
     	$categoryList = JHTML::_('list.category', 'catid', 'com_jresearch_cooperations', $coop->catid);
