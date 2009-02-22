@@ -1,6 +1,6 @@
-<div class="componentheading" style="float: left;">
+<h1 class="componentheading" style="float: left;">
 	<?=JText::_('JRESEARCH_'.JString::strtoupper(JRequest::getVar('task')).'_PUBLICATION');?>
-</div>
+</h1>
 <?php 
 if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this->id > 0)) || (JHTML::_('Jresearch.authorize','add', 'publications') && ($this->id <= 0)))
 {

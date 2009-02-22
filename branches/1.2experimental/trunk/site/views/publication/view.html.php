@@ -139,7 +139,8 @@ class JResearchViewPublication extends JView
     
     private function _editPublication()
     {
-    	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+    	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 		JHTML::_('Validator._');		
 		$user =& JFactory::getUser();
@@ -232,7 +233,8 @@ class JResearchViewPublication extends JView
 	* for a new publication.
 	*/
 	private function _displayNewPublicationForm(){
-		JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+		JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 		$subtypes = JResearchPublication::getPublicationsSubtypes();
 		$typesOptions = array();
 		
