@@ -30,10 +30,9 @@ abstract class JResearchPublicationImporter{
 	 */
 	function parseFile($filename){
 		$file = @fopen($filename, "r");
-		
 		if($file === false)
 			return null;
-
+			
 		$text = fread($file, filesize($filename));
 
 		return $this->parse($text);
