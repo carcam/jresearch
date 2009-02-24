@@ -47,6 +47,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php endif; ?>  		
   	<td colspan="2" class="field"></td>
   </tr>
+  <tr>
+  	<?php if(empty($this->member->location)): ?>
+	<td colspan="2"></td>
+	<?php else: ?>	
+	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_LOCATION').': ';  ?></td>
+	<td><?php echo $this->member->location; ?></td>
+	<?php endif; ?>  		
+	<td colspan="2" class="field"></td>
+  </tr>
   <?php $itemId = JRequest::getVar('Itemid', null); ?>
   <?php if(!empty($this->publications)){ ?>
     <tr><td colspan="4"></td></tr>

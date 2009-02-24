@@ -327,6 +327,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `username` varchar(150) NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL default '1',
   `position` varchar(30) default NULL,
+  `location` varchar(50) default NULL,
   `url_personal_page` varchar(255) default NULL,
   `published` tinyint(4) NOT NULL default '1',
   `ordering` int(11) unsigned NOT NULL default '0',
