@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <joomfish type="contentelement">
-	<name>J!Research Facility</name>
+	<name>J!Research Facilities</name>
 	<author>F. Prinz</author>
 	<version>0.1</version>
 	<description>Definition for the facility content of the J!Research component</description>
 	<reference type="content">
-		<table name="jresearch_facility">
+		<table name="jresearch_facilities">
 			<field type="referenceid" name="id" translate="0">ID</field>
 			<field type="titletext" name="name" translate="1">Name</field>
 			<field type="text" name="image_url" translate="0">Image URL</field>

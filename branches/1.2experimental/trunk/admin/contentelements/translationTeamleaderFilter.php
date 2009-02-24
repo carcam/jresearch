@@ -27,18 +27,19 @@ class translationTeamleaderFilter extends translationFilter
 		$leaderOptions=array();
 		$leaderOptions[] = JHTML::_('select.option', '-1', JText::_('All'));
 
-		$sql = 	"SELECT DISTINCT leader.id, leader.firstname+' '+leader.lastname AS name FROM #__jresearch_member as leader, #__".$this->tableName.' as c'
+		$sql = 	"SELECT DISTINCT leader.id, leader.firstname+' '+leader.lastname AS name FROM #__jresearch_member as leader, #__".$this->tableName." as c "
 				."WHERE c.".$this->filterField."=leader.id ORDER BY leader.lastname";
 		
 		$db->setQuery($sql);
 		$leaders = $db->loadObjectList();
 		
 		$leaderCount=0;
-		foreach($leaders as $leader)
-		{
-			$leaderOptions[] = JHTML::_('select.option', $leader->id,$leader->name);
-			$leaderCount++;
-		}
+		if(count($leaders) > 0)
+			foreach($leaders as $leader)
+			{
+				$leaderOptions[] = JHTML::_('select.option', $leader->id,$leader->name);
+				$leaderCount++;
+			}
 		
 		$leaderList=array();
 		$leaderList["title"]= JText::_('Team-Leader filter');
