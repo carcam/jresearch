@@ -17,8 +17,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <td><?php echo empty($this->member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$this->member->position; ?></td>
     <?php if(empty($this->member->url_photo)): ?>
     <td colspan="2" rowspan="3"></td>
-    <?php else: ?>		
-    <td colspan="2" rowspan="3"><img src="<?php echo $this->member->url_photo; ?>" border="0" alt="<?php echo $this->member; ?>" /></td>
+    <?php else: 
+    	$url = JResearch::getUrlByRelative($this->member->url_photo);
+    ?>		
+    <td colspan="2" rowspan="3"><img src="<?php echo $url; ?>" border="0" alt="<?php echo $this->member; ?>" /></td>
     <?php endif; ?>		
   </tr>
   <?php

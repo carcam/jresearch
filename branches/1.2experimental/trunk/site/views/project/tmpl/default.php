@@ -7,7 +7,6 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
-require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 ?>
 <h1 class="componentheading"><?php echo $this->project->title; ?></h1>
 <table cellspacing="2" cellpadding="2">
@@ -15,10 +14,15 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 	<tr>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
 		<td style="width:35%;"><?php echo $this->area->name; ?></td>
-	   	<?php if(empty($this->project->url_project_image)): ?>
+	   	<?php
+	   	if(empty($this->project->url_project_image)): 
+	   	?>
     		<td colspan="2"></td>
-       	<?php else: ?>		
-    		<td colspan="2"><img src="<?php echo $this->project->url_project_image; ?>" border="0" alt="<?php echo $this->project->title; ?>" /></td>
+       	<?php 
+       	else: 
+       		$url = JResearch::getUrlByRelative($this->project->url_project_image);
+       	?>		
+    		<td colspan="2"><img src="<?php echo $url; ?>" border="0" alt="<?php echo $this->project->title; ?>" /></td>
     	<?php endif; ?>	
 	</tr>
 	<tr>

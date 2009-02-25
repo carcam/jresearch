@@ -66,11 +66,22 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<th><?php echo JText::_('Photo').': ' ?></th>
 		<td><input class="inputbox" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 400, 400)); ?></td>
+		<?php
+		if(!is_null($this->member->url_photo)):
+			$url = JResearch::getUrlByRelative($this->fac->image_url);
+		?>
 		<td>
-			<img src="<?php echo $this->member->url_photo; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" />
+			<img src="<?php echo $url; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" />
 			<input type="hidden" name="url_photo" id="url_photo" value="<?=$this->member->url_photo;?>" />
 		</td>
 		<td><label for="delete"><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" /></td>
+		<?php
+		else:
+		?>
+		<td colspan="2"></td>
+		<?php
+		endif;
+		?>
 	</tr>
 	<tr>
 		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->member->description , '100%', '350', '75', '20' ) ; ?></td>

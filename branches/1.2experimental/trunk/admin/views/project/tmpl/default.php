@@ -69,12 +69,24 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<th><?php echo JText::_('JRESEARCH_PROJECT_IMAGE').': '; ?></th>
 		<td>
 			<input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 400, 400)); ?><br />
-			<label for="delete" /><?php echo JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
 		</td>
-		<td colspan="2">
+		<?php
+		if($this->project->url_project_image):
+		?>
+		<td>
 			<img src="<?php echo $this->project->url_project_image; ?>" alt="<?php echo JText::_('No photo'); ?>" />
 			<input type="hidden" name="url_project_image" value="<?php echo $this->project->url_project_image; ?>" />
 		</td>
+		<td>
+			<label for="delete" /><?php echo JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
+		</td>
+		<?php 
+		else:
+		?>
+		<td colspan="2"></td>
+		<?php
+		endif;
+		?>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_FILES').': '; ?></th>

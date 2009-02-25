@@ -60,12 +60,12 @@ if($intro_text != "")
 	?>
 		<li class="licooperation" style="background: none; clear: both; margin-bottom: 10px;">
 			<?php 
-			if($coop->image_url != "")
-			{
+			if($coop->image_url):
+				$url = JResearch::getUrlByRelative($coop->image_url);
 			?>
-				<img src="<?=$coop->image_url;?>" title="<?=JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name))?>" alt="<?=JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name))?>" style="float: left; margin-right: 10px;" />
+				<img src="<?=$url;?>" title="<?=JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name))?>" alt="<?=JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name))?>" style="float: left; margin-right: 10px;" />
 			<?php 
-			}
+			endif;
 			?>
 			<div style="width: 85%; margin-left: auto; margin-right: auto;">
 				<?php

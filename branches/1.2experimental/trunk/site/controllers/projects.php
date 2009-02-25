@@ -89,6 +89,7 @@ class JResearchProjectsController extends JController
 	* @access public
 	*/
 	function show(){
+		require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 		$model =& $this->getModel('Project', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		
