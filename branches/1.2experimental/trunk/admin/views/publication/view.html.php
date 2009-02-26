@@ -88,7 +88,8 @@ class JResearchAdminViewPublication extends JView
 	* for a new publication.
 	*/
 	private function _displayNewPublicationForm(){
-	   JResearchToolbar::importPublicationsToolbar();
+	    JResearchToolbar::importPublicationsToolbar();
+	    JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
 		$subtypes = JResearchPublication::getPublicationsSubtypes();
 		$typesOptions = array();
 		

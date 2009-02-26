@@ -333,8 +333,10 @@ class JResearchAdminPublicationsController extends JController
 		
 		$check = $publication->check();
 		//Report errors
-		foreach($publication->getErrors() as $error)
-			JError::raiseWarning(1, $error);
+		foreach($publication->getErrors() as $error){
+			if(!empty($error))
+				JError::raiseWarning(1, $error);
+		}
 		
 		// Validate publication
 		if(!$check){

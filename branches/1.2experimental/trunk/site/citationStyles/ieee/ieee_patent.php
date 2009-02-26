@@ -66,9 +66,10 @@ class JResearchIEEEPatentCitationStyle extends JResearchIEEECitationStyle{
 			$header .= ' '.JText::_('JRESEARCH_PATENT').' '.$number;
 		
 		$issue_date = trim($publication->issue_date);
-		if(!empty($issue_date))
+		if(!empty($issue_date)){
+			$header = rtrim($header, ',');
 			$header .= ', '.$issue_date;		
-			
+		}
 	
 		return $header.'.';	
 			
