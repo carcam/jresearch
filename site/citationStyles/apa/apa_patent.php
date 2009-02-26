@@ -21,6 +21,7 @@ class JResearchAPAPatentCitationStyle extends JResearchAPACitationStyle{
 	
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = $html?'&amp;':'&';
+		$text = '';
 				
 		$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 
@@ -31,11 +32,17 @@ class JResearchAPAPatentCitationStyle extends JResearchAPACitationStyle{
 			$year = '';			
 		
 		if(!empty($authorsText)){
-			$authorsText = rtrim($authorsText, '.');						
+			$text = rtrim($authorsText, '.');						
 			if(!empty($year))		
-				$text .= "$authorsText.$year";
+				$text .= '.'.$year;
+			$text .= '. '.trim($publication->title);	
+		}else{			
+			$text = trim($publication->title);
+			if(!empty($year))		
+				$text .= '.'.$year;
+			
 		}
-		
+				
 		$number = trim($publication->patent_number);
 		if(!empty($number))
 			$text .= '. '.JText::_('JRESEARCH_PATENT').' '.JText::_('JRESEARCH_ABB_NUMBER').'. '.$number;

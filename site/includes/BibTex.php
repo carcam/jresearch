@@ -663,7 +663,7 @@ class Structures_BibTex
                                 $islast = true;
                                 for ($k=($j+1); $k<($size-1); $k++) {
                                     $futurecase = $this->_determineCase($tmparray[$k]);
-                                    if (PEAR::isError($case)) {
+                                    if (PEAR::isError($futurecase)) {
                                         // IGNORE?
                                     } elseif (0 == $futurecase) {
                                         $islast = false;
@@ -715,7 +715,6 @@ class Structures_BibTex
                             if (0 != ($this->_determineCase($vonlastarray[$j]))) { //Change from von to last
                                 $islast = true;
                                 for ($k=($j+1); $k<($size-1); $k++) {
-                                    $this->_determineCase($vonlastarray[$k]);
                                     $case = $this->_determineCase($vonlastarray[$k]);
                                     if (PEAR::isError($case)) {
                                         // IGNORE?
