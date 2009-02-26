@@ -352,6 +352,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	}
 	
 	private function _getInitials($authorname){
+		jimport('phputf8.native.core');
 		$components = preg_split('/([-\s])/', $authorname, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);		
 		if(count($components) > 1){
 			return utf8_ucfirst(utf8_substr($components[0], 0, 1)).utf8_ucfirst(utf8_substr($components[2], 0, 1));
