@@ -420,7 +420,7 @@ class Structures_BibTex
                 $entry       = substr($entry, 0, $position);
             }
             //Parsing cite and entry type
-            $arr = split('{', $entry);
+            $arr = split('\{', $entry);
             $ret['cite'] = trim($arr[1]);
             $ret['entryType'] = strtolower(trim($arr[0]));
             if ('@' == $ret['entryType']{0}) {
@@ -663,7 +663,7 @@ class Structures_BibTex
                                 $islast = true;
                                 for ($k=($j+1); $k<($size-1); $k++) {
                                     $futurecase = $this->_determineCase($tmparray[$k]);
-                                    if (PEAR::isError($case)) {
+                                    if (PEAR::isError($futurecase)) {
                                         // IGNORE?
                                     } elseif (0 == $futurecase) {
                                         $islast = false;
@@ -715,7 +715,6 @@ class Structures_BibTex
                             if (0 != ($this->_determineCase($vonlastarray[$j]))) { //Change from von to last
                                 $islast = true;
                                 for ($k=($j+1); $k<($size-1); $k++) {
-                                    $this->_determineCase($vonlastarray[$k]);
                                     $case = $this->_determineCase($vonlastarray[$k]);
                                     if (PEAR::isError($case)) {
                                         // IGNORE?
