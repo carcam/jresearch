@@ -41,6 +41,7 @@ class JResearchViewProject extends JView
       	global $mainframe;
     	$id = JRequest::getInt('id');
    		$doc =& JFactory::getDocument();
+   		$session = JFactory::getSession();
    		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
 
    		if(empty($id)){
@@ -56,14 +57,22 @@ class JResearchViewProject extends JView
 			return;
 		}		    	
 		
+		//If the project was visited in the same session, do not increment the hit counter
+		if(!$session->get('visited', false, 'projects'.$id)){
+			$session->set('visited', true, 'projects'.$id);
+			$project->hit();
+		}
+		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($project->id_research_area);
     	
     	$params = $mainframe->getPageParameters('com_jresearch');
-
+		$showHits = ($params->get('show_hits') == 'yes');
+		
     	$doc->setTitle(JText::_('JRESEARCH_PROJECT').' - '.$project->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
+    	$this->assignRef('showHits', $showHits);    	
     	$this->assignRef('project', $project);
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('area', $area);

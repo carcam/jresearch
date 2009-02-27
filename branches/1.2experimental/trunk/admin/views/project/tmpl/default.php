@@ -91,7 +91,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_FILES').': '; ?></th>
 		<td colspan="2"><?php echo $this->files; ?></td>
+		<?php if(!empty($this->project)): ?>
+		<th><?php echo JText::_('Hits').': '?></th>
+		<td><?php echo $this->project->hits;  ?><div><label for="resethits"><?php echo JText::_('Reset').': '; ?></label><input type="checkbox" name="resethits" id="resethits" /></div></td>
+		<?php else: ?>
 		<td></td>
+		<td></td>	
+		<?php endif; ?>
+
 	</tr>
 	<tr>
 		<th colspan="4" align="left"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></th>

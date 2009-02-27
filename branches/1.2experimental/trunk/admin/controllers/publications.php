@@ -330,6 +330,11 @@ class JResearchAdminPublicationsController extends JController
 	    if(!empty($file['name'])){	    	
 	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');
 	    }
+	    
+	    $reset = JRequest::getVar('resethits', false);
+	    if($reset == 'on'){
+	    	$publication->hits = 0;
+	    }
 		
 		$check = $publication->check();
 		//Report errors

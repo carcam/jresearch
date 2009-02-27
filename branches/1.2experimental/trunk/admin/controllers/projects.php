@@ -269,6 +269,11 @@ class JResearchAdminProjectsController extends JController
 		if(empty($project->id))
 			$project->created_by = $user->get('id');
 		
+		$reset = JRequest::getVar('resethits', false);
+	    if($reset == 'on'){
+	    	$project->hits = 0;
+	    }	
+			
 		// Validate and save
 		if($project->check()){
 			if($project->store()){

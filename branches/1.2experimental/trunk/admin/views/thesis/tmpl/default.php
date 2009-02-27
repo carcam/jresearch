@@ -68,6 +68,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td><?php echo JText::_('JRESEARCH_FILES').': '; ?></td>
 		<td><?php echo $this->files; ?></td>
 	</tr>
+	<?php if(!empty($this->thesis)): ?>
+	<tr>
+		<th><?php echo JText::_('Hits').': '?></th>
+		<td><?php echo $this->thesis->hits;  ?><div><label for="resethits"><?php echo JText::_('Reset').': '; ?></label><input type="checkbox" name="resethits" id="resethits" /></div></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<?php endif; ?>
+	
 	<tr>
 		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->thesis->description , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>

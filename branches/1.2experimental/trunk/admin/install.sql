@@ -201,6 +201,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
   `created_by` int(10) default NULL,
+  `hits` int(10) default 0,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`),
   INDEX `id_research_area` (`id_research_area`)
@@ -262,6 +263,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
   `created_by` int(10) default NULL,
+  `hits` int(10) default 0,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `citekey` (`citekey`),
   INDEX `year` (`year`),
@@ -389,6 +391,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_thesis` (
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
   `created_by` int(10) default NULL,
+  `hits` int(10) default 0,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`),
   INDEX `id_research_area` (`id_research_area`)
@@ -464,6 +467,41 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_facilities` (
   FULLTEXT KEY `description` (`description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
+DROP TABLE IF EXISTS `#__jresearch_online_source`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_online_source` (
+  `id_publication` int(10) unsigned NOT NULL,
+  `month` varchar(20) default NULL,
+  `day` varchar(2) default NULL,
+  `access_date` datetime default NULL,
+  `extra` text default NULL,
+  `source_type` enum('website', 'video', 'audio', 'image', 'blog') NOT NULL default 'website',
+  PRIMARY KEY  (`id_publication`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `#__jresearch_digital_source`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_digital_source` (
+  `id_publication` int(10) unsigned NOT NULL,
+  `address` varchar(20) default NULL,
+  `publisher` varchar(2) default NULL,
+  `access_date` datetime default NULL,
+  `source_type` enum('cdrom', 'film') NOT NULL default 'cdrom',
+  PRIMARY KEY  (`id_publication`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
+DROP TABLE IF EXISTS `#__jresearch_earticle`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_earticle` (
+  `id_publication` int(10) unsigned NOT NULL,
+  `access_date` datetime default NULL,
+  `journal` varchar(255) NOT NULL,
+  `volume` varchar(30) default NULL,
+  `number` varchar(10) default NULL,
+  `month` varchar(20) default NULL,
+  `day` varchar(2) default NULL,
+  PRIMARY KEY  (`id_publication`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('abstract');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('address');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('annote');
@@ -477,6 +515,7 @@ INSERT INTO `#__jresearch_property` (`name`) VALUES ('howpublished');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('institution');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('isbn');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('issn');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('doi');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('journal');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('key');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('month');
@@ -516,7 +555,9 @@ INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('phdthesis');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('proceedings');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('techreport');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('unpublished');
-
+INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('online_source');
+INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('earticle');
+INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('digital_source');
 
 INSERT INTO `#__jresearch_research_area`(`name`, `description`, `published` ) VALUES('Uncategorized', '', 1);
 

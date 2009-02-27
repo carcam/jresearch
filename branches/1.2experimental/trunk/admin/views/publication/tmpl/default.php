@@ -78,6 +78,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<th><?php echo JText::_('JRESEARCH_AUTHORS').': '; ?></th>
 		<td><?php echo $this->authors; ?></td>
 	</tr>
+	<?php if(!empty($this->publication)): ?>
+	<tr>
+		<th><?php echo JText::_('Hits').': '?></th>
+		<td><?php echo $this->publication->hits;  ?><div><label for="resethits"><?php echo JText::_('Reset').': '; ?></label><input type="checkbox" name="resethits" id="resethits" /></div></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<?php endif; ?>
 	<tr>
 		<th class="title" colspan="4"><?php echo JText::_('JRESEARCH_SPECIFIC'); ?></th>
 	</tr>

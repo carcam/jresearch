@@ -242,6 +242,10 @@ class JResearchAdminThesesController extends JController
 		if(empty($thesis->id))
 			$thesis->created_by = $user->get('id');
 
+		$reset = JRequest::getVar('resethits', true);
+	    if($reset == 'on'){
+	    	$thesis->hits = 0;
+	    }			
 		// Time to store information in the database
 		if($thesis->check()){
 			if($thesis->store(true)){

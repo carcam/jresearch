@@ -89,6 +89,13 @@ class JResearchActivity extends JTable{
 	public $created_by;
 	
 	/**
+	 * Number of hits for the activity
+	 *
+	 * @var int
+	 */
+	public $hits;
+	
+	/**
 	 * Array of internal authors ids
 	 *
 	 * @var array

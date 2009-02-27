@@ -34,18 +34,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort',  JText::_('Title'), 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Published'), 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Internal'), 'internal', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>			
-			<th align="center" width="22%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
+			<th style="width: 22%;"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
 			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_YEAR'), 'year', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_CITEKEY'), 'citekey', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_TYPE'), 'pubtype', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 15%;"><?php echo JText::_('JRESEARCH_EXPORT'); ?></th>
+			<th style="width: 5%;"><?php echo JText::_('Hits'); ?></th>
+			<th style="width: 10%;"><?php echo JText::_('JRESEARCH_EXPORT'); ?></th>
 		</tr>
 		</thead>
 		
 		<tfoot>
 			<tr>
-				<td colspan="11">
+				<td colspan="12">
 					<?php echo $this->page->getListFooter(); ?>
 				</td>
 			</tr>
@@ -81,6 +82,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td class="center"><?php echo $this->items[$i]->citekey; ?></td>
 					<td class="center"><?php echo JText::_('JRESEARCH_'.strtoupper($this->items[$i]->pubtype)); ?></td>
 					<td class="center"><?php echo $researchArea->name ;?></td>
+					<td class="center"><?php echo $this->items[$i]->hits; ?></td>
 					<td class="center"><?php echo implode(' , ', $exportLinks); ?></td>
 				</tr>
 			<?php } ?>

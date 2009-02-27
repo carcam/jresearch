@@ -29,14 +29,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
 			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort', 'Title', 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="text-align: center;"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></th>
-			<th><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="text-align: center; width: 32%;"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></th>
+			<th style="text-align: center; width: 32%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 5%;"><?php echo JText::_('Hits'); ?></th>
 		</tr>
 		</thead>
 		
 		<tfoot>
 			<tr>
-				<td colspan="6">
+				<td colspan="7">
 					<?php echo $this->page->getListFooter(); ?>
 				</td>
 			</tr>
@@ -60,6 +61,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td class="center"><?php echo $published; ?></td>
 					<td class="center"><?php echo $members; ?></td>
 					<td class="center"><?php echo $researchArea->name ;?></td>
+					<td class="center"><?php echo $this->items[$i]->hits ;?></td>
 				</tr>
 			<?php } ?>
 		</tbody>

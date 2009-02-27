@@ -9,6 +9,9 @@
 defined('_JEXEC') or die('Restricted access'); 
 ?>
 <h1 class="componentheading"><?php echo $this->project->title; ?></h1>
+<?php if($this->showHits): ?>
+<div class="small"><?php echo JText::_('Hits').': '.$this->project->hits; ?></div>
+<?php endif; ?>
 <table cellspacing="2" cellpadding="2">
 <tbody>
 	<tr>

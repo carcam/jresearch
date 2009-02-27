@@ -10,6 +10,9 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 ?>
 <h1 class="componentheading"><?php echo $this->thesis->title; ?></h1>
+<?php if($this->showHits): ?>
+<div class="small"><?php echo JText::_('Hits').': '.$this->publication->hits; ?></div>
+<?php endif; ?>
 <table cellspacing="2" cellpadding="2">
 <tbody>
 	<tr>

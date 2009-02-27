@@ -41,6 +41,7 @@ class JResearchViewThesis extends JView
       	global $mainframe;
     	$id = JRequest::getInt('id');
    		$doc =& JFactory::getDocument();
+   		$session = JFactory::getSession();
    		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
    		$degreeArray = array('bachelor'=>JText::_('JRESEARCH_BACHELOR'), 'master'=>JText::_('JRESEARCH_MASTER'), 'phd'=>JText::_('JRESEARCH_PHD'));
 
@@ -57,14 +58,22 @@ class JResearchViewThesis extends JView
 			return;
 		}		    	
 		
+		//If the thesis was visited in the same session, do not increment the hit counter
+		if(!$session->get('visited', false, 'theses'.$id)){
+			$session->set('visited', true, 'theses'.$id);
+			$thesis->hit();
+		}
+		
 		$doc->setTitle(JText::_('JRESEARCH_THESIS').' - '.$thesis->title);
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($thesis->id_research_area);
     	$params = $mainframe->getPageParameters('com_jresearch');    	
-
+		$showHits = ($params->get('show_hits') == 'yes');
+		
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));    	
+    	$this->assignRef('showHits', $showHits);     	
     	$this->assignRef('thesis', $thesis);
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('degreeArray', $degreeArray);

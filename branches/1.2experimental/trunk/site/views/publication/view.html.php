@@ -51,6 +51,8 @@ class JResearchViewPublication extends JView
     	$commentsAllowed = false;
    		$showComments = JRequest::getInt('showcomm', 0);
    		$doc =& JFactory::getDocument();
+   		//Verify if the visit is done in the same session
+		$session = JFactory::getSession();
    		
       	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');   		
    		JHTML::_('JResearch.validation');   
@@ -69,6 +71,12 @@ class JResearchViewPublication extends JView
 			JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));
 			return;
 		}		    	
+		
+		//If the publication was visited in the same session, do not increment the hit counter
+		if(!$session->get('visited', false, 'publications'.$id)){
+			$session->set('visited', true, 'publications'.$id);
+			$publication->hit();
+		}
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($publication->id_research_area);
@@ -125,10 +133,14 @@ class JResearchViewPublication extends JView
 			$this->assignRef('reference', $crossrefData);	
 		}
 		
-	$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
+		$showHits = ($params->get('show_hits') == 'yes');
+		
+		
+		$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
     	$this->assignRef('publication', $publication);
+    	$this->assignRef('showHits', $showHits);
     	$this->assignRef('area', $area);
     	$this->assignRef('commentsAllowed', $commentsAllowed);
     	$this->assignRef('showComments', $showComments);

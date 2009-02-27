@@ -8,8 +8,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 ?>
-<div style="float: right;"><?php JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
+<h1 style="float: right;"><?php JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></h1>
 <div class="componentheading"><?php echo $this->publication->title; ?></div>
+<?php if($this->showHits): ?>
+<div class="small"><?php echo JText::_('Hits').': '.$this->publication->hits; ?></div>
+<?php endif; ?>
 <table cellspacing="2" cellpadding="2">
 <tbody>
 	<tr>
