@@ -25,8 +25,6 @@ class JResearchAdminViewThesis extends JView
     {
     	global $mainframe;
 		JResearchToolbar::editThesisAdminToolbar();
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-      	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
       	
     	JRequest::setVar( 'hidemainmenu', 1 );
     	JHTML::_('JResearch.validation');

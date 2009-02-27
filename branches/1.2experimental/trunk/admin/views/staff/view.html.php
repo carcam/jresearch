@@ -41,9 +41,9 @@ class JResearchAdminViewStaff extends JView
     * which is the admin list of members.
     */
     private function _displayDefaultList(){
-      	global $mainframe;
+      global $mainframe;
     	JResearchToolbar::staffAdminListToolbar();
-    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+    	
     	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
@@ -87,10 +87,9 @@ class JResearchAdminViewStaff extends JView
 	 */	    
     private function _displayAddForm(){
     	global $mainframe;
-    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');    	
     	
     	JRequest::setVar( 'hidemainmenu', 1 );
-    	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+    	
     	JResearchToolbar::addMemberToolBar();
     	
     	$doc =& JFactory::getDocument();

@@ -16,14 +16,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<div>
 				<?php $itemId = JRequest::getVar('Itemid'); ?>
 				<h2 class="contentheading">
-					<?=$fac->name; ?>
+					<?php echo $fac->name; ?>
 				</h2>		
 				<div>
 					<strong>
-						<?=JText::_('JRESEARCH_RESEARCH_AREA').': '?>
+						<?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?>
 					</strong>
 					<span>
-						<?=$researchArea->name;  ?>
+						<?php echo $researchArea->name;  ?>
 					</span>
 				</div>			
 				<div>&nbsp;</div>

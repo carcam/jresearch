@@ -25,7 +25,7 @@ class JResearchAdminViewFinancier extends JView
     	global $mainframe;
     	
       	JResearchToolbar::editFinancierAdminToolbar();
-      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+      	
 		JHTML::_('JResearch.validation');
         JRequest::setVar( 'hidemainmenu', 1 );
         

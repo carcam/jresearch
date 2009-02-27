@@ -26,8 +26,6 @@ class JResearchAdminViewFinanciers extends JView
 		global $mainframe;	
 		JResearchToolbar::financiersAdminListToolbar();
 		
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-		
 		$model = &$this->getModel();
 		$items = $model->getData(null, false, true);
 		   

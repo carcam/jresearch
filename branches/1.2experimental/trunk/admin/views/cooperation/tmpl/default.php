@@ -69,9 +69,9 @@ JHTML::_('behavior.modal');
 	</tr>
 </tbody>
 </table>
-<input type="hidden" name="option" value="com_jresearch" />
-<input type="hidden" name="task" value="" />		
-<input type="hidden" name="controller" value="cooperations" />
-<input type="hidden" name="id" value="<?php echo $this->coop?$this->coop->id:'' ?>" />	
+
+<input type="hidden" name="id" value="<?php echo $this->coop?$this->coop->id:'' ?>" />
+
+<?php echo JHTML::_('jresearchhtml.hiddenfields', 'cooperations'); ?>
 <?php echo JHTML::_('behavior.keepalive'); ?>	
 </form>

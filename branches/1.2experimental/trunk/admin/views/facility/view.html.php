@@ -26,8 +26,6 @@ class JResearchAdminViewFacility extends JView
     {
     	global $mainframe;
       	JResearchToolbar::editFacilityAdminToolbar();
-      	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-      	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
       	
 		JHTML::_('JResearch.validation');      	
     	JRequest::setVar( 'hidemainmenu', 1 );

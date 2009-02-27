@@ -57,7 +57,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td><?php echo $checked; ?></td>
-					<td><a href="<?=JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->title;  ?></a></td>
+					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td class="center"><?php echo $published; ?></td>
 					<td class="center"><?php echo $members; ?></td>
 					<td class="center"><?php echo $researchArea->name ;?></td>

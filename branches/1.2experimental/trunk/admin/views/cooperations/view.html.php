@@ -43,8 +43,7 @@ class JResearchAdminViewCooperations extends JView
     	global $mainframe;
     	
     	//Toolbar
-    	//JResearchToolbar::staffAdminListToolbar();
-    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+    	JResearchToolbar::cooperationsAdminListToolbar();
     	
     	//Get the model
     	$model =& $this->getModel();

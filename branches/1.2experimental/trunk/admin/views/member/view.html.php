@@ -24,8 +24,7 @@ class JResearchAdminViewMember extends JView
     function display($tpl = null){
     	global $mainframe;
       	JResearchToolbar::editMemberAdminToolbar();
-      	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-		JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+      	
 		JHTML::_('JResearch.validation');
     	JRequest::setVar( 'hidemainmenu', 1 );
 

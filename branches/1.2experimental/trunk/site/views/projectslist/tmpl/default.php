@@ -36,8 +36,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				$members = implode(', ',$project->getPrincipalInvestigators());
 			?>			
 			<div>
-				<strong><?=JText::_('JRESEARCH_PROJECT_LEADERS').': '?></strong>
-				<span><?=$members?></span>
+				<strong><?php echo JText::_('JRESEARCH_PROJECT_LEADERS').': '?></strong>
+				<span><?php echo $members?></span>
 			</div>
 			<?php 
 			}
@@ -58,13 +58,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			
 			$value = implode(".",$convertedArray).$aFloat;
 			?>
-			<div><strong><?=JText::_('JRESEARCH_PROJECT_FUNDING').': '?></strong><span><?=$financiers?></span>, <strong><?=$project->finance_currency." ".$value?></strong></div>
+			<div><strong><?php echo JText::_('JRESEARCH_PROJECT_FUNDING').': '?></strong><span><?php echo $financiers?></span>, <strong><?php echo $project->finance_currency." ".$value?></strong></div>
 			<?php
 			if($contentArray[0] != "")
 			{
 			?>
 				<div>&nbsp;</div>
-				<p><?=$contentArray[0]; ?></p>
+				<p><?php echo $contentArray[0]; ?></p>
 			<?php
 			}
 			

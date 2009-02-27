@@ -82,9 +82,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 </tbody>
 </table>
-<input type="hidden" name="option" value="com_jresearch" />
-<input type="hidden" name="task" value="" />		
-<input type="hidden" name="controller" value="theses" />
-<input type="hidden" name="id" value="<?php echo $this->thesis?$this->thesis->id:'' ?>" />		
+
+<input type="hidden" name="id" value="<?php echo $this->thesis?$this->thesis->id:'' ?>" />
+<?php echo JHTML::_('jresearchhtml.hiddenfields', 'theses'); ?>	
 <?php echo JHTML::_('behavior.keepalive'); ?>
 </form>

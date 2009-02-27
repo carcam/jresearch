@@ -37,7 +37,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td><?php echo $this->areasList; ?></td>
 		<th><?php echo JText::_('JRESEARCH_FORMER_MEMBER')?></th>
 		<td>
-			<input type="checkbox" name="former_member" value="1" <?=(($this->member->former_member == 1) ? 'checked="checked"' : "")?> />
+			<input type="checkbox" name="former_member" value="1" <?php echo (($this->member->former_member == 1) ? 'checked="checked"' : "")?> />
 		</td>
 	</tr>
 	<tr>
@@ -72,7 +72,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		?>
 		<td>
 			<img src="<?php echo $url; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" />
-			<input type="hidden" name="url_photo" id="url_photo" value="<?=$this->member->url_photo;?>" />
+			<input type="hidden" name="url_photo" id="url_photo" value="<?php echo $this->member->url_photo;?>" />
 		</td>
 		<td><label for="delete"><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" /></td>
 		<?php
@@ -88,10 +88,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 </tbody>
 </table>
-<input type="hidden" name="option" value="com_jresearch" />
-<input type="hidden" name="task" value="" />		
-<input type="hidden" name="controller" value="staff" />
+
 <input type="hidden" name="id" value="<?php echo $this->member?$this->member->id:'' ?>" />	
 <input type="hidden" name="username" value="<?php echo $this->member?$this->member->username:'';?>" />
+<?php echo JHTML::_('jresearchhtml.hiddenfields', 'staff'); ?>
 <?php echo JHTML::_('behavior.keepalive'); ?>	
 </form>

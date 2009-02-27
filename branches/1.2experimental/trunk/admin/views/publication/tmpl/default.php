@@ -116,10 +116,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 </tbody>
 </table>
-<input type="hidden" name="option" value="com_jresearch" />
-<input type="hidden" name="task" value="" />		
-<input type="hidden" name="controller" value="publications" />
+
 <input type="hidden" name="pubtype" value="<?php echo $this->pubtype; ?>" />
-<input type="hidden" name="id" value="<?php echo $this->publication?$this->publication->id:'' ?>" />	
+<input type="hidden" name="id" value="<?php echo $this->publication?$this->publication->id:'' ?>" />
+<?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications'); ?>
 <?php echo JHTML::_('behavior.keepalive'); ?>
 </form>

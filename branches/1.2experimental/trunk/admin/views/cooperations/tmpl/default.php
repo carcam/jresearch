@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th style="width: 1%;">#</th>
 			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th style="width: 50%; text-align: center;"><?=JHTML::_('grid.sort', JText::_('JRESEARCH_COOPERATION'), 'name', @$this->lists['order_Dir'], @$this->lists['order'] );?></th>
+			<th style="width: 50%; text-align: center;"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_COOPERATION'), 'name', @$this->lists['order_Dir'], @$this->lists['order'] );?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort','Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
 			<th style="width: 8%;" nowrap="nowrap">
 				<?php echo JHTML::_('grid.sort', 'Order by', 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td><?php echo $checked; ?></td>
 					<td>
-						<a href="<?=JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=cooperations&task=edit&cid[]='.$this->items[$i]->id); ?>">
+						<a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=cooperations&task=edit&cid[]='.$this->items[$i]->id); ?>">
 							<?php echo $this->items[$i]->name; ?>
 						</a>
 					</td>

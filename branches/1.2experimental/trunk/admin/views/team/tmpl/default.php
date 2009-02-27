@@ -25,18 +25,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_TEAM_LEADER').': '; ?></th>
-		<td><?=$this->leaderList; ?></td>
+		<td><?php echo $this->leaderList; ?></td>
 		<th><?php echo JText::_('JRESEARCH_TEAM_MEMBERS').': '; ?></th>
-		<td><?=$this->memberList; ?></td>
+		<td><?php echo $this->memberList; ?></td>
 	</tr>
 	<tr>
-		<td colspan="4"><?=$this->editor->display( 'description',  $this->team->description , '100%', '350', '75', '20' ) ; ?></td>
+		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->team->description , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
 </tbody>
 </table>
-<input type="hidden" name="option" value="com_jresearch" />
-<input type="hidden" name="task" value="" />		
-<input type="hidden" name="controller" value="teams" />
-<input type="hidden" name="id" value="<?php echo $this->team?$this->team->id:'' ?>" />	
+
+<input type="hidden" name="id" value="<?php echo $this->team?$this->team->id:'' ?>" />
+<?php echo JHTML::_('jresearchhtml.hiddenfields', 'teams'); ?>
 <?php echo JHTML::_('behavior.keepalive'); ?>	
 </form>

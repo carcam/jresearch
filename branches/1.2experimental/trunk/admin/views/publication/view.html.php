@@ -41,11 +41,9 @@ class JResearchAdminViewPublication extends JView
 	* publications.
 	*/
 	private function _displayPublicationForm(){
-		JResearchToolbar::editPublicationAdminToolbar();
-
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-		JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+		
+		JResearchToolbar::editPublicationAdminToolbar();
 		JHTML::_('JResearch.validation');		
 		
 		$cid = JRequest::getVar('cid');
@@ -89,8 +87,7 @@ class JResearchAdminViewPublication extends JView
 	* for a new publication.
 	*/
 	private function _displayNewPublicationForm(){
-	    JResearchToolbar::importPublicationsToolbar();
-	    JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+	   JResearchToolbar::importPublicationsToolbar();
 		$subtypes = JResearchPublication::getPublicationsSubtypes();
 		$typesOptions = array();
 		

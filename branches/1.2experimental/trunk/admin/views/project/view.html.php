@@ -26,8 +26,6 @@ class JResearchAdminViewProject extends JView
     {
     	global $mainframe;
       	JResearchToolbar::editProjectAdminToolbar();
-      	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-      	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
       	
 		JHTML::_('JResearch.validation');      	
     	JRequest::setVar( 'hidemainmenu', 1 );

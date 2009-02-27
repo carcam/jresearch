@@ -24,8 +24,8 @@ class JResearchAdminViewTeam extends JView
 	{
     	global $mainframe;
       	
-    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-      	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+    	JResearchToolbar::editTeamAdminToolbar();
+		
 		JHTML::_('JResearch.validation');
     	JRequest::setVar( 'hidemainmenu', 1 );
     	$arguments = array('team');

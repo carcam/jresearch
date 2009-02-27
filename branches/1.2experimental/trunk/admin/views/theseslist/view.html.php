@@ -26,12 +26,10 @@ class JResearchAdminViewThesesList extends JView
         global $mainframe;	
  		JResearchToolbar::thesesAdminListToolbar();
  	
- 		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
        	$model = &$this->getModel();
       	$items = $model->getData(null, false, true);
       	$areaModel =& $this->getModel('researcharea');
      
-
       	// Filters and pagination
 		$lists = array();    	
     	$filter_order = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order', 'title');

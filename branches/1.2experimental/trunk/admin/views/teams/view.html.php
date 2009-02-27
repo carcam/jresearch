@@ -42,8 +42,7 @@ class JResearchAdminViewTeams extends JView
     	global $mainframe;
     	
     	//Toolbar
-    	//JResearchToolbar::staffAdminListToolbar();
-    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+    	JResearchToolbar::teamsAdminListToolbar();
     	
     	//Get the model
     	$model =& $this->getModel();
