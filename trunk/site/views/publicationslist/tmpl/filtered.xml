@@ -44,6 +44,7 @@
 				<option value="yes">Yes</option>
 				<option value="no">No</option>			
 			</param>
-		</params>		
+		</params>
+		<advanced></advanced>		
 	</state>
 </metadata>

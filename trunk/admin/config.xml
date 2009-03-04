@@ -45,7 +45,7 @@
 			<option value="date">JRESEARCH_DATE</option>
 			<option value="alphabetical">JRESEARCH_ALPHABETICAL</option>
 		</param>
-		<param name="projects_order" label="JRESEARCH_SORTED" type="radio">
+		<param name="projects_order" label="JRESEARCH_SORTED" type="radio" default="asc">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
 		</param>	
@@ -53,7 +53,7 @@
 		<param type="spacer" />
 
 		<param name="theses_entries_per_page" default="25" label="JRESEARCH_CONFIG_THESES_PER_PAGE" type="text" ></param>				
-		<param name="theses_order" label="JRESEARCH_SORTED" type="radio">
+		<param name="theses_order" label="JRESEARCH_SORTED" type="radio" default="asc">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
 		</param>	
@@ -85,7 +85,7 @@
 		
 		<param type="spacer" />
 		
-		<param name="cooperation_entries_per_page" default="25" label="JRESEARCH_CONFIG_COOPERATIONS_PER_PAGE" type="text" ></param>									
+		<param name="cooperation_entries_per_page" default="25" label="JRESEARCH_CONFIG_COOPERATIONS_PER_PAGE" type="text"></param>									
 		<param name="cooperations_order" label="JRESEARCH_SORTED" type="radio" default="asc">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
