@@ -57,7 +57,6 @@ class JResearchViewPublicationsList extends JView
      */
     private function _displayTabularList(){
     	global $mainframe;    	
-    	
     	$doc = JFactory::getDocument();
     	$doc->addStyleDeclaration(".title{text-align:center;}");
     	
@@ -69,7 +68,7 @@ class JResearchViewPublicationsList extends JView
 
     	$items = $model->getData(null, true, true);
     	$page = $model->getPagination();
-    	$params = $mainframe->getParams(); 
+    	$params = $mainframe->getPageParameters('com_jresearch'); 
     	$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
     	$field = $params->get('field_for_average');    	
 
@@ -146,8 +145,8 @@ class JResearchViewPublicationsList extends JView
 			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
     	}
 
+//		var_dump($params);
     	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
-    
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $page);
     	$this->assignRef('lists', $lists);
