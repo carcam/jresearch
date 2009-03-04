@@ -442,6 +442,41 @@ class JHTMLJresearchhtml
 	}
 	
 	/**
+	 * Renders a HTML list of online resources types.
+	 *
+	 * @param array $attributes
+	 * @return string
+	 */
+	public static function onlineresourcelist(array $attributes = array()){
+		//Status options
+    	$resourcesOptions = array();
+    	$resourcesOptions[] = JHTML::_('select.option', 'website', JText::_('JRESEARCH_WEBSITE'));
+    	$resourcesOptions[] = JHTML::_('select.option', 'video', JText::_('JRESEARCH_VIDEO'));
+    	$resourcesOptions[] = JHTML::_('select.option', 'audio', JText::_('JRESEARCH_AUDIO'));
+    	$resourcesOptions[] = JHTML::_('select.option', 'image', JText::_('JRESEARCH_IMAGE'));
+    	$resourcesOptions[] = JHTML::_('select.option', 'image', JText::_('JRESEARCH_BLOG'));    	
+    	
+    	return self::htmllist($resourcesOptions, $attributes);		
+	}
+	
+	/**
+	 * Renders a HTML list of digital sources.
+	 *
+	 * @param array $attributes
+	 * @return string
+	 */
+	public static function digitalresourcelist(array $attributes = array()){
+		//Status options
+    	$resourcesOptions = array();
+    	$resourcesOptions[] = JHTML::_('select.option', 'cdrom', JText::_('JRESEARCH_CDROM'));
+    	$resourcesOptions[] = JHTML::_('select.option', 'film', JText::_('JRESEARCH_FILM'));
+    	
+    	return self::htmllist($resourcesOptions, $attributes);		
+	}
+	
+		
+	
+	/**
 	 * Renders a HTML generic select list with degree options
 	 */
 	public static function degreelist(array $attributes=array())
