@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<joomfish type="contentelement">
+	<name>J!Research Publication - PhD thesis</name>
+	<author>F. Prinz</author>
+	<version>0.1</version>
+	<description>Definition for the publication (phdthesis) content of the J!Research component</description>
+	<reference type="content">
+		<table name="jresearch_phdthesis">
+			<field type="referenceid" name="id_publication" translate="0">ID</field>
+			<field type="text" name="month" translate="0">Month</field>
+			<field type="text" name="type" translate="0">Type</field>
+			<field type="textarea" name="address" translate="1">Address</field>
+			<field type="textarea" name="school" translate="1">School</field>
+		</table>
+	</reference>
+</joomfish>
