@@ -6,5 +6,12 @@
 	<state>
 		<name>JRESEARCH_STAFF_LIST</name>
 		<description>JRESEARCH_STAFF_LIST_VIEW_MESSAGE</description>
+		<params>
+			<param name="publications_apply_style" type="radio" label="JRESEARCH_PROFILE_PUBLICATIONS_APPLY_STYLE" default="no" description="JRESEARCH_PROFILE_PUBLICATIONS_APPLY_STYLE_DESCRIPTION">
+				<option value="yes">Yes</option>			
+				<option value="no">No</option>
+			</param>
+		</params>		
 	</state>
+
 </metadata>

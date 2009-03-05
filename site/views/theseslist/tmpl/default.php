@@ -16,11 +16,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<div>
 			<?php $contentArray = explode('<hr id="system-readmore" />', $thesis->description); ?>
 			<?php $itemId = JRequest::getVar('Itemid'); ?>
-			<div class="contentheading"><?php echo $thesis->title; ?></div>
+			<h2 class="contentheading"><?php echo $thesis->title; ?></h2>
 			<div>&nbsp;</div>			
-			<div><span style="font-weight:bold;"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></span><span><?php echo $researchArea->name;  ?></span></div>			
+			<div><strong><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></strong><span><?php echo $researchArea->name;  ?></span></div>			
 			<div>&nbsp;</div>
-			<div><?php echo $contentArray[0]; ?></div>
+			<p><?php echo $contentArray[0]; ?></p>
 			<?php if(count($contentArray) > 1 ): ?>
 				<div style="text-align:left"><a href="index.php?option=com_jresearch&task=show&view=thesis&id=<?php echo $thesis->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo JText::_('JRESEARCH_READ_MORE'); ?></a></div>
 			<?php endif; ?>	

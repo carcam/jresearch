@@ -43,7 +43,7 @@ class JResearchAdminViewCooperations extends JView
     	global $mainframe;
     	
     	//Toolbar
-    	//JResearchToolbar::staffAdminListToolbar();
+    	JResearchToolbar::cooperationsAdminListToolbar();
     	
     	//Get the model
     	$model =& $this->getModel();
@@ -55,6 +55,7 @@ class JResearchAdminViewCooperations extends JView
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('coopsfilter_order_Dir', 'filter_order_Dir', 'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('coopsfilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('coopsfilter_search', 'filter_search');
+    	$filter_category = $mainframe->getUserStateFromRequest('coopsfilter_category', 'filter_category');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
@@ -64,8 +65,10 @@ class JResearchAdminViewCooperations extends JView
 		
 		// State filter
 		$lists['state'] = JHTML::_('grid.state', $filter_state);
-		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
+		
+		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit();"';
+		$lists['category'] = JHTML::_('list.category', 'filter_category', 'com_jresearch_cooperations', $filter_category, $js);
     	
     	$this->assignRef('items', $coops);
     	$this->assignRef('lists', $lists);

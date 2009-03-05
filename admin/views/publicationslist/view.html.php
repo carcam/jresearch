@@ -50,7 +50,9 @@ class JResearchAdminViewPublicationsList extends JView
     */
     private function _displayDefaultList(){
     	global $mainframe, $option;
-    	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
+    	
+    	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+    	
     	JResearchToolbar::publicationsAdminListToolbar();
     	JHTML::_('behavior.tooltip');
 		
@@ -147,6 +149,7 @@ class JResearchAdminViewPublicationsList extends JView
     	$formatsOptions[] = JHTML::_('select.option', 'bibtex', 'Bibtex');
     	$formatsOptions[] = JHTML::_('select.option', 'mods', 'MODS');
     	$formatsOptions[] = JHTML::_('select.option', 'ris', 'RIS');
+    	$formatsOptions[] = JHTML::_('select.option', 'medline', 'XML MEDLINE');
     	$formatsHTML = JHTML::_('select.genericlist', $formatsOptions, 'formats', 'id="formats" size="1"');
     	
     	$this->assignRef('categoryList', $researchAreasHTML);

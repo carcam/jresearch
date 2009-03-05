@@ -77,13 +77,7 @@ class JResearchPublication extends JResearchActivity{
 	/**
 	 * @var string
 	 */
-	public $awards;
-	
-	/**
-	 * @var string
-	 */
-	public $url;
-	
+	public $awards;	
 	
 	/**
 	 * Year of publication.
@@ -394,7 +388,8 @@ class JResearchPublication extends JResearchActivity{
 	* @return boolean
 	*/
 	public function check(){
-		$db =& JFactory::getDBO();		
+		$db =& JFactory::getDBO();
+		$withoutErrors = true;		
 		
 		// Verify authors integrity
 		if(!parent::checkAuthors())
@@ -402,41 +397,128 @@ class JResearchPublication extends JResearchActivity{
 		
 			
 		if(empty($this->citekey)){
+			$this->citekey = trim($this->citekey);
 			$this->setError(JText::_('JRESEARCH_PROVIDE_CITEKEY'));
-			return false;
+			$withoutErrors = false;
 		}	
 		
 		// Verify if title is not empty
 		if(empty($this->title)){
+			$this->title = trim($this->title);			
 			$this->setError(JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'));
-			return false;
+			$withoutErrors = false;
 		}
 		// Verify year
 		if(!empty($this->year)){
+			$this->year = trim($this->year);			
 			if(!preg_match('/^\d{4}$/',$this->year)){
 				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); 
-				return false;
+				$withoutErrors = false;
 			}
 					
 		}
 		
+		if(!empty($this->issn)){
+			$this->issn = trim($this->issn);
+			if(!preg_match("/^\d{4}-?\d{4}$/", $this->issn)){				
+				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_ISSN'));
+				$withoutErrors = false;
+			}else{
+				//Validate last digit control
+				$text = $this->issn;
+				$k = 0;
+				$acum = 0;
+				$j = 8;
+				while($j>= 2){
+					if(is_numeric($text{$k})){
+						$acum += $j * (int)$text{$k};
+						$j--;
+					}
+					$k++;										
+				}
+				$controlDigit = 11 - ($acum % 11);
+				if((int)($text{$k}) !== $controlDigit){
+					$this->setError(JText::_('JRESEARCH_ISSN_CONTROL_DIGIT_FAILED').' '.$controlDigit);
+				}
+			}
+		}
+		
+		if(!empty($this->isbn)){
+			$this->isbn = trim($this->isbn);			
+			if(!preg_match("/^(\d{10}|\d{13}|\d{9}x)$/i", $this->isbn)){
+				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_ISBN'));
+				$withoutErrors = false;
+			}else{
+				//Validate last digit control
+				$text = $this->isbn;
+				$acum = 0;				
+				if(strlen($text) == 10){
+					$k = 0;
+					$j = 10;
+					while($j>= 2){
+						$acum += $j * (int)$text{$k};
+						$j--;
+						$k++;										
+					}
+					$controlDigit = 11 - ($acum % 11);
+					
+					if($controlDigit == 10){						
+						$controlDigit = 'X';	
+						if($controlDigit == strtoupper($text{$k})){
+							$this->setError(JText::_('JRESEARCH_ISBN_CONTROL_DIGIT_FAILED'));
+						}
+						
+					}else{
+						if((int)($text{$k}) !== $controlDigit){
+							$this->setError(JText::_('JRESEARCH_ISBN_CONTROL_DIGIT_FAILED'));
+						}						
+					}
+				}else{
+					for($j=0; $j<strlen($text); $j++){
+						$acum += ((int)$text{$j}) * ($j % 2 == 0?1:3); 
+					}
+					
+					$controlDigit = 10 - ($acum % 10);
+					if($controlDigit == 10)
+						$controlDigit = 0;
+					
+					if((int)($text{$j}) !== $controlDigit){
+						$this->setError(JText::_('JRESEARCH_ISBN_CONTROL_DIGIT_FAILED').$acum.' '.$controlDigit);
+					}						
+					
+				}
+				
+			}
+		}
+		
+		if(!empty($this->doi)){
+			$this->doi = trim($this->doi);			
+			if(!preg_match("/^\d+\.\d+\/\d+$/", $this->doi)){
+				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_DOI'));
+				$withoutErrors = false;
+			}
+		}
+		
+		
 		if(!empty($this->keywords)){
+			$this->doi = trim($this->doi);			
 			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
 			$extra = extra_word_characters();
 			if(!preg_match("/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/", $this->keywords)){
 				$this->setError(JText::_('Error in the keywords field. They must be provided as several words separated by commas'));
-				return false;
+				$withoutErrors = false;
 			}
 		}
 		
 		if(!empty($this->journal_acceptance_rate)){
+			$this->journal_acceptance_rate = trim($this->journal_acceptance_rate);			
 			if(!is_numeric($this->journal_acceptance_rate)){
 				$this->setError(JText::_('Journal acceptance rate must be a number'));
-				return false;
+				$withoutErrors = false;
 			}
 		}
-		
-		return true;
+
+		return $withoutErrors;
 	}
 	
 	/**

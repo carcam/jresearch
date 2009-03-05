@@ -7,6 +7,8 @@
 	<reference type="content">
 		<table name="jresearch_article">
 			<field type="referenceid" name="id_publication" translate="0">ID</field>
+			<field type="titletext" name="id_publication" translate="0">ID</field>
+			<field type="text" name="issn" translate="0">ISSN</field>
 			<field type="text" name="volume" translate="1">Volume</field>
 			<field type="text" name="number" translate="0">Number</field>
 			<field type="text" name="pages" translate="0">Pages</field>
@@ -15,4 +17,7 @@
 			<field type="textarea" name="crossref" translate="1">Cross reference</field>
 		</table>
 	</reference>
+	<translationfilters>
+		<publication>id_publication</publication>
+	</translationfilters>
 </joomfish>

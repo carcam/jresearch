@@ -9,7 +9,6 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 
 <tr>
-	<td><?php echo JText::_('JRESEARCH_MONTH').': ' ?></td>
-	<td><input type="text" name="month" id="number" size="20" maxlength="20" value="<?php echo $this->publication?$this->publication->month:'' ?>" /></td>
-	<td></td>
+	<th><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>
+	<td colspan="3"><input type="text" name="month" id="number" size="20" maxlength="20" value="<?php echo $this->publication?$this->publication->month:'' ?>" /></td>
 </tr>

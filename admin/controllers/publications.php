@@ -300,24 +300,56 @@ class JResearchAdminPublicationsController extends JController
 	* Invoked when the user has decided to save a publication.
 	*/	
 	function save(){
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');		
 		//global $mainframe;
 		$db =& JFactory::getDBO();
+		$params =& JComponentHelper::getParams('com_jresearch');		
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');
 		$type = JRequest::getVar('pubtype');
 		$publication =& JResearchPublication::getSubclassInstance($type);
-		$publication->bind($post);
 		$user = JFactory::getUser();
+		$id = JRequest::getInt('id');
+
+		if(isset($id))
+			$publication->load($id);		
+
+		$delete = JRequest::getVar('delete_url_0');
+	    if($delete === 'on'){
+	    	if(!empty($publication->files)){
+		    	$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
+		    	@unlink($filetoremove);
+		    	$publication->files = '';
+	    	}
+	    }
+	   
+	    $publication->bind($post);
+	    $countUrl = JRequest::getInt('count_url', 0);
+	    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
+	    if(!empty($file['name'])){	    	
+	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');
+	    }
+	    
+	    $reset = JRequest::getVar('resethits', false);
+	    if($reset == 'on'){
+	    	$publication->hits = 0;
+	    }
+		
+		$check = $publication->check();
+		//Report errors
+		foreach($publication->getErrors() as $error){
+			if(!empty($error))
+				JError::raiseWarning(1, $error);
+		}
 		
 		// Validate publication
-		if(!$publication->check()){
-			JError::raiseWarning(1, $publication->getError());		
+		if(!$check){
 			if($publication->id)			
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype);
 			else
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);	
-		}else{
+		}else{				
 			//Time to set the authors
 			$maxAuthors = JRequest::getInt('maxauthors');
 			$k = 0;
@@ -336,6 +368,7 @@ class JResearchAdminPublicationsController extends JController
 					$k++;
 				}			
 			}
+			
 		
 			// Set the id of the author if the item is new
 			if(empty($publication->id))

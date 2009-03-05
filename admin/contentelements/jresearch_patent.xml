@@ -7,7 +7,7 @@
 	<reference type="content">
 		<table name="jresearch_patent">
 			<field type="referenceid" name="id_publication" translate="0">ID</field>
-			<field type="text" name="patent_number" translate="0">Patent number</field>
+			<field type="titletext" name="patent_number" translate="0">Patent number</field>
 			<field type="text" name="filing_date" translate="0">Filing date</field>
 			<field type="text" name="issue_date" translate="0">Issue date</field>
 			<field type="text" name="country" translate="1">Country</field>
@@ -17,4 +17,7 @@
 			<field type="textarea" name="office" translate="1">Office</field>
 		</table>
 	</reference>
+	<translationfilters>
+		<publication>id_publication</publication>
+	</translationfilters>
 </joomfish>

@@ -29,23 +29,24 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<table class="adminlist" cellspacing="1">
 		<thead>
 		<tr>		
-			<th width="1%">#</th>
-			<th align="center" width="1%"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th class="title" width="29%"><?php echo JHTML::_('grid.sort',  JText::_('Title'), 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Published'), 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Internal'), 'internal', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>			
-			<th align="center" width="22%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
-			<th width="5%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_YEAR'), 'year', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th width="10%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_CITEKEY'), 'citekey', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th width="5%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_TYPE'), 'pubtype', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th width="10%"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th width="15%"><?php echo JText::_('JRESEARCH_EXPORT'); ?></th>
+			<th style="width: 1%;">#</th>
+			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
+			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort',  JText::_('Title'), 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Published'), 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Internal'), 'internal', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>			
+			<th style="width: 22%;"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
+			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_YEAR'), 'year', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_CITEKEY'), 'citekey', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_TYPE'), 'pubtype', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 5%;"><?php echo JText::_('Hits'); ?></th>
+			<th style="width: 10%;"><?php echo JText::_('JRESEARCH_EXPORT'); ?></th>
 		</tr>
 		</thead>
 		
 		<tfoot>
 			<tr>
-				<td colspan="11">
+				<td colspan="12">
 					<?php echo $this->page->getListFooter(); ?>
 				</td>
 			</tr>
@@ -69,29 +70,29 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
-					<td width="1%"><?php echo $checked; ?></td>
-					<td width="29%"><a href="index.php?option=com_jresearch&controller=publications&task=edit&cid[]=<?php echo $this->items[$i]->id; ?>&pubtype=<?php echo $this->items[$i]->pubtype ?>"><?php echo $this->items[$i]->title;  ?></a></td>
-					<td width="1%" align="center"><?php echo $published; ?></td>
-					<td width="1%" align="center">
-					<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_internal')" title="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>">
-					<img src="images/<?php echo ( $this->items[$i]->internal ) ? 'tick.png' : 'publish_x.png'; ?>" width="16" height="16" border="0" alt="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
+					<td><?php echo $checked; ?></td>
+					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$this->items[$i]->id.'&pubtype='.$this->items[$i]->pubtype); ?>"><?php echo $this->items[$i]->title;  ?></a></td>
+					<td class="center"><?php echo $published; ?></td>
+					<td class="center">
+						<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_internal')" title="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>">
+						<img src="images/<?php echo ( $this->items[$i]->internal ) ? 'tick.png' : 'publish_x.png'; ?>" width="16" height="16" border="0" alt="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
 					</td>					
-					<td width="22%" align="center"><?php echo $authors; ?></td>
-					<td width="5%" align="center"><?php echo $this->items[$i]->year; ?></td>
-					<td width="10%" align="center"><?php echo $this->items[$i]->citekey; ?></td>
-					<td width="5%" align="center"><?php echo JText::_('JRESEARCH_'.strtoupper($this->items[$i]->pubtype)); ?></td>
-					<td width="10%" align="center"><?php echo $researchArea->name ;?></td>
-					<td width="15%" align="center"><?php echo implode(' , ', $exportLinks); ?></td>
+					<td class="center"><?php echo $authors; ?></td>
+					<td class="center"><?php echo $this->items[$i]->year; ?></td>
+					<td class="center"><?php echo $this->items[$i]->citekey; ?></td>
+					<td class="center"><?php echo JText::_('JRESEARCH_'.strtoupper($this->items[$i]->pubtype)); ?></td>
+					<td class="center"><?php echo $researchArea->name ;?></td>
+					<td class="center"><?php echo $this->items[$i]->hits; ?></td>
+					<td class="center"><?php echo implode(' , ', $exportLinks); ?></td>
 				</tr>
 			<?php } ?>
 		</tbody>
 	</table>
-	<input type="hidden" name="option" value="com_jresearch" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir'] ?>" /> 
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="controller" value="publications"  />
 	<input type="hidden" name="hidemainmenu" value="" />
+	
+	<?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications'); ?>
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

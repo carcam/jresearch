@@ -35,6 +35,12 @@ class JResearchArticle extends JResearchPublication{
 	 */
 	public $journal;
 	
+	/**
+	 * Journal's issn
+	 *
+	 * @var string
+	 */
+	public $issn;
 	
 	/**
 	 * Volume of the journal where the article appears.

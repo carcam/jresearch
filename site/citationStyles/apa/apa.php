@@ -362,7 +362,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 	 *
 	 * @param string $authorName In any of the formats supported by Bibtex.
 	 */
-	protected function formatAuthorForReferenceOutput($authorName){		
+	protected function formatAuthorForReferenceOutput($authorName){
 		$authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){

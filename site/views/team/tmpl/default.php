@@ -8,16 +8,16 @@
 $contentArr = explode('<hr id="system-readmore" />', $this->item->description);
 ?>
 <h1 class="componentheading">
-	<?=JText::_('JRESEARCH_TEAM');?>
+	<?php echo JText::_('JRESEARCH_TEAM');?>
 	-
-	<?=JFilterOutput::ampReplace($this->item->name);?>
+	<?php echo JFilterOutput::ampReplace($this->item->name);?>
 </h1>
 <div class="content">
 	<div class="tr">
-		<strong><?=JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?=$this->item->getLeader()?>
+		<strong><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?php echo $this->item->getLeader()?>
 	</div>
 	<div class="tr">
-		<strong><?=JText::_('JRESEARCH_TEAM_MEMBERS');?>:</strong> <ul><li><?=implode("</li><li> ", $this->item->getMembers())?></li></ul>
+		<strong><?php echo JText::_('JRESEARCH_TEAM_MEMBERS');?>:</strong> <ul><li><?php echo implode("</li><li> ", $this->item->getMembers())?></li></ul>
 	</div>
 	<?php
 	//Show description only if description exists
@@ -25,16 +25,16 @@ $contentArr = explode('<hr id="system-readmore" />', $this->item->description);
 	{
 	?>
 		<div>
-			<strong><?=JText::_('Description')?>:</strong>
+			<strong><?php echo JText::_('Description')?>:</strong>
 		</div>
 		<div>
-			<?=$contentArr[0];?>
+			<?php echo $contentArr[0];?>
 		</div>
 		<div style="text-align:left">
-			<?=$contentArr[1];?>
+			<?php echo $contentArr[1];?>
 		</div>
 	<?php
 	}
 	?>
-	<div style="text-align: center;"><a href="javascript:history.go(-1)"><?=JText::_('Back'); ?></a></div>
+	<div style="text-align: center;"><a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a></div>
 </div>

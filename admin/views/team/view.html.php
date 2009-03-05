@@ -24,22 +24,19 @@ class JResearchAdminViewTeam extends JView
 	{
     	global $mainframe;
       	
-      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
-		JHTML::_('Validator._');
+    	JResearchToolbar::editTeamAdminToolbar();
+		
+		JHTML::_('JResearch.validation');
     	JRequest::setVar( 'hidemainmenu', 1 );
     	$arguments = array('team');
 
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$model =& $this->getModel();
-    	$membersModel =& $this->getModel('Staff');
-		
-    	//Published options
-    	$publishedOptions = array();
-    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
-    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
+    	$membersModel =& $this->getModel('Staff'); 	
     	
     	//Staff options
+    	//@todo Add member list to HTML helper class
     	$members = $membersModel->getData();
     	$memberOptions = array();
     	
@@ -58,7 +55,7 @@ class JResearchAdminViewTeam extends JView
     		}
     		
     		$arguments[] = $team->id;
-    		$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $team->published);    		
+    		
 			//Leader and members list
     		$leaderList = JHTML::_('select.genericlist', $memberOptions ,'id_leader', 'class="inputbox" size="1"' ,'value', 'text' , $team->id_leader);    		
 			$selectedMembers = $team->getMembers();
@@ -69,14 +66,13 @@ class JResearchAdminViewTeam extends JView
 	    	$memberList = JHTML::_('select.genericlist', $memberOptions ,'members[]', 'class="inputbox" multiple="multiple" size="5"' ,'value', 'text' ,$selectedMemberOptions);
 
     	}else{
-    		$arguments[] = null;
-    		$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"');    		
+    		$arguments[] = null;		
 			//Leader and members list
     		$leaderList = JHTML::_('select.genericlist', $memberOptions ,'id_leader', 'class="inputbox" size="1"');    		
 	    	$memberList = JHTML::_('select.genericlist', $memberOptions ,'members[]', 'class="inputbox" multiple="multiple" size="5"');    		
-    	}	
+    	}
     	
-    	
+    	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $team?$team->published:1));
     	
 		$editor =& JFactory::getEditor();    	
 		

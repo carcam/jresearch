@@ -24,21 +24,29 @@ class translationPublicationFilter extends translationFilter
 		if (!$this->filterField)
 			return "";
 			
-		$areaOptions=array();
-		$areaOptions[] = JHTML::_('select.option', '-1', JText::_('All Publications'));
+		$pubOptions=array();
+		$pubOptions[] = JHTML::_('select.option', '-1', JText::_('All Publications'));
 
-		$sql = 	"SELECT DISTINCT pub.id, pub.title FROM #__jresearch_publication as pub, #__".$this->tableName.' as c'
-				."WHERE c.".$this->filterField."=pub.id ORDER BY pub.id";
+		$sql = 	"SELECT DISTINCT pub.id, pub.title, pub.pubtype FROM #__jresearch_publication as pub, #__".$this->tableName." as c "
+				."WHERE c.".$this->filterField."=pub.id ORDER BY pub.pubtype, pub.id";
 		
 		$db->setQuery($sql);
 		$pubs = $db->loadObjectList();
 		
 		$pubCount=0;
-		foreach($pubs as $pub)
-		{
-			$pubOptions[] = JHTML::_('select.option', $pub->id,$pub->name);
-			$pubCount++;
-		}
+		$pubType = '';
+		if(count($pubs) > 0)
+			foreach($pubs as $pub)
+			{
+				if($pubType != $pub->pubtype)
+				{
+					$pubOptions[] = JHTML::_('select.optgroup', $pub->pubtype);
+					$pubType = $pub->pubtype;
+				}
+				
+				$pubOptions[] = JHTML::_('select.option', $pub->id, $pub->title);
+				$pubCount++;
+			}
 		
 		$pubList=array();
 		$pubList["title"]= JText::_('Publication filter');

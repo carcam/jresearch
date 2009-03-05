@@ -13,13 +13,22 @@ foreach($this->items as $pub):
 ?>
 	<?php $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 	<?php $url = $pub->url; ?>
+	<?php $attach = $pub->getAttachment(0, 'publications'); ?>	
 	<tr><td align="right"><?php JHTML::_('Jresearch.icon','edit', 'publications', $pub->id); ?> <?php JHTML::_('Jresearch.icon','remove', 'publications', $pub->id); ?></td></tr>
 	<tr><td><?php echo $publicationText;  ?>&nbsp;
 	<?php if($this->showmore): ?>
 		<a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a>&nbsp;
 	<?php endif; ?>
 	<?php if($this->showdigital): ?>
-		<?php echo !empty($url)?"<a href=\"$url\">[$digitalVersion]</a>":''; ?>
-	<?php endif; ?>
+		<?php
+			 if(!empty($url))
+				$link = $url;
+			  elseif(!empty($attach))
+			  	$link = $attach;							
+		 ?>
+		<?php if(!empty($link)): ?>
+			<?php "<a href=\"$link\">[$digitalVersion]</a>"; ?>			
+		<?php endif; ?>
+	<?php endif; ?>	
 	</td></tr>
 <?php endforeach; ?>
