@@ -17,17 +17,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <td><?php echo empty($this->member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$this->member->position; ?></td>
     <?php if(empty($this->member->url_photo)): ?>
     <td colspan="2" rowspan="3"></td>
-    <?php else: ?>		
-    <td colspan="2" rowspan="3"><img src="<?php echo $this->member->url_photo; ?>" border="0" alt="<?php echo $this->member; ?>" /></td>
+    <?php else: 
+    	$url = JResearch::getUrlByRelative($this->member->url_photo);
+    ?>		
+    <td colspan="2" rowspan="3"><img src="<?php echo $url; ?>" border="0" alt="<?php echo $this->member; ?>" /></td>
     <?php endif; ?>		
   </tr>
   <?php
-  if($this->member->former_member == 0)
+  if($this->member->former_member == 0 && $this->params->get('member_show_email', 'no') == 'yes')
   {
   ?>
 	  <tr>
 	  	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_EMAIL').': ' ?></td>
-	  	<td><?=JHTML::_('email.cloak',$this->member->email);?></td>
+	  	<td><?php echo JHTML::_('email.cloak',$this->member->email);?></td>
 	  	<td colspan="2"></td>
 	  </tr>
   <?php 
@@ -47,6 +49,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php endif; ?>  		
   	<td colspan="2" class="field"></td>
   </tr>
+  <tr>
+  	<?php if(empty($this->member->location)): ?>
+	<td colspan="2"></td>
+	<?php else: ?>	
+	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_LOCATION').': ';  ?></td>
+	<td><?php echo $this->member->location; ?></td>
+	<?php endif; ?>  		
+	<td colspan="2" class="field"></td>
+  </tr>
   <?php $itemId = JRequest::getVar('Itemid', null); ?>
   <?php if(!empty($this->publications)){ ?>
     <tr><td colspan="4"></td></tr>
@@ -54,7 +65,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
   	<tr><td colspan="4">
 	  	<ul>
 		  	<?php foreach($this->publications as $pub): ?>
-	  			<li><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id ?><? echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo $pub->title; ?></a></li>
+		  		<?php if(!$this->applyStyle): ?>
+	  				<li><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id ?><? echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo $pub->title; ?></a></li>
+	  			<?php else: ?>
+	  				<li>
+	  					<?php  
+	  						$styleObj =& JResearchCitationStyleFactory::getInstance($this->style, $pub->pubtype);
+	  						echo $styleObj->getReferenceHTMLText($pub, true); 
+	  					?>
+	  					<a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id; ?><?php $Itemid = JRequest::getVar('Itemid'); echo !empty($Itemid)?'&Itemid='.$Itemid:''; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a>&nbsp;
+	  				</li>
+	  			<?php endif; ?>	
 	  		<?php endforeach; ?>
 	  	</ul>
 	  	<div>

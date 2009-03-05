@@ -108,7 +108,7 @@ $document->addStyleSheet($css_path.'/imageflow.css');
 <div id="imageflow" class="imageflow">
 	<div id="imageflow_loading">
 		<b>Loading images</b><br/>
-		<img src="<?=$assets.'/loading.gif'; ?>" width="208" height="13" alt="loading" />
+		<img src="<?php echo $assets.'/loading.gif'; ?>" width="208" height="13" alt="loading" />
 	</div>
 	<div id="imageflow_images">
 	<?php
@@ -204,6 +204,6 @@ $document->addStyleSheet($css_path.'/imageflow.css');
 		<div id="imageflow_slider"></div>
 	</div>
 </div>
-<div id="imageflow_caption_text">
-	<?=$this->params->get('caption_text');?>
-</div>
+<p id="imageflow_caption_text">
+	<?php echo $this->params->get('caption_text');?>
+</p>

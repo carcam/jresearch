@@ -26,10 +26,10 @@ defined('_JEXEC') or die('Restricted access');
 	<table class="adminlist" cellspacing="1">
 		<thead>
 		<tr>		
-			<th width="1%">#</th>
-			<th width="1%" align="center"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
+			<th style="width: 1%;">#</th>
+			<th style="width: 1%; text-align:center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
 			<th class="title"><?php echo JHTML::_('grid.sort',  'Name', 'name', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 		</tr>
 		</thead>
 		
@@ -51,19 +51,18 @@ defined('_JEXEC') or die('Restricted access');
 		?>
 			
 				<tr class="<?php echo "row$k"; ?>">
-					<td align="center"><?php echo $this->page->getRowOffset( $i ); ?></td>
-					<td width="1%" align="center"><?php echo $this->items[$i]->id >= 1?$checked:''; ?></td>
-					<td width="30%"><a href="index.php?option=com_jresearch&controller=financiers&task=edit&cid[]=<?php echo $this->items[$i]->id; ?>"><?php echo $this->items[$i]->name;  ?></a></td>
-					<td align="center"><?php echo $published; ?></td>
+					<td class="center"><?php echo $this->page->getRowOffset( $i ); ?></td>
+					<td class="center"><?php echo $this->items[$i]->id >= 1?$checked:''; ?></td>
+					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=financiers&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->name;  ?></a></td>
+					<td class="center"><?php echo $published; ?></td>
 				</tr>
 			<?php } ?>
 		</tbody>
 	</table>
-	<input type="hidden" name="option" value="com_jresearch" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" /> 
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="controller" value="financiers"  />
+
+	<?php echo JHTML::_('jresearchhtml.hiddenfields', 'financiers'); ?>
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

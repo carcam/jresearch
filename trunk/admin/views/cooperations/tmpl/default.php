@@ -16,6 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<button onclick="document.adminForm.filter_search.value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 				</td>
 				<td nowrap="nowrap">
+					<?php echo $this->lists['category'];?>
 					<?php echo $this->lists['state'];?>
 				</td>
 			</tr>
@@ -24,11 +25,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<table class="adminlist" cellspacing="1">
 		<thead>
 		<tr>		
-			<th width="1%">#</th>
-			<th align="center"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th align="center"><?=JHTML::_('grid.sort', JText::_('JRESEARCH_COOPERATION'), 'name', @$this->lists['order_Dir'], @$this->lists['order'] );?></th>
-			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort','Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
-			<th width="8%" nowrap="nowrap">
+			<th style="width: 1%;">#</th>
+			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
+			<th style="width: 50%; text-align: center;"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_COOPERATION'), 'name', @$this->lists['order_Dir'], @$this->lists['order'] );?></th>
+			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort','Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
+			<th style="width: 8%;" nowrap="nowrap">
 				<?php echo JHTML::_('grid.sort', 'Order by', 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 				<?php echo JHTML::_('grid.order', $this->items ); ?>
 			</th>
@@ -56,30 +57,29 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
-					<td width="1%"><?php echo $checked; ?></td>
-					<td width="30%">
-						<a href="index.php?option=com_jresearch&controller=cooperations&task=edit&cid[]=<?php echo $this->items[$i]->id; ?>">
+					<td><?php echo $checked; ?></td>
+					<td>
+						<a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=cooperations&task=edit&cid[]='.$this->items[$i]->id); ?>">
 							<?php echo $this->items[$i]->name; ?>
 						</a>
 					</td>
-					<td align="center"><?php echo $published; ?></td>
+					<td class="center"><?php echo $published; ?></td>
 					<td class="order" nowrap="nowrap">
 						<span><?php echo $this->page->orderUpIcon( $i, $this->items[$i]->ordering > 1, 'orderup', 'Move Up', $this->ordering); ?></span>
 						<span><?php echo $this->page->orderDownIcon( $i, $n, $this->items[$i]->ordering < ($this->items[$i]->getNextOrder()-1), 'orderdown', 'Move Down', $this->ordering ); ?></span>
 						<?php $disabled = $this->ordering ?  '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>
-					<td align="center"><?php echo $this->items[$i]->url; ?></td>
+					<td class="center"><?php echo $this->items[$i]->url; ?></td>
 				</tr>
 			<?php } ?>
 		</tbody>
 	</table>
-	<input type="hidden" name="option" value="com_jresearch" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" /> 
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="controller" value="cooperations"  />
 	<input type="hidden" name="hidemainmenu" value="" />
+	
+	<?php echo JHTML::_('jresearchhtml.hiddenfields', 'cooperations'); ?>
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

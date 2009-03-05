@@ -27,6 +27,10 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.D
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+
+JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 
 $document = &JFactory::getDocument();
 $url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();

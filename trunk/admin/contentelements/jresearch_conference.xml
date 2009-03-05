@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <joomfish type="contentelement">
-	<name>J!Research Publication - Article</name>
+	<name>J!Research Publication - Conference</name>
 	<author>F. Prinz</author>
 	<version>0.1</version>
-	<description>Definition for the publication (article) content of the J!Research component</description>
+	<description>Definition for the publication (conference) content of the J!Research component</description>
 	<reference type="content">
-		<table name="jresearch_article">
+		<table name="jresearch_conference">
 			<field type="referenceid" name="id_publication" translate="0">ID</field>
 			<field type="titletext" name="booktitle" translate="1">Book title</field>
+			<field type="text" name="issn" translate="0">ISSN</field>
+			<field type="text" name="isbn" translate="0">ISBN</field>
 			<field type="text" name="publisher" translate="1">Publisher</field>
 			<field type="text" name="volume" translate="1">Volume</field>
 			<field type="text" name="number" translate="0">Number</field>
@@ -16,9 +18,11 @@
 			<field type="textarea" name="address" translate="1">Address</field>
 			<field type="textarea" name="series" translate="1">Series</field>
 			<field type="textarea" name="editor" translate="1">Editor</field>
-			<field type="textarea" name="journal" translate="1">Journal</field>
 			<field type="textarea" name="organization" translate="1">Organization</field>
 			<field type="textarea" name="crossref" translate="1">Cross reference</field>
 		</table>
 	</reference>
+	<translationfilters>
+		<publication>id_publication</publication>
+	</translationfilters>
 </joomfish>

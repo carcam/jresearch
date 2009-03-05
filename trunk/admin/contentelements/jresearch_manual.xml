@@ -7,10 +7,14 @@
 	<reference type="content">
 		<table name="jresearch_manual">
 			<field type="referenceid" name="id_publication" translate="0">ID</field>
+			<field type="titletext" name="id_publication" translate="0">ID</field>
 			<field type="text" name="month" translate="0">Month</field>
 			<field type="textarea" name="edition" translate="1">Edition</field>
 			<field type="textarea" name="organization" translate="1">Organization</field>
 			<field type="textarea" name="address" translate="1">Address</field>
 		</table>
 	</reference>
+	<translationfilters>
+		<publication>id_publication</publication>
+	</translationfilters>
 </joomfish>

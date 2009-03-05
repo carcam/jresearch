@@ -27,16 +27,20 @@ class JResearch
 	 */
 	public static function uploadImage(&$imageVar, $file, $folder, $delete=false, $maxWidth=1024, $maxHeight=768)
 	{
-		$path = '';
-		$ext = 'tmp';
-		$availableTypes = array('image/png','image/gif','image/jpg','image/jpeg');
-		$uploadedFile = $file['tmp_name'];
+		$availableTypes = array(
+			'image/png' => 'png',
+			'image/gif' => 'gif',
+			'image/jpeg' => 'jpg',
+			'image/tiff' => 'tiff'
+		);
 		
-		list($width, $height, ,) = getimagesize($uploadedFile);
+		$uploadedFile = $file['tmp_name'];
 		
 		if($uploadedFile != null)
 		{
-			if(!in_array($file['type'], $availableTypes))
+			list($width, $height, ,) = getimagesize($uploadedFile);
+			
+			if(!array_key_exists($file['type'], $availableTypes))
 			{
 				JError::raiseWarning(1, JText::_('Image format not supported. Please provide images with extension jpg, gif, png'));
 			}
@@ -44,21 +48,47 @@ class JResearch
 			{
 				JError::raiseWarning(1, JText::_('The image exceeds maximum size allowed ('.$maxWidth.'x'.$maxHeight.')'));
 			}
-			
-			// Get extension
-			$extArr = explode('/', $file['type']);
-			$ext = $extArr[1];
 		}
 		
-		$path = JResearch::upload($imageVar, $file, $folder, $ext, $delete);
-		
-		return $path;
+		return JResearch::upload($imageVar, $file, $folder, $availableTypes, $delete);
 	}
+	
+	/**
+	 * Allows the upload of a document. Supported formats are pdf, plain text, postscript, MSOffice (2003 and 2007) and Open Office
+	 * documents.
+	 *
+	 * @param array $fileArray Array with the information about the uploaded file, provided by the server
+	 * @param string $path Path within J!Research administrator space, where the file will be located.
+	 * @return string The basename of the uploaded file or null if there is a problem during the upload or a non-supported format file
+	 * has been provided.
+	 */
+	function uploadDocument($file, $path){
+		$uploadedFile = $file['tmp_name'];
+		$availableTypes = array('application/msword'=>'doc','application/vnd.openxmlformats-officedocument.wordprocessingml.document'=>'docx',
+		'application/pdf'=>'pdf','application/postscript'=>'ps', 
+		'application/vnd.oasis.opendocument.text'=>'odt', 'text/plain'=>'txt');
+		if($uploadedFile != null){
+			if(isset($availableTypes[$file['type']])){
+				$newName = JPATH_COMPONENT_ADMINISTRATOR.DS.$path.DS.basename($file['name']);
+				if(!move_uploaded_file($uploadedFile, $newName)){
+					JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED', basename($newName)));
+				}else{
+					//Construct the file entry
+					return basename($newName);
+				}
+			}else{
+				JError::raiseWarning(1, JText::sprintf('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED', basename($newName)));
+			}
+		}
+		
+		return null;
+	}
+	
 	
 	/**
 	 * Uploads ONE file to specific folder (relative path from component administrator folder)
 	 */
-	public static function upload(&$fileVar, $file, $folder, $ext='tmp', $delete=false)
+	public static function upload(&$fileVar, $file, $folder, array $types=array(), $delete=false)
 	{
 		$path = '';
 		
@@ -72,20 +102,38 @@ class JResearch
 		$uploadedFile = $file['tmp_name'];
 		
 		if($uploadedFile != null)
-		{
-			$newName = JPATH_COMPONENT_ADMINISTRATOR.DS.$folder.DS.basename($uploadedFile).'.'.$ext;
-
-			if(!move_uploaded_file($uploadedFile, $newName))
+		{		
+			if(array_key_exists($file['type'], $types))
 			{
-				JError::raiseWarning(1, JText::_('The file could not be imported into J!Research space.'));
+				$newName = JPATH_COMPONENT_ADMINISTRATOR.DS.JPath::clean($folder).DS.$file['name'];
+				$base = basename($newName);
+				
+				if(!move_uploaded_file($uploadedFile, $newName))
+				{
+					JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED', $base));
+				}
+				else
+				{
+					//@todo make relative path
+					//JURI::base().'components/com_jresearch/'.
+					$path = JString::str_ireplace(DS,'/',$folder).$base;
+					$fileVar = $path;
+				}
 			}
-			else
+			else 
 			{
-				$fileVar = JURI::base().'components/com_jresearch/'.JString::str_ireplace(DS,'/',$folder).basename($newName);
+				JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_FORMAT_NOT_SUPPORTED', basename($newName)));
 			}
 		}
 		
-		return $fileVar;
+		return $path;
+	}
+	
+	public static function getUrlByRelative($rel_path)
+	{
+		$path = JURI::base().'components/com_jresearch/';
+		
+		return $path.str_replace($path, '', $rel_path); //For backward compatibility if absolute path is stored
 	}
 }
 ?>

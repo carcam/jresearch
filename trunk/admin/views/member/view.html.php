@@ -24,8 +24,8 @@ class JResearchAdminViewMember extends JView
     function display($tpl = null){
     	global $mainframe;
       	JResearchToolbar::editMemberAdminToolbar();
-      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
-		JHTML::_('Validator._');
+      	
+		JHTML::_('JResearch.validation');
     	JRequest::setVar( 'hidemainmenu', 1 );
 
     	// Information about the member
@@ -34,30 +34,15 @@ class JResearchAdminViewMember extends JView
     	$member = $model->getItem($cid[0]);
     	$arguments = array('member', $member->id);
     	
-		// Research areas
-		$areasModel = $this->getModel('researchareaslist');    	
-    	$researchAreas = $areasModel->getData(null, true, false);
-    	
-    	$researchAreasOptions = array();
-
-    	// Retrieve the list of research areas
-    	foreach($researchAreas as $r){
-    		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
-    	}    	
-    	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $member->id_research_area);
-
-		//Published options
-    	$publishedOptions = array();
-    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
-    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
-    	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $member->published);
+    	//Lists
+    	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $member->published));
+   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="5"', 'selected' => $member->id_research_area)); 
 
     	$orderOptions = array();
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, CONCAT_WS(\' \', firstname, lastname) AS text FROM #__jresearch_member ORDER by former_member,ordering ASC');
     	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , ($member)?$member->ordering:0);
     	
 		$editor =& JFactory::getEditor();    	
-    	
     	
     	$this->assignRef('member', $member);
     	$this->assignRef('areasList', $researchAreasHTML);

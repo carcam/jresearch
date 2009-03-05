@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<params>
+		<param name="show_hits" type="radio" default="yes" label="JRESEARCH_SHOW_HITS" description="JRESEARCH_SHOW_HITS_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		<param type="spacer" />
 		<param name="area_entries_per_page" default="10" label="JRESEARCH_CONFIG_AREAS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_AREAS_PER_PAGE_DESCRIPTION" ></param>
 		<param name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
 		<param name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />			
@@ -45,15 +50,15 @@
 			<option value="date">JRESEARCH_DATE</option>
 			<option value="alphabetical">JRESEARCH_ALPHABETICAL</option>
 		</param>
-		<param name="projects_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+		<param name="projects_order" label="JRESEARCH_SORTED" type="radio">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
 		</param>	
-		
+				
 		<param type="spacer" />
 
 		<param name="theses_entries_per_page" default="25" label="JRESEARCH_CONFIG_THESES_PER_PAGE" type="text" ></param>				
-		<param name="theses_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+		<param name="theses_order" label="JRESEARCH_SORTED" type="radio">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
 		</param>	
@@ -82,10 +87,14 @@
 			<option value="no">No</option>
 		</param>
 		<param name="staff_number_last_theses" label="JRESEARCH_CONFIG_PROFILES_NUMBER_THESES" default="5" type="text" />	
+		<param name="member_show_email" label="JRESEARCH_CONFIG_PROFILES_SHOW_EMAIL" default="yes" type="radio">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
 		
 		<param type="spacer" />
 		
-		<param name="cooperation_entries_per_page" default="25" label="JRESEARCH_CONFIG_COOPERATIONS_PER_PAGE" type="text"></param>									
+		<param name="cooperation_entries_per_page" default="25" label="JRESEARCH_CONFIG_COOPERATIONS_PER_PAGE" type="text" ></param>									
 		<param name="cooperations_order" label="JRESEARCH_SORTED" type="radio" default="asc">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
@@ -97,6 +106,7 @@
 		<param name="facilities_order" label="JRESEARCH_SORTED" type="radio" default="asc">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
-		</param>			
+		</param>
+		<param name="files_root_path" type="hidden" default="files"></param>			
 	</params>
 </config>

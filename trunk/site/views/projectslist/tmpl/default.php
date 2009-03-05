@@ -16,14 +16,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<div>
 			<?php $contentArray = explode('<hr id="system-readmore" />', $project->description); ?>
 			<?php $itemId = JRequest::getVar('Itemid'); ?>
-			<div class="contentheading"><?php echo $project->title; ?></div>
+			<h2 class="contentheading"><?php echo $project->title; ?></h2>
 			<div>&nbsp;</div>
 			<?php 
 			//Show research area?
 			if($this->params->get('show_researcharea') == 1)
 			{
 			?>		
-			<div><span style="font-weight:bold;"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></span><span><?php echo $researchArea->name;  ?></span></div>
+			<div>
+				<strong><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></strong>
+				<span><?php echo $researchArea->name;  ?></span>
+			</div>
 			<?php 
 			}
 			
@@ -32,7 +35,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			{
 				$members = implode(', ',$project->getPrincipalInvestigators());
 			?>			
-			<div><strong><?=JText::_('JRESEARCH_PROJECT_LEADERS').': '?></strong><span><?=$members?></span></div>
+			<div>
+				<strong><?php echo JText::_('JRESEARCH_PROJECT_LEADERS').': '?></strong>
+				<span><?php echo $members?></span>
+			</div>
 			<?php 
 			}
 			
@@ -52,13 +58,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			
 			$value = implode(".",$convertedArray).$aFloat;
 			?>
-			<div><strong><?=JText::_('JRESEARCH_PROJECT_FUNDING').': '?></strong><span><?=$financiers?></span>, <strong><?=$project->finance_currency." ".$value?></strong></div>
+			<div><strong><?php echo JText::_('JRESEARCH_PROJECT_FUNDING').': '?></strong><span><?php echo $financiers?></span>, <strong><?php echo $project->finance_currency." ".$value?></strong></div>
 			<?php
 			if($contentArray[0] != "")
 			{
 			?>
 				<div>&nbsp;</div>
-				<div><?=$contentArray[0]; ?></div>
+				<p><?php echo $contentArray[0]; ?></p>
 			<?php
 			}
 			

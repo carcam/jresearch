@@ -8,28 +8,32 @@
 $contentArr = explode('<hr id="system-readmore" />', $this->coop->description);
 ?>
 <h1 class="componentheading">
-	<?=JText::_('JRESEARCH_COOPERATION');?>
+	<?php echo JText::_('JRESEARCH_COOPERATION');?>
 	-
-	<?=JFilterOutput::ampReplace($this->coop->name);?>
+	<?php echo JFilterOutput::ampReplace($this->coop->name);?>
 </h1>
 <?php 
-if($this->coop->image_url != "")
-{
+if($this->coop->image_url):
+	$url = JResearch::getUrlByRelative($this->coop->image_url);
 ?>
-	<img src="<?=$this->coop->image_url;?>" title="<?=JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $this->coop->name))?>" alt="<?=JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $this->coop->name)?>" />
+<div style="text-align: center;">
+	<a href="<?php echo $url?>" class="modal" rel="{handler: 'image'}">
+		<img src="<?php echo $url;?>" title="<?php echo JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $this->coop->name))?>" alt="<?php echo JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $this->coop->name)?>" />
+	</a>
+</div>
 <?php
-}
+endif;
 
 $ampReplacedUrl = JFilterOutput::ampReplace($this->coop->url);
 ?>
 <div class="content">
 	<div>
-		<strong><?=JText::_('JRESEARCH_COOPERATION_URL');?></strong> <a href="<?=$ampReplacedUrl;?>"><?=$ampReplacedUrl;?></a>
+		<strong><?php echo JText::_('JRESEARCH_COOPERATION_URL');?></strong> <a href="<?php echo $ampReplacedUrl;?>"><?php echo $ampReplacedUrl;?></a>
 	</div>
 	<div>
-		<?=$contentArr[0];?>
+		<?php echo $contentArr[0];?>
 	</div>
 	<div style="text-align:left">
-		<?=$contentArr[1];?>
+		<?php echo $contentArr[1];?>
 	</div>
 </div>

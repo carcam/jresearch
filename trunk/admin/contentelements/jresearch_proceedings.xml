@@ -7,6 +7,9 @@
 	<reference type="content">
 		<table name="jresearch_proceedings">
 			<field type="referenceid" name="id_publication" translate="0">ID</field>
+			<field type="titletext" name="id_publication" translate="0">ID</field>
+			<field type="text" name="issn" translate="0">ISSN</field>
+			<field type="text" name="isbn" translate="0">ISBN</field>
 			<field type="text" name="month" translate="0">Month</field>
 			<field type="text" name="volume" translate="0">Volume</field>
 			<field type="text" name="number" translate="0">Number</field>
@@ -17,4 +20,7 @@
 			<field type="textarea" name="organization" translate="1">Organization</field>
 		</table>
 	</reference>
+	<translationfilters>
+		<publication>id_publication</publication>
+	</translationfilters>
 </joomfish>

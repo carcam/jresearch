@@ -85,3 +85,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php endif; ?>
 	<?php endif; ?>
 </tr>
+<?php $isbn = trim($this->publication->isbn);  ?>
+<?php if(!empty($isbn)): ?>
+<tr>
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></td>		
+	<td style="width:35%;"><?php echo $isbn; ?></td>
+	<td colspan="2"></td>	
+</tr>
+<?php endif; ?>

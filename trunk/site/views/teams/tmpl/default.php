@@ -9,7 +9,7 @@ defined("_JEXEC") or die("Restricted access");
 
 ?>
 <h1 class="componentheading">
-	<?=JText::_('JRESEARCH_TEAMS');?>
+	<?php echo JText::_('JRESEARCH_TEAMS');?>
 </h1>
 <ul style="padding-left:0px;">
 	<?php
@@ -22,15 +22,15 @@ defined("_JEXEC") or die("Restricted access");
 				$contentArray = explode('<hr id="system-readmore" />', $team->description);
 				$itemId = JRequest::getVar('Itemid');
 				?>
-				<div class="contentheading">
-					<?=JFilterOutput::ampReplace($team->name)?>
-				</div>
+				<h2 class="contentheading">
+					<?php echo JFilterOutput::ampReplace($team->name)?>
+				</h2>
 				<div>
-					<strong><?=JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?=$team->getLeader();?>
+					<strong><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?php echo $team->getLeader();?>
 				</div>
 				<div style="text-align:left">
-					<a href="index.php?option=com_jresearch&task=show&view=team&id=<?=$team->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >
-						<?=JText::_('Read more...'); ?>
+					<a href="index.php?option=com_jresearch&task=show&view=team&id=<?php echo $team->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >
+						<?php echo JText::_('Read more...'); ?>
 					</a>
 				</div>
 			</div>
@@ -42,8 +42,8 @@ defined("_JEXEC") or die("Restricted access");
 	?>
 </ul>
 <div style="width:100%;text-align:center;">
-	<?=$this->page->getResultsCounter()?><br />
-	<?=$this->page->getPagesLinks()?>
+	<?php echo $this->page->getResultsCounter()?><br />
+	<?php echo $this->page->getPagesLinks()?>
 </div>
 <input type="hidden" name="option" value="com_jresearch" />
 <input type="hidden" name="controller" value="teams"  />

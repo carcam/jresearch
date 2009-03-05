@@ -87,3 +87,22 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php endif; ?>
 	<?php endif; ?>
 </tr>
+<tr>
+	<?php $colspan = 4; ?>
+	<?php $isbn = trim($this->publication->isbn);  ?>
+	<?php if(!empty($isbn)): ?>
+	<?php $colspan -= 2; ?>
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></td>		
+	<td style="width:35%;"><?php echo $isbn; ?></td>
+	<?php endif; ?>
+	<?php $issn = trim($this->publication->issn); ?>
+	<?php if(!empty($issn)): ?>
+	<?php $colspan -= 2; ?>
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_ISSN').': ' ?></td>
+	<td style="width:35%;"><?php echo JResearchPublicationsHelper::formatISSN($issn); ?></td>
+	<?php else: ?>
+	<?php if($colspan > 0): ?>
+	<td colspan="<?php echo $colspan; ?>"></td>	
+	<?php endif; ?>
+	<?php endif; ?>
+</tr>

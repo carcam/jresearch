@@ -20,14 +20,15 @@ defined('_JEXEC') or die('Restricted access');
 
 global $mainframe;
 
-// Common needed files		
+// Common needed files
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'activity.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'acl.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'cite.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'text.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'factory.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'jxtended.php');
+require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'acl.php');
+require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'cite.php');
+require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'text.php');
+require_once(JPATH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
+require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'jxtended.php');
 
 //Set ACL
 setACL();

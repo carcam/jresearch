@@ -55,4 +55,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php endif; ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
 </tr>
+<?php $issn = trim($this->publication->issn);  ?>
+<?php if(!empty($issn)): ?>
+<tr>
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_ISSN').': ' ?></td>		
+	<td style="width:35%;"><?php echo JResearchPublicationsHelper::formatISSN($issn); ?></td>
+	<td colspan="2"></td>	
+</tr>
+<?php endif; ?>
 <?php echo isset($this->reference)?$this->reference:''; ?>

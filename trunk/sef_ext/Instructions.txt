@@ -1,6 +1,3 @@
-This patch allows the integration of J!Research 1.1 with sh404sef component for friendly URLs
-which can be downloaded from http://joomlacode.org/gf/project/sh404sef/frs/
-
 Once you have installed the sh404sef component, you have to:
 
 1. Move the com_jresearch.php file to [...]/components/com_sh404sef/sef_ext/

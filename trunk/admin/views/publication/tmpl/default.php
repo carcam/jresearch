@@ -7,14 +7,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
-<form name="adminForm" id="adminForm" method="post" class="form-validate" onSubmit="return validate(this);">
-<table class="editpublication" cellpadding="5" cellspacing="5">
+<form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
+<table class="edit" cellpadding="5" cellspacing="5">
 <tbody>
 	<tr>
-		<th colspan="4"><?php echo JText::_('JRESEARCH_BASIC')?></th>
+		<th class="title" colspan="4"><?php echo JText::_('JRESEARCH_BASIC')?></th>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('Title').': '?></td>
+		<th><?php echo JText::_('Title').': '?></th>
 		<td colspan="3">
 			<input name="title" id="title" size="80" maxlength="255" value="<?php echo $this->publication?$this->publication->title:'' ?>" class="required" />
 			<br />
@@ -22,9 +22,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>		
+		<th><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>		
 		<td><?php echo $this->areasList; ?></td>
-		<td><?php echo JText::_('JRESEARCH_YEAR').' :' ?></td>
+		<th><?php echo JText::_('JRESEARCH_YEAR').' :' ?></th>
 		<td>
 			<input maxlength="4" size="5" name="year" id="year" value="<?php echo $this->publication?$this->publication->year:'' ?>" class="validate-year" />
 			<br />
@@ -32,52 +32,71 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_NOTE').': ' ?></td>
+		<th><?php echo JText::_('JRESEARCH_NOTE').': ' ?></th>
 		<td><textarea name="note" id="note" cols="30" rows="5" ><?php echo $this->publication?$this->publication->note:'' ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_NOTE_TOOLTIP')); ?></td>
-		<td><?php echo JText::_('JRESEARCH_ABSTRACT').': ' ?></td>
+		<th><?php echo JText::_('JRESEARCH_ABSTRACT').': ' ?></th>
 		<td><textarea name="abstract" id="abstract" cols="30" rows="5" ><?php echo $this->publication?$this->publication->abstract:'' ?></textarea></td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></td>
+		<th><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></th>
 		<td>
 			<input name="keywords" id="keywords" size="30" maxlength="255" class="validate-keywords" value="<?php echo $this->publication?$this->publication->keywords:'' ?>" />&nbsp;&nbsp;<span class="information">&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span>
 			<br />
 			<label for="keywords" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_KEYWORDS'); ?></label>			
 		</td>
-		<td><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) : ' ?></td>
+		<th><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) : ' ?></th>
 		<td>
 			<input name="url" id="url" size="30" maxlength="255" class="validate-url" value="<?php echo $this->publication?$this->publication->url:'' ?>" />
 			<br />
 			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
-		</td>		
+		</td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('Published').': '; ?></td>
+		<th><?php echo JText::_('Published').': '; ?></th>
 		<td><?php echo $this->publishedRadio; ?></td>
-		<td><?php echo JText::_('JRESEARCH_AUTHORS').': '; ?></td>
-		<td><?php echo $this->authors; ?></td>
+		<th><?php echo JText::_('JRESEARCH_FILE').': '; ?></th>
+		<td><?php echo $this->files; ?>&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_FILES_TOOLTIP')); ?></td>
+
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_CITEKEY').': '?></td>
+		<th><?php echo JText::_('JRESEARCH_CITEKEY').': '?></th>
 		<td>
 			<input size="20" maxlength="255" name="citekey" id="citekey" class="required" value="<?php echo $this->publication?$this->publication->citekey:'' ?>" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_CITEKEY_TOOLTIP')); ?>
 			<br />
 			<label for="citekey" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_CITEKEY'); ?></label>
 		</td>
-		<td><?php echo JText::_('JRESEARCH_INTERNAL').': ' ?></td>
+		<th><?php echo JText::_('JRESEARCH_INTERNAL').': ' ?></th>
 		<td><?php echo $this->internalRadio; ?>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_INTERNAL_TOOLTIP')) ?></td>
 	</tr>
 	<tr>
-		<th class="editpublication" colspan="4"><?php echo JText::_('JRESEARCH_SPECIFIC'); ?></th>
+		<th><?php echo JText::_('JRESEARCH_DOI').': '?></th>
+		<td>
+			<input size="20" maxlength="255" name="doi" id="doi" class="validate-doi" value="<?php echo $this->publication?$this->publication->doi:'' ?>" />
+			<br />
+			<label for="doi" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_DOI'); ?></label>
+		</td>
+		<th><?php echo JText::_('JRESEARCH_AUTHORS').': '; ?></th>
+		<td><?php echo $this->authors; ?></td>
+	</tr>
+	<?php if(!empty($this->publication)): ?>
+	<tr>
+		<th><?php echo JText::_('Hits').': '?></th>
+		<td><?php echo $this->publication->hits;  ?><div><label for="resethits"><?php echo JText::_('Reset').': '; ?></label><input type="checkbox" name="resethits" id="resethits" /></div></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<?php endif; ?>
+	<tr>
+		<th class="title" colspan="4"><?php echo JText::_('JRESEARCH_SPECIFIC'); ?></th>
 	</tr>
 		<?php include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.$this->pubtype.'.php'); ?>
 	<tr>
-		<th class="editpublication" colspan="4"><?php echo JText::_('Extra'); ?></th>
+		<th class="title" colspan="4"><?php echo JText::_('Extra'); ?></th>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_COMMENTS').': '?></td>
+		<th><?php echo JText::_('JRESEARCH_COMMENTS').': '?></th>
 		<td><textarea cols="30" rows="5" name="comments" id="comments"><?php echo $this->publication?$this->publication->comments:''  ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_TOOLTIP_COMMENTS')); ?></td>
-		<td><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': '?></td>
+		<th><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': '?></th>
 		<td>
 			<input value="<?php echo $this->publication?$this->publication->journal_acceptance_rate:'' ?>" size="10" name="journal_acceptance_rate" id="journal_acceptance_rate" maxlength="5" class="validate-numeric" />
 			<br />
@@ -85,11 +104,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_AWARDS').': '?></td>
+		<th><?php echo JText::_('JRESEARCH_AWARDS').': '?></th>
 		<td><textarea cols="30" rows="5" name="awards" id="awards"  ><?php echo $this->publication?$this->publication->awards:''; ?></textarea></td>
-		<td><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></td>
+		<th><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></th>
 		<td>	
-			<input value="<?php echo $this->publication?$this->publication->impact_factor:'' ?>" size="10" name="impact_factor" id="impact_factor" maxlength="8" class="validate-numeric" />
+			<input value="<?php echo $this->impact_factor?$this->publication->impact_factor:'' ?>" size="10" name="impact_factor" id="impact_factor" maxlength="8" class="validate-numeric" />
 			<br />
 			<label for="impact_factor" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_NUMBER'); ?></label>
 		</td>
@@ -97,10 +116,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 </tbody>
 </table>
-<input type="hidden" name="option" value="com_jresearch" />
-<input type="hidden" name="task" value="" />		
-<input type="hidden" name="controller" value="publications" />
+
 <input type="hidden" name="pubtype" value="<?php echo $this->pubtype; ?>" />
-<input type="hidden" name="id" value="<?php echo $this->publication?$this->publication->id:'' ?>" />	
+<input type="hidden" name="id" value="<?php echo $this->publication?$this->publication->id:'' ?>" />
+<?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications'); ?>
 <?php echo JHTML::_('behavior.keepalive'); ?>
 </form>

@@ -61,6 +61,21 @@ class JResearchModelCooperations extends JResearchModelList
 	}
 	
 	/**
+	 * Returns categories for existing cooperations with id, title and image
+	 * @return array Keys are 'id', 'title' and 'image'
+	 */
+	public function getCategories()
+	{
+		$db = JFactory::getDBO();
+		
+		//Select categories from existing cooperations
+		$sql = 'SELECT DISTINCT jc.catid AS cid, title, image FROM '.$db->nameQuote('#__jresearch_cooperations').' AS jc LEFT JOIN '.$db->nameQuote('#__categories').' AS c ON jc.catid = c.id WHERE jc.catid != 0 AND jc.published=1';
+		
+		$db->setQuery($sql);
+		return $db->loadObjectList();
+	}
+	
+	/**
 	* Returns the SQL used to get the data from publications table.
 	* 
 	* @param $memberId Not used by this model class.
@@ -109,7 +124,7 @@ class JResearchModelCooperations extends JResearchModelList
 		if(!in_array($filter_order, $orders))
 			$filter_order = $db->nameQuote('ordering');	
 		
-		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
+		return ' ORDER BY catid,'.$filter_order.' '.$filter_order_Dir;
 	}	
 	
 	/**
@@ -120,6 +135,7 @@ class JResearchModelCooperations extends JResearchModelList
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('coopsfilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('coopsfilter_search', 'filter_search');
+		$filter_category = $mainframe->getUserStateFromRequest('coopsfilter_category', 'filter_category');
 		
 		// prepare the WHERE clause
 		$where = array();
@@ -134,6 +150,10 @@ class JResearchModelCooperations extends JResearchModelList
 		else
 			$where[] = $db->nameQuote('published').' = 1 ';		
 
+		if($filter_category)
+		{
+			$where[] = $db->nameQuote('catid').' = '.$filter_category;
+		}
 			
 		if(($filter_search = trim($filter_search)))
 		{
@@ -192,6 +212,7 @@ class JResearchModelCooperations extends JResearchModelList
 		for( $i=0; $i < $total; $i++ )
 		{
 			$row->load( $items[$i] );
+			$groupings[] = $row->catid;
 			
 			if ($row->ordering != $order[$i])
 			{
@@ -204,7 +225,12 @@ class JResearchModelCooperations extends JResearchModelList
 			} // if
 		} // for
 
-		$row->reorder('published >=0');
+		//Ordering for groups
+		$groupings = array_unique($groupings);
+		foreach($groupings as $group)
+		{
+			$row->reorder('catid='.$group);
+		}
 
 		return true;
 	}

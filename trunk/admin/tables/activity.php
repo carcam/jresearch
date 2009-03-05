@@ -46,6 +46,20 @@ class JResearchActivity extends JTable{
 	 */
 	public $created;		
 	
+	/**
+	 * URL associated to the activity
+	 *
+	 * @var string
+	 */
+	public $url;
+	
+	/**
+	 * List of relative paths (in relation to site base path)
+	 * associated to the activity, separated by semicolons.
+	 *
+	 * @var string
+	 */
+	public $files;
 	
 	/**
 	 * Research area's publication database id
@@ -73,6 +87,13 @@ class JResearchActivity extends JTable{
 	 * @var string
 	 */
 	public $created_by;
+	
+	/**
+	 * Number of hits for the activity
+	 *
+	 * @var int
+	 */
+	public $hits;
 	
 	/**
 	 * Array of internal authors ids
@@ -324,6 +345,38 @@ class JResearchActivity extends JTable{
 		
 		return true;
 	} 
+	
+	/**
+	 * Returns the complete URL of the attachment with index $i
+	 *
+	 * @param int $i
+	 * @param string $controller 
+	 */
+	public function getAttachment($i, $controller){
+		if(!empty($this->files)){
+			$filesArr = explode(';', trim($this->files));
+			if(!empty($filesArr[$i])){
+				$params = JComponentHelper::getParams('com_jresearch'); 
+				return  JURI::base().'administrator/components/com_jresearch/'.str_replace(DS, '/', $params->get('files_root_path', 'files'))."/$controller/".$filesArr[$i];
+			}else
+				return null;
+		}else
+			return null;
+		
+	}
+	
+	/**
+	 * Returns the number of activity's attached files.
+	 *
+	 * @return int
+	 */
+	public function countAttachments(){
+		if(empty($this->files))
+			return 0;
+		else{
+			return count(explode(';', trim($this->files)));
+		}	
+	}
 }
 
 ?>
