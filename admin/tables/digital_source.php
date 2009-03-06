@@ -19,7 +19,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
  * This class holds information about digital sources like CD-ROMS or films.
  *
  */
-class JResearchOnline_source extends JResearchPublication{
+class JResearchDigital_source extends JResearchPublication{
 	/**
 	 * Database integer ID
 	 *
