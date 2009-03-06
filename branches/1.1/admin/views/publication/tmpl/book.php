@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td><?php echo JText::_('Publisher').': ' ?></td>
 	<td><input name="publisher" id="publisher" type="text" size="30" maxlength="60" value="<?php echo $this->publication?$this->publication->publisher:'' ?>" /></td>
 	<td><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></td>
-	<td><input name="editor" id="editor" type="text" size="30" maxlength="255" value="<?php echo $this->publication?$this->publication->editor:'' ?>" /></td>
+	<td><input name="editor" id="editor" type="text" size="30" maxlength="255" value="<?php echo $this->publication?$this->publication->editor:'' ?>" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></td>
 </tr>
 <tr>
 	<td><?php echo JText::_('JRESEARCH_VOLUME').': ' ?></td>
