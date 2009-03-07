@@ -605,10 +605,9 @@ class JResearchPublication extends JResearchActivity{
 	 *
 	 */
 	function getEditors(){
-		$and = JText::_('JRESEARCH_AND');
 		$editor = trim($publication->editor);
 		if(!empty($editor))
-			return explode("/$and|,|;/",$editor);
+			return preg_split("/and|,|;/",$editor);
 		else
 			return array();	
 	}
