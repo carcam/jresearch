@@ -687,11 +687,12 @@ class JResearchPublication extends JResearchActivity{
 	 *
 	 */
 	function getEditors(){
-		$and = JText::_('JRESEARCH_AND');
-		if(isset($this->editor))
-			return explode("$and",$this->editor);
+		$editor = trim($publication->editor);
+		if(!empty($editor))
+			return preg_split("/and|,|;/",$editor);
 		else
 			return array();	
+			
 	}
 	
 	
