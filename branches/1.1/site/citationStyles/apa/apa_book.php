@@ -130,7 +130,7 @@ class JResearchAPABookCitationStyle extends JResearchAPACitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$ed = JText::_('JRESEARCH_ED');
+		$ed = JText::_('JRESEARCH_APA_ED_LOWER');
 		
 		$usedTitle = false;
 		$title = trim($publication->title);	

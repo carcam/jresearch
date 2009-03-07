@@ -169,8 +169,10 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
 			$filter_order_Dir = 'ASC';	
-		//if order column is unknown, use the default
-		if(!in_array($filter_order, $orders))
+
+		if($filter_order == 'type')
+			$filter_order = $db->nameQuote('pubtype');
+		elseif($filter_order == 'alphabetical' || !in_array($filter_order, $orders))	
 			$filter_order = $db->nameQuote('title');	
 		
 		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->nameQuote('created').' DESC';
