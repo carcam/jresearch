@@ -19,7 +19,7 @@ for($i = 0; $i < $n; $i++ ):
 	?>
 	<tr><td align="right"><?php JHTML::_('Jresearch.icon','edit', 'publications', $this->items[$i]->id); ?> <?php JHTML::_('Jresearch.icon','remove', 'publications', $this->items[$i]->id); ?></td></tr>
 	<?php
-	if($previousYear != $this->items[$i]->pubtype):
+	if($previousType != $this->items[$i]->pubtype):
 		$header = JText::_('JRESEARCH_PUBLICATION_TYPE').': '.$this->items[$i]->pubtype;			
 	?>
 		<tr><td class="sectiontableheader"><?php echo $header; ?></td></tr>
@@ -43,6 +43,6 @@ for($i = 0; $i < $n; $i++ ):
 		<?php endif; ?>
 	<?php endif; ?>	
 	</td></tr>
-	<?php $previousYear = $this->items[$i]->pubtype; ?>
+	<?php $previousType = $this->items[$i]->pubtype; ?>
 <?php endfor; ?>
 
