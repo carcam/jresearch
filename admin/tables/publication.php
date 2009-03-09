@@ -579,11 +579,7 @@ class JResearchPublication extends JResearchActivity{
 	 		$d = $this->_d_tbl_key;
 	 		$derivedObject->$d = $parentObject->$j;
 	 		foreach($derivedProperties as $prop){
-	 			if($this->$prop !== null){				
-			 		$derivedObject->$prop = $this->$prop;
-			 	}else{
-			 		$derivedObject->$prop = ' ';
-			 	}
+			 	$derivedObject->$prop = $this->$prop;
 	 		}
 	 		
 	 		$derivedObject->$d = $this->$j; 		
