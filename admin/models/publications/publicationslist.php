@@ -137,7 +137,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$this->_items = array();
 			
 			$db = &JFactory::getDBO();
-			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate, $teamId);
+			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 			$db->setQuery($query);
 			$ids = $db->loadResultArray();
 			$this->_items = array();
