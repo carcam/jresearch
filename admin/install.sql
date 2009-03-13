@@ -482,7 +482,7 @@ DROP TABLE IF EXISTS `#__jresearch_digital_source`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_digital_source` (
   `id_publication` int(10) unsigned NOT NULL,
   `address` varchar(20) default NULL,
-  `publisher` varchar(2) default NULL,
+  `publisher` varchar(60) default NULL,
   `source_type` enum('cdrom', 'film') NOT NULL default 'cdrom',
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
