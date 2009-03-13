@@ -37,8 +37,6 @@ class JResearchAPAOnline_sourceCitationStyle extends JResearchAPACitationStyle{
 		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		$nAuthors = $publication->countAuthors();
 		$text = '';
-		
-		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDITORS'):JText::_('JRESEARCH_APA_EDITOR');
 
 		if($nAuthors > 0){
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
@@ -79,15 +77,15 @@ class JResearchAPAOnline_sourceCitationStyle extends JResearchAPACitationStyle{
 		}	
 		
 		if(!empty($type))
-			$text .= '['.$type.']';
+			$text .= ' ['.$type.']';
 		
 		$access_date = trim($publication->access_date);
 		$url = trim($publication->url);
 		if($html)
 			$url = "<a href=\"$url\">$url</a>";
 			
-		if(!empty($access_date))			
-			$retrievedText = JText::sprintf('JRESEARCH_RETRIEVED_WITH_ACCESS_DATE', date('F dS, Y', strtotime($access_date)), $url);
+		if(!empty($access_date) && $access_date != '0000-00-00 00:00:00')			
+			$retrievedText = JText::sprintf('JRESEARCH_RETRIEVED_WITH_ACCESS_DATE', date('F d, Y', strtotime($access_date)), $url);
 		else
 			$retrievedText = JText::sprintf('JRESEARCH_RETRIEVED_WITHOUT_ACCESS_DATE', $url);
 
