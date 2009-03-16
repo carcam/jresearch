@@ -472,7 +472,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_online_source` (
   `id_publication` int(10) unsigned NOT NULL,
   `month` varchar(20) default NULL,
   `day` varchar(2) default NULL,
-  `access_date` datetime default NULL,
+  `access_date` date default NULL,
   `extra` text default NULL,
   `source_type` enum('website', 'video', 'audio', 'image', 'blog') NOT NULL default 'website',
   PRIMARY KEY  (`id_publication`)
@@ -491,7 +491,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_digital_source` (
 DROP TABLE IF EXISTS `#__jresearch_earticle`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_earticle` (
   `id_publication` int(10) unsigned NOT NULL,
-  `access_date` datetime default NULL,
+  `access_date` date default NULL,
   `journal` varchar(255) NOT NULL,
   `volume` varchar(30) default NULL,
   `number` varchar(10) default NULL,

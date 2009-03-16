@@ -73,7 +73,7 @@ class JResearchMLAEarticleCitationStyle extends JResearchMLACitationStyle{
 		}
 		
 		$access_date = trim($publication->access_date);				
-		if(!empty($access_date) && $access_date != '0000-00-00 00:00:00'){			
+		if(!empty($access_date) && $access_date != '0000-00-00'){			
 			$retrievedText = date('d M Y', strtotime($access_date));
 			$text .= '. '.$retrievedText;				
 		}
@@ -85,7 +85,7 @@ class JResearchMLAEarticleCitationStyle extends JResearchMLACitationStyle{
 			else
 				$url = '<'.$url.'>';
 			
-			$text .= $url;
+			$text .= ' '.$url;
 		}
 			
 		return $text.'.';	

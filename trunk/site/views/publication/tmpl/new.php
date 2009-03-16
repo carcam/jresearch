@@ -16,7 +16,7 @@ if(JHTML::_('Jresearch.authorize','add', 'publications'))
 		<table class="adminform">
 			<tbody>
 			<tr>
-				<th style="width: 20%;"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></td>
+				<th style="width: 20%;"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
 				<td>
 					<?php echo $this->types; ?>
 				</td>
