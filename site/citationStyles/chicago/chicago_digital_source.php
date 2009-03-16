@@ -14,10 +14,10 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of Chicago citation style for article records.
+* Implementation of Chicago citation style for digital records.
 *
 */
-class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle{
+class JResearchChicagoDigital_sourceCitationStyle extends JResearchChicagoCitationStyle{
 		
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -48,41 +48,27 @@ class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle
 		else{
 			$titleCons = true;
 			$text .= $title;
-		}	
+		}
 		
-		$year = trim($publication->year);
-		$text = rtrim($text, '.');		
-		if(!empty($year) && $year != '0000')
-			$text .= '. '.$year;			
-
-		if(!$titleCons)	
+		if(!$titleCons)
 			$text .= '. '.$title;
 		
-		
-		$journal = trim($publication->journal);			 
-		if(!empty($journal)){
-			$journal = $html?'<i>'.trim($publication->journal).'</i>':trim($publication->journal);			
-			$text .= '. '.$journal;
+
+		switch($publication->source_type){
+			case 'cdrom':
+				$type = JText::_('JRESEARCH_CDROM');
+				break;
+			case 'film':
+				$type = JText::_('JRESEARCH_FILM');
+				break;					
 		}
+		$text .= '. '.$type;
 		
-		$volume = trim($publication->volume);
-		if(!empty($volume)){
-			$text .= ' '.$volume;	
-			$number = trim($publication->number);
-			if(!empty($number))
-				$text .= "($number)";
-		}
-				
-		$pages = str_replace('--', '-', $publication->pages);
-		if(!empty($pages))
-			$text .= ': '.$pages;		
-			
+		$address = $this->_getAddressText($publication);
+		if(!empty($address))
+			$text .= '. '.$address;
 		
 		return $text.'.';
 	}
-	
-
-
-
 }
 ?>

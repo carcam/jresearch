@@ -35,7 +35,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td style="width:35%;"><?php echo $number; ?></td>
 	<?php endif; ?>
 	<?php $access_date = trim($this->publication->access_date); ?>
-	<?php if(!empty($access_date)): ?>
+	<?php if(!empty($access_date) && $access_date != '0000-00-00'): ?>
 	<?php $colspan -= 2; ?>
 	<?php $accessArr = explode(' ', $access_date); ?>
 	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_ACCESS_DATE').': ' ?></td>

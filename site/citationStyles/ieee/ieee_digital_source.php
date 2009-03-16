@@ -14,10 +14,10 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of IEEE citation style for manual records.
+* Implementation of IEEE citation style for digital sources.
 *
 */
-class JResearchIEEEManualCitationStyle extends JResearchIEEECitationStyle{
+class JResearchIEEEDigital_sourceCitationStyle extends JResearchIEEECitationStyle{
 	
 		
 	/**
@@ -26,35 +26,46 @@ class JResearchIEEEManualCitationStyle extends JResearchIEEECitationStyle{
 	* 
 	* @param JResearchPublication $publication
 	* @param boolean $html Add html tags for formats like italics or bold
+	* @param boolean $authorPreviouslyCited If true
 	* 
 	* @return 	string
 	*/
-	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){				
+	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$nAuthors = $publication->countAuthors();
+		
+		$authorsText = '';
 		if($nAuthors > 0){
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$title = trim($publication->title);
-		$title = $html? "<i>$title</i>":$title;
-		
+		$title = trim($publication->title);	
+		$title = '"'.$title.'"';
+				
 		if(!empty($authorsText))
-			$header = "$authorsText. $title";
+			$header = rtrim($authorsText, '.').'. '.$title;
 		else
 			$header = $title;	
+
+		
+		switch($publication->source_type){
+			case 'cdrom':
+				$type = JText::_('JRESEARCH_CDROM');
+				break;
+			case 'film':
+				$type = JText::_('JRESEARCH_FILM');
+				break;
+		}	
+		
+		if(!empty($type))
+			$header .= '. ['.$type.']';
 					
-	
-		$organization = trim($publication->organization);
-		if(!empty($organization))
-			$header .= '. '.$organization;
-			
-		$address = trim($publication->address);
+		$address = $this->_getAddressText($publication);
 		if(!empty($address))
-			$header .= ". $address";			
-				
-		$year = trim($publication->year);	
-		if($year != null && $year != '0000')		
-			$header .= '. '.$year;	
+			$header .= '. '.$address;
+		
+		if($year != null && $year != '0000'){
+			$header .= '. '.$year;
+		}	
 		
 		return $header.'.';	
 

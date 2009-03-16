@@ -14,10 +14,10 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 
 
 /**
-* Implementation of IEEE citation style for article records.
+* Implementation of IEEE citation style for digital sources.
 *
 */
-class JResearchIEEEArticleCitationStyle extends JResearchIEEECitationStyle{
+class JResearchIEEEEarticleCitationStyle extends JResearchIEEECitationStyle{
 	
 		
 	/**
@@ -33,7 +33,6 @@ class JResearchIEEEArticleCitationStyle extends JResearchIEEECitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$nAuthors = $publication->countAuthors();
 	
-		
 		$authorsText = '';
 		if($nAuthors > 0){
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
@@ -70,9 +69,21 @@ class JResearchIEEEArticleCitationStyle extends JResearchIEEECitationStyle{
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages))
 			$header .= ', pp. '.$pages;	
+
+		$url = trim($publication->url);
+		if(!empty($url)){
+			$url = $html? "<a href=\"$url\">$url</a>":$url;
+			$available = JText::sprintf('JRESEARCH_AVAILABLE', $url);
+			$header .= '. '.$available;
+		}
+					
+		$access_date = trim($publication->access_date);
+		if(!empty($access_date) && $access_date != '0000-00-00'){			
+			$retrievedText = JText::sprintf('JRESEARCH_ACCESSED_WITH_COLON', date('F. d. Y', strtotime($access_date)));
+			$header .= ' ['.$retrievedText.']';
+		}
 		
-		
-		return $header.'.';	
+		return $header.'.';		
 
 	}
 

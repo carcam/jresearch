@@ -84,7 +84,7 @@ class JResearchAPAOnline_sourceCitationStyle extends JResearchAPACitationStyle{
 		if($html)
 			$url = "<a href=\"$url\">$url</a>";
 			
-		if(!empty($access_date) && $access_date != '0000-00-00 00:00:00')			
+		if(!empty($access_date) && $access_date != '0000-00-00')			
 			$retrievedText = JText::sprintf('JRESEARCH_RETRIEVED_WITH_ACCESS_DATE', date('F d, Y', strtotime($access_date)), $url);
 		else
 			$retrievedText = JText::sprintf('JRESEARCH_RETRIEVED_WITHOUT_ACCESS_DATE', $url);

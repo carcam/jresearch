@@ -3,21 +3,22 @@
 * @version		$Id$
 * @package		JResearch
 * @subpackage	Citation
-* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'chicago'.DS.'chicago.php');
+require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'cse'.DS.'cse.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
 
 
 /**
-* Implementation of Chicago citation style for article records.
+* Implementation of CSE citation style for digital sources.
 *
 */
-class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle{
+class JResearchCSEDigital_sourceCitationStyle extends JResearchCSECitationStyle{
+	
 		
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -33,56 +34,44 @@ class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_BIBTEXT_AUTHOR_SEP');
 		$nAuthors = $publication->countAuthors();
 		$text = '';
-		$titleCons = false;
 		
 		if($nAuthors <= 0){
-			$authorsText = '';
+			$authorsText = '['.JText::_('JRESEARCH_ANONYMOUS').']';
 		}else{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
+		
 
-		$title = trim($publication->title);
-		
-		if(!empty($authorsText))
-			$text .= $authorsText;
-		else{
-			$titleCons = true;
-			$text .= $title;
-		}	
-		
+		$text .= rtrim($authorsText, '.');
+
 		$year = trim($publication->year);
-		$text = rtrim($text, '.');		
-		if(!empty($year) && $year != '0000')
+		if(!empty($year) && $year != '0000'){		
 			$text .= '. '.$year;			
+			if($publication->__sameAuthorAsBefore){	
+				$text .= $publication->__previousLetter;
+			}
+		}
+		
+		$title = trim($publication->title);	
+		$text .= '. '.$title;
+		
+		switch($publication->source_type){
+			case 'cdrom':
+				$type = JText::_('JRESEARCH_CDROM');
+				break;
+			case 'film':
+				$type = JText::_('JRESEARCH_FILM');
+				break;	
+		}
+		$text .= ' ['.$type.']';
+		
+		$address = $this->_getAddressText($publication);
+		if(!empty($address))
+			$text .= '. '.$address;		
 
-		if(!$titleCons)	
-			$text .= '. '.$title;
-		
-		
-		$journal = trim($publication->journal);			 
-		if(!empty($journal)){
-			$journal = $html?'<i>'.trim($publication->journal).'</i>':trim($publication->journal);			
-			$text .= '. '.$journal;
-		}
-		
-		$volume = trim($publication->volume);
-		if(!empty($volume)){
-			$text .= ' '.$volume;	
-			$number = trim($publication->number);
-			if(!empty($number))
-				$text .= "($number)";
-		}
-				
-		$pages = str_replace('--', '-', $publication->pages);
-		if(!empty($pages))
-			$text .= ': '.$pages;		
 			
-		
 		return $text.'.';
 	}
-	
-
-
 
 }
 ?>

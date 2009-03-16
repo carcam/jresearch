@@ -17,7 +17,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 * Implementation of Chicago citation style for article records.
 *
 */
-class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle{
+class JResearchChicagoEarticleCitationStyle extends JResearchChicagoCitationStyle{
 		
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -77,12 +77,22 @@ class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle
 		if(!empty($pages))
 			$text .= ': '.$pages;		
 			
+		$url = trim($publication->url);
+		if(!empty($url)){
+			$url = $html? "<a href=\"$url\">$url</a>":$url;
+			$from = JText::_('JRESEARCH_FROM').': '.$url;
+			$text .= '. '.$from;
+		}
+					
+		$access_date = trim($publication->access_date);
+		if(!empty($access_date) && $access_date != '0000-00-00'){			
+			$retrievedText = JText::sprintf('JRESEARCH_ACCESSED', date('F d, Y', strtotime($access_date)));
+			$text .= ' ('.$retrievedText.')';
+		}			
+			
 		
 		return $text.'.';
 	}
-	
-
-
 
 }
 ?>

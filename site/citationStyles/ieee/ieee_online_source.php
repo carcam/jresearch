@@ -9,15 +9,16 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'vancouver'.DS.'vancouver.php');
+require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'ieee'.DS.'ieee.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
 
 
 /**
-* Implementation of Vancouver citation style for online sources.
+* Implementation of IEEE citation style for online sources.
 *
 */
-class JResearchVancouverOnline_sourceCitationStyle extends JResearchVancouverCitationStyle{
+class JResearchIEEEOnline_sourceCitationStyle extends JResearchIEEECitationStyle{
+	
 		
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
@@ -31,21 +32,35 @@ class JResearchVancouverOnline_sourceCitationStyle extends JResearchVancouverCit
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$nAuthors = $publication->countAuthors();
-		$text = '';
 		
-		if($nAuthors <= 0){
-			$authorsText = '';
-		}else{
+		$authorsText = '';
+		if($nAuthors > 0){
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
-		$text .= rtrim($authorsText, '.');		
 		
-		$title = $html?'<i>'.trim($publication->title).'</i>':trim($publication->title);	
-		if(!empty($text))
-			$text .= '. '.$title;
+		$title = trim($publication->title);	
+		$title = '"'.$title.'"';
+				
+		if(!empty($authorsText))
+			$header = rtrim($authorsText, '.').'. '.$title;
 		else
-			$text .= $title;
+			$header = $title;	
 
+		$year = trim($publication->year);
+		if($year!= null && $year != '0000'){
+			$date = '';
+			$month = trim($publication->month);
+			if(!empty($month)){
+				$month = JResearchPublicationsHelper::formatMonth($month, true);
+				$day = trim($publication->day);
+				if(!empty($day))
+					$date .= $day.'. ';
+				$date .= $month.'. ';
+			}
+			$date .= $year;	
+			$header .= ' '.$date;
+		}
+		
 		switch($publication->source_type){
 			case 'image':
 				$type = JText::_('JRESEARCH_IMAGE');
@@ -54,7 +69,7 @@ class JResearchVancouverOnline_sourceCitationStyle extends JResearchVancouverCit
 				$type = JText::_('JRESEARCH_VIDEO');
 				break;
 			case 'website': 
-				$type = '';
+				$type = JText::_('JRESEARCH_ONLINE');
 				break;
 			case 'blog':
 				$type = JText::_('JRESEARCH_WEBLOG');
@@ -64,26 +79,25 @@ class JResearchVancouverOnline_sourceCitationStyle extends JResearchVancouverCit
 		}	
 		
 		if(!empty($type))
-			$text .= '. '.$type;	
+			$header .= '. ['.$type.']';
 		
-		$text .= '. ['.JText::_('JRESEARCH_ONLINE').']';
-			
 		$url = trim($publication->url);
 		if(!empty($url)){
 			$url = $html? "<a href=\"$url\">$url</a>":$url;
-			$available = JText::sprintf('JRESEARCH_AVAILABLE_FROM', $url);
-			$text .= ' '.$available;
+			$available = JText::sprintf('JRESEARCH_AVAILABLE', $url);
+			$header .= '. '.$available;
 		}
-		
+					
 		$access_date = trim($publication->access_date);
 		if(!empty($access_date) && $access_date != '0000-00-00'){			
-			$retrievedText = JText::sprintf('JRESEARCH_ACCESSED', date('dS F Y', strtotime($access_date)));
-			$text .= ' ['.$retrievedText.']';		
-		}
+			$retrievedText = JText::sprintf('JRESEARCH_ACCESSED_WITH_COLON', date('F. d. Y', strtotime($access_date)));
+			$header .= ' ['.$retrievedText.']';
+		}		
 		
 		
-		return $text.'.';			
-	}
-}
+		return $header.'.';	
 
+	}
+
+}
 ?>
