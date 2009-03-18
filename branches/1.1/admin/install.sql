@@ -466,6 +466,7 @@ INSERT INTO `#__jresearch_property` (`name`) VALUES ('school');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('series');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('title');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('type');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('url');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('volume');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('year');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('keywords');
