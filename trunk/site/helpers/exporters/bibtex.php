@@ -27,6 +27,8 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 	*/	
 	private static $_supportedFields;
 	
+	private static $_bibtexTypes = array('article', 'book', 'booklet', 'conference', 'inbook', 'incollection', 'inproceedings', 'manual', 'mastersthesis', 'misc', 'phdthesis', 'proceedings', 'techreport', 'unpublished');
+	
 	/**
 	 * Parse the array of JResearchPublication objects into a bibtex text.
 	 *
@@ -62,9 +64,12 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 			$citekey = $publication->citekey;
 			$type = $publication->pubtype;
 
-			$output = '@'.$type. '{'.$citekey.','."\n";
+			if(in_array($type, JResearchPublicationBibtexExporter::$_bibtexTypes))
+				$output = '@'.$type. '{'.$citekey.','."\n";	
+			else
+				$output	= '@misc{'.$citekey.','."\n";
+						
 			$authors = $publication->getAuthors();
-
 			$authorsText = implode(" and ", JResearchPublicationsHelper::utf8ToBibCharsFromArray($authors));
 			$output .= "author = \"$authorsText\",\n";
 			$properties = JResearchPublicationBibtexExporter::getSupportedFields();
