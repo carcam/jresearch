@@ -16,11 +16,14 @@ class JResearchViewTeam extends JView
 	function display($tpl = null)
 	{	
 		$id = JRequest::getInt('id');
+		$itemId = JRequest::getVar('Itemid');
 		$layout =& $this->getLayout();
 		$doc =& JFactory::getDocument();
 		
 		// Get data from the model
 		$model = &$this->getModel();
+		$memberModel = &$this->getModel('Member');
+		
 		$item = $model->getItem($id);
 		
 		switch($layout)
@@ -28,15 +31,28 @@ class JResearchViewTeam extends JView
 			default:
 				break;
 		}
+		
+		$members = $item->getMembers();
+		
+		$links = array();
+		foreach($members as $member)
+		{
+			array_push($links, '<a href="index.php?option=com_jresearch&view=member&task=show&id='.$member->id.(isset($itemId)?'&Itemid='.$itemId:'').'" title="">'.$member.'</a>');
+		}
+		
 		$doc->addStyleDeclaration('
 		div.content div.tr
 		{
 			margin: 5px 0;
 		}
 		');
+		
 		$doc->setTitle(JText::_('JRESEARCH_TEAM').' - '.$item->name);
 
 		$this->assignRef('item', $item);
+		$this->assignRef('memberLinks', $links);
+		$this->assignRef('memberModel', $memberModel);
+		$this->assignRef('itemId', $itemId);
 
 		parent::display($tpl);
 	}

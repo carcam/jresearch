@@ -20,6 +20,7 @@ class JResearchTeamsController extends JController
 		//Load additionally language files
 		$lang = JFactory::getLanguage();
 		$lang->load('com_jresearch.teams');
+		$lang->load('com_jresearch.staff');
 		
 		// Task for edition of profile
 		$this->registerTask('show', 'show');
@@ -61,8 +62,11 @@ class JResearchTeamsController extends JController
 	public function show()
 	{
 		$model =& $this->getModel('Team', 'JResearchModel');
+		$memberModel =& $this->getModel('Member', 'JResearchModel');
+		
 		$view =& $this->getView('Team', 'html', 'JResearchView');
 		$view->setModel($model, true);
+		$view->setModel($memberModel);
 		$view->display();				
 	}
 }
