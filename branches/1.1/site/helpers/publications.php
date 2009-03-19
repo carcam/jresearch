@@ -370,6 +370,28 @@ class JResearchPublicationsHelper{
 
 		return rtrim($result);
 	}
+	
+	/**
+	 * Takes an array of authors (strings and JResearchMember objects) and 
+	 * format them for output as list separated by commas. 
+	 * @param array $authors
+	 * @return string
+	 */
+	public static function formatAuthorsArray($authors){
+    if(!class_exists('JResearchMember'))
+      require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+      
+    $text = '';
+    foreach($authors as $author){
+    if($author instanceof JResearchMember)
+        $text.= ' '.$author->__toString().',';
+    else
+        $text.= ' '.$author.',';
+    }
+    $text = rtrim($text, ',');
+    $text = self::bibCharsToUtf8FromString($text);  
+    return $text;
+	}
 
 	/**
 	 * Returns an array containing patterns that match single non-ascii 
