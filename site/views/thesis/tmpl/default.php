@@ -37,9 +37,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						<li style="list-style:none;">
 							<?php if($dir instanceof JResearchMember): ?>
 								<?php if($dir->published): ?>
-									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $dir->id ?>"><?php echo $dir; ?></a>
+									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $dir->id ?>"><?php echo $dir->__toString(); ?></a>
 								<?php else: ?>
-									<?php echo $dir; ?>
+									<?php echo $dir->__toString(); ?>
 								<?php endif; ?>	
 							<?php else: ?>
 									<?php echo $dir; ?>
