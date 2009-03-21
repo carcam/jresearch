@@ -146,6 +146,7 @@ class JResearchViewPublication extends JView
     	$this->assignRef('showComments', $showComments);
     	$this->assignRef('captcha', $captchaInformation);
 		$this->assignRef('user', $user);
+		$this->assignRef('params', $params);
 
     }
     
