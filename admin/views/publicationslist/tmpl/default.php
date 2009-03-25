@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
 					$authors = $this->items[$i]->getAuthors();
-          $text = JResearchPublicationsHelper::formatAuthorsArray($authors);
+          			$text = JResearchPublicationsHelper::formatAuthorsArray($authors);
 
 					// Links for exporting
 					$exportLinks = array();

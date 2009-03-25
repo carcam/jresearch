@@ -30,6 +30,10 @@ if(JHTML::_('Jresearch.authorize','add', 'publications'))
 		<input type="hidden" name="controller" value="publications" />
 		<input type="hidden" name="task" value="add" />
 		<input type="hidden" name="id" value="0" />
+		<?php $Itemid = JRequest::getVar('Itemid'); ?>
+		<?php if(isset($Itemid)): ?>
+			<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
+		<?php endif; ?>
 	</form>
 <?php
 }

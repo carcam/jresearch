@@ -16,6 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'importer.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'BibTex.php');
+require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
 
 class JResearchBibtexImporter extends JResearchPublicationImporter{
 	
@@ -45,11 +46,15 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 								$authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
 							else
 								$authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
-							$newPub->setAuthor($authorName, $j);
+							$newPub->setAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);
 							$j++;
 						}
 					}
-					$newPub->citekey = $data['cite'];
+					// Normalize the data, bibtex entities are not stored in database
+					$newPub->citekey = JResearchPublicationsHelper::bibCharsToUtf8FromString($data['cite']);
+					foreach($data as $key=>$info)
+						$data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
+
 					$newPub->bind($data);
 					$newPub->internal = false;
 					$newPub->published = true;

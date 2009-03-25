@@ -373,7 +373,7 @@ class JResearchPublicationsHelper{
 	
 	/**
 	 * Takes an array of authors (strings and JResearchMember objects) and 
-	 * format them for output as list separated by commas. 
+	 * format them for output as a list separated by commas. 
 	 * @param array $authors
 	 * @return string
 	 */
@@ -389,7 +389,6 @@ class JResearchPublicationsHelper{
         $text.= ' '.$author.',';
     }
     $text = rtrim($text, ',');
-    $text = self::bibCharsToUtf8FromString($text);  
     return $text;
 	}
 
