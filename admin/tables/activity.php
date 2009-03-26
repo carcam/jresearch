@@ -323,7 +323,28 @@ class JResearchActivity extends JTable{
 		}
 		
 		return true;
-	} 
+	}
+
+	/**
+	* Removes related information related to an activity (not the activity per se as it is done
+	* in the child classes) from database. 
+	* 
+	* @param $oid Publication id
+	* @return true if success.
+	*/	
+	function delete($oid){
+		$db = JFactory::getDBO();
+		
+		$internalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_internal_author');
+		$externalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_external_author');
+		$db->setQuery('DELETE FROM '.$internalTable.' WHERE '.$db->nameQuote('id_'.$this->_type).' = '.$db->Quote($oid));		
+		$db->query();
+		$db->setQuery('DELETE FROM '.$externalTable.' WHERE '.$db->nameQuote('id_'.$this->_type).' = '.$db->Quote($oid));		
+		$db->query();
+		
+		return parent::delete($oid);
+		
+	}
 }
 
 ?>
