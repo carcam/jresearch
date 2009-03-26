@@ -6,26 +6,17 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); 
-?>
+defined('_JEXEC') or die('Restricted access'); ?>
 <h1 class="componentheading"><?php echo $this->project->title; ?></h1>
-<?php if($this->showHits): ?>
-<div class="small"><?php echo JText::_('Hits').': '.$this->project->hits; ?></div>
-<?php endif; ?>
 <table cellspacing="2" cellpadding="2">
 <tbody>
 	<tr>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
 		<td style="width:35%;"><?php echo $this->area->name; ?></td>
-	   	<?php
-	   	if(empty($this->project->url_project_image)): 
-	   	?>
+	   	<?php if(empty($this->project->url_project_image)): ?>
     		<td colspan="2"></td>
-       	<?php 
-       	else: 
-       		$url = JResearch::getUrlByRelative($this->project->url_project_image);
-       	?>		
-    		<td colspan="2"><img src="<?php echo $url; ?>" border="0" alt="<?php echo $this->project->title; ?>" /></td>
+       	<?php else: ?>		
+    		<td colspan="2"><img src="<?php echo $this->project->url_project_image; ?>" border="0" alt="<?php echo $this->project->title; ?>" /></td>
     	<?php endif; ?>	
 	</tr>
 	<tr>
@@ -54,9 +45,9 @@ defined('_JEXEC') or die('Restricted access');
 						<?php foreach($authors as $auth): ?>
 								<?php if($auth instanceof JResearchMember): ?>
 									<?php if($auth->published): ?>
-										<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a><?php echo $i == $n - 1?'':',' ?>
+										<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
 									<?php else: ?>
-										<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+										<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 									<?php endif; ?>	
 								<?php else: ?>
 										<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
@@ -132,30 +123,6 @@ defined('_JEXEC') or die('Restricted access');
 		</tr>	
 	<?php endif; ?>
 	
-	<?php 
-	$coops = $this->project->getCooperations();
-	
-	if(!empty($coops)):
-	?>
-	<tr>
-		<th class="field"><?php echo JText::_('JRESEARCH_COOPERATION_WITH'); ?></th>
-		<td colspan="3">
-			<ul>
-				<?php
-				foreach($coops as $coop):
-				?>
-					<li>
-						<?php echo $coop->name; ?>
-					</li>
-				<?php
-				endforeach;
-				?>
-			</ul>
-		</td>
-	</tr>
-	<?php
-	endif;
-	?>
 	<tr>
 		<?php $startDate = trim($this->project->start_date); ?>
 		<?php $colspan = 4; ?>
@@ -173,18 +140,8 @@ defined('_JEXEC') or die('Restricted access');
 		<?php endif; ?>	
 	</tr>
 	<?php $url = trim($this->project->url_project_page); ?>
-	<?php if(!empty($url)): ?>
-		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span></td></tr>
-	<?php endif; ?>	
-	<?php $n = $this->project->countAttachments(); ?>
-	<?php if($n > 0): ?>
-		<tr><td class="publicationlabel"><?php echo JText::_('JRESEARCH_FILES').': ' ?></td><td colspan="3"><ul style="list-style:none;">
-		<?php for($i=0; $i<$n; $i++): ?>
-			<?php $attach = $this->project->getAttachment($i, 'projects'); ?>
-			<?php echo !empty($attach)?'<li>'.JHTML::_('JResearch.attachment', $attach).'<li>':''; ?>
-		<?php endfor; ?>
-		</ul>
-		</td></tr>
+	<? if(!empty($url)) : ?>
+		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span>
 	<?php endif; ?>	
 	<?php $description = trim($this->project->description); ?>
 	<?php if(!empty($description)): ?>

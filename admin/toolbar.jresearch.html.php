@@ -232,6 +232,23 @@ class JResearchToolbar
 		JToolBarHelper::title($title);
 		self::editItemAdminToolbar();
 	}
+	
+	/**
+	* Renders the toolbar displayed when creating/editing a mdm.
+	*/
+	public static function editMdmAdminToolbar()
+	{
+		$cid = JRequest::getVar('cid');
+		
+		if($cid)
+			$title = JText::_('JRESEARCH_EDIT_MDM');
+		else
+			$title = JText::_('JRESEARCH_NEW_MDM');	
+
+		JToolBarHelper::title($title);
+		
+		self::editItemAdminToolbar();
+	}
 
 	/**
 	 * Renders the toolbar shown with the administrative list of theses.
@@ -309,7 +326,6 @@ class JResearchToolbar
 		JToolBarHelper::title(JText::_('JRESEARCH_COOPERATIONS'));
 		
 		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		
 		JToolBarHelper::divider();
 		self::adminListToolbar();
 	}

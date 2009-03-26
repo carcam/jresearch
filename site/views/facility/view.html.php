@@ -25,15 +25,17 @@ class JResearchViewFacility extends JView
     function display($tpl = null)
     {
         $layout = &$this->getLayout();
+        $result = true;
         
         switch($layout)
         {
         	case 'default':
-        		$this->_displayFacility();
+        		$result = $this->_displayFacility();
         		break;
         }
 	
-        parent::display($tpl);
+        if($result)
+	        parent::display($tpl);
     }
     
     /**
@@ -48,7 +50,7 @@ class JResearchViewFacility extends JView
    		if(empty($id))
    		{
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		return;
+    		return false;
     	}
     	
     	//Get the model
@@ -57,8 +59,8 @@ class JResearchViewFacility extends JView
     	
 		if(!$fac->published)
 		{
-			JError::raiseWarning(1, JText::_('JRESEARCH_PROJECT_NOT_FOUND'));
-			return;
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+			return false;
 		}		    	
 		
     	$areaModel = &$this->getModel('researcharea');
@@ -69,6 +71,8 @@ class JResearchViewFacility extends JView
     	// Bind variables for layout
     	$this->assignRef('fac', $fac);
     	$this->assignRef('area', $area);
+
+    	return true;
     }
 }
 

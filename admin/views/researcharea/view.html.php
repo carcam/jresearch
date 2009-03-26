@@ -24,8 +24,8 @@ class JResearchAdminViewResearchArea extends JView
     {
     	global $mainframe;
       	JResearchToolbar::editResearchAreaAdminToolbar();
-		
-		JHTML::_('JResearch.validation');
+      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		JHTML::_('Validator._');
         JRequest::setVar( 'hidemainmenu', 1 );
         
     	// Information about the member
@@ -34,14 +34,21 @@ class JResearchAdminViewResearchArea extends JView
     	$model =& $this->getModel();
     	$arguments = array('researcharea');
     	
+		//Published options
+    	$publishedOptions = array();
+    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
+    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
+
+    	
     	if($cid){
         	$area = $model->getItem($cid[0]);
-        	$arguments[] = $area->id; 	
+        	$arguments[] = $area->id;
+    	    $publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $area->published);   	
     	}else{
-    		$arguments[] = null;	
+    		$arguments[] = null;
+    	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);   		
     	}
     	
-    	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $area?$area->published:1));
     	
     	$this->assignRef('area', $area);
     	$this->assignRef('publishedRadio', $publishedRadio);

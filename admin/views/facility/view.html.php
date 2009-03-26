@@ -26,8 +26,8 @@ class JResearchAdminViewFacility extends JView
     {
     	global $mainframe;
       	JResearchToolbar::editFacilityAdminToolbar();
-      	
-		JHTML::_('JResearch.validation');      	
+      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		JHTML::_('Validator._');      	
     	JRequest::setVar( 'hidemainmenu', 1 );
     	
     	// Information about the member
@@ -35,26 +35,48 @@ class JResearchAdminViewFacility extends JView
     	$editor =& JFactory::getEditor();
     	
     	$model =& $this->getModel();
+    	$areaModel =& $this->getModel('researchareaslist');   	
+    	$researchAreas = $areaModel->getData(null, true, false);
 
     	$arguments = array('facility');
- 
+    	
+		//Published options
+    	$publishedOptions = array();
+    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
+    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
+    	
+		//Research areas 
+		$researchAreasOptions = array();
+    	foreach($researchAreas as $r)
+    	{
+    		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
+    	}
     	
     	if($cid)
     	{
         	$fac = $model->getItem($cid[0]);
         	$arguments[] = $fac->id;
+    	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $fac->published);   	
+    	  	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $fac->id_research_area);
     	}
     	else
     	{
     		$arguments[] = null;
+    	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);   		
+    	 	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox"" size="5"', 'value', 'text', 1); 
     	}
-
-    	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $fac?$fac->published:1));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="5"', 'selected' => $fac?$fac->id_research_area:1));
     	
+    	//Order options
+    	$orderOptions = array();
+    	
+    	/*
+    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_facilities ORDER by ordering ASC');
+    	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $fac->ordering);*/
+
     	$this->assignRef('fac', $fac);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
+    	//$this->assignRef('orderList', $orderList);
 		$this->assignRef('editor', $editor);    
     	
 		// Load cited records

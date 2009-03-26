@@ -42,7 +42,7 @@ class JResearchAdminViewTeams extends JView
     	global $mainframe;
     	
     	//Toolbar
-    	JResearchToolbar::teamsAdminListToolbar();
+    	//JResearchToolbar::staffAdminListToolbar();
     	
     	//Get the model
     	$model =& $this->getModel();

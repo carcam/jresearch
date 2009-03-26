@@ -66,12 +66,11 @@ class JResearchChicagoArticleCitationStyle extends JResearchChicagoCitationStyle
 		}
 		
 		$volume = trim($publication->volume);
-		if(!empty($volume)){
+		if(!empty($volume))
 			$text .= ' '.$volume;	
-			$number = trim($publication->number);
-			if(!empty($number))
-				$text .= "($number)";
-		}
+		
+		$number = trim($publication->number);
+			$text .= "($number)";
 				
 		$pages = str_replace('--', '-', $publication->pages);
 		if(!empty($pages))

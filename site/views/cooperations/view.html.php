@@ -19,15 +19,13 @@ class JResearchViewCooperations extends JView
 		
 		$doc = JFactory::getDocument();
 		// Get data from the model
-		$model 	= 	&$this->getModel();
-		$items 	= 	$model->getData(null, true, true);
-		$cats 	= 	$model->getCategories();
-		$params = 	$mainframe->getParams();
+		$model = &$this->getModel();
+		$items = $model->getData(null, true, true);
+		$params = $mainframe->getParams();
 		
 		$doc->setTitle(JText::_('JRESEARCH_COOPERATIONS'));
 		$this->assignRef('params', $params);
 		$this->assignRef('items', $items);
-		$this->assignRef('cats', $cats);
 		$this->assignRef('page', $model->getPagination());	
 
 		parent::display($tpl);

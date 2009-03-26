@@ -24,19 +24,21 @@ class JResearchViewPublication extends JView
     function display($tpl = null)
     {
         $layout = &$this->getLayout();
+        $result = true;
+
         switch($layout){
         	case 'default':
-        		$this->_displayPublication();
+        		$result = $this->_displayPublication();
         		break;
         	case 'new':
-        		$this->_displayNewPublicationForm();
+        		$result = $this->_displayNewPublicationForm();
         		break;
         	case 'edit':
-        		$this->_editPublication();
+        		$result = $this->_editPublication();
         		break;
         }
-	
-        parent::display($tpl);
+		if($result)
+        	parent::display($tpl);
     }
     
     /**
@@ -51,32 +53,24 @@ class JResearchViewPublication extends JView
     	$commentsAllowed = false;
    		$showComments = JRequest::getInt('showcomm', 0);
    		$doc =& JFactory::getDocument();
-   		//Verify if the visit is done in the same session
-		$session = JFactory::getSession();
    		
       	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');   		
-   		JHTML::_('JResearch.validation');   
+   		JHTML::_('Validator._');   
    		$config = array('filePath'=>JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publication'.DS.'captcha');   			
    		$doc->addScript(JURI::base().'components/com_jresearch/views/publication/comments.js');
    		
     	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		return;
+    		return false;
     	}
     	//Get the model
     	$model =& $this->getModel();
     	$publication = $model->getItem($id);
     	
 		if(!$publication->internal || !$publication->published){
-			JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));
-			return;
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+			return false;
 		}		    	
-		
-		//If the publication was visited in the same session, do not increment the hit counter
-		if(!$session->get('visited', false, 'publications'.$id)){
-			$session->set('visited', true, 'publications'.$id);
-			$publication->hit();
-		}
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($publication->id_research_area);
@@ -133,27 +127,23 @@ class JResearchViewPublication extends JView
 			$this->assignRef('reference', $crossrefData);	
 		}
 		
-		$showHits = ($params->get('show_hits') == 'yes');
-		
-		
 		$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
     	$this->assignRef('publication', $publication);
-    	$this->assignRef('showHits', $showHits);
     	$this->assignRef('area', $area);
     	$this->assignRef('commentsAllowed', $commentsAllowed);
     	$this->assignRef('showComments', $showComments);
     	$this->assignRef('captcha', $captchaInformation);
 		$this->assignRef('user', $user);
-		$this->assignRef('params', $params);
+		
+		return true;
 
     }
     
     private function _editPublication()
     {
-    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-    	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+    	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 		JHTML::_('Validator._');		
 		$user =& JFactory::getUser();
@@ -210,7 +200,7 @@ class JResearchViewPublication extends JView
 			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', $publication->internal  );
 			$authors = $publication->getAuthors();
 			
-			$authorsControl = JHTML::_('JResearch.authorsSelector', 'authors' ,$authors);
+			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' ,$authors);
 			
 			$this->assignRef('publication', $publication);	
 		}
@@ -222,15 +212,8 @@ class JResearchViewPublication extends JView
 			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 0);
 			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', 0);
 			
-			$authorsControl = JHTML::_('JResearch.authorsSelector', 'authors' , array());
+			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' , array());
 		}
-		$params = JComponentHelper::getParams('com_jresearch');
-		if(!empty($publication->files))
-			$uploadedFiles = explode(';', trim($publication->files));
-		else
-			$uploadedFiles = array();	
-		$files = JHTML::_('JResearch.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
-		
 		
 		$this->assignRef('user', $user);
 		$this->assignRef('pubtype', $pubtype);
@@ -238,7 +221,8 @@ class JResearchViewPublication extends JView
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('authors', $authorsControl);
-		$this->assignRef('files', $files);
+
+		return true;
     }
     
 	/**
@@ -246,8 +230,7 @@ class JResearchViewPublication extends JView
 	* for a new publication.
 	*/
 	private function _displayNewPublicationForm(){
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-		JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+		JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 		$subtypes = JResearchPublication::getPublicationsSubtypes();
 		$typesOptions = array();
 		
@@ -260,6 +243,7 @@ class JResearchViewPublication extends JView
 		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
 		
 		$this->assignRef('types', $typesList);
+		return true;
 	}
 }
 

@@ -55,7 +55,6 @@ class JResearchAdminViewStaff extends JView
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('stafffilter_order_Dir', 'filter_order_Dir', 'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('stafffilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('stafffilter_search', 'filter_search');
-    	$filter_former = $mainframe->getUserStateFromRequest('stafffilter_former', 'filter_former');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
@@ -64,12 +63,6 @@ class JResearchAdminViewStaff extends JView
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
     	
-		//Former member filter
-		$formerHTML[] = JHTML::_('select.option', '0', JText::_('- Former Member -'));
-		$formerHTML[] = JHTML::_('select.option', '-1', JText::_('No'));
-		$formerHTML[] = JHTML::_('select.option', '1', JText::_('Yes'));
-		$lists['former'] = JHTML::_('select.genericlist', $formerHTML, 'filter_former', 'class="inputbox" size="1" '.$js, 'value','text', $filter_former);
-		
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'ordering');
     	
@@ -89,14 +82,14 @@ class JResearchAdminViewStaff extends JView
     	global $mainframe;
     	
     	JRequest::setVar( 'hidemainmenu', 1 );
-    	
+    	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
     	JResearchToolbar::addMemberToolBar();
     	
     	$doc =& JFactory::getDocument();
     	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
     	$doc->addScript($url.'components/com_jresearch/helpers/html/staffimporter.js');
     	
-    	$control = JHTML::_('JResearch.staffImporter', 'importedMembers');
+    	$control = JHTML::_('StaffImporter._', 'importedMembers');
     	
     	$this->assignRef('control', $control);
     	

@@ -129,7 +129,6 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* @return 	array
 	*/
 	public function getData($memberId = null, $onlyPublished = false, $paginate = false){
-	
 		if($memberId !== $this->_memberId || $onlyPublished !== $this->_onlyPublished || $this->_paginate !== $this->_paginate || empty($this->_items)){
 			$this->_memberId = $memberId;
 			$this->_onlyPublished = $onlyPublished;
@@ -137,7 +136,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$this->_items = array();
 			
 			$db = &JFactory::getDBO();
-			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
+			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate, $teamId);			
 			$db->setQuery($query);
 			$ids = $db->loadResultArray();
 			$this->_items = array();
@@ -148,6 +147,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			if($paginate)
 				$this->updatePagination();
 		}			
+
 		return $this->_items;
 
 	}
@@ -169,7 +169,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
 			$filter_order_Dir = 'ASC';	
-		//if order column is unknown, use the default
+
 		if($filter_order == 'type')
 			$filter_order = $db->nameQuote('pubtype');
 		elseif($filter_order == 'alphabetical' || !in_array($filter_order, $orders))	

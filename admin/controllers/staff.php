@@ -9,9 +9,6 @@
 * of staff members in the backend interface.
 */
 
-define('_MEMBER_IMAGE_MAX_WIDTH_', 400);
-define('_MEMBER_IMAGE_MAX_HEIGHT_', 400);
-
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 /**
@@ -215,8 +212,8 @@ class JResearchAdminStaffController extends JController
 								$fileArr, 			//Uploaded File array
 								'assets'.DS.'members'.DS, //Relative path from administrator folder of the component
 								($delete == 'on')?true:false,	//Delete?
-								 _MEMBER_IMAGE_MAX_WIDTH_, //Max Width
-								 _MEMBER_IMAGE_MAX_HEIGHT_ //Max Height
+								 _PROJECT_IMAGE_MAX_WIDTH_, //Max Width
+								 _PROJECT_IMAGE_MAX_HEIGHT_ //Max Height
 		);
 		
 		if($member->check()){		

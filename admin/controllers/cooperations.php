@@ -54,6 +54,8 @@ class JResearchAdminCooperationsController extends JController
 	 */
 	function display()
 	{
+		JResearchToolbar::cooperationsAdminListToolbar();
+
 		$view = &$this->getView('Cooperations', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Cooperations', 'JResearchModel');
 		
@@ -63,6 +65,7 @@ class JResearchAdminCooperationsController extends JController
 
 	function edit()
 	{
+		JResearchToolbar::editCooperationAdminToolbar();
 		$cid = JRequest::getVar('cid', array());
 
 		$view = &$this->getView('Cooperation', 'html', 'JResearchAdminView');

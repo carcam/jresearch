@@ -14,16 +14,8 @@ table.adminlist td{
 	background-color:#FFFFFF;
 }
 
-.adminform {
-	background-color:#F9F9F9;
-	border:1px solid #D5D5D5;
-	border-collapse:collapse;
-	margin:8px 0 15px;
-	width:100%;
-}
 
-/* NEW TABLE DEFINITIONS */
-table.edit {
+table.editpublication, table.editcooperation{
 	border: 1px solid rgb(213, 213, 213); 
 	background-color: rgb(249, 249, 249); 
 	width: 50%;
@@ -32,25 +24,19 @@ table.edit {
 	
 }
 
-table thead th, table tbody th.title, table tfoot th.title {
+table.editpublication th, table.editcooperation th{
 	background-color: rgb(102, 102, 102); 
 	width: 100%;
 	color: white; 
-	text-align: center;
 	font-weight: bold;
 	font-size: 12px;
 }
 
-table tbody th {
+table.editpublication td,  table.editcooperation td{
 	font-weight: bold;
-	text-align: left;
 }
 
-table td.center {
-	text-align: center;	
-}
 
-/* OTHER */
 .information{
 	font-weight: normal;
 	font-size: 10px;

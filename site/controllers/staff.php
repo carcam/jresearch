@@ -113,28 +113,50 @@ class JResearchStaffController extends JController
 		$task = JRequest::getVar('task');
 		
 		$db =& JFactory::getDBO();
+		$photosFolder = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'members';
+		if($mainframe->isAdmin())
+			$photosUrl = JURI::base().'components/com_jresearch/assets/members/';
+		else
+			$photosUrl = JURI::base().'administrator/components/com_jresearch/assets/members/';
 		
 		$member = new JResearchMember($db);
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');
+		$fileArray = JRequest::getVar('inputfile', null, 'FILES');
+		$uploadedFile = $fileArray['tmp_name'];		
+		$delete = JRequest::getVar('delete');
+			
+		if($delete == 'on')
+			$member->url_photo = '';
+		
+		if($fileArray != null && $uploadedFile != null){								
+			$newName = $photosFolder.DS.basename($uploadedFile);
+			list($width, $height, $type, $attr) = getimagesize($uploadedFile);			
+
+			if($fileArray['type'] != 'image/gif' && $fileArray['type'] != 'image/png' && $fileArray['type']	!= 'image/jpg' && $fileArray['type'] != 'image/jpeg')
+				JError::raiseWarning(1, JText::_('Image format not supported. Please provide images with extension jpg, gif, png'));
+			elseif($width > 400 || $height > 400){
+				JError::raiseWarning(1, JText::_('The image exceeds maximum size allowed (400x400)'));
+			}else{
+				// Get extension 
+				$extArray = explode('/', $fileArray['type']);				
+				$extension = $extArray[1];
+				$newName = $newName.'.'.$extension;
+				if(!move_uploaded_file($uploadedFile, $newName ))
+					JError::raiseWarning(1, JText::_('The photo could not be imported into JResearch space.'));
+				else{
+					if($member->url_photo)
+						@unlink($member->url_photo);
+					$member->url_photo = $photosUrl.basename($newName);
+				}
+			}		
+		}
 		
 		$member->bind($post);	
 		$member->firstname = trim($member->firstname);
 		$member->lastname = trim($member->lastname);
 		$member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		
-		//Image upload
-		$fileArray = JRequest::getVar('inputfile', null, 'FILES');
-		$delete = JRequest::getVar('delete');
-			
-		JResearch::uploadImage(	$member->url_photo, 	//Image string to save
-								$fileArray, 			//Uploaded File array
-								'assets'.DS.'members'.DS, //Relative path from administrator folder of the component
-								($delete == 'on')?true:false,	//Delete?
-								 _MEMBER_IMAGE_MAX_WIDTH_, //Max Width
-								 _MEMBER_IMAGE_MAX_HEIGHT_ //Max Height
-		);
 
 		$itemText = '';
 		if($itemId != null)

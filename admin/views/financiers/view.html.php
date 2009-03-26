@@ -25,7 +25,6 @@ class JResearchAdminViewFinanciers extends JView
     {
 		global $mainframe;	
 		JResearchToolbar::financiersAdminListToolbar();
-		
 		$model = &$this->getModel();
 		$items = $model->getData(null, false, true);
 		   

@@ -7,7 +7,6 @@
 	<reference type="content">
 		<table name="jresearch_techreport">
 			<field type="referenceid" name="id_publication" translate="0">ID</field>
-			<field type="titletext" name="id_publication" translate="0">ID</field>
 			<field type="text" name="month" translate="0">Month</field>
 			<field type="text" name="type" translate="1">Type</field>
 			<field type="text" name="number" translate="0">Number</field>
@@ -15,7 +14,4 @@
 			<field type="textarea" name="institution" translate="1">Institution</field>
 		</table>
 	</reference>
-	<translationfilters>
-		<publication>id_publication</publication>
-	</translationfilters>
 </joomfish>

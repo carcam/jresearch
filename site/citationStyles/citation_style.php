@@ -10,6 +10,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('phputf8.native.case');
+jimport('phputf8.native.strlen');
 jimport('phputf8.ucfirst');
 
 /**

@@ -57,7 +57,6 @@ class JResearchViewPublicationsList extends JView
      */
     private function _displayTabularList(){
     	global $mainframe;    	
-    	
     	$doc = JFactory::getDocument();
     	$doc->addStyleDeclaration(".title{text-align:center;}");
     	
@@ -65,14 +64,14 @@ class JResearchViewPublicationsList extends JView
     	$model = $this->getModel();
     	$teamsModel = $this->getModel('teams');
     	$areasModel = $this->getModel('researchareaslist');
-    	$lists = array();    	
+    	$lists = array();
 
     	$items = $model->getData(null, true, true);
     	$page = $model->getPagination();
-    	$params = $mainframe->getParams('com_jresearch'); 
+    	$params = $mainframe->getPageParameters('com_jresearch'); 
     	$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
-		$field = $params->get('field_for_average');    	
-    	
+    	$field = $params->get('field_for_average');    	
+
     	if($params->get('filter_teams') == 'yes'){
 	    	$filter_team = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_team', 'filter_team');    		
     		$teams = $teamsModel->getData();
@@ -121,14 +120,14 @@ class JResearchViewPublicationsList extends JView
 			$filter_pubtype = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_pubtype', 'filter_pubtype');    		
 			$types = JResearchPublication::getPublicationsSubtypes();
 			$typesHTML = array();
-			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
+			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_TYPE'));
 			foreach($types as $type){
 				$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
 			}
 			$lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
     	}
     	
-        if($params->get('filter_search') == 'yes'){
+    	if($params->get('filter_search') == 'yes'){
     		$filter_search = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_search', 'filter_search');
      		$lists['search'].= JText::_('Filter').': <input type="text" name="filter_search" id="filter_search" value="'.$filter_search.'" class="text_area" onchange="document.adminForm.submit();" />
 								<button onclick="document.adminForm.submit();">'.JText::_('Go').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
@@ -145,13 +144,13 @@ class JResearchViewPublicationsList extends JView
 			}
 			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
     	}
-    	
+
     	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
-    
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $page);
     	$this->assignRef('lists', $lists);
     	$this->assignRef('punctuationField', $field);
+    	
     }
     
     /**

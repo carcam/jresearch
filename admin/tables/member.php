@@ -83,13 +83,6 @@ class JResearchMember extends JTable{
 	public $position;	
 	
 	/**
-	* Member's location
-	* 
-	* @var string
-	*/
-	public $location;
-	
-	/**
 	 * Published status
 	 *
 	 * @var boolean

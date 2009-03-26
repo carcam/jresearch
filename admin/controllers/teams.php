@@ -55,6 +55,8 @@ class JResearchAdminTeamsController extends JController
 	 */
 	function display()
 	{
+		JResearchToolbar::teamsAdminListToolbar();
+		
 		$view = &$this->getView('Teams', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Teams', 'JResearchModel');
 		
@@ -69,6 +71,8 @@ class JResearchAdminTeamsController extends JController
 	*/	
 	function edit()
 	{
+		JResearchToolbar::editTeamAdminToolbar();
+		
 		$cid = JRequest::getVar('cid', array());
 		
 		$view = &$this->getView('Team', 'html', 'JResearchAdminView');

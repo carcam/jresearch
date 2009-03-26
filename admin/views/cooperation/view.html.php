@@ -24,9 +24,8 @@ class JResearchAdminViewCooperation extends JView
 	{
     	global $mainframe;
       	
-    	JResearchToolbar::editCooperationAdminToolbar();
-    	
-		JHTML::_('JResearch.validation');
+      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		JHTML::_('Validator._');
     	JRequest::setVar( 'hidemainmenu', 1 );
 
     	// Information about the member
@@ -35,19 +34,20 @@ class JResearchAdminViewCooperation extends JView
     	$coop = $model->getItem($cid[0]);
     	$arguments = array('coop', $coop->id);
     	
-		$publishedList = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $coop?$coop->published:1));
+		//Published options
+    	$publishedOptions = array();
+    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
+    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
+    	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $coop->published);
 
     	$orderOptions = array();
-    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations WHERE catid='.($coop->catid?$coop->catid:0).' ORDER by ordering ASC');
+    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations ORDER by ordering ASC');
     	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $coop->ordering);
     	
-    	$categoryList = JHTML::_('list.category', 'catid', 'com_jresearch_cooperations', $coop->catid);
-    	
-		$editor =& JFactory::getEditor();
+		$editor =& JFactory::getEditor();    	
     	
     	$this->assignRef('coop', $coop);
-    	$this->assignRef('categoryList', $categoryList);
-    	$this->assignRef('publishedList', $publishedList);
+    	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('orderList', $orderList);
 		$this->assignRef('editor', $editor);    	
     	

@@ -55,7 +55,8 @@ class JResearchVancouverArticleCitationStyle extends JResearchVancouverCitationS
 			$text .= '. '.$year;
 			$month = trim($publication->month);
 			if(!empty($month)){
-				$month = JResearchPublicationsHelper::formatMonth($month, true);
+				if(strlen($month) > 3)
+					$month = substr($month, 0, 3);
 				$text .= ' '.$month;					
 			}			
 			

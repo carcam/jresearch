@@ -8,7 +8,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
+
 ?>
+
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<div style="text-align:left">
@@ -49,16 +51,21 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 		<?php 
 			$n = count($this->items);
 			for($i=0; $i<$n; $i++){
-					$authors = implode(' ; ', JResearchPublicationsHelper::bibCharsToUtf8FromArray($this->items[$i]->getAuthors()));
+          $authors = $this->items[$i]->getAuthors();
+          $text = JResearchPublicationsHelper::formatAuthorsArray($authors);
 		?>
 			
 				<?php $Itemid = JRequest::getVar('Itemid'); ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td width="3%"><?php echo $i; ?></td>
 					<td width="40%"><a href="index.php?option=com_jresearch&controller=publications&task=show&id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
-					<td width="35%" align="center"><?php echo $authors; ?></td>
+					<td width="35%" align="center"><?php echo $text; ?></td>
 					<td width="10%" align="center"><?php echo $this->items[$i]->year; ?></td>
-					<td width="10%" align="center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
+					<?php if($this->punctuationField == 'journal_acceptance_rate'): ?>
+						<td width="10%" align="center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
+					<?php else: ?>
+						<td width="10%" align="center"><?php echo !empty($this->items[$i]->impact_factor)?$this->items[$i]->impact_factor:'--'; ?></td>					
+					<?php endif; ?>	
 					<td width="2%"><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
 				</tr>
 			<?php } ?>

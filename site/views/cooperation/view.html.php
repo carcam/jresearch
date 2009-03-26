@@ -18,10 +18,23 @@ class JResearchViewCooperation extends JView
 		$id = JRequest::getInt('id');
 		$layout =& $this->getLayout();
 		$doc = JFactory::getDocument();
+		$result = true;
+		
+	   	if(empty($id)){
+    		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+    		return;
+    	}
 		
 		// Get data from the model
 		$model = &$this->getModel();
 		$item = $model->getItem($id);
+
+		if(empty($item)){
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+			return;			
+		}
+		
+		
 		
 		$editor =& JFactory::getEditor();
 		switch($layout)
@@ -36,6 +49,7 @@ class JResearchViewCooperation extends JView
 		$doc->setTitle(JText::_('JRESEARCH_COOPERATION').' - '.$item->name);
 		$this->assignRef('coop', $item);
 		$this->assignRef('editor', $editor);
+
 
 		parent::display($tpl);
 	}
@@ -57,6 +71,7 @@ class JResearchViewCooperation extends JView
     	
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('orderList', $orderList);
+
 	}
 }
 ?>
