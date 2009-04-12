@@ -261,7 +261,20 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$db = JFactory::getDBO();
 		$query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_publication_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
 		$db->setQuery($query);
-		return $db->loadAssocList();
+		$result =  $db->loadAssocList();
+		$mdresult = array();
+		$name = array();
+		// First, bring them to the form lastname, firstname.
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
+		foreach($result as $key => $author){
+			$components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
+			$value = ($components['von']?$components['von'].' ':'').$components['lastname'].', '.$components['firstname'].($components['jr']?' '.$components['jr']:'');
+			$mdresult[] = array('id'=>$value, 'name'=>$value);
+			$name[$key] = $value;
+			
+		}
+		array_multisort(&$name, SORT_ASC, $mdresult);
+		return $mdresult;
 	}
 
 	/**

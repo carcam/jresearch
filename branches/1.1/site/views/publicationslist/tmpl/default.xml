@@ -22,6 +22,7 @@
 				<option value="manual">JRESEARCH_MANUAL</option>
 				<option value="masterthesis">JRESEARCH_MASTERSTHESIS</option>
 				<option value="misc">JRESEARCH_MISC</option>
+				<option value="patent">JRESEARCH_PATENT</option>
 				<option value="phdthesis">JRESEARCH_PHDTHESIS</option>
 				<option value="proceedings">JRESEARCH_PROCEEDINGS</option>
 				<option value="techreport">JRESEARCH_TECHREPORT</option>

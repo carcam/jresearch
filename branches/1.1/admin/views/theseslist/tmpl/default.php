@@ -52,13 +52,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
 					$members = $this->items[$i]->getDirectors();
 					$researchArea = $this->area->getItem((int)$this->items[$i]->id_research_area);
-          foreach($members as $member){ 
-             if($member instanceof JResearchMember)
-              $text .= ' '.$member->__toString().',';
-             else
-              $text .= ' '.$member.',';
-          }
-          $text = rtrim($text, ',');					
+			        foreach($members as $member){ 
+             			if($member instanceof JResearchMember)
+             			 	$text .= ' '.$member->__toString().',';
+             			else
+              				$text .= ' '.$member.',';
+          			}
+          			$text = rtrim($text, ',');					
 		?>
 			
 				<tr class="<?php echo "row$k"; ?>">

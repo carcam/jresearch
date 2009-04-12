@@ -378,18 +378,18 @@ class JResearchPublicationsHelper{
 	 * @return string
 	 */
 	public static function formatAuthorsArray($authors){
-    if(!class_exists('JResearchMember'))
-      require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
-      
-    $text = '';
-    foreach($authors as $author){
-    if($author instanceof JResearchMember)
-        $text.= ' '.$author->__toString().',';
-    else
-        $text.= ' '.$author.',';
-    }
-    $text = rtrim($text, ',');
-    return $text;
+	    if(!class_exists('JResearchMember'))
+	      require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+	      
+	    $text = '';
+	    foreach($authors as $author){
+	    if($author instanceof JResearchMember)
+	        $text.= ' '.$author->__toString().',';
+	    else
+	        $text.= ' '.$author.',';
+	    }
+	    $text = rtrim($text, ',');
+	    return $text;
 	}
 
 	/**
