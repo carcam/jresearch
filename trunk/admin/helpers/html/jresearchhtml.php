@@ -532,6 +532,22 @@ class JHTMLJresearchhtml
 	}
 	
 	/**
+	 * Renders a list of available authors ordered by last name.
+	 *
+	 * @param array $authors
+	 */
+	public static function authors(array $attributes = array()){
+		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications'.DS.'publicationslist.php');
+		
+		$model = new JResearchModelPublicationsList();
+		$result = $model->getAllAuthors();
+		
+		return self::htmllist($result, $attributes);
+		
+		
+	}
+	
+	/**
 	 * Gets value of array from given key if it exists, otherwise $default
 	 */
 	private static function getKey($key, array &$arr, $default=null)

@@ -16,6 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'importer.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'BibTex.php');
+require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
 
 class JResearchBibtexImporter extends JResearchPublicationImporter{
 	
