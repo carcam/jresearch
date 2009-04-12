@@ -36,14 +36,31 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				$members = implode(', ',$project->getPrincipalInvestigators());
 			?>			
 			<div>
-				<strong><?php echo JText::_('JRESEARCH_PROJECT_LEADERS').': '?></strong>
-				<span><?php echo $members?></span>
+        	<strong><?php echo JText::_('JRESEARCH_PROJECT_LEADERS').':'?></strong><span>
+        	<?php foreach($members as $member){ 
+                 if($member instanceof JResearchMember)
+                  	$text .= ' '.$member->__toString().',';
+                 else
+                  	$text .= ' '.$member.',';
+              	
+                 echo rtrim($text,',');
+              }
+        	?>
+			</span>
 			</div>
 			<?php 
 			}
 			
 			//Get values and financiers for project
-			$financiers = implode(', ', $project->getFinanciers());
+          	$financiers = $project->getFinanciers();
+          	$financiersText = '';
+
+          	foreach($financiers as $financier){
+            	$financiersText .= $financier->__toString().', ';
+          	}
+          	$financiersText = rtrim($financiersText);
+          	$financiersText = rtrim($financiersText, ',');
+          	
 			$value = str_replace(array(",00",".00"), ",-", $project->finance_value); //Replace ,/.00 with ,-
 			
 			//Convert value to format 1.000.000,xx
@@ -58,7 +75,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			
 			$value = implode(".",$convertedArray).$aFloat;
 			?>
-			<div><strong><?php echo JText::_('JRESEARCH_PROJECT_FUNDING').': '?></strong><span><?php echo $financiers?></span>, <strong><?php echo $project->finance_currency." ".$value?></strong></div>
+			<div><strong><?php echo JText::_('JRESEARCH_PROJECT_FUNDING').': '?></strong><span><?php echo $financiersText ?></span>, <strong><?php echo $project->finance_currency." ".$value?></strong></div>
 			<?php
 			if($contentArray[0] != "")
 			{

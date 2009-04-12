@@ -29,12 +29,14 @@ abstract class JResearchPublicationImporter{
 	 * there were problems when accessing the file.
 	 */
 	function parseFile($filename){
-		$file = @fopen($filename, "r");
-		
+		$file = @fopen($filename, "rb");
 		if($file === false)
 			return null;
-
+			
 		$text = fread($file, filesize($filename));
+		if(($enc = mb_detect_encoding($text, 'UTF-8, ISO-8859-1')) != 'UTF-8'){
+			$text = iconv($enc, 'UTF-8', $text);
+		}
 
 		return $this->parse($text);
 	}

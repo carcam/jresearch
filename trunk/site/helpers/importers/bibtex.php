@@ -30,31 +30,37 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 		$resultArray = array();
 		$parser = new Structures_BibTex();
 		$parser->content = $text;
-		$user = JFactory::getUser();
+		$user = JFactory::getUser();		
 		if($parser->parse()){
 			foreach($parser->data as $data){
 				$type = strtolower($data['entryType']);
 				$newPub =& JResearchPublication::getSubclassInstance($type);
-				$j = 0;
-				if(!empty($data['author'])){
-					foreach($data['author'] as $auth){
-						if(empty($auth['von']))
-							$authorName = $auth['first'].' '.$auth['last'];
-						elseif(!empty($auth['jr']))
-							$authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
-						else
-							$authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
-						$newPub->setAuthor($authorName, $j);
-						$j++;
+				if($newPub != null){
+					$j = 0;
+					if(!empty($data['author'])){
+						foreach($data['author'] as $auth){
+							if(empty($auth['von']))
+								$authorName = $auth['first'].' '.$auth['last'];
+							elseif(!empty($auth['jr']))
+								$authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
+							else
+								$authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
+							$newPub->setAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);
+							$j++;
+						}
 					}
+					// Normalize the data, bibtex entities are not stored in database
+					$newPub->citekey = JResearchPublicationsHelper::bibCharsToUtf8FromString($data['cite']);
+					foreach($data as $key=>$info)
+						$data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
+
+					$newPub->bind($data);
+					$newPub->internal = false;
+					$newPub->published = true;
+					$newPub->created_by = $user->get('id');	
+					
+					$resultArray[] = $newPub;
 				}
-				$newPub->citekey = $data['cite'];
-				$newPub->bind($data);
-				$newPub->internal = false;
-				$newPub->published = true;
-				$newPub->created_by = $user->get('id');	
-				
-				$resultArray[] = $newPub;
 			}
 		}
 

@@ -51,8 +51,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$k = $i % 2;
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
-					$members = implode(' ; ', $this->items[$i]->getDirectors());
+					$members = $this->items[$i]->getDirectors();
 					$researchArea = $this->area->getItem((int)$this->items[$i]->id_research_area);
+					
+					foreach($members as $member){ 
+             			if($member instanceof JResearchMember)
+             			 	$text .= ' '.$member->__toString().',';
+             			else
+              				$text .= ' '.$member.',';
+          			}
+          			$text = rtrim($text, ',');
 		?>
 			
 				<tr class="<?php echo "row$k"; ?>">
@@ -60,7 +68,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td><?php echo $checked; ?></td>
 					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=theses&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td class="center"><?php echo $published; ?></td>
-					<td class="center"><?php echo $members; ?></td>
+					<td class="center"><?php echo $text; ?></td>
 					<td class="center"><?php echo $researchArea->name ;?></td>
 					<td class="center"><?php echo $this->items[$i]->hits ;?></td>					
 				</tr>

@@ -16,11 +16,11 @@
 				<option value="no">No</option>
 				<option value="yes">Yes</option>
 			</param>
-			<param type="list" name="show_awards" default="1">
+			<param type="list" name="show_awards" default="yes">
 				<option value="no">No</option>
 				<option value="yes">Yes</option>
 			</param>
-			<param type="list" name="show_impact_factor" default="1">
+			<param type="list" name="show_impact_factor" default="yes">
 				<option value="no">No</option>
 				<option value="yes">Yes</option>
 			</param>
