@@ -59,7 +59,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$k = $i % 2;
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
-					$authors = implode(' ; ', JResearchPublicationsHelper::bibCharsToUtf8FromArray($this->items[$i]->getAuthors()));
+					$authors = $this->items[$i]->getAuthors();
+          			$text = JResearchPublicationsHelper::formatAuthorsArray($authors);
 					// Links for exporting
 					$exportLinks = array();
 					$exportLinks[] = JHTML::_('link', 'index.php?option=com_jresearch&controller=publications&task=exportSingle&format=bibtex&id='.$this->items[$i]->id, 'Bibtex');	
@@ -77,7 +78,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_internal')" title="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>">
 						<img src="images/<?php echo ( $this->items[$i]->internal ) ? 'tick.png' : 'publish_x.png'; ?>" width="16" height="16" border="0" alt="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
 					</td>					
-					<td class="center"><?php echo $authors; ?></td>
+					<td class="center"><?php echo $text; ?></td>
 					<td class="center"><?php echo $this->items[$i]->year; ?></td>
 					<td class="center"><?php echo $this->items[$i]->citekey; ?></td>
 					<td class="center"><?php echo JText::_('JRESEARCH_'.strtoupper($this->items[$i]->pubtype)); ?></td>

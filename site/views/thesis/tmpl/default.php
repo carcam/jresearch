@@ -42,9 +42,9 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 						<li style="list-style:none;">
 							<?php if($dir instanceof JResearchMember): ?>
 								<?php if($dir->published): ?>
-									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $dir->id ?>"><?php echo $dir; ?></a>
+									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $dir->id ?>"><?php echo $dir->__toString(); ?></a>
 								<?php else: ?>
-									<?php echo $dir; ?>
+									<?php echo $dir->__toString(); ?>
 								<?php endif; ?>	
 							<?php else: ?>
 									<?php echo $dir; ?>
@@ -58,9 +58,9 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 				<?php foreach($directors as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a><?php echo $i == $n - 1?'':',' ?>
+								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
 							<?php else: ?>
-								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 							<?php endif; ?>	
 						<?php else: ?>
 								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
@@ -79,9 +79,9 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 						<li style="list-style:none;">
 							<?php if($stud instanceof JResearchMember): ?>
 								<?php if($stud->published): ?>
-									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $stud->id ?>"><?php echo $stud; ?></a>
+									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $stud->id ?>"><?php echo $stud->__toString(); ?></a>
 								<?php else: ?>
-									<?php echo $stud; ?>
+									<?php echo $stud->__toString(); ?>
 								<?php endif; ?>	
 							<?php else: ?>
 									<?php echo $stud; ?>
@@ -95,9 +95,9 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 				<?php foreach($students as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a><?php echo $i == $n - 1?'':',' ?>
+								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
 							<?php else: ?>
-								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 							<?php endif; ?>	
 						<?php else: ?>
 								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>

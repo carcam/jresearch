@@ -143,7 +143,7 @@ class JResearchAdminPublicationsController extends JController
 		
 		$publication = new JResearchPublication($db);
 		$publication->publish($cid, 0);
-		$this->setRedirect('index.php?option=com_jresearch&controller=publications', 'JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY');
+		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
 	}
 
 	/**

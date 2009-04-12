@@ -8,11 +8,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 ?>
-<h1 style="float: right;"><?php JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></h1>
+<div style="float: right;"><?php JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
 <div class="componentheading"><?php echo $this->publication->title; ?></div>
-<?php if($this->showHits): ?>
-<div class="small"><?php echo JText::_('Hits').': '.$this->publication->hits; ?></div>
-<?php endif; ?>
 <table cellspacing="2" cellpadding="2">
 <tbody>
 	<tr>
@@ -27,7 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 		<?php endif; ?>
 	</tr>
 	<tr>
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_PUBLICATION_TYPE').': ' ?></td>
+		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></td>
 		<td style="width:35%;"><?php echo JResearchText::_($this->publication->pubtype); ?></td>
 		<?php $keywords = trim($this->publication->keywords); ?>
 		<?php if(!empty($keywords)): ?>		
@@ -51,10 +48,10 @@ defined('_JEXEC') or die('Restricted access');
 							<?php if($auth->published): ?>
 								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a><?php echo $i == $n - 1?'':',' ?>
 							<?php else: ?>
-								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 						<?php endif; ?>
 						<?php $i++; ?>
 				<?php endforeach; ?>
@@ -66,9 +63,9 @@ defined('_JEXEC') or die('Restricted access');
 					<li style="list-style:none;">
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a>
+								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
 							<?php else: ?>
-								<?php echo $auth; ?>
+								<?php echo $auth->__toString(); ?>
 							<?php endif; ?>	
 						<?php else: ?>
 								<?php echo $auth; ?>
@@ -146,14 +143,7 @@ defined('_JEXEC') or die('Restricted access');
 	
 	<?php $url = trim($this->publication->url); ?>
 	<?php if(!empty($url)): ?> 
-		<tr><td colspan="4"><span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span></td></tr>
-	<?php endif; ?>
-	<?php $attach = $this->publication->getAttachment(0, 'publications'); ?>
-	<?php if(!empty($attach)): ?>
-		<tr><td class="publicationlabel"><?php echo JText::_('JRESEARCH_FILE').': ' ?></td>
-		<td><span><?php echo JHTML::_('JResearch.attachment', $attach); ?></span></td>		
-		<td colspan="2"></td>
-		</tr>
+		<tr><td colspan="4"><span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span></td></tr>		
 	<?php endif; ?>
 	
 </tbody>
