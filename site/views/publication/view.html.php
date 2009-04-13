@@ -123,7 +123,7 @@ class JResearchViewPublication extends JView
 				if($count % 2 == 0 && $count > 0){
 					$crossrefData .= "<tr>";
 				}		
-				$crossrefData .= "<td class=\"publicationlabel\">".JResearchText::_($key).": </td><td>".trim($value)."</td>";
+				$crossrefData .= "<th scope=\"row\">".JResearchText::_($key).": </th><td>".trim($value)."</td>";
 				$count++;	
 				if($count % 2 == 0 && $count > 0){
 					$crossrefData .= "</tr>";

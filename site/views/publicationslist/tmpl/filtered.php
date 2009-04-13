@@ -27,12 +27,15 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 	<table>
 		<thead>
 		<tr>		
-			<th width="3%">#</th>
-			<th style="text-align:center;" width="40%"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
-			<th style="text-align:center;" nowrap="nowrap" width="35%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
-			<th style="text-align:center;" width="10%"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
-			<th style="text-align:center;" width="10%"><?php echo $this->punctuationField == 'journal_acceptance_rate'?JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'):JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR'); ?></th>
-			<th width="2%"></th>
+			<th style="width:3%;">#</th>
+			<th style="text-align:center;width:40%;"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
+			<th style="text-align:center;width:35%;"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
+			<th style="text-align:center;width:10%;"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
+			<th style="text-align:center;width:10%;"><?php echo $this->punctuationField == 'journal_acceptance_rate'?JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'):JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR'); ?></th>
+			<?php $user = JFactory::getUser(); 
+				  if(!$user->guest): ?>
+						<th style="width:2%;"></th>
+			<?php endif; ?>			
 		</tr>
 		</thead>
 		
@@ -55,12 +58,14 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 			
 				<?php $Itemid = JRequest::getVar('Itemid'); ?>
 				<tr class="<?php echo "row$k"; ?>">
-					<td width="3%"><?php echo $i; ?></td>
-					<td width="40%"><a href="index.php?option=com_jresearch&controller=publications&task=show&id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
-					<td width="35%" align="center"><?php echo $text; ?></td>
-					<td width="10%" align="center"><?php echo $this->items[$i]->year; ?></td>
-					<td width="10%" align="center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
-					<td width="2%"><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
+					<td><?php echo $i; ?></td>
+					<td><a href="index.php?option=com_jresearch&controller=publications&task=show&id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
+					<td style="text-align:center"><?php echo $text; ?></td>
+					<td style="text-align:center"><?php echo $this->items[$i]->year; ?></td>
+					<td style="text-align:center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
+					<?php if(!$user->guest): ?>
+						<td><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
+					<?php endif; ?>			
 				</tr>
 			<?php } ?>
 		</tbody>

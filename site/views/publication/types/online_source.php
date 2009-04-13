@@ -12,15 +12,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $source_type = trim($this->publication->source_type);  ?>
 	<?php if(!empty($source_type)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_SOURCE_TYPE').': ' ?></td>		
-	<td style="width:35%;"><?php echo JText::_('JRESEARCH_'.strtoupper($source_type)); ?></td>
+	<th scope="row"><?php echo JText::_('JRESEARCH_SOURCE_TYPE').': ' ?></th>		
+	<td><?php echo JText::_('JRESEARCH_'.strtoupper($source_type)); ?></td>
 	<?php endif; ?>
 	<?php $access_date = trim($this->publication->access_date); ?>
 	<?php if(!empty($access_date) && $access_date != '0000-00-00'): ?>
 	<?php $colspan -= 2; ?>
 	<?php $accessArr = explode(' ', $access_date); ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_ACCESS_DATE').': ' ?></td>
-	<td style="width:35%;"><?php echo $accessArr[0]; ?></td>
+	<th scope="row"><?php echo JText::_('JRESEARCH_ACCESS_DATE').': ' ?></th>
+	<td><?php echo $accessArr[0]; ?></td>
 	<?php else: ?>
 	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
@@ -35,11 +35,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if(!empty($month)): ?>
 		<?php if(empty($day)): ?>
 			<?php $colspan -= 2; ?>
-			<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></td>		
-			<td style="width:35%;"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
+			<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>		
+			<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
 		<?php else: ?>
-			<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_DATE').': ' ?></td>		
-			<td style="width:35%;"><?php echo JResearchPublicationsHelper::formatMonth($month).', '.$day; ?></td>		
+			<th scope="row"><?php echo JText::_('JRESEARCH_DATE').': ' ?></th>		
+			<td><?php echo JResearchPublicationsHelper::formatMonth($month).', '.$day; ?></td>		
 		<?php endif; ?>
 	<?php endif; ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	

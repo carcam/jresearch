@@ -13,14 +13,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $booktitle = trim($this->publication->booktitle);  ?>
 	<?php if(!empty($journal)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_BOOK_TITLE').': ' ?></td>		
-	<td style="width:35%;"><?php echo $booktitle; ?></td>
+	<th scope="row"><?php echo JText::_('JRESEARCH_BOOK_TITLE').': ' ?></th>		
+	<td><?php echo $booktitle; ?></td>
 	<?php endif; ?>
 	<?php $publisher = trim($this->publication->publisher); ?>
 	<?php if(!empty($publisher)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('Publisher').': ' ?></td>
-	<td style="width:35%;"><?php echo $publisher; ?></td>
+	<th scope="row"><?php echo JText::_('Publisher').': ' ?></th>
+	<td><?php echo $publisher; ?></td>
 	<?php else: ?>
 	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
@@ -33,14 +33,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $editor = trim($this->publication->editor);  ?>
 	<?php if(!empty($editor)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></td>		
-	<td style="width:35%;"><?php echo $editor; ?></td>
+	<th scope="row"><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></th>		
+	<td><?php echo $editor; ?></td>
 	<?php endif; ?>
 	<?php $organization = trim($this->publication->organization); ?>
 	<?php if(!empty($organization)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></td>
-	<td style="width:35%;"><?php echo $organization; ?></td>
+	<th scope="row"><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></th>
+	<td><?php echo $organization; ?></td>
 	<?php else: ?>
 	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
@@ -53,14 +53,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $address = trim($this->publication->address);  ?>
 	<?php if(!empty($address)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></td>		
-	<td style="width:35%;"><?php echo $address; ?></td>
+	<th scope="row"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></th>		
+	<td><?php echo $address; ?></td>
 	<?php endif; ?>
 	<?php $month = trim($this->publication->month); ?>
 	<?php if(!empty($month)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></td>
-	<td style="width:35%;"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
+	<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>
+	<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
 	<?php else: ?>
 	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
@@ -72,16 +72,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $pages = str_replace('--', '-', trim($this->publication->pages)); ?>
 	<?php if(!empty($pages)): ?>
 	<?php $colspan -= 2; ?>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_PAGES').': ' ?></td>		
-	<td style="width:35%;"><?php echo $pages; ?></td>
+	<th scope="row"><?php echo JText::_('JRESEARCH_PAGES').': ' ?></th>		
+	<td><?php echo $pages; ?></td>
 	<?php endif; ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
 </tr>
 <?php $isbn = trim($this->publication->isbn);  ?>
 <?php if(!empty($isbn)): ?>
 <tr>
-	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></td>		
-	<td style="width:35%;"><?php echo $isbn; ?></td>
+	<th scope="row"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></th>		
+	<td><?php echo $isbn; ?></td>
 	<td colspan="2"></td>	
 </tr>
 <?php endif; ?>
