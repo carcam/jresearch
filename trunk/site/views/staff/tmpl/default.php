@@ -9,13 +9,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h1>
-<table width="100%" cellpadding="2" cellspacing="2" align="center">
+<table class="stafftable">
 	<thead>
-		<tr align="center">
-			<th width="25%"><?php echo JText::_('JRESEARCH_NAME'); ?></th>
-			<th width="25%"><?php echo JText::_('JRESEARCH_EMAIL'); ?></th>	
-			<th width="25%"><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
-			<th width="25%"><?php echo JText::_('JRESEARCH_POSITION'); ?></th>												
+		<tr>
+			<th><?php echo JText::_('JRESEARCH_NAME'); ?></th>
+			<th><?php echo JText::_('JRESEARCH_EMAIL'); ?></th>	
+			<th><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
+			<th><?php echo JText::_('JRESEARCH_POSITION'); ?></th>												
 		</tr>
 	</thead>
 	<tfoot align="center">
@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php foreach($this->items as $member){ 
 	$researchArea = $this->areaModel->getItem($member->id_research_area);
 ?>
-		<tr align="center">
+		<tr>
 			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&view=member&task=show&id=<?php echo $member->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>"><?php echo $member; ?></a></td>
 			<td><?php echo $member->email; ?></td>
 			<td><?php echo $researchArea->name; ?></td>

@@ -126,14 +126,13 @@ class JHTMLJresearchhtml
 		$js = "javascript:switchType('$controlName', '$select', '$enterName')";
 
 		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').'='.$db->Quote('1');
+		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').'='.$db->Quote('1').' ORDER BY lastname';
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
-		
 		$options = array();
 		
 		foreach($result as $r){
-			$options[] = JHTML::_('select.option', $r['id'], $r['firstname'].' '.$r['lastname']);
+			$options[] = JHTML::_('select.option', $r['id'], $r['lastname'].' '.$r['firstname']);
 		}
 		
 		$list = JHTML::_('select.genericlist', $options, $controlName, 'class="inputbox"', 'value', 'text', $author->id);
