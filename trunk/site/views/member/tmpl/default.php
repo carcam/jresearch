@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
   <tr><th style="width:100%;" colspan="4"><h2 class="contentheading"><?php echo JText::_('JRESEARCH_PERSONAL_INFORMATION').': '; ?></h2></th></tr>	
   <tr>  
     <th scope="row"><?php echo JText::_('JRESEARCH_POSITION').': ' ?></th>
-    <td><?php echo empty($this->member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$this->member->position; ?></td>
+    <td><?php echo empty($this->member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$this->member->getPosition(); ?></td>
     <?php if(empty($this->member->url_photo)): ?>
     <td style="width:50%;" colspan="2" rowspan="3"></td>
     <?php else: 

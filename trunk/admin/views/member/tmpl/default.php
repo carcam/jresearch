@@ -42,7 +42,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('Position').': ' ?></th>
-		<td><input type="text" name="position" id="position" value="<?php echo $this->member?$this->member->position:'' ?>" /></td>
+		<td><?php echo $this->positionList; ?></td>
 		<th><?php echo JText::_('JRESEARCH_LOCATION'); ?></th>
 		<td><input type="text" name="location" id="location" value="<?php echo $this->member?$this->member->location:'' ?>" /></td>
 	</tr>

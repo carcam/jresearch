@@ -328,7 +328,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `email` varchar(255) NULL,
   `username` varchar(150) NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL default '1',
-  `position` varchar(30) default NULL,
+  `position` int(10) unsigned default '0',
   `location` varchar(50) default NULL,
   `url_personal_page` varchar(255) default NULL,
   `published` tinyint(4) NOT NULL default '1',
@@ -342,6 +342,14 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   INDEX `name` (`lastname`,`firstname`),
   INDEX `id_research_area` (`id_research_area`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `#__jresearch_member_position`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_member_position` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `position` varchar(50) NOT NULL,
+  `published` tinyint(4) NOT NULL default '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `#__jresearch_research_techreport`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_techreport` (

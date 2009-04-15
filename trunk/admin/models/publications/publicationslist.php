@@ -273,7 +273,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$name[$key] = $value;
 			
 		}
-		array_multisort(&$name, SORT_ASC, $mdresult);
+		array_multisort($name, SORT_ASC, $mdresult);
 		return $mdresult;
 	}
 
