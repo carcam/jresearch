@@ -314,6 +314,16 @@ class JResearchToolbar
 		self::adminListToolbar();
 	}
 	
+	public static function member_positionListToolbar()
+	{
+		JToolBarHelper::title(JText::_('JRESEARCH_MEMBER_POSITIONS'));
+		
+		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+		
+		JToolBarHelper::divider();
+		self::adminListToolbar();
+	}
+	
 	public static function editCooperationAdminToolbar()
 	{
 		$cid = JRequest::getVar('cid');
@@ -321,6 +331,19 @@ class JResearchToolbar
 			$title = JText::_('JRESEARCH_EDIT_COOPERATION');
 		else
 			$title = JText::_('JRESEARCH_NEW_COOPERATION');	
+		
+		JToolBarHelper::title($title);
+		
+		self::editItemAdminToolbar();
+	}
+	
+	public static function editMember_positionAdminToolbar()
+	{
+		$cid = JRequest::getVar('cid');
+		if($cid)
+			$title = JText::_('JRESEARCH_EDIT_MEMBER_POSITION');
+		else
+			$title = JText::_('JRESEARCH_NEW_MEMBER_POSITION');	
 		
 		JToolBarHelper::title($title);
 		

@@ -372,6 +372,33 @@ class JHTMLJresearchhtml
 		
 		return self::htmllist($areasOptions, $attributes);
 	}
+	
+	/**
+	 * Renders a HTML generic select list with member positions
+	 */
+	public static function memberpositions(array $attributes=array(), array $additional=array())
+	{
+		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'member_position'.DS.'member_positionlist.php');
+		
+		$model = new JResearchModelMember_positionList();
+		$positions = $model->getData(null,true);
+		
+		//Additional elements
+		$positionOptions = array();
+		foreach($additional as $position)
+		{
+			if(array_key_exists('id', $position) && array_key_exists('name'))
+				$positionOptions[] = JHTML::_('select.option', $position['id'], $position['name']);
+		}
+		
+		//Add research areas
+		foreach($positions as $position)
+		{
+			$positionOptions[] = JHTML::_('select.option', $position->id, $position->position);
+		}
+		
+		return self::htmllist($positionOptions, $attributes);
+	}
 
 	/**
 	 * Renders a HTML generic select list with cooperations

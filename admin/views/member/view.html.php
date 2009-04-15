@@ -42,12 +42,15 @@ class JResearchAdminViewMember extends JView
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, CONCAT_WS(\' \', firstname, lastname) AS text FROM #__jresearch_member ORDER by former_member,ordering ASC');
     	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , ($member)?$member->ordering:0);
     	
+    	$positionList = JHTML::_('jresearchhtml.memberpositions', array('name' => 'position', 'attributes' => 'class="inputbox" size="5"', 'selected' => $member->position));
+    	
 		$editor =& JFactory::getEditor();    	
     	
     	$this->assignRef('member', $member);
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('orderList', $orderList);
+    	$this->assignRef('positionList', $positionList);
 		$this->assignRef('editor', $editor);    	
     	
 		// Load cited records

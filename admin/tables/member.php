@@ -236,6 +236,24 @@ class JResearchMember extends JTable{
 	}
 	
 	/**
+	 * Returns position of the member as an Table object
+	 * @return JResearchMember_position Object or null
+	 */
+	public function getPosition()
+	{
+		if(intval($this->position) > 0)
+		{
+			$db =& JFactory::getDBO();
+			$position = new JResearchMember_position($db);
+			$position->load($this->position);
+			
+			return $position;
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Returns array of teams, where the member is a member of these teams.
 	 * @return array
 	 */
