@@ -9,6 +9,9 @@
 * of staff members.
 */
 
+define('_MEMBER_IMAGE_MAX_WIDTH_', 1024);
+define('_MEMBER_IMAGE_MAX_HEIGHT_', 768);
+
 jimport('joomla.application.component.controller');
 
 /**
