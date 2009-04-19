@@ -8,8 +8,6 @@
 * This file implements the controller for all operations related to the management
 * of research projects in the backend interface.
 */
-define('_PROJECT_IMAGE_MAX_WIDTH_', 400);
-define('_PROJECT_IMAGE_MAX_HEIGHT_', 400);
 
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
@@ -166,24 +164,17 @@ class JResearchAdminProjectsController extends JController
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 		
 		$db =& JFactory::getDBO();
+		
+		$params = JComponentHelper::getParams('com_jresearch');
+		$imageWidth = $params->get('project_image_width', _PROJECT_IMAGE_MAX_WIDTH_);
+		$imageHeight = $params->get('project_image_height', _PROJECT_IMAGE_MAX_HEIGHT_);
+		
 		$project = new JResearchProject($db);
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
 		$post = JRequest::get('post');
 		if(isset($id))
 			$project->load($id);
-				
-		//Upload photo
-		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
-		$delete = JRequest::getVar('delete');
-		
-		JResearch::uploadImage(	$project->url_project_image, 	//Image string to save
-								$fileArr, 			//Uploaded File array
-								'assets'.DS.'projects'.DS, //Relative path from administrator folder of the component
-								($delete == 'on')?true:false,	//Delete?
-								 _PROJECT_IMAGE_MAX_WIDTH_, //Max Width
-								 _PROJECT_IMAGE_MAX_HEIGHT_ //Max Height
-		);
 		
 		$filesCount = JRequest::getInt('count_attachments');
 		$filesResults = array();
@@ -219,6 +210,18 @@ class JResearchAdminProjectsController extends JController
 		$project->bind($post);
 		$project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
 		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		
+		//Upload photo
+		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
+		$delete = JRequest::getVar('delete');
+		
+		JResearch::uploadImage(	$project->url_project_image, 	//Image string to save
+								$fileArr, 			//Uploaded File array
+								'assets'.DS.'projects'.DS, //Relative path from administrator folder of the component
+								($delete == 'on')?true:false,	//Delete?
+								 $imageWidth, //Max Width
+								 $imageHeight //Max Height
+		);
 		
 		//Time to set the authors
 		$maxAuthors = JRequest::getInt('maxmembers');

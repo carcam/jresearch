@@ -21,6 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 global $mainframe;
 
 // Common needed files
+require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'defines.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'activity.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');

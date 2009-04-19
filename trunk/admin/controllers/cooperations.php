@@ -8,8 +8,6 @@
 * This file implements the controller for all operations related to the management
 * of cooperations in the backend interface.
 */
-define('_COOPERATION_IMAGE_MAX_WIDTH_', 400);
-define('_COOPERATION_IMAGE_MAX_HEIGHT_', 400);
 
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
@@ -146,6 +144,10 @@ class JResearchAdminCooperationsController extends JController
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 		
 		$db =& JFactory::getDBO();
+		
+		$params = JComponentHelper::getParams('com_jresearch');
+		$imageWidth = $params->get('cooperation_image_width', _COOPERATION_IMAGE_MAX_WIDTH_);
+		$imageHeight = $params->get('cooperation_image_height', _COOPERATION_IMAGE_MAX_HEIGHT_);
 
 		$coop = new JResearchCooperation($db);
 
@@ -164,8 +166,8 @@ class JResearchAdminCooperationsController extends JController
 								$fileArr, 			//Uploaded File array
 								'assets'.DS.'cooperations'.DS, //Relative path from administrator folder of the component
 								($del == 'on')?true:false,	//Delete?
-								 _COOPERATION_IMAGE_MAX_WIDTH_, //Max Width
-								 _COOPERATION_IMAGE_MAX_HEIGHT_ //Max Height
+								 $imageWidth, //Max Width
+								 $imageHeight //Max Height
 		); 
 		
 		// Validate and save

@@ -53,7 +53,10 @@
 		<param name="projects_order" label="JRESEARCH_SORTED" type="radio">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
-		</param>	
+		</param>
+		
+		<param name="project_image_width" default="1024" label="JRESEARCH_PROJECT_IMAGE_WIDTH" type="text" />
+		<param name="project_image_height" default="768" label="JRESEARCH_PROJECT_IMAGE_HEIGHT" type="text" />
 				
 		<param type="spacer" />
 
@@ -92,6 +95,9 @@
 			<option value="no">No</option>
 		</param>
 		
+		<param name="member_image_width" default="1024" label="JRESEARCH_MEMBER_IMAGE_WIDTH" type="text" />
+		<param name="member_image_height" default="768" label="JRESEARCH_MEMBER_IMAGE_HEIGHT" type="text" />
+		
 		<param type="spacer" />
 		
 		<param name="cooperation_entries_per_page" default="25" label="JRESEARCH_CONFIG_COOPERATIONS_PER_PAGE" type="text" ></param>									
@@ -100,6 +106,9 @@
 			<option value="desc">JRESEARCH_DESCENDING</option>
 		</param>
 		
+		<param name="cooperation_image_width" default="1024" label="JRESEARCH_COOPERATION_IMAGE_WIDTH" type="text" />
+		<param name="cooperation_image_height" default="768" label="JRESEARCH_COOPERATION_IMAGE_HEIGHT" type="text" />
+		
 		<param type="spacer" />
 		
 		<param name="facility_entries_per_page" default="25" label="JRESEARCH_CONFIG_FACILITY_PER_PAGE" type="text" ></param>									
@@ -107,6 +116,12 @@
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
 		</param>
+		
+		<param name="facility_image_width" default="1024" label="JRESEARCH_FACILITY_IMAGE_WIDTH" type="text" />
+		<param name="facility_image_height" default="768" label="JRESEARCH_FACILITY_IMAGE_HEIGHT" type="text" />
+		
+		<param type="spacer" />
+		
 		<param name="files_root_path" type="hidden" default="files"></param>			
 	</params>
 </config>
