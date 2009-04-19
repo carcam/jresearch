@@ -19,13 +19,14 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Common needed files
+require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'defines.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'activity.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'cite.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'text.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'factory.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
+require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'cite.php');
+require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'text.php');
+require_once(JPATH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
+require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
+require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 
@@ -58,7 +59,7 @@ if($controller == null){
 		// If the task is related to cite records, request the frontend controller
 		if(in_array($task, $inlineCitingTasks)){
 			$prefix = 'JResearch';
-			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'controllers'.DS.$controller.'.php');
+			require_once(JPATH_COMPONENT_SITE.DS.'controllers'.DS.$controller.'.php');
 			$session =& JSession::getInstance(null, null);
 		
 			if($session->get('citedRecords', null, 'jresearch') == null){
