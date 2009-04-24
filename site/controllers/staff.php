@@ -112,7 +112,9 @@ class JResearchStaffController extends JController
 	* Apply in the edit profile form.
 	*/
 	function save(){
-		global $mainframe;		
+		global $mainframe;
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		
 		$task = JRequest::getVar('task');
 		$itemId = JRequest::getVar('Itemid');
 		
