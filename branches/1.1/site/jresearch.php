@@ -28,6 +28,10 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'cite
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'text.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'factory.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'jxtended.php');
+// Plugin management
+JPluginHelper::importPlugin('jresearch');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'plugins.php');
+
 
 //Set ACL
 setACL();
@@ -55,8 +59,12 @@ if($session->get('citedRecords', null, 'jresearch') == null){
 $classname  = 'JResearch'.ucfirst($controller).'Controller';
 $controller = new $classname( );
 
-// Perform the request task
-$controller->execute( JRequest::getVar('task'));
+$pluginhandledRequest = JResearchPluginsHelper::onBeforeExecuteJResearchTask();
+// Perform the request task if none of the plugins decided to do it
+if(!$pluginhandledRequest)
+	$controller->execute(JRequest::getVar('task'));
+
+$mainframe->triggerEvent('onAfterExecuteJResearchTask' , array());
 
 // Redirect if set by the controller
 $controller->redirect();

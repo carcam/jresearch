@@ -196,7 +196,6 @@ class plgSearchJResearch extends JPlugin{
 				$results[$key]->href = "index.php?option=com_jresearch&view=researcharea&task=show&id=".$results[$key]->id;
 			}
 		}
-		$this->debugQuery($db->getQuery());	
 		// We just reduce the limit
 		$n = count($results);
 		$this->limit -= $n;
@@ -267,7 +266,7 @@ class plgSearchJResearch extends JPlugin{
 		
 		$results = $db->setQuery( $query, 0, $this->limit );
 		$results = $db->loadObjectList();
-		$this->debugQuery($db->getQuery());	
+
 		if(isset($results)){
 			foreach($results as $key => $item){
 				$results[$key]->href = "index.php?option=com_jresearch&view=project&task=show&id=".$results[$key]->id;
@@ -344,7 +343,7 @@ class plgSearchJResearch extends JPlugin{
 		$query = "SELECT p.id as id, p.title AS title, CONCAT_WS( '/', r.name, $section) AS section, '' AS created, '2' AS browsernav, CONCAT_WS('\n', p.abstract, p.comments) AS text FROM #__jresearch_publication p INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
 		$db->setQuery( $query, 0, $this->limit );
 		$results = $db->loadObjectList();
-		$this->debugQuery($db->getQuery());	
+
 		if(isset($results)){
 			foreach($results as $key => $item){
 				$results[$key]->href = "index.php?option=com_jresearch&view=publication&task=show&id=".$results[$key]->id;
@@ -482,8 +481,6 @@ class plgSearchJResearch extends JPlugin{
 		$results = $db->setQuery( $query, 0, $this->limit );
 		$results = $db->loadObjectList();
 		
-		$this->debugQuery($db->getQuery());	
-		
 		if(isset($results)){
 			foreach($results as $key => $item){
 				$results[$key]->href = "index.php?option=com_jresearch&view=member&task=show&id=".$results[$key]->id;
@@ -554,8 +551,6 @@ class plgSearchJResearch extends JPlugin{
 		$results = $db->setQuery( $query, 0, $this->limit );
 		$results = $db->loadObjectList();
 		
-		$this->debugQuery($db->getQuery());	
-		
 		if(isset($results)){
 			foreach($results as $key => $item){
 				$results[$key]->href = "index.php?option=com_jresearch&view=cooperation&task=show&id=".$results[$key]->id;
@@ -625,9 +620,7 @@ class plgSearchJResearch extends JPlugin{
 		$query = "SELECT f.id as id, f.name AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, f.description AS text FROM #__jresearch_facilities f INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
 		$results = $db->setQuery( $query, 0, $this->limit );
 		$results = $db->loadObjectList();
-		
-		$this->debugQuery($db->getQuery());	
-		
+			
 		if(isset($results)){
 			foreach($results as $key => $item){
 				$results[$key]->href = "index.php?option=com_jresearch&view=facility&task=show&id=".$results[$key]->id;
@@ -648,4 +641,4 @@ class plgSearchJResearch extends JPlugin{
 
 	
 }
-
+?>

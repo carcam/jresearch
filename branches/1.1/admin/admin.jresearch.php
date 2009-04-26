@@ -27,6 +27,11 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.D
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
+// Plugin management
+JPluginHelper::importPlugin('jresearch');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'plugins.php');
+
+
 
 $document = &JFactory::getDocument();
 $url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
@@ -69,9 +74,15 @@ if($controller == null){
 }
 
 $controller = new $classname( );
-// Perform the request task
-$controller->execute($task);
+
+$pluginhandledRequest = JResearchPluginsHelper::onBeforeExecuteJResearchTask();
+// Perform the request task if none of the plugins decided to do it
+if(!$pluginhandledRequest)
+	$controller->execute($task);
+	
+$mainframe->triggerEvent('onAfterExecuteJResearchTask' , array());
 
 // Redirect if set by the controller
-$controller->redirect();
+if(!$pluginhandledRequest)
+	$controller->redirect();
 ?>
