@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="xmlrpc" method="upgrade">
+	<name>XML RPC - J!Research</name>
+	<author>Luis Gal&#225;rraga and Florian Prinz</author>
+	<creationDate>April 2009</creationDate>
+	<copyright>Copyright (C) 2008 - Luis Gal&#225;rraga</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>shamantobi@gmail.com, prinz.florian@chello.at</authorEmail>
+	<authorUrl>http://joomla-research.com</authorUrl>
+	<version>1.5</version>
+	<description>Allows the retrieval of publications information from public databases like PubMED. </description>
+	<files>
+		<folder>jresearch</folder>
+		<filename plugin="jresearch">jresearch.php</filename>
+	</files>
+	<params />
+</install>
