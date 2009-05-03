@@ -33,7 +33,12 @@ class JResearchAdminViewStaff extends JView
         			break;
         }
 	
-        parent::display($tpl);
+        $eArguments = array('staff');
+		$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
     }
     
     /**
@@ -41,7 +46,7 @@ class JResearchAdminViewStaff extends JView
     * which is the admin list of members.
     */
     private function _displayDefaultList(){
-      global $mainframe;
+		global $mainframe;
     	JResearchToolbar::staffAdminListToolbar();
     	
     	//Get the model

@@ -69,12 +69,12 @@
 			<menu controller="cooperations">JRESEARCH_COOPERATIONS</menu>
 			<menu link="option=com_categories&amp;section=com_jresearch_cooperations">JRESEARCH_COOPERATION_CATEGORIES</menu>
 			<menu controller="facilities">JRESEARCH_FACILITIES</menu>
+			<menu controller="financiers">JRESEARCH_FINANCIERS</menu>
 			<menu controller="projects">JRESEARCH_PROJECTS</menu>
 			<menu controller="publications">JRESEARCH_PUBLICATIONS</menu>
 			<menu controller="researchAreas">JRESEARCH_RESEARCH_AREAS</menu>
 			<menu controller="staff">JRESEARCH_STAFF</menu>
 			<menu controller="theses">JRESEARCH_THESES</menu>
-			<menu controller="financiers">JRESEARCH_FINANCIERS</menu>
 			<menu controller="teams">JRESEARCH_TEAMS</menu>
 		</submenu>
 		<files folder="admin">

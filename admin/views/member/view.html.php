@@ -31,8 +31,9 @@ class JResearchAdminViewMember extends JView
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$model =& $this->getModel();
+    	
     	$member = $model->getItem($cid[0]);
-    	$arguments = array('member', $member->id);
+    	$arguments = array('member', $member?$member->id:null);
     	
     	//Lists
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $member->published));
@@ -57,6 +58,8 @@ class JResearchAdminViewMember extends JView
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 		
        	parent::display($tpl);
+       	
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 

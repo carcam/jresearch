@@ -57,8 +57,13 @@ class JResearchAdminViewProjectsList extends JView
      	$this->assignRef('lists', $lists );
      	$this->assignRef('page', $model->getPagination());
      	$this->assignRef('area', $areaModel);
-     	parent::display($tpl);
-
+     	
+		$eArguments = array('projects');
+		$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
     }
 }
 

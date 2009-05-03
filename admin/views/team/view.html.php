@@ -33,6 +33,7 @@ class JResearchAdminViewTeam extends JView
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$model =& $this->getModel();
+    	$team = $model->getItem($cid[0]);
     	$membersModel =& $this->getModel('Staff'); 	
     	
     	//Staff options
@@ -48,7 +49,6 @@ class JResearchAdminViewTeam extends JView
     	$selectedMemberOptions = array();
     	
     	if($cid){
-    		$team = $model->getItem($cid[0]);
     		if(empty($team)){
     			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
     			return;
@@ -86,6 +86,8 @@ class JResearchAdminViewTeam extends JView
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 		
        	parent::display($tpl);
+       	
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 ?>

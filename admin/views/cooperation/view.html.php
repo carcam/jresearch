@@ -23,7 +23,7 @@ class JResearchAdminViewCooperation extends JView
 	function display($tpl = null)
 	{
     	global $mainframe;
-      	
+    	
     	JResearchToolbar::editCooperationAdminToolbar();
     	
 		JHTML::_('JResearch.validation');
@@ -33,15 +33,15 @@ class JResearchAdminViewCooperation extends JView
     	$cid = JRequest::getVar('cid');
     	$model =& $this->getModel();
     	$coop = $model->getItem($cid[0]);
-    	$arguments = array('coop', $coop->id);
+    	$arguments = array('coop', $coop?$coop->id:null);
     	
 		$publishedList = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $coop?$coop->published:1));
 
     	$orderOptions = array();
-    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations WHERE catid='.($coop->catid?$coop->catid:0).' ORDER by ordering ASC');
-    	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $coop->ordering);
+    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations WHERE catid='.($coop?$coop->catid:0).' ORDER by ordering ASC');
+    	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $coop?$coop->ordering:0);
     	
-    	$categoryList = JHTML::_('list.category', 'catid', 'com_jresearch_cooperations', $coop->catid);
+    	$categoryList = JHTML::_('list.category', 'catid', 'com_jresearch_cooperations', $coop?$coop->catid:null);
     	
 		$editor =& JFactory::getEditor();
     	
@@ -55,6 +55,8 @@ class JResearchAdminViewCooperation extends JView
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 		
        	parent::display($tpl);
+       	
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 ?>

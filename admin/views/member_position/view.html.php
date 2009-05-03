@@ -32,21 +32,22 @@ class JResearchAdminViewMember_position extends JView
     	
     	// Information about the member
     	$cid = JRequest::getVar('cid');
+    	
     	$model =& $this->getModel();
+    	$position = $model->getItem($cid[0]); 
 
-    	$arguments = array('project');
+    	$arguments = array('member_position');
     	
     	if($cid)
-    	{
-        	$position = $model->getItem($cid[0]);  	
-    	}
+    		$arguments[] = $position->id;
+    	else 
+    		$arguments[] = null;
 
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $position?$position->published:1));
 		
     	$this->assignRef('item', $position);
     	$this->assignRef('publishedRadio', $publishedRadio);
  
-
        	parent::display($tpl);
 
     }

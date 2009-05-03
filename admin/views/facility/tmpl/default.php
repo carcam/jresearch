@@ -39,7 +39,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 		<td colspan="2" rowspan="2">
 			<?php
-			if(!is_null($this->fac->image_url)):
+			if($this->fac && !is_null($this->fac->image_url)):
 				$url = JResearch::getUrlByRelative($this->fac->image_url);
 			?>
 				<a href="<?php echo $url;?>" class="modal">
@@ -55,7 +55,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<th colspan="4" align="left"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></th>
 	</tr>
 	<tr>
-		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->fac->description , '100%', '350', '75', '20' ) ; ?></td>
+		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->fac?$this->fac->description:'' , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
 </tbody>
 </table>

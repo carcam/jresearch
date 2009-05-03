@@ -32,14 +32,13 @@ class JResearchAdminViewResearchArea extends JView
     	$cid = JRequest::getVar('cid');
     	$editor =& JFactory::getEditor();
     	$model =& $this->getModel();
+    	$area = $model->getItem($cid[0]);
     	$arguments = array('researcharea');
     	
-    	if($cid){
-        	$area = $model->getItem($cid[0]);
+    	if($cid)
         	$arguments[] = $area->id; 	
-    	}else{
+    	else
     		$arguments[] = null;	
-    	}
     	
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $area?$area->published:1));
     	
@@ -52,6 +51,7 @@ class JResearchAdminViewResearchArea extends JView
 		
        	parent::display($tpl);
 
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 

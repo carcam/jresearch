@@ -67,8 +67,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<th><?php echo JText::_('Photo').': ' ?></th>
 		<td><input class="inputbox" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 400, 400)); ?></td>
 		<?php
-		if(!is_null($this->member->url_photo)):
-			$url = JResearch::getUrlByRelative($this->fac->image_url);
+		if($this->member && !is_null($this->member->url_photo)):
+			$url = JResearch::getUrlByRelative($this->member->url_photo);
 		?>
 		<td>
 			<img src="<?php echo $url; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" />
@@ -84,7 +84,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		?>
 	</tr>
 	<tr>
-		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->member->description , '100%', '350', '75', '20' ) ; ?></td>
+		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->member?$this->member->description:'' , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
 </tbody>
 </table>
