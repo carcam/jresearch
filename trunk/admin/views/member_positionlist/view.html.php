@@ -47,7 +47,12 @@ class JResearchAdminViewMember_positionList extends JView
      	$this->assignRef('lists', $lists );
      	$this->assignRef('page', $model->getPagination());
 
-     	parent::display($tpl);
+     	$eArguments = array('member_positionlist');
+		$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
 
     }
 }

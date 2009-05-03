@@ -32,14 +32,13 @@ class JResearchAdminViewFinancier extends JView
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$model =& $this->getModel();
+    	$fin = $model->getItem($cid[0]);
     	$arguments = array('financier');
     	
-    	if($cid){
-        	$fin = $model->getItem($cid[0]);
+    	if($cid)
         	$arguments[] = $fin->id;
-    	}else{
+    	else
     		$arguments[] = null; 		
-    	}
     	
     	//HTML List for published selection
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $fin?$fin->published:1));
@@ -47,11 +46,11 @@ class JResearchAdminViewFinancier extends JView
     	$this->assignRef('financier', $fin);
     	$this->assignRef('publishedRadio', $publishedRadio); 	
     	
-		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 		
        	parent::display($tpl);
 
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 

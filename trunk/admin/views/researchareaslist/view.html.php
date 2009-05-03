@@ -46,7 +46,13 @@ class JResearchAdminViewResearchAreasList extends JView
 		$this->assignRef('items', $items);
 		$this->assignRef('lists', $lists );
 		$this->assignRef('page', $model->getPagination());
+		
+		$eArguments = array('researchareas');
+		$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+		
 		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
     }
 }
 ?>

@@ -35,19 +35,14 @@ class JResearchAdminViewFacility extends JView
     	$editor =& JFactory::getEditor();
     	
     	$model =& $this->getModel();
+    	$fac = $model->getItem($cid[0]);
 
     	$arguments = array('facility');
  
-    	
     	if($cid)
-    	{
-        	$fac = $model->getItem($cid[0]);
         	$arguments[] = $fac->id;
-    	}
     	else
-    	{
     		$arguments[] = null;
-    	}
 
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $fac?$fac->published:1));
    	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="5"', 'selected' => $fac?$fac->id_research_area:1));
@@ -62,6 +57,7 @@ class JResearchAdminViewFacility extends JView
 
        	parent::display($tpl);
 
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 

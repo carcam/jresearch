@@ -48,14 +48,20 @@ class JResearchAdminViewPublication extends JView
 		
 		$cid = JRequest::getVar('cid');
 		$isNew = !isset($cid);
+		$arguments = array('publication');
 		$pubtype = JRequest::getVar('pubtype');
-		$authors = null;  	
+		$authors = null;  
+		$publication = JResearchPublication::getById($cid[0]);	
     	
 		if(!$isNew)
 		{			
-			$publication = JResearchPublication::getById($cid[0]);
+			$arguments[] = $publication->id;
 			$this->assignRef('publication', $publication);
 			$authors = $publication->getAuthors();
+		}
+		else
+		{
+			$arguments[] = null;
 		}
 		
 		//Lists
@@ -72,7 +78,6 @@ class JResearchAdminViewPublication extends JView
 			$uploadedFiles = array();	
 		$files = JHTML::_('JResearch.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
 		
-		
 		$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
@@ -80,6 +85,7 @@ class JResearchAdminViewPublication extends JView
 		$this->assignRef('authors', $authorsControl);
 		$this->assignRef('files', $files);
 		
+		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 	}
 	
 	/**

@@ -33,12 +33,11 @@ class JResearchAdminViewThesis extends JView
     	$cid = JRequest::getVar('cid');
     	$editor =& JFactory::getEditor();
     	$model =& $this->getModel();
-    	$members = null;
+    	$thesis = $model->getItem($cid[0]);
     	$directors = null;
     	$arguments = array('thesis');
     	
     	if($cid){
-        	$thesis = $model->getItem($cid[0]);
         	$arguments[] = $thesis->id;
     	  	$directors = $thesis->getDirectors();
     	  	$students = $thesis->getStudents();
@@ -76,7 +75,8 @@ class JResearchAdminViewThesis extends JView
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 		
        	parent::display($tpl);
-    	
+       	
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 

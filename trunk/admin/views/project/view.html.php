@@ -34,13 +34,13 @@ class JResearchAdminViewProject extends JView
     	$cid = JRequest::getVar('cid');
     	$editor =& JFactory::getEditor();
     	$model =& $this->getModel();
+    	$project = $model->getItem($cid[0]);
 
     	$principalFlags = null;    	
     	$members = null;
     	$arguments = array('project');
     	
     	if($cid){
-        	$project = $model->getItem($cid[0]);
         	$projectFins = $project->getFinanciers();
         	$arguments[] = $project->id;
     	  	$members = $project->getAuthors();
@@ -90,7 +90,8 @@ class JResearchAdminViewProject extends JView
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 
        	parent::display($tpl);
-
+       	
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 

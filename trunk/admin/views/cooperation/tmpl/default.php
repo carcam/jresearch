@@ -46,7 +46,7 @@ JHTML::_('behavior.modal');
 			<input class="inputbox" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', _COOPERATION_IMAGE_MAX_WIDTH_, _COOPERATION_IMAGE_MAX_HEIGHT_)); ?><br />
 		</td>
 		<?php
-		if($this->coop->image_url):
+		if($this->coop && $this->coop->image_url):
 			$url = JResearch::getUrlByRelative($this->coop->image_url);
 		?>
 		<td>
@@ -65,7 +65,7 @@ JHTML::_('behavior.modal');
 		?>
 	</tr>
 	<tr>
-		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->coop->description , '100%', '350', '75', '20' ) ; ?></td>
+		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->coop?$this->coop->description:'' , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
 </tbody>
 </table>
