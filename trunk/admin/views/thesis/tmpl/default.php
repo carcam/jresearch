@@ -47,7 +47,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php $startDate = $this->thesis?$this->thesis->start_date:''; ?>
 		<td>
 			<?php echo JHTML::_('calendar', $startDate ,'start_date', 'start_date', '%Y-%m-%d', array('class'=>'validate-date')); ?><br />
-			<label for="start_date" class="labelform"><?php echo JText::_('Please provide a valid date in format YYYY-MM-DD'); ?></label> 
+			<label for="start_date" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_DATE'); ?></label> 
 		</td>
 		<th><?php echo JText::_('JRESEARCH_DEADLINE').': ' ?></th>
 		<?php $endDate = $this->thesis?$this->thesis->end_date:''; ?>
