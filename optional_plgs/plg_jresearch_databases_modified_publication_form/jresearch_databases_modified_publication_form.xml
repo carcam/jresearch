@@ -2,8 +2,8 @@
 <install version="1.5" type="plugin" group="jresearch">
 	<name>J!Research Databases Modified Publication Form</name>
 	<author>Luis Gal&#225;rraga and Florian Prinz</author>
-	<creationDate>July 2008</creationDate>
-	<copyright>Copyright (C) 2008 - Luis Gal&#225;rraga</copyright>
+	<creationDate>April 2009</creationDate>
+	<copyright>Copyright (C) 2009 - Luis Gal&#225;rraga</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>shamantobi@gmail.com, prinz.florian@chello.at</authorEmail>
 	<authorUrl>http://joomla-research.com</authorUrl>
@@ -16,5 +16,9 @@
 		<filename plugin="jresearch_databases_modified_publication_form">plg_jresearch_databases_modified_publication_form/tmpl/edit.php</filename>		
 		<filename plugin="jresearch_databases_modified_publication_form">plg_jresearch_databases_modified_publication_form/tmpl/index.html</filename>		
 	</files>
-	<params />
+	<params>
+		<param name="database" type="list" label="JRESEARCH_EXTERNAL_DATABASE" description="JRESEARCH_EXTERNAL_DATABASE_DESCRIPTION" default="pubmed">
+			<option value="pubmed">PubMED</option> 	
+		</param>
+	</params>
 </install>

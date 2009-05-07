@@ -67,7 +67,8 @@ if(!$pluginhandledRequest)
 $mainframe->triggerEvent('onAfterExecuteJResearchTask' , array());
 
 // Redirect if set by the controller
-$controller->redirect();
+if(!$pluginhandledRequest)
+	$controller->redirect();
 
 
 /**

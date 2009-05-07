@@ -10,8 +10,8 @@
 	<version>1.5</version>
 	<description>Allows the retrieval of publications information from public databases like PubMED. </description>
 	<files>
-		<folder>jresearch</folder>
-		<filename plugin="jresearch">jresearch.php</filename>
+		<folder>jresearch_xmlrpc_retrieve_records_external_databases</folder>
+		<filename plugin="jresearch_xmlrpc_retrieve_records_external_databases">jresearch_xmlrpc_retrieve_records_external_databases.php</filename>
 	</files>
 	<params />
 </install>
