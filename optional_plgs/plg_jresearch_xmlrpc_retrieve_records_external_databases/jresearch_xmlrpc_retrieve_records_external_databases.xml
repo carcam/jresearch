@@ -13,5 +13,10 @@
 		<folder>jresearch_xmlrpc_retrieve_records_external_databases</folder>
 		<filename plugin="jresearch_xmlrpc_retrieve_records_external_databases">jresearch_xmlrpc_retrieve_records_external_databases.php</filename>
 	</files>
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_jresearch_xmlrpc_retrieve_records_external_databases.ini</language>
+		<language tag="es-ES">es-ES.plg_jresearch_xmlrpc_retrieve_records_external_databases.ini</language>
+		<language tag="de-DE">de-DE.plg_jresearch_xmlrpc_retrieve_records_external_databases.ini</language>				
+	</languages>
 	<params />
 </install>

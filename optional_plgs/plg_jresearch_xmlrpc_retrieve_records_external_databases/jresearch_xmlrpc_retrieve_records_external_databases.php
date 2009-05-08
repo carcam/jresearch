@@ -54,6 +54,7 @@ class plgXMLRPCJresearchServices
 	public static function getRemotePublication($id)
 	{
 		global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+		JPlugin::loadLanguage('plg_jresearch_xmlrpc_retrieve_records_external_databases', JPATH_ADMINISTRATOR);
 		
 		$service = JRequest::getVar('service', 'Pubmed');
 		$serviceClass = $service.'Service';
