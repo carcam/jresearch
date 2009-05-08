@@ -55,6 +55,14 @@ function mapPublicationToForm(response, responsexml){
 	}
 	
 	// Now check if the result is not a fault
+	faults = responsexml.getElementsByTagName('fault');
+	if(faults.length > 0){
+		strings = responsexml.getElementsByTagName('string');
+		if(strings.length > 0){
+			alert(strings[0].firstChild.nodeValue);
+		}
+		return;
+	}
 	
 	//Time to map the information
 	members = responsexml.getElementsByTagName('member');

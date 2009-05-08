@@ -33,10 +33,15 @@ function plgJResearchDatabasesModifiedPublicationForm(){
 		return false;	
 		
 	if($mainframe->isAdmin()){
-		if($task != 'edit')
-			return false;		
+		if($task != 'edit'){
+			return false;	
+		}else{
+			$cid = JRequest::getVar('cid');
+			if(!empty($cid))
+				return false;
+		}	
 	}else{
-		if($task != 'add' && $task != 'edit')
+		if($task != 'add')
 			return false;
 	}
 	
@@ -46,6 +51,7 @@ function plgJResearchDatabasesModifiedPublicationForm(){
 	}	
 	
 	$plugin = JPluginHelper::getPlugin('jresearch', 'jresearch_databases_modified_publication_form');
+	JPlugin::loadLanguage('plg_jresearch_databases_modified_publication_form', JPATH_ADMINISTRATOR);
 	$params = new JParameter($plugin->params);
 	$database = $params->get('service', 'Pubmed');
 	
@@ -58,7 +64,7 @@ function plgJResearchDatabasesModifiedPublicationForm(){
 	$failureMessage = JText::_('JRESEARCH_CALL_FAILURE_MESSAGE');
 	$doc->addScript($url.'/plugins/jresearch/plg_jresearch_databases_modified_publication_form_scripts/databases.js');
 	$doc->addScriptDeclaration("document.jresearch_plugins_buttonText = '$buttonText';
-								document.jresearch_plugins_external_service = 'Pubmed';
+								document.jresearch_plugins_external_service = '$database';
 								document.jresearch_plugins_xmlrpc_url = '$xmlRpcUrl';
 								document.jresearch_loading_text = '$loading';
 								document.jresearch_call_failure_message = '$failureMessage';
