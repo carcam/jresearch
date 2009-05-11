@@ -33,7 +33,12 @@ class JResearchAdminViewStaff extends JView
         			break;
         }
 	
+        $eArguments = array('staff');
+        $mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+        
         parent::display($tpl);
+        
+        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
     }
     
     /**

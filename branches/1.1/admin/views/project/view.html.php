@@ -34,6 +34,8 @@ class JResearchAdminViewProject extends JView
     	$cid = JRequest::getVar('cid');
     	$editor =& JFactory::getEditor();
     	$model =& $this->getModel();
+    	$project = $model->getItem($cid[0]);
+    	
     	$areaModel =& $this->getModel('researchareaslist');
     	$finModel =& $this->getModel('financiers');
     	$researchAreas = $areaModel->getData(null, true, false);
@@ -74,23 +76,19 @@ class JResearchAdminViewProject extends JView
     	$currencyOptions[] = JHTML::_('select.option', 'USD', 'US Dollar');
     	
     	if($cid){
-        	$project = $model->getItem($cid[0]);
         	$projectFins = $project->getFinanciers();
         	$arguments[] = $project->id;
-    	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $project->published);   	
-    	  	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $project->id_research_area);
-    	  	$statusHTML = JHTML::_('select.genericlist', $statusOptions, 'status', 'class="inputbox" size="5"', 'value', 'text', $project->status);
-    	  	$currencyHTML = JHTML::_('select.genericlist', $currencyOptions, 'finance_currency', 'class="inputbox"', 'value', 'text', $project->finance_currency);
     	  	$members = $project->getAuthors();
     		$principalFlags = $project->getPrincipalsFlagsArray();    	  	
     	}else{
     		$arguments[] = null;
     		$projectFins = array();
-    	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);   		
-    	 	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox"" size="5"', 'value', 'text', 1); 
-    	 	$statusHTML = JHTML::_('select.genericlist', $statusOptions, 'status', 'class="inputbox" size="5"', 'value', 'text', 'not_started');
-    	 	$currencyHTML = JHTML::_('select.genericlist', $currencyOptions, 'currency', 'class="inputbox"', 'value', 'text');
     	}
+    	
+    	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $project?$project->published:1);   	
+    	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $project?$project->id_research_area:1);
+    	$statusHTML = JHTML::_('select.genericlist', $statusOptions, 'status', 'class="inputbox" size="5"', 'value', 'text', $project?$project->status:'not_started');
+    	$currencyHTML = JHTML::_('select.genericlist', $currencyOptions, 'finance_currency', 'class="inputbox"', 'value', 'text', $project?$project->finance_currency:null);
 
 		$membersControl = JHTML::_('AuthorsSelector._', 'members', $members, true, $principalFlags);	
 		
@@ -116,6 +114,7 @@ class JResearchAdminViewProject extends JView
 
        	parent::display($tpl);
 
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 

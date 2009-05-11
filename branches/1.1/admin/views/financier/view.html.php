@@ -32,6 +32,7 @@ class JResearchAdminViewFinancier extends JView
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$model =& $this->getModel();
+    	$fin = $model->getItem($cid[0]);
     	$arguments = array('financier');
     	
 		//Published options
@@ -40,24 +41,24 @@ class JResearchAdminViewFinancier extends JView
     	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
 
     	
-    	if($cid){
-        	$fin = $model->getItem($cid[0]);
+    	if($fin){
         	$arguments[] = $fin->id;
-    	    $publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $fin->published);   	
+    	    $publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $fin->published);  
+    	    
     	}else{
     		$arguments[] = null;
-    	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);   		
+    	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);   
     	}
     	
-    	
+    	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('financier', $fin);
-    	$this->assignRef('publishedRadio', $publishedRadio); 	
     	
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 		
        	parent::display($tpl);
 
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 

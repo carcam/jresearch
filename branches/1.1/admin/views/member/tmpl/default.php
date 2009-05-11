@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_FORMER_MEMBER')?></td>
 		<td>
-			<input type="checkbox" name="former_member" value="1" <?=(($this->member->former_member == 1) ? 'checked="checked"' : "")?> />
+			<input type="checkbox" name="former_member" value="1" <?php echo (($this->member && $this->member->former_member == 1) ? 'checked="checked"' : "")?> />
 		</td>
 		<td><?php echo JText::_('Order').': '; ?></td>
 		<td><?php echo $this->orderList; ?></td>

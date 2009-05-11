@@ -33,12 +33,11 @@ class JResearchAdminViewFacility extends JView
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$editor =& JFactory::getEditor();
+    	$fac = $model->getItem($cid[0]);
     	
     	$model =& $this->getModel();
     	$areaModel =& $this->getModel('researchareaslist');   	
     	$researchAreas = $areaModel->getData(null, true, false);
-
-    	$arguments = array('facility');
     	
 		//Published options
     	$publishedOptions = array();
@@ -52,9 +51,8 @@ class JResearchAdminViewFacility extends JView
     		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
     	}
     	
-    	if($cid)
+    	if($fac)
     	{
-        	$fac = $model->getItem($cid[0]);
         	$arguments[] = $fac->id;
     	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $fac->published);   	
     	  	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $fac->id_research_area);
@@ -73,17 +71,18 @@ class JResearchAdminViewFacility extends JView
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_facilities ORDER by ordering ASC');
     	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $fac->ordering);*/
 
-    	$this->assignRef('fac', $fac);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
     	//$this->assignRef('orderList', $orderList);
-		$this->assignRef('editor', $editor);    
+		$this->assignRef('editor', $editor);
+		$this->assignRef('fac', $fac);
     	
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 
        	parent::display($tpl);
-
+       	
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 

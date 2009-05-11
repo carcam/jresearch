@@ -40,13 +40,18 @@ class JResearchAdminViewFinanciers extends JView
 		
 		// State filter
 		$lists['state'] = JHTML::_('grid.state', $filter_state);
-		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
 		
 		$this->assignRef('items', $items);
 		$this->assignRef('lists', $lists );
 		$this->assignRef('page', $model->getPagination());
-		parent::display($tpl);
+		
+		$eArguments = array('financiers');
+        $mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+        
+        parent::display($tpl);
+        
+        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
     }
 }
 ?>
