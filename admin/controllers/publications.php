@@ -34,6 +34,8 @@ class JResearchAdminPublicationsController extends JController
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('publish', 'publish');
 		$this->registerTask('unpublish', 'unpublish');
+		$this->registerTask('makeinternal', 'changeInternalStatus');
+		$this->registerTask('makenoninternal', 'changeInternalStatus');		
 		$this->registerTask('remove', 'remove');
 		$this->registerTask('import', 'import');
 		$this->registerTask('export', 'export');
@@ -384,22 +386,18 @@ class JResearchAdminPublicationsController extends JController
 	}
 	
 	/**
-	 * Invoked when the user has pressed the toggle button for change a publication's 
-	 * internal status.
+	 * Invoked when the user has pressed any of the buttons for changing internal 
+	 * flag for publications. 
 	 *
 	 */
-	function toggle_internal(){
-		//$db =& JFactory::getDBO();
+	function changeInternalStatus(){
 		$cid = JRequest::getVar('cid');
-		$publication =& JResearchPublication::getById($cid[0]);
-		$publication->internal = !$publication->internal;
-		if($publication->store())
-			$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));
-		else{
-			JError::raiseWarning(1, JText::_('JRESEARCH_TOGGLE_INTERNAL_FAILED'));
-			$this->setRedirect('index.php?option=com_jresearch&controller=publications');
-		}
+		$task = JRequest::getVar('task');		
+		$db = JFactory::getDBO();
 		
+		$publication = new JResearchPublication($db);
+		$publication->toggleInternal($cid, $task == 'makeinternal'?1:0);
+		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));		
 	}
 	
 
