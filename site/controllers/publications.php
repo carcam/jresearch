@@ -446,14 +446,16 @@ class JResearchPublicationsController extends JController
 		$type = JRequest::getVar('pubtype');
 		$publication =& JResearchPublication::getSubclassInstance($type);
 		$publication->bind($post);
-		
+		$Itemid = JRequest::getVar('Itemid');
+		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
+
 		// Validate publication
 		if(!$publication->check()){
 			JError::raiseWarning(1, $publication->getError());		
 			if($publication->id)			
-				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&id='.$publication->id);
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&id='.$publication->id.'&pubtype='.$publication->pubtype.$ItemidText);
 			else
-				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);	
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=add&pubtype='.$publication->pubtype.$ItemidText);	
 		}else{
 			//Time to set the authors
 			$maxAuthors = JRequest::getInt('maxauthors');
@@ -479,25 +481,41 @@ class JResearchPublicationsController extends JController
 				$publication->created_by = $user->get('id');
 			
 			// Now, save the record
+			$task = JRequest::getVar('task');			
 			if($publication->store(true)){			
+				$idText = !empty($publication->id)?'&id='.$publication->id:'';
 				
-				$task = JRequest::getVar('task');
 				if($task == 'apply'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&id='.$publication->id, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$ItemidText, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
 				}elseif($task == 'save'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
 				}
 								
 			}else{
-				JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());
-				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&id='.$publication->id);
+				$idText = !empty($publication->id)?'&id='.$publication->id:'';
+				$taskText = '&task='.(!empty($publication->id)?'edit':'add');
+				
+				if($db->getErrorNum() == 1062)				
+					JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+				else
+					JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());						
+				
+				if($task == 'apply'){
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$taskText.$idText.'&pubtype='.$publication->pubtype.$ItemidText);
+				}elseif($task == 'save'){
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText);	
+				}
+
 			}	
 		}
 		
-		$user =& JFactory::getUser();
-		if(!$publication->isCheckedOut($user->get('id'))){
-			if(!$publication->checkin())
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+		//If the publication exists
+		if(!empty($publication->id)){
+			$user =& JFactory::getUser();
+			if(!$publication->isCheckedOut($user->get('id'))){
+				if(!$publication->checkin())
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+			}
 		}
 		
 	}
@@ -508,8 +526,10 @@ class JResearchPublicationsController extends JController
 	 */
 	function cancel(){
 		$id = JRequest::getInt('id');
-		$model = &$this->getModel('Publication', 'JResearchModel');		
-		
+		$model = &$this->getModel('Publication', 'JResearchModel');
+		$Itemid = JRequest::getVar('Itemid');
+		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
+							
 		if($id != null){
 			$publication = $model->getItem($id);
 			if(!$publication->checkin()){
@@ -517,7 +537,7 @@ class JResearchPublicationsController extends JController
 			}
 		}
 		
-		$this->setRedirect('index.php?option=com_jresearch&controller=publications');
+		$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText);
 	}
 	
 

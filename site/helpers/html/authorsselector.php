@@ -142,7 +142,7 @@ class JHTMLAuthorsSelector{
 		foreach($result as $r){
 			$options[] = JHTML::_('select.option', $r['id'], $r['lastname'].' '.$r['firstname']);
 		}
-		
+
 		$list = JHTML::_('select.genericlist', $options, $controlName, 'class="inputbox"', 'value', 'text', $author->id);
 		if($deleteLink)	
 			$deleteControl = self::_fetchDeleteControl($controlName);

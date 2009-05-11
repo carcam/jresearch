@@ -102,5 +102,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="controller" value="publications" />
 <input type="hidden" name="pubtype" value="<?php echo $this->pubtype; ?>" />
 <input type="hidden" name="id" value="<?php echo $this->publication?$this->publication->id:'' ?>" />	
+<?php $Itemid = JRequest::getVar('Itemid'); ?>
+<input type="hidden" name="Itemid" value="<?php echo !empty($Itemid)?$Itemid:''; ?>" />
 <?php echo JHTML::_('behavior.keepalive'); ?>
 </form>

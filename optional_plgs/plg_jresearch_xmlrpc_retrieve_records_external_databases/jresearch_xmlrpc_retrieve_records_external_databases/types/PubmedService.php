@@ -141,9 +141,11 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 		$publication['issn'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISSN->_, $xmlrpcString);				
 		$publication['pages'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Pagination->MedlinePgn, $xmlrpcString);								
 		$authors = array();
-		foreach($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author as $author){
-			$authors[] = new xmlrpcval($author->LastName.' '.$author->ForeName, $xmlrpcString);
-		}
+		if(is_array($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author)){
+				foreach($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author as $author){
+					$authors[] = new xmlrpcval($author->LastName.' '.$author->Initials, $xmlrpcString);
+				}
+			}
 		$publication['authors'] = new xmlrpcval($authors, $xmlrpcArray);
 		
 		$year = $result->PubmedArticleSet->PubmedArticle->MedlineCitation->DateCreated->Year;
@@ -170,8 +172,10 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 			$publication['issn'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISSN->_, $xmlrpcString);				
 			$publication['pages'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Pagination->MedlinePgn, $xmlrpcString);								
 			$authors = array();
-			foreach($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author as $author){
-				$authors[] = new xmlrpcval($author->LastName.' '.$author->ForeName, $xmlrpcString);
+			if(is_array($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author)){
+				foreach($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author as $author){
+					$authors[] = new xmlrpcval($author->LastName.' '.$author->Initials, $xmlrpcString);
+				}
 			}
 			$publication['authors'] = new xmlrpcval($authors, $xmlrpcArray);
 			

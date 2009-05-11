@@ -10,7 +10,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1 class="componentheading"><?php echo $this->member; ?></h1>
 <table cellspacing="5">
-  <tr><th colspan="4" class="contentheading"><?php echo JText::_('JRESEARCH_PERSONAL_INFORMATION').': '; ?></th></tr>	
+  <tr><td colspan="4" class="contentheading"><?php echo JText::_('JRESEARCH_PERSONAL_INFORMATION').': '; ?></td></tr>	
   <tr><td colspan="4"></td></tr>  
   <tr>  
     <td width="20%" class="field"><?php echo JText::_('JRESEARCH_POSITION').': ' ?></td>
