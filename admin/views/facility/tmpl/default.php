@@ -37,19 +37,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 		<td>
 			<input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?=JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 1024, 768)); ?><br />
-			<label for="delete" /><?=JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
 		</td>
 		<td colspan="2" rowspan="2">
 			<?php
-			if($this->fac->image_url)
-			{
+			if($this->fac && $this->fac->image_url):
 			?>
 				<a href="<?=$this->fac->image_url;?>" class="modal">
 					<img src="<?=$this->fac->image_url; ?>" alt="Image of <?=$this->fac->name?>" width="100" />
 				</a>
+				<label for="delete" /><?=JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
 				<input type="hidden" name="image_url" id="image_url" value="<?=$this->fac->image_url;?>" />
 			<?php
-			}
+			endif;
 			?>
 		</td>
 	</tr>

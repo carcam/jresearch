@@ -124,6 +124,7 @@ class JResearchPublicationsController extends JController
 	function edit()
 	{	
 		$cid = JRequest::getVar('id');
+		$Itemid = JRequest::getVar('Itemid');
 		
 		$view = &$this->getView('Publication', 'html', 'JResearchView');
 		$pubModel = &$this->getModel('Publication', 'JResearchModel');	
@@ -139,7 +140,7 @@ class JResearchPublicationsController extends JController
 				// Verify if it is checked out
 				if($publication->isCheckedOut($user->get('id')))
 				{
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications&Itemid='.$Itemid, JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
 				}
 				else
 				{

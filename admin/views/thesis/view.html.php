@@ -33,9 +33,9 @@ class JResearchAdminViewThesis extends JView
     	$cid = JRequest::getVar('cid');
     	$editor =& JFactory::getEditor();
     	$model =& $this->getModel();
+    	$thesis = $model->getItem($cid[0]);
     	$areaModel =& $this->getModel('researchareaslist');   	
     	$researchAreas = $areaModel->getData(null, true, false);
-    	$members = null;
     	$directors = null;
     	$arguments = array('thesis');
     	
@@ -63,7 +63,6 @@ class JResearchAdminViewThesis extends JView
     	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('Finished'));
     	
     	if($cid){
-        	$thesis = $model->getItem($cid[0]);
         	$arguments[] = $thesis->id;
     	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $thesis->published);   	
     	  	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $thesis->id_research_area);
@@ -96,6 +95,7 @@ class JResearchAdminViewThesis extends JView
 		
        	parent::display($tpl);
     	
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
     }
 }
 

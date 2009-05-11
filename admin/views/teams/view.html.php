@@ -31,7 +31,12 @@ class JResearchAdminViewTeams extends JView
         			break;
         }
 	
+        $eArguments = array('teams');
+        $mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+        
         parent::display($tpl);
+        
+        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
     }
     
     /**

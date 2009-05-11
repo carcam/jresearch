@@ -89,7 +89,6 @@ class JResearchAdminViewPublication extends JView
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('pubtype', $pubtype);
 		$this->assignRef('authors', $authorsControl);
-		
 	}
 	
 	/**

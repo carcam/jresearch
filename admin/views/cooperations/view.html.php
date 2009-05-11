@@ -32,7 +32,12 @@ class JResearchAdminViewCooperations extends JView
         			break;
         }
 	
+        $eArguments = array('cooperations');
+        $mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+        
         parent::display($tpl);
+        
+        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
     }
     
     /**
