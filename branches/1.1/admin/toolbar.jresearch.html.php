@@ -53,6 +53,11 @@ class JResearchToolbar
 		
 		JToolBarHelper::divider();
 		
+		JToolBarHelper::custom('makeinternal', 'publish', '', JText::_('JRESEARCH_TURN_ON_INTERNAL'));
+		JToolBarHelper::custom('makenoninternal', 'unpublish', '', JText::_('JRESEARCH_TURN_OFF_INTERNAL'));		
+		
+		JToolBarHelper::divider();
+		
 		self::importButton();
 		self::exportButton();
 		JToolBarHelper::custom('exportAll', 'export', '', JText::_('JRESEARCH_EXPORT_ALL_PUBLICATIONS'), false);
