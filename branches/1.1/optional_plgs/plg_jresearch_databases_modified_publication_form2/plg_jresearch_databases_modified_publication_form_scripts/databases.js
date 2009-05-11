@@ -115,8 +115,12 @@ function mapPublicationToForm(response, responsexml){
 						months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dic'];
 						if(value)
 							inputName.setAttribute('value', months[parseInt(value) - 1]);
-					}else
-						inputName.setAttribute('value', value);
+					}else{
+						if(inputName.nodeName.toLowerCase() == 'input')
+							inputName.setAttribute('value', value);
+						else if(inputName.nodeName.toLowerCase() == 'textarea')
+							inputName.appendChild(document.createTextNode(value));	
+					}
 				}
 			}
 		}

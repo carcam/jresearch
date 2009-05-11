@@ -209,10 +209,11 @@ class JResearchViewPublication extends JView
 			$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', null);
 			
 		    //Published radio
-			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 0);
-			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', 0);
-			
-			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' , array());
+			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);
+			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', 1);
+			$member = new JResearchMember(JFactory::getDBO());
+			$member->bindFromUsername($user->username);
+			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' , array($member));
 		}
 		
 		$this->assignRef('user', $user);
