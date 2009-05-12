@@ -34,6 +34,8 @@ class JResearchAdminPublicationsController extends JController
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('publish', 'publish');
 		$this->registerTask('unpublish', 'unpublish');
+		$this->registerTask('makeinternal', 'changeInternalStatus');
+		$this->registerTask('makenoninternal', 'changeInternalStatus');		
 		$this->registerTask('remove', 'remove');
 		$this->registerTask('import', 'import');
 		$this->registerTask('export', 'export');
@@ -344,12 +346,13 @@ class JResearchAdminPublicationsController extends JController
 		}
 		
 		// Validate publication
-		if(!$check){
+		if(!$publication->check()){
+			JError::raiseWarning(1, $publication->getError());		
 			if($publication->id)			
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype);
 			else
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);	
-		}else{				
+		}else{
 			//Time to set the authors
 			$maxAuthors = JRequest::getInt('maxauthors');
 			$k = 0;
@@ -368,32 +371,44 @@ class JResearchAdminPublicationsController extends JController
 					$k++;
 				}			
 			}
-			
 		
 			// Set the id of the author if the item is new
 			if(empty($publication->id))
 				$publication->created_by = $user->get('id');
 			
 			// Now, save the record
+			$task = JRequest::getVar('task');			
 			if($publication->store(true)){			
 				
-				$task = JRequest::getVar('task');
 				if($task == 'apply'){
 					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
 				}elseif($task == 'save'){
 					$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
 				}
+				
+				// Trigger event
+				$arguments = array('publication', $publication->id);
+				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
+				
 								
 			}else{
-				JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());
-				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype);
+				$idText = !empty($publication->id) && $task == 'apply'?'&cid[]='.$publication->id:'';
+				
+				if($db->getErrorNum() == 1062)				
+					JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+				else
+					JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());
+
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype);
 			}	
 		}
 		
-		$user =& JFactory::getUser();
-		if(!$publication->isCheckedOut($user->get('id'))){
-			if(!$publication->checkin())
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+		if(!empty($publication->id)){
+			$user =& JFactory::getUser();
+			if(!$publication->isCheckedOut($user->get('id'))){
+				if(!$publication->checkin())
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+			}
 		}
 		
 	}

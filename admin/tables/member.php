@@ -153,7 +153,7 @@ class JResearchMember extends JTable{
 	 * @return unknown
 	 */
 	function __toString(){
-		return "$this->firstname $this->lastname";
+		return "$this->lastname, $this->firstname";
 	}
 
 	/**

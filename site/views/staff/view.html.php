@@ -77,12 +77,15 @@ class JResearchViewStaff extends JView
     private function _displayDefaultList(&$model){
       	global $mainframe;
       	$doc = JFactory::getDocument();
+      	$params = $mainframe->getPageParameters('com_jresearch');
 
       	$members =  $model->getData(null, true, true);   
     	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));
     	
+    	$format = $params->get('staff_format') == 'last_first'?1:0;
     	$this->assignRef('items', $members);
     	$this->assignRef('page', $model->getPagination());	
+    	$this->assignRef('format', $format);
 
     }
     
@@ -97,9 +100,11 @@ class JResearchViewStaff extends JView
     	
 		$members =& $model->getData(null, true, false);
     	$images = $this->getImages($members);
-    	
-		$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));    	
+    	$params = $mainframe->getPageParameters('com_jresearch');
+		
+    	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));    	
     	$this->assignRef('images', $images);
+		$this->assignRef('format', $params->get('staff_format') == 'last_first'?1:0);    	
     }
     
     /**

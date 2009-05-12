@@ -23,6 +23,7 @@ class JResearchAdminViewPublication extends JView
 {
 	function display($tpl = null){
  		$layout = $this->getLayout();
+ 		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
  		
  		switch($layout){
  			case 'new':
@@ -41,10 +42,11 @@ class JResearchAdminViewPublication extends JView
 	* publications.
 	*/
 	private function _displayPublicationForm(){
+		global $mainframe;
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 		
 		JResearchToolbar::editPublicationAdminToolbar();
-		JHTML::_('JResearch.validation');		
+		JHTML::_('jresearchhtml.validation');		
 		
 		$cid = JRequest::getVar('cid');
 		$isNew = !isset($cid);
@@ -70,13 +72,13 @@ class JResearchAdminViewPublication extends JView
 		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));
 		
 		$params = JComponentHelper::getParams('com_jresearch');
-		$authorsControl = JHTML::_('JResearch.authorsSelector', 'authors' ,$authors);		
+		$authorsControl = JHTML::_('jresearchhtml.authorsSelector', 'authors' ,$authors);		
 
 		if(!empty($publication->files))
 			$uploadedFiles = explode(';', trim($publication->files));
 		else
 			$uploadedFiles = array();	
-		$files = JHTML::_('JResearch.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
+		$files = JHTML::_('jresearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
 		
 		$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('publishedRadio', $publishedRadio);

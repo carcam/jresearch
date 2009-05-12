@@ -149,11 +149,11 @@ class JResearchAdminFinanciersController extends JController
 		$fin->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		// Validate and save
+		$task = JRequest::getVar('task');		
 		if($fin->check())
 		{
 			if($fin->store())
 			{
-				$task = JRequest::getVar('task');
 
 				//Specific redirect for specific task
 				if($task == 'save')
@@ -163,27 +163,36 @@ class JResearchAdminFinanciersController extends JController
 
 				// Trigger event
 				$arguments = array('financier', $fin->id);
-				$mainframe->triggerEvent('onAfterSaveFinancierEntity', $arguments);
+				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
 
 			}
 			else
 			{
-				JError::raiseWarning(1, $fin->getError());
-				$this->setRedirect('index.php?option=com_jresearch&controller=financiers&task=edit&cid[]='.$fin->id, JText::_('The information could not be saved.'));
+				if($db->getErrorNum() == 1062)				
+					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+				else
+					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$db->getErrorMsg());				
+				
+				$idText = !empty($fin->id) && $task == 'apply'?'&cid[]='.$fin->id:'';
+				
+				$this->setRedirect('index.php?option=com_jresearch&controller=financiers&task=edit'.$idText);
 			}
 		}
 		else
 		{
 			JError::raiseWarning(1, $fin->getError());
-			$this->setRedirect('index.php?option=com_jresearch&controller=financiers&task=edit&cid[]='.$fin->id);
+			$idText = !empty($fin->id)?'&cid[]='.$fin->id:'';			
+			$this->setRedirect('index.php?option=com_jresearch&controller=financiers&task=edit'.$idText);
 		}
 		
 		//Unlock record
-		$user =& JFactory::getUser();
-		if(!$fin->isCheckedOut($user->get('id')))
-		{
-			if(!$fin->checkin())
-				JError::raiseWarning(1, JText::_(JRESEARCH_UNLOCK_FAILED));
+		if(!empty($fin->id)){
+			$user =& JFactory::getUser();
+			if(!$fin->isCheckedOut($user->get('id')))
+			{
+				if(!$fin->checkin())
+					JError::raiseWarning(1, JText::_(JRESEARCH_UNLOCK_FAILED));
+			}
 		}
 	}
 

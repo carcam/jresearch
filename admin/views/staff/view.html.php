@@ -23,7 +23,10 @@ class JResearchAdminViewStaff extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
         $layout = &$this->getLayout();
+        JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+        
         switch($layout){
         		case 'add':
         			$this->_displayAddForm();
@@ -48,8 +51,8 @@ class JResearchAdminViewStaff extends JView
     private function _displayDefaultList(){
 		global $mainframe;
     	JResearchToolbar::staffAdminListToolbar();
-    	
-    	//Get the model
+
+        //Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
     	$members =  $model->getData(null, false, true);
@@ -101,7 +104,7 @@ class JResearchAdminViewStaff extends JView
     	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
     	$doc->addScript($url.'components/com_jresearch/helpers/html/staffimporter.js');
     	
-    	$control = JHTML::_('JResearch.staffImporter', 'importedMembers');
+    	$control = JHTML::_('jresearchhtml.staffImporter', 'importedMembers');
     	
     	$this->assignRef('control', $control);
     	

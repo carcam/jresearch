@@ -184,11 +184,11 @@ class JResearchAdminFacilitiesController extends JController
 		); 
 
 		// Validate and save
+		$task = JRequest::getVar('task');		
 		if($fac->check())
 		{
 			if($fac->store())
 			{
-				$task = JRequest::getVar('task');
 
 				//Specific redirect for specific task
 				if($task == 'save')
@@ -198,30 +198,34 @@ class JResearchAdminFacilitiesController extends JController
 
 				// Trigger event
 				$arguments = array('facility', $fac->id);
-				$mainframe->triggerEvent('onAfterSaveFacilityEntity', $arguments);
+				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
 
 			}
 			else
 			{
-				JError::raiseWarning(1, $fac->getError());
-				$this->setRedirect('index.php?option=com_jresearch&controller=facilities&task=edit&cid[]='.$fac->id, JText::_('JRESEARCH_SAVE_FAILED'));
+				$idText = !empty($fac->id)?'&cid[]='.$fac->id:'';				
+				JError::raiseWarning(1,  JText::_('JRESEARCH_SAVE_FAILED').': '.$fac->getError());
+				$this->setRedirect('index.php?option=com_jresearch&controller=facilities&task=edit'.$idText);
 			}
 		}
 		else
 		{
+			$idText = !empty($fac->id) && $task == 'apply'?'&cid[]='.$fac->id:'';
 			JError::raiseWarning(1, $fac->getError());
-			$this->setRedirect('index.php?option=com_jresearch&controller=facilities&task=edit&cid[]='.$fac->id);
+			$this->setRedirect('index.php?option=com_jresearch&controller=facilities&task=edit'.$idText);
 		}
 		
 		//Reordering ordering of other facilities
 		$fac->reorder('published >= 0 AND id_research_area = '.(int) $fac->id_research_area);
 
 		//Unlock record
-		$user =& JFactory::getUser();
-		if(!$fac->isCheckedOut($user->get('id')))
-		{
-			if(!$fac->checkin())
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+		if(!empty($fac->id)){
+			$user =& JFactory::getUser();
+			if(!$fac->isCheckedOut($user->get('id')))
+			{
+				if(!$fac->checkin())
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+			}
 		}
 	}
 

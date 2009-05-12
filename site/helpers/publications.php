@@ -16,6 +16,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
 
+define('LASTNAME_FIRSTNAME', 1);
+define('FIRSTNAME_LASTNAME', 0);
+
 /**
  * This class holds useful methods for dealing with publications records.
  *
@@ -384,12 +387,24 @@ class JResearchPublicationsHelper{
 	    $text = '';
 	    foreach($authors as $author){
 	    if($author instanceof JResearchMember)
-	        $text.= ' '.$author->__toString().',';
+	        $text.= ' '.$author->__toString().',';	
 	    else
 	        $text.= ' '.$author.',';
 	    }
 	    $text = rtrim($text, ',');
 	    return $text;
+	}
+	
+	/**
+	 * Takes an author (string or JResearchMember object) and 
+	 * apply a one of the available formats: "lastname, firstname" or
+	 * "firstname lastname"
+	 * @param string $author
+	 * @return string
+	 */
+	public static function formatAuthor($author, $format){
+
+	   			     
 	}
 
 	/**

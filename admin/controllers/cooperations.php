@@ -171,12 +171,11 @@ class JResearchAdminCooperationsController extends JController
 		); 
 		
 		// Validate and save
+		$task = JRequest::getVar('task');
 		if($coop->check())
 		{
 			if($coop->store())
 			{
-				$task = JRequest::getVar('task');
-
 				//Specific redirect for specific task
 				if($task == 'save')
 					$this->setRedirect('index.php?option=com_jresearch&controller=cooperations', JText::_('The cooperation was successfully saved.'));
@@ -185,30 +184,34 @@ class JResearchAdminCooperationsController extends JController
 
 				// Trigger event
 				$arguments = array('cooperation', $coop->id);
-				$mainframe->triggerEvent('onAfterSaveCooperationEntity', $arguments);
+				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
 
 			}
 			else
 			{
-				JError::raiseWarning(1, $coop->getError());
-				$this->setRedirect('index.php?option=com_jresearch&controller=cooperations&task=edit&cid[]='.$coop->id, JText::_('JRESEARCH_SAVE_FAILED'));
+				JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$coop->getError());								
+				$idText = !empty($coop->id) && $task == 'apply'?'&cid[]='.$coop->id:'';
+				$this->setRedirect('index.php?option=com_jresearch&controller=cooperations&task=edit'.$idText);
 			}
 		}
 		else
 		{
+			$idText = !empty($coop->id) && $task == 'apply'?'&cid[]='.$coop->id:'';			
 			JError::raiseWarning(1, $coop->getError());
-			$this->setRedirect('index.php?option=com_jresearch&controller=cooperations&task=edit&cid[]='.$coop->id);
+			$this->setRedirect('index.php?option=com_jresearch&controller=cooperations&task=edit'.$idText);
 		}
 
 		//Reordering ordering of other cooperations
 		$coop->reorder();
 		
 		//Unlock record
-		$user =& JFactory::getUser();
-		if(!$coop->isCheckedOut($user->get('id')))
-		{
-			if(!$coop->checkin())
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+		if(!empty($coop->id)){
+			$user =& JFactory::getUser();
+			if(!$coop->isCheckedOut($user->get('id')))
+			{
+				if(!$coop->checkin())
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+			}
 		}
 	}
 
