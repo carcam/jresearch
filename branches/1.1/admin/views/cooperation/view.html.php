@@ -33,7 +33,7 @@ class JResearchAdminViewCooperation extends JView
     	$model =& $this->getModel();
 	    $coop = $model->getItem($cid[0]);
     	
-    	$arguments = $coop ? array('coop', $coop->id) : array();
+    	$arguments = $coop ? array('cooperation', $coop->id) : array('cooperation', null);
     	
 		//Published options
     	$publishedOptions = array();

@@ -302,7 +302,7 @@ class JResearchAdminPublicationsController extends JController
 	* Invoked when the user has decided to save a publication.
 	*/	
 	function save(){
-		//global $mainframe;
+		global $mainframe;
 		$db =& JFactory::getDBO();
 
 		// Bind request variables to publication attributes	
@@ -352,20 +352,21 @@ class JResearchAdminPublicationsController extends JController
 				}elseif($task == 'save'){
 					$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
 				}
+				
+				// Trigger event
+				$arguments = array('publication', $publication->id);
+				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
+				
 								
 			}else{
-				$idText = !empty($publication->id)?'&cid[]='.$publication->id:'';
+				$idText = !empty($publication->id) && $task == 'apply'?'&cid[]='.$publication->id:'';
 				
 				if($db->getErrorNum() == 1062)				
 					JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
 				else
 					JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());
 
-				if($task == 'apply'){
-						$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype);
-				}elseif($task == 'save'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications');	
-				}
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype);
 			}	
 		}
 		
@@ -412,6 +413,24 @@ class JResearchAdminPublicationsController extends JController
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));		
 	}
 	
+	/**
+	 * Invoked when the user has pressed the toggle button for change a publication's 
+	 * internal status.
+	 *
+	 */
+	function toggle_internal(){
+		$db =& JFactory::getDBO();
+		$cid = JRequest::getVar('cid');
+		$publication =& JResearchPublication::getById($cid[0]);
+		$publication->internal = !$publication->internal;
+		if($publication->store())
+			$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));
+		else{
+			JError::raiseWarning(1, JText::_('JRESEARCH_TOGGLE_INTERNAL_FAILED'));
+			$this->setRedirect('index.php?option=com_jresearch&controller=publications');
+		}
+		
+	}
 
 }
 ?>

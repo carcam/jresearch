@@ -241,11 +241,12 @@ class JResearchAdminStaffController extends JController
 		
 		//Reordering other members
 		$member->reorder();
-		
-		$user =& JFactory::getUser();
-		if(!$member->isCheckedOut($user->get('id'))){
-			if(!$member->checkin())
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+		if(!empty($member->id)){
+			$user =& JFactory::getUser();
+			if(!$member->isCheckedOut($user->get('id'))){
+				if(!$member->checkin())
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+			}
 		}
 	}
 	

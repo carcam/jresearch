@@ -24,6 +24,7 @@ class JResearchAdminViewPublicationsList extends JView
     function display($tpl = null)
     {
     	// Invoke the correct function according to the layout
+    	global $mainframe;
     	$layout = $this->getLayout();
     	
     	switch($layout){
@@ -39,11 +40,11 @@ class JResearchAdminViewPublicationsList extends JView
     	}
     	
         $eArguments = array('publications');
-        $mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
         
         parent::display($tpl);
         
-        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     

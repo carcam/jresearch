@@ -471,6 +471,11 @@ INSERT INTO `#__jresearch_property` (`name`) VALUES ('volume');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('year');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('keywords');
 
+-- Include in upgrade patch
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('journal_acceptance_rate');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('impact_factor');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('awards');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('comments');
 
 DROP TABLE IF EXISTS `#__jresearch_publication_type`;
 CREATE TABLE `#__jresearch_publication_type` (

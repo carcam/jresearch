@@ -190,7 +190,7 @@ class JResearchAdminTeamsController extends JController
 
 				// Trigger event
 				$arguments = array('team', $team->id);
-				$mainframe->triggerEvent('onAfterSaveTeamEntity', $arguments);
+				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
 
 			}
 			else
@@ -206,11 +206,13 @@ class JResearchAdminTeamsController extends JController
 		}
 		
 		//Unlock record
-		$user =& JFactory::getUser();
-		if(!$team->isCheckedOut($user->get('id')))
-		{
-			if(!$team->checkin())
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+		if(!empty($fac->id)){
+			$user =& JFactory::getUser();
+			if(!$team->isCheckedOut($user->get('id')))
+			{
+				if(!$team->checkin())
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+			}
 		}
 	}
 

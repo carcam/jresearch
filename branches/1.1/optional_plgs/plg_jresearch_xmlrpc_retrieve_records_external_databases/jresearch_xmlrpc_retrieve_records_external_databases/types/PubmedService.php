@@ -143,7 +143,7 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 		$authors = array();
 		if(is_array($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author)){
 				foreach($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author as $author){
-					$authors[] = new xmlrpcval($author->LastName.' '.$author->Initials, $xmlrpcString);
+					$authors[] = new xmlrpcval($author->Initials.' '.$author->LastName, $xmlrpcString);
 				}
 			}
 		$publication['authors'] = new xmlrpcval($authors, $xmlrpcArray);
@@ -174,7 +174,7 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 			$authors = array();
 			if(is_array($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author)){
 				foreach($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author as $author){
-					$authors[] = new xmlrpcval($author->LastName.' '.$author->Initials, $xmlrpcString);
+					$authors[] = new xmlrpcval($author->Initials.' '.$author->LastName, $xmlrpcString);
 				}
 			}
 			$publication['authors'] = new xmlrpcval($authors, $xmlrpcArray);

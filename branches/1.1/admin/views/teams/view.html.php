@@ -22,6 +22,7 @@ class JResearchAdminViewTeams extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;    	
         $layout = &$this->getLayout();
         
         switch($layout)
@@ -32,11 +33,11 @@ class JResearchAdminViewTeams extends JView
         }
 	
         $eArguments = array('teams');
-        $mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
         
         parent::display($tpl);
         
-        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**
@@ -45,10 +46,7 @@ class JResearchAdminViewTeams extends JView
     private function _displayDefaultList()
     {
     	global $mainframe;
-    	
-    	//Toolbar
-    	//JResearchToolbar::staffAdminListToolbar();
-    	
+    	    	
     	//Get the model
     	$model =& $this->getModel();
     	$teams = $model->getData(null, false, true);
