@@ -29,15 +29,17 @@ class JResearchAdminViewFacility extends JView
       	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 		JHTML::_('Validator._');      	
     	JRequest::setVar( 'hidemainmenu', 1 );
+    	$arguments = array('facility');
     	
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$editor =& JFactory::getEditor();
-    	$fac = $model->getItem($cid[0]);
     	
     	$model =& $this->getModel();
     	$areaModel =& $this->getModel('researchareaslist');   	
     	$researchAreas = $areaModel->getData(null, true, false);
+    	
+    	$fac = $model->getItem($cid[0]);
     	
 		//Published options
     	$publishedOptions = array();
@@ -66,14 +68,9 @@ class JResearchAdminViewFacility extends JView
     	
     	//Order options
     	$orderOptions = array();
-    	
-    	/*
-    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_facilities ORDER by ordering ASC');
-    	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $fac->ordering);*/
 
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
-    	//$this->assignRef('orderList', $orderList);
 		$this->assignRef('editor', $editor);
 		$this->assignRef('fac', $fac);
     	

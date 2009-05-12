@@ -24,6 +24,7 @@ class JResearchAdminViewCooperations extends JView
     function display($tpl = null)
     {
         $layout = &$this->getLayout();
+        global $mainframe;
         
         switch($layout)
         {
@@ -33,11 +34,11 @@ class JResearchAdminViewCooperations extends JView
         }
 	
         $eArguments = array('cooperations');
-        $mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
         
         parent::display($tpl);
         
-        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**

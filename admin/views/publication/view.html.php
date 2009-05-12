@@ -22,6 +22,8 @@ jimport( 'joomla.application.component.view');
 class JResearchAdminViewPublication extends JView
 {
 	function display($tpl = null){
+		global $mainframe;
+		
  		$layout = $this->getLayout();
  		
  		switch($layout){
@@ -32,8 +34,10 @@ class JResearchAdminViewPublication extends JView
  				$this->_displayPublicationForm();
  				break;	
  		}
- 	  	
+ 	  	// Load cited records
+		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments); 		
 		parent::display($tpl);
+       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);		
 	}
 	
 	/**

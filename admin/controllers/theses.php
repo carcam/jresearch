@@ -220,18 +220,26 @@ class JResearchAdminThesesController extends JController
 				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);	
 				
 			}else{
-				JError::raiseWarning(1, $thesis->getError());
-				$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit&cid[]='.$thesis->id, JText::_('JRESEARCH_SAVE_FAILED'));					
+				if($db->getErrorNum() == 1062)				
+					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+				else
+					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$db->getErrorMsg());				
+				
+				$idText = !empty($thesis->id) && $task == 'apply'?'&cid[]='.$thesis->id:'';
+				$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit'.$idText);					
 			}
 		}else{
+			$idText = !empty($thesis->id)?'&cid[]='.$thesis->id:'';			
 			JError::raiseWarning(1, $thesis->getError());
-			$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit&cid[]='.$thesis->id);					
+			$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit'.$idText);					
 		}
 
-		$user =& JFactory::getUser();
-		if(!$thesis->isCheckedOut($user->get('id'))){
-			if(!$thesis->checkin())
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+		if(!empty($thesis->id)){
+			$user =& JFactory::getUser();
+			if(!$thesis->isCheckedOut($user->get('id'))){
+				if(!$thesis->checkin())
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+			}
 		}		
 		
 

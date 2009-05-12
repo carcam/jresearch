@@ -23,6 +23,8 @@ class JResearchAdminViewStaff extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
+    	
         $layout = &$this->getLayout();
         switch($layout){
         		case 'add':
@@ -34,11 +36,11 @@ class JResearchAdminViewStaff extends JView
         }
 	
         $eArguments = array('staff');
-        $mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
         
         parent::display($tpl);
         
-        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**

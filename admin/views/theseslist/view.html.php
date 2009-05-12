@@ -59,11 +59,11 @@ class JResearchAdminViewThesesList extends JView
      	$this->assignRef('area', $areaModel);
      	
      	$eArguments = array('theses');
-        $mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
         
         parent::display($tpl);
         
-        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
 }
 
