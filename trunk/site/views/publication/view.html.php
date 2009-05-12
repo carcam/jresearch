@@ -95,10 +95,10 @@ class JResearchViewPublication extends JView
 			jximport('jxtended.captcha.captcha');
  		 	$captcha = &JXCaptcha::getInstance('image', $config);
  		 	if(!$captcha->initialize())
- 		 		JError::raiseWarning(1, 'JRESEARCH_CAPTCHA_NOT_INITIALIZED');
+ 		 		JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
  	
     		if (!is_array($captchaInformation = $captcha->create())) {
-	 			JError::raiseWarning(1, 'JRESEARCH_CAPTCHA_NOT_INITIALIZED');
+	 			JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
 	    	}
 	    	
 	    	// Get the comments

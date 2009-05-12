@@ -278,9 +278,9 @@ class JResearchAdminProjectsController extends JController
 	    }	
 			
 		// Validate and save
+		$task = JRequest::getVar('task');
 		if($project->check()){
 			if($project->store()){
-				$task = JRequest::getVar('task');
 				if($task == 'save')
 					$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_PROJECT_SUCCESSFULLY_SAVED'));
 				elseif($task == 'apply') 
@@ -291,18 +291,26 @@ class JResearchAdminProjectsController extends JController
 				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
 					
 			}else{
-				JError::raiseWarning(1, $project->getError());
-				$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$project->id, JText::_('JRESEARCH_SAVE_FAILED'));					
+				if($db->getErrorNum() == 1062)				
+					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+				else
+					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$db->getErrorMsg());				
+				
+				$idText = !empty($project->id) && $task == 'apply'?'&cid[]='.$project->id:'';
+				$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit'.$idText);					
 			}
 		}else{
 			JError::raiseWarning(1, $project->getError());
-			$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$project->id);					
+			$idText = !empty($project->id)?'&cid[]='.$project->id:'';			
+			$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit'.$idText);				
 		}
 		
-		$user =& JFactory::getUser();
-		if(!$project->isCheckedOut($user->get('id'))){
-			if(!$project->checkin())
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+		if(!empty($project->id)){
+			$user =& JFactory::getUser();
+			if(!$project->isCheckedOut($user->get('id'))){
+				if(!$project->checkin())
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+			}
 		}
 		
 	}

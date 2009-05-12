@@ -8,7 +8,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
 <form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
-<table class="edit" cellpadding="5" cellspacing="5">
+<table class="editpublication" cellpadding="5" cellspacing="5">
 <tbody>
 	<tr>
 		<th class="title" colspan="4"><?php echo JText::_('JRESEARCH_BASIC')?></th>

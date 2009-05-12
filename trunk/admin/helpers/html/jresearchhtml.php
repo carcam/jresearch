@@ -10,7 +10,7 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class JHTMLJresearchhtml
+class JHTMLjresearchhtml
 {
 	/**
 	* Renders the control. It allows to select authors from staff members. For external
@@ -191,6 +191,8 @@ class JHTMLJresearchhtml
 	* @param $name HTML name of the control which holds the selected users.
 	*/
 	public function staffImporter($name){
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
+		
 		$db =& JFactory::getDBO();
 		$fields = $db->nameQuote('username').', '.$db->nameQuote('lastname').', '.$db->nameQuote('firstname');
 		$db->setQuery('SELECT '.$fields.' FROM '.$db->nameQuote('#__jresearch_member'));
@@ -227,7 +229,7 @@ class JHTMLJresearchhtml
 		}
 		
 		$output .= '</select></td>';
-		$output .= '<td align="center"><a style="font-size:14px;font-weight:bold;" href="javascript:addHiddenField(document.adminForm.users.options[document.adminForm.users.selectedIndex].value);moveFrom(\'users\', \''.$name.'\');">&gt;&gt;</><br />';
+		$output .= '<td class="staffoptions"><a style="font-size:14px;font-weight:bold;" href="javascript:addHiddenField(document.adminForm.users.options[document.adminForm.users.selectedIndex].value);moveFrom(\'users\', \''.$name.'\');">&gt;&gt;</><br />';
 		$output .= '<a style="font-size:14px;font-weight:bold;" href="javascript:removeHiddenField(document.adminForm.'.$name.'.options[document.adminForm.'.$name.'.selectedIndex].value);moveFrom(\''.$name.'\', \'users\');">&lt;&lt;</a><br />';
 		$output .= '<a style="font-size:14px;font-weight:bold;" href="javascript:moveAllFrom(\'users\', \''.$name.'\', true);">'.JText::_('All').'>>'.'</a></td>';
 		$output .= '<td><select size="15" class="inputbox staffimporter" name="'.$name.'" id="'.$name.'"></select></td>';

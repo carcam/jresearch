@@ -746,5 +746,57 @@ class JResearchPublication extends JResearchActivity{
 		return $result;
 		
 	}
+	
+	
+	/**
+	 * Sets internal status for a single or a set of publications.
+	 *
+	 * @param array $cid Array of publication ids
+	 * @param int $value New value for internal field
+	 * @param int $user_id Id of the user performing the operation
+	 * @return boolean True if success.
+	 */
+	function toggleInternal($cid=null, $value = 0, $user_id = 0){
+ 		JArrayHelper::toInteger( $cid );
+        $user_id    = (int) $user_id;
+        $publish    = (int) $value;
+        $k            = $this->_tbl_key;
+        if (count( $cid ) < 1)
+        {
+            if ($this->$k) {
+                $cid = array( $this->$k );
+            } else {
+                $this->setError("No items selected.");
+                return false;
+            }
+        }
+        $cids = $k . '=' . implode( ' OR ' . $k . '=', $cid );
+        $query = 'UPDATE '. $this->_tbl
+        . ' SET internal = ' . (int) $value
+        . ' WHERE ('.$cids.')';
+
+        $checkin = in_array( 'checked_out', array_keys($this->getProperties()) );
+        if ($checkin)
+        {
+            $query .= ' AND (checked_out = 0 OR checked_out = '.(int) $user_id.')';
+        }
+        $this->_db->setQuery( $query );
+        if (!$this->_db->query())
+        {
+            $this->setError($this->_db->getErrorMsg());
+            return false;
+        }
+        if (count( $cid ) == 1 && $checkin)
+        {
+            if ($this->_db->getAffectedRows() == 1) {
+                $this->checkin( $cid[0] );
+                if ($this->$k == $cid[0]) {
+                    $this->internal = $value;
+                }
+            }
+        }
+        $this->setError('');
+        return true;		
+	}
 }
 ?>

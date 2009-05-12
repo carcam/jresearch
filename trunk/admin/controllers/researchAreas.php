@@ -70,18 +70,27 @@ class JResearchAdminResearchAreasController extends JController
 				$arguments = array('researcharea', $area->id);
 				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);					
 			}else{
-				JError::raiseWarning(1, $area->getError());
-				$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas&task=edit&cid[]='.$area->id, JText::_('JRESEARCH_SAVE_FAILED'));					
+				$idText = !empty($area->id) && $task == 'apply'?'&cid[]='.$area->id:'';
+				
+				if($db->getErrorNum() == 1062)				
+					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+				else
+					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$db->getErrorMsg());				
+				
+				$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas&task=edit'.$idText);					
 			}
-		}else{
+		}else{			
 			JError::raiseWarning(1, $area->getError());
-			$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas&task=edit&cid[]='.$area->id);					
+			$idText = !empty($area->id)?'&cid[]='.$area->id:'';			
+			$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas&task=edit'.$idText);					
 		}
 
-		$user =& JFactory::getUser();
-		if(!$area->isCheckedOut($user->get('id'))){
-			if(!$area->checkin())
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+		if(!empty($area->id)){
+			$user =& JFactory::getUser();
+			if(!$area->isCheckedOut($user->get('id'))){
+				if(!$area->checkin())
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+			}
 		}
 	}
 
