@@ -22,11 +22,10 @@ class JResearchAdminViewTeam extends JView
 {
 	function display($tpl = null)
 	{
-    	global $mainframe;
-      	
+    	global $mainframe;      	
     	JResearchToolbar::editTeamAdminToolbar();
-		
-		JHTML::_('JResearch.validation');
+      			
+		JHTML::_('jresearchhtml.validation');
     	JRequest::setVar( 'hidemainmenu', 1 );
     	$arguments = array('team');
 

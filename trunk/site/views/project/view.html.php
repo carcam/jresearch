@@ -40,7 +40,9 @@ class JResearchViewProject extends JView
     private function _displayProject(){
       	global $mainframe;
     	$id = JRequest::getInt('id');
-   		$doc =& JFactory::getDocument();
+      	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');    	
+
+      	$doc =& JFactory::getDocument();
    		$session = JFactory::getSession();
    		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
 
@@ -68,6 +70,7 @@ class JResearchViewProject extends JView
     	
     	$params = $mainframe->getPageParameters('com_jresearch');
 		$showHits = ($params->get('show_hits') == 'yes');
+    	$format = $params->get('staff_format') == 'last_first'?1:0;		
 		
     	$doc->setTitle(JText::_('JRESEARCH_PROJECT').' - '.$project->title);
     	// Bind variables for layout
@@ -76,6 +79,7 @@ class JResearchViewProject extends JView
     	$this->assignRef('project', $project);
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('area', $area);
+		$this->assignRef('format', $format);    	
 
     }
 }

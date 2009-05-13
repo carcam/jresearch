@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	$researchArea = $this->areaModel->getItem($member->id_research_area);
 ?>
 		<tr>
-			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&view=member&task=show&id=<?php echo $member->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHe;$member->__toString(); ?></a></td>
+			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&view=member&task=show&id=<?php echo $member->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a></td>
 			<td><?php echo $member->email; ?></td>
 			<td><?php echo $researchArea->name; ?></td>
 			<td><?php echo $member->position; ?></td>

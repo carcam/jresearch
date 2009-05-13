@@ -26,9 +26,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th style="width: 1%;">#</th>
 			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" /></th>
-			<th style="text-align: center;"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_TEAM'), 'name', @$this->lists['order_Dir'], @$this->lists['order'] );?></th>
-			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort','Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
-			<th>
+			<th style="width: 50%; text-align: center;"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_TEAM'), 'name', @$this->lists['order_Dir'], @$this->lists['order'] );?></th>
+			<th style="width: 10%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort','Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
+			<th style="width: 40%;">
 				<?php echo JText::_('JRESEARCH_TEAM_LEADER'); ?>
 			</th>
 		</tr>

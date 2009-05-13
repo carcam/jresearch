@@ -86,7 +86,8 @@ class JResearchViewMember extends JView
     	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $member->published);   	
 		$editor =& JFactory::getEditor();    	
     	
-    	$doc->setTitle(JText::_('JRESEARCH_MEMBER').' - '.$member);
+    	$doc->setTitle(JText::_('JRESEARCH_MEMBER').' - '.$member->__toString());
+
     	$this->assignRef('member', $member);
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('publishedRadio', $publishedRadio);
@@ -106,6 +107,8 @@ class JResearchViewMember extends JView
     */
     private function _displayProfile(){
       	global $mainframe;
+      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+      	
     	$id = JRequest::getInt('id');
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);
     	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
@@ -166,6 +169,8 @@ class JResearchViewMember extends JView
     	
     	$applyStyle = ($params->get('publications_apply_style') == 'yes');
     	$configuredCitationStyle = $params->get('citationStyle', 'APA');
+    	
+    	$format = $params->get('staff_format') == 'last_first'?1:0;
 
     	// Bind variables for layout
     	$this->assignRef('publications_view_all', $publications_view_all);
@@ -176,6 +181,7 @@ class JResearchViewMember extends JView
     	$this->assignRef('area', $area);
     	$this->assignRef('applyStyle', $applyStyle);
     	$this->assignRef('style', $configuredCitationStyle);
+    	$this->assignRef('format', $format);
     	
     	return true;
     }

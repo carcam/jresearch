@@ -53,7 +53,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 			$n = count($this->items);
 			for($i=0; $i<$n; $i++){
 	          $authors = $this->items[$i]->getAuthors();
-    	      $text = JResearchPublicationsHelper::formatAuthorsArray($authors);
+    	      $text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->format);
 		?>
 			
 				<?php $Itemid = JRequest::getVar('Itemid'); ?>

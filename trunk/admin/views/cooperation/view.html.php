@@ -26,14 +26,14 @@ class JResearchAdminViewCooperation extends JView
     	
     	JResearchToolbar::editCooperationAdminToolbar();
     	
-		JHTML::_('JResearch.validation');
+		JHTML::_('jresearchhtml.validation');
     	JRequest::setVar( 'hidemainmenu', 1 );
 
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$model =& $this->getModel();
     	$coop = $model->getItem($cid[0]);
-    	$arguments = array('coop', $coop?$coop->id:null);
+    	$arguments = array('cooperation', $coop?$coop->id:null);
     	
 		$publishedList = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $coop?$coop->published:1));
 

@@ -25,7 +25,7 @@ class JResearchAdminViewProjectsList extends JView
     {
      	global $mainframe;	
  		JResearchToolbar::projectsListToolbar();
- 	
+    	 	
        	$model = &$this->getModel();
       	$items = $model->getData(null, false, true);
       	$areaModel =& $this->getModel('researcharea');

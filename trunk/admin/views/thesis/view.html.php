@@ -25,9 +25,9 @@ class JResearchAdminViewThesis extends JView
     {
     	global $mainframe;
 		JResearchToolbar::editThesisAdminToolbar();
-      	
+
     	JRequest::setVar( 'hidemainmenu', 1 );
-    	JHTML::_('JResearch.validation');
+    	JHTML::_('jresearchhtml.validation');
     	
     	// Information about the member
     	$cid = JRequest::getVar('cid');
@@ -50,15 +50,15 @@ class JResearchAdminViewThesis extends JView
    	 	$statusHTML = JHTML::_('jresearchhtml.statuslist', array('name' => 'status', 'attributes' => 'class="inputbox" size="5"', 'selected' => $thesis?$thesis->status:1));
    	 	$degreeHTML = JHTML::_('jresearchhtml.degreelist', array('name' => 'degree', 'attributes' => 'class="inputbox" size="5"', 'selected' => $thesis?$thesis->degree:'bachelor'));
     	
-		$studentsControl = JHTML::_('JResearch.authorsSelector', 'students', $students);
-		$directorsControl = JHTML::_('JResearch.authorsSelector', 'directors', $directors);
+		$studentsControl = JHTML::_('jresearchhtml.authorsSelector', 'students', $students);
+		$directorsControl = JHTML::_('jresearchhtml.authorsSelector', 'directors', $directors);
 
 		$params = JComponentHelper::getParams('com_jresearch');
 		if(!empty($thesis->files))
 			$uploadedFiles = explode(';', trim($thesis->files));
 		else
 			$uploadedFiles = array();	
-		$files = JHTML::_('JResearch.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'theses','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
+		$files = JHTML::_('jresearchhtml.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'theses','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
 		
 
     	$this->assignRef('thesis', $thesis);
