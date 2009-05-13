@@ -42,12 +42,12 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 						<li>
 							<?php if($dir instanceof JResearchMember): ?>
 								<?php if($dir->published): ?>
-									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $dir->id ?>"><?php echo $dir->__toString(); ?></a>
+									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $dir->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($dir->__toString(), $this->format); ?></a>
 								<?php else: ?>
-									<?php echo $dir->__toString(); ?>
+									<?php echo JResearchPublicationsHelper::formatAuthor($dir->__toString(), $this->format); ?>
 								<?php endif; ?>	
 							<?php else: ?>
-									<?php echo $dir; ?>
+									<?php echo JResearchPublicationsHelper::formatAuthor($dir, $this->format); ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -58,12 +58,12 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 				<?php foreach($directors as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
+								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
 							<?php else: ?>
-								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 						<?php endif; ?>
 						<?php $i++; ?>
 				<?php endforeach; ?>				
@@ -79,12 +79,12 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 						<li>
 							<?php if($stud instanceof JResearchMember): ?>
 								<?php if($stud->published): ?>
-									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $stud->id ?>"><?php echo $stud->__toString(); ?></a>
+									<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $stud->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($stud->__toString(), $this->format); ?></a>
 								<?php else: ?>
-									<?php echo $stud->__toString(); ?>
+									<?php echo JResearchPublicationsHelper::formatAuthor($stud->__toString(), $this->format); ?>
 								<?php endif; ?>	
 							<?php else: ?>
-									<?php echo $stud; ?>
+									<?php echo JResearchPublicationsHelper::formatAuthor($stud, $this->format); ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -95,12 +95,12 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 				<?php foreach($students as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
+								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
 							<?php else: ?>
-								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 						<?php endif; ?>
 						<?php $i++; ?>
 				<?php endforeach; ?>				

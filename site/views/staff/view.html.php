@@ -76,9 +76,11 @@ class JResearchViewStaff extends JView
     */
     private function _displayDefaultList(&$model){
       	global $mainframe;
+      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+      	
       	$doc = JFactory::getDocument();
       	$params = $mainframe->getPageParameters('com_jresearch');
-
+      	
       	$members =  $model->getData(null, true, true);   
     	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));
     	

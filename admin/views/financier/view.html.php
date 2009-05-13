@@ -26,7 +26,7 @@ class JResearchAdminViewFinancier extends JView
     	
       	JResearchToolbar::editFinancierAdminToolbar();
       	
-		JHTML::_('JResearch.validation');
+		JHTML::_('jresearchhtml.validation');
         JRequest::setVar( 'hidemainmenu', 1 );
         
     	// Information about the member

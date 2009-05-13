@@ -378,20 +378,28 @@ class JResearchPublicationsHelper{
 	 * Takes an array of authors (strings and JResearchMember objects) and 
 	 * format them for output as a list separated by commas. 
 	 * @param array $authors
+	 * @param string $format (null, LASTNAME_FIRSTNAME or FIRSTNAME_LASTNAME)
 	 * @return string
 	 */
-	public static function formatAuthorsArray($authors){
+	public static function formatAuthorsArray($authors, $format = null){
 	    if(!class_exists('JResearchMember'))
 	      require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 	      
 	    $text = '';
 	    foreach($authors as $author){
-	    if($author instanceof JResearchMember)
-	        $text.= ' '.$author->__toString().',';	
-	    else
-	        $text.= ' '.$author.',';
+		    if($author instanceof JResearchMember){
+		    	if($format === null)
+		        	$text.= ' '.$author->__toString().',';	
+		        else
+		        	$text.= ' '.self::formatAuthor($author->__toString(), $format).';';	
+		    }else{
+		    	if($format === null)
+		        	$text.= ' '.$author.',';
+		        else
+		        	$text .= ' '.self::formatAuthor($author, $format).';'; 	
+		    }
 	    }
-	    $text = rtrim($text, ',');
+	    $text = rtrim($text, ',;');
 	    return $text;
 	}
 	
@@ -403,8 +411,14 @@ class JResearchPublicationsHelper{
 	 * @return string
 	 */
 	public static function formatAuthor($author, $format){
+		$authorComponents = self::getAuthorComponents($author);
+		if($format == LASTNAME_FIRSTNAME){
+			$text = ($authorComponents['von']?$authorComponents['von'].' ':'').$authorComponents['lastname'].', '.($authorComponents['firstname']?' '.$authorComponents['firstname']:'').($authorComponents['jr']?' '.$authorComponents['jr']:''); 
+		}else{
+			$text = ($authorComponents['firstname']?$authorComponents['firstname'].' ':'').($authorComponents['jr']?$authorComponents['jr'].' ':'').($authorComponents['von']?$authorComponents['von'].' ':'').$authorComponents['lastname'];			
+		}
 
-	   			     
+		return $text;
 	}
 
 	/**

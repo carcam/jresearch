@@ -8,7 +8,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<h1 class="componentheading"><?php echo $this->member; ?></h1>
+<h1 class="componentheading"><?php echo JResearchPublicationsHelper::formatAuthor($this->member->__toString(), $this->format); ?></h1>
 <table class="frontendsingleitem">
 <tbody>
   <tr><th style="width:100%;" colspan="4"><h2 class="contentheading"><?php echo JText::_('JRESEARCH_PERSONAL_INFORMATION').': '; ?></h2></th></tr>	

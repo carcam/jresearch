@@ -46,12 +46,12 @@ defined('_JEXEC') or die('Restricted access');
 				<?php foreach($authors as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth; ?></a><?php echo $i == $n - 1?'':',' ?>
+								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
 							<?php else: ?>
-								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 						<?php endif; ?>
 						<?php $i++; ?>
 				<?php endforeach; ?>
@@ -63,12 +63,12 @@ defined('_JEXEC') or die('Restricted access');
 					<li style="list-style:none;">
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
+								<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a>
 							<?php else: ?>
-								<?php echo $auth->__toString(); ?>
+								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo $auth; ?>
+								<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?>
 						<?php endif; ?>
 					</li>
 				<?php endforeach; ?>

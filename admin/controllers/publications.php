@@ -303,7 +303,7 @@ class JResearchAdminPublicationsController extends JController
 	*/	
 	function save(){
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');		
-		//global $mainframe;
+		global $mainframe;
 		$db =& JFactory::getDBO();
 		$params =& JComponentHelper::getParams('com_jresearch');		
 

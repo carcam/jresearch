@@ -26,8 +26,8 @@ class JResearchAdminViewProject extends JView
     {
     	global $mainframe;
       	JResearchToolbar::editProjectAdminToolbar();
-      	
-		JHTML::_('JResearch.validation');      	
+    	      	
+		JHTML::_('jresearchhtml.validation');      	
     	JRequest::setVar( 'hidemainmenu', 1 );
     	
     	// Information about the member
@@ -56,7 +56,7 @@ class JResearchAdminViewProject extends JView
    	 	$currencyHTML = JHTML::_('jresearchhtml.currencylist', array('name' => 'finance_currency', 'attributes' => 'class="inputbox"', 'selected' => $project?$project->finance_currency:1));
     	$coopHTML = JHTML::_('jresearchhtml.cooperations', array('name' => 'id_cooperation[]', 'attributes' => 'class="inputbox" size="5"'));
    	 	
-		$membersControl = JHTML::_('JResearch.authorsSelector', 'members', $members, true, $principalFlags);	
+		$membersControl = JHTML::_('jresearchhtml.authorsSelector', 'members', $members, true, $principalFlags);	
 		
 		//Get selected fins and add it to replace
 		$fins = array();
@@ -72,7 +72,7 @@ class JResearchAdminViewProject extends JView
 			$uploadedFiles = explode(';', trim($project->files));
 		else
 			$uploadedFiles = array();	
-		$files = JHTML::_('JResearch.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'projects','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
+		$files = JHTML::_('jresearchhtml.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'projects','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
 		
 		
     	$this->assignRef('project', $project);

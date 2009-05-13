@@ -39,6 +39,8 @@ class JResearchViewThesis extends JView
     */
     private function _displayThesis(){
       	global $mainframe;
+      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+      	      	
     	$id = JRequest::getInt('id');
    		$doc =& JFactory::getDocument();
    		$session = JFactory::getSession();
@@ -70,6 +72,7 @@ class JResearchViewThesis extends JView
     	$area = $areaModel->getItem($thesis->id_research_area);
     	$params = $mainframe->getPageParameters('com_jresearch');    	
 		$showHits = ($params->get('show_hits') == 'yes');
+    	$format = $params->get('staff_format') == 'last_first'?1:0;		
 		
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));    	
@@ -78,6 +81,7 @@ class JResearchViewThesis extends JView
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('degreeArray', $degreeArray);
     	$this->assignRef('area', $area);
+    	$this->assignRef('format', $format);
 
     }
 }

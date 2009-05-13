@@ -26,7 +26,7 @@ class JResearchAdminViewPublicationsList extends JView
     	global $mainframe;
     	// Invoke the correct function according to the layout
     	$layout = $this->getLayout();
-    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');      	
+
     	switch($layout){
     		case 'import':
     			$this->_displayImportForm();	

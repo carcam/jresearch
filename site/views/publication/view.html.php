@@ -137,7 +137,7 @@ class JResearchViewPublication extends JView
 		}
 		
 		$showHits = ($params->get('show_hits') == 'yes');
-		
+    	$format = $params->get('staff_format') == 'last_first'?1:0;		
 		
 		$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
     	// Bind variables for layout
@@ -150,6 +150,8 @@ class JResearchViewPublication extends JView
     	$this->assignRef('captcha', $captchaInformation);
 		$this->assignRef('user', $user);
 		$this->assignRef('params', $params);
+		$this->assignRef('format', $format);
+		
 		return true;
 
     }

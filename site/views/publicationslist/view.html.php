@@ -146,12 +146,15 @@ class JResearchViewPublicationsList extends JView
 			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
     	}
     	
+    	$format = $params->get('staff_format') == 'last_first'?1:0;
+    	
     	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
     
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $page);
     	$this->assignRef('lists', $lists);
     	$this->assignRef('punctuationField', $field);
+    	$this->assignRef('format', $format);
     }
     
     /**

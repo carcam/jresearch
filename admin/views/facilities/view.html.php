@@ -27,7 +27,6 @@ class JResearchAdminViewFacilities extends JView
     	
         $layout = &$this->getLayout();
         
-        
         switch($layout)
         {
         		case 'default':
