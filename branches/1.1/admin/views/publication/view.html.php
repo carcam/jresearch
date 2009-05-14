@@ -25,26 +25,29 @@ class JResearchAdminViewPublication extends JView
 		global $mainframe;
 		
  		$layout = $this->getLayout();
+ 		$arguments = array('publication');
  		
  		switch($layout){
  			case 'new':
  				$this->_displayNewPublicationForm();
+ 				$arguments[] = null;
  				break;
  			case 'default':
- 				$this->_displayPublicationForm();
+ 				$this->_displayPublicationForm($arguments);
  				break;	
  		}
+ 		
  	  	// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments); 		
 		parent::display($tpl);
-       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);		
+       	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);		
 	}
 	
 	/**
 	* Binds the variables useful for displaying the form for editing/creating
 	* publications.
 	*/
-	private function _displayPublicationForm(){
+	private function _displayPublicationForm(&$arguments){
 		JResearchToolbar::editPublicationAdminToolbar();
 
 		JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
@@ -70,7 +73,8 @@ class JResearchAdminViewPublication extends JView
     	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
     	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
 
-		if(!$isNew){			
+		if(!$isNew){
+			$arguments[] = $cid[0];		
 			$publication = JResearchPublication::getById($cid[0]);
 			$this->assignRef('publication', $publication);			
 	    	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $publication->id_research_area);
@@ -80,6 +84,7 @@ class JResearchAdminViewPublication extends JView
 			$authors = $publication->getAuthors();
 			
 		}else{
+			$arguments[] = null;
 			$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"');
 			//Published radio
 			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);			

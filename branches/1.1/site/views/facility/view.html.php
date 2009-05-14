@@ -24,6 +24,10 @@ class JResearchViewFacility extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
+    	
+    	$arguments = array('facility');
+    	
         $layout = &$this->getLayout();
         $result = true;
         
@@ -35,14 +39,19 @@ class JResearchViewFacility extends JView
         }
 	
         if($result)
-	        parent::display($tpl);
+        {
+		    $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+			
+	       	parent::display($tpl);
+	       	
+	       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+        }
     }
     
     /**
     * Display the information of a facility.
     */
-    private function _displayFacility(){
-      	global $mainframe;
+    private function _displayFacility(&$arguments){
       	
     	$id = JRequest::getInt('id');
    		$doc =& JFactory::getDocument();
@@ -61,7 +70,9 @@ class JResearchViewFacility extends JView
 		{
 			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return false;
-		}		    	
+		}
+
+		$arguments[] = $id;
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($fac->id_research_area);

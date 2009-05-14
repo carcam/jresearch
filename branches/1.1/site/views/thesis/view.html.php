@@ -24,23 +24,32 @@ class JResearchViewThesis extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
+    	$arguments = array('thesis');
+    	
     	$result = true;
         $layout = &$this->getLayout();
 
         switch($layout){
         	case 'default':
-        		$result = $this->_displayThesis();
+        		$result = $this->_displayThesis($arguments);
         		break;
         }
 	
         if($result)
-        	parent::display($tpl);
+        {
+        	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+		
+       		parent::display($tpl);
+       	
+       		$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+        }
     }
     
     /**
     * Display the information of a thesis.
     */
-    private function _displayThesis(){
+    private function _displayThesis(&$arguments){
       	global $mainframe;
     	$id = JRequest::getInt('id');
    		$doc =& JFactory::getDocument();
@@ -63,7 +72,9 @@ class JResearchViewThesis extends JView
 		if(!$thesis->published){
 			JError::raiseWarning(1, JText::_('JRESEARCH_THESIS_NOT_FOUND'));
 			return false;
-		}		    	
+		}
+
+		$arguments[] = $id;
 		
 		$doc->setTitle(JText::_('JRESEARCH_THESIS').' - '.$thesis->title);
 		
