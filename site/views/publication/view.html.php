@@ -23,22 +23,36 @@ class JResearchViewPublication extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
+    	$arguments = array('publication');
+    	
         $layout = &$this->getLayout();
         $result = true;
 
         switch($layout){
         	case 'default':
         		$result = $this->_displayPublication();
+        		
+        		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
         		break;
         	case 'new':
         		$result = $this->_displayNewPublicationForm();
+        		
+        		$mainframe->triggerEvent('onBeforeNewJResearchPublication', $arguments);
         		break;
         	case 'edit':
         		$result = $this->_editPublication();
+        		
+        		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
         		break;
         }
+        
 		if($result)
-        	parent::display($tpl);
+		{
+       		parent::display($tpl);
+       	
+       		$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+		}
     }
     
     /**

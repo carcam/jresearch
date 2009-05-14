@@ -15,6 +15,9 @@ class JResearchViewTeam extends JView
 	 **/
 	function display($tpl = null)
 	{	
+		global $mainframe;
+		$arguments = array('team');
+		
 		$id = JRequest::getInt('id');
 		$layout =& $this->getLayout();
 		$doc =& JFactory::getDocument();
@@ -33,11 +36,16 @@ class JResearchViewTeam extends JView
 			return;
 		}
 		
+		$arguments[] = $id;
+		
+		//Switch layout
+		/*
 		switch($layout)
 		{
 			default:
 				break;
-		}
+		}*/
+		
 		$doc->addStyleDeclaration('
 		div.content div.tr
 		{
@@ -48,7 +56,11 @@ class JResearchViewTeam extends JView
 
 		$this->assignRef('item', $item);
 
-		parent::display($tpl);
+		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+		
+       	parent::display($tpl);
+       	
+       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
 	}
 
 }

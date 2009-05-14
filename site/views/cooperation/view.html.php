@@ -14,11 +14,13 @@ class JResearchViewCooperation extends JView
 	 * @return void
 	 **/
 	function display($tpl = null)
-	{	
+	{
+		global $mainframe;
+		$arguments = array('cooperation');
+		
 		$id = JRequest::getInt('id');
 		$layout =& $this->getLayout();
 		$doc = JFactory::getDocument();
-		$result = true;
 		
 	   	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
@@ -34,7 +36,7 @@ class JResearchViewCooperation extends JView
 			return;			
 		}
 		
-		
+		$arguments[] = $id;
 		
 		$editor =& JFactory::getEditor();
 		switch($layout)
@@ -50,8 +52,11 @@ class JResearchViewCooperation extends JView
 		$this->assignRef('coop', $item);
 		$this->assignRef('editor', $editor);
 
-
-		parent::display($tpl);
+		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+		
+       	parent::display($tpl);
+       	
+       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
 	}
 	
 	private function _editCooperation(&$coop)

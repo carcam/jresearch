@@ -23,6 +23,9 @@ class JResearchViewMember extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
+    	$arguments = array('member');
+    	
         $layout = &$this->getLayout();
         switch($layout){
         	case 'edit':
@@ -34,7 +37,11 @@ class JResearchViewMember extends JView
         }
 	
         if($value)
-	        parent::display($tpl);
+        {
+	       	parent::display($tpl);
+	       	
+	       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+        }
     }
     
     /**
@@ -42,7 +49,7 @@ class JResearchViewMember extends JView
      * profile.
      *
      */
-    private function _displayEditProfile(){
+    private function _displayEditProfile(&$arguments){
     	global $mainframe;
     	
     	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
@@ -72,6 +79,8 @@ class JResearchViewMember extends JView
 			JError::raiseWarning(1, JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
 			return;
 		}
+		
+		$arguments[] = $member->id;
 		
 		$member->checkout($user->get('id'));		
 		$areasModel = $this->getModel('researchareaslist');    	
@@ -110,7 +119,7 @@ class JResearchViewMember extends JView
     * @return boolean True if the information of the member was correctly bind to
     * the template file.
     */
-    private function _displayProfile(){
+    private function _displayProfile(&$arguments){
       	global $mainframe;
     	$id = JRequest::getInt('id');
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);
@@ -170,6 +179,8 @@ class JResearchViewMember extends JView
     		$this->assignRef('ntheses', $model->countTheses($member->id));
     	}
     	
+    	$arguments[] = $member->id;
+    	
     	// Bind variables for layout
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
@@ -177,6 +188,8 @@ class JResearchViewMember extends JView
     	$this->assignRef('params', $params);
     	$this->assignRef('member', $member);
     	$this->assignRef('area', $area);
+    	
+    	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
     	return true;
     }
 }
