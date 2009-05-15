@@ -378,15 +378,16 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 	 * would be printed considering those publications were cited.
 	 *
 	 * @param array $publicationsArray
+	 * @param boolean $authorsLinks
 	 */
-	function getBibliographyHTMLText($publicationsArray){
+	function getBibliographyHTMLText($publicationsArray, $authorsLinks = false){
 		$entries = array();
 		
 		$sortedArray = $this->sort($publicationsArray);			
 		
 		foreach($sortedArray as $pub){
 			$appStyle =& JResearchCitationStyleFactory::getInstance(self::$name, $pub->pubtype);
-			$entries[] = $appStyle->getReferenceHTMLText($pub);
+			$entries[] = $appStyle->getReferenceHTMLText($pub, $authorLinks);
 		}
 		
 		return '<h1>'.JText::_('JRESEARCH_REFERENCES').'</h1><ul><li>'.implode('</li><li>', $entries)."</li></ul>";
@@ -400,7 +401,7 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 	* 
 	* 
 	*/
-	private function sort($publicationsArray){
+	function sort(array $publicationsArray){
 		$authorsArray = array();
 		$result = array();
 		foreach($publicationsArray as $p){

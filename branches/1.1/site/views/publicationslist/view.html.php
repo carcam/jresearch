@@ -57,6 +57,7 @@ class JResearchViewPublicationsList extends JView
      */
     private function _displayTabularList(){
     	global $mainframe;    	
+    	
     	$doc = JFactory::getDocument();
     	$doc->addStyleDeclaration(".title{text-align:center;}");
     	
@@ -64,14 +65,14 @@ class JResearchViewPublicationsList extends JView
     	$model = $this->getModel();
     	$teamsModel = $this->getModel('teams');
     	$areasModel = $this->getModel('researchareaslist');
-    	$lists = array();
+    	$lists = array();    	
 
     	$items = $model->getData(null, true, true);
     	$page = $model->getPagination();
-    	$params = $mainframe->getPageParameters('com_jresearch'); 
+    	$params = $mainframe->getParams('com_jresearch'); 
     	$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
-    	$field = $params->get('field_for_average');    	
-
+		$field = $params->get('field_for_average');    	
+    	
     	if($params->get('filter_teams') == 'yes'){
 	    	$filter_team = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_team', 'filter_team');    		
     		$teams = $teamsModel->getData();
@@ -120,14 +121,14 @@ class JResearchViewPublicationsList extends JView
 			$filter_pubtype = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_pubtype', 'filter_pubtype');    		
 			$types = JResearchPublication::getPublicationsSubtypes();
 			$typesHTML = array();
-			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_TYPE'));
+			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
 			foreach($types as $type){
 				$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
 			}
 			$lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
     	}
     	
-    	if($params->get('filter_search') == 'yes'){
+        if($params->get('filter_search') == 'yes'){
     		$filter_search = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_search', 'filter_search');
      		$lists['search'].= JText::_('Filter').': <input type="text" name="filter_search" id="filter_search" value="'.$filter_search.'" class="text_area" onchange="document.adminForm.submit();" />
 								<button onclick="document.adminForm.submit();">'.JText::_('Go').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
@@ -144,13 +145,16 @@ class JResearchViewPublicationsList extends JView
 			}
 			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
     	}
-
+    	
+    	$format = $params->get('staff_format') == 'last_first'?1:0;
+    	
     	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
+    
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $page);
     	$this->assignRef('lists', $lists);
     	$this->assignRef('punctuationField', $field);
-    	
+    	$this->assignRef('format', $format);
     }
     
     /**
@@ -202,22 +206,88 @@ class JResearchViewPublicationsList extends JView
     	
     	$model = $this->getModel();
     	$publications = $model->getData(null, true, true);
-
+    	
     	// Get certain variables
     	$filter_order = JRequest::getVar('filter_order', 'year');
     	$filter_order_Dir = JRequest::getVar('filter_order_Dir', 'DESC');
+    	$style = $params->get('citationStyle', 'APA');
     	
+    	//Now time to sort the data for presentation
+    	$sortedItems = $this->_sort($publications, $style, $filter_order);
+    	    	
     	$showmore = ($params->get('show_more') == 'yes');
     	$showdigital = ($params->get('show_digital') == 'yes');
-
     	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
     	    	
     	// Bind variables used in layout
-    	$this->assignRef('items', $publications);
+    	$this->assignRef('items', $sortedItems);
     	$this->assignRef('page', $model->getPagination());
     	$this->assignRef('user', $user);
     	$this->assignRef('showmore', $showmore);
-    	$this->assignRef('showdigital', $showdigital);    	
+    	$this->assignRef('showdigital', $showdigital);
+    	$this->assignRef('style', $style);    	
+    }
+    
+	/**
+	 * Performs records grouping before pushing items into layout according to 
+	 * configuration. It assumes records array is sorted by $filter_order criteria. 
+	 *
+	 * @param array $recordsArray Publications array
+	 * @param string $style Citation style that defines sorting rules
+	 * @param string $filter_order 
+	 * @return array If $filter_order is 'year' or 'type' It returns an associative array
+	 * where the key is the label used to group the publications, otherwise it just returns 
+	 * a conventional array of sorted publications.
+	 * 
+	 */
+    private function _sort($recordsArray, $style = 'APA', $filter_order = 'year'){
+		$styleObj = JResearchCitationStyleFactory::getInstance($style);    	
+    	$result = array();
+    	
+    	// Do the grouping
+		switch($filter_order){
+			case 'year':
+				$previousYear = null;
+				$yearHeader = null;
+				foreach($recordsArray as $pub){
+					if($previousYear != $pub->year){
+						if($yearHeader != null)
+							$result[$yearHeader] = $styleObj->sort($result[$yearHeader]);												
+						
+						if($pub->year == '0000' || $pub->year == null )
+							$yearHeader = JText::_('JRESEARCH_NO_YEAR');
+						else
+							$yearHeader = JText::_('JRESEARCH_YEAR').': '.$pub->year;	    	
+						
+						$result[$yearHeader] = array();						 	
+					}
+					$result[$yearHeader][] = $pub;		
+					$previousYear = $pub->year;								
+				}
+				$result[$yearHeader] = $styleObj->sort($result[$yearHeader]);
+	    		break;
+			case 'type':
+				$previousType = null;
+				$header = null;
+				foreach($recordsArray as $pub){					
+					if($previousType != $pub->pubtype){
+						if($header != null)
+							$result[$header] = $styleObj->sort($result[$header]);						
+						
+						$header = JText::_('JRESEARCH_PUBLICATION_TYPE').': '.$pub->pubtype;
+						$result[$header] = array();
+					}
+					$result[$header][] = $pub;
+					$previousType = $pub->pubtype;					
+				}
+				$result[$header] = $styleObj->sort($result[$header]);								
+				break;
+				
+			default:
+				$result = $recordsArray;					
+		}
+		
+		return $result;
     }
     
     /**
