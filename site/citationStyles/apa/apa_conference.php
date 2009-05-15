@@ -53,7 +53,8 @@ class JResearchAPAConferenceCitationStyle extends JResearchAPACitationStyle{
 
 				
 		$year = trim($publication->year);
-		$header = $year != '0000' && $year?"$authorsText ($year)":$authorsText;
+		$letter = isset($publication->__yearLetter)?$publication->__yearLetter:'';		
+		$header = $year != '0000' && $year?"$authorsText ($year$letter)":$authorsText;
 		
 		$text .= $header;
 		if(!empty($text))

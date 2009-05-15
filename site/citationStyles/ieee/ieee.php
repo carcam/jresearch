@@ -143,18 +143,32 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 	 *
 	 * @param array $publicationsArray Array of publication sorted according to the moment
 	 * they were cited.
+	 * @param string $format
+	 * @param boolean $authorsLinks
+	 * 
 	 */
-	function getBibliographyHTMLText($publicationsArray){
+	function getBibliographyHTMLText($publicationsArray, $authorsLinks = false){
 		$entries = array();
 		$k = 1;
 		
 		foreach($publicationsArray as $pub){
 			$appStyle =& JResearchCitationStyleFactory::getInstance(self::$name, $pub->pubtype);
-			$entries[] = "[$k] ".$appStyle->getReferenceHTMLText($pub);
+			$entries[] = "[$k] ".$appStyle->getReferenceHTMLText($pub, $authorsLinks);					
 			$k++;
 		}
 		
-		return '<h1>'.JText::_('JRESEARCH_REFERENCES').'</h1><ul><li style="list-style:none;">'.implode('</li><li style="list-style:none;"i>', $entries)."</li></ul>";
+		return '<h1>'.JText::_('JRESEARCH_REFERENCES').'</h1><ul><li style="list-style:none;">'.implode('</li><li style="list-style:none;">', $entries)."</li></ul>";
+	}
+	
+	/**
+	* Implemented due to parent interface, requirements, it just returns what 
+	* it is passed as argument.
+	*  
+	* @param array Array of publications. 
+	* @return array
+	*/
+	function sort(array $publicationsArray){
+		return $publicationsArray;
 	}
 
 	/**

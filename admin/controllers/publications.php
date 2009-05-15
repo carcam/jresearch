@@ -431,6 +431,22 @@ class JResearchAdminPublicationsController extends JController
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications');
 	}
 	
+	
+	/**
+	 * Invoked when the user has pressed any of the buttons for changing internal 
+	 * flag for publications. 
+	 *
+	 */
+	function changeInternalStatus(){
+		$cid = JRequest::getVar('cid');
+		$task = JRequest::getVar('task');		
+		$db = JFactory::getDBO();
+		
+		$publication = new JResearchPublication($db);
+		$publication->toggleInternal($cid, $task == 'makeinternal'?1:0);
+		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));		
+	}	
+	
 	/**
 	 * Invoked when the user has pressed the toggle button for change a publication's 
 	 * internal status.

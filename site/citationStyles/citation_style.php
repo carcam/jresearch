@@ -81,8 +81,18 @@ interface JResearchCitationStyle{
 	 * would be printed considering those publications were cited.
 	 *
 	 * @param array $publicationsArray
+	 * @param boolean $authorsLinks
 	 */
-	function getBibliographyHTMLText($publicationsArray);
+	function getBibliographyHTMLText($publicationsArray, $authorsLinks = false);
+	
+	/**
+	 * Returns an array of sorted publications according to citation styles rules for generation
+	 * of "References" section.
+	 * @since 1.2
+	 * @param array $publicationsArray
+	 * @return array Sorted array of publications according to citation style rules.
+	 */
+	function sort(array $publicationsArray);
 	
 }
 ?>

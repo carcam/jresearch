@@ -26,8 +26,9 @@ class JResearchAPAPatentCitationStyle extends JResearchAPACitationStyle{
 		$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 
 		$year = trim($publication->year);
+		$letter = isset($publication->__yearLetter)?$publication->__yearLetter:'';
 		if($year != '0000' && $year != null)
-			$year = " ($year)";
+			$year = " ($year$letter)";
 		else
 			$year = '';			
 		

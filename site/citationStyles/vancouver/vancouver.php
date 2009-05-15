@@ -319,17 +319,31 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 	 * would be printed considering those publications were cited (Works Cited section).
 	 *
 	 * @param array $publicationsArray
+	 * @param string $format
+	 * @param boolean $authorsLinks
 	 */
-	function getBibliographyHTMLText($publicationsArray){
+	function getBibliographyHTMLText($publicationsArray, $authorsLinks = false){
 		$entries = array();
 		$k = 1;
 		
 		foreach($publicationsArray as $pub){
 			$appStyle =& JResearchCitationStyleFactory::getInstance(self::$name, $pub->pubtype);
-			$entries[] = $appStyle->getReferenceHTMLText($pub);
+			$entries[] = $appStyle->getReferenceHTMLText($pub, $authorsLinks);
 			$k++;
 		}
+
 		return '<h1>'.JText::_('JRESEARCH_REFERENCES').'</h1><ol><li>'.implode('</li><li>', $entries)."</li></ol>";		
+	}
+	
+	/**
+	* Implemented due to parent interface, requirements, it just returns what 
+	* it is passed as argument.
+	*  
+	* @param array Array of publications. 
+	* @return array
+	*/
+	function sort(array $publicationsArray){
+		return $publicationsArray;
 	}
 	
 	

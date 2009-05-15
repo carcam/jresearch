@@ -14,7 +14,7 @@
 		<param name="publications_entries_per_page" default="25" label="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE_DESCRIPTION" ></param>
 		<param name="publications_default_sorting" default="year" label="JRESEARCH_ORDER_BY" type="radio">
 			<option value="year">JRESEARCH_YEAR</option>
-			<option value="alphabetical">JRESEARCH_ALPHABETICAL</option>
+			<option value="alphabetical">Title</option>
 			<option value="type">JRESEARCH_TYPE</option>
 		</param>
 		<param name="publications_order" label="JRESEARCH_SORTED" type="radio" default="DESC">
