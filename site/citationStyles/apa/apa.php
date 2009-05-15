@@ -156,8 +156,10 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		$title = $html?"<i>$title</i>":$title;
 
 		$year = trim($publication->year);
+		$letter = isset($publication->__yearLetter)?$publication->__yearLetter:'';
+
 		if($year != null && $year != '0000')
-			$year = ". ($year)";
+			$year = ". ($year$letter)";
 		else
 			$year = '';	
 		
@@ -362,7 +364,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 	 *
 	 * @param string $authorName In any of the formats supported by Bibtex.
 	 */
-	protected function formatAuthorForReferenceOutput($authorName){		
+	protected function formatAuthorForReferenceOutput($authorName){
 		$authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
@@ -418,15 +420,16 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 	 * would be printed considering those publications were cited.
 	 *
 	 * @param array $publicationsArray
+	 * @param boolean $authorsLinks
 	 */
-	function getBibliographyHTMLText($publicationsArray){
+	function getBibliographyHTMLText($publicationsArray, $authorsLinks = false){
 		$entries = array();
 		
 		$sortedArray = $this->sort($publicationsArray);			
 		
 		foreach($sortedArray as $pub){
 			$appStyle =& JResearchCitationStyleFactory::getInstance(self::$name, $pub->pubtype);
-			$entries[] = $appStyle->getReferenceHTMLText($pub);
+			$entries[] = $appStyle->getReferenceHTMLText($pub, $authorsLinks);
 		}
 		
 		return '<h1>'.JText::_('JRESEARCH_REFERENCES').'</h1><ul><li>'.implode('</li><li>', $entries)."</li></ul>";
@@ -437,27 +440,36 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 	* of "References" section. Publications should be sorted alphabetically by first author lastname and
 	* then by year (when having publications of the same author in different years).
 	* 
-	* 
 	*/
-	private function sort($publicationsArray){
+	function sort(array $publicationsArray){
 		$authorsArray = array();
 		$result = array();
+		
 		foreach($publicationsArray as $p){
 			$authorsText = $this->getAuthorsCitationTextFromSinglePublication($p); 
 			if(!isset($authorsArray[$authorsText]))
 				$authorsArray[$authorsText] = array();
 			if(!isset($authorsArray[$authorsText][$p->year]))			
 				$authorsArray[$authorsText][$p->year] = array();
-			$authorsArray[$authorsText][$p->year][] = $p;	
+			
+			$authorsArray[$authorsText][$p->year][] = $p;
+				
 		}
 		
 		// Sort the array
 		ksort($authorsArray);		
-		foreach($authorsArray as &$arr){
+		foreach($authorsArray as &$arr){			
 			ksort($arr);
 			foreach($arr as $yearArray)
-				foreach($yearArray as $pub)
+				$letter = 'a';
+				$n = count($yearArray);
+				foreach($yearArray as $pub){
+					if($n > 1){
+						$pub->__yearLetter = $letter;
+						$letter++;
+					}
 					$result[] = $pub;
+				}
 		}
 		
 		return $result;

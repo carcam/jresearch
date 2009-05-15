@@ -149,11 +149,11 @@ class JResearchAdminFinanciersController extends JController
 		$fin->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		// Validate and save
+		$task = JRequest::getVar('task');		
 		if($fin->check())
 		{
 			if($fin->store())
 			{
-				$task = JRequest::getVar('task');
 
 				//Specific redirect for specific task
 				if($task == 'save')

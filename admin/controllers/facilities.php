@@ -181,11 +181,11 @@ class JResearchAdminFacilitiesController extends JController
 		); 
 
 		// Validate and save
+		$task = JRequest::getVar('task');		
 		if($fac->check())
 		{
 			if($fac->store())
 			{
-				$task = JRequest::getVar('task');
 
 				//Specific redirect for specific task
 				if($task == 'save')

@@ -172,12 +172,11 @@ class JResearchAdminCooperationsController extends JController
 		); 
 		
 		// Validate and save
+		$task = JRequest::getVar('task');		
 		if($coop->check())
 		{
 			if($coop->store())
 			{
-				$task = JRequest::getVar('task');
-
 				//Specific redirect for specific task
 				if($task == 'save')
 					$this->setRedirect('index.php?option=com_jresearch&controller=cooperations', JText::_('The cooperation was successfully saved.'));

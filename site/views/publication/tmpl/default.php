@@ -51,7 +51,7 @@ defined('_JEXEC') or die('Restricted access');
 								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
 						<?php endif; ?>
 						<?php $i++; ?>
 				<?php endforeach; ?>

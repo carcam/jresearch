@@ -59,9 +59,10 @@ class JResearchAPAProceedingsCitationStyle extends JResearchAPACitationStyle{
 		$title = trim($publication->title);
 		$title = $html?"<i>$title</i>":$title;
 
+		$letter = isset($publication->__yearLetter)?$publication->__yearLetter:'';		
 		$year = trim($publication->year);
 		if($year != '0000' && $year != null)
-			$year = " ($year)";
+			$year = " ($year$letter)";
 		else
 			$year = '';			
 		
