@@ -403,8 +403,9 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	 * would be printed considering those publications were cited.
 	 *
 	 * @param array $publicationsArray
+	 * @param boolean $authorsLinks
 	 */
-	function getBibliographyHTMLText($publicationsArray){
+	function getBibliographyHTMLText($publicationsArray, $authorsLinks = false){
 		$entries = array();
 		
 		$sortedArray = $this->sort($publicationsArray);			
@@ -425,7 +426,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	* 
 	* 
 	*/
-	private function sort($publicationsArray){
+	function sort(array $publicationsArray){
 		$authorsArray = array();
 		$result = array();
 		foreach($publicationsArray as $p){

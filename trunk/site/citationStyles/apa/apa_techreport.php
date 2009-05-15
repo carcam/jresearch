@@ -42,6 +42,7 @@ class JResearchAPATechreportCitationStyle extends JResearchAPACitationStyle{
 		$month = trim($publication->month);
 		
 		$year = trim($publication->year);
+		$letter = isset($publication->__yearLetter)?$publication->__yearLetter:'';		
 		if($year == '0000' || $year == null)
 			$year = '';			
 		
@@ -49,12 +50,12 @@ class JResearchAPATechreportCitationStyle extends JResearchAPACitationStyle{
 			$authorsText = rtrim($authorsText, '.');						
 			$header = $authorsText;
 			if(!empty($year))
-				$header .= ". ($year)";
+				$header .= ". ($year$letter)";
 			$header .= 	'. '.$title;
 		}else{
 			$header = $title;
 			if(!empty($year))
-				$header .= " ($year)";	
+				$header .= " ($year$letter)";	
 		}
 		$text .= $header;
 			

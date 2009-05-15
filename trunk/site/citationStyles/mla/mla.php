@@ -387,7 +387,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 	* @return array Sorted array, according to MLA rules for "Works Cited" section.
 	* 
 	*/
-	protected function sort($publicationsArray){
+	function sort(array $publicationsArray){
 		$authorsArray = array();
 		$result = array();
 		$k = 1;
@@ -433,15 +433,16 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 	 * would be printed considering those publications were cited (Works Cited section).
 	 *
 	 * @param array $publicationsArray
+	 * @param boolean $authorsLinks 
 	 */
-	function getBibliographyHTMLText($publicationsArray){
+	function getBibliographyHTMLText($publicationsArray, $authorsLinks = false){
 		$entries = array();
 		
 		$sortedArray = $this->sort($publicationsArray);	
 		
 		foreach($sortedArray as $pub){
 			$appStyle =& JResearchCitationStyleFactory::getInstance(self::$name, $pub->pubtype);
-			$entries[] = $appStyle->getReferenceHTMLText($pub);
+			$entries[] = $appStyle->getReferenceHTMLText($pub, $authorsLinks);
 		}
 		
 		return '<h1>'.JText::_('JRESEARCH_WORKS_CITED').'</h1><ul><li>'.implode('</li><li>', $entries)."</li></ul>";

@@ -4,17 +4,14 @@
  * @subpackage Publications
  */
 
-defined('_JEXEC') or die('Restricted access'); 
-global $mainframe;
-$style = $mainframe->getParams('com_jresearch')->get('citationStyle', 'APA');
-?>
+defined('_JEXEC') or die('Restricted access'); ?>
 <ul>
+<?php $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 <?php
 foreach($this->items as $pub): 
-	$styleObj = JResearchCitationStyleFactory::getInstance($style, $pub->pubtype);
+	$styleObj = JResearchCitationStyleFactory::getInstance($this->style, $pub->pubtype);
 	$publicationText = $styleObj->getReferenceHTMLText($pub, true, true);
 ?>
-	<?php $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 	<?php $url = $pub->url; ?>
 	<?php $attach = $pub->getAttachment(0, 'publications'); ?>	
 	<li><span><?php echo $publicationText;  ?></span>
