@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<div>
 			<?php $contentArray = explode('<hr id="system-readmore" />', $area->description); ?>
 			<?php $itemId = JRequest::getVar('Itemid'); ?>
-			<h2 class="contentheading"><a href="index.php?option=com_jresearch&task=show&view=researcharea&id=<?php echo $area->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>"><?php echo $area->name; ?></a></h2>			
+			<h2 class="contentheading"><?php echo $area->name; ?></h2>			
 			<div>&nbsp;</div>
 			<div><?php echo $contentArray[0]; ?></div>
 			<?php if(count($contentArray) > 1 ): ?>

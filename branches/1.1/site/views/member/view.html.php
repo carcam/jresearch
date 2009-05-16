@@ -24,23 +24,24 @@ class JResearchViewMember extends JView
     function display($tpl = null)
     {
     	global $mainframe;
-    	$arguments = array('member');
+    	$arguments = array('project');
     	
         $layout = &$this->getLayout();
         switch($layout){
         	case 'edit':
-        		$value = $this->_displayEditProfile();
+        		$value = $this->_displayEditProfile($arguments);
+        		$event = 'onAfterRenderJResearchEntityForm';
         		break;
         	default:
-        		$value = $this->_displayProfile();
+        		$value = $this->_displayProfile($arguments);
+        		$event = 'onAfterRenderJResearchEntity';
         		break;
         }
 	
         if($value)
         {
 	       	parent::display($tpl);
-	       	
-	       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+	    	$mainframe->triggerEvent($event, $arguments);
         }
     }
     
@@ -139,6 +140,8 @@ class JResearchViewMember extends JView
     		JError::raiseWarning(1, JText::_('JRESEARCH_MEMBER_NOT_FOUND'));
     		return false;
     	}
+    	
+    	JResearchPluginsHelper::onPrepareJResearchContent('member', $member);
     	
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($member->id_research_area);

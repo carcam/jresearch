@@ -80,6 +80,66 @@ class JResearchPluginsHelper{
 		}	
 		return false;
 	} 
+	
+	/**
+	 * Triggers the onPrepareJResearchContent event. It executes every subscribed plugin in the 
+	 * order returned by Joomla, as chain.
+	 * @param string $entityType The type of entity: publication, project, thesis, etc.
+	 * @param mixed $item The object that will be modified before displaying. 
+	 */
+	public static function onPrepareJResearchContent($entityType, $item){
+		$dispatcher = JDispatcher::getInstance();
+		$event = 'onPrepareJResearchContent';
+		$args = array ($entityType, $item);
+		
+		/*
+		 * We need to iterate through all of the registered observers and
+		 * trigger the event for each observer that handles the event.
+		 */
+		foreach ($dispatcher->_observers as $observer)
+		{
+			if (is_array($observer)){
+				if ($observer['event'] == $event){
+					if (function_exists($observer['handler'])){
+						call_user_func_array($observer['handler'], $args);
+					}else{
+						JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
+					}
+				}else{
+					continue;
+				}
+			}
+			elseif (is_object($observer))
+			{
+				/*
+				 * Since we have gotten here, we know a little something about
+				 * the observer.  It is a class type observer... lets see if it
+				 * is an object which has an update method.
+				 */
+				if (method_exists($observer, 'update'))
+				{
+					/*
+					 * Ok, now we know that the observer is both not an array
+					 * and IS an object.  Lets trigger its update method if it
+					 * handles the event and return any results.
+					 */
+					if (method_exists($observer, $event)){
+						$args['event'] = $event;
+						$observer->update($args);
+					}else{
+						continue;
+					}
+				}else{
+					/*
+					 * At this point, we know that the registered observer is
+					 * neither a function type observer nor an object type
+					 * observer.  PROBLEM, lets throw an error.
+					 */
+					JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::trigger: Unknown Event Handler.', $observer );
+				}
+			}
+		}	
+	}
 }
 
 ?>

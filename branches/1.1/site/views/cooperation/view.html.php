@@ -34,7 +34,7 @@ class JResearchViewCooperation extends JView
 		if(empty($item)){
 			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return;			
-		}
+		}		
 		
 		$arguments[] = $id;
 		
@@ -45,6 +45,7 @@ class JResearchViewCooperation extends JView
 				$this->_editCooperation($item);
 				break;
 			default:
+				JResearchPluginsHelper::onPrepareJResearchContent('cooperation', $item);
 				break;
 		}
 

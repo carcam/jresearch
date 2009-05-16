@@ -46,22 +46,24 @@ class JResearchViewResearchArea extends JView
     	}
     	
         $model =& $this->getModel();
-        $area = $model->getItem($id);
+        $area = $model->getItem($id);        
         if(empty($area)){
 			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return;
 		}
+        
+		if(!$area->published){
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+			return;
+		}
+		
+		JResearchPluginsHelper::onPrepareJResearchContent('researcharea', $area);
         
 		$arguments[] = $id;
         
         $members = $model->getStaffMembers($id);
         //Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
-
-    	if(!$area->published){
-			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-			return;
-		}
         
 		$latestPublications = $params->get('area_number_last_publications', 5);        
         if($publications_view_all == 0)	

@@ -43,6 +43,7 @@ class JResearchViewStaff extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
         $layout = &$this->getLayout();
         
         $params =& JComponentHelper::getParams('com_jresearch');
@@ -81,7 +82,6 @@ class JResearchViewStaff extends JView
     * Display the list of published staff members.
     */
     private function _displayDefaultList(&$model){
-      	global $mainframe;
       	$doc = JFactory::getDocument();
 
       	$members =  $model->getData(null, true, true);   
@@ -98,7 +98,6 @@ class JResearchViewStaff extends JView
 	*/
     private function _displayStaffFlow(&$model)
     {
-    	global $mainframe;
     	$doc = JFactory::getDocument();
     	
 		$members =& $model->getData(null, true, false);
@@ -114,7 +113,6 @@ class JResearchViewStaff extends JView
 	*/
     private function getImages(&$members)
     {
-    	global $mainframe;
     	
     	$images = array();
     	$i=0;
