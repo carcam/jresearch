@@ -30,7 +30,13 @@ class JResearchViewThesesList extends JView
         			break;
         }
 	
-        parent::display($tpl);
+        $eArguments = array('theses', $layout);
+		
+		$mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**

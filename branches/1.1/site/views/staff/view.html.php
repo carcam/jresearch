@@ -68,7 +68,13 @@ class JResearchViewStaff extends JView
         $this->assignRef('params', $params);
         $this->assignRef('areaModel', $areaModel);
 	
-        parent::display($tpl);
+        $eArguments = array('staff', $layout);
+		
+		$mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**
