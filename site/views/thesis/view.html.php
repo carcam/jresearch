@@ -38,6 +38,7 @@ class JResearchViewThesis extends JView
 	
         if($result)
         {
+        	
         	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		
        		parent::display($tpl);
@@ -73,7 +74,8 @@ class JResearchViewThesis extends JView
 			JError::raiseWarning(1, JText::_('JRESEARCH_THESIS_NOT_FOUND'));
 			return false;
 		}
-
+        
+		JResearchPluginsHelper::onPrepareJResearchContent('thesis', $thesis);
 		$arguments[] = $id;
 		
 		$doc->setTitle(JText::_('JRESEARCH_THESIS').' - '.$thesis->title);

@@ -85,6 +85,7 @@ class JResearchViewPublication extends JView
 			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return false;
 		}		    	
+    	JResearchPluginsHelper::onPrepareJResearchContent('publication', $publication);		
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($publication->id_research_area);

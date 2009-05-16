@@ -23,6 +23,8 @@ class JResearchViewProjectsList extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
+    	
         $layout = &$this->getLayout();
         switch($layout){
         		case 'default':

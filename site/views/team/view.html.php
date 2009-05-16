@@ -38,13 +38,7 @@ class JResearchViewTeam extends JView
 		
 		$arguments[] = $id;
 		
-		//Switch layout
-		/*
-		switch($layout)
-		{
-			default:
-				break;
-		}*/
+		JResearchPluginsHelper::onPrepareJResearchContent('team', $item);
 		
 		$doc->addStyleDeclaration('
 		div.content div.tr

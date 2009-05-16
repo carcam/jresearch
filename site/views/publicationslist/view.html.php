@@ -23,6 +23,7 @@ class JResearchViewPublicationsList extends JView
 {
     public function display($tpl = null)
     {
+    	global $mainframe;
     	// Require css and styles
         $document =& JFactory::getDocument();
         

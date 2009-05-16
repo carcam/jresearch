@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <table class="editpublication" cellpadding="5" cellspacing="5">
 <tbody>
 	<tr>
-		<th colspan="4"><?php echo JText::_('JRESEARCH_BASIC')?></th>
+		<th class="formheader" colspan="4"><?php echo JText::_('JRESEARCH_BASIC')?></th>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('Title').': '?></td>

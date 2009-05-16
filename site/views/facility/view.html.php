@@ -36,7 +36,7 @@ class JResearchViewFacility extends JView
         	case 'default':
         		$result = $this->_displayFacility();
         		break;
-        }
+        }        
 	
         if($result)
         {
@@ -71,6 +71,7 @@ class JResearchViewFacility extends JView
 			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return false;
 		}
+        JResearchPluginsHelper::onPrepareJResearchContent('facility', $result);		
 
 		$arguments[] = $id;
 		

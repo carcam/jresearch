@@ -72,6 +72,7 @@ class JResearchViewProject extends JView
 			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return false;
 		}
+    	JResearchPluginsHelper::onPrepareJResearchContent('project', $project);		
 
 		$arguments[] = $id;
 		

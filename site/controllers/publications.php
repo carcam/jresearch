@@ -490,6 +490,9 @@ class JResearchPublicationsController extends JController
 				}elseif($task == 'save'){
 					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
 				}
+				
+				$arguments = array('publication', $publication->id);
+				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
 								
 			}else{
 				$idText = !empty($publication->id)?'&id='.$publication->id:'';
