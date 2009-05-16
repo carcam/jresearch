@@ -30,7 +30,13 @@ class JResearchViewProjectsList extends JView
         			break;
         }
 	
-        parent::display($tpl);
+        $eArguments = array('projects', $layout);
+		
+		$mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**

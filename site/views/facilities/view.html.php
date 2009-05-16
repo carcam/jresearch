@@ -32,7 +32,13 @@ class JResearchViewFacilities extends JView
        			break;
         }
 	
-        parent::display($tpl);
+        $eArguments = array('facilities', $layout);
+		
+		$mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**
