@@ -272,7 +272,8 @@ class JResearchViewPublicationsList extends JView
 					$result[$yearHeader][] = $pub;		
 					$previousYear = $pub->year;								
 				}
-				$result[$yearHeader] = $styleObj->sort($result[$yearHeader]);
+				if($result[$yearHeader])
+					$result[$yearHeader] = $styleObj->sort($result[$yearHeader]);
 	    		break;
 			case 'type':
 				$previousType = null;
@@ -288,7 +289,8 @@ class JResearchViewPublicationsList extends JView
 					$result[$header][] = $pub;
 					$previousType = $pub->pubtype;					
 				}
-				$result[$header] = $styleObj->sort($result[$header]);								
+				if($result[$header])
+					$result[$header] = $styleObj->sort($result[$header]);								
 				break;
 				
 			default:
