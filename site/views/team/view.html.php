@@ -15,10 +15,14 @@ class JResearchViewTeam extends JView
 	 **/
 	function display($tpl = null)
 	{	
+		global $mainframe;
+		
 		$id = JRequest::getInt('id');
 		$itemId = JRequest::getVar('Itemid');
 		$layout =& $this->getLayout();
 		$doc =& JFactory::getDocument();
+		
+		$arguments = array('team', $layout);
 		
 		// Get data from the model
 		$model = &$this->getModel();
@@ -54,7 +58,11 @@ class JResearchViewTeam extends JView
 		$this->assignRef('memberModel', $memberModel);
 		$this->assignRef('itemId', $itemId);
 
-		parent::display($tpl);
+		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+		
+       	parent::display($tpl);
+       	
+       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
 	}
 
 }

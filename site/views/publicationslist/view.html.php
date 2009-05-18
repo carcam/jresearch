@@ -23,15 +23,17 @@ class JResearchViewPublicationsList extends JView
 {
     public function display($tpl = null)
     {
+    	global $mainframe;
+    	
     	// Require css and styles
         $document =& JFactory::getDocument();
+        $layout = $this->getLayout();
         
         //Add template path explicitly (useful when requesting from the backend)
         $this->addTemplatePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publicationslist'.DS.'tmpl');  
         JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 
-
-		switch($this->getLayout()){
+		switch($layout){
 			// Template for making citations from TinyMCE editor
 			case 'cite':
 				$this->_displayCiteDialog();
@@ -47,7 +49,13 @@ class JResearchViewPublicationsList extends JView
 				break;	
 		}
 
-        parent::display($tpl);
+        $eArguments = array('publications', $layout);
+		
+		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
     
 	/**

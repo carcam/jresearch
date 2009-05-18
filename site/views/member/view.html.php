@@ -46,7 +46,8 @@ class JResearchViewMember extends JView
     	global $mainframe;
     	
     	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
-      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+      	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 		JHTML::_('JResearch.validation');
     	JResearchToolbar::editMemberAdminToolbar();		
 		    	
@@ -55,6 +56,7 @@ class JResearchViewMember extends JView
     	$member = $model->getByUsername($user->username);
     	$areaModel = $this->getModel('ResearchArea');
     	$doc = JFactory::getDocument();
+    	$arguments = array('member');
     
     	// Modify it, so administrators may edit the item.
     	if(empty($member->username)){
@@ -68,23 +70,13 @@ class JResearchViewMember extends JView
 		}
 		
 		$member->checkout($user->get('id'));		
-		$areasModel = $this->getModel('researchareaslist');    	
-    	$researchAreas = $areasModel->getData(null, true, false);
     	
-    	$researchAreasOptions = array();
-
-    	// Retrieve the list of research areas
-    	foreach($researchAreas as $r){
-    		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
-    	}    	
-    	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $member->id_research_area);
-
-		//Published options
-    	$publishedOptions = array();
-    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
-    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
-    	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $member->published);   	
-		$editor =& JFactory::getEditor();    	
+		$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'selected' => $member->id_research_area));
+    	
+		//Published options  	
+		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'selected' => $member->published));
+    	
+    	$editor =& JFactory::getEditor();    	
     	
     	$doc->setTitle(JText::_('JRESEARCH_MEMBER').' - '.$member->__toString());
 

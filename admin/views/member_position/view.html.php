@@ -48,8 +48,11 @@ class JResearchAdminViewMember_position extends JView
     	$this->assignRef('item', $position);
     	$this->assignRef('publishedRadio', $publishedRadio);
  
+       	$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+		
        	parent::display($tpl);
-
+       	
+       	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);
     }
 }
 

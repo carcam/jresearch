@@ -17,6 +17,7 @@ class JResearchViewTeams extends JView
 	{
 		global $mainframe;
 		$doc = JFactory::getDocument();
+		$layout = $this->getLayout();
 		
 		// Get data from the model
 		$model = &$this->getModel();
@@ -28,8 +29,13 @@ class JResearchViewTeams extends JView
 		$this->assignRef('items', $items);
 		$this->assignRef('page', $model->getPagination());	
 
-
+		$eArguments = array('teams', $layout);
+		
+		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		
 		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
 	}
 }
 ?>

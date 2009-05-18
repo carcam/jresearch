@@ -21,27 +21,35 @@ jimport( 'joomla.application.component.view');
 
 class JResearchAdminViewPublication extends JView
 {
-	function display($tpl = null){
+	function display($tpl = null)
+	{
+		global $mainframe;
+		
+		$arguments = array('publication');
+		
  		$layout = $this->getLayout();
  		
  		switch($layout){
  			case 'new':
  				$this->_displayNewPublicationForm();
+ 				$arguments[] = null;
  				break;
  			case 'default':
- 				$this->_displayPublicationForm();
+ 				$this->_displayPublicationForm($arguments);
  				break;	
  		}
- 	  	
+
+       	// Load cited records
+		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments); 		
 		parent::display($tpl);
+       	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);
 	}
 	
 	/**
 	* Binds the variables useful for displaying the form for editing/creating
 	* publications.
 	*/
-	private function _displayPublicationForm(){
-		global $mainframe;
+	private function _displayPublicationForm(&$arguments){
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 		
 		JResearchToolbar::editPublicationAdminToolbar();
@@ -49,7 +57,6 @@ class JResearchAdminViewPublication extends JView
 		
 		$cid = JRequest::getVar('cid');
 		$isNew = !isset($cid);
-		$arguments = array('publication');
 		$pubtype = JRequest::getVar('pubtype');
 		$authors = null;  
 		$publication = JResearchPublication::getById($cid[0]);	
@@ -85,8 +92,6 @@ class JResearchAdminViewPublication extends JView
 		$this->assignRef('pubtype', $pubtype);
 		$this->assignRef('authors', $authorsControl);
 		$this->assignRef('files', $files);
-		
-		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 	}
 	
 	/**

@@ -50,7 +50,7 @@ class JResearchAdminViewFinancier extends JView
 		
        	parent::display($tpl);
 
-       	$mainframe->triggerEvent('onAfterEditJResearchEntity', $arguments);
+       	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);
     }
 }
 

@@ -43,6 +43,8 @@ class JResearchViewStaff extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
+    	
         $layout = &$this->getLayout();
         
         $params =& JComponentHelper::getParams('com_jresearch');
@@ -68,7 +70,13 @@ class JResearchViewStaff extends JView
         $this->assignRef('params', $params);
         $this->assignRef('areaModel', $areaModel);
 	
-        parent::display($tpl);
+        $eArguments = array('staff', $layout);
+		
+		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
     
     /**

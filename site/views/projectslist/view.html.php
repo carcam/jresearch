@@ -23,6 +23,7 @@ class JResearchViewProjectsList extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
         $layout = &$this->getLayout();
         switch($layout){
         		case 'default':
@@ -30,7 +31,13 @@ class JResearchViewProjectsList extends JView
         			break;
         }
 	
-        parent::display($tpl);
+        $eArguments = array('projects', $layout);
+		
+		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
     
     /**
