@@ -139,7 +139,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td colspan="<?php echo $colspan; ?>">&nbsp;</td>
 		<?php endif; ?>	
 	</tr>
-	<?php $url = trim($this->project->url_project_page); ?>
+	<?php $url = trim($this->project->url); ?>
 	<? if(!empty($url)) : ?>
 		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span>
 	<?php endif; ?>	

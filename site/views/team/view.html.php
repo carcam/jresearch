@@ -16,11 +16,11 @@ class JResearchViewTeam extends JView
 	function display($tpl = null)
 	{	
 		global $mainframe;
-		$arguments = array('team');
 		
 		$id = JRequest::getInt('id');
 		$layout =& $this->getLayout();
 		$doc =& JFactory::getDocument();
+		$arguments = array('team', $layout);
 		
 	   	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
