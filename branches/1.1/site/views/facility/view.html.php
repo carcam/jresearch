@@ -34,7 +34,7 @@ class JResearchViewFacility extends JView
         switch($layout)
         {
         	case 'default':
-        		$result = $this->_displayFacility();
+        		$result = $this->_displayFacility($arguments);
         		break;
         }        
 	

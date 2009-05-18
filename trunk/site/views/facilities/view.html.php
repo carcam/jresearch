@@ -23,6 +23,7 @@ class JResearchViewFacilities extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
         $layout = &$this->getLayout();
         
         switch($layout)
@@ -32,7 +33,13 @@ class JResearchViewFacilities extends JView
        			break;
         }
 	
-        parent::display($tpl);
+        $eArguments = array('facilities', $layout);
+		
+		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
     
     /**

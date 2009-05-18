@@ -16,7 +16,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 function setACL()
 {
-	//@todo Add ACL to authorize users against J!Research component
 	$acl = JFactory::getACL();
 	
 	//Publications

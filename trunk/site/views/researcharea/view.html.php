@@ -26,6 +26,8 @@ class JResearchViewResearchArea extends JView
     public function display($tpl = null)
     {
     	global $mainframe;
+    	
+    	$arguments = array('researcharea');
     	$doc = JFactory::getDocument();
     	
     	// Require css and styles
@@ -39,7 +41,6 @@ class JResearchViewResearchArea extends JView
     		return;
     	}
 
-    	    	
         $model =& $this->getModel();
         $area = $model->getItem($id);
         $members = $model->getStaffMembers($id);
@@ -49,6 +50,10 @@ class JResearchViewResearchArea extends JView
 			JError::raiseWarning(1, JText::_('JRESEARCH_AREA_NOT_FOUND'));
 			return;
 		}
+		
+		JResearchPluginsHelper::onPrepareJResearchContent('researcharea', $area);
+        
+		$arguments[] = $id;
         
 		$latestPublications = $params->get('area_number_last_publications', 5);        
         if($publications_view_all == 0)	
@@ -84,7 +89,12 @@ class JResearchViewResearchArea extends JView
     	$this->assignRef('theses_view_all', $theses_view_all);    	
 		$this->assignRef('members', $members);
         $this->assignRef('area', $area);
-        parent::display($tpl);
+        
+        $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+		
+       	parent::display($tpl);
+       	
+       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
     }
 }
 

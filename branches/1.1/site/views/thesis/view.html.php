@@ -38,7 +38,6 @@ class JResearchViewThesis extends JView
 	
         if($result)
         {
-        	
         	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		
        		parent::display($tpl);
