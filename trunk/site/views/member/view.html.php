@@ -23,18 +23,26 @@ class JResearchViewMember extends JView
 {
     function display($tpl = null)
     {
+    	global $mainframe;
+    	
         $layout = &$this->getLayout();
+        $arguments = array('member');
+        
         switch($layout){
         	case 'edit':
-        		$value = $this->_displayEditProfile();
+        		$value = $this->_displayEditProfile($arguments);
         		break;
         	default:
-        		$value = $this->_displayProfile();
+        		$value = $this->_displayProfile($arguments);
         		break;
         }
 	
         if($value)
+        {
 	        parent::display($tpl);
+	        
+	        $mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+        }
     }
     
     /**
@@ -42,7 +50,7 @@ class JResearchViewMember extends JView
      * profile.
      *
      */
-    private function _displayEditProfile(){
+    private function _displayEditProfile(array &$arguments){
     	global $mainframe;
     	
     	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
@@ -56,17 +64,16 @@ class JResearchViewMember extends JView
     	$member = $model->getByUsername($user->username);
     	$areaModel = $this->getModel('ResearchArea');
     	$doc = JFactory::getDocument();
-    	$arguments = array('member');
     
     	// Modify it, so administrators may edit the item.
     	if(empty($member->username)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_PROFILE_USER_NOT_AUTHORIZED'));
-    		return;
+    		return false;
     	}
     	
     	if($member->isCheckedOut($user->get('id'))){
 			JError::raiseWarning(1, JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-			return;
+			return false;
 		}
 		
 		$member->checkout($user->get('id'));		
@@ -88,7 +95,6 @@ class JResearchViewMember extends JView
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments); 	
 		return true;
-    	
     }
     
     /**
@@ -97,7 +103,7 @@ class JResearchViewMember extends JView
     * @return boolean True if the information of the member was correctly bind to
     * the template file.
     */
-    private function _displayProfile(){
+    private function _displayProfile(array &$arguments){
       	global $mainframe;
       	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
       	
@@ -108,6 +114,7 @@ class JResearchViewMember extends JView
 
     	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+    		$arguments[] = null;
     		return false;
     	}
     
@@ -117,8 +124,11 @@ class JResearchViewMember extends JView
     	
     	if(!$member->published){
     		JError::raiseWarning(1, JText::_('JRESEARCH_MEMBER_NOT_FOUND'));
+    		$arguments[] = null;
     		return false;
     	}
+    	
+    	$arguments[] = $id;
     	
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($member->id_research_area);
@@ -174,6 +184,8 @@ class JResearchViewMember extends JView
     	$this->assignRef('applyStyle', $applyStyle);
     	$this->assignRef('style', $configuredCitationStyle);
     	$this->assignRef('format', $format);
+    	
+    	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
     	
     	return true;
     }
