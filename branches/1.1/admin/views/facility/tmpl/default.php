@@ -56,7 +56,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td colspan="2" align="left"><?=JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
 	</tr>
 	<tr>
-		<td colspan="4"><?=$this->editor->display( 'description',  $this->fac->description , '100%', '350', '75', '20' ) ; ?></td>
+		<td colspan="4"><?=$this->editor->display( 'description',  $this->fac?$this->fac->description:'' , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
 </tbody>
 </table>

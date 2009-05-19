@@ -93,7 +93,8 @@ class JHTMLAuthorsSelector{
 		$authorText = JText::_('JRESEARCH_ADD_AUTHOR');
 		$deleteText = JText::_('Delete');
 		$js = "javascript:switchType('$controlName', '$select', '$enterName')";
-		$result  = "<div id=\"div_$controlName\"><input type=\"text\" $class name=\"$controlName\" id=\"$controlName\" value=\"$authorName\" size=\"15\" maxlength=\"255\" />";
+		$class = "";
+		$result  = "<div id=\"div_$controlName\"><input type=\"text\" class=\"$class\" name=\"$controlName\" id=\"$controlName\" value=\"$authorName\" size=\"15\" maxlength=\"255\" />";
 		$result .= "&nbsp;";
 		$result .= "<a href=\"$js\" id=\"a_$controlName\">$select</a>";
 		
@@ -143,7 +144,7 @@ class JHTMLAuthorsSelector{
 			$options[] = JHTML::_('select.option', $r['id'], $r['lastname'].' '.$r['firstname']);
 		}
 
-		$list = JHTML::_('select.genericlist', $options, $controlName, 'class="inputbox"', 'value', 'text', $author->id);
+		$list = JHTML::_('select.genericlist', $options, $controlName, 'class="inputbox"', 'value', 'text', $author?$author->id:null);
 		if($deleteLink)	
 			$deleteControl = self::_fetchDeleteControl($controlName);
 
