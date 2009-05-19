@@ -201,6 +201,7 @@ class plgSearchJResearch extends JPlugin{
 		$this->limit -= $n;
 		return $results;
 	}
+	
 
 	/**
 	* JResearch Projects Search method. 
@@ -312,12 +313,18 @@ class plgSearchJResearch extends JPlugin{
 			default:
 				$order = 'p.title DESC';
 		}
+		
+		//Array of publications ids where the author has participated.
+		$pubIds = $this->_getAuthorPublicationIds($text);
+		$authorsCondition = null;
+		if(!empty($pubIds))
+			$authorsCondition = 'OR p.id IN ('.implode(',', $pubIds).')';		
 	
 		switch($phrase){
 			case 'exact':
 				$key = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
 				$qtext = strtolower($db->Quote($text));
-				$whereClause = "r.id = p.id_research_area AND p.published = 1 AND p.internal = 1 AND (LOWER( p.title ) LIKE $key OR LOWER( p.abstract ) LIKE $key OR LOWER( p.comments ) LIKE $key OR LOCATE($qtext, LOWER(p.keywords)) > 0)";
+				$whereClause = "r.id = p.id_research_area AND p.published = 1 AND p.internal = 1 AND (LOWER( p.title ) LIKE $key OR LOWER( p.abstract ) LIKE $key OR LOWER( p.comments ) LIKE $key OR LOCATE($qtext, LOWER(p.keywords)) > 0 $authorsCondition)";
 				break;
 			case 'all':
 			case 'any':
@@ -332,7 +339,7 @@ class plgSearchJResearch extends JPlugin{
 					$unscapedWord = $word;
 					$qtext = $db->Quote(strtolower($unscapedWord));
 					$word = $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
-					$whereClause.= " (LOWER(p.title) LIKE $word OR LOWER( p.abstract ) LIKE $word OR LOWER( p.comments ) LIKE $word OR LOCATE($qtext, LOWER(p.keywords)) > 0)";
+					$whereClause.= " (LOWER(p.title) LIKE $word OR LOWER( p.abstract ) LIKE $word OR LOWER( p.comments ) LIKE $word OR LOCATE($qtext, LOWER(p.keywords)) > 0 $authorsCondition)";
 					if($i <= $n-2)
 						$whereClause .= $operator;
 					$i++;
@@ -630,6 +637,24 @@ class plgSearchJResearch extends JPlugin{
 		$n = count($results);
 		$this->limit -= $n;
 		return $results;
+	}
+	
+	/**
+	* Returns the ids of the publications where the author has participated. 
+	* @param $author Author name depending if the author is member
+	* of the center or not.
+	*/
+	private function _getAuthorPublicationIds($author){
+		$db = JFactory::getDBO();
+
+		$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote( '%'.$db->getEscaped( $author, true ).'%', false ).' ';
+		$query .= 'UNION SELECT pa.id_publication FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' pa, ';
+		$query .= $db->nameQuote('#__jresearch_member').' m WHERE m.id = pa.id_staff_member AND (m.lastname LIKE '.$db->Quote( '%'.$db->getEscaped( $author, true ).'%', false ).' OR m.firstname LIKE '.$db->Quote( '%'.$db->getEscaped( $author, true ).'%', false ).')';
+		$db->setQuery($query);
+		
+		$result = $db->loadResultArray();
+		
+		return $result;
 	}
 	
 	private function debugQuery($query){
