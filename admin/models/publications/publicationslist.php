@@ -136,7 +136,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$this->_items = array();
 			
 			$db = &JFactory::getDBO();
-			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate, $teamId);			
+			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);			
 			$db->setQuery($query);
 			$ids = $db->loadResultArray();
 			$this->_items = array();
@@ -273,7 +273,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$name[$key] = $value;
 			
 		}
-		array_multisort(&$name, SORT_ASC, $mdresult);
+		array_multisort($name, SORT_ASC, $mdresult);
 		return $mdresult;
 	}
 
