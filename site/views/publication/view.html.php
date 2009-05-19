@@ -24,7 +24,9 @@ class JResearchViewPublication extends JView
     function display($tpl = null)
     {
     	global $mainframe;
-    	$arguments = array('publication');
+    	$id = JRequest::getVar('id', 0);
+    	
+    	$arguments = array('publication', $id);
     	
         $layout = &$this->getLayout();
         $result = true;

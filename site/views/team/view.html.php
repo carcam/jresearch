@@ -22,7 +22,7 @@ class JResearchViewTeam extends JView
 		$layout =& $this->getLayout();
 		$doc =& JFactory::getDocument();
 		
-		$arguments = array('team', $layout);
+		$arguments = array('team', $id);
 		
 		// Get data from the model
 		$model = &$this->getModel();

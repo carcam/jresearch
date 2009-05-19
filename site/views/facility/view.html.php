@@ -34,6 +34,9 @@ class JResearchViewFacility extends JView
         	case 'default':
         		$result = $this->_displayFacility($arguments);
         		break;
+        	default:
+        		$arguments[] = null;
+        		break;
         }
 		
         if($result)
@@ -57,6 +60,7 @@ class JResearchViewFacility extends JView
    		if(empty($id))
    		{
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+    		$arguments[] = null;
     		return false;
     	}
     	
@@ -67,6 +71,7 @@ class JResearchViewFacility extends JView
 		if(!$fac->published)
 		{
 			JError::raiseWarning(1, JText::_('JRESEARCH_PROJECT_NOT_FOUND'));
+			$arguments[] = null;
 			return false;
 		}
 		
