@@ -198,7 +198,8 @@ class JResearchAdminCooperationsController extends JController
 		else
 		{
 			$idText = !empty($coop->id) && $task == 'apply'?'&cid[]='.$coop->id:'';			
-			JError::raiseWarning(1, $coop->getError());
+			for($i=0; $i<count($coop->getErrors()); $i++)
+				JError::raiseWarning(1, $coop->getError($i));
 			$this->setRedirect('index.php?option=com_jresearch&controller=cooperations&task=edit'.$idText);
 		}
 

@@ -451,7 +451,9 @@ class JResearchPublicationsController extends JController
 
 		// Validate publication
 		if(!$publication->check()){
-			JError::raiseWarning(1, $publication->getError());		
+			for($i=0; $i<count($publication->getErrors()); $i++)
+				JError::raiseWarning(1, $publication->getError($i));
+						
 			if($publication->id)			
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&id='.$publication->id.'&pubtype='.$publication->pubtype.$ItemidText);
 			else

@@ -229,8 +229,9 @@ class JResearchAdminThesesController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit'.$idText);					
 			}
 		}else{
+			for($i=0; $i<count($thesis->getErrors()); $i++)
+				JError::raiseWarning(1, $thesis->getError($i));			
 			$idText = !empty($thesis->id)?'&cid[]='.$thesis->id:'';			
-			JError::raiseWarning(1, $thesis->getError());
 			$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit'.$idText);					
 		}
 
