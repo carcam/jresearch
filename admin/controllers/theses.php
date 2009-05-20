@@ -270,7 +270,10 @@ class JResearchAdminThesesController extends JController
 			}
 		}else{
 			$idText = !empty($thesis->id)?'&cid[]='.$thesis->id:'';			
-			JError::raiseWarning(1, $thesis->getError());
+			
+			for($i=0; $i<count($thesis->getErrors()); $i++)
+				JError::raiseWarning(1, $thesis->getError($i));
+			
 			$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit'.$idText);					
 		}
 

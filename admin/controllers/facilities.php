@@ -211,7 +211,10 @@ class JResearchAdminFacilitiesController extends JController
 		else
 		{
 			$idText = !empty($fac->id) && $task == 'apply'?'&cid[]='.$fac->id:'';
-			JError::raiseWarning(1, $fac->getError());
+
+			for($i=0; $i<count($fac->getErrors()); $i++)
+				JError::raiseWarning(1, $fac->getError($i));
+				
 			$this->setRedirect('index.php?option=com_jresearch&controller=facilities&task=edit'.$idText);
 		}
 		

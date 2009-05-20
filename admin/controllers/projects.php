@@ -300,7 +300,9 @@ class JResearchAdminProjectsController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit'.$idText);					
 			}
 		}else{
-			JError::raiseWarning(1, $project->getError());
+			for($i=0; $i<count($project->getErrors()); $i++)
+				JError::raiseWarning(1, $project->getError($i));
+				
 			$idText = !empty($project->id)?'&cid[]='.$project->id:'';			
 			$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit'.$idText);				
 		}
