@@ -27,8 +27,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th style="width: 1%;">#</th>
 			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort', 'Position', 'position', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 40%;" class="title"><?php echo JHTML::_('grid.sort', 'Position', 'position', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 10%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 48%;"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></th>
 		</tr>
 		</thead>
 		
@@ -44,19 +45,29 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php 
 			$n = count($this->items);
 			for($i=0; $i<$n; $i++):
+					$text = '';
 					$k = $i % 2;
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
+					$members = $this->items[$i]->getAuthors();
+					$researchArea = $this->area->getItem((int)$this->items[$i]->id_research_area);
+		          	foreach($members as $member){ 
+		             	if($member instanceof JResearchMember)
+		             	 	$text .= ' '.$member->__toString().',';
+		             	else
+		             	 	$text .= ' '.$member.',';
+		          	}
+		          	$text = rtrim($text, ',');					
+					
 			?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td><?php echo $checked; ?></td>
 					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->position;  ?></a></td>
 					<td class="center"><?php echo $published; ?></td>
+					<td class="center"><?php echo $text; ?></td>
 				</tr>
-			<?php
-			endfor;
-			?>
+			<?php endfor; ?>
 		</tbody>
 	</table>
 	<input type="hidden" name="boxchecked" value="0" />

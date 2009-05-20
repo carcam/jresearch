@@ -48,6 +48,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php 
 			$n = count($this->items);
 			for($i=0; $i<$n; $i++){
+					$text = '';
 					$k = $i % 2;
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );

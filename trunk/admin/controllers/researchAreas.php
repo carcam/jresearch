@@ -80,7 +80,9 @@ class JResearchAdminResearchAreasController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas&task=edit'.$idText);					
 			}
 		}else{			
-			JError::raiseWarning(1, $area->getError());
+			for($i=0; $i<count($area->getErrors()); $i++)
+				JError::raiseWarning(1, $area->getError($i));
+				
 			$idText = !empty($area->id)?'&cid[]='.$area->id:'';			
 			$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas&task=edit'.$idText);					
 		}

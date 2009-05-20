@@ -123,7 +123,7 @@ class JResearchProject extends JResearchActivity{
 			}
 		}
 		
-		if(!empty($this->end_date) && !empty($this->start_date)){
+		if((!empty($this->end_date) && $this->end_date != '0000-00-00') && (!empty($this->start_date) && $this->start_date != '0000-00-00')){
 			$startDateObj = new JDate($this->start_date);
 			$endDateObj = new JDate($this->end_date);
 			

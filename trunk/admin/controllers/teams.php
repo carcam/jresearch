@@ -189,13 +189,13 @@ class JResearchAdminTeamsController extends JController
 			}
 			else
 			{
-				JError::raiseWarning(1, $team->getError());
-				$this->setRedirect('index.php?option=com_jresearch&controller=teams&task=edit&cid[]='.$team->id, JText::_('JRESEARCH_SAVE_FAILED'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=teams&task=edit&cid[]='.$team->id, JText::_('JRESEARCH_SAVE_FAILED').': '.$team->getError());
 			}
 		}
 		else
 		{
-			JError::raiseWarning(1, $team->getError());
+			for($i=0; $i<count($team->getErrors()); $i++)
+				JError::raiseWarning(1, $team->getError($i));
 			$this->setRedirect('index.php?option=com_jresearch&controller=teams&task=edit&cid[]='.$team->id);
 		}
 		

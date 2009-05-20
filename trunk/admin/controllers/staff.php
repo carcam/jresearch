@@ -237,7 +237,8 @@ class JResearchAdminStaffController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id, JText::_('JRESEARCH_SAVE_FAILED').' '.$member->getError());					
 			}
 		}else{
-			JError::raiseWarning(1, $member->getError());
+			for($i=0; $i<count($member->getErrors()); $i++)
+				JError::raiseWarning(1, $member->getError($i));
 			$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id);					
 		}
 		
