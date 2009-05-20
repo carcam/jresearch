@@ -172,6 +172,8 @@ class JResearchAdminProjectsController extends JController
 		$post = JRequest::get('post');		
 		
 		$project->bind($post);
+//		JError::raiseWarning(1, var_export($project, true));
+//		JError::raiseWarning(1, var_export($project, true));				
 		$project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
 		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		
@@ -247,7 +249,9 @@ class JResearchAdminProjectsController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit'.$idText);					
 			}
 		}else{
-			JError::raiseWarning(1, $project->getError());
+			for($i=0; $i<count($project->getErrors()); $i++)
+				JError::raiseWarning(1, $project->getError($i));
+				
 			$idText = !empty($project->id)?'&cid[]='.$project->id:'';			
 			$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit'.$idText);				
 		}

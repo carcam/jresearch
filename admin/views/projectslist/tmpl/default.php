@@ -46,6 +46,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php 
 			$n = count($this->items);
 			for($i=0; $i<$n; $i++){
+					$text = '';
 					$k = $i % 2;
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
@@ -53,9 +54,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$researchArea = $this->area->getItem((int)$this->items[$i]->id_research_area);
 		          	foreach($members as $member){ 
 		             	if($member instanceof JResearchMember)
-		             	 $text .= ' '.$member->__toString().',';
+		             	 	$text .= ' '.$member->__toString().',';
 		             	else
-		             	 $text .= ' '.$member.',';
+		             	 	$text .= ' '.$member.',';
 		          	}
 		          	$text = rtrim($text, ',');          
         ?>
