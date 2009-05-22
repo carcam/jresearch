@@ -27,6 +27,7 @@ class JResearchViewFacility extends JView
     	global $mainframe;
         $layout = &$this->getLayout();
         $arguments = array('facility');
+        $params = JComponentHelper::getParams('com_jresearch');
         $result = true;
         
         switch($layout)
@@ -38,6 +39,8 @@ class JResearchViewFacility extends JView
         		$arguments[] = null;
         		break;
         }
+        
+        $this->assignRef('params', $params);
 		
         if($result)
         {

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<params>
+		<param name="thumbnail_enable" type="radio" default="true" label="JRESEARCH_THUMBNAIL_ENABLE" description="JRESEARCH_THUMBNAIL_ENABLE_DESCRIPTION">
+			<option value="true">Yes</option>
+			<option value="false">No</option>
+		</param>
 		<param name="show_hits" type="radio" default="yes" label="JRESEARCH_SHOW_HITS" description="JRESEARCH_SHOW_HITS_DESCRIPTION">
 			<option value="yes">Yes</option>
 			<option value="no">No</option>

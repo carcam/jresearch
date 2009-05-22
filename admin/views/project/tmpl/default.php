@@ -72,9 +72,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 		<?php
 		if($this->project->url_project_image):
+			$url = JResearch::getUrlByRelative($this->project->url_project_image);
+			$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->project->url_project_image):$url;
 		?>
 		<td>
-			<img src="<?php echo $this->project->url_project_image; ?>" alt="<?php echo JText::_('No photo'); ?>" />
+			<a href="<?php echo $url;?>" class="modal">
+				<img src="<?php echo $thumb; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" />
+			</a>
 			<input type="hidden" name="url_project_image" value="<?php echo $this->project->url_project_image; ?>" />
 		</td>
 		<td>

@@ -69,9 +69,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php
 		if($this->member && !is_null($this->member->url_photo)):
 			$url = JResearch::getUrlByRelative($this->member->url_photo);
+			$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->member->url_photo):$url;
 		?>
 		<td>
-			<img src="<?php echo $url; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" />
+			<a href="<?php echo $url;?>" class="modal">
+				<img src="<?php echo $thumb; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" />
+			</a>
 			<input type="hidden" name="url_photo" id="url_photo" value="<?php echo $this->member->url_photo;?>" />
 		</td>
 		<td><label for="delete"><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" /></td>

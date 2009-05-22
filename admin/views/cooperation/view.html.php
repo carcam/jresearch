@@ -29,6 +29,8 @@ class JResearchAdminViewCooperation extends JView
 		JHTML::_('jresearchhtml.validation');
     	JRequest::setVar( 'hidemainmenu', 1 );
 
+    	$params = JComponentHelper::getParams('com_jresearch');
+    	
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$model =& $this->getModel();
@@ -49,7 +51,8 @@ class JResearchAdminViewCooperation extends JView
     	$this->assignRef('categoryList', $categoryList);
     	$this->assignRef('publishedList', $publishedList);
     	$this->assignRef('orderList', $orderList);
-		$this->assignRef('editor', $editor);    	
+		$this->assignRef('editor', $editor);   
+		$this->assignRef('params', $params); 	
     	
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);

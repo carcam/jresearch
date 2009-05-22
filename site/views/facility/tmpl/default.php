@@ -14,10 +14,11 @@ JHTML::_('behavior.modal');
 <?php 
 if($this->fac->image_url):
 	$url = JResearch::getUrlByRelative($this->fac->image_url);
+	$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->fac->image_url):$url;
 ?>
 <div style="text-align: center;">
 	<a href="<?php echo $url?>" class="modal" rel="{handler: 'image'}">
-		<img src="<?php echo $url?>" alt="<?php echo JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" title="<?php echo JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" style="width: 500px;" />
+		<img src="<?php echo $thumb?>" alt="<?php echo JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" title="<?php echo JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" style="width: 500px;" />
 	</a>
 </div>
 <?php 
