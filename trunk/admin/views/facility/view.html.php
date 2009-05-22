@@ -29,6 +29,7 @@ class JResearchAdminViewFacility extends JView
       	
 		JHTML::_('jresearchhtml.validation');      	
     	JRequest::setVar( 'hidemainmenu', 1 );
+    	$params = JComponentHelper::getParams('com_jresearch');
     	
     	// Information about the member
     	$cid = JRequest::getVar('cid');
@@ -50,7 +51,8 @@ class JResearchAdminViewFacility extends JView
     	$this->assignRef('fac', $fac);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
-		$this->assignRef('editor', $editor);    
+		$this->assignRef('editor', $editor);
+		$this->assignRef('params', $params);
     	
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);

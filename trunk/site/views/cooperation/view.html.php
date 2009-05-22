@@ -17,6 +17,7 @@ class JResearchViewCooperation extends JView
 	{	
 		global $mainframe;
 		$arguments = array('cooperation');
+		$params = JComponentHelper::getParams('com_jresearch');
 		
 		$id = JRequest::getInt('id');
 		$layout =& $this->getLayout();
@@ -51,6 +52,7 @@ class JResearchViewCooperation extends JView
 		$doc->setTitle(JText::_('JRESEARCH_COOPERATION').' - '.$item->name);
 		$this->assignRef('coop', $item);
 		$this->assignRef('editor', $editor);
+		$this->assignRef('params', $params);
 
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		
@@ -61,7 +63,7 @@ class JResearchViewCooperation extends JView
 	
 	private function _editCooperation(&$coop)
 	{
-		JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 		JHTML::_('Validator._');
 		
 		//Published options

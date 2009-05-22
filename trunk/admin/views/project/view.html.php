@@ -29,6 +29,7 @@ class JResearchAdminViewProject extends JView
     	      	
 		JHTML::_('jresearchhtml.validation');      	
     	JRequest::setVar( 'hidemainmenu', 1 );
+    	$params = JComponentHelper::getParams('com_jresearch');
     	
     	// Information about the member
     	$cid = JRequest::getVar('cid');
@@ -74,7 +75,6 @@ class JResearchAdminViewProject extends JView
 			$uploadedFiles = array();	
 		$files = JHTML::_('jresearchhtml.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'projects','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
 		
-		
     	$this->assignRef('project', $project);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
@@ -85,6 +85,7 @@ class JResearchAdminViewProject extends JView
 		$this->assignRef('membersControl', $membersControl);	
 		$this->assignRef('status', $statusHTML);
 		$this->assignRef('files', $files);
+		$this->assignRef('params', $params);
     	
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);

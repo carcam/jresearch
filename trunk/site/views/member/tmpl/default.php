@@ -7,7 +7,9 @@
 
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access'); 
+JHTML::_('behavior.modal');
+?>
 <h1 class="componentheading"><?php echo JResearchPublicationsHelper::formatAuthor($this->member->__toString(), $this->format); ?></h1>
 <table class="frontendsingleitem">
 <tbody>
@@ -19,13 +21,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <td style="width:50%;" colspan="2" rowspan="3"></td>
     <?php else: 
     	$url = JResearch::getUrlByRelative($this->member->url_photo);
+    	$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->member->url_photo):$url;
     ?>		
-    <td style="width:50%;" colspan="2" rowspan="3"><img src="<?php echo $url; ?>" border="0" alt="<?php echo $this->member; ?>" /></td>
+    <td style="width:50%;" colspan="2" rowspan="3">
+    	<a href="<?php echo $url?>" class="modal" rel="{handler: 'image'}">
+    		<img src="<?php echo $thumb; ?>" border="0" alt="<?php echo $this->member; ?>" />
+    	</a>
+    </td>
     <?php endif; ?>		
   </tr>
   <?php
-  if($this->member->former_member == 0 && $this->params->get('member_show_email', 'no') == 'yes')
-  {
+  if($this->member->former_member == 0 && $this->params->get('member_show_email', 'no') == 'yes'):
   ?>
 	  <tr>
 	  	<th scope="row"><?php echo JText::_('JRESEARCH_EMAIL').': ' ?></th>
@@ -33,7 +39,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	  	<td style="width:50%;" colspan="2"></td>
 	  </tr>
   <?php 
-  }
+  endif;
   ?>
   <tr>
   	<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>

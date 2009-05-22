@@ -27,6 +27,7 @@ class JResearchViewMember extends JView
     	
         $layout = &$this->getLayout();
         $arguments = array('member');
+        $params = JComponentHelper::getParams('com_jresearch');
         
         switch($layout){
         	case 'edit':
@@ -36,6 +37,8 @@ class JResearchViewMember extends JView
         		$value = $this->_displayProfile($arguments);
         		break;
         }
+        
+        $this->assignRef('params', $params);
 	
         if($value)
         {

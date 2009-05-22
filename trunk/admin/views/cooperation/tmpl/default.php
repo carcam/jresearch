@@ -48,10 +48,11 @@ JHTML::_('behavior.modal');
 		<?php
 		if($this->coop && $this->coop->image_url):
 			$url = JResearch::getUrlByRelative($this->coop->image_url);
+			$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->coop->image_url):$url;
 		?>
 		<td>
 			<a href="<?=$url?>" class="modal">
-				<img src="<?=$url;?>" alt="<?php echo JText::_('Photo'); ?>" class="modal" />
+				<img src="<?=$thumb;?>" alt="<?php echo JText::_('Photo'); ?>" class="modal" />
 			</a>
 			<input type="hidden" name="image_url" id="image_url" value="<?=$this->coop->image_url;?>" />
 		</td>

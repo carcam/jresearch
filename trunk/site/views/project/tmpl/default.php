@@ -6,7 +6,8 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); 
+defined('_JEXEC') or die('Restricted access');
+JHTML::_('behavior.modal');
 ?>
 <h1 class="componentheading"><?php echo $this->project->title; ?></h1>
 <?php if($this->showHits): ?>
@@ -24,8 +25,13 @@ defined('_JEXEC') or die('Restricted access');
        	<?php 
        	else: 
        		$url = JResearch::getUrlByRelative($this->project->url_project_image);
+       		$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->project->url_project_image):$url;
        	?>		
-    		<td colspan="2"><img src="<?php echo $url; ?>" border="0" alt="<?php echo $this->project->title; ?>" /></td>
+    		<td colspan="2">
+    			<a href="<?php echo $url?>" class="modal" rel="{handler: 'image'}">
+    				<img src="<?php echo $thumb; ?>" border="0" alt="<?php echo $this->project->title; ?>" />
+    			</a>
+    		</td>
     	<?php endif; ?>	
 	</tr>
 	<tr>

@@ -41,9 +41,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php
 			if($this->fac && !is_null($this->fac->image_url)):
 				$url = JResearch::getUrlByRelative($this->fac->image_url);
+				$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->fac->image_url):$url;
 			?>
 				<a href="<?php echo $url;?>" class="modal">
-					<img src="<?php echo $url; ?>" alt="Image of <?php echo $this->fac->name?>" width="100" />
+					<img src="<?php echo $thumb; ?>" alt="Image of <?php echo $this->fac->name?>" width="100" />
 				</a>
 				<input type="hidden" name="image_url" id="image_url" value="<?php echo $this->fac->image_url;?>" />
 			<?php
