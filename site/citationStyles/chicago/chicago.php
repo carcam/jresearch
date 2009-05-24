@@ -317,22 +317,22 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
-			$text = utf8_ucfirst($authorComponents['lastname']);
+			$text = JString::ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
 			if($isLast)
-				$text = utf8_ucfirst($authorComponents['firstname']).' '.utf8_ucfirst($authorComponents['lastname']);			
+				$text = JString::ucfirst($authorComponents['firstname']).' '.JString::ucfirst($authorComponents['lastname']);			
 			else
-				$text = utf8_ucfirst($authorComponents['lastname']).', '.utf8_ucfirst($authorComponents['firstname']); 
+				$text = JString::ucfirst($authorComponents['lastname']).', '.JString::ucfirst($authorComponents['firstname']); 
 		}elseif(count($authorComponents) == 3){
 			if($isLast)
-				$text = utf8_ucfirst($authorComponents['firstname']).' '.utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']);			
+				$text = JString::ucfirst($authorComponents['firstname']).' '.JString::ucfirst($authorComponents['von']).' '.JString::ucfirst($authorComponents['lastname']);			
 			else
-				$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).', '.utf8_ucfirst($authorComponents['firstname']);			
+				$text = JString::ucfirst($authorComponents['von']).' '.JString::ucfirst($authorComponents['lastname']).', '.JString::ucfirst($authorComponents['firstname']);			
 		}else{
 			if($isLast)
-				$text = utf8_ucfirst($authorComponents['firstname']).' '.$authorComponents['jr'].' '.$authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']);			
+				$text = JString::ucfirst($authorComponents['firstname']).' '.$authorComponents['jr'].' '.$authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']);			
 			else
-				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.utf8_ucfirst($authorComponents['firstname']).' '.$authorComponents['jr'];						
+				$text = $authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']).', '.JString::ucfirst($authorComponents['firstname']).' '.$authorComponents['jr'];						
 		}
 		
 		return $text;

@@ -12,7 +12,7 @@
 */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+
 
 /**
  * This class defines the base for all sources of activity in a center 
@@ -263,6 +263,7 @@ class JResearchActivity extends JTable{
 	 * as key.
 	 */
 	public function getInternalAuthors(){
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');		
 		$db = &$this->getDBO();
 		if($this->_internalAuthorsObjects == null){
 			foreach($this->_internalAuthors as $member){

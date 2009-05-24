@@ -269,7 +269,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		foreach($result as $key => $author){
 			$components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
 			$value = ($components['von']?$components['von'].' ':'').$components['lastname'].', '.$components['firstname'].($components['jr']?' '.$components['jr']:'');
-			$mdresult[] = array('id'=>$value, 'name'=>$value);
+			$mdresult[] = array('id'=>$author['id'], 'name'=>$value);
 			$name[$key] = $value;
 			
 		}

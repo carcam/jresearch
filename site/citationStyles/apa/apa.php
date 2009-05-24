@@ -368,13 +368,13 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		$authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
-			$text = utf8_ucfirst($authorComponents['lastname']);
+			$text = JString::ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
-			$text = utf8_ucfirst($authorComponents['lastname']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']); 
+			$text = JString::ucfirst($authorComponents['lastname']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']); 
 		}elseif(count($authorComponents) == 3){
-			$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
+			$text = $authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
 		}else{
-			$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.utf8_ucfirst($authorComponents['jr']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
+			$text = $authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']).', '.utf8_ucfirst($authorComponents['jr']).', '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
 		}
 		
 		return $text;
