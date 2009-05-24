@@ -588,12 +588,21 @@ class JResearchPublicationsController extends JController
 		$n = 0;		
 		$publication = new JResearchPublication($db);
 		
+		$modelkey = JRequest::getVar('modelkey');
+		if(!empty($modelkey) && $modelkey == 'tabular')
+			$viewText = '&task=filtered&layout=filtered';
+
+		$Itemid = JRequest::getVar('Itemid');
+		if(!empty($Itemid))
+			$itemIdText = '&Itemid='.$Itemid;	
+		
+		
 		if(!$publication->delete($cid))
 			JError::raiseWarning(1, JText::sprintf('JRESEARCH_PUBLICATION_NOT_DELETED', $cid));
 		else
 			$n++;
 			
-		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', 1));
+		$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$itemIdText.$viewText, JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', 1));
 	}
 }
 ?>

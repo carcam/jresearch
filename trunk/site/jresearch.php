@@ -21,21 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 global $mainframe;
 
 // Common needed files
-require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'defines.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'activity.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
-require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'acl.php');
-require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'cite.php');
-require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'text.php');
-require_once(JPATH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
-// Verify if Jxtended is available as a plugin in the system.
-if(!function_exists('jximport'))
-	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'jxtended.php');
-
-// Plugin management
-JPluginHelper::importPlugin('jresearch');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'plugins.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
 
 //Set ACL
 setACL();
