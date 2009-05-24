@@ -17,25 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.utilities.date');
 
-__loadPublicationsSubclasses();
-
-/**
- * Imports all the subclasses of JResearchPublication. Must be invoked
- * for any script that works with JResearchPublication entities.
- *
- */
-function __loadPublicationsSubclasses(){
-	jimport('joomla.filesystem.path');
-	jimport('joomla.filesystem.folder');
-	
-	$path = JPATH_COMPONENT_ADMINISTRATOR.DS.'tables';
-	$files = JFolder::files($path, '.php');
-	foreach($files as $f){
-		require_once($path.DS.$f);
-	}
-	
-}
-
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'activity.php');
 
 
 /**

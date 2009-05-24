@@ -18,20 +18,10 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 // Common needed files
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'activity.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'cite.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'text.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'factory.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
-// Plugin management
-JPluginHelper::importPlugin('jresearch');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'plugins.php');
-
-
 
 $document = &JFactory::getDocument();
 $url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();

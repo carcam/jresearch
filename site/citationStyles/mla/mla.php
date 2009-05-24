@@ -307,24 +307,24 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		if($isFirst){
 			// We have two components: firstname and lastname
 			if(count($authorComponents) == 1){
-				$text = utf8_ucfirst($authorComponents['lastname']);
+				$text = JString::ucfirst($authorComponents['lastname']);
 			}elseif(count($authorComponents) == 2){
-				$text = utf8_ucfirst($authorComponents['lastname']).', '.$firstname; 
+				$text = JString::ucfirst($authorComponents['lastname']).', '.$firstname; 
 			}elseif(count($authorComponents) == 3){
-				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.$firstname;
+				$text = $authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']).', '.$firstname;
 			}else{
-				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.$jr.', '.$firstname;
+				$text = $authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']).', '.$jr.', '.$firstname;
 			}
 		}else{
 			// We have two components: firstname and lastname
 			if(count($authorComponents) == 1){
-				$text = utf8_ucfirst($authorComponents['lastname']);
+				$text = JString::ucfirst($authorComponents['lastname']);
 			}elseif(count($authorComponents) == 2){
-				$text = $firstname.' '.utf8_ucfirst($authorComponents['lastname']); 
+				$text = $firstname.' '.JString::ucfirst($authorComponents['lastname']); 
 			}elseif(count($authorComponents) == 3){
-				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).' '.$firstname;
+				$text = $authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']).' '.$firstname;
 			}else{
-				$text = $authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']).', '.$jr.' '.$firstname;
+				$text = $authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']).', '.$jr.' '.$firstname;
 			}
 		}
 
