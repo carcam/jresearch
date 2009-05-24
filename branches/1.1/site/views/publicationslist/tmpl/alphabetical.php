@@ -13,7 +13,6 @@ foreach($this->items as $pub):
 	$publicationText = $styleObj->getReferenceHTMLText($pub, true, true);
 ?>
 	<?php $url = $pub->url; ?>
-	<?php $attach = $pub->getAttachment(0, 'publications'); ?>	
 	<li><span><?php echo $publicationText;  ?></span>
 	<?php if($this->showmore): ?>
 		<span><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a></span>
@@ -22,8 +21,6 @@ foreach($this->items as $pub):
 		<?php
 			 if(!empty($url))
 				$link = $url;
-			  elseif(!empty($attach))
-			  	$link = $attach;							
 		 ?>
 		<?php if(!empty($link)): ?>
 			<?php "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			

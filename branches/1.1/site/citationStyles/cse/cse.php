@@ -341,23 +341,22 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
-			$text = utf8_ucfirst($authorComponents['lastname']);
+			$text = JString::ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
-			$text = utf8_ucfirst($authorComponents['lastname']).' '.$this->_getInitials($authorComponents['firstname']); 
+			$text = JString::ucfirst($authorComponents['lastname']).' '.$this->_getInitials($authorComponents['firstname']); 
 		}elseif(count($authorComponents) > 2){
-			$text = utf8_ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).' '.$this->_getInitials($authorComponents['firstname']);
+			$text = JString::ucfirst($authorComponents['von']).' '.JString::ucfirst($authorComponents['lastname']).' '.$this->_getInitials($authorComponents['firstname']);
 		}
 		
 		return $text;
 	}
 	
 	private function _getInitials($authorname){
-		jimport('phputf8.native.core');
 		$components = preg_split('/([-\s])/', $authorname, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);		
 		if(count($components) > 1){
-			return utf8_ucfirst(utf8_substr($components[0], 0, 1)).utf8_ucfirst(utf8_substr($components[2], 0, 1));
+			return JString::ucfirst(JString::substr($components[0], 0, 1)).JString::ucfirst(JString::substr($components[2], 0, 1));
 		}
-		$result = utf8_ucfirst(utf8_substr($authorname, 0, 1)); 
+		$result = JString::ucfirst(JString::substr($authorname, 0, 1)); 
 		return $result;
 		
 	}
