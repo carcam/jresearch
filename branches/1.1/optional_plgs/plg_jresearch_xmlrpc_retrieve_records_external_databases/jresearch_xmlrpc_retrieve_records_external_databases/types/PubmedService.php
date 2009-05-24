@@ -133,9 +133,15 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 		global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 		$publication = array();
 		$publication['citekey'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->PMID, $xmlrpcString);		
-		$publication['title'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->ArticleTitle, $xmlrpcString);		
+		$publication['title'] = new xmlrpcval(rtrim($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->ArticleTitle, '.'), $xmlrpcString);		
 		$publication['abstract'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Abstract->AbstractText, $xmlrpcString);		
-		$publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);		
+		if(!empty($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation)){
+			$publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation, $xmlrpcString);
+			$publication['fulljournal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);				
+		}else{			
+			$publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);
+		}
+				
 		$publication['volume'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->JournalIssue->Volume, $xmlrpcString);		
 		$publication['number'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->JournalIssue->Issue, $xmlrpcString);		
 		$publication['issn'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISSN->_, $xmlrpcString);				
@@ -164,9 +170,16 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 		else{
 			$publication = array();
 			$publication['citekey'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->PMID, $xmlrpcString);		
-			$publication['title'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->ArticleTitle, $xmlrpcString);		
+			$publication['title'] = new xmlrpcval(rtrim($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->ArticleTitle, '.'), $xmlrpcString);		
 			$publication['abstract'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Abstract->AbstractText, $xmlrpcString);		
-			$publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);		
+
+			if(!empty($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation)){
+				$publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation, $xmlrpcString);
+				$publication['fulljournal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);				
+			}else{			
+				$publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);
+			}
+		
 			$publication['volume'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->JournalIssue->Volume, $xmlrpcString);		
 			$publication['number'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->JournalIssue->Issue, $xmlrpcString);		
 			$publication['issn'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISSN->_, $xmlrpcString);				
