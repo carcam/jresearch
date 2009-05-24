@@ -18,5 +18,5 @@
 		<language tag="es-ES">es-ES.plg_jresearch_xmlrpc_retrieve_records_external_databases.ini</language>
 		<language tag="de-DE">de-DE.plg_jresearch_xmlrpc_retrieve_records_external_databases.ini</language>				
 	</languages>
-	<params />
+	<params/>
 </install>

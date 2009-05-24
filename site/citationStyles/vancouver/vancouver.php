@@ -243,11 +243,11 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 		if(count($authorComponents) == 1){
 			$text = JString::ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
-			$text = JString::ucfirst($authorComponents['lastname']).' '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']); 
+			$text = JString::ucfirst($authorComponents['lastname']).' '.JString::rtrim(JResearchPublicationsHelper::getInitials($authorComponents['firstname']), '.'); 
 		}elseif(count($authorComponents) == 3){
-			$text = JString::ucfirst($authorComponents['von']).' '.JString::ucfirst($authorComponents['lastname']).' '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']);
+			$text = JString::ucfirst($authorComponents['von']).' '.JString::ucfirst($authorComponents['lastname']).' '.JString::rtrim(JResearchPublicationsHelper::getInitials($authorComponents['firstname']), '.');
 		}else{
-			$text = JString::ucfirst($authorComponents['von']).' '.utf8_ucfirst($authorComponents['lastname']).' '.JResearchPublicationsHelper::getInitials($authorComponents['firstname']).JResearchPublicationsHelper::getInitials($authorComponents['jr']);
+			$text = JString::ucfirst($authorComponents['von']).' '.JString::ucfirst($authorComponents['lastname']).' '.JString::rtrim(JResearchPublicationsHelper::getInitials($authorComponents['firstname']), '.').JString::rtrim(JResearchPublicationsHelper::getInitials($authorComponents['jr']), '.');
 		}
 		
 		return $text;

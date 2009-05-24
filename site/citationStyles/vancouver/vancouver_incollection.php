@@ -97,10 +97,7 @@ class JResearchVancouverIncollectionCitationStyle extends JResearchVancouverCita
 
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages)){
-			if(preg_match('/^\d+-\d+\$/', $pages))
-				$text .= '. pp. '.$pages;
-			else
-				$text .= '. p. '.$pages;	
+			$text .= '. '.$pages;	
 		}
 		
 		return $text.'.';	
