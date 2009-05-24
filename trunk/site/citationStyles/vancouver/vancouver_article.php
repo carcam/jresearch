@@ -52,13 +52,10 @@ class JResearchVancouverArticleCitationStyle extends JResearchVancouverCitationS
 		
 		$year = trim($publication->year);	
 		if($year != null && $year != '0000'){		
-			$text .= '. '.$year;
-			$month = trim($publication->month);
-			if(!empty($month)){
-				$month = JResearchPublicationsHelper::formatMonth($month, true);
-				$text .= ' '.$month;					
-			}			
-			
+			if(!empty($journal))
+				$text .= ' '.$year;			
+			else
+				$text .= '. '.$year;			
 		}
 		
 		$volume = trim($publication->volume);
@@ -68,11 +65,7 @@ class JResearchVancouverArticleCitationStyle extends JResearchVancouverCitationS
 		
 		$pages = str_replace('--', '-', trim($publication->pages));
 		if(!empty($pages)){
-			if(preg_match('/^(\d)+-(\d)+$/', $pages))
-				$text .= '. pp. '.$pages;
-			else
-				$text .= '. p. '.$pages;
-					
+			$text .= ':'.$pages;
 		}	
 		
 		return $text.'.';	
