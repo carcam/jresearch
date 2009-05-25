@@ -26,7 +26,7 @@ class JHTMLAuthorsSelector{
 	*
 	* @param string $baseName Base name of the control. It represents the name of the fields that
 	* will be sent when submitting the form. For internal authors it will be a list. For external 
-	* ones, it will be a text input.
+	* ones, it will be a text input. Only letters and _ character are allowed.
 	* @param array Mixed sorted array. JResearchMember instances will be considered as internal 
 	* staff member's while strings are considered as external authors names.
 	* @param boolean $allowPrincipals If true, a checkbox will be displayed for each entry to define
