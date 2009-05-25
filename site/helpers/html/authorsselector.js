@@ -10,7 +10,10 @@ function addControl(controlName, addAuthorText, deleteAuthorText, buttonTextInte
 	index = indexField.getAttribute('value');
 
 	index++;
-	baseName = controlName.substring(0, controlName.length - 1);
+	baseNameArray = controlName.match(/^([_a-zA-Z]+)([0-9]+)$/);
+	if(!baseNameArray) return;
+	
+	baseName = baseNameArray[1];
 	baseControl = document.getElementById(baseName);
 	// We construct a new item
 	if(baseControl != null){
@@ -29,7 +32,7 @@ function addControl(controlName, addAuthorText, deleteAuthorText, buttonTextInte
 		button.setAttribute('href', "javascript:switchType('"+baseControl.getAttribute('id')+index+"', '"+buttonTextInternal+"', '"+buttonText+"') ");
 		button.setAttribute('id', 'a_'+baseControl.getAttribute('id')+index); 
 		button.appendChild(document.createTextNode(buttonTextInternal));
- 				
+ 		
 		addAuthor = document.getElementById("add"+baseName);
 		addAuthor.setAttribute('href', "javascript:addControl('"+baseControl.getAttribute('id')+index+"', '"+addAuthorText+"', '"+deleteAuthorText+"', '"+ buttonTextInternal +"', '"+buttonText +"' ,'"+maxAuthors+"')");
 		
