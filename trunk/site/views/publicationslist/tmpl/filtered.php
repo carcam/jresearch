@@ -51,15 +51,15 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 		<tbody>
 		<?php 
 			$n = count($this->items);
+			$Itemid = JRequest::getVar('Itemid');
+			$modelkey = JRequest::getVar('modelkey');
 			for($i=0; $i<$n; $i++){
-	          $authors = $this->items[$i]->getAuthors();
-    	      $text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->format);
+	          		$authors = $this->items[$i]->getAuthors();
+    	      			$text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->format);
 		?>
-			
-				<?php $Itemid = JRequest::getVar('Itemid'); ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $i; ?></td>
-					<td><a href="index.php?option=com_jresearch&controller=publications&task=show&id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
+					<td><a href="index.php?option=com_jresearch&controller=publications&task=show<?php !empty($modelkey)?'&modelkey='.$modelkey:''; ?>&id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td style="text-align:center"><?php echo $text; ?></td>
 					<td style="text-align:center"><?php echo $this->items[$i]->year; ?></td>
 					<td style="text-align:center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>

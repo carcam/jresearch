@@ -39,12 +39,14 @@ class JResearchAdminViewPublicationsList extends JView
     			break;		
     	}
     	
-        $eArguments = array('publications');
-		$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+	$eArguments = array('publications');
+	if($layout == 'default')
+	     $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
+        
+        parent::display($tpl);
+        
+        if($layout == 'default')
+        	$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     

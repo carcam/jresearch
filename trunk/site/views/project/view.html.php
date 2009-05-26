@@ -24,24 +24,25 @@ class JResearchViewProject extends JView
 {
     function display($tpl = null)
     {
-    	global $mainframe;
-    	$arguments = array('project');
-    	
-        $layout = &$this->getLayout();
+	global $mainframe;
+    	$arguments = array();    	
+    	$result = true;
+        $layout = $this->getLayout();
+
         switch($layout){
         	case 'default':
-        		$this->_displayProject($arguments);
-        		break;
-        	default:
-        		$arguments[] = null;
+        		$result = $this->_displayProject(&$arguments);
         		break;
         }
 	
-        $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
-			
-       	parent::display($tpl);
-       	
-       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+        if($result)
+        {
+ 	    	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+		
+	       	parent::display($tpl);
+	       	
+	       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+        }
     }
     
     /**
@@ -50,50 +51,43 @@ class JResearchViewProject extends JView
     private function _displayProject(array &$arguments){
       	global $mainframe;
     	$id = JRequest::getInt('id');
-      	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');    	
+	$doc =& JFactory::getDocument();
+	$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
+	$arguments[] = 'project';
 
-      	$doc =& JFactory::getDocument();
-   		$session = JFactory::getSession();
-   		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
-
-   		if(empty($id)){
-    		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		$arguments[] = null;
-    		return;
-    	}
+	if(empty($id)){
+		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+		return false;
+	}
     	//Get the model
     	$model =& $this->getModel();
     	$project = $model->getItem($id);
     	
-		if(!$project->published){
-			JError::raiseWarning(1, JText::_('JRESEARCH_PROJECT_NOT_FOUND'));
-			$arguments[] = null;
-			return;
-		}
+    	if(empty($project)){
+    		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+    		return false;
+    	}
+    	
+	if(!$project->published){
+		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+		return false;
+	}
+    	JResearchPluginsHelper::onPrepareJResearchContent('project', $project);		
 
-		$arguments[] = $id;
-		
-		//If the project was visited in the same session, do not increment the hit counter
-		if(!$session->get('visited', false, 'projects'.$id)){
-			$session->set('visited', true, 'projects'.$id);
-			$project->hit();
-		}
+	$arguments[] = $id;
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($project->id_research_area);
-    	
     	$params = $mainframe->getPageParameters('com_jresearch');
-		$showHits = ($params->get('show_hits') == 'yes');
-    	$format = $params->get('staff_format') == 'last_first'?1:0;		
-		
+
     	$doc->setTitle(JText::_('JRESEARCH_PROJECT').' - '.$project->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
-    	$this->assignRef('showHits', $showHits);    	
     	$this->assignRef('project', $project);
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('area', $area);
-		$this->assignRef('format', $format);    	
+    	
+    	return true;    	
 
     }
 }
