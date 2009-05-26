@@ -49,7 +49,7 @@ class JResearchViewPublicationsList extends JView
 				break;	
 		}
 
-        $eArguments = array('publications', $layout);
+	        $eArguments = array('publications', $layout);
 		
 		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
 		

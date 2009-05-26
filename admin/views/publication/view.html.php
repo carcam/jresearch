@@ -25,24 +25,22 @@ class JResearchAdminViewPublication extends JView
 	{
 		global $mainframe;
 		
-		$arguments = array('publication');
-		
  		$layout = $this->getLayout();
+ 		$arguments = array();
  		
  		switch($layout){
  			case 'new':
  				$this->_displayNewPublicationForm();
- 				$arguments[] = null;
  				break;
  			case 'default':
- 				$this->_displayPublicationForm($arguments);
+ 				$this->_displayPublicationForm($arguments); 				
  				break;	
  		}
-
-       	// Load cited records
-		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments); 		
+ 		 		
 		parent::display($tpl);
-       	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);
+		if($layout == 'default')
+       		$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);		
+
 	}
 	
 	/**
@@ -54,6 +52,7 @@ class JResearchAdminViewPublication extends JView
 		
 		JResearchToolbar::editPublicationAdminToolbar();
 		JHTML::_('jresearchhtml.validation');		
+		$arguments[] = 'publication';
 		
 		$cid = JRequest::getVar('cid');
 		$isNew = !isset($cid);

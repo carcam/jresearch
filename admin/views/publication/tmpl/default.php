@@ -119,6 +119,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <input type="hidden" name="pubtype" value="<?php echo $this->pubtype; ?>" />
 <input type="hidden" name="id" value="<?php echo $this->publication?$this->publication->id:'' ?>" />
+<?php if(JRequest::getVar('modelkey')): ?>
+	<input type="hidden" name="modelkey" value="<?php echo JRequest::getVar('modelkey'); ?>" />
+<?php endif; ?>
 <?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications'); ?>
 <?php echo JHTML::_('behavior.keepalive'); ?>
 </form>
