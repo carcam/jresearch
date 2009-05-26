@@ -25,22 +25,20 @@ class JResearchAdminViewPublication extends JView
 		global $mainframe;
 		
  		$layout = $this->getLayout();
- 		$arguments = array('publication');
+ 		$arguments = array();
  		
  		switch($layout){
  			case 'new':
  				$this->_displayNewPublicationForm();
- 				$arguments[] = null;
  				break;
  			case 'default':
- 				$this->_displayPublicationForm($arguments);
+ 				$this->_displayPublicationForm($arguments); 				
  				break;	
  		}
- 		
- 	  	// Load cited records
-		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments); 		
+ 		 		
 		parent::display($tpl);
-       	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);		
+		if($layout == 'default')
+       		$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);		
 	}
 	
 	/**
@@ -48,7 +46,9 @@ class JResearchAdminViewPublication extends JView
 	* publications.
 	*/
 	private function _displayPublicationForm(&$arguments){
+		global $mainframe;
 		JResearchToolbar::editPublicationAdminToolbar();
+		$arguments[] = 'publication';
 
 		JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
@@ -98,6 +98,8 @@ class JResearchAdminViewPublication extends JView
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('pubtype', $pubtype);
 		$this->assignRef('authors', $authorsControl);
+ 	  	// Load cited records
+		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);		
 	}
 	
 	/**

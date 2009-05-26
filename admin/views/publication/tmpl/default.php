@@ -104,5 +104,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="id" value="<?php echo $this->publication?$this->publication->id:'' ?>" />	
 <?php $Itemid = JRequest::getVar('Itemid'); ?>
 <input type="hidden" name="Itemid" value="<?php echo !empty($Itemid)?$Itemid:''; ?>" />
+<?php if(JRequest::getVar('modelkey')): ?>
+	<input type="hidden" name="modelkey" value="<?php echo JRequest::getVar('modelkey'); ?>" />
+<?php endif; ?>	
 <?php echo JHTML::_('behavior.keepalive'); ?>
 </form>

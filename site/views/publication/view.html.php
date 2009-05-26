@@ -24,44 +24,41 @@ class JResearchViewPublication extends JView
     function display($tpl = null)
     {
     	global $mainframe;
-    	$arguments = array('publication');
     	
         $layout = &$this->getLayout();
         $result = true;
+        $arguments = array();
 
         switch($layout){
         	case 'default':
-        		$result = $this->_displayPublication();
-        		
-        		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+        		$result = $this->_displayPublication(&$arguments);        		
         		break;
         	case 'new':
         		$result = $this->_displayNewPublicationForm();
-        		
-        		$mainframe->triggerEvent('onBeforeNewJResearchPublication', $arguments);
         		break;
         	case 'edit':
-        		$result = $this->_editPublication();
-        		
-        		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+        		$result = $this->_editPublication(&$arguments);        		
         		break;
         }
         
 		if($result)
 		{
        		parent::display($tpl);
-       	
-       		$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+       		
+       		if($layout == 'default')
+       			$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+       		elseif($layout == 'edit')
+       			$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);	
 		}
     }
     
     /**
     * Display the information of a publication.
     */
-    private function _displayPublication(){
+    private function _displayPublication(&$arguments){
       	global $mainframe;
-      	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');      	
-    	
+      	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');      	      	
+      	
       	$id = JRequest::getInt('id');
     	$user = JFactory::getUser();    	    	
     	$commentsAllowed = false;
@@ -80,14 +77,16 @@ class JResearchViewPublication extends JView
     	//Get the model
     	$model =& $this->getModel();
     	$publication = $model->getItem($id);
-    	
+
 		if(!$publication->internal || !$publication->published){
 			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return false;
-		}		    	
+		}
+				    	
     	JResearchPluginsHelper::onPrepareJResearchContent('publication', $publication);		
-		
-    	$areaModel = &$this->getModel('researcharea');
+		$arguments[] = 'publication';
+		$arguments[] =  $publication->id;    	
+		$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($publication->id_research_area);
     	
     	//Get and use configuration
@@ -143,6 +142,7 @@ class JResearchViewPublication extends JView
 		}
 		
 		$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
+				
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
     	$this->assignRef('publication', $publication);
@@ -152,12 +152,17 @@ class JResearchViewPublication extends JView
     	$this->assignRef('captcha', $captchaInformation);
 		$this->assignRef('user', $user);
 		
+		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+		
 		return true;
 
     }
     
-    private function _editPublication()
+    private function _editPublication(&$arguments)
     {
+    	global $mainframe;
+    	
+    	$arguments[] = 'publication';    	    	    	
     	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 		JHTML::_('Validator._');		
@@ -218,6 +223,7 @@ class JResearchViewPublication extends JView
 			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' ,$authors);
 			
 			$this->assignRef('publication', $publication);	
+			$arguments[] = $publication->id;
 		}
 		else 
 		{
@@ -229,6 +235,7 @@ class JResearchViewPublication extends JView
 			$member = new JResearchMember(JFactory::getDBO());
 			$member->bindFromUsername($user->username);
 			$authorsControl = JHTML::_('AuthorsSelector._', 'authors' , array($member));
+			$arguments[] = null;
 		}
 		
 		$this->assignRef('user', $user);
@@ -238,6 +245,8 @@ class JResearchViewPublication extends JView
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('authors', $authorsControl);
 
+		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+		
 		return true;
     }
     

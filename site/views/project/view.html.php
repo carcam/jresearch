@@ -25,14 +25,13 @@ class JResearchViewProject extends JView
     function display($tpl = null)
     {
     	global $mainframe;
-    	$arguments = array('project');
-    	
+    	$arguments = array();    	
     	$result = true;
-        $layout = &$this->getLayout();
+        $layout = $this->getLayout();
 
         switch($layout){
         	case 'default':
-        		$result = $this->_displayProject($arguments);
+        		$result = $this->_displayProject(&$arguments);
         		break;
         }
 	
@@ -54,6 +53,7 @@ class JResearchViewProject extends JView
     	$id = JRequest::getInt('id');
    		$doc =& JFactory::getDocument();
    		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
+   		$arguments[] = 'project';
 
    		if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
