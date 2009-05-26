@@ -26,7 +26,10 @@ class JHTMLJresearch
 		$availableController = array('publications');
 		// Menu ID retention
 		$Menuid = JRequest::getVar('Itemid');
-		$MenuidText = !empty($Menuid)?'&Itemid='.$Menuid:'';		
+		$MenuidText = !empty($Menuid)?'&Itemid='.$Menuid:'';
+
+		$modelKey = JRequest::getVar('modelkey');
+		$modelKeyText = !empty($modelKey)?'&modelkey='.$modelKey:'';
 		
 		if(in_array($controller, $availableController))
 		{
@@ -38,7 +41,7 @@ class JHTMLJresearch
 				{
 					case 'publications':
 						$task = ($task == 'add')?'new':$task;
-						echo '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$MenuidText.'" title="Edit publication">'
+						echo '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="Edit publication">'
 						.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
 						.'</a>';
 						break;

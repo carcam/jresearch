@@ -483,18 +483,17 @@ class JResearchPublicationsController extends JController
 				$publication->created_by = $user->get('id');
 			
 			// Now, save the record
-			$task = JRequest::getVar('task');			
+			$task = JRequest::getVar('task');
+			$modelkey = JRequest::getVar('modelkey');
+			$modeltext = $modelkey == 'tabular'?'&task=filtered':'';			
 			if($publication->store(true)){			
 				$idText = !empty($publication->id)?'&id='.$publication->id:'';
 				
 				if($task == 'apply'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$ItemidText, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$ItemidText.($modelkey?'&modelkey='.$modelkey:''), JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
 				}elseif($task == 'save'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText.$modeltext, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
 				}
-				
-				$arguments = array('publication', $publication->id);
-				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
 								
 			}else{
 				$idText = !empty($publication->id)?'&id='.$publication->id:'';
@@ -506,9 +505,9 @@ class JResearchPublicationsController extends JController
 					JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());						
 				
 				if($task == 'apply'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$taskText.$idText.'&pubtype='.$publication->pubtype.$ItemidText);
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$taskText.$idText.'&pubtype='.$publication->pubtype.$ItemidText.($modelkey?'&modelkey='.$modelkey:''));
 				}elseif($task == 'save'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText);	
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText.$modeltext);	
 				}
 
 			}	
@@ -534,7 +533,11 @@ class JResearchPublicationsController extends JController
 		$model = &$this->getModel('Publication', 'JResearchModel');
 		$Itemid = JRequest::getVar('Itemid');
 		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
-							
+		$modelkey = JRequest::getVar('modelkey');
+		if(!empty($modelkey) && $modelkey == 'tabular')
+			$viewText = '&task=filtered&layout=filtered';
+		
+		
 		if($id != null){
 			$publication = $model->getItem($id);
 			if(!$publication->checkin()){
@@ -542,7 +545,7 @@ class JResearchPublicationsController extends JController
 			}
 		}
 		
-		$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText);
+		$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText.$viewText);
 	}
 	
 

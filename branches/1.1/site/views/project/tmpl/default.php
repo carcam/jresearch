@@ -7,12 +7,22 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
+<?php $Itemid = JRequest::getVar('Itemid'); 
+	  $ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
+	  	
+?>
 <h1 class="componentheading"><?php echo $this->project->title; ?></h1>
 <table cellspacing="2" cellpadding="2">
 <tbody>
 	<tr>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
-		<td style="width:35%;"><?php echo $this->area->name; ?></td>
+		<td style="width:35%;">
+			<?php if($this->area->id > 1): ?>
+				<a href="index.php?option=com_jresearch&controller=researchAreas&task=show&view=researcharea&id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
+			<?php else: ?>
+				<?php echo $this->area->name; ?>	
+			<?php endif; ?>	
+		</td>
 	   	<?php if(empty($this->project->url_project_image)): ?>
     		<td colspan="2"></td>
        	<?php else: ?>		
@@ -45,7 +55,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						<?php foreach($authors as $auth): ?>
 								<?php if($auth instanceof JResearchMember): ?>
 									<?php if($auth->published): ?>
-										<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
+										<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
 									<?php else: ?>
 										<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 									<?php endif; ?>	
@@ -62,7 +72,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 							<li style="list-style:none;">
 								<?php if($auth instanceof JResearchMember): ?>
 									<?php if($auth->published): ?>
-										<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
+										<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
 									<?php else: ?>
 										<?php echo $auth->__toString(); ?>
 									<?php endif; ?>	
@@ -85,7 +95,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 							<?php foreach($nonleaders as $auth): ?>
 									<?php if($auth instanceof JResearchMember): ?>
 										<?php if($auth->published): ?>
-											<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
+											<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
 										<?php else: ?>
 											<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 										<?php endif; ?>	
@@ -102,7 +112,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 								<li style="list-style:none;">
 									<?php if($auth instanceof JResearchMember): ?>
 										<?php if($auth->published): ?>
-											<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
+											<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
 										<?php else: ?>
 											<?php echo $auth->__toString(); ?>
 										<?php endif; ?>	

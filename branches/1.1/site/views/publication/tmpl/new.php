@@ -34,6 +34,9 @@ if(JHTML::_('Jresearch.authorize','add', 'publications'))
 		<?php if(isset($Itemid)): ?>
 			<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 		<?php endif; ?>
+		<?php if(JRequest::getVar('modelkey')): ?>
+			<input type="hidden" name="modelkey" value="<?php echo JRequest::getVar('modelkey'); ?>" />
+		<?php endif; ?>
 	</form>
 <?php
 }
