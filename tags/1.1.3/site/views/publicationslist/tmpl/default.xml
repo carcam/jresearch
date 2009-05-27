@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="JRESEARCH_PUBLICATIONS_LIST">
+		<message>JRESEARCH_PUBLICATIONS_LIST_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_PUBLICATIONS_LIST</name>
+		<description>JRESEARCH_PUBLICATIONS_LIST_VIEW_MESSAGE</description>
+		<params>
+			<param name="filter_show" type="radio" default="0" label="JRESEARCH_PUBLICATIONS_SHOW" description="JRESEARCH_PUBLICATIONS_SHOW_DESCRIPTION">
+				<option value="0">All publications</option>
+				<option value="my">Only my publications</option>
+			</param>
+			<param name="filter_pubtype" type="list" default="" label="JRESEARCH_PUBLICATIONS_SHOW_TYPE" description="JRESEARCH_PUBLICATIONS_SHOW_TYPE_DESCRIPTION">
+				<option value="">All publications</option>
+				<option value="article">JRESEARCH_ARTICLE</option>
+				<option value="book">JRESEARCH_BOOK</option>
+				<option value="booklet">JRESEARCH_BOOKLET</option>
+				<option value="conference">JRESEARCH_CONFERENCE</option>
+				<option value="inbook">JRESEARCH_INBOOK</option>
+				<option value="incollection">JRESEARCH_INCOLLECTION</option>
+				<option value="manual">JRESEARCH_MANUAL</option>
+				<option value="masterthesis">JRESEARCH_MASTERSTHESIS</option>
+				<option value="misc">JRESEARCH_MISC</option>
+				<option value="patent">JRESEARCH_PATENT</option>
+				<option value="phdthesis">JRESEARCH_PHDTHESIS</option>
+				<option value="proceedings">JRESEARCH_PROCEEDINGS</option>
+				<option value="techreport">JRESEARCH_TECHREPORT</option>
+				<option value="unpublished">JRESEARCH_UNPUBLISHED</option>
+			</param>
+			<param name="show_more" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_MORE" description="JRESEARCH_PUBLICATIONS_SHOW_MORE_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="show_digital" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL" description="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+		</params>
+	</state>
+</metadata>
