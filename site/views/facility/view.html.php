@@ -25,9 +25,10 @@ class JResearchViewFacility extends JView
     function display($tpl = null)
     {
     	global $mainframe;
+    	
+    	$arguments = array('facility');
+    	
         $layout = &$this->getLayout();
-        $arguments = array('facility');
-        $params = JComponentHelper::getParams('com_jresearch');
         $result = true;
         
         switch($layout)
@@ -35,16 +36,11 @@ class JResearchViewFacility extends JView
         	case 'default':
         		$result = $this->_displayFacility($arguments);
         		break;
-        	default:
-        		$arguments[] = null;
-        		break;
-        }
-        
-        $this->assignRef('params', $params);
-		
+        }        
+	
         if($result)
         {
-	        $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+		    $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 			
 	       	parent::display($tpl);
 	       	
@@ -55,15 +51,14 @@ class JResearchViewFacility extends JView
     /**
     * Display the information of a facility.
     */
-    private function _displayFacility(&$arguments)
-    {
+    private function _displayFacility(&$arguments){
+      	
     	$id = JRequest::getInt('id');
    		$doc =& JFactory::getDocument();
 
    		if(empty($id))
    		{
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		$arguments[] = null;
     		return false;
     	}
     	
@@ -73,12 +68,12 @@ class JResearchViewFacility extends JView
     	
 		if(!$fac->published)
 		{
-			JError::raiseWarning(1, JText::_('JRESEARCH_PROJECT_NOT_FOUND'));
-			$arguments[] = null;
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return false;
 		}
-		
-		$arguments[] = $id;	    	
+        JResearchPluginsHelper::onPrepareJResearchContent('facility', $result);		
+
+		$arguments[] = $id;
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($fac->id_research_area);
@@ -88,7 +83,7 @@ class JResearchViewFacility extends JView
     	// Bind variables for layout
     	$this->assignRef('fac', $fac);
     	$this->assignRef('area', $area);
-    	
+
     	return true;
     }
 }

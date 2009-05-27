@@ -26,7 +26,7 @@ class JHTMLAuthorsSelector{
 	*
 	* @param string $baseName Base name of the control. It represents the name of the fields that
 	* will be sent when submitting the form. For internal authors it will be a list. For external 
-	* ones, it will be a text input. Only letters and _ character are allowed.
+	* ones, it will be a text input. Only letters and _ are allowed.
 	* @param array Mixed sorted array. JResearchMember instances will be considered as internal 
 	* staff member's while strings are considered as external authors names.
 	* @param boolean $allowPrincipals If true, a checkbox will be displayed for each entry to define
@@ -93,7 +93,8 @@ class JHTMLAuthorsSelector{
 		$authorText = JText::_('JRESEARCH_ADD_AUTHOR');
 		$deleteText = JText::_('Delete');
 		$js = "javascript:switchType('$controlName', '$select', '$enterName')";
-		$result  = "<div id=\"div_$controlName\"><input type=\"text\" $class name=\"$controlName\" id=\"$controlName\" value=\"$authorName\" size=\"15\" maxlength=\"255\" />";
+		$class = "";
+		$result  = "<div id=\"div_$controlName\"><input type=\"text\" class=\"$class\" name=\"$controlName\" id=\"$controlName\" value=\"$authorName\" size=\"15\" maxlength=\"255\" />";
 		$result .= "&nbsp;";
 		$result .= "<a href=\"$js\" id=\"a_$controlName\">$select</a>";
 		
@@ -142,8 +143,8 @@ class JHTMLAuthorsSelector{
 		foreach($result as $r){
 			$options[] = JHTML::_('select.option', $r['id'], $r['lastname'].' '.$r['firstname']);
 		}
-		
-		$list = JHTML::_('select.genericlist', $options, $controlName, 'class="inputbox"', 'value', 'text', $author->id);
+
+		$list = JHTML::_('select.genericlist', $options, $controlName, 'class="inputbox"', 'value', 'text', $author?$author->id:null);
 		if($deleteLink)	
 			$deleteControl = self::_fetchDeleteControl($controlName);
 

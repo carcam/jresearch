@@ -16,9 +16,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
 
-define('LASTNAME_FIRSTNAME', 1);
-define('FIRSTNAME_LASTNAME', 0);
-
 /**
  * This class holds useful methods for dealing with publications records.
  *
@@ -141,7 +138,7 @@ class JResearchPublicationsHelper{
 	    0x0074=>0x0054, 0x006A=>0x004A, 0x045B=>0x040B, 0x0456=>0x0406, 0x0103=>0x0102,
 	    0x03BB=>0x039B, 0x00F1=>0x00D1, 0x043D=>0x041D, 0x03CC=>0x038C, 0x00E9=>0x00C9,
 	    0x00F0=>0x00D0, 0x0457=>0x0407, 0x0123=>0x0122,
-	);	
+	);
 	
 	/**
 	 * Returns an associative array with the components of an author name according to 
@@ -488,47 +485,21 @@ class JResearchPublicationsHelper{
 	 * Takes an array of authors (strings and JResearchMember objects) and 
 	 * format them for output as a list separated by commas. 
 	 * @param array $authors
-	 * @param string $format (null, LASTNAME_FIRSTNAME or FIRSTNAME_LASTNAME)
 	 * @return string
 	 */
-	public static function formatAuthorsArray($authors, $format = null){
+	public static function formatAuthorsArray($authors){
 	    if(!class_exists('JResearchMember'))
 	      require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 	      
 	    $text = '';
 	    foreach($authors as $author){
-		    if($author instanceof JResearchMember){
-		    	if($format === null)
-		        	$text.= ' '.$author->__toString().',';	
-		        else
-		        	$text.= ' '.self::formatAuthor($author->__toString(), $format).';';	
-		    }else{
-		    	if($format === null)
-		        	$text.= ' '.$author.',';
-		        else
-		        	$text .= ' '.self::formatAuthor($author, $format).';'; 	
-		    }
+	    if($author instanceof JResearchMember)
+	        $text.= ' '.$author->__toString().',';
+	    else
+	        $text.= ' '.$author.',';
 	    }
-	    $text = JString::rtrim($text, ',;');
+	    $text = JString::rtrim($text, ',');
 	    return $text;
-	}
-	
-	/**
-	 * Takes an author (string or JResearchMember object) and 
-	 * apply a one of the available formats: "lastname, firstname" or
-	 * "firstname lastname"
-	 * @param string $author
-	 * @return string
-	 */
-	public static function formatAuthor($author, $format){
-		$authorComponents = self::getAuthorComponents($author);
-		if($format == LASTNAME_FIRSTNAME){
-			$text = ($authorComponents['von']?$authorComponents['von'].' ':'').$authorComponents['lastname'].', '.($authorComponents['firstname']?' '.$authorComponents['firstname']:'').($authorComponents['jr']?' '.$authorComponents['jr']:''); 
-		}else{
-			$text = ($authorComponents['firstname']?$authorComponents['firstname'].' ':'').($authorComponents['jr']?$authorComponents['jr'].' ':'').($authorComponents['von']?$authorComponents['von'].' ':'').$authorComponents['lastname'];			
-		}
-
-		return $text;
 	}
 
 	/**
@@ -909,6 +880,8 @@ class JResearchPublicationsHelper{
 			     '\x{D5}'
 			);
 	}
+	
+	
 
 }
 

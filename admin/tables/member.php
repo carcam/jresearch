@@ -14,8 +14,6 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 
 /**
  * This class represents a staff member.
@@ -83,13 +81,6 @@ class JResearchMember extends JTable{
 	public $position;	
 	
 	/**
-	* Member's location
-	* 
-	* @var string
-	*/
-	public $location;
-	
-	/**
 	 * Published status
 	 *
 	 * @var boolean
@@ -153,7 +144,7 @@ class JResearchMember extends JTable{
 	 * @return unknown
 	 */
 	function __toString(){
-		return "$this->lastname, $this->firstname";
+		return "$this->firstname $this->lastname";
 	}
 
 	/**
@@ -233,24 +224,6 @@ class JResearchMember extends JTable{
 		
 		return true;
 		
-	}
-	
-	/**
-	 * Returns position of the member as an Table object
-	 * @return JResearchMember_position Object or null
-	 */
-	public function getPosition()
-	{
-		if(intval($this->position) > 0)
-		{
-			$db =& JFactory::getDBO();
-			$position = new JResearchMember_position($db);
-			$position->load($this->position);
-			
-			return $position;
-		}
-		
-		return null;
 	}
 	
 	/**

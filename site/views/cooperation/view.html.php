@@ -14,16 +14,15 @@ class JResearchViewCooperation extends JView
 	 * @return void
 	 **/
 	function display($tpl = null)
-	{	
+	{
 		global $mainframe;
 		$arguments = array('cooperation');
-		$params = JComponentHelper::getParams('com_jresearch');
 		
 		$id = JRequest::getInt('id');
 		$layout =& $this->getLayout();
 		$doc = JFactory::getDocument();
 		
-		if(empty($id)){
+	   	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
     		return;
     	}
@@ -31,11 +30,11 @@ class JResearchViewCooperation extends JView
 		// Get data from the model
 		$model = &$this->getModel();
 		$item = $model->getItem($id);
-		
+
 		if(empty($item)){
 			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return;			
-		}
+		}		
 		
 		$arguments[] = $id;
 		
@@ -46,13 +45,13 @@ class JResearchViewCooperation extends JView
 				$this->_editCooperation($item);
 				break;
 			default:
+				JResearchPluginsHelper::onPrepareJResearchContent('cooperation', $item);
 				break;
 		}
 
 		$doc->setTitle(JText::_('JRESEARCH_COOPERATION').' - '.$item->name);
 		$this->assignRef('coop', $item);
 		$this->assignRef('editor', $editor);
-		$this->assignRef('params', $params);
 
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		
@@ -63,7 +62,7 @@ class JResearchViewCooperation extends JView
 	
 	private function _editCooperation(&$coop)
 	{
-		JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+		JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 		JHTML::_('Validator._');
 		
 		//Published options
@@ -78,6 +77,7 @@ class JResearchViewCooperation extends JView
     	
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('orderList', $orderList);
+
 	}
 }
 ?>

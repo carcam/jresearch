@@ -14,8 +14,7 @@ function addDatabasesSearchButton(){
 		newButton = document.createElement('button');
 		newButton.setAttribute('type', 'button');
 		newButton.appendChild(document.createTextNode(document.jresearch_plugins_buttonText));
-		insertAfter(parent, text, citekey);
-		insertAfter(parent, newButton, text);
+		insertAfter(newButton, citekey);
 		newButton.onclick = queryDatabase;
 	}
 }
@@ -116,14 +115,21 @@ function mapPublicationToForm(response, responsexml){
 						months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dic'];
 						if(value)
 							inputName.setAttribute('value', months[parseInt(value) - 1]);
-					}else
-						inputName.setAttribute('value', value);
+					}else{
+						if(inputName.nodeName.toLowerCase() == 'input')
+							inputName.setAttribute('value', value);
+						else if(inputName.nodeName.toLowerCase() == 'textarea')
+							inputName.appendChild(document.createTextNode(value));	
+					}
 				}
 			}
 		}
 	}		
 }
 
-function insertAfter(parent, node, referenceNode){
-	parent.insertBefore(node, referenceNode.nextSibling);
+function insertAfter(newNode, referenceNode){
+	if(referenceNode.nextSibling != null)
+		referenceNode.parentNode.insertBefore( newNode, referenceNode.nextSibling );
+	else
+		referenceNode.parentNode.appendChild(node);	
 }

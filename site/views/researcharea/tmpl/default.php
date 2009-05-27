@@ -8,12 +8,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1 class="componentheading"><?php echo $this->area->name; ?></h1>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h2>
-<p><?php echo str_replace('<hr id="system-readmore" />', '', $this->area->description);  ?></p>
+<h2><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h2>
+<div><?php echo str_replace('<hr id="system-readmore" />', '', $this->area->description);  ?></div>
 <div>&nbsp;&nbsp;</div>
 <?php $itemId = JRequest::getVar('Itemid'); ?>
 <?php if(!empty($this->members)): ?>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
+<h2><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
 <ul>
 <?php foreach($this->members as $member): ?>
 	<li><a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $member->id ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo $member; ?></a></li>
@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php if(!empty($this->publications)): ?>
 <div>&nbsp;&nbsp;</div>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
+<h2><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
 <ul>
 <?php foreach($this->publications as $publication): ?>
 	<li><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $publication->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo $publication->title; ?></a></li>
@@ -42,7 +42,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php if(!empty($this->projects)): ?>
 <div>&nbsp;&nbsp;</div>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h2>
+<h2><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h2>
 <ul>
 <?php foreach($this->projects as $project): ?>
 	<li><a href="index.php?option=com_jresearch&view=project&task=show&id=<?php echo $project->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo $project->title; ?></a></li>
@@ -61,7 +61,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php if(!empty($this->theses)): ?>
 <div>&nbsp;&nbsp;</div>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h2>
+<h2><?php echo JText::_('JRESEARCH_THESES'); ?></h2>
 <ul>
 <?php foreach($this->theses as $thesis): ?>
 	<li><a href="index.php?option=com_jresearch&view=thesis&task=show&id=<?php echo $thesis->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo $thesis->title; ?></a></li>
@@ -79,3 +79,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
   </div>
 <?php endif; ?>
 <div><a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a></div>
+
+

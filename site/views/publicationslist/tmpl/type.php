@@ -19,7 +19,6 @@ $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 	?>
 
 		<?php $url = $pub->url; ?>	
-		<?php $attach = $pub->getAttachment(0, 'publications'); ?>		
 				
 		<li><span><?php echo $publicationText;  ?></span>
 			<?php if($this->showmore): ?>
@@ -28,8 +27,6 @@ $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 		<?php if($this->showdigital): ?>
 			<?php if(!empty($url))
 					$link = $url;
-				  elseif(!empty($attach))
-				  	$link = $attach;							
 			 ?>
 			<?php if(!empty($link)): ?>
 				<?php "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			

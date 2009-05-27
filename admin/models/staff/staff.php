@@ -105,9 +105,9 @@ class JResearchModelStaff extends JResearchModelList{
 			
 		//if order column is unknown, use the default
 		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('lastname');	
+			$filter_order = $db->nameQuote('ordering');	
 		
-		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', former_member ASC' ;
+		return ' ORDER BY former_member ASC, '.$filter_order.' '.$filter_order_Dir;
 	}	
 	
 		/**

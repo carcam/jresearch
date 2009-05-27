@@ -302,49 +302,21 @@ class JResearchAdminPublicationsController extends JController
 	* Invoked when the user has decided to save a publication.
 	*/	
 	function save(){
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');		
 		global $mainframe;
 		$db =& JFactory::getDBO();
-		$params =& JComponentHelper::getParams('com_jresearch');		
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');
 		$type = JRequest::getVar('pubtype');
 		$publication =& JResearchPublication::getSubclassInstance($type);
+		$publication->bind($post);
 		$user = JFactory::getUser();
-		$id = JRequest::getInt('id');
-
-		if(isset($id))
-			$publication->load($id);		
-
-		$delete = JRequest::getVar('delete_url_0');
-	    if($delete === 'on'){
-	    	if(!empty($publication->files)){
-		    	$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
-		    	@unlink($filetoremove);
-		    	$publication->files = '';
-	    	}
-	    }
-	   
-	    $publication->bind($post);
-	    $countUrl = JRequest::getInt('count_url', 0);
-	    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
-	    if(!empty($file['name'])){	    	
-	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');
-	    }
-	    
-	    $reset = JRequest::getVar('resethits', false);
-	    if($reset == 'on'){
-	    	$publication->hits = 0;
-	    }
-		
-		$check = $publication->check();
 		
 		// Validate publication
 		if(!$publication->check()){
 			for($i=0; $i<count($publication->getErrors()); $i++)
-				JError::raiseWarning(1, $publication->getError($i));
-						
+				JError::raiseWarning(1, $publication->getError($i));		
+				
 			if($publication->id)			
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype);
 			else
@@ -428,7 +400,6 @@ class JResearchAdminPublicationsController extends JController
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications');
 	}
 	
-	
 	/**
 	 * Invoked when the user has pressed any of the buttons for changing internal 
 	 * flag for publications. 
@@ -442,7 +413,7 @@ class JResearchAdminPublicationsController extends JController
 		$publication = new JResearchPublication($db);
 		$publication->toggleInternal($cid, $task == 'makeinternal'?1:0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));		
-	}	
+	}
 	
 	/**
 	 * Invoked when the user has pressed the toggle button for change a publication's 
@@ -450,7 +421,7 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function toggle_internal(){
-		//$db =& JFactory::getDBO();
+		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		$publication =& JResearchPublication::getById($cid[0]);
 		$publication->internal = !$publication->internal;
@@ -462,7 +433,6 @@ class JResearchAdminPublicationsController extends JController
 		}
 		
 	}
-	
 
 }
 ?>

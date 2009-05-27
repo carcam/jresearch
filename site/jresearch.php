@@ -20,7 +20,6 @@ defined('_JEXEC') or die('Restricted access');
 
 global $mainframe;
 
-// Common needed files
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
 
 //Set ACL
@@ -57,7 +56,8 @@ if(!$pluginhandledRequest)
 $mainframe->triggerEvent('onAfterExecuteJResearchTask' , array());
 
 // Redirect if set by the controller
-$controller->redirect();
+if(!$pluginhandledRequest)
+	$controller->redirect();
 
 
 /**

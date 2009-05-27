@@ -23,36 +23,34 @@ class JResearchAdminViewCooperation extends JView
 	function display($tpl = null)
 	{
     	global $mainframe;
-    	
-    	JResearchToolbar::editCooperationAdminToolbar();
-    	
-		JHTML::_('jresearchhtml.validation');
+      	
+      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		JHTML::_('Validator._');
     	JRequest::setVar( 'hidemainmenu', 1 );
 
-    	$params = JComponentHelper::getParams('com_jresearch');
-    	
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$model =& $this->getModel();
-    	$coop = $model->getItem($cid[0]);
-    	$arguments = array('cooperation', $coop?$coop->id:null);
+	    $coop = $model->getItem($cid[0]);
     	
-		$publishedList = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $coop?$coop->published:1));
+    	$arguments = $coop ? array('cooperation', $coop->id) : array('cooperation', null);
+    	
+		//Published options
+    	$publishedOptions = array();
+    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
+    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
+    	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $coop?$coop->published:0);
 
     	$orderOptions = array();
-    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations WHERE catid='.($coop?$coop->catid:0).' ORDER by ordering ASC');
+    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations ORDER by ordering ASC');
     	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $coop?$coop->ordering:0);
     	
-    	$categoryList = JHTML::_('list.category', 'catid', 'com_jresearch_cooperations', $coop?$coop->catid:null);
+		$editor =& JFactory::getEditor();    	
     	
-		$editor =& JFactory::getEditor();
-    	
-    	$this->assignRef('coop', $coop);
-    	$this->assignRef('categoryList', $categoryList);
-    	$this->assignRef('publishedList', $publishedList);
+    	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('orderList', $orderList);
-		$this->assignRef('editor', $editor);   
-		$this->assignRef('params', $params); 	
+		$this->assignRef('editor', $editor);
+		$this->assignRef('coop', $coop);
     	
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);

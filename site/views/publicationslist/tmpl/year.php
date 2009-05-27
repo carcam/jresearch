@@ -21,7 +21,6 @@ defined('_JEXEC') or die('Restricted access');
 		$publicationText = $styleObj->getReferenceHTMLText($pub, true);
 	?>
 	<?php $url = $pub->url; ?>
-	<?php $attach = $pub->getAttachment(0, 'publications'); ?>
 	<li>
 	<span><?php echo $publicationText;  ?></span>
 	<?php if($this->showmore): ?>
@@ -30,9 +29,7 @@ defined('_JEXEC') or die('Restricted access');
 	<?php if($this->showdigital): ?>
 		<?php 
 			  if(!empty($url))
-				$link = $url;
-			  elseif(!empty($attach))
-			  	$link = $attach;							
+				$link = $url;							
 		 ?>
 		<?php if(!empty($link)): ?>
 			<?php echo "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			

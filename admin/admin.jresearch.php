@@ -18,8 +18,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Common needed files
 
+// Common needed files
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
 
@@ -49,7 +49,7 @@ if($controller == null){
 		// If the task is related to cite records, request the frontend controller
 		if(in_array($task, $inlineCitingTasks)){
 			$prefix = 'JResearch';
-			require_once(JPATH_COMPONENT_SITE.DS.'controllers'.DS.$controller.'.php');
+			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'controllers'.DS.$controller.'.php');
 			$session =& JSession::getInstance(null, null);
 		
 			if($session->get('citedRecords', null, 'jresearch') == null){

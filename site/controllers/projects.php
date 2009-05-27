@@ -32,7 +32,6 @@ class JResearchProjectsController extends JController
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'projectslist');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'project');		
 	}
@@ -89,14 +88,11 @@ class JResearchProjectsController extends JController
 	* @access public
 	*/
 	function show(){
-		require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 		$model =& $this->getModel('Project', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-		
 		$view =& $this->getView('Project', 'html', 'JResearchView');
 		$view->setModel($model, true);
 		$view->setModel($areaModel);
-
 		$view->display();
 	}
 

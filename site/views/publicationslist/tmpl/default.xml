@@ -17,15 +17,12 @@
 				<option value="book">JRESEARCH_BOOK</option>
 				<option value="booklet">JRESEARCH_BOOKLET</option>
 				<option value="conference">JRESEARCH_CONFERENCE</option>
-				<option value="digital_source">JRESEARCH_DIGITAL_SOURCE</option>				
-				<option value="earticle">JRESEARCH_EARTICLE</option>
 				<option value="inbook">JRESEARCH_INBOOK</option>
 				<option value="incollection">JRESEARCH_INCOLLECTION</option>
 				<option value="manual">JRESEARCH_MANUAL</option>
 				<option value="masterthesis">JRESEARCH_MASTERSTHESIS</option>
 				<option value="misc">JRESEARCH_MISC</option>
-				<option value="online_source">JRESEARCH_ONLINE_SOURCE</option>				
-				<option value="patent">JRESEARCH_PATENT</option>				
+				<option value="patent">JRESEARCH_PATENT</option>
 				<option value="phdthesis">JRESEARCH_PHDTHESIS</option>
 				<option value="proceedings">JRESEARCH_PROCEEDINGS</option>
 				<option value="techreport">JRESEARCH_TECHREPORT</option>

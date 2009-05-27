@@ -34,11 +34,11 @@ class JResearchViewThesesList extends JView
 	
         $eArguments = array('theses', $layout);
 		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
 		
 		parent::display($tpl);
 		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**

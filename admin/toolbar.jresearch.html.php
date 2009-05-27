@@ -237,6 +237,23 @@ class JResearchToolbar
 		JToolBarHelper::title($title);
 		self::editItemAdminToolbar();
 	}
+	
+	/**
+	* Renders the toolbar displayed when creating/editing a mdm.
+	*/
+	public static function editMdmAdminToolbar()
+	{
+		$cid = JRequest::getVar('cid');
+		
+		if($cid)
+			$title = JText::_('JRESEARCH_EDIT_MDM');
+		else
+			$title = JText::_('JRESEARCH_NEW_MDM');	
+
+		JToolBarHelper::title($title);
+		
+		self::editItemAdminToolbar();
+	}
 
 	/**
 	 * Renders the toolbar shown with the administrative list of theses.
@@ -314,17 +331,6 @@ class JResearchToolbar
 		JToolBarHelper::title(JText::_('JRESEARCH_COOPERATIONS'));
 		
 		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		
-		JToolBarHelper::divider();
-		self::adminListToolbar();
-	}
-	
-	public static function member_positionListToolbar()
-	{
-		JToolBarHelper::title(JText::_('JRESEARCH_MEMBER_POSITIONS'));
-		
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		
 		JToolBarHelper::divider();
 		self::adminListToolbar();
 	}
@@ -336,19 +342,6 @@ class JResearchToolbar
 			$title = JText::_('JRESEARCH_EDIT_COOPERATION');
 		else
 			$title = JText::_('JRESEARCH_NEW_COOPERATION');	
-		
-		JToolBarHelper::title($title);
-		
-		self::editItemAdminToolbar();
-	}
-	
-	public static function editMember_positionAdminToolbar()
-	{
-		$cid = JRequest::getVar('cid');
-		if($cid)
-			$title = JText::_('JRESEARCH_EDIT_MEMBER_POSITION');
-		else
-			$title = JText::_('JRESEARCH_NEW_MEMBER_POSITION');	
 		
 		JToolBarHelper::title($title);
 		

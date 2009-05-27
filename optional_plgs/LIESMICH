@@ -1,0 +1,116 @@
+Dieses Paket beinhaltet zwei Plugins:
+- plg_jresearch_databases_modified_publication_form
+Dies verändert das Formular welches zum Hinzufügen und Bearbeiten von Publikationen gedacht ist.
+Es fügt einen Button neben dem Citekey-Textfeld hinzu, welcher ermöglicht, dass Publikationen von
+externen Datenbanken wie PubMed mit Hilfe der ID geladen werden können. 
+
+- plg_jresearch_xmlrpc_retrieve_records_external_databases
+Dieses Plugin bietet eine XML-RPC Schnittstelle um Informationen eines Artikels zu empfangen.
+Das Ergebnis wird als XML-RPC Response serialisiert. Der folgende Ausschnitt zeigt einen Remote Aufruf mit PHP.
+
+Remote method: getRemotePublication(string publicationId)
+
+<?php
+/**
+* Returns the information about a publication located in an external database
+* @param string $p1
+* @param int $debug when 1 (or 2) will enable debugging of the underlying xmlrpc call (defaults to 0)
+* @return array (or an xmlrpcresp obj instance if call fails)
+*/
+function xmlrpc_jresearch_getRemotePublication ($p1, $debug=0) {
+$client =& new xmlrpc_client(JOOMLA_URL.'/xmlrpc/', 'localhost', 80);
+$client->return_type = 'xmlrpcvals';
+$client->setDebug($debug);
+$msg =& new xmlrpcmsg('jresearch.getRemotePublication');
+$p1 =& new xmlrpcval($p1, 'string');
+$msg->addparam($p1);
+$res =& $client->send($msg, 0, '');
+if ($res->faultcode()) return $res; else return php_xmlrpc_decode($res->value());
+}
+?> 
+
+Dies ist äquivalent zu einem HTTP Request zu JOOMLA_URL.'/xmlrpc/index.php' mit POST. Der Body des Requests sieht aus wie folgt:
+<methodCall>
+	<methodName>jresearch.getRemotePublication</methodName>
+	<params>
+		<param>
+			<value>
+				<string>[PUBLICATION_ID]</string>
+			</value>
+		</param>
+	</params>
+</methodCall>
+
+Folgende Parameter in der URL sind erlaubt:
+service: Name des Services von dem die Informationen für die Publikation geholt wird. Dieser Release unterstützt nur PubMED.
+format: xml(default), json. Beide Angaben werden als XML-RPC Response umgewandelt. 'xml' nutzt nur den XML-RPC Struct Typ. 'json' nutzt hingegen nur einen Rückgabestring, welcher das JSON Format enthaltet.
+short: 0 (default) , 1. 0 liefert alle Informationen der Datenbank zurück, andernfalls werden nur Informationen für J!Research Publikationen zurückgeliefert. Dieser Parameter funktioniert nur in Verbindung mit format=json.
+
+XML-RPC Response Beispielt mit format=xml:
+<?xml version="1.0"?>
+<methodResponse>
+	<params>
+		<param>
+			<value>
+				<struct>
+					<member>
+						<name>citekey</name>
+						<value><string>173406</string></value>
+					</member>
+					<member>
+						<name>title</name>
+						<value><string>[Letter: EPR study of bacteriorhodopsin-containing systems]</string></value>
+					</member>
+					<member>
+						<name>abstract</name>
+						<value><string></string></value>
+					</member>
+					<member>
+						<name>journal</name>
+						<value><string>Biofizika</string></value>
+					</member>
+					<member>
+						<name>volume</name>
+						<value><string>20</string></value>
+					</member>
+					<member>
+						<name>number</name>
+						<value><string>5</string></value>
+					</member>
+					<member>
+						<name>issn</name>
+						<value><string>0006-3029</string></value>
+					</member>
+					<member>
+						<name>pages</name>
+						<value><string>938-40</string></value>
+					</member>
+					<member>
+						<name>authors</name>
+						<value><array>
+						<data>
+						<value><string>Rikhireva G T</string></value>
+						<value><string>Pulatova M K</string></value>
+						<value><string>Chekulaeva L N</string></value>
+						<value><string>Druzhko A B</string></value>
+						<value><string>Kositsyna V A</string></value>
+						</data>
+						</array></value>
+					</member>
+					<member>
+						<name>year</name>
+						<value><string>1976</string></value>
+					</member>
+					<member>
+						<name>month</name>
+						<value><string>03</string></value>
+					</member>
+					<member>
+						<name>day</name>
+						<value><string>18</string></value>
+					</member>
+				</struct>
+			</value>
+		</param>
+	</params>
+</methodResponse>

@@ -12,6 +12,26 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+if (!defined('PHP_EOL'))
+{
+    switch (strtoupper(substr(PHP_OS, 0, 3)))
+    {
+        // Windows
+        case 'WIN':
+            define('PHP_EOL', "\r\n");
+            break;
+
+        // Mac
+        case 'DAR':
+            define('PHP_EOL', "\r");
+            break;
+
+        // Unix
+        default:
+            define('PHP_EOL', "\n");
+    }
+}
+
 jimport( 'joomla.application.component.view');
 
 /**
@@ -24,7 +44,6 @@ class JResearchViewStaff extends JView
     function display($tpl = null)
     {
     	global $mainframe;
-    	
         $layout = &$this->getLayout();
         
         $params =& JComponentHelper::getParams('com_jresearch');
@@ -52,30 +71,24 @@ class JResearchViewStaff extends JView
 	
         $eArguments = array('staff', $layout);
 		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
 		
 		parent::display($tpl);
 		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**
     * Display the list of published staff members.
     */
     private function _displayDefaultList(&$model){
-      	global $mainframe;
-      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
-      	
       	$doc = JFactory::getDocument();
-      	$params = $mainframe->getPageParameters('com_jresearch');
-      	
+
       	$members =  $model->getData(null, true, true);   
     	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));
     	
-    	$format = $params->get('staff_format') == 'last_first'?1:0;
     	$this->assignRef('items', $members);
     	$this->assignRef('page', $model->getPagination());	
-    	$this->assignRef('format', $format);
 
     }
     
@@ -85,16 +98,13 @@ class JResearchViewStaff extends JView
 	*/
     private function _displayStaffFlow(&$model)
     {
-    	global $mainframe;
     	$doc = JFactory::getDocument();
     	
 		$members =& $model->getData(null, true, false);
     	$images = $this->getImages($members);
-    	$params = $mainframe->getPageParameters('com_jresearch');
-		
-    	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));    	
+    	
+		$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));    	
     	$this->assignRef('images', $images);
-		$this->assignRef('format', $params->get('staff_format') == 'last_first'?1:0);    	
     }
     
     /**
@@ -103,6 +113,7 @@ class JResearchViewStaff extends JView
 	*/
     private function getImages(&$members)
     {
+    	
     	$images = array();
     	$i=0;
     	

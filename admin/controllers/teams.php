@@ -53,6 +53,8 @@ class JResearchAdminTeamsController extends JController
 	 */
 	function display()
 	{
+		JResearchToolbar::teamsAdminListToolbar();
+		
 		$view = &$this->getView('Teams', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Teams', 'JResearchModel');
 		
@@ -67,6 +69,8 @@ class JResearchAdminTeamsController extends JController
 	*/	
 	function edit()
 	{
+		JResearchToolbar::editTeamAdminToolbar();
+		
 		$cid = JRequest::getVar('cid', array());
 		
 		$view = &$this->getView('Team', 'html', 'JResearchAdminView');
@@ -169,7 +173,7 @@ class JResearchAdminTeamsController extends JController
 			$team->setMember($member);
 		}
 
-			// Validate and save
+		// Validate and save
 		if($team->check())
 		{
 			if($team->store())
@@ -189,13 +193,17 @@ class JResearchAdminTeamsController extends JController
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=com_jresearch&controller=teams&task=edit&cid[]='.$team->id, JText::_('JRESEARCH_SAVE_FAILED').': '.$team->getError());
+				for($i=0; $i<count($team->getErrors()); $i++)
+					JError::raiseWarning(1, $team->getError($i));
+				
+				$this->setRedirect('index.php?option=com_jresearch&controller=teams&task=edit&cid[]='.$team->id, JText::_('JRESEARCH_SAVE_FAILED'));
 			}
 		}
 		else
 		{
 			for($i=0; $i<count($team->getErrors()); $i++)
 				JError::raiseWarning(1, $team->getError($i));
+			
 			$this->setRedirect('index.php?option=com_jresearch&controller=teams&task=edit&cid[]='.$team->id);
 		}
 		

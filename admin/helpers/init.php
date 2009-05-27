@@ -40,16 +40,13 @@ function __loadPublicationsSubclasses(){
  */
 
 // Common needed files		
-require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'defines.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'acl.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'cite.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'text.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'factory.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
-JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
 
 // Verify if Jxtended is available as a plugin in the system.
 if(!function_exists('jximport'))

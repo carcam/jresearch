@@ -19,12 +19,6 @@ class JResearchCooperation extends JTable
 	 * @var int
 	 */
     public $id;
-    
-    /**
-     * Category ID of cooperation
-     * @var int
-     */
-    public $catid;
     /**
      * Cooperation name
      *

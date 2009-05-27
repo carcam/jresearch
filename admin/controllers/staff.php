@@ -9,6 +9,9 @@
 * of staff members in the backend interface.
 */
 
+define('_MEMBER_IMAGE_MAX_WIDTH_', 1024);
+define('_MEMBER_IMAGE_MAX_HEIGHT_', 768);
+
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 /**
@@ -192,11 +195,6 @@ class JResearchAdminStaffController extends JController
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 		
 		$db =& JFactory::getDBO();
-		
-		$params = JComponentHelper::getParams('com_jresearch');
-		$imageWidth = $params->get('member_image_width', _MEMBER_IMAGE_MAX_WIDTH_);
-		$imageHeight = $params->get('member_image_height', _MEMBER_IMAGE_MAX_HEIGHT_);
-		
 		$member = new JResearchMember($db);
 
 		// Bind request variables to publication attributes	
@@ -217,11 +215,11 @@ class JResearchAdminStaffController extends JController
 								$fileArr, 			//Uploaded File array
 								'assets'.DS.'members'.DS, //Relative path from administrator folder of the component
 								($delete == 'on')?true:false,	//Delete?
-								 $imageWidth, //Max Width
-								 $imageHeight //Max Height
+								 _MEMBER_IMAGE_MAX_WIDTH_, //Max Width
+								 _MEMBER_IMAGE_MAX_HEIGHT_ //Max Height
 		);
 		
-			if($member->check()){		
+		if($member->check()){		
 			if($member->store()){
 				$task = JRequest::getVar('task');
 				if($task == 'save' )
@@ -239,6 +237,7 @@ class JResearchAdminStaffController extends JController
 		}else{
 			for($i=0; $i<count($member->getErrors()); $i++)
 				JError::raiseWarning(1, $member->getError($i));
+				
 			$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id);					
 		}
 		

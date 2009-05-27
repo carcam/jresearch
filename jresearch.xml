@@ -8,7 +8,7 @@
 	<authorUrl>http://joomla-research.com</authorUrl>
 	<copyright>Copyright (C) 2008 Luis Gal&#225;rraga</copyright>
 	<license>GPL</license>
-	<version>1.2</version>
+	<version>1.1 Stable</version>
 	<description><![CDATA[
 	<div align="center"><img src="components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" /></div>
 	<div align="center"><h2>Successfully installed J!Research&nbsp;</h2></div>
@@ -61,21 +61,21 @@
 		<language tag="en-GB">en-GB.com_jresearch.publications.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.researchareas.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
+		<language tag="en-GB">en-GB.com_jresearch.teams.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
 	</languages>
 	<administration>
 		<menu>J!Research</menu>
 		<submenu>
 			<menu controller="cooperations">JRESEARCH_COOPERATIONS</menu>
-			<menu link="option=com_categories&amp;section=com_jresearch_cooperations">JRESEARCH_COOPERATION_CATEGORIES</menu>
 			<menu controller="facilities">JRESEARCH_FACILITIES</menu>
 			<menu controller="financiers">JRESEARCH_FINANCIERS</menu>
 			<menu controller="projects">JRESEARCH_PROJECTS</menu>
 			<menu controller="publications">JRESEARCH_PUBLICATIONS</menu>
 			<menu controller="researchAreas">JRESEARCH_RESEARCH_AREAS</menu>
 			<menu controller="staff">JRESEARCH_STAFF</menu>
-			<menu controller="theses">JRESEARCH_THESES</menu>
 			<menu controller="teams">JRESEARCH_TEAMS</menu>
+			<menu controller="theses">JRESEARCH_THESES</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>index.html</filename>
@@ -88,7 +88,6 @@
 			<folder>assets</folder>
 			<folder>controllers</folder>
 			<folder>elements</folder>
-			<folder>files</folder>			
 			<folder>helpers</folder>
 			<folder>models</folder>
 			<folder>tables</folder>

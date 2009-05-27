@@ -9,21 +9,21 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h1>
 <div>&nbsp;</div>
-<ul id="jresearch-facility-list" style="padding-left:0px;">
+<ul style="padding-left:0px;">
 	<?php foreach($this->items as $fac): ?>
 		<?php $researchArea = $this->areaModel->getItem($fac->id_research_area); ?>
 		<li class="liresearcharea">
 			<div>
 				<?php $itemId = JRequest::getVar('Itemid'); ?>
-				<h2 class="contentheading">
-					<?php echo $fac->name; ?>
-				</h2>		
+				<div class="contentheading">
+					<?=$fac->name; ?>
+				</div>		
 				<div>
-					<strong>
-						<?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?>
-					</strong>
+					<span style="font-weight:bold;">
+						<?=JText::_('JRESEARCH_RESEARCH_AREA').': '?>
+					</span>
 					<span>
-						<?php echo $researchArea->name;  ?>
+						<?=$researchArea->name;  ?>
 					</span>
 				</div>			
 				<div>&nbsp;</div>

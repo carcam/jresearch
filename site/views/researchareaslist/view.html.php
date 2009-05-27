@@ -26,8 +26,10 @@ class JResearchViewResearchAreasList extends JView
 {
     public function display($tpl = null)
     {
-    	$doc = JFactory::getDocument();
+    	global $mainframe;
+    	
     	$layout = $this->getLayout();
+    	$doc = JFactory::getDocument();
     	
     	// Require css and styles
         $model =& $this->getModel();
@@ -37,14 +39,14 @@ class JResearchViewResearchAreasList extends JView
         
 		$this->assignRef('items', $areas);
 		$this->assignRef('page', $model->getPagination());
-       	
+        
 		$eArguments = array('researchareas', $layout);
 		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
 		
 		parent::display($tpl);
 		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
 }
 

@@ -26,7 +26,6 @@ class JResearchViewResearchArea extends JView
     public function display($tpl = null)
     {
     	global $mainframe;
-    	
     	$arguments = array('researcharea');
     	$doc = JFactory::getDocument();
     	
@@ -36,24 +35,35 @@ class JResearchViewResearchArea extends JView
     	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
     	$theses_view_all = JRequest::getVar('theses_view_all', 0);
     	
-    	if($id == 1){
+       	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
     		return;
     	}
-
+    	
+    	if($id == 1){
+    		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+    		return;
+    	}
+    	
         $model =& $this->getModel();
-        $area = $model->getItem($id);
-        $members = $model->getStaffMembers($id);
-        //Get and use configuration
-    	$params = $mainframe->getPageParameters('com_jresearch');
+        $area = $model->getItem($id);        
+        if(empty($area)){
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+			return;
+		}
+        
 		if(!$area->published){
-			JError::raiseWarning(1, JText::_('JRESEARCH_AREA_NOT_FOUND'));
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return;
 		}
 		
 		JResearchPluginsHelper::onPrepareJResearchContent('researcharea', $area);
         
 		$arguments[] = $id;
+        
+        $members = $model->getStaffMembers($id);
+        //Get and use configuration
+    	$params = $mainframe->getPageParameters('com_jresearch');
         
 		$latestPublications = $params->get('area_number_last_publications', 5);        
         if($publications_view_all == 0)	

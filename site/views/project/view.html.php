@@ -24,7 +24,7 @@ class JResearchViewProject extends JView
 {
     function display($tpl = null)
     {
-	global $mainframe;
+    	global $mainframe;
     	$arguments = array();    	
     	$result = true;
         $layout = $this->getLayout();
@@ -48,17 +48,17 @@ class JResearchViewProject extends JView
     /**
     * Display the information of a project.
     */
-    private function _displayProject(array &$arguments){
+    private function _displayProject(&$arguments){
       	global $mainframe;
     	$id = JRequest::getInt('id');
-	$doc =& JFactory::getDocument();
-	$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
-	$arguments[] = 'project';
+   		$doc =& JFactory::getDocument();
+   		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
+   		$arguments[] = 'project';
 
-	if(empty($id)){
-		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-		return false;
-	}
+   		if(empty($id)){
+    		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+    		return false;
+    	}
     	//Get the model
     	$model =& $this->getModel();
     	$project = $model->getItem($id);
@@ -68,13 +68,13 @@ class JResearchViewProject extends JView
     		return false;
     	}
     	
-	if(!$project->published){
-		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-		return false;
-	}
+		if(!$project->published){
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+			return false;
+		}
     	JResearchPluginsHelper::onPrepareJResearchContent('project', $project);		
 
-	$arguments[] = $id;
+		$arguments[] = $id;
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($project->id_research_area);
@@ -87,7 +87,7 @@ class JResearchViewProject extends JView
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('area', $area);
     	
-    	return true;    	
+    	return true;
 
     }
 }
