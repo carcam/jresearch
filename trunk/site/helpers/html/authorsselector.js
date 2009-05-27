@@ -34,7 +34,7 @@ function addControl(controlName, addAuthorText, deleteAuthorText, buttonTextInte
 		button.appendChild(document.createTextNode(buttonTextInternal));
  		
 		addAuthor = document.getElementById("add"+baseName);
-		addAuthor.setAttribute('href', "javascript:addControl('"+baseControl.getAttribute('id')+index+"', '"+addAuthorText+"', '"+deleteAuthorText+"', '"+ buttonTextInternal +"', '"+buttonText +"' ,'"+maxAuthors+"')");
+		addAuthor.setAttribute('href', "javascript:addControl('"+baseControl.getAttribute('id')+index+"', '"+addAuthorText+"', '"+deleteAuthorText+"', '"+ buttonTextInternal +"', '"+buttonText +"' ,'"+maxAuthors+"', '"+allowPrincipals+"', '"+allowPrincipalsText+"')");
 		
 		
 		deleteAuthor = document.createElement("a");
