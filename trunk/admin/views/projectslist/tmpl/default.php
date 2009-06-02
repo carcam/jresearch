@@ -27,9 +27,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th style="width: 1%;">#</th>
 			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th style="width: 40%;" class="title"><?php echo JHTML::_('grid.sort', 'Position', 'position', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 10%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 48%;"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></th>
+			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort', 'Title', 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="text-align: center; width: 32%;"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></th>
+			<th style="text-align: center; width: 32%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 5%;"><?php echo JText::_('Hits'); ?></th>
 		</tr>
 		</thead>
 		
@@ -63,9 +65,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td><?php echo $checked; ?></td>
-					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->position;  ?></a></td>
+					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td class="center"><?php echo $published; ?></td>
 					<td class="center"><?php echo $text; ?></td>
+					<td class="center"><?php echo $researchArea->name ;?></td>
+					<td class="center"><?php echo $this->items[$i]->hits ;?></td>
 				</tr>
 			<?php endfor; ?>
 		</tbody>

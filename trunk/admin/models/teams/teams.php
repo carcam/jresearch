@@ -48,7 +48,6 @@ class JResearchModelTeams extends JResearchModelList
 	
 			$db->setQuery($query);
 			$ids = $db->loadResultArray();
-			$this->_items = array();
 			
 			foreach($ids as $id)
 			{				
@@ -64,6 +63,32 @@ class JResearchModelTeams extends JResearchModelList
 		return $this->_items;
 
 	}
+	
+	/**
+	 * Gets hierarchical structure of teams
+	 *
+	 * @param int $memberId
+	 * @param bool $onlyPublished
+	 * @param bool $paginate
+	 * @return array 
+	 */
+	public function getHierarchical($onlyPublished = false, $paginate = false)
+	{
+		//Set items
+		$this->getData(null, $onlyPublished, $paginate);
+		$children = array();
+		
+		foreach($this->_items as $row)
+		{
+			$pointer = $row->parent;
+			$list = @$children[$pointer] ? $children[$pointer] : array();
+			array_push($list, $row);
+			$children[$pointer] = $list;
+		}
+		
+		return $children;
+	}
+	
 	
 	/**
 	* Returns the SQL used to get the data from teams table.
@@ -91,7 +116,7 @@ class JResearchModelTeams extends JResearchModelList
 		
 		return $resultQuery;
 	}
-	
+
 	/**
 	* Build the ORDER part of a query.
 	*/
@@ -100,7 +125,7 @@ class JResearchModelTeams extends JResearchModelList
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('name', 'published', 'ordering');
+		$orders = array('name', 'published', 'ordering', 'parent');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('teamfilter_order', 'filter_order', 'name');
 		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('teamfilter_order_Dir', 'filter_order_Dir', 'ASC'));

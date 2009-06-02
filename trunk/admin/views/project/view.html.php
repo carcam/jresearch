@@ -13,7 +13,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-
+require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
 
 /**
  * HTML View class for single project management in JResearch Component backend

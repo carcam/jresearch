@@ -308,6 +308,16 @@ function com_install(){
 	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/theses_mini.png' WHERE id=$id");
 	$db->query();	
 
+	$db->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_jresearch&controller=teams'" );
+	$id = $db->loadResult();
+	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/teams_mini.png' WHERE id=$id");
+	$db->query();	
+	
+	$db->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_jresearch&controller=facilities'" );
+	$id = $db->loadResult();
+	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/facilities_mini.png' WHERE id=$id");
+	$db->query();	
+	
 	$db->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_jresearch&controller=financiers'" );
 	$id = $db->loadResult();
 	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/financier_mini.png' WHERE id=$id");

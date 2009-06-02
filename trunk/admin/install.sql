@@ -365,6 +365,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_techreport` (
 DROP TABLE IF EXISTS `#__jresearch_team`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_team` (
   `id` int(11) unsigned NOT NULL auto_increment,
+  `parent` int(11) unsigned default NULL,
   `id_leader` int(11) unsigned NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` text,
