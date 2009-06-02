@@ -34,6 +34,8 @@ class JResearchAdminViewTeam extends JView
     	$model =& $this->getModel();
     	$team = $model->getItem($cid[0]);
     	$membersModel =& $this->getModel('Staff'); 	
+    	$teamsModel =& $this->getModel('Teams');
+    	$hierarchy = $teamsModel->getHierarchical(false, false);
     	
     	//Staff options
     	//@todo Add member list to HTML helper class
@@ -79,7 +81,8 @@ class JResearchAdminViewTeam extends JView
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('leaderList', $leaderList);
     	$this->assignRef('memberList', $memberList);
-		$this->assignRef('editor', $editor);    	
+		$this->assignRef('editor', $editor);  
+		$this->assignRef('hierarchy', $hierarchy);  	
     	
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);

@@ -186,6 +186,22 @@ JHTML::_('behavior.modal');
 		<td colspan="<?php echo $colspan; ?>">&nbsp;</td>
 		<?php endif; ?>	
 	</tr>
+	<?php
+	if($this->project->countFinanciers() > 0):
+	?>
+	<tr>
+		<td><?php echo JText::_('JRESEARCH_FUNDED_BY').': '; ?></td>
+		<td>
+			<?php 
+			$financiers = $this->project->getFinanciers();
+			echo implode('<br />', $financiers);
+			?>
+		</td>
+		<td colspan="2"><?php echo $this->project->finance_value.' '.$this->project->finance_currency; ?></td>
+	</tr>
+	<?php
+	endif;
+	?>
 	<?php $url = trim($this->project->url); ?>
 	<?php if(!empty($url)): ?>
 		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span></td></tr>

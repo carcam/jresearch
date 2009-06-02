@@ -243,5 +243,43 @@ class JResearch
 		//If thumb doesn't exist, return full size
 		return JResearch::getUrlByRelative($rel_path);
 	}
+	
+	/**
+	 * Creates hierarchy for different arrays
+	 *
+	 * @param array $array
+	 * @param string $attribute
+	 * @param string $key
+	 * @param string $indent
+	 * @return array
+	 */
+	public static function hierarchy(array $array, $key=null, $indent='', $attribute='name')
+	{
+		$class = array();
+		
+		if(@array_key_exists($key, $array))
+		{
+			foreach($array[$key] as $value)
+			{
+				$node = new stdClass();
+				
+				$node->object = $value;
+				$node->treename = $indent.$value->$attribute;
+				
+				if(@$array[$value->id])
+				{
+					$node->children = self::hierarchy($array, $value->id, $indent."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+				}
+				else 
+				{
+					$node->children = array();
+				}
+				
+				$class[] = $node;
+			}
+		}
+		
+		return $class;
+	}
 }
 ?>

@@ -522,12 +522,48 @@ class JHTMLjresearchhtml
 	 */
 	public static function currencylist(array $attributes=array())
 	{
+		include_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
+		
 		//Currency options
     	$currencyOptions = array();
-    	$currencyOptions[] = JHTML::_('select.option', 'EUR', 'Euro');
-    	$currencyOptions[] = JHTML::_('select.option', 'USD', 'US Dollar');
+
+ 		$currencyOptions[] = JHTML::_('select.option', Currency::AUD, Currency::AUD);
+ 		$currencyOptions[] = JHTML::_('select.option', Currency::CAD, Currency::CAD);
+ 		$currencyOptions[] = JHTML::_('select.option', Currency::CHF, Currency::CHF);
+    	$currencyOptions[] = JHTML::_('select.option', Currency::EUR, Currency::EUR);
+    	$currencyOptions[] = JHTML::_('select.option', Currency::GBP, Currency::GBP);
+    	$currencyOptions[] = JHTML::_('select.option', Currency::JPY, Currency::JPY);
+    	$currencyOptions[] = JHTML::_('select.option', Currency::SEK, Currency::SEK);
+    	$currencyOptions[] = JHTML::_('select.option', Currency::USD, Currency::USD);
     	
     	return self::htmllist($currencyOptions, $attributes);
+	}
+	
+	public static function teamshierarchy(array $list, array $attributes=array())
+	{
+		$teamOptions = array();
+		$hierarchy = JResearch::hierarchy($list);
+		
+		$teamOptions[] = JHTML::_('select.option', null, '['.JText::_('Parent').']');
+		
+		foreach($hierarchy as $obj)
+		{
+			$teamOptions[] = JHTML::_('select.option', $obj->object->id, $obj->treename);
+			$team = $obj;
+			
+			//Go through children
+			while(@count($team->children) > 0)
+			{
+				foreach($team->children as $child)
+				{
+					$teamOptions[] = JHTML::_('select.option', $child->object->id, $child->treename);
+				}
+				
+				$team = $child->children;
+			}
+		}
+		
+		return self::htmllist($teamOptions, $attributes);
 	}
 	
 	/**

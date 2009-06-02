@@ -30,6 +30,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td><?php echo $this->memberList; ?></td>
 	</tr>
 	<tr>
+		<th>
+		<?php echo JText::_('Parent'); ?>
+		</th>
+		<td colspan="3">
+			<?php echo JHTML::_('jresearchhtml.teamshierarchy', $this->hierarchy, array('name' => 'parent', 'selected' => $this->team?$this->team->parent:null)); ?>
+		</td>
+	</tr>
+	<tr>
 		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->team?$this->team->description:'' , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
 </tbody>

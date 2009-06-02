@@ -5,7 +5,9 @@
  * Default view for listing cooperations
  */
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+
+?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<table>
 		<tbody>
@@ -30,6 +32,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 10%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort','Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
 			<th style="width: 40%;">
 				<?php echo JText::_('JRESEARCH_TEAM_LEADER'); ?>
+			</th>
+			<th>
+				<?php echo JHTML::_('grid.sort', JText::_('Parent'), 'parent', @$this->lists['order_Dir'], @$this->lists['order'] );?>
 			</th>
 		</tr>
 		</thead>		
@@ -59,7 +64,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						</a>
 					</td>
 					<td class="center"><?php echo $published; ?></td>
-					<td class="center"><?php echo $leader?></td>
+					<td class="center"><?php echo $leader; ?></td>
+					<td class="center"><?php echo $this->items[$i]->parent; ?></td>
 				</tr>
 			<?php } ?>
 		</tbody>

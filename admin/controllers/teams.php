@@ -72,6 +72,7 @@ class JResearchAdminTeamsController extends JController
 		$view = &$this->getView('Team', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Team', 'JResearchModel');
 		$membersModel =& $this->getModel('Staff', 'JResearchModel');
+		$teamsModel =& $this->getModel('Teams', 'JResearchModel');
 		
 		if(!empty($cid))
 		{
@@ -98,6 +99,7 @@ class JResearchAdminTeamsController extends JController
 		
 		$view->setModel($model,true);
 		$view->setModel($membersModel);
+		$view->setModel($teamsModel);
 		$view->display();
 	}
 
@@ -161,6 +163,14 @@ class JResearchAdminTeamsController extends JController
 		$team->bind($post);
 		$team->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$team->description = JRequest::getVar('description','','post', 'string', JREQUEST_ALLOWRAW);
+		
+		//If parent isn't set to valid id, set to null
+		//@todo prevent to set cycle
+		if($team->parent <= 0 || $team->parent == $team->id)
+		{
+			$team->parent = null;
+		}
+		
 		$members = JRequest::getVar('members', array(), 'post');
 		
 		//Set members
