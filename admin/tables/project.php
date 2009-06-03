@@ -339,7 +339,7 @@ class JResearchProject extends JResearchActivity{
 			array_push($cObjects, $cObject);
 		}
 		
-		return $cObject;
+		return $cObjects;
 	}
 	
 	/**
