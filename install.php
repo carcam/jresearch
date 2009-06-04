@@ -25,8 +25,8 @@ function com_install(){
 	
 	// Copy Joom!Fish content elements if Joom!Fish extension exists
 	$joomFishCheckFile = JPATH_SITE.'components'.DS.'com_joomfish'.DS.'joomfish.php';
-	$srcFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_joomfish'.DS.'contentelements';
-	$destFolder = JPATH_SITE.'components'.DS.'com_joomfish'.DS.'contentelements';
+	$srcFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_jresearch'.DS.'contentelements';
+	$destFolder = JPATH_SITE.'administrator'.DS.'components'.DS.'com_joomfish'.DS.'contentelements';
 	
 	//Install Joomfish elements
 	if(file_exists($joomFishCheckFile))
