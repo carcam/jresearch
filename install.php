@@ -272,47 +272,6 @@ function com_install(){
 				JError::raiseWarning(1, JText::sprintf('Execution permissions could not be added to file %s. Please do it manually', $f));
 	}
 	
-	$db->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_jresearch'" );
-	$id = $db->loadResult();
-	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/jresearch_logomini.png', admin_menu_link = 'option=com_jresearch' WHERE id=$id");
-	$db->query();	
-	
-
-	$db->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_jresearch&controller=cooperations'" );
-	$id = $db->loadResult();
-	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/cooperations_mini.png' WHERE id=$id");
-	$db->query();	
-	
-	$db->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_jresearch&controller=publications'" );
-	$id = $db->loadResult();
-	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/publications_mini.png' WHERE id=$id");
-	$db->query();
-
-	$db->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_jresearch&controller=projects'" );
-	$id = $db->loadResult();
-	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/projects_mini.png' WHERE id=$id");
-	$db->query();	
-
-	$db->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_jresearch&controller=staff'" );
-	$id = $db->loadResult();
-	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/staff_mini.png' WHERE id=$id");
-	$db->query();	
-
-	$db->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_jresearch&controller=researchAreas'" );
-	$id = $db->loadResult();
-	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/jresearch_logomini.png' WHERE id=$id");
-	$db->query();	
-
-	$db->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_jresearch&controller=theses'" );
-	$id = $db->loadResult();
-	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/theses_mini.png' WHERE id=$id");
-	$db->query();	
-
-	$db->setQuery( "SELECT id FROM #__components WHERE admin_menu_link = 'option=com_jresearch&controller=financiers'" );
-	$id = $db->loadResult();
-	$db->setQuery( "UPDATE #__components SET admin_menu_img = '../administrator/components/com_jresearch/assets/financier_mini.png' WHERE id=$id");
-	$db->query();	
-	
 	return true;
 }
 
