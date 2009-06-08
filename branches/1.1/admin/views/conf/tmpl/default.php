@@ -107,33 +107,43 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<div style="border-top: medium none; border-bottom: medium none; overflow: hidden; padding-top: 0px; padding-bottom: 0px; height: 250px;" class="jpane-slider content">
 				<table class="adminlist">
 					<tbody>
-					<tr>
-						<td colspan="2" style="text-align:center;"><img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/jresearch_logo.png" /></td>
-					</tr>
-					<tr>
-						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_AUTHOR').': '; ?></td>
-						<td>Luis Gal&aacute;rraga (<a href="mailto:shamantobi@gmail.com">shamantobi@gmail.com</a>) and Florian Prinz (<a href="mailto:prinz.florian@chello.at">prinz.florian@chello.at</a>)</td>
-					</tr>
-					<tr>
-						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_MENTOR').': '; ?></td>
-						<td>Nereyda Valentin-Macias, (<a href="mailto:neri@valenciasconsulting.com">neri@valenciasconsulting.com</a>)</td>
-					</tr>
-					<tr>
-						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_VERSION').': '; ?></td>
-						<td>1.1</td>
-					</tr>
-					<tr>
-						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_COPYRIGHT').': '; ?></td>
-						<td>Copyright 2008, Luis Gal&aacute;rraga</td>
-					</tr>
-					<tr>
-						<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_LICENSE').': '; ?></td>
-						<td>GPL version 2.0</td>
-					</tr>
-					<tr>
-						<td width="20%"><?php echo JText::_('JRESEARCH_BIBUTILS_VERSION').': '; ?></td>
-						<td>3.41</td>
-					</tr>																	
+						<tr>
+							<td colspan="2" style="text-align:center;"><img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/jresearch_logo.png" /></td>
+						</tr>
+						<tr>
+							<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_AUTHOR').': '; ?></td>
+							<td>Luis Gal&aacute;rraga (<a href="mailto:shamantobi@gmail.com">shamantobi@gmail.com</a>) and Florian Prinz (<a href="mailto:prinz.florian@chello.at">prinz.florian@chello.at</a>)</td>
+						</tr>
+						<tr>
+							<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_MENTOR').': '; ?></td>
+							<td>Nereyda Valentin-Macias, (<a href="mailto:neri@valenciasconsulting.com">neri@valenciasconsulting.com</a>)</td>
+						</tr>
+						<tr>
+							<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_VERSION').': '; ?></td>
+							<td>1.1</td>
+						</tr>
+						<tr>
+							<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_COPYRIGHT').': '; ?></td>
+							<td>Copyright 2008, Luis Gal&aacute;rraga</td>
+						</tr>
+						<tr>
+							<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_LICENSE').': '; ?></td>
+							<td>GPL version 2.0</td>
+						</tr>
+						<tr>
+							<td width="20%"><?php echo JText::_('JRESEARCH_BIBUTILS_VERSION').': '; ?></td>
+							<td>3.41</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<form name="{5C088896-C4CC-4430-A6D8-9DC9D2BE379D}" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+								    <input type="hidden" name="cmd" value="_s-xclick"/>
+								    <input type="hidden" name="hosted_button_id" value="1143995"/>
+								    <input type="image" border="0" src="http://joomla-research.com/images/donate.png" name="submit" alt=""/>
+								    <img width="1" height="1" border="0" alt="" src="https://www.paypal.com/es_XC/i/scr/pixel.gif"/>
+								</form>
+							</td>
+						</tr>																	
 					</tbody>
 				</table>		
 			</div>
