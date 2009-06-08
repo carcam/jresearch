@@ -28,28 +28,26 @@ function com_install(){
 	$srcFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_jresearch'.DS.'contentelements';
 	$destFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_joomfish'.DS.'contentelements';
 	
+	$dir = dir($srcFolder);
+	
 	//Install Joomfish elements
 	if(file_exists($joomFishCheckFile))
 	{
 		//Install content elements
-		@rename($srcFolder.DS.'jresearch_cooperations.xml', $destFolder.DS.'jresearch_cooperations.xml');
-		@rename($srcFolder.DS.'jresearch_facility.xml', $destFolder.DS.'jresearch_facility.xml');
-		@rename($srcFolder.DS.'jresearch_financier.xml', $destFolder.DS.'jresearch_financier.xml');
-		@rename($srcFolder.DS.'jresearch_member.xml', $destFolder.DS.'jresearch_member.xml');
-		@rename($srcFolder.DS.'jresearch_project.xml', $destFolder.DS.'jresearch_project.xml');
-		@rename($srcFolder.DS.'jresearch_research_area.xml', $destFolder.DS.'jresearch_research_area.xml');
-		@rename($srcFolder.DS.'jresearch_team.xml', $destFolder.DS.'jresearch_team.xml');
+		while(false !== ($file = $dir->read()))
+		{
+			if($file != '.' && $file != '..' && is_file($srcFolder.DS.$file))
+				@rename($srcFolder.DS.$file, $destFolder.DS.$file);
+		}
 	}
 	else 
 	{
 		//Remove files from component installation, isn't necessary for the current joomla installation
-		@unlink($srcFolder.DS.'jresearch_cooperations.xml');
-		@unlink($srcFolder.DS.'jresearch_facility.xml');
-		@unlink($srcFolder.DS.'jresearch_financier.xml');
-		@unlink($srcFolder.DS.'jresearch_member.xml');
-		@unlink($srcFolder.DS.'jresearch_project.xml');
-		@unlink($srcFolder.DS.'jresearch_research_area.xml');
-		@unlink($srcFolder.DS.'jresearch_team.xml');
+		while(false !== ($file = $dir->read()))
+		{
+			if($file != '.' && $file != '..' && is_file($srcFolder.DS.$file))
+				@unlink($srcFolder.DS.$file);
+		}
 	}
 
 	//Remove folder from component
