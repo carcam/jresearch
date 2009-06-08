@@ -104,7 +104,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<div id="content-pane" class="pane-sliders">
 			<div class="panel">
 				<h3 class="title jpane-toggler-down" id="cpanel-panel-logged"><span><?php echo JText::_('JRESEARCH_CREDITS'); ?></span></h3>
-				<div style="border-top: medium none; border-bottom: medium none; overflow: hidden; padding-top: 0px; padding-bottom: 0px; height: 250px;" class="jpane-slider content">
+				<div style="border-top: medium none; border-bottom: medium none; overflow: hidden; padding-top: 0px; padding-bottom: 0px; height: 290px;" class="jpane-slider content">
 				<table class="adminlist">
 					<tbody>
 						<tr>
@@ -135,7 +135,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 							<td>3.41</td>
 						</tr>
 						<tr>
-							<td colspan="2">
+							<td colspan="2" align="center">
 								<form name="{5C088896-C4CC-4430-A6D8-9DC9D2BE379D}" action="https://www.paypal.com/cgi-bin/webscr" method="post">
 								    <input type="hidden" name="cmd" value="_s-xclick"/>
 								    <input type="hidden" name="hosted_button_id" value="1143995"/>
