@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<th><?php echo JText::_('Title').': '?></th>
 		<td colspan="3">
-			<input name="title" id="title" size="80" maxlength="255" value="<?php echo $this->publication?$this->publication->title:'' ?>" class="required" />
+			<input name="title" id="title" size="60" maxlength="255" value="<?php echo $this->publication?$this->publication->title:'' ?>" class="required" />
 			<br />
 			<label for="title" class="labelform"><?php echo JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'); ?></label>
 		</td>
@@ -33,9 +33,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_NOTE').': ' ?></th>
-		<td><textarea name="note" id="note" cols="30" rows="5" ><?php echo $this->publication?$this->publication->note:'' ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_NOTE_TOOLTIP')); ?></td>
+		<td><textarea name="note" id="note" cols="20" rows="5" ><?php echo $this->publication?$this->publication->note:'' ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_NOTE_TOOLTIP')); ?></td>
 		<th><?php echo JText::_('JRESEARCH_ABSTRACT').': ' ?></th>
-		<td><textarea name="abstract" id="abstract" cols="30" rows="5" ><?php echo $this->publication?$this->publication->abstract:'' ?></textarea></td>
+		<td><textarea name="abstract" id="abstract" cols="20" rows="5" ><?php echo $this->publication?$this->publication->abstract:'' ?></textarea></td>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></th>
@@ -95,7 +95,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_COMMENTS').': '?></th>
-		<td><textarea cols="30" rows="5" name="comments" id="comments"><?php echo $this->publication?$this->publication->comments:''  ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_TOOLTIP_COMMENTS')); ?></td>
+		<td><textarea cols="20" rows="5" name="comments" id="comments"><?php echo $this->publication?$this->publication->comments:''  ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_TOOLTIP_COMMENTS')); ?></td>
 		<th><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': '?></th>
 		<td>
 			<input value="<?php echo $this->publication?$this->publication->journal_acceptance_rate:'' ?>" size="10" name="journal_acceptance_rate" id="journal_acceptance_rate" maxlength="5" class="validate-numeric" />
@@ -105,7 +105,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_AWARDS').': '?></th>
-		<td><textarea cols="30" rows="5" name="awards" id="awards"  ><?php echo $this->publication?$this->publication->awards:''; ?></textarea></td>
+		<td><textarea cols="20" rows="5" name="awards" id="awards"  ><?php echo $this->publication?$this->publication->awards:''; ?></textarea></td>
 		<th><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></th>
 		<td>	
 			<input value="<?php echo $this->impact_factor?$this->publication->impact_factor:'' ?>" size="10" name="impact_factor" id="impact_factor" maxlength="8" class="validate-numeric" />

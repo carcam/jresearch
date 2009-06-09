@@ -183,7 +183,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 			$authors = explode(',', trim($publication->editors));		
 				
 		foreach($authors as $auth){
-			$result = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($auth));
+			$result = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents(($auth instanceof JResearchMember)?$auth->__toString():$auth));
 			$formattedAuthors[] = (isset($result['von'])?JResearchPublicationsHelper::bibCharsToUtf8FromString($result['von']).' ':'').JResearchPublicationsHelper::bibCharsToUtf8FromString($result['lastname']);		
 			$firstnames[] = JResearchPublicationsHelper::bibCharsToUtf8FromString($result['firstname']);
 		}
@@ -278,7 +278,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		$n = count($authors);
 		$k = 0;
 		foreach($authors as $auth){
-			$text = $this->formatAuthorForReferenceOutput($auth);			
+			$text = $this->formatAuthorForReferenceOutput(($auth instanceof JResearchMember)?$auth->__toString():$auth);			
 			if($k == $n - 1)
 				$text = rtrim($text, '.');
 							

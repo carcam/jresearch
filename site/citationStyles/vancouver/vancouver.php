@@ -267,7 +267,7 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 		$k = 0;
 		$n = count($authors);
 		foreach($authors as $auth){
-			$text = $this->formatAuthorForReferenceOutput($auth);
+			$text = $this->formatAuthorForReferenceOutput(($auth instanceof JResearchMember)?$auth->__toString():$auth);
 			if($k == $n - 1)
 				$text = rtrim($text, '.');
 						

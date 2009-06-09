@@ -162,7 +162,7 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 			$authors = explode(',', trim($publication->editors));
 				
 		foreach($authors as $auth){
-			$result = JResearchPublicationsHelper::getAuthorComponents($auth);
+			$result = JResearchPublicationsHelper::getAuthorComponents(($auth instanceof JResearchMember)?$auth->__toString():$auth);
 			$formattedAuthors[] = (isset($result['von'])?JResearchPublicationsHelper::bibCharsToUtf8FromString($result['von']).' ':'').JResearchPublicationsHelper::bibCharsToUtf8FromString($result['lastname']);		
 		}
 		
@@ -253,7 +253,7 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 		$n = count($authors);
 		$i = 0;
 		foreach($authors as $auth){
-			$text = $this->formatAuthorForReferenceOutput($auth, ($i == $n - 1));			
+			$text = $this->formatAuthorForReferenceOutput(($auth instanceof JResearchMember)?$auth->__toString():$auth, ($i == $n - 1));			
 			if($i == $n -1)
 				$text = rtrim($text, '.');
 				

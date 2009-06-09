@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 <?php 
 	$digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION');
 	foreach($this->items as $year=>$publications): ?>
-	<div class="frontendheader"><?php echo $year; ?></div>
+	<h3 class="frontendheader"><?php echo $year; ?></h3>
     <ul>
     
 	<?php 
