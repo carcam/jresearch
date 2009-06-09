@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('Title').': '?></td>
 		<td colspan="3">
-			<input name="title" id="title" size="80" maxlength="255" value="<?php echo $this->publication?$this->publication->title:'' ?>" class="required" />
+			<input name="title" id="title" size="60" maxlength="255" value="<?php echo $this->publication?$this->publication->title:'' ?>" class="required" />
 			<br />
 			<label for="title" class="labelform"><?php echo JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'); ?></label>
 		</td>
@@ -33,20 +33,20 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_NOTE').': ' ?></td>
-		<td><textarea name="note" id="note" cols="30" rows="5" ><?php echo $this->publication?$this->publication->note:'' ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_NOTE_TOOLTIP')); ?></td>
+		<td><textarea name="note" id="note" cols="20" rows="5" ><?php echo $this->publication?$this->publication->note:'' ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_NOTE_TOOLTIP')); ?></td>
 		<td><?php echo JText::_('JRESEARCH_ABSTRACT').': ' ?></td>
-		<td><textarea name="abstract" id="abstract" cols="30" rows="5" ><?php echo $this->publication?$this->publication->abstract:'' ?></textarea></td>
+		<td><textarea name="abstract" id="abstract" cols="20" rows="5" ><?php echo $this->publication?$this->publication->abstract:'' ?></textarea></td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></td>
 		<td>
-			<input name="keywords" id="keywords" size="30" maxlength="255" class="validate-keywords" value="<?php echo $this->publication?$this->publication->keywords:'' ?>" />&nbsp;&nbsp;<span class="information">&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span>
+			<input name="keywords" id="keywords" size="20" maxlength="255" class="validate-keywords" value="<?php echo $this->publication?$this->publication->keywords:'' ?>" />&nbsp;&nbsp;<span class="information">&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span>
 			<br />
 			<label for="keywords" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_KEYWORDS'); ?></label>			
 		</td>
 		<td><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) : ' ?></td>
 		<td>
-			<input name="url" id="url" size="30" maxlength="255" class="validate-url" value="<?php echo $this->publication?$this->publication->url:'' ?>" />
+			<input name="url" id="url" size="20" maxlength="255" class="validate-url" value="<?php echo $this->publication?$this->publication->url:'' ?>" />
 			<br />
 			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
 		</td>		

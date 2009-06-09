@@ -217,13 +217,13 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 
 		// We have two components: firstname and lastname
 		if(count($authorComponents) == 1){
-			$text = utf8_ucfirst($authorComponents['lastname']);
+			$text = JString::ucfirst($authorComponents['lastname']);
 		}elseif(count($authorComponents) == 2){
-			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.utf8_ucfirst($authorComponents['lastname']); 
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.JString::ucfirst($authorComponents['lastname']); 
 		}elseif(count($authorComponents) == 3){
-			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.$authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']);
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.$authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']);
 		}else{
-			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.JResearchPublicationsHelper::getInitials($authorComponents['jr']).' '.$authorComponents['von'].' '.utf8_ucfirst($authorComponents['lastname']);
+			$text = JResearchPublicationsHelper::getInitials($authorComponents['firstname']).' '.JResearchPublicationsHelper::getInitials($authorComponents['jr']).' '.$authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']);
 		}
 		
 		return $text;
@@ -244,7 +244,7 @@ class JResearchIEEECitationStyle implements JResearchCitationStyle{
 		$k = 0;
 		$n = count($authors);
 		foreach($authors as $auth){
-			$text = $this->formatAuthorForReferenceOutput($auth);			
+			$text = $this->formatAuthorForReferenceOutput(($auth instanceof JResearchMember)?$auth->__toString():$auth);			
 			if($k == $n - 1)
 				$text = rtrim($text, '.');
 
