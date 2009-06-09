@@ -27,7 +27,7 @@ $contentArr = explode('<hr id="system-readmore" />', $this->item->description);
 			<td>
 				<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $leader->id; ?>&Itemid=<?php echo (isset($this->itemId)?$this->itemId:'');?>" title="">
 				<?php
-				echo $leader;
+				echo $leader->__toString();
 				?>
 				</a>
 			</td>

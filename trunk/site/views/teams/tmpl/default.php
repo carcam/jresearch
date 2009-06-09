@@ -26,11 +26,12 @@ defined("_JEXEC") or die("Restricted access");
 					<?php echo JFilterOutput::ampReplace($team->name)?>
 				</h2>
 				<div>
-					<strong><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?php echo $team->getLeader();?>
+					<?php $leader = $team->getLeader(); ?>
+					<strong><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?php echo !empty($leader)?$leader->__toString():'';?>
 				</div>
 				<div style="text-align:left">
 					<a href="index.php?option=com_jresearch&task=show&view=team&id=<?php echo $team->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >
-						<?php echo JText::_('Read more...'); ?>
+						<?php echo JText::_('JRESEARCH_READ_MORE'); ?>
 					</a>
 				</div>
 			</div>

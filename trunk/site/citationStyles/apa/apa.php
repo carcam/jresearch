@@ -204,7 +204,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		$formattedAuthors  = array();
 				
 		foreach($authors as $auth){
-			$result = JResearchPublicationsHelper::getAuthorComponents($auth);
+			$result = JResearchPublicationsHelper::getAuthorComponents(($auth instanceof JResearchMember)?$auth->__toString():$auth);
 			$formattedAuthors[] = (isset($result['von'])?JResearchPublicationsHelper::bibCharsToUtf8FromString($result['von']).' ':'').JResearchPublicationsHelper::bibCharsToUtf8FromString($result['lastname']);		
 		}
 		
@@ -305,7 +305,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		$k = 0;
 		$n = count($authors);		
 		foreach($authors as $auth){
-			$text = $this->formatAuthorForReferenceOutput($auth);			
+			$text = $this->formatAuthorForReferenceOutput(($auth instanceof JResearchMember)?$auth->__toString():$auth);			
 			if($k == $n - 1)
 				$text = rtrim($text, '.');
 			if($authorsLinks){
