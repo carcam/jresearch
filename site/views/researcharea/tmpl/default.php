@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <h2><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
 <ul>
 <?php foreach($this->members as $member): ?>
-	<li><a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $member->id ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo $member; ?></a></li>
+	<li><a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $member->id ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo $member->__toString(); ?></a></li>
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
