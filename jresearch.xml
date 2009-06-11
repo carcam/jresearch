@@ -86,6 +86,7 @@
 			<filename>controller.php</filename>
 			<filename>config.xml</filename>
 			<folder>assets</folder>
+			<folder>contentelements</folder>
 			<folder>controllers</folder>
 			<folder>elements</folder>
 			<folder>helpers</folder>
