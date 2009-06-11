@@ -31,13 +31,13 @@ class JResearchViewPublication extends JView
 
         switch($layout){
         	case 'default':
-        		$result = $this->_displayPublication(&$arguments);        		
+        		$result = $this->_displayPublication($arguments);        		
         		break;
         	case 'new':
         		$result = $this->_displayNewPublicationForm();
         		break;
         	case 'edit':
-        		$result = $this->_editPublication(&$arguments);        		
+        		$result = $this->_editPublication($arguments);        		
         		break;
         }
         
