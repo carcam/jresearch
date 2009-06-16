@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td colspan="3">
 			<input name="name" id="name" size="80" maxlength="255" value="<?php echo $this->fac?$this->fac->name:'' ?>" class="required" />
 			<br />
-			<label for="name" class="labelform"><?php echo JText::_('JRESEARCH_FACILITY_PROVIDE_VALID_NAME'); ?></label>
+			<label for="name" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_NAME'); ?></label>
 		</td>
 	</tr>
 	<tr>
