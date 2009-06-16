@@ -17,6 +17,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				</td>
 				<td nowrap="nowrap">
 					<?php echo $this->lists['state'];?>
+					<?php echo $this->lists['area'];?>
 				</td>
 			</tr>
 		</tbody>

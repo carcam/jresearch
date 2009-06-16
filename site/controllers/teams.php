@@ -63,10 +63,12 @@ class JResearchTeamsController extends JController
 	{
 		$model =& $this->getModel('Team', 'JResearchModel');
 		$memberModel =& $this->getModel('Member', 'JResearchModel');
+		$pubsModel =& $this->getModel('Publicationlist', 'JResearchModel');
 		
 		$view =& $this->getView('Team', 'html', 'JResearchView');
 		$view->setModel($model, true);
 		$view->setModel($memberModel);
+		$view->setModel($pubsModel);
 		$view->display();				
 	}
 }

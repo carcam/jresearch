@@ -191,7 +191,7 @@ class JHTMLjresearchhtml
 	* @param $name HTML name of the control which holds the selected users.
 	*/
 	public function staffImporter($name){
-		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
+		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
 		
 		$db =& JFactory::getDBO();
 		$fields = $db->nameQuote('username').', '.$db->nameQuote('lastname').', '.$db->nameQuote('firstname');
@@ -275,7 +275,7 @@ class JHTMLjresearchhtml
 			regex=/^\d{4}$/i;
 			return regex.test(value); })
 		})');
-    	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
+    	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'language.php');
 		$extra = extra_word_characters();
     	$doc->addScriptDeclaration("window.onDomReady(function() {
 			document.formvalidator.setHandler('keywords', function(value) {
@@ -344,6 +344,26 @@ class JHTMLjresearchhtml
 	}
 	
 	/**
+	 * Renders an attachment download link
+	 *
+	 * @param string $url Resource URL
+	 */
+	public static function attachment($url){
+		$filename = basename($url);
+		$extension = explode('.', $filename);
+		$supportedExtensions = array('doc', 'docx', 'pdf', 'ps', 'odt', 'txt');
+		$assetsUrl = 'administrator/components/com_jresearch/assets/extensions/';
+	
+		if(in_array($extension[1], $supportedExtensions)){
+			$img = $assetsUrl.$extension[1].'.png';
+		}else{
+			$img = $assetsUrl.'default.png';				
+		}
+		
+		return "<a href=\"$url\" ><img style=\"border: 0px;\" src=\"$img\" />$filename</a>";
+	}
+	
+	/**
 	 * Renders a HTML generic select list with researchareas
 	 * 
 	 * @param array $attributes Attributes for the select element, keys 'name' and 'selected' are currently used
@@ -362,7 +382,7 @@ class JHTMLjresearchhtml
 		$areasOptions = array();
 		foreach($additional as $area)
 		{
-			if(array_key_exists('id', $area) && array_key_exists('name'))
+			if(array_key_exists('id', $area) && array_key_exists('name', $area))
 				$areasOptions[] = JHTML::_('select.option', $area['id'], $area['name']);
 		}
 		

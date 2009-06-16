@@ -198,7 +198,7 @@ class JResearchAdminPublicationsController extends JController
 	*/	
 	function exportSingle(){		
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'exporters'.DS.'factory.php');
 		$document =& JFactory::getDocument(); 
 
 		$id = JRequest::getInt('id');
@@ -235,7 +235,7 @@ class JResearchAdminPublicationsController extends JController
 		$uploadedFile = $fileArray['tmp_name'];
 		//$savedRecords = 0;
 
-		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'factory.php');
+		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'importers'.DS.'factory.php');
 
 		if($fileArray == null || $uploadedFile == null){
 			JError::raiseWarning(1, JText::_('JRESEARCH_NO_INPUT_FILE'));
@@ -264,7 +264,7 @@ class JResearchAdminPublicationsController extends JController
 	function executeExport(){
 		$session = &JFactory::getSession();
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'exporters'.DS.'factory.php');
 		$markedRecords = $session->get('markedRecords', null, 'jresearch');
 		if($markedRecords !== null){
 			if($markedRecords === 'all'){

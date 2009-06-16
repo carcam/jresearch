@@ -83,6 +83,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	 * Returns the internal publications developed by members of the specified team.
 	 *
 	 * @param int $teamId
+	 * @return array
 	 */
 	private function _getTeamPublicationIds($teamId){
 		$db = JFactory::getDBO();
@@ -93,7 +94,6 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$pub_internal_author = $db->nameQuote('#__jresearch_publication_internal_author');
 		$teamValue = $db->Quote($teamId);
 		$id_team = $db->nameQuote('id_team');
-		$id = $db->nameQuote('id');
 		$id_member = $db->nameQuote('id_member');
 		
 		$query = "SELECT DISTINCT $id_publication FROM $pub_internal_author, $team_member WHERE $team_member.$id_team = $teamValue "
@@ -150,6 +150,31 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		}			
 		return $this->_items;
 
+	}
+	
+	/**
+	 * Gets data by team id
+	 *
+	 * @param int $teamId
+	 * @return array
+	 */
+	public function getDataByTeamId($teamId)
+	{
+		$model = JModel::getInstance('Team', 'JResearchModel');
+		$team = $model->getItem($teamId);
+		$pubs = array();
+		
+		if(!empty($team))
+		{
+			$ids = $this->_getTeamPublicationIds($team->id);
+			
+			foreach($ids as $id)
+			{
+				$pubs[] = JResearchPublication::getById($id);
+			}
+		}
+		
+		return $pubs;
 	}
 	
 	/**
@@ -265,7 +290,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$mdresult = array();
 		$name = array();
 		// First, bring them to the form lastname, firstname.
-		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
+		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
 		foreach($result as $key => $author){
 			$components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
 			$value = ($components['von']?$components['von'].' ':'').$components['lastname'].', '.$components['firstname'].($components['jr']?' '.$components['jr']:'');

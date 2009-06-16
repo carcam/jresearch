@@ -27,8 +27,15 @@ class JResearchViewTeam extends JView
 		// Get data from the model
 		$model = &$this->getModel();
 		$memberModel = &$this->getModel('Member');
+		$pubsModel = &$this->getModel('Publicationlist');
 		
 		$item = $model->getItem($id);
+		
+		if(empty($item))
+		{
+			JError::raiseWarning(1, JText::_('JRESEARCH_TEAM_NOT_FOUND'));
+			return;
+		}
 		
 		switch($layout)
 		{
@@ -37,6 +44,7 @@ class JResearchViewTeam extends JView
 		}
 		
 		$members = $item->getMembers();
+		$publications = $pubsModel->getDataByTeam($id);
 		
 		$links = array();
 		foreach($members as $member)
@@ -56,6 +64,7 @@ class JResearchViewTeam extends JView
 		$this->assignRef('item', $item);
 		$this->assignRef('memberLinks', $links);
 		$this->assignRef('memberModel', $memberModel);
+		$this->assignRef('publications', $publications);
 		$this->assignRef('itemId', $itemId);
 
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);

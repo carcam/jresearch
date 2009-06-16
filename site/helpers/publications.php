@@ -14,7 +14,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
+require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'language.php');
 
 define('LASTNAME_FIRSTNAME', 1);
 define('FIRSTNAME_LASTNAME', 0);
