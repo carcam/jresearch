@@ -53,7 +53,11 @@ shRemoveFromGETVarsList('layout');
 switch ($view)
 {
 	case 'cooperation':
+		$q = 'SELECT id, name FROM #__jresearch_cooperations WHERE id='.$id;
+		$database->setQuery($q);
+		$shCoop = $database->loadObject();
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_COOPERATION'];
+		$title[] = $shCoop->name;
 		break;
 	case 'cooperations':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_COOPERATIONS'];
@@ -62,7 +66,11 @@ switch ($view)
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_FACILITIES'];
 		break;
 	case 'facility':
+		$q = 'SELECT id, name FROM #__jresearch_facilities WHERE id='.$id;
+		$database->setQuery($q);
+		$shFac = $database->loadObject();
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_FACILITY'];
+		$title[] = $shFac->name;
 		break;
 	case 'publicationslist':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_PUBLICATIONS_LIST'];
@@ -111,9 +119,19 @@ switch ($view)
 		        	$database->setQuery($q);
 			        $shMember = $database->loadObject( );
 				$id = isset($id) ? @$id : null;		
-				$title[]= 'Miembro';		
+				$title[]= $sh_LANG[$shLangIso]['_COM_SEF_SH_MEMBER'];		
 				$title[] =$shMember->firstname . '-' . $shMember->lastname;
 				break;}
+		break;
+	case 'team':
+		$q = 'SELECT id, name FROM #__jresearch_team WHERE id='.$id;
+		$database->setQuery($q);
+		$shTeam = $database->loadObject();
+		$title[] = 'Team';
+		$title[] = $shTeam->name;
+		break;
+	case 'teams':
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_TEAMS'];
 		break;
 	case 'thesis':
 		$q = 'SELECT id, title  FROM #__jresearch_thesis WHERE id = '.$id;
