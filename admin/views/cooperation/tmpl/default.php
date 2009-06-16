@@ -20,7 +20,7 @@ JHTML::_('behavior.modal');
 		<th><?php echo JText::_('JRESEARCH_COOPERATION_NAME').': '?></th>
 		<td>
 			<input name="name" id="name" size="50" maxlength="100" class="required" value="<?php echo $this->coop?$this->coop->name:'' ?>" />
-			<br /><label for="name" class="labelform"><?php echo JText::_('Please provide a name. Alphabetic characters plus _- and spaces are allowed.'); ?></label>
+			<br /><label for="name" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_NAME'); ?></label>
 		</td>
 		<th><?php echo JText::_('JRESEARCH_COOPERATION_URL').': '; ?></th>
 		<td>
