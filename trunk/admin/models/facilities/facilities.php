@@ -119,6 +119,7 @@ class JResearchModelFacilities extends JResearchModelList
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('facsfilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('facsfilter_search', 'filter_search');
+		$filter_area = $mainframe->getUserStateFromRequest('facsfilter_area', 'filter_area');
 		
 		// prepare the WHERE clause
 		$where = array();
@@ -133,12 +134,17 @@ class JResearchModelFacilities extends JResearchModelList
 		else
 			$where[] = $db->nameQuote('published').' = 1 ';		
 
-			
+		
 		if(($filter_search = trim($filter_search)))
 		{
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
 			$where[] = 'LOWER('.$db->nameQuote('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
+		}
+		
+		if($filter_area)
+		{
+			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
 		}
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';

@@ -64,7 +64,7 @@ class JResearchViewCooperation extends JView
 	private function _editCooperation(&$coop)
 	{
 		JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
-		JHTML::_('Validator._');
+		JHTML::_('jresearch.validation');
 		
 		//Published options
     	$publishedOptions = array();

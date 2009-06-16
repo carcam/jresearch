@@ -99,3 +99,12 @@ $contentArr = explode('<hr id="system-readmore" />', $this->item->description);
 		?>
 	</tbody>
 </table>
+<?php if(!empty($this->publications)): ?>
+<div>&nbsp;&nbsp;</div>
+<h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
+<ul>
+<?php foreach($this->publications as $publication): ?>
+	<li><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $publication->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo $publication->title; ?></a></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>

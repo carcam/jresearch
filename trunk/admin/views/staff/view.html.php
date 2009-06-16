@@ -63,6 +63,7 @@ class JResearchAdminViewStaff extends JView
 		$filter_state = $mainframe->getUserStateFromRequest('stafffilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('stafffilter_search', 'filter_search');
     	$filter_former = $mainframe->getUserStateFromRequest('stafffilter_former', 'filter_former');
+    	$filter_area = $mainframe->getUserStateFromRequest('stafffilter_area', 'filter_area');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
@@ -70,6 +71,7 @@ class JResearchAdminViewStaff extends JView
 		$lists['state'] = JHTML::_('grid.state', $filter_state);
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
+		$lists['area'] = JHTML::_('jresearchhtml.researchareas', array('name' => 'filter_area', 'selected' => $filter_area, 'attributes' => 'onchange="document.adminForm.submit();"'), array(array('id' => null, 'name' => JText::_('JRESEARCH_RESEARCH_AREA'))));
     	
 		//Former member filter
 		$formerHTML[] = JHTML::_('select.option', '0', JText::_('- Former Member -'));

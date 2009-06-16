@@ -63,6 +63,7 @@ class JResearchAdminViewFacilities extends JView
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('facsfilter_order', 'filter_order_Dir', 'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('facsfilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('facsfilter_search', 'filter_search');
+    	$filter_area = $mainframe->getUserStateFromRequest('facsfilter_area', 'filter_area');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
@@ -72,8 +73,9 @@ class JResearchAdminViewFacilities extends JView
 		
 		// State filter
 		$lists['state'] = JHTML::_('grid.state', $filter_state);
-		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
+		
+		$lists['area'] = JHTML::_('jresearchhtml.researchareas', array('name' => 'filter_area', 'selected' => $filter_area, 'attributes' => 'onchange="document.adminForm.submit();"'), array(array('id' => null, 'name' => JText::_('JRESEARCH_RESEARCH_AREA'))));
     	
     	$this->assignRef('items', $facs);
     	$this->assignRef('area', $areaModel);

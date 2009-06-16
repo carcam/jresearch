@@ -119,6 +119,7 @@ class JResearchModelStaff extends JResearchModelList{
 		$filter_state = $mainframe->getUserStateFromRequest('stafffilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('stafffilter_search', 'filter_search');
 		$filter_former = $mainframe->getUserStateFromRequest('stafffilter_former', 'filter_former');
+		$filter_area = $mainframe->getUserStateFromRequest('stafffilter_area', 'filter_area');
 		
 		// prepare the WHERE clause
 		$where = array();
@@ -138,6 +139,11 @@ class JResearchModelStaff extends JResearchModelList{
 				$where[] = $db->nameQuote('former_member').' = 1 ';
 			elseif($filter_former < 0)
 				$where[] = $db->nameQuote('former_member').' = 0 ';
+		}
+		
+		if($filter_area)
+		{
+			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
 		}
 			
 		if(($filter_search = trim($filter_search))){

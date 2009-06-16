@@ -233,7 +233,7 @@ class JResearchPublicationsController extends JController
 	 */
 	function citeFromDialog(){
 		// Add explicitly the view path (useful when requesting from the backend)
-		$this->addViewPath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views');
+		$this->addViewPath(JPATH_COMPONENT_SITE.DS.'views');
 		$view = &$this->getView('PublicationsList', 'html', 'JResearchView');
 		$view->setLayout('cite');
 		$view->display();
@@ -245,7 +245,7 @@ class JResearchPublicationsController extends JController
 	 */
 	function generateBibliography(){
 		// Add explicitly the view path (useful when requesting from the backend)
-		$this->addViewPath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views');
+		$this->addViewPath(JPATH_COMPONENT_SITE.DS.'views');
 		$view = &$this->getView('PublicationsList', 'html', 'JResearchView');
 		$model =& $this->getModel('Publication', 'JResearchModel');
 		$view->setLayout('generatebibliography');
@@ -401,7 +401,7 @@ class JResearchPublicationsController extends JController
 
 	 	// Get the captcha tests
 	 	$captchas = $mainframe->getUserState('jxcaptcha.captcha');
-	 	$captchaInstance = JXCaptcha::getInstance('image', array('filePath'=>JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publication'.DS.'captcha'));
+	 	$captchaInstance = JXCaptcha::getInstance('image', array('filePath'=>JPATH_COMPONENT_SITE.DS.'views'.DS.'publication'.DS.'captcha'));
 	 
 	 	foreach ($captchas as $captcha){
 	 		if (isset($post[$captcha['id']]))
