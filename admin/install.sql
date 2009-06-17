@@ -351,7 +351,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member_position` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `#__jresearch_research_techreport`;
+DROP TABLE IF EXISTS `#__jresearch_techreport`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_techreport` (
   `id_publication` int(10) unsigned NOT NULL,
   `institution` varchar(255) NOT NULL,
@@ -496,7 +496,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_digital_source` (
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-
 DROP TABLE IF EXISTS `#__jresearch_earticle`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_earticle` (
   `id_publication` int(10) unsigned NOT NULL,
@@ -509,6 +508,23 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_earticle` (
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
+CREATE OR REPLACE VIEW `#__jresearch_publication_article` AS SELECT * FROM `#__jresearch_article` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_earticle` AS SELECT * FROM `#__jresearch_earticle` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_digital_source` AS SELECT * FROM `#__jresearch_digital_source` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_online_source` AS SELECT * FROM `#__jresearch_online_source` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_unpublished` AS SELECT * FROM `#__jresearch_unpublished` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_proceedings` AS SELECT * FROM `#__jresearch_proceedings` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_book` AS SELECT * FROM `#__jresearch_book` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_incollection` AS SELECT * FROM `#__jresearch_incollection` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_booklet` AS SELECT * FROM `#__jresearch_booklet` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_conference` AS SELECT * FROM `#__jresearch_conference` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_inbook` AS SELECT * FROM `#__jresearch_inbook` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_patent` AS SELECT * FROM `#__jresearch_patent` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_misc` AS SELECT * FROM `#__jresearch_misc` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_phdthesis` AS SELECT * FROM `#__jresearch_phdthesis` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_mastersthesis` AS SELECT * FROM `#__jresearch_mastersthesis` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_manual` AS SELECT * FROM `#__jresearch_manual` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_techreport` AS SELECT * FROM `#__jresearch_techreport` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
 
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('abstract');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('address');
