@@ -50,6 +50,7 @@ require_once(JPATH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
 require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
 require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
 JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 
 // Verify if Jxtended is available as a plugin in the system.
 if(!function_exists('jximport'))
