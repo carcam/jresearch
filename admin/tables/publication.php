@@ -225,7 +225,7 @@ class JResearchPublication extends JResearchActivity{
 		$pub = $db->loadResult();
 		if($pub){
 			$result = JResearchPublication::getSubclassInstance($pub);
-			$result->loadByCitekey($citekey);	
+			$result->loadByCitekey($pub, $citekey);	
 			return $result;
 		}else{
 			return null;
@@ -274,29 +274,27 @@ class JResearchPublication extends JResearchActivity{
 	 * during citation.
 	 * @return True if successful
 	 */
-	public function loadByCitekey($citekey){
+	public function loadByCitekey($pubtype, $citekey){
 		if($citekey === null || $citekey === '')
-			return false;
-
-		$derivedTable = $this->_getDerivedTable();
-
+		    return false;
+		
 		$this->reset();
 		$this->citekey = $citekey;
-      $db =& $this->getDBO();
-        
-      $query = "SELECT * "
-      . " FROM $this->_tbl , $derivedTable "
-      . " WHERE $this->_tbl.$this->_tbl_key = $derivedTable.$this->_d_tbl_key"
-      . " AND $this->_tbl.citekey = ".$db->Quote($citekey);
-      $db->setQuery( $query );
-      if (($result = $db->loadAssoc())) {
-        	$rs = $this->bind($result);
-        	$this->_loadAuthors($this->id);
-         return $rs;
-      }else{
-         $this->setError( $db->getErrorMsg() );
-         return false;
-      }
+		$db =& $this->getDBO();
+		$view = $db->nameQuote('#__jresearch_publication_'.$pubtype);
+		
+		$query = "SELECT * "
+		. " FROM $view "
+		. " WHERE citekey = ".$db->Quote($citekey);
+		$db->setQuery( $query );
+		if (($result = $db->loadAssoc())) {
+		    $rs = $this->bind($result);
+		    $this->_loadAuthors($this->id);
+		    return $rs;
+		}else{
+		    $this->setError( $db->getErrorMsg() );
+		    return false;
+		}
 	}
 
 
@@ -342,15 +340,13 @@ class JResearchPublication extends JResearchActivity{
         
         $this->$k = $oid;
         
-        $derivedTable = $this->_getDerivedTable();
-        $db =& $this->getDBO();        
+        $db =& $this->getDBO();
+        $view = $db->nameQuote('#__jresearch_publication_'.trim($this->pubtype));
 		$this->_loadAuthors($oid);
 
-
         $query = "SELECT * "
-        . " FROM $this->_tbl , $derivedTable"
-        . " WHERE $this->_tbl.$this->_tbl_key = $derivedTable.$this->_d_tbl_key"
-        . " AND $this->_tbl.$this->_tbl_key = $db->Quote($oid)";        
+        . " FROM $view"
+        . " WHERE $this->_tbl_key = $db->Quote($oid)";        
         $db->setQuery( $query );
         
         if (($result = $db->loadAssoc( ))) {
