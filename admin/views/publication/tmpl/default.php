@@ -113,7 +113,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<label for="impact_factor" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_NUMBER'); ?></label>
 		</td>
 	</tr>
-
+	<tr>
+		<th>
+			<?php echo JText::_('JRESEARCH_COVER').': '?>
+		</th>
+		<td colspan="3">
+			<input name="cover" id="cover" size="30" maxlength="255" class="validate-url" value="<?php echo $this->publication?$this->publication->cover:'' ?>" />
+			<br />
+			<label for="cover" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
+		</td>
+	</tr>
 </tbody>
 </table>
 

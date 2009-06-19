@@ -103,6 +103,13 @@ class JResearchPublication extends JResearchActivity{
 	public $note;
 	
 	/**
+	 * Optional cover URL for the publication
+	 *
+	 * @var string
+	 */
+	public $cover;
+	
+	/**
 	 * Name of the foreign key field in the subclass table.
 	 * 
 	 * @var string
