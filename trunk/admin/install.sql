@@ -249,6 +249,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `pubtype` varchar(20) NOT NULL default 'book',
   `awards` text,
   `url` varchar(255) default NULL,
+  `cover` varchar(255) default NULL,
   `files` text default NULL,
   `published` tinyint(4) NOT NULL default '1' ,
   `title` varchar(255) NOT NULL,
