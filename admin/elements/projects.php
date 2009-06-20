@@ -38,9 +38,9 @@ class JElementProjects extends JElement
 		$html = '<input type="hidden" name="'.$fieldName.'" id="'.$name.'" value="'.$value.'" /> ';
 		$html .= JHTML::_('select.genericlist', $projectsOptions, 'projectslist', 'multiple="multiple" class="inputbox" size="5" onchange="changeValue(\''.$name.'\');"', 'value', 'text', explode(',',$value));
 		$html .= '&nbsp;&nbsp;';
-		$html .= '<input type="button" name="selectbtn" id="selectbtn" value="Select All" onclick="selectAll(\''.$name.'\');" style="vertical-align: top;" />';
+		$html .= '<input type="button" name="selectbtn" id="selectbtn" value="'.JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_SELECT_ALL').'" onclick="selectAll(\''.$name.'\');" style="vertical-align: top;" />';
 		$html .= '&nbsp;';
-		$html .= '<input type="button" name="resetbtn" id="resetbtn" value="All Projects" onclick="unselectAll(\''.$name.'\');" style="vertical-align: top;" />';
+		$html .= '<input type="button" name="resetbtn" id="resetbtn" value="'.JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_RESET').'" onclick="unselectAll(\''.$name.'\');" title="'.JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_TOOLTIP').'" style="vertical-align: top;" />';
 		
 		return $html;
 	}
