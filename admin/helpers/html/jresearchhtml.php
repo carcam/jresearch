@@ -631,6 +631,41 @@ class JHTMLjresearchhtml
 		
 	}
 	
+    public static function input($name, $value='', $type='text', array $attributes = array())
+    {
+        $_types = array('text', 'hidden', 'radio', 'checkbox', 'password', 'button', 'image', 'submit', 'reset', 'file');
+        
+        //Clean parameters
+        JFilterOutput::cleanText($name);
+        JFilterOutput::cleanText($value);
+        JFilterOutput::cleanText($type);
+        
+        if(!in_array($type, $_types))
+        {
+            JError::raiseError(0, 'Input-field with type: '.$type.' isn\'t valid');
+            return '';
+        }
+        
+        $input = '<input type="'.$type.'" name="'.$name.'" value="'.$value.'" '.self::_makeAttributeString($attributes).' />';
+        
+        return $input;
+    }
+    
+    private static function _makeAttributeString(array $attributes=array())
+    {
+        $string = array();
+        
+        foreach($attributes as $key=>$value)
+        {
+            JFilterOutput::cleanText($key);
+            JFilterOutput::cleanText($value);
+            
+            $string[] = $key.'="'.$value.'"';
+        }
+        
+        return implode(' ', $string);
+    }
+	
 	/**
 	 * Gets value of array from given key if it exists, otherwise $default
 	 */
