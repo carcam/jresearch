@@ -50,8 +50,6 @@ class JResearchViewResearchArea extends JView
 			JError::raiseWarning(1, JText::_('JRESEARCH_AREA_NOT_FOUND'));
 			return;
 		}
-		
-		JResearchPluginsHelper::onPrepareJResearchContent('researcharea', $area);
         
 		$arguments[] = $id;
         

@@ -62,7 +62,6 @@ class JResearchViewProjectsList extends JView
     	$this->assignRef('items', $projects);
     	$this->assignRef('areaModel', $areaModel);
     	$this->assignRef('page', $model->getPagination());	
-
     }
 }
 

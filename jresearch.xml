@@ -10,14 +10,20 @@
 	<license>GPL</license>
 	<version>1.2.0</version>
 	<description><![CDATA[
-	<div align="center"><img src="components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" /></div>
-	<div align="center"><h2>Successfully installed J!Research&nbsp;</h2></div>
-	J!Research is a component for Joomla!™ 1.5 which allows for management of 
-	research-related work such as; publications, projects, and theses categorized 
-	by research area. 
-	The extension is oriented to University researchers and research departments 
-	which utilize or plan to adopt Joomla! as their content management system 
-	for publishing research.
+	<div align="center">
+		<img src="components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" />
+		<h2>Successfully installed J!Research</h2>
+	</div>
+	<p>
+		J!Research is a component for Joomla!™ 1.5 which allows for management of 
+		research-related work such as; publications, projects, and theses categorized 
+		by research area.
+	</p>
+	<p>
+		The extension is oriented to University researchers and research departments 
+		which utilize or plan to adopt Joomla! as their content management system 
+		for publishing research.
+	</p>
 	]]></description>
 	<installfile>install.php</installfile>
 	<uninstallfile>uninstall.php</uninstallfile>
@@ -61,6 +67,7 @@
 		<language tag="en-GB">en-GB.com_jresearch.publications.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.researchareas.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
+		<language tag="en-GB">en-GB.com_jresearch.teams.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
 	</languages>
 	<administration>

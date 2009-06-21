@@ -17,15 +17,17 @@ JHTML::_('behavior.modal');
 <?php if($this->showHits): ?>
 <div class="small"><?php echo JText::_('Hits').': '.$this->project->hits; ?></div>
 <?php endif; ?>
-<table cellspacing="2" cellpadding="2">
+<table cellspacing="2" cellpadding="2" width="100%">
 <tbody>
 	<tr>
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
-		<?php if($this->area->id > 1): ?>
-			<a href="index.php?option=com_jresearch&controller=researchAreas&task=show&view=researcharea&id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
-		<?php else: ?>
-			<?php echo $this->area->name; ?>	
-		<?php endif; ?>	
+		<td style="width:20%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
+		<td>
+			<?php if($this->area->id > 1): ?>
+				<a href="index.php?option=com_jresearch&controller=researchAreas&task=show&view=researcharea&id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
+			<?php else: ?>
+				<?php echo $this->area->name; ?>	
+			<?php endif; ?>	
+		</td>
 	   	<?php
 	   	if(empty($this->project->url_project_image)): 
 	   	?>
@@ -44,8 +46,8 @@ JHTML::_('behavior.modal');
 	</tr>
 	<tr>
 		<?php $status = $this->statusArray[$this->project->status]; ?>
-		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_STATUS').': ' ?></td>
-		<td style="width:35%;"><?php echo $status; ?></td>
+		<td style="width:20%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_STATUS').': ' ?></td>
+		<td style="width:30%;"><?php echo $status; ?></td>
 		<td colspan="2">&nbsp;</td>
 	</tr>
 	
@@ -60,9 +62,9 @@ JHTML::_('behavior.modal');
 	<?php endif; ?>	
 	<?php if(!empty($authors)): ?>
 		<tr>
-			<td style="width:15%;" class="publicationlabel"><?php echo $label.': ' ?></td>
+			<td style="width:20%;" class="publicationlabel"><?php echo $label.': ' ?></td>
 			<?php if($this->staff_list_arrangement == 'horizontal'): ?>
-				<td style="width:35%;">
+				<td style="width:30%;">
 						<?php $n = count($authors); 
 							  $i = 0; ?>
 						<?php foreach($authors as $auth): ?>
@@ -79,7 +81,7 @@ JHTML::_('behavior.modal');
 						<?php endforeach; ?>
 				</td>		
 			<?php else: ?>
-				<td style="width:35%;">
+				<td style="width:30%;">
 					<ul style="margin:0px;padding:0px;">
 						<?php foreach($authors as $auth): ?>
 							<li style="list-style:none;">
@@ -100,9 +102,9 @@ JHTML::_('behavior.modal');
 			<?php if($flag): ?>
 			<?php $nonleaders = $this->project->getNonPrincipalInvestigators(); ?>
 			<?php if(!empty($nonleaders)): ?>
-				<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_PROJECT_COLLABORATORS').': ' ?></td>
+				<td style="width:20%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_PROJECT_COLLABORATORS').': ' ?></td>
 				<?php if($this->staff_list_arrangement == 'horizontal'): ?>
-					<td style="width:35%;">
+					<td style="width:30%;">
 							<?php $n = count($nonleaders); 
 								  $i = 0; ?>
 							<?php foreach($nonleaders as $auth): ?>
@@ -119,7 +121,7 @@ JHTML::_('behavior.modal');
 							<?php endforeach; ?>
 					</td>
 				<?php else: ?>
-					<td style="width:35%;">
+					<td style="width:30%;">
 						<ul style="margin:0px;padding:0px;">
 							<?php foreach($nonleaders as $auth): ?>
 								<li style="list-style:none;">

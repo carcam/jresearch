@@ -8,7 +8,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h1>
-<div>&nbsp;</div>
+<?php
+if(count($this->items) > 0):
+?>
 <ul id="jresearch-facility-list" style="padding-left:0px;">
 	<?php foreach($this->items as $fac): ?>
 		<?php $researchArea = $this->areaModel->getItem($fac->id_research_area); ?>
@@ -36,4 +38,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</li>	
 	<?php endforeach; ?>
 </ul>
+<?php
+endif;
+?>
 <div style="text-align:center;"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>

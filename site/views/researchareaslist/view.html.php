@@ -26,6 +26,8 @@ class JResearchViewResearchAreasList extends JView
 {
     public function display($tpl = null)
     {
+        global $mainframe;
+        
     	$doc = JFactory::getDocument();
     	$layout = $this->getLayout();
     	
