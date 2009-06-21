@@ -24,14 +24,14 @@ class JResearchViewProject extends JView
 {
     function display($tpl = null)
     {
-	global $mainframe;
-    	$arguments = array();    	
+	    global $mainframe;
+    	$arguments = array('project');    	
     	$result = true;
         $layout = $this->getLayout();
 
         switch($layout){
         	case 'default':
-        		$result = $this->_displayProject(&$arguments);
+        		$result = $this->_displayProject($arguments);
         		break;
         }
 	
@@ -50,31 +50,26 @@ class JResearchViewProject extends JView
     */
     private function _displayProject(array &$arguments){
       	global $mainframe;
+      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+      	
     	$id = JRequest::getInt('id');
-	$doc =& JFactory::getDocument();
-	$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
-	$arguments[] = 'project';
+		$doc =& JFactory::getDocument();
+		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
 
-	if(empty($id)){
-		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-		return false;
-	}
+		if(empty($id)){
+			JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+			return false;
+		}
     	//Get the model
     	$model =& $this->getModel();
     	$project = $model->getItem($id);
     	
-    	if(empty($project)){
+    	if(empty($project) || !$project->published){
     		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
     		return false;
     	}
     	
-	if(!$project->published){
-		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-		return false;
-	}
-    	JResearchPluginsHelper::onPrepareJResearchContent('project', $project);		
-
-	$arguments[] = $id;
+    	$arguments[] = $id;
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($project->id_research_area);
