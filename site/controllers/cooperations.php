@@ -110,7 +110,8 @@ class JResearchCooperationsController extends JController
 	function save()
 	{
 		global $mainframe;
-
+        JRequest::checkToken();
+		
 		$db =& JFactory::getDBO();
 		
 		$params = JComponentHelper::getParams('com_jresearch');

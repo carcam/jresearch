@@ -156,6 +156,8 @@ class JResearchAdminFacilitiesController extends JController
 		global $mainframe;
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 		
+		JRequest::checkToken();
+		
 		$db =& JFactory::getDBO();
 		
 		$params = JComponentHelper::getParams('com_jresearch');

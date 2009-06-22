@@ -47,6 +47,8 @@ class JResearchAdminResearchAreasController extends JController
 	*/	
 	function save(){
 		global $mainframe;
+		JRequest::checkToken();
+		
 		$db =& JFactory::getDBO();
 		$area = new JResearchArea($db);
 

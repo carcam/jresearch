@@ -138,6 +138,8 @@ class JResearchAdminFinanciersController extends JController
 	{
 		global $mainframe;
 
+		JRequest::checkToken();
+		
 		$db =& JFactory::getDBO();
 
 		$fin = new JResearchFinancier($db);

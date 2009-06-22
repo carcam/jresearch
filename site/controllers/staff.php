@@ -109,7 +109,9 @@ class JResearchStaffController extends JController
 	* Apply in the edit profile form.
 	*/
 	function save(){
-		global $mainframe;		
+		global $mainframe;
+		JRequest::checkToken();
+		
 		$task = JRequest::getVar('task');
 		
 		$db =& JFactory::getDBO();
