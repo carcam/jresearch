@@ -38,4 +38,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="id" value="<?php echo $this->financier?$this->financier->id:'' ?>" />
 <?php echo JHTML::_('jresearchhtml.hiddenfields', 'financiers'); ?>
 <?php echo JHTML::_('behavior.keepalive'); ?>
+<?php echo JHTML::_('form.token'); ?>	
 </form>

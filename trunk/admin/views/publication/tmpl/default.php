@@ -133,4 +133,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications'); ?>
 <?php echo JHTML::_('behavior.keepalive'); ?>
+<?php echo JHTML::_('form.token'); ?>	
 </form>

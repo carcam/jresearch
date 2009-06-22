@@ -86,4 +86,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="id" value="<?php echo $this->thesis?$this->thesis->id:'' ?>" />
 <?php echo JHTML::_('jresearchhtml.hiddenfields', 'theses'); ?>	
 <?php echo JHTML::_('behavior.keepalive'); ?>
+<?php echo JHTML::_('form.token'); ?>	
 </form>

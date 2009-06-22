@@ -153,7 +153,8 @@ class JResearchAdminTeamsController extends JController
 	function save()
 	{
 		global $mainframe;
-
+        JRequest::checkToken();
+		
 		$db =& JFactory::getDBO();
 		$team = new JResearchTeam($db);
 

@@ -301,9 +301,12 @@ class JResearchAdminPublicationsController extends JController
 	/**
 	* Invoked when the user has decided to save a publication.
 	*/	
-	function save(){
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');		
+	function save(){		
 		global $mainframe;
+		JRequest::checkToken();
+		
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		
 		$db =& JFactory::getDBO();
 		$params =& JComponentHelper::getParams('com_jresearch');		
 
