@@ -33,4 +33,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="controller" value="researchAreas" />
 <input type="hidden" name="id" value="<?php echo $this->area?$this->area->id:'' ?>" />	
 <?php echo JHTML::_('behavior.keepalive'); ?>
+<?php echo JHTML::_('form.token'); ?>	
 </form>

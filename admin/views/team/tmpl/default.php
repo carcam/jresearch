@@ -36,5 +36,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="task" value="" />		
 <input type="hidden" name="controller" value="teams" />
 <input type="hidden" name="id" value="<?php echo $this->team?$this->team->id:'' ?>" />	
-<?php echo JHTML::_('behavior.keepalive'); ?>	
+<?php echo JHTML::_('behavior.keepalive'); ?>
+<?php echo JHTML::_('form.token'); ?>		
 </form>

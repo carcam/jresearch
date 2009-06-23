@@ -76,5 +76,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="controller" value="staff" />
 <input type="hidden" name="id" value="<?php echo $this->member?$this->member->id:'' ?>" />	
 <input type="hidden" name="username" value="<?php echo $this->member?$this->member->username:'';?>" />
-<?php echo JHTML::_('behavior.keepalive'); ?>	
+<?php echo JHTML::_('behavior.keepalive'); ?>
+<?php echo JHTML::_('form.token'); ?>	
 </form>
