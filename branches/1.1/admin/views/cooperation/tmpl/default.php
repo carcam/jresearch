@@ -60,5 +60,6 @@ JHTML::_('behavior.modal');
 <input type="hidden" name="task" value="" />		
 <input type="hidden" name="controller" value="cooperations" />
 <input type="hidden" name="id" value="<?php echo $this->coop?$this->coop->id:'' ?>" />	
-<?php echo JHTML::_('behavior.keepalive'); ?>	
+<?php echo JHTML::_('behavior.keepalive'); ?>
+<?php echo JHTML::_('form.token'); ?>		
 </form>

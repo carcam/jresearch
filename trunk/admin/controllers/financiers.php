@@ -137,8 +137,11 @@ class JResearchAdminFinanciersController extends JController
 	function save()
 	{
 		global $mainframe;
-
-		JRequest::checkToken();
+	    if(!JRequest::checkToken())
+		{
+		    $this->setRedirect('index.php?option=com_jresearch');
+		    return;
+		}
 		
 		$db =& JFactory::getDBO();
 

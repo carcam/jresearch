@@ -108,4 +108,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type="hidden" name="modelkey" value="<?php echo JRequest::getVar('modelkey'); ?>" />
 <?php endif; ?>	
 <?php echo JHTML::_('behavior.keepalive'); ?>
+<?php echo JHTML::_('form.token'); ?>	
 </form>

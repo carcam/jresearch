@@ -303,7 +303,11 @@ class JResearchAdminPublicationsController extends JController
 	*/	
 	function save(){		
 		global $mainframe;
-		JRequest::checkToken();
+	    if(!JRequest::checkToken())
+		{
+		    $this->setRedirect('index.php?option=com_jresearch');
+		    return;
+		}
 		
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 		

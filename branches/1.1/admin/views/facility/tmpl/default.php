@@ -64,5 +64,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="task" value="" />		
 <input type="hidden" name="controller" value="facilities" />
 <input type="hidden" name="id" value="<?=$this->fac?$this->fac->id:'' ?>" />		
-<?=JHTML::_('behavior.keepalive'); ?>
+<?php echo JHTML::_('behavior.keepalive'); ?>
+<?php echo JHTML::_('form.token'); ?>	
 </form>

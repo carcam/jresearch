@@ -303,6 +303,12 @@ class JResearchAdminPublicationsController extends JController
 	*/	
 	function save(){
 		global $mainframe;
+	    if(!JRequest::checkToken())
+		{
+		    $this->setRedirect('index.php?option=com_jresearch');
+		    return;
+		}
+		
 		$db =& JFactory::getDBO();
 
 		// Bind request variables to publication attributes	
