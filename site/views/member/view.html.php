@@ -12,14 +12,14 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for presentation of a member's profile.
  *
  */
 
-class JResearchViewMember extends JView
+class JResearchViewMember extends JResearchView
 {
     function display($tpl = null)
     {
@@ -90,7 +90,7 @@ class JResearchViewMember extends JView
     	
     	$doc->setTitle(JText::_('JRESEARCH_MEMBER').' - '.$member->__toString());
 
-    	$this->assignRef('member', $member);
+    	$this->assignRef('member', $member, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('editor', $editor);    	
@@ -182,7 +182,7 @@ class JResearchViewMember extends JView
     	$this->assignRef('projects_view_all', $projects_view_all);    	
     	$this->assignRef('theses_view_all', $theses_view_all);
     	$this->assignRef('params', $params);
-    	$this->assignRef('member', $member);
+    	$this->assignRef('member', $member, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('area', $area);
     	$this->assignRef('applyStyle', $applyStyle);
     	$this->assignRef('style', $configuredCitationStyle);

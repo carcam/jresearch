@@ -12,14 +12,12 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
-
 /**
  * HTML View class for single publication management in JResearch Component backend
  *
  */
 
-class JResearchAdminViewPublication extends JView
+class JResearchAdminViewPublication extends JResearchView
 {
 	function display($tpl = null)
 	{
@@ -63,7 +61,7 @@ class JResearchAdminViewPublication extends JView
 		if(!$isNew)
 		{			
 			$arguments[] = $publication->id;
-			$this->assignRef('publication', $publication);
+			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
 			$authors = $publication->getAuthors();
 		}
 		else

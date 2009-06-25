@@ -46,6 +46,7 @@ require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'acl.php');
 require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'cite.php');
 require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'text.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'view.php');
 require_once(JPATH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
 require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
 require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');

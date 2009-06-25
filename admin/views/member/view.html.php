@@ -12,14 +12,12 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
-
 /**
  * HTML View class for single member management in JResearch Component backend
  *
  */
 
-class JResearchAdminViewMember extends JView
+class JResearchAdminViewMember extends JResearchView 
 {
     function display($tpl = null){
     	global $mainframe;
@@ -49,7 +47,7 @@ class JResearchAdminViewMember extends JView
     	
 		$editor =& JFactory::getEditor();    	
     	
-    	$this->assignRef('member', $member);
+    	$this->assignRef('member', $member, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('orderList', $orderList);

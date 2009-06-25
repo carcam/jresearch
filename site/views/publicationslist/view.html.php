@@ -12,14 +12,14 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for management of publications lists in JResearch Component frontend
  *
  */
 
-class JResearchViewPublicationsList extends JView
+class JResearchViewPublicationsList extends JResearchView
 {
     public function display($tpl = null)
     {

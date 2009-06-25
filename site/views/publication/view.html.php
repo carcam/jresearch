@@ -12,14 +12,14 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for presentation of a publication information.
  *
  */
 
-class JResearchViewPublication extends JView
+class JResearchViewPublication extends JResearchView
 {
     function display($tpl = null)
     {
@@ -157,13 +157,13 @@ class JResearchViewPublication extends JView
 		$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
-    	$this->assignRef('publication', $publication);
+    	$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('showHits', $showHits);
-    	$this->assignRef('area', $area);
+    	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('commentsAllowed', $commentsAllowed);
     	$this->assignRef('showComments', $showComments);
     	$this->assignRef('captcha', $captchaInformation);
-		$this->assignRef('user', $user);
+		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
 		$this->assignRef('params', $params);
 		$this->assignRef('format', $format);
 		
@@ -232,7 +232,7 @@ class JResearchViewPublication extends JView
 			
 			$authorsControl = JHTML::_('jresearchhtml.authorsSelector', 'authors' ,$authors);
 			
-			$this->assignRef('publication', $publication);	
+			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);	
 		}
 		else 
 		{
@@ -252,7 +252,7 @@ class JResearchViewPublication extends JView
 		$files = JHTML::_('JResearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
 		
 		
-		$this->assignRef('user', $user);
+		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
 		$this->assignRef('pubtype', $pubtype);
 		$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('publishedRadio', $publishedRadio);

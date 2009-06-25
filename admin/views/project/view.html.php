@@ -12,7 +12,6 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
 require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
 
 /**
@@ -20,7 +19,7 @@ require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
  *
  */
 
-class JResearchAdminViewProject extends JView
+class JResearchAdminViewProject extends JResearchView
 {
     function display($tpl = null)
     {
@@ -75,7 +74,7 @@ class JResearchAdminViewProject extends JView
 			$uploadedFiles = array();	
 		$files = JHTML::_('jresearchhtml.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'projects','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
 		
-    	$this->assignRef('project', $project);
+    	$this->assignRef('project', $project, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('finList', $finHTML);

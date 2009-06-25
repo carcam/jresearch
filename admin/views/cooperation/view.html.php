@@ -11,14 +11,12 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
-
 /**
  * HTML View class for management of members lists in JResearch Component backend
  *
  */
 
-class JResearchAdminViewCooperation extends JView
+class JResearchAdminViewCooperation extends JResearchView
 {
 	function display($tpl = null)
 	{
@@ -47,7 +45,7 @@ class JResearchAdminViewCooperation extends JView
     	
 		$editor =& JFactory::getEditor();
     	
-    	$this->assignRef('coop', $coop);
+    	$this->assignRef('coop', $coop, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('categoryList', $categoryList);
     	$this->assignRef('publishedList', $publishedList);
     	$this->assignRef('orderList', $orderList);
