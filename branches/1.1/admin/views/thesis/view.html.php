@@ -37,6 +37,7 @@ class JResearchAdminViewThesis extends JResearchView
     	$areaModel =& $this->getModel('researchareaslist');   	
     	$researchAreas = $areaModel->getData(null, true, false);
     	$directors = null;
+    	$students = null;
     	$arguments = array('thesis');
     	
 		//Published options

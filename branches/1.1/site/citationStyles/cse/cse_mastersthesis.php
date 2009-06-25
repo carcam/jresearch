@@ -47,7 +47,7 @@ class JResearchCSEMastersthesisCitationStyle extends JResearchCSECitationStyle{
 		$year = trim($publication->year);
 		if(!empty($year) && $year != '0000'){		
 			$text .= '. '.$year;			
-			if($publication->__sameAuthorAsBefore){	
+			if(isset($publication->__sameAuthorAsBefore)){	
 				$text .= $publication->__previousLetter;
 			}
 		}

@@ -32,7 +32,7 @@ class JResearchMLAArticleCitationStyle extends JResearchMLACitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$text = '';
 				
-		if(!$publication->__authorPreviouslyCited){
+		if(!isset($publication->__authorPreviouslyCited)){
 			if($nAuthors > 0){
 				$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
 			}
@@ -45,11 +45,9 @@ class JResearchMLAArticleCitationStyle extends JResearchMLACitationStyle{
 
 		if(!empty($authorsText)){
 			$authorsText = rtrim($authorsText, '.');
-			$header = $authorsText.'. '.$title;
+			$text .= $authorsText.'. '.$title;
 		}else
-			$header = $title;	
-
-		$text .= $header;					
+			$text .= $title;	
 
 		$journal = trim($publication->journal);
 		if(!empty($journal)){

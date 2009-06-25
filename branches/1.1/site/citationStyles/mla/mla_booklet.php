@@ -32,10 +32,11 @@ class JResearchMLABookletCitationStyle extends JResearchMLACitationStyle{
 		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		$nAuthors = $publication->countAuthors();
 		$nEditors = count($publication->getEditors());
+		$text = '';
 		
 		$eds = $nEditors > 1? JText::_('Eds.'):JText::_('Ed.');
 		
-		if(!$publication->__authorPreviouslyCited){
+		if(!isset($publication->__authorPreviouslyCited)){
 			if($nAuthors <= 0){
 				if($nEditors == 0){
 					// If neither authors, nor editors

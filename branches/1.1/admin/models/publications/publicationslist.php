@@ -266,7 +266,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
 		foreach($result as $key => $author){
 			$components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
-			$value = ($components['von']?$components['von'].' ':'').$components['lastname'].', '.$components['firstname'].($components['jr']?' '.$components['jr']:'');
+			$value = (isset($components['von'])?$components['von'].' ':'').$components['lastname'].', '.(isset($components['firstname'])?$components['firstname']:'').(isset($components['jr'])?' '.$components['jr']:'');
 			$mdresult[] = array('id'=>$author['id'], 'name'=>$value);
 			$name[$key] = $value;
 			

@@ -298,11 +298,11 @@ class JResearchVancouverCitationStyle implements JResearchCitationStyle{
 	 */
 	protected function _getAddressText($publication){
 		$address = '';
-		$adr = trim($publication->address);
+		$adr = isset($publication->address)?trim($publication->address):'';
 		if(!empty($adr))
 			$address = $adr;
 		
-		$publ = trim($publication->publisher);	
+		$publ = isset($publication->publisher)?trim($publication->publisher):'';	
 		if(!empty($publ)){
 			if(empty($address))
 				$address = $publ;

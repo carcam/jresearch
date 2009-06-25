@@ -17,7 +17,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 * Implementation of CSE citation style for proceedings records.
 *
 */
-class JResearchProceedingsCitationStyle extends JResearchCSECitationStyle{
+class JResearchCSEProceedingsCitationStyle extends JResearchCSECitationStyle{
 	/**
 	* Takes a publication and returns the complete reference text. This is the text used in the Publications 
 	* page and in the Works Cited section at the end of a document.
@@ -51,12 +51,12 @@ class JResearchProceedingsCitationStyle extends JResearchCSECitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 
-		$text .= rtrim(authorsText, '.');
+		$text .= rtrim($authorsText, '.');
 
 		$year = trim($publication->year);
 		if(!empty($year) && $year != '0000'){		
 			$text .= '. '.$year;			
-			if($publication->__sameAuthorAsBefore){	
+			if(isset($publication->__sameAuthorAsBefore)){	
 				$text .= $publication->__previousLetter;
 			}
 		}
@@ -76,7 +76,7 @@ class JResearchProceedingsCitationStyle extends JResearchCSECitationStyle{
 			$text .= '; '.JResearchPublicationsHelper::formatMonth($month);	
 		
 		$address = trim($publication->address);
-		$institution = trim($publication->institution);
+		$institution = trim($publication->organization);
 		if(!empty($institution)){
 			if(!empty($address))
 				$address .= ': '.$institution;			

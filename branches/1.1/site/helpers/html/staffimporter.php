@@ -55,7 +55,7 @@ class JHTMLStaffImporter{
 			$value = $user['username'];
 			$nameComponents = JResearchPublicationsHelper::getAuthorComponents($user['name']);
 			$lastname = $nameComponents['lastname'];
-			$firstname = $nameComponents['firstname'];
+			$firstname = isset($nameComponents['firstname'])?$nameComponents['firstname']:'';
 			$output .= "<option id=\"$value\" value=\"$value\">$lastname, $firstname</option>";
 		}
 		

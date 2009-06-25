@@ -51,7 +51,7 @@ class JResearchCSEConferenceCitationStyle extends JResearchCSECitationStyle{
 		$year = trim($publication->year);
 		if(!empty($year) && $year != '0000'){		
 			$text .= '. '.$year;			
-			if($publication->__sameAuthorAsBefore){	
+			if(isset($publication->__sameAuthorAsBefore)){	
 				$text .= $publication->__previousLetter;
 			}
 		}
@@ -83,7 +83,7 @@ class JResearchCSEConferenceCitationStyle extends JResearchCSECitationStyle{
 		if(!empty($pages))
 			$text .= '; p. '.$pages;
 		
-		$url = trim($publication->url_digital_version);
+		$url = trim($publication->url);
 		if(!empty($url))
 			$text .= '. '.JText::_('JRESEARCH_AVAILABLE_FROM').': '.$url;	
 			

@@ -48,9 +48,9 @@ class JResearchAPAPatentCitationStyle extends JResearchAPACitationStyle{
 		if(!empty($number))
 			$text .= '. '.JText::_('JRESEARCH_PATENT').' '.JText::_('JRESEARCH_ABB_NUMBER').'. '.$number;
 
-		$country = trim($publication->country);
-		if(!empty($country))
-			$text .= '. '.$country;	
+		$address = trim($publication->address);
+		if(!empty($address))
+			$text .= '. '.$address;	
 		
 		$office	= trim($publication->office);
 		if(!empty($office)){
