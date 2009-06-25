@@ -12,14 +12,14 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for single publication management in JResearch Component backend
  *
  */
 
-class JResearchAdminViewPublication extends JView
+class JResearchAdminViewPublication extends JResearchView
 {
 	function display($tpl = null){
 		global $mainframe;
@@ -76,7 +76,7 @@ class JResearchAdminViewPublication extends JView
 		if(!$isNew){
 			$arguments[] = $cid[0];		
 			$publication = JResearchPublication::getById($cid[0]);
-			$this->assignRef('publication', $publication);			
+			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);			
 	    	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $publication->id_research_area);
 			//Published radio
 			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $publication->published);

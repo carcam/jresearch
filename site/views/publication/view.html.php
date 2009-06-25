@@ -12,14 +12,14 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for presentation of a publication information.
  *
  */
 
-class JResearchViewPublication extends JView
+class JResearchViewPublication extends JResearchView
 {
     function display($tpl = null)
     {
@@ -145,12 +145,12 @@ class JResearchViewPublication extends JView
 				
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
-    	$this->assignRef('publication', $publication);
-    	$this->assignRef('area', $area);
+    	$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('commentsAllowed', $commentsAllowed);
     	$this->assignRef('showComments', $showComments);
     	$this->assignRef('captcha', $captchaInformation);
-		$this->assignRef('user', $user);
+		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
 		
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		
@@ -238,7 +238,7 @@ class JResearchViewPublication extends JView
 			$arguments[] = null;
 		}
 		
-		$this->assignRef('user', $user);
+		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
 		$this->assignRef('pubtype', $pubtype);
 		$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('publishedRadio', $publishedRadio);

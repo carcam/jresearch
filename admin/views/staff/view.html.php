@@ -12,14 +12,14 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for management of members lists in JResearch Component backend
  *
  */
 
-class JResearchAdminViewStaff extends JView
+class JResearchAdminViewStaff extends JResearchView
 {
     function display($tpl = null)
     {

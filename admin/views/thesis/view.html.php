@@ -12,14 +12,14 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for single thesis management in JResearch Component backend
  *
  */
 
-class JResearchAdminViewThesis extends JView
+class JResearchAdminViewThesis extends JResearchView
 {
     function display($tpl = null)
     {
@@ -81,7 +81,7 @@ class JResearchAdminViewThesis extends JView
 		$studentsControl = JHTML::_('AuthorsSelector._', 'students', $students);
 		$directorsControl = JHTML::_('AuthorsSelector._', 'directors', $directors);		    	
 
-    	$this->assignRef('thesis', $thesis);
+    	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('editor', $editor);    

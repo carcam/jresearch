@@ -12,7 +12,7 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for presentation of a single project 
@@ -20,7 +20,7 @@ jimport( 'joomla.application.component.view');
  *
  */
 
-class JResearchViewProject extends JView
+class JResearchViewProject extends JResearchView
 {
     function display($tpl = null)
     {
@@ -83,9 +83,9 @@ class JResearchViewProject extends JView
     	$doc->setTitle(JText::_('JRESEARCH_PROJECT').' - '.$project->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
-    	$this->assignRef('project', $project);
+    	$this->assignRef('project', $project, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('statusArray', $statusArray);
-    	$this->assignRef('area', $area);
+    	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
     	
     	return true;
 
