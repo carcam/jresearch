@@ -32,7 +32,7 @@ class JResearchMLAManualCitationStyle extends JResearchMLACitationStyle{
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$authors = $publication->getAuthors();
 		$n = count($authors);
-		$text .= '';
+		$text = '';
 		
 		// For techreports, authors are usually organizations, so do not extract lastnames
 		$authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));
@@ -40,12 +40,11 @@ class JResearchMLAManualCitationStyle extends JResearchMLACitationStyle{
 		$title = $html? "<i>$title</i>":$title;
 
 		if(empty($authorsText))
-			$head = $title;
+			$text = $title;
 		else{
 			$authorsText = rtrim($authorsText, '.');
-			$head .= $authorsText.'. '.$title;
+			$text .= $authorsText.'. '.$title;
 		}
-		$text .= $head;	
 		
 		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');
 		$edition = trim($publication->edition);

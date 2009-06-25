@@ -354,10 +354,10 @@ class JResearchPublication extends JResearchActivity{
 		$this->_loadAuthors($oid);
 
 
-        $query = "SELECT * "
-        . " FROM $this->_tbl , $derivedTable"
-        . " WHERE $this->_tbl.$this->_tbl_key = $derivedTable.$this->_d_tbl_key"
-        . " AND $this->_tbl.$this->_tbl_key = $db->Quote($oid)";        
+        $query = 'SELECT * '
+        . ' FROM '.$db->nameQuote($this->_tbl).' , '.$db->nameQuote($derivedTable)
+        . ' WHERE '.$db->nameQuote($this->_tbl).$db->nameQuote($this->_tbl_key).' = '.$db->nameQuote($derivedTable).$db->nameQuote($this->_d_tbl_key)
+        . ' AND '.$db->nameQuote($this->_tbl).$db->nameQuote($this->_tbl_key).' = '.$db->Quote($oid);        
         $db->setQuery( $query );
         
         if (($result = $db->loadAssoc( ))) {
@@ -543,7 +543,7 @@ class JResearchPublication extends JResearchActivity{
 	 * be declared in a file named masterthesis.php (all letters in lowercase)
 	 * @return JResearchPublication if the appropiate class is found, null otherwise.
 	 */
-	public static function &getSubclassInstance($publicationType){
+	public static function getSubclassInstance($publicationType){
 		$prefix = 'JResearch';
 		$filename = strtolower($publicationType);
 		if($filename == 'inproceedings')
@@ -587,11 +587,14 @@ class JResearchPublication extends JResearchActivity{
 	 *
 	 */
 	function getEditors(){
-		$editor = trim($publication->editor);
-		if(!empty($editor))
-			return preg_split("/and|,|;/",$editor);
-		else
-			return array();	
+		if(isset($this->editor)){
+			$editor = trim($this->editor);
+			if(!empty($editor))
+				return preg_split("/and|,|;/",$editor);
+			else
+				return array();	
+		}else
+			return array();
 	}
 	
 	
@@ -611,9 +614,12 @@ class JResearchPublication extends JResearchActivity{
 	 */
 	function getReferencedRecord(){
 		$ref = null;
-		$cf = trim($this->crossref);
-		if(!empty($cf)){
-			$ref = JResearchPublication::getByCitekey($this->crossref);
+		
+		if(isset($this->crossref)){
+			$cf = trim($this->crossref);
+			if(!empty($cf)){
+				$ref = JResearchPublication::getByCitekey($this->crossref);
+			}
 		}
 		
 		return $ref;

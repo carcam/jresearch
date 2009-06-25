@@ -179,8 +179,13 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		$authors = $publication->getAuthors();
 		$formattedAuthors  = array();
 		$firstnames = array();
-		if(count($authors) == 0)
-			$authors = explode(',', trim($publication->editors));		
+		
+		if(count($authors) == 0){
+			if(isset($publication->editor))
+				$authors = explode(',', trim($publication->editor));		
+			else
+				$authors = array();	
+		}		
 				
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents(($auth instanceof JResearchMember)?$auth->__toString():$auth));
@@ -467,11 +472,11 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 	 */
 	protected function _getAddressText($publication){
 		$address = '';
-		$adr = trim($publication->address);
+		$adr = isset($publication->address)?trim($publication->address):'';
 		if(!empty($adr))
 			$address = $adr;
 		
-		$publ = trim($publication->publisher);	
+		$publ = isset($publication->publisher)?trim($publication->publisher):'';	
 		if(!empty($publ)){
 			if(empty($address))
 				$address = $publ;
@@ -480,6 +485,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		}
 		
 		return $address;
+		
 	}
 	
 

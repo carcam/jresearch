@@ -158,9 +158,13 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$authors = $publication->getAuthors();
 		$formattedAuthors  = array();
-		if(count($authors) == 0)
-			$authors = explode(',', trim($publication->editors));
-				
+		if(count($authors) == 0){
+			if(isset($publication->editor))
+				$authors = explode(',', trim($publication->editor));
+			else
+				$authors = array();	
+		}
+						
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::getAuthorComponents(($auth instanceof JResearchMember)?$auth->__toString():$auth);
 			$formattedAuthors[] = (isset($result['von'])?JResearchPublicationsHelper::bibCharsToUtf8FromString($result['von']).' ':'').JResearchPublicationsHelper::bibCharsToUtf8FromString($result['lastname']);		
@@ -443,11 +447,11 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 	 */
 	protected function _getAddressText($publication){
 		$address = '';
-		$adr = trim($publication->address);
+		$adr = isset($publication->address)?trim($publication->address):'';
 		if(!empty($adr))
 			$address = $adr;
 		
-		$publ = trim($publication->publisher);	
+		$publ = isset($publication->publisher)?trim($publication->publisher):'';	
 		if(!empty($publ)){
 			if(empty($address))
 				$address = $publ;

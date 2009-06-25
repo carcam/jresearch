@@ -31,8 +31,6 @@ class JResearchIEEEBookletCitationStyle extends JResearchIEEECitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$nAuthors = $publication->countAuthors();
 		
-		$eds = count($publication->getEditors())>1?JText::_('JRESEARCH_APA_EDS_LOWER'):JText::_('JRESEARCH_APA_ED_LOWER');
-		
 		if($nAuthors > 0){
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}

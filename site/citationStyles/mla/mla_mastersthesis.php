@@ -50,7 +50,7 @@ class JResearchMLAMastersthesisCitationStyle extends JResearchMLACitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$text = '';
 		
-		if(!$publication->__authorPreviouslyCited){
+		if(!isset($publication->__authorPreviouslyCited)){
 			if($nAuthors <= 0){
 				$authorsText = '';
 			}else{
@@ -66,11 +66,10 @@ class JResearchMLAMastersthesisCitationStyle extends JResearchMLACitationStyle{
 
 		if(!empty($authorsText)){
 			$authorsText = rtrim($authorsText, '.');
-			$header .= $authorsText.'. '.$title;
+			$text .= $authorsText.'. '.$title;
 		}else{
-			$header = $title;	
+			$text = $title;	
 		}
-		$text .= $header;
 		
 		$type = trim($publication->type);
 		if(!empty($type))

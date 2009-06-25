@@ -147,6 +147,8 @@ class JHTMLAuthorsSelector{
 		$list = JHTML::_('select.genericlist', $options, $controlName, 'class="inputbox"', 'value', 'text', $author?$author->id:null);
 		if($deleteLink)	
 			$deleteControl = self::_fetchDeleteControl($controlName);
+		else
+			$deleteControl = '';	
 
 		if($allowPrincipals){	
 			$principalMember = JText::_('JRESEARCH_PROJECT_LEADER');			
