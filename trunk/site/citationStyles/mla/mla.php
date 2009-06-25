@@ -155,7 +155,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		
 		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
-		if(!$publication->__authorPreviouslyCited){
+		if(!isset($publication->__authorPreviouslyCited)){
 			if($nAuthors <= 0){
 				if($nEditors == 0){
 					// If neither authors, nor editors
@@ -364,9 +364,11 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		if($n <= 3){
 			if($n == 1)
 				$text = $formattedAuthors[0];
-			else{	
+			elseif($n == 0){	
+				$text = '';
+			}else{
 				$subtotal = array_slice($formattedAuthors, 0, $n-1);
-				$text = implode(', ', $subtotal)." $this->lastAuthorSeparator ".$formattedAuthors[$n-1];
+				$text = implode(', ', $subtotal)." $this->lastAuthorSeparator ".$formattedAuthors[$n-1];				
 			}
 		}else{
 			$text = "$formattedAuthors[0] et al";
@@ -412,11 +414,11 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 	 */
 	protected function _getAddressText($publication){
 		$address = '';
-		$adr = trim($publication->address);
+		$adr = isset($publication->address)?trim($publication->address):'';
 		if(!empty($adr))
 			$address = $adr;
 		
-		$publ = trim($publication->publisher);	
+		$publ = isset($publication->publisher)?trim($publication->publisher):'';	
 		if(!empty($publ)){
 			if(empty($address))
 				$address = $publ;

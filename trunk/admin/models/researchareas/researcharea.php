@@ -50,7 +50,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$members = array();
 		$db =& JFactory::getDBO();
 		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').'WHERE '.$db->nameQuote('published').' = 1'
-				 .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($id_area);
+				 .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($id_area).' ORDER BY '.$db->nameQuote('ordering').' ASC';
 
 		$db->setQuery($query);
 		$result = $db->loadAssocList();

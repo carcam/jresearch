@@ -38,7 +38,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 	</tr>
 	<tr>
-		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->team?$this->team->description:'' , '100%', '350', '75', '20' ) ; ?></td>
+		<td colspan="4"><?php echo $this->editor->display( 'description',  isset($this->team)?$this->team->description:'' , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
 </tbody>
 </table>

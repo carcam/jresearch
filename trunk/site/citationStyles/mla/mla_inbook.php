@@ -36,7 +36,7 @@ class JResearchMLAInbookCitationStyle extends JResearchMLACitationStyle{
 		
 		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
-		if(!$publication->__authorPreviouslyCited){
+		if(!isset($publication->__authorPreviouslyCited)){
 			if($nAuthors <= 0){
 				if($nEditors == 0){
 					// If neither authors, nor editors
@@ -62,11 +62,10 @@ class JResearchMLAInbookCitationStyle extends JResearchMLACitationStyle{
 		
 		if(!empty($authorsText)){
 			$authorsText = rtrim($authorsText, '.');
-			$header .= $authorsText.'. '.$title;
+			$text .= $authorsText.'. '.$title;
 		}else{
-			$header = $title;	
+			$text .= $title;	
 		}
-		$text .= $header;
 										
 		if(!empty($editorsText)){
 			$editorsText = rtrim($editorsText, '.');

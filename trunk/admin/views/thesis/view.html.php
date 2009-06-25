@@ -33,6 +33,7 @@ class JResearchAdminViewThesis extends JResearchView
     	$model =& $this->getModel();
     	$thesis = $model->getItem($cid[0]);
     	$directors = null;
+    	$students = null;
     	$arguments = array('thesis');
     	
     	if($cid){

@@ -22,8 +22,9 @@ class JResearchMLAPatentCitationStyle extends JResearchMLACitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$nAuthors = $publication->countAuthors();
+		$text = '';		
 		
-		if(!$publication->__authorPreviouslyCited){
+		if(!isset($publication->__authorPreviouslyCited)){
 			if($nAuthors <= 0){
 				$authorsText = '';
 			}else{
@@ -35,18 +36,16 @@ class JResearchMLAPatentCitationStyle extends JResearchMLACitationStyle{
 
 		$address = $this->_getAddressText($publication);
 		
-		$title = '"'.$publication->title.'"';
+		$title = '"'.trim($publication->title).'"';
 
 		if(!empty($authorsText)){
 			$authorsText = rtrim($authorsText, '.');
-			$header .= $authorsText.'. '.$title;
+			$text .= $authorsText.'. '.$title;
 		}else{
-			$header = $title;	
+			$text .= $title;	
 		}
-		$text .= $header;
 		
 		$number = trim($publication->patent_number);
-		$country = trim($publication->country);
 		if(!empty($number))
 			$text .= '. '.JText::_('JRESEARCH_PATENT').' '.$number;
 
