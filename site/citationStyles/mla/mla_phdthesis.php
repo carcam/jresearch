@@ -44,11 +44,10 @@ class JResearchMLAPhdthesisCitationStyle extends JResearchMLACitationStyle{
 
 		if(!empty($authorsText)){
 			$authorsText = rtrim($authorsText, '.');
-			$header .= $authorsText.'. '.$title;
+			$text .= $authorsText.'. '.$title;
 		}else{
-			$header = $title;	
+			$text .= $title;	
 		}
-		$text .= $header;
 		
 		$type = trim($publication->type);
 		if(!empty($type))

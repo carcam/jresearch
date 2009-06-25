@@ -21,11 +21,13 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 <tbody>
 	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
+		<td>
 		<?php if($this->area->id > 1): ?>
 			<a href="index.php?option=com_jresearch&controller=researchAreas&task=show&view=researcharea&id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
 		<?php else: ?>
 			<?php echo $this->area->name; ?>	
-		<?php endif; ?>	
+		<?php endif; ?>
+		</td>	
     	<td colspan="2"></td>
 	</tr>
 	<tr>

@@ -35,9 +35,9 @@ class JResearchMLABookCitationStyle extends JResearchMLACitationStyle{
 		$nEditors = count($publication->getEditors());
 		
 		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
-		$text .= '';
+		$text = '';
 		
-		if(!$publication->__authorPreviouslyCited){
+		if(!isset($publication->__authorPreviouslyCited)){
 			if($nAuthors <= 0){
 				if($nEditors == 0){
 					// If neither authors, nor editors

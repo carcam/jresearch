@@ -138,6 +138,8 @@ class JHTMLjresearchhtml
 		$list = JHTML::_('select.genericlist', $options, $controlName, 'class="inputbox"', 'value', 'text', $author->id);
 		if($deleteLink)	
 			$deleteControl = self::_fetchDeleteControl($controlName);
+		else
+			$deleteControl = '';	
 
 		if($allowPrincipals){	
 			$principalMember = JText::_('JRESEARCH_PROJECT_LEADER');			
@@ -224,7 +226,7 @@ class JHTMLjresearchhtml
 			$value = $user['username'];
 			$nameComponents = JResearchPublicationsHelper::getAuthorComponents($user['name']);
 			$lastname = $nameComponents['lastname'];
-			$firstname = $nameComponents['firstname'];
+			$firstname = isset($nameComponents['firstname'])?$nameComponents['firstname']:'';
 			$output .= "<option id=\"$value\" value=\"$value\">$lastname, $firstname</option>";
 		}
 		

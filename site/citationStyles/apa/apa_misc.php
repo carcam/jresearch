@@ -32,7 +32,7 @@ class JResearchAPAMiscCitationStyle extends JResearchAPACitationStyle{
 	* @return 	string
 	*/
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks = false){
-		$header = parent::getReference($publication, $html, $authorsLinks);
+		$header = parent::getReference($publication, $html, $authorLinks);
 
 		$howpublished = trim($publication->howpublished);
 		if(!empty($howpublished))

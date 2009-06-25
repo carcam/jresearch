@@ -58,7 +58,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
     	      			$text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->format);
 		?>
 				<tr class="<?php echo "row$k"; ?>">
-					<td><?php echo $i; ?></td>
+					<td><?php echo $i+1; ?></td>
 					<td><a href="index.php?option=com_jresearch&controller=publications&task=show<?php !empty($modelkey)?'&modelkey='.$modelkey:''; ?>&id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td style="text-align:center"><?php echo $text; ?></td>
 					<td style="text-align:center"><?php echo $this->items[$i]->year; ?></td>

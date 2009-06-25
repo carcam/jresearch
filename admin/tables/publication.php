@@ -222,7 +222,7 @@ class JResearchPublication extends JResearchActivity{
 	 * @return JResearchPublication
 	 */
 
-	public static function &getByCitekey($citekey){
+	public static function getByCitekey($citekey){
 		$result = null;
 		$db =& JFactory::getDBO();
 		$citekeyName = $db->nameQuote('citekey');
@@ -247,7 +247,7 @@ class JResearchPublication extends JResearchActivity{
 	 * @return JResearchPublication or null.
 	 * 
 	 */
-	public static function &getById($id){
+	public static function getById($id){
 		$result = null;
 		$db = &JFactory::getDBO();
 		$idQ = $db->Quote($id, false);
@@ -351,9 +351,9 @@ class JResearchPublication extends JResearchActivity{
         $view = $db->nameQuote('#__jresearch_publication_'.trim($this->pubtype));
 		$this->_loadAuthors($oid);
 
-        $query = "SELECT * "
-        . " FROM $view"
-        . " WHERE $this->_tbl_key = $db->Quote($oid)";        
+        $query = 'SELECT * '
+        . ' FROM '.$view
+        . ' WHERE '.$db->nameQuote($this->_tbl_key).' = '.$db->Quote($oid);        
         $db->setQuery( $query );
         
         if (($result = $db->loadAssoc( ))) {
@@ -623,7 +623,7 @@ class JResearchPublication extends JResearchActivity{
 	 * be declared in a file named masterthesis.php (all letters in lowercase)
 	 * @return JResearchPublication if the appropiate class is found, null otherwise.
 	 */
-	public static function &getSubclassInstance($publicationType){
+	public static function getSubclassInstance($publicationType){
 		$prefix = 'JResearch';
 		$filename = strtolower($publicationType);
 		if($filename == 'inproceedings')
@@ -667,10 +667,13 @@ class JResearchPublication extends JResearchActivity{
 	 *
 	 */
 	function getEditors(){
-		$editor = trim($publication->editor);
-		if(!empty($editor))
-			return preg_split("/and|,|;/",$editor);
-		else
+		if(isset($this->editor)){
+			$editor = trim($this->editor);
+			if(!empty($editor))
+				return preg_split("/and|,|;/",$editor);
+			else
+				return array();	
+		}else
 			return array();	
 			
 	}
@@ -692,9 +695,12 @@ class JResearchPublication extends JResearchActivity{
 	 */
 	function getReferencedRecord(){
 		$ref = null;
-		$cf = trim($this->crossref);
-		if(!empty($cf)){
-			$ref = JResearchPublication::getByCitekey($this->crossref);
+		
+		if(isset($this->crossref)){
+			$cf = trim($this->crossref);
+			if(!empty($cf)){
+				$ref = JResearchPublication::getByCitekey($this->crossref);
+			}
 		}
 		
 		return $ref;

@@ -108,7 +108,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<th colspan="4" align="left"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></th>
 	</tr>
 	<tr>
-		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->project->description , '100%', '350', '75', '20' ) ; ?></td>
+		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->project?$this->project->description:'' , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
 </tbody>
 </table>

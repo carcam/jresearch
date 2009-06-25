@@ -35,7 +35,7 @@ class JResearchMLAProceedingsCitationStyle extends JResearchMLACitationStyle{
 		$text = '';
 		$eds = $nEditors > 1? JText::_('JRESEARCH_APA_EDS').'.':JText::_('JRESEARCH_APA_ED').'.';
 		
-		if(!$publication->__authorPreviouslyCited){
+		if(!isset($publication->__authorPreviouslyCited)){
 			if($nAuthors <= 0){
 				if($nEditors == 0){
 					// If neither authors, nor editors
@@ -54,23 +54,18 @@ class JResearchMLAProceedingsCitationStyle extends JResearchMLACitationStyle{
 		}else{
 			$authorsText = '---';
 		}
-				
+
+		$title = trim($publication->title);
 		$title = $html?"<u>$title</u>":$title;
 		$ed = JText::_('JRESEARCH_APA_ED');
 
 		if(!empty($authorsText)){
 			$authorsText = rtrim($authorsText, '.');
-			$header .= $authorsText.'. '.$title;	
+			$text .= $authorsText.'. '.$title;	
 		}else{
-			$header = $title;	
+			$text .= $title;	
 		}
-		$text .= $header;
 
-		$booktitle = trim($publication->booktitle);
-		if(!empty($booktitle)){
-			$booktitle = $html?"<u>$publication->booktitle</u>":$publication->booktitle;			
-			$text .= '. '.$booktitle;
-		}
 		
 		if(!empty($editorsText))
 			$text .= ". $ed. $editorsText";
@@ -82,11 +77,7 @@ class JResearchMLAProceedingsCitationStyle extends JResearchMLACitationStyle{
 		$year = trim($publication->year);
 		if($year != null && $year != '0000')		
 			$text .= ', '.$year;
-				
-		$pages = str_replace('--', '-', trim($publication->pages));
-		if(!empty($pages))
-			$text .= '. '.$pages;
-			
+							
 		return $text.'.';			
 	}
 	
