@@ -356,8 +356,8 @@ class JResearchPublication extends JResearchActivity{
 
         $query = 'SELECT * '
         . ' FROM '.$db->nameQuote($this->_tbl).' , '.$db->nameQuote($derivedTable)
-        . ' WHERE '.$db->nameQuote($this->_tbl).$db->nameQuote($this->_tbl_key).' = '.$db->nameQuote($derivedTable).$db->nameQuote($this->_d_tbl_key)
-        . ' AND '.$db->nameQuote($this->_tbl).$db->nameQuote($this->_tbl_key).' = '.$db->Quote($oid);        
+        . ' WHERE '.$db->nameQuote($this->_tbl).'.'.$db->nameQuote($this->_tbl_key).' = '.$db->nameQuote($derivedTable).'.'.$db->nameQuote($this->_d_tbl_key)
+        . ' AND '.$db->nameQuote($this->_tbl).'.'.$db->nameQuote($this->_tbl_key).' = '.$db->Quote($oid);        
         $db->setQuery( $query );
         
         if (($result = $db->loadAssoc( ))) {
