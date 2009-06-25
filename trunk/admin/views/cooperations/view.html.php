@@ -12,14 +12,12 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
-
 /**
  * HTML View class for management of members lists in JResearch Component backend
  *
  */
 
-class JResearchAdminViewCooperations extends JView
+class JResearchAdminViewCooperations extends JResearchView 
 {
     function display($tpl = null)
     {
@@ -63,7 +61,7 @@ class JResearchAdminViewCooperations extends JView
 		$filter_state = $mainframe->getUserStateFromRequest('coopsfilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('coopsfilter_search', 'filter_search');
     	$filter_category = $mainframe->getUserStateFromRequest('coopsfilter_category', 'filter_category');
-    	
+        
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
 		

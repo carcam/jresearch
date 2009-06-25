@@ -12,7 +12,7 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for presentation of a single thesis 
@@ -20,7 +20,7 @@ jimport( 'joomla.application.component.view');
  *
  */
 
-class JResearchViewThesis extends JView
+class JResearchViewThesis extends JResearchView
 {
     function display($tpl = null)
     {
@@ -85,10 +85,10 @@ class JResearchViewThesis extends JView
 
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));    	
-    	$this->assignRef('thesis', $thesis);
+    	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('degreeArray', $degreeArray);
-    	$this->assignRef('area', $area);
+    	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
     	
     	return true;
 

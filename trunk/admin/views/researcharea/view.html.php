@@ -11,14 +11,12 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
-
 /**
  * HTML Admin View class for single research area management in JResearch Component
  *
  */
 
-class JResearchAdminViewResearchArea extends JView
+class JResearchAdminViewResearchArea extends JResearchView
 {
     function display($tpl = null)
     {
@@ -42,7 +40,7 @@ class JResearchAdminViewResearchArea extends JView
     	
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $area?$area->published:1));
     	
-    	$this->assignRef('area', $area);
+    	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('editor', $editor);    	
     	

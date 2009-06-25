@@ -7,7 +7,7 @@ jimport( 'joomla.application.component.view' );
 * @package		JResearch
 * @subpackage	Cooperations
  */
-class JResearchViewCooperation extends JView
+class JResearchViewCooperation extends JResearchView
 {
 	/**
 	 * Cooperation view display method
@@ -50,7 +50,7 @@ class JResearchViewCooperation extends JView
 		}
 
 		$doc->setTitle(JText::_('JRESEARCH_COOPERATION').' - '.$item->name);
-		$this->assignRef('coop', $item);
+		$this->assignRef('coop', $item, JResearchFilter::OBJECT_XHTML_SAFE);
 		$this->assignRef('editor', $editor);
 
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);

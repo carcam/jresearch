@@ -7,7 +7,7 @@ jimport( 'joomla.application.component.view' );
 * @package		JResearch
 * @subpackage	Teams
  */
-class JResearchViewTeams extends JView
+class JResearchViewTeams extends JResearchView
 {
 	/**
 	 * Teams view display method

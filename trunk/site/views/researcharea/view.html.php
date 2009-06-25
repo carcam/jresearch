@@ -11,7 +11,7 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for management of research areas information in
@@ -21,7 +21,7 @@ jimport( 'joomla.application.component.view');
 
 
 
-class JResearchViewResearchArea extends JView
+class JResearchViewResearchArea extends JResearchView
 {
     public function display($tpl = null)
     {
@@ -86,7 +86,7 @@ class JResearchViewResearchArea extends JView
     	$this->assignRef('projects_view_all', $projects_view_all);    	
     	$this->assignRef('theses_view_all', $theses_view_all);    	
 		$this->assignRef('members', $members);
-        $this->assignRef('area', $area);
+        $this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
         
         $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		

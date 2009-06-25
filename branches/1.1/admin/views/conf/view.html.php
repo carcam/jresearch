@@ -10,13 +10,13 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for configuration form in JResearch Component backend
  */
 
-class JResearchAdminViewConf extends JView
+class JResearchAdminViewConf extends JResearchView
 {
     function display($tpl = null)
     {

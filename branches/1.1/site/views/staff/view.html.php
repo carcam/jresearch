@@ -32,14 +32,14 @@ if (!defined('PHP_EOL'))
     }
 }
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for presentation of members list in frontend.
  *
  */
 
-class JResearchViewStaff extends JView
+class JResearchViewStaff extends JResearchView
 {
     function display($tpl = null)
     {

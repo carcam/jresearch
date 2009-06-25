@@ -12,14 +12,14 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for presentation of projects list in frontend.
  *
  */
 
-class JResearchViewProjectsList extends JView
+class JResearchViewProjectsList extends JResearchView
 {
     function display($tpl = null)
     {

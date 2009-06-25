@@ -7,7 +7,7 @@ jimport( 'joomla.application.component.view' );
 * @package		JResearch
 * @subpackage	Teams
  */
-class JResearchViewTeam extends JView
+class JResearchViewTeam extends JResearchView
 {
 	/**
 	 * Team view display method
@@ -48,7 +48,7 @@ class JResearchViewTeam extends JView
 		');
 		$doc->setTitle(JText::_('JRESEARCH_TEAM').' - '.$item->name);
 
-		$this->assignRef('item', $item);
+		$this->assignRef('item', $item, JResearchFilter::OBJECT_XHTML_SAFE);
 
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		

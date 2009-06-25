@@ -12,7 +12,7 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 
 /**
@@ -20,7 +20,7 @@ jimport( 'joomla.application.component.view');
  *
  */
 
-class JResearchAdminViewProject extends JView
+class JResearchAdminViewProject extends JResearchView
 {
     function display($tpl = null)
     {
@@ -100,7 +100,7 @@ class JResearchAdminViewProject extends JView
 		
 		$finHTML = JHTML::_('select.genericlist', $financierOptions, 'id_financier[]', 'class="inputbox" size="3" multiple="multiple"', 'value', 'text', (count($fins) > 0) ? $fins : '');
 
-    	$this->assignRef('project', $project);
+    	$this->assignRef('project', $project, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('finList', $finHTML);

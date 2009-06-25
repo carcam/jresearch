@@ -12,15 +12,11 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
-
-
 /**
  * HTML View class for single project management in JResearch Component backend
  *
  */
-
-class JResearchAdminViewFacility extends JView
+class JResearchAdminViewFacility extends JResearchView
 {
     function display($tpl = null)
     {
@@ -72,7 +68,7 @@ class JResearchAdminViewFacility extends JView
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('editor', $editor);
-		$this->assignRef('fac', $fac);
+		$this->assignRef('fac', $fac, JResearchFilter::OBJECT_XHTML_SAFE);
     	
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);

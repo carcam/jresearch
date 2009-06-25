@@ -12,7 +12,7 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for management of research areas list in
@@ -22,7 +22,7 @@ jimport( 'joomla.application.component.view');
 
 
 
-class JResearchViewResearchAreasList extends JView
+class JResearchViewResearchAreasList extends JResearchView
 {
     public function display($tpl = null)
     {

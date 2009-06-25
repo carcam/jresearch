@@ -12,14 +12,14 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+
 
 /**
  * HTML View class for presentation of theses list in frontend.
  *
  */
 
-class JResearchViewThesesList extends JView
+class JResearchViewThesesList extends JResearchView
 {
     function display($tpl = null)
     {
