@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
 		<td style="width:35%;">
 			<?php if($this->area->id > 1): ?>
-				<a href="index.php?option=com_jresearch&controller=researchAreas&task=show&view=researcharea&id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
+				<a href="index.php?option=com_jresearch&amp;controller=researchAreas&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
 			<?php else: ?>
 				<?php echo $this->area->name; ?>	
 			<?php endif; ?>	
@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	   	<?php if(empty($this->project->url_project_image)): ?>
     		<td colspan="2"></td>
        	<?php else: ?>		
-    		<td colspan="2"><img src="<?php echo $this->project->url_project_image; ?>" border="0" alt="<?php echo $this->project->title; ?>" /></td>
+    		<td colspan="2"><img src="<?php echo $this->project->getURLLogo(); ?>" border="0" alt="<?php echo $this->project->title; ?>" /></td>
     	<?php endif; ?>	
 	</tr>
 	<tr>
@@ -55,7 +55,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						<?php foreach($authors as $auth): ?>
 								<?php if($auth instanceof JResearchMember): ?>
 									<?php if($auth->published): ?>
-										<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
+										<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
 									<?php else: ?>
 										<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 									<?php endif; ?>	
@@ -72,7 +72,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 							<li style="list-style:none;">
 								<?php if($auth instanceof JResearchMember): ?>
 									<?php if($auth->published): ?>
-										<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
+										<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
 									<?php else: ?>
 										<?php echo $auth->__toString(); ?>
 									<?php endif; ?>	
@@ -95,7 +95,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 							<?php foreach($nonleaders as $auth): ?>
 									<?php if($auth instanceof JResearchMember): ?>
 										<?php if($auth->published): ?>
-											<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
+											<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
 										<?php else: ?>
 											<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 										<?php endif; ?>	
@@ -112,7 +112,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 								<li style="list-style:none;">
 									<?php if($auth instanceof JResearchMember): ?>
 										<?php if($auth->published): ?>
-											<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
+											<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
 										<?php else: ?>
 											<?php echo $auth->__toString(); ?>
 										<?php endif; ?>	
@@ -151,7 +151,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<?php $url = trim($this->project->url); ?>
 	<? if(!empty($url)) : ?>
-		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span>
+		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',str_replace('&', '&amp;', $url), JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span>
 	<?php endif; ?>	
 	<?php $description = trim($this->project->description); ?>
 	<?php if(!empty($description)): ?>

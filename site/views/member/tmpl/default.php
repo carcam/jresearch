@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <?php if(empty($this->member->url_photo)): ?>
     <td colspan="2" rowspan="3"></td>
     <?php else: ?>		
-    <td colspan="2" rowspan="3"><img src="<?php echo $this->member->url_photo; ?>" border="0" alt="<?php echo $this->member; ?>" /></td>
+    <td colspan="2" rowspan="3"><img src="<?php echo $this->member->getURLPhoto(); ?>" border="0" alt="<?php echo $this->member->__toString(); ?>" /></td>
     <?php endif; ?>		
   </tr>
   <?php
@@ -54,15 +54,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
   	<tr><td colspan="4">
 	  	<ul>
 		  	<?php foreach($this->publications as $pub): ?>
-	  			<li><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id ?><? echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo $pub->title; ?></a></li>
+	  			<li><a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $pub->id ?><? echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo $pub->title; ?></a></li>
 	  		<?php endforeach; ?>
 	  	</ul>
 	  	<div>
 	  		<?php if($this->npublications > count($this->publications)): ?>
-	  				<a href="index.php?option=com_jresearch&publications_view_all=1&theses_view_all=<?php echo $this->theses_view_all; ?>&projects_view_all=<?php echo $this->projects_view_all; ?>&task=show&view=member&id=<?php echo $this->member->id; ?><?php echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_ALL'); ?></a>
+	  				<a href="index.php?option=com_jresearch&amp;publications_view_all=1&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;projects_view_all=<?php echo $this->projects_view_all; ?>&amp;task=show&amp;view=member&amp;id=<?php echo $this->member->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_ALL'); ?></a>
 	  		<?php else: ?>
 	  				<?php if($this->publications_view_all): ?>		
-	  					<a href="index.php?option=com_jresearch&publications_view_all=0&theses_view_all=<?php echo $this->theses_view_all; ?>&projects_view_all=<?php echo $this->projects_view_all; ?>&task=show&view=member&id=<?php echo $this->member->id; ?><?php echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_LESS'); ?></a>
+	  					<a href="index.php?option=com_jresearch&amp;publications_view_all=0&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;projects_view_all=<?php echo $this->projects_view_all; ?>&amp;task=show&amp;view=member&amp;id=<?php echo $this->member->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_LESS'); ?></a>
 	  				<?php endif; ?>
 	  		<? endif; ?>
 	  	</div>
@@ -76,15 +76,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
   	<tr><td colspan="4">
 	  	<ul>
 		  	<?php foreach($this->projects as $proj): ?>
-	  			<li><a href="index.php?option=com_jresearch&view=project&task=show&id=<?php echo $proj->id ?><? echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo $proj->title; ?></a></li>
+	  			<li><a href="index.php?option=com_jresearch&amp;view=project&amp;task=show&amp;id=<?php echo $proj->id ?><? echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo $proj->title; ?></a></li>
 	  		<?php endforeach; ?>
 	  	</ul>
 	  	<div>
 	  		<?php if($this->nprojects > count($this->projects)): ?>
-	  				<a href="index.php?option=com_jresearch&projects_view_all=1&theses_view_all=<?php echo $this->theses_view_all; ?>&publications_view_all=<?php echo $this->publications_view_all; ?>&task=show&view=member&id=<?php echo $this->member->id; ?><?php echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_ALL'); ?></a>
+	  				<a href="index.php?option=com_jresearch&amp;projects_view_all=1&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;publications_view_all=<?php echo $this->publications_view_all; ?>&amp;task=show&amp;view=member&amp;id=<?php echo $this->member->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_ALL'); ?></a>
 	  		<?php else: ?>
 	  				<?php if($this->projects_view_all): ?>		
-	  					<a href="index.php?option=com_jresearch&projects_view_all=0&theses_view_all=<?php echo $this->theses_view_all; ?>&publications_view_all=<?php echo $this->publications_view_all; ?>&task=show&view=member&id=<?php echo $this->member->id; ?><?php echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_LESS'); ?></a>
+	  					<a href="index.php?option=com_jresearch&amp;projects_view_all=0&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;publications_view_all=<?php echo $this->publications_view_all; ?>&amp;task=show&amp;view=member&amp;id=<?php echo $this->member->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_LESS'); ?></a>
 	  				<?php endif; ?>
 	  		<? endif; ?>
 	  	</div>
@@ -96,16 +96,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
   	<tr><td colspan="4">
 	  	<ul>
 		  	<?php foreach($this->theses as $thesis): ?>
-	  			<li><a href="index.php?option=com_jresearch&view=thesis&task=show&id=<?php echo $thesis->id ?><? echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo $thesis->title; ?></a></li>
+	  			<li><a href="index.php?option=com_jresearch&amp;view=thesis&amp;task=show&amp;id=<?php echo $thesis->id ?><? echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo $thesis->title; ?></a></li>
 	  		<?php endforeach; ?>
 	  	</ul>
 	  	<div>
 
 	  		<?php if($this->ntheses > count($this->theses)): ?>
-	  				<a href="index.php?option=com_jresearch&theses_view_all=1&projects_view_all=<?php echo $this->projects_view_all; ?>&publications_view_all=<?php echo $this->publications_view_all; ?>&task=show&view=member&id=<?php echo $this->member->id; ?><?php echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_ALL'); ?></a>
+	  				<a href="index.php?option=com_jresearch&amp;theses_view_all=1&amp;projects_view_all=<?php echo $this->projects_view_all; ?>&amp;publications_view_all=<?php echo $this->publications_view_all; ?>&amp;task=show&amp;view=member&amp;id=<?php echo $this->member->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_ALL'); ?></a>
 	  		<?php else: ?>
 	  				<?php if($this->theses_view_all): ?>		
-	  					<a href="index.php?option=com_jresearch&projects_view_all=<?php echo $this->projects_view_all; ?>&publications_view_all=<?php echo $this->publications_view_all; ?>&theses_view_all=0&task=show&view=member&id=<?php echo $this->member->id; ?><?php echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_LESS'); ?></a>
+	  					<a href="index.php?option=com_jresearch&amp;projects_view_all=<?php echo $this->projects_view_all; ?>&amp;publications_view_all=<?php echo $this->publications_view_all; ?>&amp;theses_view_all=0&amp;task=show&amp;view=member&amp;id=<?php echo $this->member->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_FRONTEND_PUBLICATIONS_VIEW_LESS'); ?></a>
 	  				<?php endif; ?>
 	  		<?php endif; ?>
 	  	</div>
