@@ -254,6 +254,22 @@ class JResearchMember extends JTable{
 		
 		return $teams;
 	}
+	
+	/**
+	 * Returns the member's photo URL
+	 * @return string
+	 */
+	function getURLPhoto(){
+		global $mainframe;
+		
+		if($mainframe->isAdmin())
+			$base = JURI::base();
+		else
+			$base = JURI::base().'administrator/';
+
+		return $base.$this->url_photo;	
+				
+	}
 }
 
 ?>

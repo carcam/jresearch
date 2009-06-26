@@ -23,9 +23,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	$researchArea = $this->areaModel->getItem($member->id_research_area);
 ?>
 	<tr align="center">
-		<td width="25%"><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&view=member&task=show&id=<?php echo $member->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>"><?php echo $member; ?></a></td>
-		<td width="25%"><?php echo $member->email; ?></td>
-		<td width="25%"><?php echo $researchArea->name; ?></td>
+		<td width="25%"><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $member; ?></a></td>
+		<td width="25%"><?php echo JHTML::_('email.cloak', $member->email); ?></td>
+		<td width="25%">
+			<?php if($researchArea->id > 1):?>
+				<a href="index.php?option=com_jresearch&amp;view=researcharea&amp;id=<?php echo $researchArea->id;?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $researchArea->name; ?></a>
+			<?php else: ?>
+				<?php echo $researchArea->name; ?>				
+			<?php endif; ?>
+		</td>
 		<td width="25%"><?php echo $member->position; ?></td>
 	</tr>
 <?php } ?>

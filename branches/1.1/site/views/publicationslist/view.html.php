@@ -205,7 +205,7 @@ class JResearchViewPublicationsList extends JResearchView
     	
     	$document =& JFactory::getDocument();    	
     	//$document->setTitle('Publications');
-    	$feed = 'index.php?option=com_jresearch&view=publicationslist&format=feed';
+    	$feed = 'index.php?option=com_jresearch&amp;view=publicationslist&amp;format=feed';
 		$rss = array(
 			'type' => 'application/rss+xml',
 			'title' => JText::_('Publications RSS Feed')

@@ -178,15 +178,12 @@ class JResearchAdminProjectsController extends JController
 		$post = JRequest::get('post');		
 		
 		$project->bind($post);
-//		JError::raiseWarning(1, var_export($project, true));
-//		JError::raiseWarning(1, var_export($project, true));				
 		$project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
 		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		
 		//Upload photo
 		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
 		$delete = JRequest::getVar('delete');
-		
 		JResearch::uploadImage(	$project->url_project_image, 	//Image string to save
 								$fileArr, 			//Uploaded File array
 								'assets'.DS.'projects'.DS, //Relative path from administrator folder of the component

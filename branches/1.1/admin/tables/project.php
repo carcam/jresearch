@@ -454,6 +454,21 @@ class JResearchProject extends JResearchActivity{
 		
 		return $result;		
 	}
+	
+	/**
+	 * Returns the project's logo full URL. 
+	 * @return string
+	 */
+	function getURLLogo(){
+		global $mainframe;
+		
+		if($mainframe->isAdmin())
+			$base = JURI::base();
+		else
+			$base = JURI::base().'administrator/';
+
+		return $base.$this->url_project_image;	
+	}
 }
 
 ?>

@@ -71,8 +71,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td colspan="3" align="left"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
 		<td>
-			<img src="<?php echo $this->project->url_project_image; ?>" alt="<?php echo JText::_('No photo'); ?>" />
-			<input type="hidden" name="url_project_image" value="<?php echo $this->project->url_project_image; ?>" />
+			<?php if(isset($this->project)): ?>
+				<img src="<?php echo $this->project->getURLLogo(); ?>" alt="<?php echo JText::_('No photo'); ?>" />
+			<?php endif; ?>
+			<input type="hidden" name="url_project_image" value="<?php echo isset($this->project)?$this->project->url_project_image:''; ?>" />
 		</td>
 	</tr>
 	<tr>

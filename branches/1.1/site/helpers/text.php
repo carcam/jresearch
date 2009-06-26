@@ -40,6 +40,7 @@ class JResearchText{
 								'inproceedings' => JText::_('JRESEARCH_INPROCEEDINGS'),
 								'manual' => JText::_('JRESEARCH_MANUAL'),
 								'masterthesis' => JText::_('JRESEARCH_MASTERSTHESIS'),
+								'patent' => JText::_('JRESEARCH_PATENT'),
 								'misc' => JText::_('JRESEARCH_MISC'),
 								'phdthesis' => JText::_('JRESEARCH_PHDTHESIS'),
 								'proceedings' => JText::_('JRESEARCH_PROCEEDINGS'),
