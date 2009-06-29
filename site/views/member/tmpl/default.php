@@ -7,8 +7,12 @@
 
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<h1 class="componentheading"><?php echo $this->member; ?></h1>
+defined('_JEXEC') or die('Restricted access'); 
+
+$itemId = JRequest::getVar('Itemid');
+
+?>
+<h1 class="componentheading"><?php echo $this->member->__toString(); ?></h1>
 <table cellspacing="5">
   <tr><td colspan="4" class="contentheading"><?php echo JText::_('JRESEARCH_PERSONAL_INFORMATION').': '; ?></td></tr>	
   <tr><td colspan="4"></td></tr>  
@@ -35,7 +39,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
   ?>
   <tr>
   	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
-  	<td><?php echo $this->area->name; ?></td>
+  	<td>			
+  		<?php if($this->area->id > 1):?>
+			<a href="index.php?option=com_jresearch&amp;view=researcharea&amp;task=show&amp;id=<?php echo $this->area->id;?><?php echo !empty($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $this->area->name; ?></a>
+		<?php else: ?>
+			<?php echo $this->area->name; ?>				
+		<?php endif; ?>
+  	</td>
 	<td colspan="2"></td>
   </tr>
   <tr>
