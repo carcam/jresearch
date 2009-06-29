@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 
 <?php if(!empty($this->publications)): ?>
-<div>&amp;nbsp;&amp;nbsp;</div>
+<div>&nbsp;&nbsp;</div>
 <h2><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
 <ul>
 <?php foreach($this->publications as $publication): ?>
@@ -41,7 +41,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 
 <?php if(!empty($this->projects)): ?>
-<div>&amp;nbsp;&amp;nbsp;</div>
+<div>&nbsp;&nbsp;</div>
 <h2><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h2>
 <ul>
 <?php foreach($this->projects as $project): ?>
@@ -60,7 +60,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 
 <?php if(!empty($this->theses)): ?>
-<div>&amp;nbsp;&amp;nbsp;</div>
+<div>&nbsp;&nbsp;</div>
 <h2><?php echo JText::_('JRESEARCH_THESES'); ?></h2>
 <ul>
 <?php foreach($this->theses as $thesis): ?>

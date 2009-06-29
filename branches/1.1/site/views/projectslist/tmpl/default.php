@@ -23,7 +23,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			if($this->params->get('show_researcharea') == 1)
 			{
 			?>		
-			<div><span style="font-weight:bold;"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></span><span><?php echo $researchArea->name;  ?></span></div>
+			<div><span style="font-weight:bold;"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></span>
+				<span>
+				<?php if($researchArea->id > 1): ?>
+					<a href="index.php?option=com_jresearch&amp;controller=researchAreas&amp;task=show&amp;view=researcharea&amp;id=<?php echo $researchArea->id; ?><?php echo $ItemidText ?>"><?php echo $researchArea->name; ?></a>
+				<?php else: ?>
+					<?php echo $researchArea->name; ?>	
+				<?php endif; ?>	
+				</span>
+			</div>
 			<?php 
 			}
 			
@@ -79,16 +87,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			?>
 				<div>&nbsp;</div>
 				<div><?=$contentArray[0]; ?></div>
-			<?php
-			}
+			<?php } ?>
+			<div style="text-align:left"><a href="index.php?option=com_jresearch&amp;task=show&amp;view=project&amp;id=<?php echo $project->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo JText::_('JRESEARCH_READ_MORE'); ?></a></div>
 			
-			if(count($contentArray) > 1)
-			{
-			?>
-				<div style="text-align:left"><a href="index.php?option=com_jresearch&task=show&view=project&id=<?php echo $project->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo JText::_('JRESEARCH_READ_MORE'); ?></a></div>
-			<?php 
-			}
-			?>
 		</div>
 
 	</li>	
