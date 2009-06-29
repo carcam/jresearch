@@ -49,7 +49,7 @@ class JResearchViewTeam extends JResearchView
 		$links = array();
 		foreach($members as $member)
 		{
-			array_push($links, '<a href="index.php?option=com_jresearch&view=member&task=show&id='.$member->id.(isset($itemId)?'&Itemid='.$itemId:'').'" title="">'.$member->__toString().'</a>');
+			array_push($links, '<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id='.$member->id.(isset($itemId)?'&amp;Itemid='.$itemId:'').'" title="">'.$member->__toString().'</a>');
 		}
 		
 		$doc->addStyleDeclaration('

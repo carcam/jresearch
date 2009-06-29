@@ -9,7 +9,7 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 <?php $Itemid = JRequest::getVar('Itemid'); 
-	  $ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
+	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  	
 ?>
 <div style="float: right;"><?php JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
 		<td><?php if($this->area->id > 1): ?>
-			<a href="index.php?option=com_jresearch&controller=researchAreas&task=show&view=researcharea&id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
+			<a href="index.php?option=com_jresearch&amp;controller=researchAreas&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
 		<?php else: ?>
 			<?php echo $this->area->name; ?>	
 		<?php endif; ?>	
@@ -55,7 +55,7 @@ defined('_JEXEC') or die('Restricted access');
 				<?php foreach($authors as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
+								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
 							<?php else: ?>
 								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 							<?php endif; ?>	
@@ -72,7 +72,7 @@ defined('_JEXEC') or die('Restricted access');
 					<li style="list-style:none;">
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a>
+								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a>
 							<?php else: ?>
 								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
 							<?php endif; ?>	
@@ -142,7 +142,7 @@ defined('_JEXEC') or die('Restricted access');
 	</tr>
 	<?php endif; ?>	
 	
-	<?php $url = trim($this->publication->url); ?>
+	<?php $url = str_replace('&', '&amp;', trim($this->publication->url)); ?>
 	<?php if(!empty($url)): ?> 
 		<tr><td colspan="4"><span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span></td></tr>		
 	<?php endif; ?>
@@ -198,13 +198,13 @@ defined('_JEXEC') or die('Restricted access');
 		<div style="width:100%;text-align:center;">
 			<span>
 			<?php if($this->limitstart > 0): ?>	
-				<a href="index.php?option=com_jresearch&view=publication&task=show&showcomm=1&id=<?php echo $this->publication->id; ?>&limitstart=<?php echo ($this->limitstart - $this->limit); ?>&limit=<?php echo $this->limit; ?>"><?php echo JText::_('Prev'); ?></a>
+				<a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;showcomm=1&amp;id=<?php echo $this->publication->id; ?>&amp;limitstart=<?php echo ($this->limitstart - $this->limit); ?>&amp;limit=<?php echo $this->limit; ?>"><?php echo JText::_('Prev'); ?></a>
 			<?php endif; ?>
 			</span>
 			<span>&nbsp;&nbsp;</span>
 			<span>
 			<?php if($this->limitstart + $this->limit < $this->total ): ?>
-				<a href="index.php?option=com_jresearch&view=publication&task=show&showcomm=1&id=<?php echo $this->publication->id; ?>&limitstart=<?php echo ($this->limitstart + $this->limit); ?>&limit=<?php echo $this->limit; ?>"><?php echo JText::_('Next'); ?></a>
+				<a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;showcomm=1&amp;id=<?php echo $this->publication->id; ?>&amp;limitstart=<?php echo ($this->limitstart + $this->limit); ?>&amp;limit=<?php echo $this->limit; ?>"><?php echo JText::_('Next'); ?></a>
 			<?php endif; ?>
 			</span>
 		</div>	

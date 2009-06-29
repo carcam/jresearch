@@ -23,7 +23,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			?>		
 			<div>
 				<strong><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></strong>
-				<span><?php echo $researchArea->name;  ?></span>
+				<?php if($researchArea->id > 1): ?>
+					<span><a href="index.php?option=com_jresearch&amp;view=researcharea&amp;id=<?php echo $researchArea->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $researchArea->name;  ?></a></span>
+				<?php else: ?>
+					<span><?php echo $researchArea->name;  ?></span>
+				<?php endif; ?>	
 			</div>
 			<?php 
 			endif;
@@ -73,7 +77,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			endif;
 			?>
 			<div style="text-align:left">
-				<?php echo JFilterOutput::linkXHTMLSafe('<a href="index.php?option=com_jresearch&task=show&view=project&id='.$project->id.(isset($itemId)?'&Itemid='.$itemId:'').'">'.JText::_('JRESEARCH_READ_MORE').'</a>'); ?>
+				<?php echo JFilterOutput::linkXHTMLSafe('<a href="index.php?option=com_jresearch&amp;task=show&amp;view=project&amp;id='.$project->id.(isset($itemId)?'&amp;Itemid='.$itemId:'').'">'.JText::_('JRESEARCH_READ_MORE').'</a>'); ?>
 			</div>
 		</div>
 

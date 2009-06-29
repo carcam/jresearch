@@ -27,7 +27,7 @@ $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 		<?php endif; ?>
 		<?php if($this->showdigital): ?>
 			<?php if(!empty($url))
-					$link = $url;
+					$link = str_replace('&', '&amp;', $url);
 				  elseif(!empty($attach))
 				  	$link = $attach;							
 			 ?>

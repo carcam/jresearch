@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 ?>
 <?php $Itemid = JRequest::getVar('Itemid'); 
-	  $ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
+	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  	
 ?>
 <h1 class="componentheading"><?php echo $this->thesis->title; ?></h1>
@@ -23,7 +23,7 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 		<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
 		<td>
 		<?php if($this->area->id > 1): ?>
-			<a href="index.php?option=com_jresearch&controller=researchAreas&task=show&view=researcharea&id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
+			<a href="index.php?option=com_jresearch&amp;controller=researchAreas&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
 		<?php else: ?>
 			<?php echo $this->area->name; ?>	
 		<?php endif; ?>
@@ -52,7 +52,7 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 						<li>
 							<?php if($dir instanceof JResearchMember): ?>
 								<?php if($dir->published): ?>
-									<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $dir->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($dir->__toString(), $this->format); ?></a>
+									<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $dir->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($dir->__toString(), $this->format); ?></a>
 								<?php else: ?>
 									<?php echo JResearchPublicationsHelper::formatAuthor($dir->__toString(), $this->format); ?>
 								<?php endif; ?>	
@@ -68,7 +68,7 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 				<?php foreach($directors as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
+								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
 							<?php else: ?>
 								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 							<?php endif; ?>	
@@ -89,7 +89,7 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 						<li>
 							<?php if($stud instanceof JResearchMember): ?>
 								<?php if($stud->published): ?>
-									<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $stud->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($stud->__toString(), $this->format); ?></a>
+									<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $stud->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($stud->__toString(), $this->format); ?></a>
 								<?php else: ?>
 									<?php echo JResearchPublicationsHelper::formatAuthor($stud->__toString(), $this->format); ?>
 								<?php endif; ?>	
@@ -105,7 +105,7 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 				<?php foreach($students as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
+								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
 							<?php else: ?>
 								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 							<?php endif; ?>	
