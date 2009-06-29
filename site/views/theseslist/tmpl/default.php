@@ -20,14 +20,18 @@ if(count($this->items) > 0):
 			<?php $itemId = JRequest::getVar('Itemid'); ?>
 			<h2 class="contentheading"><?php echo $thesis->title; ?></h2>
 			<div>&nbsp;</div>			
-			<div><strong><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></strong><span><?php echo $researchArea->name;  ?></span></div>			
+			<div><strong><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></strong>
+			
+				<?php if($researchArea->id > 1): ?>
+					<span><a href="index.php?option=com_jresearch&amp;view=researcharea&amp;id=<?php echo $researchArea->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $researchArea->name;  ?></a></span>
+				<?php else: ?>
+					<span><?php echo $researchArea->name;  ?></span>
+				<?php endif; ?>
+			</div>			
 			<div>&nbsp;</div>
 			<p><?php echo $contentArray[0]; ?></p>
-			<?php if(count($contentArray) > 1 ): ?>
-				<div style="text-align:left"><a href="index.php?option=com_jresearch&task=show&view=thesis&id=<?php echo $thesis->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo JText::_('JRESEARCH_READ_MORE'); ?></a></div>
-			<?php endif; ?>	
+			<div style="text-align:left"><a href="index.php?option=com_jresearch&amp;task=show&amp;view=thesis&amp;id=<?php echo $thesis->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo JText::_('JRESEARCH_READ_MORE'); ?></a></div>
 		</div>
-
 	</li>	
 <?php endforeach; ?>
 </ul>

@@ -23,7 +23,7 @@ JHTML::_('behavior.modal');
 		<td style="width:20%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
 		<td>
 			<?php if($this->area->id > 1): ?>
-				<a href="index.php?option=com_jresearch&controller=researchAreas&task=show&view=researcharea&id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
+				<a href="index.php?option=com_jresearch&amp;controller=researchAreas&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
 			<?php else: ?>
 				<?php echo $this->area->name; ?>	
 			<?php endif; ?>	
@@ -70,7 +70,7 @@ JHTML::_('behavior.modal');
 						<?php foreach($authors as $auth): ?>
 								<?php if($auth instanceof JResearchMember): ?>
 									<?php if($auth->published): ?>
-										<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
+										<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
 									<?php else: ?>
 										<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 									<?php endif; ?>	
@@ -87,7 +87,7 @@ JHTML::_('behavior.modal');
 							<li style="list-style:none;">
 								<?php if($auth instanceof JResearchMember): ?>
 									<?php if($auth->published): ?>
-										<a href="index.php?option=com_jresearch&view=member&task=show&<?php echo $ItemidText ?>id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
+										<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;<?php echo $ItemidText ?>id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
 									<?php else: ?>
 										<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
 									<?php endif; ?>	
@@ -110,7 +110,7 @@ JHTML::_('behavior.modal');
 							<?php foreach($nonleaders as $auth): ?>
 									<?php if($auth instanceof JResearchMember): ?>
 										<?php if($auth->published): ?>
-											<a href="index.php?option=com_jresearch&view=member&task=show&<?php echo $ItemidText ?>id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
+											<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;<?php echo $ItemidText ?>id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
 										<?php else: ?>
 											<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 										<?php endif; ?>	
@@ -127,7 +127,7 @@ JHTML::_('behavior.modal');
 								<li style="list-style:none;">
 									<?php if($auth instanceof JResearchMember): ?>
 										<?php if($auth->published): ?>
-											<a href="index.php?option=com_jresearch&view=member&task=show<?php echo $ItemidText ?>&id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a>
+											<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a>
 										<?php else: ?>
 											<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
 										<?php endif; ?>	
@@ -204,7 +204,7 @@ JHTML::_('behavior.modal');
 	<?php
 	endif;
 	?>
-	<?php $url = trim($this->project->url); ?>
+	<?php $url = str_replace('&', '&amp;', trim($this->project->url)); ?>
 	<?php if(!empty($url)): ?>
 		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span></td></tr>
 	<?php endif; ?>	

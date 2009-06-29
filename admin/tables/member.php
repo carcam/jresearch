@@ -281,6 +281,7 @@ class JResearchMember extends JTable{
 		
 		return $teams;
 	}
+	
 }
 
 ?>

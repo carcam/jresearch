@@ -509,6 +509,7 @@ class JResearchProject extends JResearchActivity{
 		
 		return $result;		
 	}
+	
 }
 
 ?>

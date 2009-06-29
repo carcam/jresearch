@@ -7,7 +7,9 @@
 
 //@todo Change styling attributes for table to CSS
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access'); 
+$itemId = JRequest::getVar('Itemid');
+?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h1>
 <table class="stafftable">
 	<thead>
@@ -31,9 +33,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		    $researchArea = $this->areaModel->getItem($member->id_research_area);
 	    ?>
 		<tr>
-			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&view=member&task=show&id=<?php echo $member->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a></td>
-			<td><?php echo $member->email; ?></td>
-			<td><?php echo $researchArea->name; ?></td>
+			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a></td>
+			<td><?php echo JHTML::_('email.cloak', $member->email); ?></td>
+			<td>
+				<?php if($researchArea->id > 1):?>
+					<a href="index.php?option=com_jresearch&amp;view=researcharea&amp;id=<?php echo $researchArea->id;?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $researchArea->name; ?></a>
+				<?php else: ?>
+					<?php echo $researchArea->name; ?>				
+				<?php endif; ?>
+			</td>
 			<td><?php echo $member->position; ?></td>
 		</tr>
         <?php

@@ -25,12 +25,12 @@ defined('_JEXEC') or die('Restricted access');
 	<li>
 	<span><?php echo $publicationText;  ?></span>
 	<?php if($this->showmore): ?>
-		<span><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a></span>
+		<span><a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $pub->id; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a></span>
 	<?php endif; ?>
 	<?php if($this->showdigital): ?>
 		<?php 
 			  if(!empty($url))
-				$link = $url;
+				$link = str_replace('&', '&amp;', $url);
 			  elseif(!empty($attach))
 			  	$link = $attach;							
 		 ?>

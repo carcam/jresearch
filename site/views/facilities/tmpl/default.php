@@ -30,7 +30,7 @@ if(count($this->items) > 0):
 				</div>			
 				<div>&nbsp;</div>
 				<div style="text-align:left">
-					<a href="index.php?option=com_jresearch&task=show&view=facility&id=<?php echo $fac->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" >
+					<a href="index.php?option=com_jresearch&amp;task=show&amp;view=facility&amp;id=<?php echo $fac->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" >
 						<?php echo JText::_('JRESEARCH_READ_MORE'); ?>
 					</a>
 				</div>

@@ -59,7 +59,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 		?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $i+1; ?></td>
-					<td><a href="index.php?option=com_jresearch&controller=publications&task=show<?php !empty($modelkey)?'&modelkey='.$modelkey:''; ?>&id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
+					<td><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=show<?php !empty($modelkey)?'&amp;modelkey='.$modelkey:''; ?>&amp;id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td style="text-align:center"><?php echo $text; ?></td>
 					<td style="text-align:center"><?php echo $this->items[$i]->year; ?></td>
 					<td style="text-align:center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>

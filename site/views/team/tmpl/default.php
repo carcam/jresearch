@@ -25,7 +25,7 @@ $contentArr = explode('<hr id="system-readmore" />', $this->item->description);
 		<tr>
 			<th><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</th>
 			<td>
-				<a href="index.php?option=com_jresearch&view=member&task=show&id=<?php echo $leader->id; ?>&Itemid=<?php echo (isset($this->itemId)?$this->itemId:'');?>" title="">
+				<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $leader->id; ?>&amp;Itemid=<?php echo (isset($this->itemId)?$this->itemId:'');?>" title="">
 				<?php
 				echo $leader->__toString();
 				?>
@@ -104,7 +104,7 @@ $contentArr = explode('<hr id="system-readmore" />', $this->item->description);
 <h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
 <ul>
 <?php foreach($this->publications as $publication): ?>
-	<li><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $publication->id; ?><?php echo isset($itemId)?'&Itemid='.$itemId:''; ?>" ><?php echo $publication->title; ?></a></li>
+	<li><a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $publication->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $publication->title; ?></a></li>
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
