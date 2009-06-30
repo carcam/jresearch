@@ -52,11 +52,11 @@ class JResearchAdminViewProject extends JResearchView
 
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $project?$project->published:1));
    	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="5"', 'selected' => $project?$project->id_research_area:1)); 
-   	 	$statusHTML = JHTML::_('jresearchhtml.statuslist', array('name' => 'status', 'attributes' => 'class="inputbox" size="5"', 'selected' => $project?$project->status:1));
+   	 	$statusHTML = JHTML::_('jresearchhtml.statuslist', array('name' => 'status', 'attributes' => 'class="inputbox" size="5"', 'selected' => $project?$project->status:'not_started'));
    	 	$currencyHTML = JHTML::_('jresearchhtml.currencylist', array('name' => 'finance_currency', 'attributes' => 'class="inputbox"', 'selected' => $project?$project->finance_currency:1));
     	$coopHTML = JHTML::_('jresearchhtml.cooperations', array('name' => 'id_cooperation[]', 'attributes' => 'class="inputbox" size="5"'));
    	 	
-		$membersControl = JHTML::_('jresearchhtml.authorsSelector', 'members', $members, true, $principalFlags);	
+		$membersControl = JHTML::_('jresearchhtml.autoSuggest', 'members', $members, true, $principalFlags);	
 		
 		//Get selected fins and add it to replace
 		$fins = array();

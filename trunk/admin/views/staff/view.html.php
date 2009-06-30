@@ -95,16 +95,10 @@ class JResearchAdminViewStaff extends JResearchView
     private function _displayAddForm(){
     	global $mainframe;
     	
-    	JRequest::setVar( 'hidemainmenu', 1 );
-    	
-    	JResearchToolbar::addMemberToolBar();
-    	
-    	$doc =& JFactory::getDocument();
-    	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-    	$doc->addScript($url.'components/com_jresearch/helpers/html/staffimporter.js');
-    	
+    	JRequest::setVar( 'hidemainmenu', 1 );  	
+    	JResearchToolbar::addMemberToolBar();    	    	
     	$control = JHTML::_('jresearchhtml.staffImporter', 'importedMembers');
-    	
+  
     	$this->assignRef('control', $control);
     	
     }

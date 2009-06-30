@@ -38,6 +38,7 @@ class JResearchAdminStaffController extends JController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('save', 'save');
 		$this->registerTask('cancel', 'cancel');
+		$this->registerTask('autoSuggestMembers', 'autoSuggestMembers');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'staff');
@@ -371,5 +372,17 @@ class JResearchAdminStaffController extends JController
 		
 		$this->setRedirect( 'index.php?option=com_jresearch&controller=staff', $msg );
 	}
+	
+	/**
+	 * Returns the information about the members whose names begin with the key
+	 * sent as a HTTP parameter.
+	 *
+	 */
+	function autoSuggestMembers(){
+		$key = JRequest::getVar('key');
+		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+		echo JHTML::_('jresearchhtml.jsonMembers', $key);
+	}
+	
 }
 ?>
