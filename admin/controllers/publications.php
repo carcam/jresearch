@@ -358,11 +358,11 @@ class JResearchAdminPublicationsController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);	
 		}else{
 			//Time to set the authors
-			$maxAuthors = JRequest::getInt('maxauthors');
+			$maxAuthors = JRequest::getInt('nauthorsfield');
 			$k = 0;
 	
 			for($j=0; $j<=$maxAuthors; $j++){
-				$value = JRequest::getVar("authors".$j);
+				$value = JRequest::getVar("authorsfield".$j);
 				if(!empty($value)){
 					if(is_numeric($value)){
 						// In that case, we are talking about a staff member

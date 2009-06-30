@@ -69,14 +69,13 @@ class JResearchAdminViewPublication extends JResearchView
 			$arguments[] = null;
 		}
 		
-		//Lists
 		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));
    	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="5"', 'selected' => $publication?$publication->id_research_area:null)); 
 		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));
 		
 		$params = JComponentHelper::getParams('com_jresearch');
-		$authorsControl = JHTML::_('jresearchhtml.authorsSelector', 'authors' ,$authors);		
-
+		$authorsControl	= JHTML::_('jresearchhtml.autoSuggest', 'authors', $authors);		
+		
 		if(!empty($publication->files))
 			$uploadedFiles = explode(';', trim($publication->files));
 		else

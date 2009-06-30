@@ -230,7 +230,7 @@ class JResearchViewPublication extends JResearchView
 			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', $publication->internal  );
 			$authors = $publication->getAuthors();
 			
-			$authorsControl = JHTML::_('jresearchhtml.authorsSelector', 'authors' ,$authors);
+			$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' ,$authors);
 			
 			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);	
 		}
@@ -242,7 +242,7 @@ class JResearchViewPublication extends JResearchView
 			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 0);
 			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', 0);
 			
-			$authorsControl = JHTML::_('JResearchhtml.authorsSelector', 'authors' , array());
+			$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , array());
 		}
 		$params = JComponentHelper::getParams('com_jresearch');
 		if(!empty($publication->files))

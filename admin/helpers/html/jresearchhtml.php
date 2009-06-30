@@ -189,11 +189,133 @@ class JHTMLjresearchhtml
 	}
 	
 	/**
+	 * Renders an authors selector control which implements a kind of autocomplete
+	 * functionality
+	 *
+	 * @param string $baseName Base name of the control. It represents the name of the fields that
+	 * will be sent when submitting the form. For internal authors it will be a list. For external 
+	 * ones, it will be a text input.
+	 * @param array Mixed sorted array. JResearchMember instances will be considered as internal 
+	 * staff member's while strings are considered as external authors names.
+	 * @param boolean $allowPrincipals If true, a checkbox will be displayed for each entry to define
+	 * if the member is a principle investigator in the activity.
+	 * @param boolean $isPrincipalsArray Array with the flags indicating if every author stored in $values
+	 * is a principal author.
+	 */
+	
+	public static function autoSuggest($baseName, $values = null, $allowPrincipals=false, $isPrincipalsArray=null){
+		global $mainframe;
+		
+		$doc = JFactory::getDocument();
+		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		
+		$doc->addScript($urlBase.'components/com_jresearch/js/bsn.AutoSuggest_c_2.0.js');
+    	$textField = $baseName.'field';
+    	$projectLeader = JText::_('JRESEARCH_PROJECT_LEADER');
+    	$delete = JText::_('Delete');
+    	$repeatedAuthors = JText::_('JRESEARCH_AUTHOR_ADDED_BEFORE');
+		$minAuthorLengthMessage = JText::_('JRESEARCH_MIN_AUTHOR_LENGTH_MESSAGE');   	
+		$noResults = JText::_('JRESEARCH_NO_RESULTS');
+
+		$doc->addScriptDeclaration("
+	        window.onDomReady(function() {
+	            var options_xml1_$basename = {
+	                script:'index.php?option=com_jresearch&controller=staff&task=autoSuggestMembers&format=json&' ,
+	                varname:'key',
+	                json:true,
+	                cache:false,
+	                callback: function (obj) {
+	                    document.getElementById('$baseName').value = obj?obj.id:'';
+	                }
+	            };
+	            var as_xml1_$basename = new AutoSuggest('$textField', options_xml1_$basename);
+	            as_xml1_$basename.lbl_projectLeader = '$projectLeader';
+	            as_xml1_$basename.lbl_delete = '$delete';
+	            as_xml1_$basename.projectLeaders = '$allowPrincipals';
+	            as_xml1_$basename.lbl_repeatedAuthors = '$repeatedAuthors';
+	            as_xml1_$basename.lbl_minAuthorLengthMessage = '$minAuthorLengthMessage';
+	            as_xml1_$basename.lbl_noresults = '$noResults';
+	            
+	            function appendAuthor(){
+	            	if(as_xml1){
+	            		as_xml1.setHighlightedValue();
+					}else{
+						alert('$minAuthorLengthMessage');
+					}
+				}
+	        });
+	        
+	        "
+	        
+    	);
+    	$doc->addStyleSheet($urlBase.'components/com_jresearch/css/autosuggest_inquisitor.css');
+		$button = '<input style="margin-left:8px;" type="button" onclick="appendAuthor();" value="'.JText::_('Add').'" />';
+    	$output = "<div class=\"divTdl\"><input type=\"text\" name=\"$textField\" id=\"$textField\" class=\"validate-integrante\" size=\"15\" />$button</div>";
+		
+    	// Here we verify if there are authors
+		$output .= "<input type=\"hidden\" id=\"$baseName\" value=\"\" />";
+    	if(empty($values)){
+	    	$output .= "<input type=\"hidden\" id=\"n$textField\" name=\"n$textField\" value=\"0\" />";
+			$output .= "<div class=\"divTdl\"><ul style=\"text-align:left;padding-left:0px;\" id=\"".$textField."result\"></ul></div>";
+		}else{
+			$output .= "<div class=\"divTdl\"><ul style=\"text-align:left;padding-left:0px;\" id=\"".$textField."result\">";			
+			$j = 0;
+			foreach($values as $author){
+				$output .= "<li id=\"li".$textField.$j."\">";
+				$authorText = $author instanceof JResearchMember?$author->__toString():$author;
+				$authorValue = $author instanceof JResearchMember?$author->id:$author;
+				$output .= "<span style=\"padding: 2px;\">$authorText</span>";
+				$output .= "<input type=\"hidden\" id=\"$textField".$j."\" name=\"$textField".$j."\" value=\"$authorValue\" />";
+				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:removeAuthor('liauthorsfield$j')\">$delete</a></span>";
+				if($allowPrincipals){
+					if($isPrincipalsArray != null)
+						$onText = $isPrincipalsArray[$j]?'value="on" checked="checked"':''; 
+					else
+						$onText = '';	
+
+					$output .= "<label for=\"check_".$textField."$j\">$projectLeader</label><input type=\"checkbox\" id=\"check_".$textField."$j\" name=\"check_".$textField."$j\" ".$onText."  />";
+				}
+				$output .= "</li>";
+				$j++;
+			}
+	    	$output .= "<input type=\"hidden\" id=\"n$textField\" name=\"n$textField\" value=\"$j\" />";
+			$output .= "</ul></div>";
+		}
+
+		return $output;
+	}
+	
+	public static function jsonMembers($key){
+		$db = JFactory::getDBO();
+		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
+		$query .= ' AND ('.$db->nameQuote('firstname').' LIKE '.$db->Quote( '%'.$db->getEscaped( $key, true ).'%', false );
+		$query .= ' OR '.$db->nameQuote('lastname').' LIKE '.$db->Quote( '%'.$db->getEscaped( $key, true ).'%', false ).')';
+		$db->setQuery($query);
+		$members = $db->loadAssocList(); 		
+		$output = "{\"results\": [";
+		$arr = array();
+		foreach($members as $member){
+			$arr[] = "{\"id\": \"".$member['id']."\", \"value\": \"".$member['firstname'].' '.$member['lastname']."\", \"info\": \"".$member['email']."\"}";
+		}
+		$output .= implode(", ", $arr);
+		$output .= "]}";
+		
+		return $output;
+				
+	}
+	
+	/**
 	* Renders a HTML control for importing staff members from users table.
 	* @param $name HTML name of the control which holds the selected users.
 	*/
 	public function staffImporter($name){
+		global $mainframe;
+		
 		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+
+		$doc = JFactory::getDocument();
+		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$doc->addScript($urlBase.'components/com_jresearch/js/staffimporter.js');
 		
 		$db =& JFactory::getDBO();
 		$fields = $db->nameQuote('username').', '.$db->nameQuote('lastname').', '.$db->nameQuote('firstname');
@@ -319,7 +441,7 @@ class JHTMLjresearchhtml
 		global $mainframe;
 		$doc =& JFactory::getDocument();
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-		$doc->addScript($url."components/com_jresearch/helpers/html/fileuploader.js");
+		$doc->addScript($url."components/com_jresearch/js/fileuploader.js");
 		
 		$k = count($uploadedFiles);
 		$textFields = '<input type="hidden" name="count_'.$name.'" id="count_'.$name.'" value="'.$k.'" />';
@@ -485,7 +607,7 @@ class JHTMLjresearchhtml
 		//Status options
     	$statusOptions = array();
     	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
-    	$statusOptions[] = JHTML::_('select.option', 'in progress', JText::_('JRESEARCH_IN_PROGRESS'));
+    	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
     	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('Finished'));
     	
     	return self::htmllist($statusOptions, $attributes);

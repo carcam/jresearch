@@ -49,8 +49,8 @@ class JResearchAdminViewThesis extends JResearchView
    	 	$statusHTML = JHTML::_('jresearchhtml.statuslist', array('name' => 'status', 'attributes' => 'class="inputbox" size="5"', 'selected' => $thesis?$thesis->status:1));
    	 	$degreeHTML = JHTML::_('jresearchhtml.degreelist', array('name' => 'degree', 'attributes' => 'class="inputbox" size="5"', 'selected' => $thesis?$thesis->degree:'bachelor'));
     	
-		$studentsControl = JHTML::_('jresearchhtml.authorsSelector', 'students', $students);
-		$directorsControl = JHTML::_('jresearchhtml.authorsSelector', 'directors', $directors);
+		$studentsControl = JHTML::_('jresearchhtml.autoSuggest', 'students', $students);
+		$directorsControl = JHTML::_('jresearchhtml.autoSuggest', 'directors', $directors);
 
 		$params = JComponentHelper::getParams('com_jresearch');
 		if(!empty($thesis->files))

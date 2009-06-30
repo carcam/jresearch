@@ -211,12 +211,12 @@ class JResearchAdminThesesController extends JController
 		$thesis->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		//Time to set the authors
 		$count = 0;
-		$maxStudents = JRequest::getInt('maxstudents');
-		$maxDirectors = JRequest::getInt('maxdirectors');
+		$maxStudents = JRequest::getInt('nstudentsfield');
+		$maxDirectors = JRequest::getInt('ndirectorsfield');
 		
 		// Save directors information
 		for($i=0; $i<=$maxDirectors; $i++){
-			$value = trim(JRequest::getVar('directors'.$i));
+			$value = trim(JRequest::getVar('directorsfield'.$i));
 			if(!empty($value)){
 				if(is_numeric($value)){
 					// In that case, we are talking about a staff member
@@ -231,7 +231,7 @@ class JResearchAdminThesesController extends JController
 
 		// Save students information
 		for($i=0; $i<=$maxStudents; $i++){
-			$value = trim(JRequest::getVar('students'.$i));
+			$value = trim(JRequest::getVar('studentsfield'.$i));
 			if(!empty($value)){
 				if(is_numeric($value)){
 					// In that case, we are talking about a staff member

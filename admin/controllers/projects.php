@@ -161,6 +161,7 @@ class JResearchAdminProjectsController extends JController
 	 */
 	function save(){
 		global $mainframe;
+		
 	    if(!JRequest::checkToken())
 		{
 		    $this->setRedirect('index.php?option=com_jresearch');
@@ -230,12 +231,12 @@ class JResearchAdminProjectsController extends JController
 		);
 		
 		//Time to set the authors
-		$maxAuthors = JRequest::getInt('maxmembers');
+		$maxAuthors = JRequest::getInt('nmembersfield');
 		$k = 0;
 	
 		for($j=0; $j<=$maxAuthors; $j++){
-			$value = JRequest::getVar("members".$j);
-			$flagValue = JRequest::getVar("check_members".$j);
+			$value = JRequest::getVar("membersfield".$j);
+			$flagValue = JRequest::getVar("check_membersfield".$j);
 			$flag = $flagValue == 'on'?true:false;
 			if(!empty($value)){
 				if(is_numeric($value)){
