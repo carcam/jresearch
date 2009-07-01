@@ -31,7 +31,7 @@ class JResearchViewThesesList extends JResearchView
         			$this->_displayDefaultList();
         			break;
         }
-	
+        
         $eArguments = array('theses', $layout);
 		
 		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
@@ -48,6 +48,8 @@ class JResearchViewThesesList extends JResearchView
       	global $mainframe;
     	
       	$doc = JFactory::getDocument();
+      	$params = JComponentHelper::getParams('com_jresearch');
+      	
     	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
@@ -58,7 +60,6 @@ class JResearchViewThesesList extends JResearchView
     	$this->assignRef('items', $theses);
     	$this->assignRef('areaModel', $areaModel);
     	$this->assignRef('page', $model->getPagination());	
-
     }
 }
 

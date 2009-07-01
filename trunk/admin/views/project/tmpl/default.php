@@ -14,10 +14,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('Title').': '?></th>
-		<td colspan="3">
+		<td>
 			<input name="title" id="title" size="80" maxlength="255" value="<?php echo $this->project?$this->project->title:'' ?>" class="required" />
 			<br />
 			<label for="title" class="labelform"><?php echo JText::_('JRESEARCH_PROJECT_PROVIDE_VALID_TITLE'); ?></label>
+		</td>
+		<th>
+			<?php echo JText::_('Alias').': '?>
+		</th>
+		<td>
+			<input name="alias" id="alias" size="50" maxlength="255" class="required" value="<?php echo $this->project?$this->project->alias:'' ?>" />
+			<br /><label for="alias" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_ALIAS'); ?></label>
 		</td>
 	</tr>
 	<tr>

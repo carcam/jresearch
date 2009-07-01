@@ -89,6 +89,8 @@ class JResearchViewPublication extends JResearchView
 			return false;
 		}		    	
 		
+		$this->addPathwayItem(JText::_('New'), 'index.php?option=com_jresearch&view=publication&task=new');
+		
 		//If the publication was visited in the same session, do not increment the hit counter
 		if(!$session->get('visited', false, 'publications'.$id)){
 			$session->set('visited', true, 'publications'.$id);
@@ -222,6 +224,9 @@ class JResearchViewPublication extends JResearchView
 		{    		
 			$publication = JResearchPublication::getById($cid);
 			$pubtype = $publication->pubtype;
+			
+			$this->addPathwayItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
+			$this->addPathwayItem(JText::_('Edit'));
 					
 		    $researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $publication->id_research_area);
 			
@@ -236,6 +241,7 @@ class JResearchViewPublication extends JResearchView
 		}
 		else 
 		{
+			$this->addPathwayItem(JText::_('Add'));
 			$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', null);
 			
 		    //Published radio
@@ -244,13 +250,13 @@ class JResearchViewPublication extends JResearchView
 			
 			$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , array());
 		}
+		
 		$params = JComponentHelper::getParams('com_jresearch');
 		if(!empty($publication->files))
 			$uploadedFiles = explode(';', trim($publication->files));
 		else
 			$uploadedFiles = array();	
 		$files = JHTML::_('JResearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
-		
 		
 		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
 		$this->assignRef('pubtype', $pubtype);

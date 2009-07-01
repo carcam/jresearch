@@ -37,6 +37,8 @@ class JResearchViewTeam extends JResearchView
 			return;
 		}
 		
+		$this->addPathwayItem($team->alias, 'index.php?option=com_jresearch&view=team&id='.$team->id);
+		
 		switch($layout)
 		{
 			default:

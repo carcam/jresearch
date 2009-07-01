@@ -21,6 +21,13 @@ class JResearchCooperation extends JTable
     public $id;
     
     /**
+	 * String for alias
+	 *
+	 * @var string
+	 */
+	public $alias;
+    
+    /**
      * Category ID of cooperation
      * @var int
      */

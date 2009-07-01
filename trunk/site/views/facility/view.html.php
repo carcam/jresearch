@@ -73,11 +73,12 @@ class JResearchViewFacility extends JResearchView
     	
 		if(!$fac->published)
 		{
-			JError::raiseWarning(1, JText::_('JRESEARCH_PROJECT_NOT_FOUND'));
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			$arguments[] = null;
 			return false;
 		}
 		
+		$this->addPathwayItem($fac->alias, 'index.php?option=com_jresearch&view=facility&id='.$id);
 		$arguments[] = $id;	    	
 		
     	$areaModel = &$this->getModel('researcharea');

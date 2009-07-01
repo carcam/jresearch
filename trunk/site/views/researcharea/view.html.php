@@ -11,16 +11,11 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
-
 /**
  * HTML View class for management of research areas information in
  * JResearch Component frontend
  *
  */
-
-
-
 class JResearchViewResearchArea extends JResearchView
 {
     public function display($tpl = null)
@@ -51,6 +46,8 @@ class JResearchViewResearchArea extends JResearchView
 			return;
 		}
         
+		$this->addPathwayItem($area->alias, 'index.php?option=com_jresearch&view=researcharea&id='.$area->id);
+		
 		$arguments[] = $id;
         
 		$latestPublications = $params->get('area_number_last_publications', 5);        

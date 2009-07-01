@@ -17,8 +17,26 @@ defined('_JEXEC') or die('Restricted access');
 
 class JResearchFacility extends JTable
 {
+    /**
+     * ID
+     *
+     * @var int
+     */
     public $id;
+    
+    /**
+     * ID for research area
+     *
+     * @var int
+     */
     public $id_research_area;
+    
+    /**
+	 * String for alias
+	 *
+	 * @var string
+	 */
+	public $alias;
   	public $name;
   	public $image_url;
   	public $description;

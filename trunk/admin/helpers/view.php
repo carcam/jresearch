@@ -98,5 +98,27 @@ class JResearchView extends JView
         
         return false;
     }
+
+    /**
+     * Adds a pathway item to the current pathway if no ItemId exists
+     *
+     * @param string $name
+     * @param string $link
+     * @return bool
+     */
+    public function addPathwayItem($name, $link='')
+    {
+        global $mainframe;
+        
+        $itemid = JRequest::getVar('Itemid', null);
+        
+        if(is_null($itemid))
+        {
+            $pathway = &$mainframe->getPathway();
+            return $pathway->addItem($name, $link);
+        }
+        
+        return false;
+    }
 }
 ?>

@@ -9,9 +9,9 @@
 * of teams.
 */
 
-jimport('joomla.application.component.controller');
 
-class JResearchTeamsController extends JController
+
+class JResearchTeamsController extends JResearchFrontendController
 {
 	public function __construct($config = array())
 	{
@@ -29,6 +29,8 @@ class JResearchTeamsController extends JController
 		
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'teams');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'team');
+		
+		$this->addPathwayItem(JText::_('JRESEARCH_TEAMS'), 'index.php?option=com_jresearch&view=teams');
 	}
 	
 	/**

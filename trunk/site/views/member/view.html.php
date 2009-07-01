@@ -79,6 +79,9 @@ class JResearchViewMember extends JResearchView
 			return false;
 		}
 		
+		$this->addPathwayItem($member, 'index.php?option=com_jresearch&view=member&id='.$member->id);
+		$this->addPathwayItem(JText::_('Edit'));
+		
 		$member->checkout($user->get('id'));		
     	
 		$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'selected' => $member->id_research_area));
@@ -131,6 +134,7 @@ class JResearchViewMember extends JResearchView
     		return false;
     	}
     	
+    	$this->addPathwayItem($member, 'index.php?option=com_jresearch&view=member&id='.$member->id);
     	$arguments[] = $id;
     	
     	$areaModel = &$this->getModel('researcharea');

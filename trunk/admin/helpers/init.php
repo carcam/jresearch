@@ -41,17 +41,27 @@ function __loadPublicationsSubclasses(){
 
 // Common needed files		
 require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'defines.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
+
+//Helpers
 require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'acl.php');
 require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'cite.php');
 require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'text.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'view.php');
-require_once(JPATH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
-require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
-require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
+
+//HTML helpers
 JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
 JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+
+//Citation factory
+require_once(JPATH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
+
+//Tables
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
+
+//Needed plugins
+require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
+require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
 
 // Verify if Jxtended is available as a plugin in the system.
 if(!function_exists('jximport'))

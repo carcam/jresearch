@@ -22,8 +22,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<br />
 			<label for="name" class="labelform" ><?php echo JText::_('JRESEARCH_RESEARCH_AREA_PROVIDE_VALID_NAME'); ?></label>
 		</td>
+		<th>
+			<?php echo JText::_('Alias').': '?>
+		</th>
+		<td>
+			<input name="alias" id="alias" size="50" maxlength="255" class="required validate-alias" value="<?php echo $this->area?$this->area->alias:'' ?>" />
+			<br /><label for="alias" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_ALIAS'); ?></label>
+		</td>
+	</tr>
+	<tr>
 		<th><?php echo JText::_('Published').': '; ?></th>
-		<td><?php echo $this->publishedRadio; ?></td>
+		<td colspan="3"><?php echo $this->publishedRadio; ?></td>
 	</tr>
 	<tr>
 		<td colspan="4"><?php echo $this->editor->display( 'description',  isset($this->area)?$this->area->description:'' , '100%', '350', '75', '20' ) ; ?></td>

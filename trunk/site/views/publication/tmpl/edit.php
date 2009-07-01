@@ -2,8 +2,7 @@
 	<?=JText::_('JRESEARCH_'.JString::strtoupper(JRequest::getVar('task')).'_PUBLICATION');?>
 </h1>
 <?php 
-if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this->id > 0)) || (JHTML::_('Jresearch.authorize','add', 'publications') && ($this->id <= 0)))
-{
+if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this->id > 0)) || (JHTML::_('Jresearch.authorize','add', 'publications') && ($this->id <= 0))):
 ?>
 	<div style="float: right;">
 		<button type="button" onclick="javascript:msubmitform('apply');"><?php echo JText::_('Apply'); ?></button>
@@ -13,12 +12,9 @@ if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this-
 	<div style="clear: both;">&nbsp;</div>
 	<?php
 	include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.'default.php');
-}
-else
-{
+else:
 ?>
-	<div style="clear: both;">&nbsp;</div>
-	<div style="text-align:center;"><?=JText::_('JRESEARCH_ACCESS_NOT_ALLOWED')?></div>
+	<div style="text-align:center; clear: both;"><?=JText::_('JRESEARCH_ACCESS_NOT_ALLOWED')?></div>
 <?php
-}
+endif;
 ?>

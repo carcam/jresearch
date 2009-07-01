@@ -9,13 +9,13 @@
 * of theses.
 */
 
-jimport('joomla.application.component.controller');
+
 
 /**
  * JResearch Theses Frontend Controller
  *
  */
-class JResearchThesesController extends JController
+class JResearchThesesController extends JResearchFrontendController
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -34,7 +34,9 @@ class JResearchThesesController extends JController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'theses');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'theseslist');
-		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'thesis');		
+		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'thesis');
+
+		$this->addPathwayItem(JText::_('JRESEARCH_THESES'), 'index.php?option=com_jresearch&view=theseslist');
 	}
 
 	/**

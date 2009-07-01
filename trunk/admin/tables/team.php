@@ -26,6 +26,13 @@ class JResearchTeam extends JTable
 	public $id;
 	public $parent;
 	public $id_leader;
+	/**
+	 * String for alias
+	 *
+	 * @var string
+	 */
+	public $alias;
+	
 	public $name;
 	public $description;
 	public $published;

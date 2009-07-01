@@ -31,6 +31,7 @@ class JResearchViewProject extends JResearchView
 
         switch($layout){
         	case 'default':
+        	default:
         		$result = $this->_displayProject($arguments);
         		break;
         }
@@ -69,6 +70,7 @@ class JResearchViewProject extends JResearchView
     		return false;
     	}
     	
+    	$this->addPathwayItem($project->alias, 'index.php?option=com_jresearch&view=project&id='.$project->id);
     	$arguments[] = $id;
 		
     	$areaModel = &$this->getModel('researcharea');

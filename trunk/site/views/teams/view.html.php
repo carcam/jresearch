@@ -16,13 +16,16 @@ class JResearchViewTeams extends JResearchView
 	function display($tpl = null)
 	{
 		global $mainframe;
+		
 		$doc = JFactory::getDocument();
 		$layout = $this->getLayout();
+		
 		
 		// Get data from the model
 		$model = &$this->getModel();
 		$items = $model->getData(null, true, true);
 		$params = $mainframe->getParams();
+		
 		$doc->setTitle(JText::_('JRESEARCH_TEAMS'));		
 		
 		$this->assignRef('params', $params);

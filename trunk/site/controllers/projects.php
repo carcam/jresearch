@@ -9,13 +9,13 @@
 * of research projects.
 */
 
-jimport('joomla.application.component.controller');
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
 * JResearch Component Projects Controller
 *
 */
-class JResearchProjectsController extends JController
+class JResearchProjectsController extends JResearchFrontendController
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -35,6 +35,8 @@ class JResearchProjectsController extends JController
 		
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'projectslist');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'project');		
+		
+		$this->addPathwayItem(JText::_('JRESEARCH_PROJECTS'), 'index.php?option=com_jresearch&view=projectslist');
 	}
 
 	/**
@@ -107,7 +109,7 @@ class JResearchProjectsController extends JController
 	*/
 	function administer(){
 		JRequest::setVar('view', 'projects');
-		JRequest::serVar('layout', 'admin');
+		JRequest::setVar('layout', 'admin');
 		parent::display();
 	}
 }
