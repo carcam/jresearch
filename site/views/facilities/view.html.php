@@ -24,7 +24,8 @@ class JResearchViewFacilities extends JResearchView
     function display($tpl = null)
     {
     	global $mainframe;
-        $layout = &$this->getLayout();
+        $layout  = &$this->getLayout();
+        
         
         switch($layout)
         {

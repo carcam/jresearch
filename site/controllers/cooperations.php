@@ -9,14 +9,16 @@
 * of staff members.
 */
 
-jimport('joomla.application.component.controller');
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
 
 /**
  * JResearch Cooperations Component Controller
  *
  */
-class JResearchCooperationsController extends JController
+class JResearchCooperationsController extends JResearchFrontendController
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -36,7 +38,8 @@ class JResearchCooperationsController extends JController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'cooperations');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
-
+		
+		$this->addPathwayItem(JText::_('JRESEARCH_COOPERATIONS'), 'index.php?option=com_jresearch&view=cooperations');
 	}
 
 	/**
@@ -47,7 +50,7 @@ class JResearchCooperationsController extends JController
 	function display()
 	{
 		global $mainframe;
-		
+	    
 		//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
     	$limit = $params->get('cooperation_entries_per_page');
@@ -58,7 +61,6 @@ class JResearchCooperationsController extends JController
 		if($limitstart === null)
 			JRequest::setVar('limitstart', 0);
 			
-		
 		$model =& $this->getModel('Cooperations', 'JResearchModel');
 		$view =& $this->getView('Cooperations', 'html', 'JResearchView');
 		$view->setModel($model, true);
@@ -72,6 +74,7 @@ class JResearchCooperationsController extends JController
 	{
 		$model =& $this->getModel('Cooperation', 'JResearchModel');
 		$view =& $this->getView('Cooperation', 'html', 'JResearchView');
+		
 		$view->setModel($model, true);
 		$view->display();				
 	}
@@ -86,9 +89,10 @@ class JResearchCooperationsController extends JController
 		$view = &$this->getView('Cooperation', 'html', 'JResearchView');
 		$model = &$this->getModel('Cooperation', 'JResearchModel');
 		
-		if($cid)
+		$coop = $model->getItem($cid);
+		
+		if($cid && ($coop != null))
 		{
-			$coop = $model->getItem($cid);
 			$user = &JFactory::getUser();
 
 			//Check if it is checked out

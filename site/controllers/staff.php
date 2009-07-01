@@ -9,13 +9,13 @@
 * of staff members.
 */
 
-jimport('joomla.application.component.controller');
+
 
 /**
  * JResearch Staff Component Controller
  *
  */
-class JResearchStaffController extends JController
+class JResearchStaffController extends JResearchFrontendController
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -38,6 +38,8 @@ class JResearchStaffController extends JController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
+		
+		$this->addPathwayItem(JText::_('JRESEARCH_STAFF'), 'index.php?option=com_jresearch&view=staff');
 	}
 
 	/**

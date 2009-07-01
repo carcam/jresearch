@@ -27,6 +27,7 @@ class JResearchViewStaff extends JResearchView
     	
         $layout = &$this->getLayout();
         
+        
         $params =& JComponentHelper::getParams('com_jresearch');
     	$former = (int) $params->get('former_members');
     	

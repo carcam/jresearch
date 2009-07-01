@@ -4,7 +4,6 @@
 * @subpackage Cooperations
 * Default view for showing a single cooperation
 */
-
 $contentArr = explode('<hr id="system-readmore" />', $this->coop->description);
 JHTML::_('behavior.modal');
 ?>

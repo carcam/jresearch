@@ -11,13 +11,13 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.component.controller');
+
 
 /**
 * JResearch Component Publications Controller
 *
 */
-class JResearchPublicationsController extends JController
+class JResearchPublicationsController extends JResearchFrontendController
 {
 
 	/**
@@ -55,7 +55,9 @@ class JResearchPublicationsController extends JController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publicationslist');
-		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publication');		
+		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publication');
+
+		$this->addPathwayItem(JText::_('JRESEARCH_PUBLICATIONS'), 'index.php?option=com_jresearch&view=publicationslist');
 	}
 
 	/**
@@ -111,7 +113,8 @@ class JResearchPublicationsController extends JController
 	*/
 	function add()
 	{
-		$view = &$this->getView('Publication', 'html', 'JResearchView');	
+		$view = &$this->getView('Publication', 'html', 'JResearchView');
+		
 		$view->setLayout('new');
 		$view->display();
 	}
@@ -133,7 +136,8 @@ class JResearchPublicationsController extends JController
 		{
 			$publication = $pubModel->getItem($cid);
 			
-			if(!empty($publication)){
+			if(!empty($publication))
+			{
 				$user =& JFactory::getUser();
 				
 				// Verify if it is checked out

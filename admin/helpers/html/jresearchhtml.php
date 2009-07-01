@@ -218,9 +218,8 @@ class JHTMLjresearchhtml
 		$noResults = JText::_('JRESEARCH_NO_RESULTS');
 
 		$doc->addScriptDeclaration("
-	        	var options_xml1_$basename;
-				window.onDomReady(function() {
-	                options_xml1_$basename = {
+	        window.onDomReady(function() {
+	            var options_xml1_$basename = {
 	                script:'index.php?option=com_jresearch&controller=staff&task=autoSuggestMembers&format=json&' ,
 	                varname:'key',
 	                json:true,
@@ -238,8 +237,10 @@ class JHTMLjresearchhtml
 	            as_xml1_$basename.lbl_noresults = '$noResults';
 	            
 	            function appendAuthor(){
-	            	if(as_xml1_$basename){
-	            		as_xml1_$basename.setHighlightedValue();
+	            	if(as_xml1){
+	            		as_xml1.setHighlightedValue();
+					}else{
+						alert('$minAuthorLengthMessage');
 					}
 				}
 	        });
@@ -385,7 +386,13 @@ class JHTMLjresearchhtml
 			document.formvalidator.setHandler(\'date\', function(value) {
 			regex=/^\d{4}(-\d{2}){2}$/;
 			return regex.test(value); })
-		})');				
+		})');
+
+    	$doc->addScriptDeclaration('window.onDomReady(function() {
+			document.formvalidator.setHandler(\'alias\', function(value) {
+			regex=/^[\w\s_-]+$/;
+			return regex.test(value); })
+		})');
     	
     	$doc->addScriptDeclaration('window.onDomReady(function() {
 			document.formvalidator.setHandler(\'url\', function(value) {

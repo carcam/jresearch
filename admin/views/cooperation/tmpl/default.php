@@ -24,8 +24,21 @@ JHTML::_('behavior.modal');
 		</td>
 		<th><?php echo JText::_('JRESEARCH_COOPERATION_URL').': '; ?></th>
 		<td>
-			<input name="url" id="url" size="50" maxlength="255" class="required" value="<?php echo $this->coop?$this->coop->url:''; ?>" />
+			<input name="url" id="url" size="50" maxlength="255" class="required validate-url" value="<?php echo $this->coop?$this->coop->url:''; ?>" />
 			<br /><label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>			
+		</td>
+	</tr>
+	<tr>
+		<th>
+			<?php echo JText::_('Alias').': '?>
+		</th>
+		<td>
+			<input name="alias" id="alias" size="50" maxlength="255" class="required validate-alias" value="<?php echo $this->coop?$this->coop->alias:'' ?>" />
+			<br /><label for="alias" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_ALIAS'); ?></label>
+		</td>
+		<th><?php echo JText::_('JRESEARCH_COOPERATION_CATEGORIES').': '?></th>
+		<td>
+			<?=$this->categoryList?>
 		</td>
 	</tr>
 	<tr>
@@ -33,12 +46,6 @@ JHTML::_('behavior.modal');
 		<td><?php echo $this->publishedList; ?></td>
 		<th><?php echo JText::_('Order').': '; ?></th>
 		<td><?php echo $this->orderList; ?></td>
-	</tr>
-	<tr>
-		<th><?php echo JText::_('JRESEARCH_COOPERATION_CATEGORIES').': '?></th>
-		<td colspan="3">
-			<?=$this->categoryList?>
-		</td>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('Photo').': ' ?></th>

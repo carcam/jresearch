@@ -9,13 +9,13 @@
 * of research projects.
 */
 
-jimport('joomla.application.component.controller');
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
 * JResearch Component Facilities Controller
 *
 */
-class JResearchFacilitiesController extends JController
+class JResearchFacilitiesController extends JResearchFrontendController
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -35,7 +35,9 @@ class JResearchFacilitiesController extends JController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'facilities');
-		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'facility');		
+		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'facility');
+
+		$this->addPathwayItem(JText::_('JRESEARCH_FACILITIES'), 'index.php?option=com_jresearch&view=facilities');
 	}
 
 	/**
@@ -69,7 +71,7 @@ class JResearchFacilitiesController extends JController
 		$view =& $this->getView('Facilities', 'html', 'JResearchView');
 		$view->setModel($model, true);
 		$view->setModel($areaModel);
-		$view->display();		
+		$view->display();
 	}
 
 	/**
@@ -81,7 +83,6 @@ class JResearchFacilitiesController extends JController
 	{
 		$model =& $this->getModel('Facility', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-		
 		$view =& $this->getView('Facility', 'html', 'JResearchView');
 		
 		$view->setModel($model, true);

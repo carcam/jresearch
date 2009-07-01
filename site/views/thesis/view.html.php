@@ -12,8 +12,6 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
-
 /**
  * HTML View class for presentation of a single thesis 
  * information.
@@ -67,6 +65,8 @@ class JResearchViewThesis extends JResearchView
 			return;
 		}
 
+		$this->addPathwayItem($thesis->alias, 'index.php?option=com_jresearch&view=thesis&id='.$thesis->id);
+		
 		$arguments[] = $id;
 		
 		//If the thesis was visited in the same session, do not increment the hit counter

@@ -17,9 +17,31 @@ class JResearchViewCooperations extends JResearchView
 	{
 		global $mainframe;
 		
-		$doc = JFactory::getDocument();
-		$layout = $this->getLayout();
-		// Get data from the model
+		$layout = &$this->getLayout();
+		
+		switch($layout)
+		{
+		    case 'default':
+		    default:
+		        $this->_defaultList();
+		        break;
+		}
+			
+		$eArguments = array('cooperations', $layout);
+		
+		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		
+		parent::display($tpl);
+		
+		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+	}
+	
+	private function _defaultList()
+	{
+	    global $mainframe;
+	    $doc    = &JFactory::getDocument();
+	    
+	    // Get data from the model
 		$model 	= 	&$this->getModel();
 		$items 	= 	$model->getData(null, true, true);
 		$cats 	= 	$model->getCategories();
@@ -29,15 +51,7 @@ class JResearchViewCooperations extends JResearchView
 		$this->assignRef('params', $params);
 		$this->assignRef('items', $items);
 		$this->assignRef('cats', $cats);
-		$this->assignRef('page', $model->getPagination());	
-
-		$eArguments = array('cooperations', $layout);
-		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+		$this->assignRef('page', $model->getPagination());
 	}
 }
 ?>

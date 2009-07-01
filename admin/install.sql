@@ -185,6 +185,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_proceedings` (
 DROP TABLE IF EXISTS `#__jresearch_project`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `id` int(10) unsigned NOT NULL auto_increment,
+  `alias` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL default '1',
   `published` tinyint(4) NOT NULL default '1',
@@ -243,6 +244,7 @@ DROP TABLE IF EXISTS `#__jresearch_publication`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `id_research_area` int(10) unsigned NOT NULL default '1',
+  `alias` varchar(255) NOT NULL,
   `comments` text,
   `journal_acceptance_rate` float unsigned default NULL,
   `impact_factor` float unsigned default NULL,
@@ -311,6 +313,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication_internal_author` (
 DROP TABLE IF EXISTS `#__jresearch_research_area`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   `id` int(10) unsigned NOT NULL auto_increment,
+  `alias` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text,
   `published` tinyint(4) NOT NULL default '1',
@@ -368,6 +371,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_team` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `parent` int(11) unsigned default NULL,
   `id_leader` int(11) unsigned NOT NULL,
+  `alias` varchar(255) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` text,
   `published` tinyint(4) NOT NULL default '0',
@@ -387,6 +391,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_team_member` (
 DROP TABLE IF EXISTS `#__jresearch_thesis`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_thesis` (
   `id` int(10) unsigned NOT NULL auto_increment,
+  `alias` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL default '1',
   `degree` enum('bachelor','master','phd') NOT NULL default 'bachelor',
@@ -450,6 +455,7 @@ DROP TABLE IF EXISTS `#__jresearch_cooperations`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_cooperations` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `catid` int(11) unsigned NOT NULL DEFAULT '0',
+  `alias` varchar(255) NOT NULL,
   `name` varchar(100) NOT NULL,
   `image_url` varchar(256) DEFAULT NULL,
   `description` tinytext NOT NULL,
@@ -466,6 +472,7 @@ DROP TABLE IF EXISTS `#__jresearch_facilities`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_facilities` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `id_research_area` int(10) unsigned NOT NULL default '1',
+  `alias` varchar(255) NOT NULL,
   `name` varchar(50) NOT NULL,
   `image_url` varchar(256) DEFAULT NULL,
   `description` tinytext NOT NULL,

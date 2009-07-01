@@ -28,6 +28,12 @@ class JResearchActivity extends JTable{
 	 */
 	public $id;
 	
+	/**
+	 * String for alias
+	 *
+	 * @var string
+	 */
+	public $alias;
 	
 	/**
 	* @var string

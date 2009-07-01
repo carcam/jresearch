@@ -19,9 +19,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * JResearch Component frontend
  *
  */
-
-
-
 class JResearchViewResearchAreasList extends JResearchView
 {
     public function display($tpl = null)
@@ -29,7 +26,7 @@ class JResearchViewResearchAreasList extends JResearchView
         global $mainframe;
         
     	$doc = JFactory::getDocument();
-    	$layout = $this->getLayout();
+    	$layout = &$this->getLayout();
     	
     	// Require css and styles
         $model =& $this->getModel();
