@@ -210,16 +210,18 @@ class JHTMLjresearchhtml
 		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		
 		$doc->addScript($urlBase.'components/com_jresearch/js/bsn.AutoSuggest_c_2.0.js');
-    	$textField = $baseName.'field';
-    	$projectLeader = JText::_('JRESEARCH_PROJECT_LEADER');
-    	$delete = JText::_('Delete');
-    	$repeatedAuthors = JText::_('JRESEARCH_AUTHOR_ADDED_BEFORE');
+		$textField = $baseName.'field';
+		$projectLeader = JText::_('JRESEARCH_PROJECT_LEADER');
+		$delete = JText::_('Delete');
+		$repeatedAuthors = JText::_('JRESEARCH_AUTHOR_ADDED_BEFORE');
 		$minAuthorLengthMessage = JText::_('JRESEARCH_MIN_AUTHOR_LENGTH_MESSAGE');   	
 		$noResults = JText::_('JRESEARCH_NO_RESULTS');
 
 		$doc->addScriptDeclaration("
-	        window.onDomReady(function() {
-	            var options_xml1_$basename = {
+	        	var options_xml1_$baseName;
+	        	
+			window.onDomReady(function() {
+	                options_xml1_$baseName = {
 	                script:'index.php?option=com_jresearch&controller=staff&task=autoSuggestMembers&format=json&' ,
 	                varname:'key',
 	                json:true,
@@ -228,34 +230,28 @@ class JHTMLjresearchhtml
 	                    document.getElementById('$baseName').value = obj?obj.id:'';
 	                }
 	            };
-	            var as_xml1_$basename = new AutoSuggest('$textField', options_xml1_$basename);
-	            as_xml1_$basename.lbl_projectLeader = '$projectLeader';
-	            as_xml1_$basename.lbl_delete = '$delete';
-	            as_xml1_$basename.projectLeaders = '$allowPrincipals';
-	            as_xml1_$basename.lbl_repeatedAuthors = '$repeatedAuthors';
-	            as_xml1_$basename.lbl_minAuthorLengthMessage = '$minAuthorLengthMessage';
-	            as_xml1_$basename.lbl_noresults = '$noResults';
-	            
-	            function appendAuthor(){
-	            	if(as_xml1){
-	            		as_xml1.setHighlightedValue();
-					}else{
-						alert('$minAuthorLengthMessage');
+	            as_xml1_$baseName = new AutoSuggest('$textField', options_xml1_$baseName);
+	            as_xml1_$baseName.lbl_projectLeader = '$projectLeader';
+	            as_xml1_$baseName.lbl_delete = '$delete';
+	            as_xml1_$baseName.projectLeaders = '$allowPrincipals';
+	            as_xml1_$baseName.lbl_repeatedAuthors = '$repeatedAuthors';
+	            as_xml1_$baseName.lbl_minAuthorLengthMessage = '$minAuthorLengthMessage';
+	            as_xml1_$baseName.lbl_noresults = '$noResults';            
+        		});
+	        	        	            
+            	function appendAuthor(){
+            		if(as_xml1_$baseName){
+            			as_xml1_$baseName.setHighlightedValue();
 					}
-				}
-	        });
-	        
-	        "
-	        
-    	);
-    	$doc->addStyleSheet($urlBase.'components/com_jresearch/css/autosuggest_inquisitor.css');
-		$button = '<input style="margin-left:8px;" type="button" onclick="appendAuthor();" value="'.JText::_('Add').'" />';
-    	$output = "<div class=\"divTdl\"><input type=\"text\" name=\"$textField\" id=\"$textField\" class=\"validate-integrante\" size=\"15\" />$button</div>";
+				}");
+		$doc->addStyleSheet($urlBase.'components/com_jresearch/css/autosuggest_inquisitor.css');
+		$button = '<input style="margin-left:8px;" type="button" onclick="javascript:appendAuthor();" value="'.JText::_('Add').'" />';
+		$output = "<div class=\"divTdl\"><input type=\"text\" name=\"$textField\" id=\"$textField\" class=\"validate-integrante\" size=\"15\" />$button</div>";
 		
-    	// Here we verify if there are authors
+		// Here we verify if there are authors
 		$output .= "<input type=\"hidden\" id=\"$baseName\" value=\"\" />";
-    	if(empty($values)){
-	    	$output .= "<input type=\"hidden\" id=\"n$textField\" name=\"n$textField\" value=\"0\" />";
+		if(empty($values)){
+			$output .= "<input type=\"hidden\" id=\"n$textField\" name=\"n$textField\" value=\"0\" />";
 			$output .= "<div class=\"divTdl\"><ul style=\"text-align:left;padding-left:0px;\" id=\"".$textField."result\"></ul></div>";
 		}else{
 			$output .= "<div class=\"divTdl\"><ul style=\"text-align:left;padding-left:0px;\" id=\"".$textField."result\">";			
@@ -279,7 +275,7 @@ class JHTMLjresearchhtml
 				$j++;
 			}
 	    	$output .= "<input type=\"hidden\" id=\"n$textField\" name=\"n$textField\" value=\"$j\" />";
-			$output .= "</ul></div>";
+		$output .= "</ul></div>";
 		}
 
 		return $output;
