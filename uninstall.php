@@ -22,7 +22,16 @@ require_once(JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'database'.DS.'table'.DS.'
  */
 function com_uninstall(){
 	// Uninstall TinyMCE native automatic citation plugin
-	$automaticCitationFolder = 	JPATH_PLUGINS.DS.'editors'.DS.'tinymce'.DS.'jscripts'.DS.'tiny_mce'.DS.'plugins'.DS.'jresearch_automatic_citation';
+	// This has been added since 1.1.4 to ensure compatibility with Joomla! < 1.5.12
+	$version = new JVersion();
+	$versionText = $version->getShortVersion();
+	$versioncomps = explode('.', $versionText);
+	
+	if(((int)$versioncomps[2]) < 12){		
+		$automaticCitationFolder = 	JPATH_PLUGINS.DS.'editors'.DS.'tinymce'.DS.'jscripts'.DS.'tiny_mce'.DS.'plugins'.DS.'jresearch_automatic_citation';
+	}else{
+		$automaticCitationFolder = 	JPATH_PLUGINS.DS.'editors'.DS.'tinymce'.DS.'jscripts'.DS.'tiny_mce'.DS.'plugins'.DS.'jresearch';		
+	}
 	
 	if(!deleteDirectory($automaticCitationFolder)){
 		echo "Warning: Directory $automaticCitationFolder could not be deleted. Please do it manually.";

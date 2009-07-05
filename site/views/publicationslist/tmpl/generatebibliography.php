@@ -19,7 +19,7 @@ function startSelectedRecordRemoval(){
 	if(selectedIndex >= 0){
 		citekey = citedRecordsList.options[selectedIndex].value;
 		removeRequest = new XHR({method: 'get', onSuccess: removeSelectedRecord, onFailure: onRemovalFailure});
-		removeRequest.send('index.php?option=com_jresearch&amp;controller=publications&amp;task=removeCitedRecord&amp;format=text&amp;citekey='+citekey, null);
+		removeRequest.send('index.php?option=com_jresearch&controller=publications&task=removeCitedRecord&format=text&citekey='+citekey, null);
 	}
 }
 	
@@ -61,7 +61,7 @@ function requestBibliographyGeneration(){
 	}
 			
 	bibliographyRequest = new XHR({method: 'get', onSuccess: generateBibliography, onFailure: onBibliographyGenerationFailure});
-	bibliographyRequest.send('index.php?option=com_jresearch&amp;controller=publications&amp;task=ajaxGenerateBibliography&amp;format=text', null);
+	bibliographyRequest.send('index.php?option=com_jresearch&controller=publications&task=ajaxGenerateBibliography&format=text', null);
 }
 	
 function generateBibliography(response){
