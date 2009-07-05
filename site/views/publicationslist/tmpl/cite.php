@@ -41,7 +41,7 @@ function startPublicationSearch(key){
 		criteria = 'authors';	
 
 	searchRequest = new XHR({method: 'get', onSuccess: addSearchResults, onFailure: onSearchFailure});
-	searchRequest.send('index.php?option=com_jresearch&amp;controller=publications&amp;task=searchByPrefix&amp;format=xml&amp;key='+key+'&amp;criteria='+criteria+'&amp;limitstart='+limitstart, null);	
+	searchRequest.send('index.php?option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key='+key+'&criteria='+criteria+'&limitstart='+limitstart, null);	
 		
 }
 
@@ -234,7 +234,7 @@ function makeCitation(command){
 	}
 		
 	var citekeys = selectedCitekeys.join(",");		
-	var queryString = "index.php?option=com_jresearch&amp;controller=publications&amp;task=cite&amp;command="+command+"&amp;citekeys="+encodeURIComponent(citekeys)+"&amp;format=text";
+	var queryString = "index.php?option=com_jresearch&controller=publications&task=cite&command="+command+"&citekeys="+encodeURIComponent(citekeys)+"&format=text";
 	
 	citeRequest = new XHR({method: 'get', onSuccess: onCiteSuccessful, onFailure: onCiteFailure});
 	citeRequest.send(queryString, null);		

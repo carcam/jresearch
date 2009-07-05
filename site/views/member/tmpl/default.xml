@@ -12,10 +12,6 @@
 			<param type="hidden" name="task" default="show" />
 		</url>
 		<params>
-			<param name="publications_apply_style" type="radio" label="JRESEARCH_PROFILE_PUBLICATIONS_APPLY_STYLE" default="no" description="JRESEARCH_PROFILE_PUBLICATIONS_APPLY_STYLE_DESCRIPTION">
-				<option value="yes">Yes</option>			
-				<option value="no">No</option>
-			</param>
 		</params>
 		
 	</state>

@@ -41,6 +41,7 @@
 		<filename>index.html</filename>
 		<filename>jresearch.php</filename>
 		<filename>tinymce.php</filename>
+		<filename>tinymce.legacy.php</filename>		
 		<folder>assets</folder>
 		<folder>automatic_citation</folder>
 		<folder>bibutils</folder>
@@ -50,6 +51,7 @@
 		<folder>helpers</folder>
 		<folder>includes</folder>
 		<folder>js</folder>
+		<folder>legacy_automatic_citation</folder>		
 		<folder>plg_jresearch</folder>
 		<folder>plg_jresearch_automatic_bibliography_generation</folder>
 		<folder>plg_jresearch_automatic_citation</folder>

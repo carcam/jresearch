@@ -53,9 +53,24 @@ function com_install(){
 	//Remove folder from component
 	@rmdir($srcFolder);
 	
-	// Copy TinyMCE plugin files to the right folder
-	$srcFolder = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'automatic_citation';
-	$destFolder = JPATH_PLUGINS.DS.'editors'.DS.'tinymce'.DS.'jscripts'.DS.'tiny_mce'.DS.'plugins'.DS.'jresearch_automatic_citation';
+	// This has been added since 1.1.4 to ensure compatibility with Joomla! < 1.5.12
+	$version = new JVersion();
+	$versionText = $version->getShortVersion();
+	$versioncomps = explode('.', $versionText);
+	
+	if(((int)$versioncomps[2]) < 12){		
+		// Copy TinyMCE plugin files to the right folder		
+		$srcFolder = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'legacy_automatic_citation';
+		$destFolder = JPATH_PLUGINS.DS.'editors'.DS.'tinymce'.DS.'jscripts'.DS.'tiny_mce'.DS.'plugins'.DS.'jresearch_automatic_citation';
+		// Move the new tinymce.php
+		$newTinyFile = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'tinymce.legacy.php';			
+	}else{
+		// Copy TinyMCE plugin files to the right folder
+		$srcFolder = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'automatic_citation';
+		$destFolder = JPATH_PLUGINS.DS.'editors'.DS.'tinymce'.DS.'jscripts'.DS.'tiny_mce'.DS.'plugins'.DS.'jresearch';		
+		// Move the new tinymce.php
+		$newTinyFile = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'tinymce.php';					
+	}
 	
 	if(file_exists($srcFolder)){
 		if(!@rename($srcFolder, $destFolder)){

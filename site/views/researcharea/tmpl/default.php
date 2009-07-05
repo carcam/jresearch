@@ -26,7 +26,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
 <ul>
 <?php foreach($this->publications as $publication): ?>
+	<?php if($this->applyStyle): ?>
+  	<li>
+  		<?php  
+  			$styleObj =& JResearchCitationStyleFactory::getInstance($this->style, $publication->pubtype);
+  			echo $styleObj->getReferenceHTMLText($publication, true); 
+  		?>
+  		<a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $publication->id; ?><?php $Itemid = JRequest::getVar('Itemid'); echo !empty($itemid)?'&amp;Itemid='.$itemid:''; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a>&nbsp;
+  	</li>
+	<?php else: ?>
 	<li><a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $publication->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $publication->title; ?></a></li>
+	<?php endif; ?>
 <?php endforeach; ?>
 </ul>
 <div>
