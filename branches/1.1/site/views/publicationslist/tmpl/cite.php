@@ -234,7 +234,7 @@ function makeCitation(command){
 	}
 		
 	var citekeys = selectedCitekeys.join(",");		
-	var queryString = "index.php?option=com_jresearch&amp;controller=publications&amp;task=cite&amp;command="+command+"&amp;citekeys="+encodeURIComponent(citekeys)+"&amp;format=text";
+	var queryString = "index.php?option=com_jresearch&controller=publications&task=cite&command="+command+"&citekeys="+encodeURIComponent(citekeys)+"&format=text";
 	
 	citeRequest = new XHR({method: 'get', onSuccess: onCiteSuccessful, onFailure: onCiteFailure});
 	citeRequest.send(queryString, null);		

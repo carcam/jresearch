@@ -222,7 +222,7 @@ class JResearchPublication extends JResearchActivity{
 	 * @return JResearchPublication
 	 */
 
-	public static function &getByCitekey($citekey){
+	public static function getByCitekey($citekey){
 		$result = null;
 		$db =& JFactory::getDBO();
 		$citekeyName = $db->nameQuote('citekey');
@@ -247,7 +247,7 @@ class JResearchPublication extends JResearchActivity{
 	 * @return JResearchPublication or null.
 	 * 
 	 */
-	public static function &getById($id){
+	public static function getById($id){
 		$result = null;
 		$db = &JFactory::getDBO();
 		$idQ = $db->Quote($id, false);
