@@ -47,7 +47,10 @@
 			<option value="Chicago">Chicago (Author-Date system)</option>
 			<option value="Vancouver">Vancouver</option>
 		</param>
-	
+		<param name="publications_apply_style" type="radio" label="JRESEARCH_PUBLICATIONS_APPLY_STYLE" description="JRESEARCH_PUBLICATIONS_APPLY_STYLE_DESCRIPTION" default="no">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
 		<param type="spacer" />
 		<param name="projects_entries_per_page" default="25" label="JRESEARCH_CONFIG_PROJECTS_PER_PAGE" type="text" ></param>				
 		<param name="projects_default_sorting" default="date" label="JRESEARCH_ORDER_BY" type="radio">

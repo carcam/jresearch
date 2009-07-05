@@ -178,6 +178,11 @@ class JResearchViewMember extends JResearchView
     	
     	$applyStyle = ($params->get('publications_apply_style') == 'yes');
     	$configuredCitationStyle = $params->get('citationStyle', 'APA');
+    	if($applyStyle){
+    		// Require publications lang package
+			$lang = JFactory::getLanguage();
+			$lang->load('com_jresearch.publications');		
+    	}    	
     	
     	$format = $params->get('staff_format') == 'last_first'?1:0;
 
