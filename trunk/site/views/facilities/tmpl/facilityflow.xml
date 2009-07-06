@@ -8,12 +8,12 @@
 		<description>JRESEARCH_FACILITY_FLOW_VIEW_MESSAGE</description>
 		
 		<params>
-			<param name="ordering" type="radio" default="0" label="Order by" description="PARAMORDERINGMEMBERS">
-				<option value="0">Last name</option>
+			<param name="ordering" type="radio" default="0" label="Order by" description="PARAMORDERINGFACILITIES">
+				<option value="0">Name</option>
 				<option value="1">Ordering</option>
 			</param>
 			
-			<param name="caption_text" type="text" default="Scroll through our members" size="40" label="Caption" description="PARAMCAPTIONTEXT" />
+			<param name="caption_text" type="text" default="Scroll through our facilities" size="40" label="Caption" description="PARAMCAPTIONTEXT" />
 		
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			
