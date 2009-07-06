@@ -40,7 +40,7 @@ jimport('joomla.filesystem.file');
 			//Clean image path
 			$imagename = JPath::clean( JURI::root(true). '/'. $imagename, '/' );
 
-			$height = $this->get('reflectheight');
+			$height = $this->params->get('reflectheight');
 			
 			//Interpret height
 			if($height == '')
@@ -61,23 +61,23 @@ jimport('joomla.filesystem.file');
 			{
 				$rflctparams['height'] = $height;
 				$rflctparams['img'] = $rimagename;
-				$bgc = $this->get('fadetocolor');
+				$bgc = $this->params->get('fadetocolor');
 				$bgc = JString::str_ireplace('#', '', $bgc);
 				if ($bgc != '')
 				{
 					$rflctparams['bgc'] = $bgc;
 				}
-				$tint = $this->get('tintcolor');
+				$tint = $this->params->get('tintcolor');
 				$tint = JString::str_ireplace('#', '', $tint);
 				if ($tint != '')
 				{
 					$rflctparams['tint'] = $tint;
 				}
-				if ($this->get('reflectresize') != '')
+				if ($this->params->get('reflectresize') != '')
 				{
-					$rflctparams['resize'] = $this->get('reflectresize');
+					$rflctparams['resize'] = $this->params->get('reflectresize');
 				}
-				if ($this->get('alphareflect') == '0')
+				if ($this->params->get('alphareflect') == '0')
 				{
 					$rflctimage = Reflect2::create( $rflctparams );
 				}

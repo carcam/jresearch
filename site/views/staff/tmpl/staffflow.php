@@ -12,94 +12,6 @@
 */
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.filesystem.file');
-
-//Includes
-require(JPATH_COMPONENT_SITE.DS.'includes'.DS.'reflect2.php');
-require(JPATH_COMPONENT_SITE.DS.'includes'.DS.'reflect3.php');
-
-//Variables
-$images =& $this->images;
-$base = JURI::base();
-$component = $base.'components/com_jresearch/';
-
-//Paths
-$js_path = $component.'js';
-$css_path = $component.'css';
-$assets = $component.'assets';
-
-$params =& $this->params;
-
-//Add params to the head script declaration
-if ($params->get('imageslider') == '1')
-{
-	$scrpt = 'imf.hide_slider = false;'.PHP_EOL;
-}
-else
-{
-	$scrpt = 'imf.hide_slider = true;'.PHP_EOL;
-}
-if ($params->get('captions') == '1')
-{
-	$scrpt .= 'imf.hide_caption = false;'.PHP_EOL;
-}
-else
-{
-	$scrpt .= 'imf.hide_caption = true;'.PHP_EOL;
-}
-if ($params->get('glidetoimage') != '')
-{
-	$glidetoimage = $this->get('glidetoimage');
-	//	Have they given us a percentage?
-	if (JString::substr($glidetoimage, -1) == '%')
-	{
-		//	Yes, remove the % sign
-		$glidetoimage = (int) JString::substr($glidetoimage, 0, -1);
-		$glidetoimage = (int) (count($this->images)) * ($glidetoimage/100);
-		$glidetoimage = (int) ($glidetoimage+.50);
-	}
-	else
-	{
-		$glidetoimage = (int) $glidetoimage;
-	}
-	if ($glidetoimage > count($this->images))
-	{
-		$glidetoimage = count($this->images);
-	}
-	if ($glidetoimage < 1)
-	{
-		$glidetoimage = 1;
-	}
-	$glidetoimage--;
-	$scrpt .= 'imf.caption_id = '.$glidetoimage.';'.PHP_EOL;
-	$scrpt .= 'imf.current = '.-$glidetoimage.' * imf.xstep;'.PHP_EOL;
-}
-if ($params->get('imagestacksize') != '')
-{
-	$imagestacksize = (int) $params->get('imagestacksize');
-	if ($imagestacksize > 0 && $imagestacksize < 10)
-	{
-		$scrpt .= 'imf.conf_focus = '.$imagestacksize.';'.PHP_EOL;
-	}
-}
-if ($params->get('imagethumbnailclass') != '')
-{
-	$scrpt .= "imf.conf_thumbnail = '".$params->get('imagethumbnailclass')."';".PHP_EOL;
-}
-if ($params->get('reflectheight') != '')
-{
-	$height = JString::str_ireplace('%', '', $params->get('reflectheight'));
-	$height = ($height / 100);
-	$scrpt .= 'imf.conf_reflection_p = '.$height.';'.PHP_EOL;
-}
-
-//Get document and add various scripts/stylesheets
-$document =& JFactory::getDocument();
-
-$document->addScript($js_path.'/imageflow.js');
-$document->addScriptDeclaration($scrpt);
-
-$document->addStyleSheet($css_path.'/imageflow.css');
 ?>
 <h1 class="componentheading">
 	<?php echo JText::_('JRESEARCH_MEMBERS'); ?>
@@ -189,7 +101,7 @@ $document->addStyleSheet($css_path.'/imageflow.css');
 				$def = JString::str_ireplace('{img}', $imagename, $tmpl);
 				$def = JString::str_ireplace('{rflct}', $rflctimage, $def);
 
-				foreach($images[$i] as $kwd => $val)
+				foreach($this->images[$i] as $kwd => $val)
 				{
 					$def = JString::str_ireplace('{'.$kwd.'}', $val, $def);
 				}

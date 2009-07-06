@@ -50,6 +50,8 @@ class JResearchFacilitiesController extends JResearchFrontendController
 	{
 		global $mainframe;
 		
+		$layout = JRequest::getVar('layout', 'default');
+		
 		//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
 		
@@ -71,6 +73,7 @@ class JResearchFacilitiesController extends JResearchFrontendController
 		$view =& $this->getView('Facilities', 'html', 'JResearchView');
 		$view->setModel($model, true);
 		$view->setModel($areaModel);
+		$view->setLayout($layout);
 		$view->display();
 	}
 

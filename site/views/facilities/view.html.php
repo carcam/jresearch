@@ -26,7 +26,6 @@ class JResearchViewFacilities extends JResearchView
     	global $mainframe;
         $layout  = &$this->getLayout();
         
-        
         switch($layout)
         {
        		case 'default':
@@ -169,6 +168,7 @@ class JResearchViewFacilities extends JResearchView
 		$this->assignRef('js_path', $js_path);
 		$this->assignRef('assets_path', $assets);
 		$this->assignRef('images', $images);
+		$this->assignRef('params', $params);
     }
     
     private function _getImages(array $facilities)
@@ -195,6 +195,7 @@ class JResearchViewFacilities extends JResearchView
     	if (count($images) == 0 )
 		{
 			$url = JURI::base().'components/com_jresearch/assets/qmark.jpg';
+			
 			$images[0]['img'] = str_ireplace(JURI::root(), '', $url);
 			$images[0]['imgalt'] = 'No images found!';
 			$images[0]['imgtitle'] = 'No images found!';
