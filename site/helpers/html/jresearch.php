@@ -44,7 +44,7 @@ class JHTMLJresearch
 				{
 					case 'publications':
 						$task = ($task == 'add')?'new':$task;
-						echo '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="Edit publication">'
+						return '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="Edit publication">'
 						.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
 						.'</a>';
 						break;
@@ -53,6 +53,8 @@ class JHTMLJresearch
 				}
 			}
 		}
+		
+		return '';
 	}
 	
 	/**
@@ -144,11 +146,43 @@ class JHTMLJresearch
 	}
 	
 	/**
+	 * Creates a frontend link for com_jresearch with view, task, id and itemid parameter
+	 *
+	 * @param string $view
+	 * @param string $task
+	 * @param int $id
+	 * @param bool $itemId
+	 * @param array $additional Key-value pair for additional url parameters
+	 */
+	public static function link($text, $view='cooperations', $task='display', $id=null, $bItemId = true, array $additional=array())
+	{
+		$itemid = JRequest::getVar('Itemid');
+		$view = JFilterOutput::stringURLSafe($view);
+		$task = JFilterOutput::stringURLSafe($task);
+		JFilterOutput::cleanText($text);
+		
+		$url = "index.php?option=com_jresearch&view=$view&task=$task".((!empty($id))?'&id='.intval($id):'').(($bItemId)?'&Itemid='.intval($itemid):'').((count($additional) > 0)?self::_getKeyValueString($additional):'');
+		return JFilterOutput::linkXHTMLSafe('<a href="'.$url.'">'.$text.'</a>');
+	}
+	
+	/**
 	 * Gets value of array from given key if it exists, otherwise $default
 	 */
 	private static function getKey($key, array &$arr, $default=null)
 	{
 		return (array_key_exists($key, $arr)?$arr[$key]:$default);
+	}
+	
+	private static function _getKeyValueString(array $pairs)
+	{
+		$string = array();
+		
+		foreach($pairs as $key=>$value)
+		{
+			$string[] = ((string) JFilterOutput::stringURLSafe($key)).'='.((string) JFilterOutput::stringURLSafe($value));
+		}
+		
+		return implode('&', $string);
 	}
 }
 ?>

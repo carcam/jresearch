@@ -149,16 +149,14 @@ JHTML::_('behavior.modal');
 	<?php endif; ?>
 	
 	<?php 
-	$coops = $this->project->getCooperations();
-	
-	if(!empty($coops)):
+	if(!empty($this->coops)):
 	?>
 	<tr>
 		<th class="field"><?php echo JText::_('JRESEARCH_COOPERATION_WITH'); ?></th>
 		<td colspan="3">
 			<ul>
 				<?php
-				foreach($coops as $coop):
+				foreach($this->coops as $coop):
 				?>
 					<li>
 						<?php echo $coop->name; ?>
@@ -218,13 +216,12 @@ JHTML::_('behavior.modal');
 		</ul>
 		</td></tr>
 	<?php endif; ?>	
-	<?php $description = trim($this->project->description); ?>
-	<?php if(!empty($description)): ?>
+	<?php if(!empty($this->description)): ?>
 	<tr>
 		<td colspan="4" align="left" class="publicationlabel"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
 	</tr>
 	<tr>
-		<td colspan="4" align="left" ><div style="text-align:justify"><?php echo str_replace('<hr id="system-readmore" />', '', $description); ?></div></td>
+		<td colspan="4" align="left" ><div style="text-align:justify"><?php echo $this->description; ?></div></td>
 	</tr>
 	<?php endif; ?>	
 </tbody>

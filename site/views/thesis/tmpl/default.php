@@ -152,13 +152,12 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 		</ul>
 		</td></tr>
 	<?php endif; ?>			
-	<?php $description = trim($this->thesis->description); ?>
-	<?php if(!empty($description)): ?>
+	<?php if(!empty($this->description)): ?>
 	<tr>
 		<th scope="col" colspan="4" align="left" class="publicationlabel"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></th>
 	</tr>
 	<tr>
-		<td colspan="4"><div style="text-align:justify;padding:0px;"><?php echo str_replace('<hr id="system-readmore" />', '', $description); ?></div></td>
+		<td colspan="4"><div style="text-align:justify;padding:0px;"><?php echo $this->description; ?></div></td>
 	</tr>
 	<?php endif; ?>	
 </tbody>

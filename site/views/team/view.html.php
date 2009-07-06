@@ -37,7 +37,7 @@ class JResearchViewTeam extends JResearchView
 			return;
 		}
 		
-		$this->addPathwayItem($team->alias, 'index.php?option=com_jresearch&view=team&id='.$team->id);
+		$this->addPathwayItem($item->alias, 'index.php?option=com_jresearch&view=team&id='.$item->id);
 		
 		switch($layout)
 		{
@@ -61,6 +61,9 @@ class JResearchViewTeam extends JResearchView
 		}
 		');
 		
+		$description = explode('<hr id="system-readmore" />', $item->description);
+		$leader = $item->getLeader();
+		
 		$doc->setTitle(JText::_('JRESEARCH_TEAM').' - '.$item->name);
 
 		$this->assignRef('item', $item, JResearchFilter::OBJECT_XHTML_SAFE);
@@ -68,6 +71,8 @@ class JResearchViewTeam extends JResearchView
 		$this->assignRef('memberModel', $memberModel);
 		$this->assignRef('publications', $publications);
 		$this->assignRef('itemId', $itemId);
+		$this->assignRef('description', $description);
+		$this->assignRef('leader', $leader);
 
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		

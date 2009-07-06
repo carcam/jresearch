@@ -77,7 +77,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			endif;
 			?>
 			<div style="text-align:left">
-				<?php echo JFilterOutput::linkXHTMLSafe('<a href="index.php?option=com_jresearch&amp;task=show&amp;view=project&amp;id='.$project->id.(isset($itemId)?'&amp;Itemid='.$itemId:'').'">'.JText::_('JRESEARCH_READ_MORE').'</a>'); ?>
+				<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'project', 'show', $project->id); ?>
 			</div>
 		</div>
 

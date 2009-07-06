@@ -9,7 +9,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1 class="componentheading"><?php echo $this->area->name; ?></h1>
 <h2 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h2>
-<p><?php echo str_replace('<hr id="system-readmore" />', '', $this->area->description);  ?></p>
+<p><?php echo $this->description;  ?></p>
 <div>&nbsp;&nbsp;</div>
 <?php $itemId = JRequest::getVar('Itemid'); ?>
 <?php if(!empty($this->members)): ?>

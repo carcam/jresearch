@@ -12,14 +12,14 @@ defined('_JEXEC') or die('Restricted access');
 	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  	
 ?>
-<div style="float: right;"><?php JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
+<div style="float: right;"><?php echo JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
 <h1 class="componentheading"><?php echo $this->publication->title; ?></h1>
 <table class="frontendsingleitem">
 <tbody>
 	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
 		<td><?php if($this->area->id > 1): ?>
-			<a href="index.php?option=com_jresearch&amp;controller=researchAreas&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
+			<?php echo JHTML::_('jresearch.link', $this->area->name, 'researcharea', 'show', $this->area->id)?>
 		<?php else: ?>
 			<?php echo $this->area->name; ?>	
 		<?php endif; ?>	
@@ -55,7 +55,7 @@ defined('_JEXEC') or die('Restricted access');
 				<?php foreach($authors as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
+								<?php echo JHTML::_('jresearch.link', JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format), 'member', 'show', $auth->id)?><?php echo $i == $n - 1?'':';' ?>
 							<?php else: ?>
 								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 							<?php endif; ?>	
@@ -72,7 +72,7 @@ defined('_JEXEC') or die('Restricted access');
 					<li style="list-style:none;">
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a>
+								<?php echo JHTML::_('jresearch.link', JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format), 'member', 'show', $auth->id)?>
 							<?php else: ?>
 								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
 							<?php endif; ?>	

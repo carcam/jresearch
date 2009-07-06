@@ -81,7 +81,8 @@ class JResearchViewThesis extends JResearchView
     	$area = $areaModel->getItem($thesis->id_research_area);
     	$params = $mainframe->getPageParameters('com_jresearch');    	
 		$showHits = ($params->get('show_hits') == 'yes');
-    	$format = $params->get('staff_format') == 'last_first'?1:0;		
+    	$format = $params->get('staff_format') == 'last_first'?1:0;
+    	$description = str_replace('<hr id="system-readmore" />', '', trim($thesis->description));
 		
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));    	
@@ -91,6 +92,7 @@ class JResearchViewThesis extends JResearchView
     	$this->assignRef('degreeArray', $degreeArray);
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('format', $format);
+    	$this->assignRef('description', $description);
 
     }
 }

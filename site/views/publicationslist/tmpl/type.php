@@ -23,7 +23,7 @@ $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 				
 		<li><span><?php echo $publicationText;  ?></span>
 			<?php if($this->showmore): ?>
-			<span><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a></span>
+			<span><?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $pub->id); ?></span>
 		<?php endif; ?>
 		<?php if($this->showdigital): ?>
 			<?php if(!empty($url))
@@ -35,7 +35,7 @@ $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 				<?php "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			
 			<?php endif; ?>
 		<?php endif; ?>
-		<span><?php JHTML::_('Jresearch.icon','edit', 'publications', $pub->id); ?> <?php JHTML::_('Jresearch.icon','remove', 'publications', $pub->id); ?></span>	
+		<span><?php echo JHTML::_('Jresearch.icon','edit', 'publications', $pub->id); ?> <?php echo JHTML::_('Jresearch.icon','remove', 'publications', $pub->id); ?></span>	
 		</li>
 	<?php endforeach; ?>
 	</ul>

@@ -37,7 +37,7 @@ $itemId = JRequest::getVar('Itemid');
 			<td><?php echo JHTML::_('email.cloak', $member->email); ?></td>
 			<td>
 				<?php if($researchArea->id > 1):?>
-					<a href="index.php?option=com_jresearch&amp;view=researcharea&amp;id=<?php echo $researchArea->id;?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $researchArea->name; ?></a>
+					<?php echo JHTML::_('jresearch.link', $researchArea->name, 'researcharea', 'show', $researchArea->id); ?>
 				<?php else: ?>
 					<?php echo $researchArea->name; ?>				
 				<?php endif; ?>

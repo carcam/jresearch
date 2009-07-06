@@ -23,10 +23,16 @@ if($this->fac->image_url):
 </div>
 <?php 
 endif;
+if($this->description):
+	foreach($this->description as $content):
 ?>
 <p>
-<?php echo $this->fac->description?$this->fac->description:'&nbsp;'?>
+	<?php echo $content; ?>
 </p>
+<?php
+	endforeach;
+endif;
+?>
 <div style="text-align: center;">
 	<a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a>
 </div>

@@ -23,14 +23,14 @@ if(count($this->items) > 0):
 			<div><strong><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></strong>
 			
 				<?php if($researchArea->id > 1): ?>
-					<span><a href="index.php?option=com_jresearch&amp;view=researcharea&amp;id=<?php echo $researchArea->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $researchArea->name;  ?></a></span>
+					<span><?php echo JHTML::_('jresearch.link', $researchArea->name, 'researcharea', 'show', $researchArea->id); ?></span>
 				<?php else: ?>
 					<span><?php echo $researchArea->name;  ?></span>
 				<?php endif; ?>
 			</div>			
 			<div>&nbsp;</div>
 			<p><?php echo $contentArray[0]; ?></p>
-			<div style="text-align:left"><a href="index.php?option=com_jresearch&amp;task=show&amp;view=thesis&amp;id=<?php echo $thesis->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo JText::_('JRESEARCH_READ_MORE'); ?></a></div>
+			<div style="text-align:left"><?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'thesis', 'show', $thesis->id); ?></div>
 		</div>
 	</li>	
 <?php endforeach; ?>

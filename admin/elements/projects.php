@@ -38,32 +38,40 @@ class JElementProjects extends JElement
 		
 		//Generate element
 		$html = JHTML::_('jresearchhtml.input', $fieldName, $value, 'hidden', array('id' => $name));
-		$html .= JHTML::_('select.genericlist', $projectsOptions, 'projectslist', 'multiple="multiple" class="inputbox" size="5" onchange="changeValue(\''.$name.'\');"', 'value', 'text', explode(',',$value));
-		$html .= '&nbsp;&nbsp;';
-		$html .= JHTML::_(
-			'jresearchhtml.input',
-			'selectbtn',
-			JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_SELECT_ALL'),
-			'button',
-		    array(
-				'id' => 'selectbtn',
-				'onclick' => 'selectAll(\''.$name.'\');',
-				'style' => 'vertical-align: top;'
-		    )
-        );
-		$html .= '&nbsp;';
-		$html .= JHTML::_(
-			'jresearchhtml.input',
-			'resetbtn',
-			JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_RESET'),
-			'button',
-		    array(
-		    	'id' => 'resetbtn',
-		    	'onclick' => 'unselectAll(\''.$name.'\');',
-		    	'style' => 'vertical-align: top;',
-		    	'title' => JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_TOOLTIP')
-		    )
-	    );
+		
+		if(count($projectsOptions) > 0)
+		{
+			$html .= JHTML::_('select.genericlist', $projectsOptions, 'projectslist', 'multiple="multiple" class="inputbox" size="5" onchange="changeValue(\''.$name.'\');"', 'value', 'text', explode(',',$value));
+			$html .= '&nbsp;&nbsp;';
+			$html .= JHTML::_(
+				'jresearchhtml.input',
+				'selectbtn',
+				JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_SELECT_ALL'),
+				'button',
+			    array(
+					'id' => 'selectbtn',
+					'onclick' => 'selectAll(\''.$name.'\');',
+					'style' => 'vertical-align: top;'
+			    )
+	        );
+			$html .= '&nbsp;';
+			$html .= JHTML::_(
+				'jresearchhtml.input',
+				'resetbtn',
+				JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_RESET'),
+				'button',
+			    array(
+			    	'id' => 'resetbtn',
+			    	'onclick' => 'unselectAll(\''.$name.'\');',
+			    	'style' => 'vertical-align: top;',
+			    	'title' => JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_TOOLTIP')
+			    )
+		    );
+		}
+		else 
+		{
+			$html .= JText::_('JRESEARCH_NO_PROJECTS');
+		}
 		
 		return $html;
 	}

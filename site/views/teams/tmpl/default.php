@@ -32,9 +32,7 @@ if(count($this->items) > 0):
 					<strong><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?php echo !empty($leader)?$leader->__toString():'';?>
 				</div>
 				<div style="text-align:left">
-					<a href="index.php?option=com_jresearch&task=show&view=team&id=<?php echo $team->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >
-						<?php echo JText::_('JRESEARCH_READ_MORE'); ?>
-					</a>
+					<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'team', 'show', $team->id); ?>
 				</div>
 			</div>
 			<div style="clear: both;">&nbsp;</div>

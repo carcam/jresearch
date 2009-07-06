@@ -12,14 +12,11 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
-
 /**
  * HTML View class for presentation of a single facility 
  * information.
  *
  */
-
 class JResearchViewFacility extends JResearchView
 {
     function display($tpl = null)
@@ -83,12 +80,14 @@ class JResearchViewFacility extends JResearchView
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($fac->id_research_area);
+    	$description = explode('<hr id="system-readmore" />', $fac->description);
     	
     	$doc->setTitle(JText::_('JRESEARCH_FACILITY').' - '.$area->name.' - '.$fac->name);
     			
     	// Bind variables for layout
     	$this->assignRef('fac', $fac, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('area', $area);
+    	$this->assignRef('description', $description);
     	
     	return true;
     }
