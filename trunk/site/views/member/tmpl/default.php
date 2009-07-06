@@ -66,7 +66,7 @@ JHTML::_('behavior.modal');
   </tr>
   <?php if(!empty($this->member->description)): ?>
   <tr><th scope="col" colspan="4"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></th></tr>
-  <tr><td colspan="4"><?php echo str_replace('<hr id="system-readmore" />', '', $this->member->description); ?></td></tr>			  
+  <tr><td colspan="4"><?php echo $this->description; ?></td></tr>			  
   <?php endif; ?>
   <?php $itemId = JRequest::getVar('Itemid', null); ?>
   <?php if(!empty($this->publications)){ ?>

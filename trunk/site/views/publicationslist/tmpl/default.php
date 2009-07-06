@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
-<div style="float: right;"><?php JHTML::_('Jresearch.icon','add','publications'); ?></div>
+<div style="float: right;"><?php echo JHTML::_('Jresearch.icon','add','publications'); ?></div>
 <div>
 <?php 
 	$layout = JRequest::getVar('filter_order', 'year');

@@ -76,6 +76,8 @@ class JResearchViewProject extends JResearchView
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($project->id_research_area);
     	$params = $mainframe->getPageParameters('com_jresearch');
+    	$coops = $project->getCooperations;
+    	$description = str_replace('<hr id="system-readmore" />', '', trim($project->description));
 
     	$doc->setTitle(JText::_('JRESEARCH_PROJECT').' - '.$project->title);
     	// Bind variables for layout
@@ -83,6 +85,8 @@ class JResearchViewProject extends JResearchView
     	$this->assignRef('project', $project, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('coops', $coops);
+    	$this->assignRef('description', $description);
     	
     	return true;    	
 

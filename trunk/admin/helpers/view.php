@@ -16,6 +16,7 @@ final class JResearchFilter
     const URL_ENCODE = 1;
     const HTML_ENTITIES = 2;
     const OBJECT_XHTML_SAFE = 4;
+    const ARRAY_OBJECT_XHTML_SAFE = 8;
 }
 
 class JResearchView extends JView
@@ -49,6 +50,11 @@ class JResearchView extends JView
             case JResearchFilter::OBJECT_XHTML_SAFE:
                 $this->_filterObjectXHtmlSafe($val, $config);
                 break;
+                
+            case JResearchFilter::ARRAY_OBJECT_XHTML_SAFE:
+            	if(is_array($val))
+            		$this->_filterArrayObjectXHtmlSafe($val, $config);
+            	break;
                 
             case JResearchFilter::NO_FILTER:
             default:
@@ -98,21 +104,39 @@ class JResearchView extends JView
         
         return false;
     }
+    
+	/**
+     * Filters the whole object to make the value XHTML safe. Raw value will be added by the function
+     *
+     * @param object $val
+     * @param array $config
+     * @return bool
+     */
+    private function _filterArrayObjectXHtmlSafe(array &$val, array $config=array())
+    {
+    	foreach($val as &$object)
+    	{
+	        $this->_filterObjectXHtmlSafe($object, $config);
+    	}
+        
+        return false;
+    }
 
     /**
      * Adds a pathway item to the current pathway if no ItemId exists
      *
      * @param string $name
      * @param string $link
+     * @param bool $bItemid 
      * @return bool
      */
-    public function addPathwayItem($name, $link='')
+    public function addPathwayItem($name, $link='', $bItemid = false)
     {
         global $mainframe;
         
         $itemid = JRequest::getVar('Itemid', null);
         
-        if(is_null($itemid))
+        if(is_null($itemid) || $bItemid)
         {
             $pathway = &$mainframe->getPathway();
             return $pathway->addItem($name, $link);

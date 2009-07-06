@@ -185,6 +185,7 @@ class JResearchViewMember extends JResearchView
     	}    	
     	
     	$format = $params->get('staff_format') == 'last_first'?1:0;
+    	$description = str_replace('<hr id="system-readmore" />', $member->description);
 
     	// Bind variables for layout
     	$this->assignRef('publications_view_all', $publications_view_all);
@@ -196,6 +197,7 @@ class JResearchViewMember extends JResearchView
     	$this->assignRef('applyStyle', $applyStyle);
     	$this->assignRef('style', $configuredCitationStyle);
     	$this->assignRef('format', $format);
+    	$this->assignRef('description', $description);
     	
     	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
     	

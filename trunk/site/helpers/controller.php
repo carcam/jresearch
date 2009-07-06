@@ -20,15 +20,16 @@ class JResearchFrontendController extends JController
      *
      * @param string $name
      * @param string $link
+     * @param bool $bItemid Parameter for adding Pathway item if ItemId is set or not
      * @return bool
      */
-    public function addPathwayItem($name, $link='')
+    public function addPathwayItem($name, $link='', $bItemid = false)
     {
         global $mainframe;
         
         $itemid = JRequest::getVar('Itemid', null);
         
-        if(is_null($itemid))
+        if((is_null($itemid) || $bItemid) && !$mainframe->isAdmin())
         {
             $pathway = &$mainframe->getPathway();
             return $pathway->addItem($name, $link);

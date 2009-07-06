@@ -51,7 +51,10 @@ class JResearchViewCooperation extends JResearchView
 		}
 
 		$doc->setTitle(JText::_('JRESEARCH_COOPERATION').' - '.$item->name);
+		$description = explode('<hr id="system-readmore" />', $item->description);
+		
 		$this->assignRef('coop', $item, JResearchFilter::OBJECT_XHTML_SAFE);
+		$this->assignRef('description', $description);
 		$this->assignRef('editor', $editor);
 		$this->assignRef('params', $params);
 

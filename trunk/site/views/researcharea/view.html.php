@@ -72,7 +72,9 @@ class JResearchViewResearchArea extends JResearchView
     	if($theses_view_all == 0)
     		$theses = $model->getLatestTheses($area->id, $latestTheses);
 		else
-    		$theses = $model->getLatestTheses($area->id);		
+    		$theses = $model->getLatestTheses($area->id);
+
+    	$description = str_replace('<hr id="system-readmore" />', '', $area->description);	
     		
     	$applyStyle = ($params->get('publications_apply_style') == 'yes');
     	$configuredCitationStyle = $params->get('citationStyle', 'APA');
@@ -92,9 +94,10 @@ class JResearchViewResearchArea extends JResearchView
     	$this->assignRef('theses_view_all', $theses_view_all);    	
 		$this->assignRef('members', $members);
         $this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
-    	$this->assignRef('applyStyle', $applyStyle);        
+        $this->assignRef('description', $description);
+        $this->assignRef('applyStyle', $applyStyle);        
     	$this->assignRef('style', $configuredCitationStyle);
-    	$this->assignRef('format', $format);        
+    	$this->assignRef('format', $format); 
         
         $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		

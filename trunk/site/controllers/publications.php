@@ -11,7 +11,10 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
+if(!class_exists('JResearchFrontendController'))
+{
+	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
+}
 
 /**
 * JResearch Component Publications Controller
