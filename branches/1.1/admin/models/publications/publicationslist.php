@@ -284,7 +284,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	 * @return array Array of public records that match the search
 	 */
 	public function getItemsByPrefix($prefix, $criteria, $limitstart = 0, $limit = 10){		
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$records = array();
 		$finalQuery = null;
 		
@@ -292,7 +292,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			return $records;
 
 		$newprefix = $db->Quote( '%'.$db->getEscaped( strtolower($prefix), true ).'%', false );
-		$prefix = $db->Quote(strtolower($prefix), false); 
+		$prefixscp = $db->Quote(strtolower($prefix), false); 
 		$publicationTable = $db->nameQuote('#__jresearch_publication');
 		$staffTable = $db->nameQuote('#__jresearch_member');
 		$internalAuthorsTable = $db->nameQuote('#__jresearch_publication_internal_author');
@@ -310,11 +310,11 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$authorname = $db->nameQuote('author_name');
 		$pu = $db->nameQuote('published');
 
-		$whereKeywords = " LOCATE($prefix, LOWER(".$db->nameQuote('keywords').")) > 0";
+		$whereKeywords = " LOCATE($prefixscp, LOWER(".$db->nameQuote('keywords').")) > 0";
 		$whereTitle = " LOWER(".$db->nameQuote('title').") LIKE $newprefix";
-		$whereYear = " ".$db->nameQuote('year')."= $prefix";
+		$whereYear = " ".$db->nameQuote('year')." = $prefixscp";
 		$whereCitekey = " LOWER(".$db->nameQuote('citekey').") LIKE $newprefix";
-		$published = $db->nameQuote('published')." = 1";
+		$published = $db->nameQuote('published').' = '.$db->Quote(1);
 
 
 		switch($criteria){
@@ -334,16 +334,21 @@ class JResearchModelPublicationsList extends JResearchModelList{
 				break;			
 		}
 		
-		if($criteria == 'authors'){
-			$finalQuery = "SELECT DISTINCT $p.$id, $p.$pubtype  FROM $publicationTable $p, $externalAuthorsTable em"
-			." WHERE $published AND $em.$id_publication = $p.$id AND LOWER($em.$authorname) LIKE $newprefix"
-			." UNION SELECT $p.$id, $p.$pubtype FROM $publicationTable $p, $internalAuthorsTable $im, $staffTable $m"
-			." WHERE $p.$id = $im.$id_publication AND $p.$pu = 1 AND $im.$id_staff_member = $m.$id"
-			." AND (LOWER($m.$firstname) LIKE $newprefix OR LOWER($m.$lastname) LIKE $newprefix) ";
-		}else if($criteria == 'all'){
-			$finalQuery = "SELECT id, pubtype FROM $publicationTable WHERE (".$whereCitekey." OR ".$whereKeywords." OR ".$whereYear." OR ".$whereTitle.") AND $published";
+		// If %% is sent, so ignore criteria, just return all available items
+		if($prefix != '%%'){
+			if($criteria == 'authors'){
+				$finalQuery = "SELECT DISTINCT $p.$id, $p.$pubtype  FROM $publicationTable $p, $externalAuthorsTable em"
+				." WHERE $published AND $em.$id_publication = $p.$id AND LOWER($em.$authorname) LIKE $newprefix"
+				." UNION SELECT $p.$id, $p.$pubtype FROM $publicationTable $p, $internalAuthorsTable $im, $staffTable $m"
+				." WHERE $p.$id = $im.$id_publication AND $p.$pu = 1 AND $im.$id_staff_member = $m.$id"
+				." AND (LOWER($m.$firstname) LIKE $newprefix OR LOWER($m.$lastname) LIKE $newprefix) ";
+			}else if($criteria == 'all'){
+				$finalQuery = "SELECT id, pubtype FROM $publicationTable WHERE (".$whereCitekey." OR ".$whereKeywords." OR ".$whereYear." OR ".$whereTitle.") AND $published";
+			}else{
+				$finalQuery = $query;
+			}
 		}else{
-			$finalQuery = $query;
+			$finalQuery = 'SELECT '.$db->nameQuote('id').', '.$db->nameQuote('pubtype').' FROM '.$publicationTable.' WHERE '.$db->nameQuote('published').' = '.$db->Quote(1); 
 		}
 		
 		$finalQuery .= " LIMIT $limitstart, $limit";
