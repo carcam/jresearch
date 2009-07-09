@@ -312,7 +312,12 @@ class JResearchViewPublicationsList extends JResearchView
     	// Prepare the HTML document
     	$document =& JFactory::getDocument();
 		$document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
-				
+		$document->addScriptDeclaration("window.onDomReady(
+			function(){
+				var searchRequest = new XHR({method: 'get', onSuccess: addSearchResults, onFailure: onSearchFailure});
+				searchRequest.send('index.php?option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);	
+			 }
+		);");				
 		$citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:200px;" ');
 		JHTML::_('behavior.mootools');
 		
