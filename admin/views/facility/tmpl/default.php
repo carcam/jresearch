@@ -15,55 +15,55 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('Name').': '?></td>
 		<td colspan="3">
-			<input name="name" id="name" size="80" maxlength="255" value="<?=$this->fac?$this->fac->name:'' ?>" class="required" />
+			<input name="name" id="name" size="80" maxlength="255" value="<?php echo $this->fac?$this->fac->name:'' ?>" class="required" />
 			<br />
 			<label for="name" class="labelform"><?php echo JText::_('JRESEARCH_FACILITY_PROVIDE_VALID_NAME'); ?></label>
 		</td>
 	</tr>
 	<tr>
-		<td><?=JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>		
-		<td colspan="3"><?=$this->areasList; ?></td>
+		<td><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>		
+		<td colspan="3"><?php echo $this->areasList; ?></td>
 	</tr>
 	<tr>
-		<td><?=JText::_('Published').': '; ?></td>
-		<td colspan="3"><?=$this->publishedRadio; ?></td>
+		<td><?php echo JText::_('Published').': '; ?></td>
+		<td colspan="3"><?php echo $this->publishedRadio; ?></td>
 	</tr>
 	<tr>
-		<th class="editpublication" colspan="4"><?=JText::_('JRESEARCH_OPTIONAL'); ?></th>
+		<th class="editpublication" colspan="4"><?php echo JText::_('JRESEARCH_OPTIONAL'); ?></th>
 	</tr>
 	<tr>
 		<td>
-			<?=JText::_('JRESEARCH_FACILITY_IMAGE').': '; ?>
+			<?php echo JText::_('JRESEARCH_FACILITY_IMAGE').': '; ?>
 		</td>
 		<td>
-			<input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?=JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 1024, 768)); ?><br />
+			<input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 1024, 768)); ?><br />
 		</td>
 		<td colspan="2" rowspan="2">
 			<?php
 			if($this->fac && $this->fac->image_url):
 			?>
-				<a href="<?=$this->fac->image_url;?>" class="modal">
-					<img src="<?=$this->fac->image_url; ?>" alt="Image of <?=$this->fac->name?>" width="100" />
+				<a href="<?php echo $this->fac->image_url;?>" class="modal">
+					<img src="<?php echo $this->fac->image_url; ?>" alt="Image of <?php echo $this->fac->name?>" width="100" />
 				</a>
-				<label for="delete" /><?=JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
-				<input type="hidden" name="image_url" id="image_url" value="<?=$this->fac->image_url;?>" />
+				<label for="delete" /><?php echo JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
+				<input type="hidden" name="image_url" id="image_url" value="<?php echo $this->fac->image_url;?>" />
 			<?php
 			endif;
 			?>
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2" align="left"><?=JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
+		<td colspan="2" align="left"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
 	</tr>
 	<tr>
-		<td colspan="4"><?=$this->editor->display( 'description',  $this->fac?$this->fac->description:'' , '100%', '350', '75', '20' ) ; ?></td>
+		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->fac?$this->fac->description:'' , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
 </tbody>
 </table>
 <input type="hidden" name="option" value="com_jresearch" />
 <input type="hidden" name="task" value="" />		
 <input type="hidden" name="controller" value="facilities" />
-<input type="hidden" name="id" value="<?=$this->fac?$this->fac->id:'' ?>" />		
+<input type="hidden" name="id" value="<?php echo $this->fac?$this->fac->id:'' ?>" />		
 <?php echo JHTML::_('behavior.keepalive'); ?>
 <?php echo JHTML::_('form.token'); ?>	
 </form>

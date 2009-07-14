@@ -41,11 +41,11 @@ JHTML::_('behavior.modal');
 			<?php
 			if($this->coop && $this->coop->image_url):
 			?>
-				<a href="<?=$this->coop->image_url;?>" class="modal">
-					<img src="<?=$this->coop->image_url;?>" alt="<?php echo JText::_('Photo'); ?>" class="modal" />
+				<a href="<?php echo $this->coop->image_url;?>" class="modal">
+					<img src="<?php echo $this->coop->image_url;?>" alt="<?php echo JText::_('Photo'); ?>" class="modal" />
 				</a>
 				<label for="delete" /><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" />
-				<input type="hidden" name="image_url" id="image_url" value="<?=$this->coop->image_url;?>" />
+				<input type="hidden" name="image_url" id="image_url" value="<?php echo $this->coop->image_url;?>" />
 			<?php
 			endif;
 			?>

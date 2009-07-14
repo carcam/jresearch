@@ -87,5 +87,14 @@ class JResearch
 		
 		return $fileVar;
 	}
+	
+	public static function getUrlByRelative($rel_path)
+	{
+		global $mainframe;
+		
+		$path = JURI::base().((!$mainframe->isAdmin())?'administrator/':'');
+		
+		return $path.str_replace($path, '', $rel_path); //For backward compatibility if absolute path is stored
+	}
 }
 ?>

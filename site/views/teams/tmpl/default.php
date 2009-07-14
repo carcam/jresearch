@@ -27,7 +27,7 @@ defined("_JEXEC") or die("Restricted access");
 				</div>
 				<div>
 					<?php $leader = $team->getLeader(); ?>
-					<strong><?=JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?php echo $leader->__toString(); ?>
+					<strong><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?php echo $leader->__toString(); ?>
 				</div>
 				<div style="text-align:left">
 					<a href="index.php?option=com_jresearch&task=show&view=team&id=<?php echo $team->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >

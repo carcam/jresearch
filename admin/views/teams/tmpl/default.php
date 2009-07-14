@@ -10,10 +10,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<table>
 		<tbody>
 			<tr>
-				<td style="text-align:left; width:100%;"><?=JText::_('Filter'); ?>
-					<input type="text" name="filter_search" id="search" value="<?=$this->lists['search'] ?>" class="text_area" onchange="document.adminForm.submit();" />
-					<button onclick="this.form.submit();"><?=JText::_('Go'); ?></button>
-					<button onclick="document.adminForm.filter_search.value='';this.form.submit();"><?=JText::_('Reset'); ?></button>
+				<td style="text-align:left; width:100%;"><?php echo JText::_('Filter'); ?>
+					<input type="text" name="filter_search" id="search" value="<?php echo $this->lists['search'] ?>" class="text_area" onchange="document.adminForm.submit();" />
+					<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
+					<button onclick="document.adminForm.filter_search.value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 				</td>
 				<td nowrap="nowrap">
 					<?php echo $this->lists['state'];?>
@@ -25,18 +25,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<thead>
 		<tr>		
 			<th width="1%">#</th>
-			<th align="center"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?=count($this->items); ?>);" /></th>
-			<th align="center"><?=JHTML::_('grid.sort', JText::_('JRESEARCH_TEAM'), 'name', @$this->lists['order_Dir'], @$this->lists['order'] );?></th>
-			<th width="1%" nowrap="nowrap"><?=JHTML::_('grid.sort','Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
+			<th align="center"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" /></th>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_TEAM'), 'name', @$this->lists['order_Dir'], @$this->lists['order'] );?></th>
+			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort','Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
 			<th>
-				<?=JText::_('JRESEARCH_TEAM_LEADER'); ?>
+				<?php echo JText::_('JRESEARCH_TEAM_LEADER'); ?>
 			</th>
 		</tr>
 		</thead>		
 		<tfoot>
 			<tr>
 				<td colspan="9">
-					<?=$this->page->getListFooter(); ?>
+					<?php echo $this->page->getListFooter(); ?>
 				</td>
 			</tr>
 		</tfoot>
@@ -50,16 +50,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
 					$leader = $this->items[$i]->getLeader();
 			?>
-				<tr class="<?="row$k"; ?>">
-					<td><?=$this->page->getRowOffset( $i ); ?></td>
-					<td width="1%"><?=$checked; ?></td>
+				<tr class="<?php echo "row$k"; ?>">
+					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
+					<td width="1%"><?php echo $checked; ?></td>
 					<td width="30%">
-						<a href="index.php?option=com_jresearch&controller=teams&task=edit&cid[]=<?=$this->items[$i]->id; ?>">
-							<?=$this->items[$i]->name; ?>
+						<a href="index.php?option=com_jresearch&controller=teams&task=edit&cid[]=<?php echo $this->items[$i]->id; ?>">
+							<?php echo $this->items[$i]->name; ?>
 						</a>
 					</td>
-					<td align="center"><?=$published; ?></td>
-					<td align="center"><?=$leader?></td>
+					<td align="center"><?php echo $published; ?></td>
+					<td align="center"><?php echo $leader?></td>
 				</tr>
 			<?php } ?>
 		</tbody>

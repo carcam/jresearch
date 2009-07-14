@@ -1,5 +1,5 @@
 <div class="componentheading" style="float: left;">
-	<?=JText::_('JRESEARCH_'.JString::strtoupper(JRequest::getVar('task')).'_PUBLICATION');?>
+	<?php echo JText::_('JRESEARCH_'.JString::strtoupper(JRequest::getVar('task')).'_PUBLICATION');?>
 </div>
 <?php 
 if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this->id > 0)) || (JHTML::_('Jresearch.authorize','add', 'publications') && ($this->id <= 0))):
@@ -15,7 +15,7 @@ if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this-
 else:
 ?>
 	<div style="clear: both;">&nbsp;</div>
-	<div style="text-align:center;"><?=JText::_('JRESEARCH_ACCESS_NOT_ALLOWED')?></div>
+	<div style="text-align:center;"><?php echo JText::_('JRESEARCH_ACCESS_NOT_ALLOWED')?></div>
 <?php
 endif;
 ?>

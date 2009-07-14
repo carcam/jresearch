@@ -23,12 +23,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_TEAM_LEADER').': '; ?></td>
-		<td><?=$this->leaderList; ?></td>
+		<td><?php echo $this->leaderList; ?></td>
 		<td><?php echo JText::_('JRESEARCH_TEAM_MEMBERS').': '; ?></td>
-		<td><?=$this->memberList; ?></td>
+		<td><?php echo $this->memberList; ?></td>
 	</tr>
 	<tr>
-		<td colspan="4"><?=$this->editor->display( 'description',  isset($this->team)?$this->team->description:'' , '100%', '350', '75', '20' ) ; ?></td>
+		<td colspan="4"><?php echo $this->editor->display( 'description',  isset($this->team)?$this->team->description:'' , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
 </tbody>
 </table>

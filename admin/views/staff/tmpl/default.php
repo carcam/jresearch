@@ -28,7 +28,7 @@ defined('_JEXEC') or die('Restricted access');
 			<th width="1%">#</th>
 			<th align="center"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
 			<th class="title" width="40%"><?php echo JHTML::_('grid.sort',  'Name', 'lastname', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th align="center"><?=JHTML::_('grid.sort', JText::_('JRESEARCH_FORMER_MEMBER'), 'former_member', $this->lists['order_Dir'], $this->lists['order'] );?></th>
+			<th align="center"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_FORMER_MEMBER'), 'former_member', $this->lists['order_Dir'], $this->lists['order'] );?></th>
 			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th width="8%" nowrap="nowrap">
 				<?php echo JHTML::_('grid.sort', 'Order by', 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
@@ -61,7 +61,7 @@ defined('_JEXEC') or die('Restricted access');
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td width="1%"><?php echo $checked; ?></td>
 					<td width="30%"><a href="index.php?option=com_jresearch&controller=staff&task=edit&cid[]=<?php echo $this->items[$i]->id; ?>"><?php echo $this->items[$i];  ?></a></td>
-					<td align="center"><input type="checkbox" name="former_member" value="1" disabled="disabled" <?=(($this->items[$i]->former_member == 1) ? 'checked="checked"' : "")?> /></td>
+					<td align="center"><input type="checkbox" name="former_member" value="1" disabled="disabled" <?php echo (($this->items[$i]->former_member == 1) ? 'checked="checked"' : "")?> /></td>
 					<td align="center"><?php echo $published; ?></td>
 					<td class="order" nowrap="nowrap">
 						<span><?php echo $this->page->orderUpIcon( $i, $this->items[$i]->ordering > 1, 'orderup', 'Move Up', $this->ordering); ?></span>
