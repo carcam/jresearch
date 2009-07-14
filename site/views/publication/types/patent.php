@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td style="width:35%;"><?php echo $patent_number; ?></td>
 	<?php endif; ?>
 	<?php if($colspan > 0): ?>
-	<td colspan="<?=$colspan; ?>"></td>	
+	<td colspan="<?php echo $colspan; ?>"></td>	
 	<?php endif; ?>
 </tr>
 <tr>

@@ -18,7 +18,7 @@ $countCoops = count($coops);
 
 $itemId = JRequest::getVar('Itemid');
 ?>
-<div id="cooperations" class="cooperations<?=$params->get('moduleclass_sfx'); ?>">
+<div id="cooperations" class="cooperations<?php echo $params->get('moduleclass_sfx'); ?>">
 	<?php
 	if($countCoops > 0)
 	{
@@ -40,7 +40,7 @@ $itemId = JRequest::getVar('Itemid');
 	{
 	?>
 		<div style="text-align: center;">
-			<?=JText::_('QUICKCOOPS_NORECORDSFOUND')?>
+			<?php echo JText::_('QUICKCOOPS_NORECORDSFOUND')?>
 		</div>
 	<?php
 	}
