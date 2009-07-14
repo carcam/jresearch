@@ -44,7 +44,7 @@ else
 {
 ?>
 	<div style="clear: both;">&nbsp;</div>
-	<div style="text-align:center;"><?=JText::_('JRESEARCH_ACCESS_NOT_ALLOWED')?></div>
+	<div style="text-align:center;"><?php echo JText::_('JRESEARCH_ACCESS_NOT_ALLOWED')?></div>
 <?php
 }
 ?>

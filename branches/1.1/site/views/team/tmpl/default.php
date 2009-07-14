@@ -8,14 +8,14 @@
 $contentArr = explode('<hr id="system-readmore" />', $this->item->description);
 ?>
 <h1 class="componentheading">
-	<?=JText::_('JRESEARCH_TEAM');?>
+	<?php echo JText::_('JRESEARCH_TEAM');?>
 	-
-	<?=JFilterOutput::ampReplace($this->item->name);?>
+	<?php echo JFilterOutput::ampReplace($this->item->name);?>
 </h1>
 <div class="content">
 	<div class="tr">
 		<?php $leader = $this->item->getLeader(); ?>
-		<strong><?=JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?php echo !empty($leader)?$leader->__toString():''; ?>
+		<strong><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?php echo !empty($leader)?$leader->__toString():''; ?>
 	</div>
 	<div class="tr">
 		<?php 
@@ -24,7 +24,7 @@ $contentArr = explode('<hr id="system-readmore" />', $this->item->description);
 		foreach($members as $member)
 			$membersStrings[] = $member->__toString(); 
 		?>
-		<strong><?=JText::_('JRESEARCH_TEAM_MEMBERS');?>:</strong> <ul><li><?php echo implode("</li><li> ", $membersStrings); ?></li></ul>
+		<strong><?php echo JText::_('JRESEARCH_TEAM_MEMBERS');?>:</strong> <ul><li><?php echo implode("</li><li> ", $membersStrings); ?></li></ul>
 	</div>
 	<?php
 	//Show description only if description exists

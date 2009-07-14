@@ -21,6 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 global $mainframe;
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 
 //Set ACL
 setACL();

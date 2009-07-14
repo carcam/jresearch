@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $itemId = JRequest::getVar('Itemid');
 ?>
-<ul id="jresearch-facilities" class="menu<?=$params->get('moduleclass_sfx')?>">
+<ul id="jresearch-facilities" class="menu<?php echo $params->get('moduleclass_sfx')?>">
 	<?php 
 	if(count($areas) > 0)
 	{
@@ -12,7 +12,7 @@ $itemId = JRequest::getVar('Itemid');
 			$areaItem = JResearchModelResearchArea::getItem($area);
 	?>
 		<li>
-			<h5><?=$areaItem->name?></h5>
+			<h5><?php echo $areaItem->name?></h5>
 			<ul>
 				<?php
 				if(count($facs) > 0)
@@ -23,8 +23,8 @@ $itemId = JRequest::getVar('Itemid');
 						{
 					?>
 						<li>
-							<a href="./?option=com_jresearch&amp;view=facility&amp;task=show&amp;id=<?=$fac->id?>&amp;Itemid=<?=$itemId;?>" title="<?=$fac->name?>">
-								<span><?=$fac->name?></span>
+							<a href="./?option=com_jresearch&amp;view=facility&amp;task=show&amp;id=<?php echo $fac->id?>&amp;Itemid=<?php echo $itemId;?>" title="<?php echo $fac->name?>">
+								<span><?php echo $fac->name?></span>
 							</a>
 						</li>
 				<?php 
@@ -35,7 +35,7 @@ $itemId = JRequest::getVar('Itemid');
 				{
 				?>
 					<li>
-						<span><?=JText::_('NO_RECORDS')?></span>
+						<span><?php echo JText::_('NO_RECORDS')?></span>
 					</li>
 				<?php
 				}

@@ -31,7 +31,7 @@ $itemId = JRequest::getVar('Itemid');
   ?>
 	  <tr>
 	  	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_EMAIL').': ' ?></td>
-	  	<td><?=JHTML::_('email.cloak',$this->member->email);?></td>
+	  	<td><?php echo JHTML::_('email.cloak',$this->member->email);?></td>
 	  	<td colspan="2"></td>
 	  </tr>
   <?php 

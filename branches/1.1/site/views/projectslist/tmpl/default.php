@@ -42,7 +42,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				$text = '';
 			?>			
 			<div>
-        <strong><?=JText::_('JRESEARCH_PROJECT_LEADERS').':'?></strong><span>
+        <strong><?php echo JText::_('JRESEARCH_PROJECT_LEADERS').':'?></strong><span>
         <?php foreach($members as $member){ 
                  if($member instanceof JResearchMember)
                   $text .= ' '.$member->__toString().',';
@@ -80,13 +80,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			
 			$value = implode(".",$convertedArray).$aFloat;
 			?>
-			<div><strong><?=JText::_('JRESEARCH_PROJECT_FUNDING').': '?></strong><span><?=$financiersText?></span>, <strong><?=$project->finance_currency." ".$value?></strong></div>
+			<div><strong><?php echo JText::_('JRESEARCH_PROJECT_FUNDING').': '?></strong><span><?php echo $financiersText?></span>, <strong><?php echo $project->finance_currency." ".$value?></strong></div>
 			<?php
 			if($contentArray[0] != "")
 			{
 			?>
 				<div>&nbsp;</div>
-				<div><?=$contentArray[0]; ?></div>
+				<div><?php echo $contentArray[0]; ?></div>
 			<?php } ?>
 			<div style="text-align:left"><a href="index.php?option=com_jresearch&amp;task=show&amp;view=project&amp;id=<?php echo $project->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo JText::_('JRESEARCH_READ_MORE'); ?></a></div>
 			

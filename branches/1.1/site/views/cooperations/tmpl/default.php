@@ -10,13 +10,13 @@ defined("_JEXEC") or die("Restricted access");
 $intro_text = $this->params->get('intro_text');
 ?>
 <div class="componentheading">
-	<?=JText::_('JRESEARCH_COOPERATIONS');?>
+	<?php echo JText::_('JRESEARCH_COOPERATIONS');?>
 </div>
 <?php
 if($intro_text != "")
 {
 ?>
-	<div><?=$intro_text?></div>
+	<div><?php echo $intro_text?></div>
 	<div>&nbsp;</div>
 <?php
 }
@@ -31,7 +31,7 @@ if($intro_text != "")
 			if($coop->image_url != "")
 			{
 			?>
-				<img src="<?=$coop->image_url;?>" title="<?=JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name))?>" alt="<?=JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name))?>" style="float: left; margin-right: 10px;" />
+				<img src="<?php echo JResearch::getUrlByRelative($coop->image_url);?>" title="<?php echo JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name))?>" alt="<?php echo JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $coop->name))?>" style="float: left; margin-right: 10px;" />
 			<?php 
 			}
 			?>
@@ -41,8 +41,8 @@ if($intro_text != "")
 				$itemId = JRequest::getVar('Itemid');
 				?>
 				<div class="contentheading">
-					<a href="<?=JFilterOutput::ampReplace($coop->url)?>">
-						<?=JFilterOutput::ampReplace($coop->name)?>
+					<a href="<?php echo JFilterOutput::ampReplace($coop->url)?>">
+						<?php echo JFilterOutput::ampReplace($coop->name)?>
 					</a>
 				</div>
 				<?php 
@@ -50,7 +50,7 @@ if($intro_text != "")
 				{
 				?>
 					<div class="description">
-						<?=$contentArray[0];?>
+						<?php echo $contentArray[0];?>
 					</div>
 				<?php
 				}
@@ -59,8 +59,8 @@ if($intro_text != "")
 				{
 				?>
 					<div style="text-align:left">
-						<a href="index.php?option=com_jresearch&task=show&view=cooperation&id=<?=$coop->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >
-							<?=JText::_('JRESEARCH_READ_MORE'); ?>
+						<a href="index.php?option=com_jresearch&task=show&view=cooperation&id=<?php echo $coop->id.(isset($itemId)?'&Itemid='.$itemId:'');?>" >
+							<?php echo JText::_('JRESEARCH_READ_MORE'); ?>
 						</a>
 					</div>
 				<?php 
@@ -75,8 +75,8 @@ if($intro_text != "")
 	?>
 </ul>
 <div style="width:100%;text-align:center;">
-	<?=$this->page->getResultsCounter()?><br />
-	<?=$this->page->getPagesLinks()?>
+	<?php echo $this->page->getResultsCounter()?><br />
+	<?php echo $this->page->getPagesLinks()?>
 </div>
 <input type="hidden" name="option" value="com_jresearch" />
 <input type="hidden" name="controller" value="cooperations"  />

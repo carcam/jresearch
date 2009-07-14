@@ -12,19 +12,19 @@ JHTML::_('behavior.modal');
 <table class="edit" cellpadding="5" cellspacing="5">
 <thead>
 	<tr>
-		<th colspan="4"><?=JText::_('JRESEARCH_COOPERATION'); ?></th>
+		<th colspan="4"><?php echo JText::_('JRESEARCH_COOPERATION'); ?></th>
 	</tr>
 </thead>
 <tbody>
 	<tr>
 		<th><?php echo JText::_('JRESEARCH_COOPERATION_NAME').': '?></th>
 		<td>
-			<input name="name" id="name" size="50" maxlength="100" class="required" value="<?php echo $this->coop?$this->coop->name:'' ?>" />
+			<input name="name" id="name" size="50" maxlength="100" class="required" value="<?php echo ($this->coop)?$this->coop->name:'' ?>" />
 			<br /><label for="name" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_NAME'); ?></label>
 		</td>
 		<th><?php echo JText::_('JRESEARCH_COOPERATION_URL').': '; ?></th>
 		<td>
-			<input name="url" id="url" size="50" maxlength="255" class="required validate-url" value="<?php echo $this->coop?$this->coop->url:''; ?>" />
+			<input name="url" id="url" size="50" maxlength="255" class="required validate-url" value="<?php echo ($this->coop)?$this->coop->url:''; ?>" />
 			<br /><label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>			
 		</td>
 	</tr>
@@ -33,12 +33,12 @@ JHTML::_('behavior.modal');
 			<?php echo JText::_('Alias').': '?>
 		</th>
 		<td>
-			<input name="alias" id="alias" size="50" maxlength="255" class="required validate-alias" value="<?php echo $this->coop?$this->coop->alias:'' ?>" />
+			<input name="alias" id="alias" size="50" maxlength="255" class="required validate-alias" value="<?php echo ($this->coop)?$this->coop->alias:'' ?>" />
 			<br /><label for="alias" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_ALIAS'); ?></label>
 		</td>
 		<th><?php echo JText::_('JRESEARCH_COOPERATION_CATEGORIES').': '?></th>
 		<td>
-			<?=$this->categoryList?>
+			<?php echo $this->categoryList?>
 		</td>
 	</tr>
 	<tr>
@@ -58,10 +58,10 @@ JHTML::_('behavior.modal');
 			$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->coop->image_url):$url;
 		?>
 		<td>
-			<a href="<?=$url?>" class="modal">
-				<img src="<?=$thumb;?>" alt="<?php echo JText::_('Photo'); ?>" class="modal" />
+			<a href="<?php echo $url?>" class="modal">
+				<img src="<?php echo $thumb;?>" alt="<?php echo JText::_('Photo'); ?>" class="modal" />
 			</a>
-			<input type="hidden" name="image_url" id="image_url" value="<?=$this->coop->image_url;?>" />
+			<input type="hidden" name="image_url" id="image_url" value="<?php echo $this->coop->image_url;?>" />
 		</td>
 		<td><label for="delete"><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" /></td>
 		<?php
@@ -73,12 +73,12 @@ JHTML::_('behavior.modal');
 		?>
 	</tr>
 	<tr>
-		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->coop?$this->coop->description:'' , '100%', '350', '75', '20' ) ; ?></td>
+		<td colspan="4"><?php echo $this->editor->display( 'description',  ($this->coop)?$this->coop->description:'' , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
 </tbody>
 </table>
 
-<input type="hidden" name="id" value="<?php echo $this->coop?$this->coop->id:'' ?>" />
+<input type="hidden" name="id" value="<?php echo ($this->coop)?$this->coop->id:'' ?>" />
 
 <?php echo JHTML::_('jresearchhtml.hiddenfields', 'cooperations'); ?>
 <?php echo JHTML::_('behavior.keepalive'); ?>
