@@ -232,7 +232,7 @@ class JResearchPublication extends JResearchActivity{
 		$pub = $db->loadResult();
 		if($pub){
 			$result = JResearchPublication::getSubclassInstance($pub);
-			$result->loadByCitekey($citekey);	
+			$result->_loadByCitekey($pub, $citekey);	
 			return $result;
 		}else{
 			return null;
@@ -277,11 +277,12 @@ class JResearchPublication extends JResearchActivity{
 	
 	/**
 	 * Loads a row from the database and binds the fields to the object properties.
+	 * @param string $pubtype Publication type. Just for security as the item might not have this property set.
 	 * @param string $citekey Label or key that identifies the record and is used
 	 * during citation.
 	 * @return True if successful
 	 */
-	public function loadByCitekey($citekey){
+	private function _loadByCitekey($pubtype, $citekey){
 		if($citekey === null || $citekey === '')
 		    return false;
 		
