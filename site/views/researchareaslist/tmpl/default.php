@@ -8,6 +8,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></h1>
+
+<?php
+if(count($this->items) > 0):
+?>
 <ul style="padding-left:0px;">
 	<?php foreach($this->items as $area): ?>
 	<li class="liresearcharea">
@@ -22,4 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</li>
 	<?php endforeach; ?>
 </ul>
+<?php
+endif;
+?>
 <div style="width:100%;text-align:center;"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>

@@ -55,8 +55,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tbody>
 			<?php 
 			$n = count($this->items);
-			for($i=0; $i<$n; $i++)
-			{
+			for($i=0; $i<$n; $i++):
 				$k = $i % 2;
 				$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 				$published  = JHTML::_('grid.published', $this->items[$i], $i );
@@ -92,7 +91,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</td>
 				</tr>
 			<?php
-			} //endfor
+			endfor;
+			
+			if($n <= 0):
+			?>
+			<tr>
+				<td colspan="6"></td>
+			</tr>
+			<?php 
+			endif;
 			?>
 		</tbody>
 	</table>

@@ -52,6 +52,7 @@ class JResearchViewCooperations extends JResearchView
 		$this->assignRef('items', $items);
 		$this->assignRef('cats', $cats);
 		$this->assignRef('page', $model->getPagination());
+		$this->assignRef('introtext', $params->get('intro_text'));
 	}
 }
 ?>

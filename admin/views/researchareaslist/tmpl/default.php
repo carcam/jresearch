@@ -41,21 +41,30 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</tfoot>
 		
 		<tbody>
-		<?php 
+			<?php 
 			$n = count($this->items);
-			for($i=0; $i<$n; $i++){
+			for($i=0; $i<$n; $i++):
 					$k = $i % 2;
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
-		?>
-			
+			?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td class="center"><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td class="center"><?php echo $this->items[$i]->id > 1?$checked:''; ?></td>
 					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=researchAreas&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->name;  ?></a></td>
 					<td class="center"><?php echo $published; ?></td>
 				</tr>
-			<?php } ?>
+			<?php
+			endfor;
+			
+			if($n <= 0):
+			?>
+			<tr>
+				<td colspan="4"></td>
+			</tr>
+			<?php 
+			endif;
+			?>
 		</tbody>
 	</table>
 	
