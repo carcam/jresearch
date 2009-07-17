@@ -12,10 +12,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <table class="adminform">
 	<tbody>
 	<tr>
-		<th width="20%"><?php echo JText::_('JRESEARCH_OUTPUT_FORMAT').': ' ?></th>
-		<td width="80%">
-	<?php echo $this->formatsList; ?>
-	</td>
+		<th width="10%"><?php echo JText::_('JRESEARCH_OUTPUT_FORMAT').': ' ?></th>
+		<td width="10%">
+			<?php echo $this->formatsList; ?>
+		</td>
+		<td style="text-align:left;">
+			<label for="strict_bibtex"><?php echo JText::_('JRESEARCH_STRICT_BIBTEX'); ?></label>
+			<input type="checkbox" id="strict_bibtex" name="strict_bibtex" />
+			<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_STRICT_BIBTEX_DESCRIPTION')); ?>"
+		</td>
 	</tr>
 	</tbody>
 </table>

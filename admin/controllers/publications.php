@@ -262,8 +262,10 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function executeExport(){
-		$session = &JFactory::getSession();
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+		$session = JFactory::getSession();
+		$exportOptions = array();		
+		
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');		
 		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'exporters'.DS.'factory.php');
 		$markedRecords = $session->get('markedRecords', null, 'jresearch');
 		if($markedRecords !== null){
@@ -278,9 +280,13 @@ class JResearchAdminPublicationsController extends JController
 				}
 			}
 			
+			$strictBibtex = JRequest::getVar('strict_bibtex');
+			if($strictBibtex == 'on')
+				$exportOptions['strict_bibtex'] = true;
+				
 			$format = JRequest::getVar('outformat');
 			$exporter =& JResearchPublicationExporterFactory::getInstance($format);
-			$output = $exporter->parse($publicationsArray);
+			$output = $exporter->parse($publicationsArray, $exportOptions);
 			$document =& JFactory::getDocument();
 			$document->setMimeEncoding($exporter->getMimeEncoding());
 			$session->clear('markedRecords', 'jresearch');
@@ -292,7 +298,9 @@ class JResearchAdminPublicationsController extends JController
 			$tmpfname = "jresearch_output.$ext";
 			header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
 			echo $output;
-			
+		}else{
+			JError::raiseNotice(1, JText::_('JRESEARCH_SELECT_ITEMS_TO_EXPORT'));
+			$this->setRedirect('index.php?option=com_jresearch&controller=publications');
 		}
 				
 		
