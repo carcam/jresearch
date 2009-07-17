@@ -27,8 +27,8 @@ class JResearchAdminMember_positionsController extends JController
 	{
 		parent::__construct();
 
-		//$lang = JFactory::getLanguage();
-		//$lang->load('com_jresearch.cooperations');
+		$lang = JFactory::getLanguage();
+		$lang->load('com_jresearch.member_positions');
 		
 		$this->registerDefaultTask('display');
 		$this->registerTask('add', 'edit');

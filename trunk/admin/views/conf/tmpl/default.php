@@ -9,8 +9,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <div id="cpanel" style="width: 51%; float: left;" class="adminform">
 	<div style="float: left;">
 		<div class="icon">
-			<a class="modal" rel="{handler: 'iframe', size: {x: 750, y: 500}}" href="index.php?option=com_config&controller=component&component=com_jresearch&path=">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/config.png" alt="<?php echo JText::_('JRESEARCH_CONFIGURATION'); ?>">					
+			<a class="modal" rel="{handler: 'iframe', size: {x: 750, y: 500}}" href="index.php?option=com_config&amp;controller=component&amp;component=com_jresearch&amp;path=">
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/config.png" alt="<?php echo JText::_('JRESEARCH_CONFIGURATION'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_CONFIGURATION'); ?></span>
 			</a>
 		</div>
@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div style="float: left;">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=cooperations">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/cooperations.png" alt="<?php echo JText::_('JRESEARCH_COOPERATIONS'); ?>">					
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/cooperations.png" alt="<?php echo JText::_('JRESEARCH_COOPERATIONS'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_COOPERATIONS'); ?></span>
 			</a>
 		</div>
@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div style="float: left;">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=facilities">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/facilities.png" alt="<?php echo JText::_('JRESEARCH_FACILITIES'); ?>">					
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/facilities.png" alt="<?php echo JText::_('JRESEARCH_FACILITIES'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_FACILITIES'); ?></span>
 			</a>
 		</div>
@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div style="float: left;">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=financiers">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/financier.png" alt="<?php echo JText::_('JRESEARCH_FINANCIERS'); ?>">					
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/financier.png" alt="<?php echo JText::_('JRESEARCH_FINANCIERS'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_FINANCIERS'); ?></span>
 			</a>
 		</div>
@@ -42,7 +42,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div style="float: left;">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=projects">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/projects.png" alt="<?php echo JText::_('JRESEARCH_PROJECTS'); ?>">					
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/projects.png" alt="<?php echo JText::_('JRESEARCH_PROJECTS'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_PROJECTS'); ?></span>
 			</a>
 		</div>
@@ -50,7 +50,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<div style="float: left;">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=publications">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/publications.png" alt="<?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?>">					
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/publications.png" alt="<?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></span>
 			</a>
 		</div>
@@ -58,14 +58,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div style="float: left;">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=researchAreas">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/areas.png" alt="<?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?>">					
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/areas.png" alt="<?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></span></a>
 		</div>
 	</div>
 	<div style="float: left;">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=staff">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/staff.png" alt="<?php echo JText::_('JRESEARCH_STAFF'); ?>">					
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/staff.png" alt="<?php echo JText::_('JRESEARCH_STAFF'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_STAFF'); ?></span>
 			</a>
 		</div>
@@ -73,7 +73,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div style="float: left;">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=teams">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/teams.png" alt="<?php echo JText::_('JRESEARCH_TEAMS'); ?>">					
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/teams.png" alt="<?php echo JText::_('JRESEARCH_TEAMS'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_TEAMS'); ?></span>
 			</a>
 		</div>
@@ -81,7 +81,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div style="float: left;">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=theses">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/theses.png" alt="<?php echo JText::_('JRESEARCH_THESES'); ?>">					
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/theses.png" alt="<?php echo JText::_('JRESEARCH_THESES'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_THESES'); ?></span>
 			</a>
 		</div>
@@ -89,7 +89,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div style="float: left;">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;task=help">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/help-browser.png" alt="<?php echo JText::_('Help'); ?>">					
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/help-browser.png" alt="<?php echo JText::_('Help'); ?>" />					
 				<span><?php echo JText::_('Help'); ?></span>
 			</a>
 		</div>
@@ -102,19 +102,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<table class="adminlist">
 			<tbody>
 				<tr>
-					<td colspan="2" style="text-align:center;"><img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/jresearch_logo.png" /></td>
+					<td colspan="2" style="text-align:center;"><img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" /></td>
 				</tr>
 				<tr>
 					<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_AUTHOR').': '; ?></td>
-					<td>Luis Gal&aacute;rraga (<a href="mailto:shamantobi@gmail.com">shamantobi@gmail.com</a>) and Florian Prinz (<a href="mailto:prinz.florian@chello.at">prinz.florian@chello.at</a>)</td>
+					<td>Luis Gal&aacute;rraga (<?php echo JHTML::_('email.cloak', 'shamantobi@gmail.com')?>) and Florian Prinz (<?php echo JHTML::_('email.cloak', 'prinz.florian@chello.at')?>)</td>
 				</tr>
 				<tr>
 					<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_MENTOR').': '; ?></td>
-					<td>Nereyda Valentin-Macias, (<a href="mailto:neri@valenciasconsulting.com">neri@valenciasconsulting.com</a>)</td>
+					<td>Nereyda Valentin-Macias, (<?php echo JHTML::_('email.cloak', 'neri@valenciasconsulting.com')?>)</td>
 				</tr>
 				<tr>
 					<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_VERSION').': '; ?></td>
-					<td>1.2.0</td>
+					<td><?php echo _JRESEARCH_VERSION_; ?></td>
 				</tr>
 				<tr>
 					<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_COPYRIGHT').': '; ?></td>
@@ -126,7 +126,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				</tr>
 				<tr>
 					<td width="20%"><?php echo JText::_('JRESEARCH_BIBUTILS_VERSION').': '; ?></td>
-					<td>3.41</td>
+					<td><?php echo _JRESEARCH_BIBUTILS_VERSION_; ?></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
