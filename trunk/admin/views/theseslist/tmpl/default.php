@@ -45,9 +45,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</tfoot>
 		
 		<tbody>
-		<?php 
+			<?php 
 			$n = count($this->items);
-			for($i=0; $i<$n; $i++){
+			for($i=0; $i<$n; $i++):
 					$text = '';
 					$k = $i % 2;
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
@@ -62,8 +62,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
               				$text .= ' '.$member.',';
           			}
           			$text = rtrim($text, ',');
-		?>
-			
+			?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td><?php echo $checked; ?></td>
@@ -73,7 +72,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td class="center"><?php echo $researchArea->name ;?></td>
 					<td class="center"><?php echo $this->items[$i]->hits ;?></td>					
 				</tr>
-			<?php } ?>
+			<?php
+			endfor;
+			
+			if($n <= 0):
+			?>
+			<tr>
+				<td colspan="7"></td>
+			</tr>
+			<?php 
+			endif;
+			?>
 		</tbody>
 	</table>
 	<input type="hidden" name="boxchecked" value="0" />

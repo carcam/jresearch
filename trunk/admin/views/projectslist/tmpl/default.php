@@ -72,7 +72,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td class="center"><?php echo $researchArea->name ;?></td>
 					<td class="center"><?php echo $this->items[$i]->hits ;?></td>
 				</tr>
-			<?php endfor; ?>
+			<?php
+			endfor;
+			
+			if($n <= 0):
+			?>
+			<tr>
+				<td colspan="7"></td>
+			</tr>
+			<?php 
+			endif;
+			?>
 		</tbody>
 	</table>
 	<input type="hidden" name="boxchecked" value="0" />

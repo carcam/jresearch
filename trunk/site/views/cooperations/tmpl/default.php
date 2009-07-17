@@ -7,17 +7,18 @@
 
 defined("_JEXEC") or die("Restricted access");
 
-$intro_text = $this->params->get('intro_text');
 ?>
 <h1 class="componentheading">
 	<?php echo JText::_('JRESEARCH_COOPERATIONS');?>
 </h1>
 <?php
-if($intro_text != ""):
+if(!empty($intro_text)):
 ?>
 	<p style="text-align: justify;"><?php echo $intro_text?></p>
 <?php
 endif;
+
+if(count($this->items) > 0):
 ?>
 <ul id="jresearch-cooperation-list" style="padding-left:0px;">
 	<?php
@@ -96,6 +97,9 @@ endif;
 	endforeach;
 	?>
 </ul>
+<?php
+endif;
+?>
 <div style="width:100%;text-align:center;">
 	<?php echo $this->page->getResultsCounter()?><br />
 	<?php echo $this->page->getPagesLinks()?>
