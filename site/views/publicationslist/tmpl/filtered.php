@@ -12,13 +12,8 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<div style="text-align:left">
-		<?php echo !empty($this->lists['search'])?'<div style="float: left">'.$this->lists['search'].'</div>':''; ?>
-		<?php echo !empty($this->lists['teams'])?'<div style="float: left">'.$this->lists['teams'].'</div>':''; ?>	
-		<?php echo !empty($this->lists['areas'])?'<div style="float: left">'.$this->lists['areas'].'</div>':''; ?>
-		<?php echo !empty($this->lists['years'])?'<div style="float: left">'.$this->lists['years'].'</div>':''; ?>
-		<?php echo !empty($this->lists['pubtypes'])?'<div style="float: left">'.$this->lists['pubtypes'].'</div>':''; ?>
-		<?php echo !empty($this->lists['authors'])?'<div style="float: left">'.$this->lists['authors'].'</div>':''; ?>
-		<div><?php echo JHTML::_('Jresearch.icon','add','publications'); ?></div>						
+		<?php echo $this->filter; ?>
+		<div>&nbsp;<?php echo JHTML::_('Jresearch.icon','add','publications'); ?></div>						
 	</div>
 	<?php $label = JText::_('JRESEARCH_PUNCTUATION_AVERAGE'); ?>
 	<?php if(!empty($this->average))

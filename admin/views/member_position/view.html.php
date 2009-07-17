@@ -24,7 +24,7 @@ class JResearchAdminViewMember_position extends JResearchView
     	global $mainframe;
       	JResearchToolbar::editMember_positionAdminToolbar();
       	
-		JHTML::_('JResearch.validation');      	
+		JHTML::_('jresearchhtml.validation');   	
     	JRequest::setVar( 'hidemainmenu', 1 );
     	
     	// Information about the member

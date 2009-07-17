@@ -235,7 +235,7 @@ class JResearch
 		$url = JResearch::getUrlByRelative(dirname($rel_path).'/thumb_'.basename($rel_path));
 		
 		//Check thumb
-		if(file_get_contents($url))
+		if(@file_get_contents($url))
 		{
 			return $url;
 		}

@@ -70,93 +70,24 @@ class JResearchViewPublicationsList extends JResearchView
     	
     	$teamId = JRequest::getVar('teamid');
     	$model = $this->getModel();
-    	$teamsModel = $this->getModel('teams');
-    	$areasModel = $this->getModel('researchareaslist');
     	$lists = array();    	
 
     	$items = $model->getData(null, true, true);
     	$page = $model->getPagination();
     	$params = $mainframe->getParams('com_jresearch'); 
-    	$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$field = $params->get('field_for_average');    	
-    	
-    	if($params->get('filter_teams') == 'yes'){
-	    	$filter_team = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_team', 'filter_team');    		
-    		$teams = $teamsModel->getData();
-        	$teamsOptions = array();        
-	        $teamsOptions[] = JHTML::_('select.option', -1 ,JText::_('JRESEARCH_ALL_TEAMS'));
-	        foreach($teams as $t){
-	    		$teamsOptions[] = JHTML::_('select.option', $t->id, $t->name);
-	    	}    		
-	    	$lists['teams'] = JHTML::_('select.genericlist',  $teamsOptions, 'filter_team', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_team );
-    	}
     	
     	if($params->get('show_average') == 'yes'){
     		$average = $model->getAverage($field);
     		$this->assignRef('average', $average);
     	}
     	
-    	if($params->get('filter_areas') == 'yes'){
-			$filter_area = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_area', 'filter_area');    		
-    		$areas = $areasModel->getData();
-        	$areasOptions = array();        
-	        $areasOptions[] = JHTML::_('select.option', 0 ,JText::_('JRESEARCH_RESEARCH_AREAS'));
-	        foreach($areas as $a){
-	    		$areasOptions[] = JHTML::_('select.option', $a->id, $a->name);
-	    	}    		
-    		$filter_area = $filter_area = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_area', 'filter_area');    	
-	    	$lists['areas'] = JHTML::_('select.genericlist',  $areasOptions, 'filter_area', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_area );
-    	}
-    	
-    	if($params->get('filter_year') == 'yes'){
-			// Year filter
-			$filter_year = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_year', 'filter_year');			
-			$db = &JFactory::getDBO();
-			$db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
-			$years = $db->loadResultArray();
-			$yearsHTML = array();
-			$yearsHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
-			foreach($years as $y)
-				$yearsHTML[] = JHTML::_('select.option', $y, $y);
-				
-			$lists['years'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
-    		
-    	}
-    	
-    	if($params->get('filter_type') == 'yes'){
-    		// Publication type filter
-			$filter_pubtype = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_pubtype', 'filter_pubtype');    		
-			$types = JResearchPublication::getPublicationsSubtypes();
-			$typesHTML = array();
-			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
-			foreach($types as $type){
-				$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
-			}
-			$lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
-    	}
-    	
-        if($params->get('filter_search') == 'yes'){
-    		$filter_search = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_search', 'filter_search');
-     		$lists['search'] = JText::_('Filter').': <input type="text" name="filter_search" id="filter_search" value="'.$filter_search.'" class="text_area" onchange="document.adminForm.submit();" />
-								<button onclick="document.adminForm.submit();">'.JText::_('Go').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
-								.JText::_('Reset').'</button>';
-    	}
-    	
-    	if($params->get('filter_authors') == 'yes'){
-			$filter_author = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_author', 'filter_author');
-			$authors = $model->getAllAuthors();
-			$authorsHTML = array();
-			$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
-			foreach($authors as $auth){
-				$authorsHTML[] = JHTML::_('select.option', $auth['id'], $auth['name']); 
-			}
-			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
-    	}
-    	
     	$format = $params->get('staff_format') == 'last_first'?1:0;
     	
     	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
     
+    	$this->_setFilter();
+    	
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $page);
     	$this->assignRef('lists', $lists);
@@ -224,6 +155,10 @@ class JResearchViewPublicationsList extends JResearchView
     	    	
     	$showmore = ($params->get('show_more') == 'yes');
     	$showdigital = ($params->get('show_digital') == 'yes');
+    	$layout = JRequest::getString('layout', 'year');
+    	
+    	$this->_setFilter();
+    	
     	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
     	    	
     	// Bind variables used in layout
@@ -232,7 +167,28 @@ class JResearchViewPublicationsList extends JResearchView
     	$this->assignRef('user', $user);
     	$this->assignRef('showmore', $showmore);
     	$this->assignRef('showdigital', $showdigital);
-    	$this->assignRef('style', $style);    	
+    	$this->assignRef('style', $style);
+    	$this->assignREf('layout', $this->getLayout());
+    }
+    
+    private function _setFilter()
+    {
+    	global $mainframe;
+    	
+    	$params = $mainframe->getParams('com_jresearch');  
+    	$layout = $this->getLayout();
+    	
+    	$filter = JHTML::_('jresearch.publicationfilter',
+    		$layout,
+    		($params->get('filter_teams', 'yes') == 'yes'),
+    		($params->get('filter_areas', 'yes') == 'yes'),
+    		($params->get('filter_year', 'yes') == 'yes'),
+    		($params->get('filter_search', 'yes') == 'yes'),
+    		($params->get('filter_type', 'yes') == 'yes'),
+    		($params->get('filter_authors', 'yes') == 'yes')
+    	);
+    	
+    	$this->assignRef('filter', $filter);
     }
     
 	/**

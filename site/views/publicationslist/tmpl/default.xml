@@ -39,6 +39,31 @@
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
 			</param>
+			<param type="@spacer" />
+			<param name="filter_teams" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="filter_areas" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="filter_year" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR" description="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="filter_type" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="filter_authors" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="filter_search" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_TEXT" description="JRESEARCH_PUBLICATIONS_FILTER_TEXT_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>			
+			</param>
 		</params>
 	</state>
 </metadata>

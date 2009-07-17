@@ -146,6 +146,126 @@ class JHTMLJresearch
 	}
 	
 	/**
+	 * Returns div-container with publication filters, can be activated with given parameter switches
+	 *
+	 * @param string $layout
+	 * @param bool $bTeams
+	 * @param bool $bAreas
+	 * @param bool $bYear
+	 * @param bool $bSearch
+	 * @param bool $bType
+	 * @param bool $bAuthors
+	 * @return string
+	 */
+	public static function publicationfilter($layout, $bTeams = true, $bAreas = true, $bYear = true, $bSearch = true, $bType = true, $bAuthors = true)
+	{
+		global $mainframe;
+		
+		$lists = array();
+		$layout = JFilterInput::clean($layout);
+		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
+		
+		if($bSearch === true)
+        {
+    		$filter_search = $mainframe->getUserStateFromRequest($layout.'publicationsfilter_search', 'filter_search');
+     		$lists['search'] = JText::_('Filter').': <input type="text" name="filter_search" id="filter_search" value="'.$filter_search.'" class="text_area" onchange="document.adminForm.submit();" />
+								<button onclick="document.adminForm.submit();">'.JText::_('Go').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
+								.JText::_('Reset').'</button>';
+    	}
+    	
+		if($bType === true)
+    	{
+    		// Publication type filter
+    		$typesHTML = array();
+    		
+			$filter_pubtype = $mainframe->getUserStateFromRequest($layout.'publicationsfilter_pubtype', 'filter_pubtype');    		
+			$types = JResearchPublication::getPublicationsSubtypes();
+			
+			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
+			foreach($types as $type)
+			{
+				$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
+			}
+			$lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
+    	}
+    	
+		if($bYear === true)
+    	{
+			// Year filter
+			$yearsHTML = array();
+			$db = &JFactory::getDBO();
+			
+			$filter_year = $mainframe->getUserStateFromRequest($layout.'publicationsfilter_year', 'filter_year');			
+			
+			$db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
+			$years = $db->loadResultArray();
+			
+			$yearsHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
+			foreach($years as $y)
+			{
+				$yearsHTML[] = JHTML::_('select.option', $y, $y);
+			}
+				
+			$lists['years'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
+    	}
+    	
+    	if($bAuthors === true)
+    	{
+    		JModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+    		
+			$authorsHTML = array();
+			$model = JModel::getInstance('PublicationsList', 'JResearchModel');
+    		$filter_author = $mainframe->getUserStateFromRequest($layout.'publicationsfilter_author', 'filter_author');
+			$authors = $model->getAllAuthors();
+
+			$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
+			foreach($authors as $auth)
+			{
+				$authorsHTML[] = JHTML::_('select.option', $auth['id'], $auth['name']); 
+			}
+			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
+    	}
+		
+		if($bTeams === true)
+		{
+			JModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
+			
+			//Team filter
+			$teamsOptions = array();  
+			$teamsModel = JModel::getInstance('Teams', 'JResearchModel');
+	    	$filter_team = $mainframe->getUserStateFromRequest($layout.'publicationsfilter_team', 'filter_team');    		
+    		$teams = $teamsModel->getData();
+        	      
+	        $teamsOptions[] = JHTML::_('select.option', -1 ,JText::_('JRESEARCH_ALL_TEAMS'));
+	        foreach($teams as $t)
+	        {
+	    		$teamsOptions[] = JHTML::_('select.option', $t->id, $t->name);
+	    	}    		
+	    	$lists['teams'] = JHTML::_('select.genericlist',  $teamsOptions, 'filter_team', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_team );
+    	}
+    	
+    	if($bAreas === true)
+    	{
+    		JModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+    		
+    		//Researchareas filter
+    		$areasOptions = array();
+    		$areasModel = JModel::getInstance('Researchareaslist', 'JResearchModel');
+    		
+			$filter_area = $mainframe->getUserStateFromRequest($layout.'publicationsfilter_area', 'filter_area');    		
+    		$areas = $areasModel->getData();        
+	        $areasOptions[] = JHTML::_('select.option', 0 ,JText::_('JRESEARCH_RESEARCH_AREAS'));
+	        foreach($areas as $a)
+	        {
+	    		$areasOptions[] = JHTML::_('select.option', $a->id, $a->name);
+	    	}    		
+	    	$lists['areas'] = JHTML::_('select.genericlist',  $areasOptions, 'filter_area', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_area );
+    	}
+    	
+    	return '<div style="float: left">'.implode('</div><div style="float: left;">', $lists).'</div>';
+	}
+	
+	/**
 	 * Creates a frontend link for com_jresearch with view, task, id and itemid parameter
 	 *
 	 * @param string $view
