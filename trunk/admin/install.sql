@@ -564,7 +564,18 @@ INSERT INTO `#__jresearch_property` (`name`) VALUES ('url');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('volume');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('year');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('keywords');
-
+-- Additional fields (non standard, defined by J!Research)
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('access_date');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('day');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('source_type');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('extra');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('patent_number');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('filing_date');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('issue_date');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('claims');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('drawings_dir');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('country');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('office');
 
 DROP TABLE IF EXISTS `#__jresearch_publication_type`;
 CREATE TABLE `#__jresearch_publication_type` (
