@@ -183,7 +183,7 @@ class JResearchViewFacilities extends JResearchView
     	{
     		if($facility instanceof JResearchFacility && $facility->image_url)
     		{
-    			$images[$i]['img'] = str_ireplace(JURI::root(), '', $facility->image_url);
+    			$images[$i]['img'] = str_ireplace(JURI::root(), '', JResearch::getUrlByRelative($facility->image_url));
     			$images[$i]['imgalt'] = $facility->name;
 				$images[$i]['imgtitle'] = 'Image of '.$facility->name;
 				$images[$i]['hreftitle'] = 'Show me details of '.$facility->name;
