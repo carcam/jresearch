@@ -12,8 +12,6 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
-
 /**
  * HTML View class for presentation of members list in frontend.
  *
@@ -96,7 +94,7 @@ class JResearchViewStaff extends JResearchView
     	$doc = JFactory::getDocument();
     	
 		$members =& $model->getData(null, true, false);
-    	$images = $this->getImages($members);
+    	$images = $this->_getImages($members);
     	$params = $mainframe->getPageParameters('com_jresearch');
     	$format = $params->get('staff_format') == 'last_first'?1:0;
     	
@@ -192,7 +190,7 @@ class JResearchViewStaff extends JResearchView
 	* Gets images from given members
 	* @author Florian Prinz
 	*/
-    private function getImages(&$members)
+    private function _getImages(&$members)
     {
     	$images = array();
     	$i=0;
@@ -204,7 +202,7 @@ class JResearchViewStaff extends JResearchView
     	{
     		if($member->url_photo != "")
     		{
-    			$images[$i]['img'] = str_ireplace(JURI::root(), '', $member->url_photo);
+    			$images[$i]['img'] = str_ireplace(JURI::root(), '', JResearch::getUrlByRelative($member->url_photo));
     			$images[$i]['imgalt'] = $member->firstname.' '.$member->lastname;
 				$images[$i]['imgtitle'] = 'Image of '.$member->firstname.' '.$member->lastname;
 				$images[$i]['hreftitle'] = 'Show me details of '.$member->firstname.' '.$member->lastname;
