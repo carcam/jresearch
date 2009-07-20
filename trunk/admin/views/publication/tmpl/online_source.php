@@ -15,16 +15,17 @@ if(!empty($this->publication)){
 }
 ?>
 
-<tr>
-	<th><?php echo JText::_('JRESEARCH_SOURCE_TYPE').': ' ?></th>
-	<td><?php echo $type; ?></td>
-	<th><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>
-	<td><input type="text" name="month" id="month" size="20" maxlength="20" value="<?php echo $this->publication?$this->publication->month:'' ?>" /></td>
-</tr>
-<tr>
-	<th><?php echo JText::_('JRESEARCH_DAY').': ' ?></th>
-	<td><input name="day" id="day" type="text" size="2" maxlength="2" value="<?php echo $this->publication?$this->publication->day:'' ?>" /></td>
-	<th><?php echo JText::_('JRESEARCH_ACCESS_DATE').': ' ?></th>
-	<td><?php echo JHTML::_('calendar', !empty($this->publication)?$this->publication->access_date:'' ,'access_date', 'access_date', '%Y-%m-%d', array('class'=>'validate-date')); ?><br />
-		<label for="access_date" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_DATE'); ?></label></td>
-</tr>
+<div class="divTR">
+	<div class="divTd"><label for="source_type"><?php echo JText::_('JRESEARCH_SOURCE_TYPE').': ' ?></label></div>
+	<div class="divTdl divTdl2"><?php echo $type; ?></div>
+	<div class="divTd"><label for="access_date"><?php echo JText::_('JRESEARCH_ACCESS_DATE').': ' ?></label></div>
+	<div class="divTdl"><?php echo JHTML::_('calendar', !empty($this->publication)?$this->publication->access_date:'' ,'access_date', 'access_date', '%Y-%m-%d', array('class'=>'validate-date', 'size'=>'12')); ?><br />	<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'access_date', JText::_('JRESEARCH_PROVIDE_VALID_DATE')); ?></div>				
+	<div class="divEspacio" ></div>			
+</div>
+<div class="divTR">
+	<div class="divTd"><label for="day"><?php echo JText::_('JRESEARCH_DAY').': ' ?></label></div>
+	<div class="divTdl divTdl2"><input name="day" id="day" type="text" size="2" maxlength="2" value="<?php echo $this->publication?$this->publication->day:'' ?>" /></div>
+	<div class="divTd"><label for="month"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></label></div>
+	<div class="divTdl"><input type="text" name="month" id="month" size="15" maxlength="20" value="<?php echo $this->publication?$this->publication->month:'' ?>" /></div>
+
+</div>

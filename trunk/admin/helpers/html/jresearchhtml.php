@@ -252,9 +252,9 @@ class JHTMLjresearchhtml
 		$output .= "<input type=\"hidden\" id=\"$baseName\" value=\"\" />";
 		if(empty($values)){
 			$output .= "<input type=\"hidden\" id=\"n$textField\" name=\"n$textField\" value=\"0\" />";
-			$output .= "<div class=\"divTdl\"><ul style=\"text-align:left;padding-left:0px;\" id=\"".$textField."result\"></ul></div>";
+			$output .= "<div class=\"divTdl\"><ul id=\"".$textField."result\"></ul></div>";
 		}else{
-			$output .= "<div class=\"divTdl\"><ul style=\"text-align:left;padding-left:0px;\" id=\"".$textField."result\">";			
+			$output .= "<div class=\"divTdl\"><ul id=\"".$textField."result\">";			
 			$j = 0;
 			foreach($values as $author){
 				$output .= "<li id=\"li".$textField.$j."\">";
@@ -798,6 +798,26 @@ class JHTMLjresearchhtml
 	private static function getKey($key, array &$arr, $default=null)
 	{
 		return (array_key_exists($key, $arr)?$arr[$key]:$default);
+	}
+	
+	/**
+	 * Returns the HTML needed to render the warning image appearing in forms
+	 * for client side validation of fields.
+	 * 
+	 * @param string $name The name of the form field for which the message is rendered.
+	 * @param string $message The error message
+	 * @return string
+	 */
+	public static function formWarningMessage($name, $message){
+		global $mainframe;
+		
+		$base = $mainframe->isAdmin()?$mainframe->getSiteUrl():JURI::base();
+		$image = $base.'administrator/components/com_jresearch/assets/messagebox_warning.png';
+
+		return '<label for="'.$name.'" class="labelform">
+		        <img alt="!!!" src="'.$image.'" width="20" height="20" style="vertical-align: middle;"
+		                 title="'.$message.'" /></label>';
+		        
 	}
 }
 ?>

@@ -198,3 +198,54 @@ table.editpublication{
 	margin-left:auto;
 	margin-right:auto;
 }
+
+/* CSS Document */
+.divTdl{
+float: left;
+margin:0px;
+padding:0px;
+text-align:left;
+}
+
+.divTd{
+	float: left;
+	width:70px;
+	margin:0px;
+	padding:0px 5px 0px 0px;
+	text-align:right;
+}
+.divPagination{
+	padding-top:10px;
+	text-align:center;
+}
+.divTds{
+	float: left;
+	width:100px;
+	margin:0px;
+	padding:0px;
+}
+.divTR{
+	margin:0px;
+	padding:5px;
+}
+.divTable{
+	margin:0px;
+	padding:0px;
+}
+.divEspacio{
+	clear:both;
+	margin:0px;
+	padding:0px;
+}
+
+div.divTdl2{
+	width: 200px;
+	overflow: visible;
+}
+
+.divForm{
+	margin:0px;
+	padding:0px;
+	
+}
+

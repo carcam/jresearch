@@ -242,7 +242,7 @@ class JResearchViewPublication extends JResearchView
 		else 
 		{
 			$this->addPathwayItem(JText::_('Add'));
-			$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', null);
+			$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="1"', 'value', 'text', null);
 			
 		    //Published radio
 			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 0);

@@ -24,8 +24,9 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
 
 $document = &JFactory::getDocument();
+//Require administrator template
 $url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-$document->addStyleSheet($url.'components/com_jresearch/css/jresearch_styles.css');
+$document->addStyleSheet($url.'administrator/components/com_jresearch/css/jresearch_admin_styles.css');
 
 // Require specific controller. Publications is the default
 $controller = JRequest::getVar('controller', null);
