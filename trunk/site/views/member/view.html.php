@@ -27,7 +27,7 @@ class JResearchViewMember extends JResearchView
     	
         $layout = &$this->getLayout();
         $arguments = array('member');
-        $params = JComponentHelper::getParams('com_jresearch');
+        $params = $this->getParams();
         
         switch($layout){
         	case 'edit':

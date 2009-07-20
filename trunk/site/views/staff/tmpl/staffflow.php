@@ -20,13 +20,12 @@ defined('_JEXEC') or die('Restricted access');
 <div id="imageflow" class="imageflow">
 	<div id="imageflow_loading">
 		<b>Loading images</b><br/>
-		<img src="<?php echo $assets.'/loading.gif'; ?>" width="208" height="13" alt="loading" />
+		<img src="<?php echo $this->assets_path.'/loading.gif'; ?>" width="208" height="13" alt="loading" />
 	</div>
 	<div id="imageflow_images">
 	<?php
 	//Get images from members
-	for ($i=0; $i<count($this->images); $i++)
-	{
+	for ($i=0; $i<count($this->images); $i++):
 		$imagename = $this->images[$i]['img'];
 		
 		//Reflection image
@@ -108,7 +107,7 @@ defined('_JEXEC') or die('Restricted access');
 				echo $def;
 			}
 		}
-	}
+	endfor;
 	?>
 	</div>
 	<div id="imageflow_captions"></div>

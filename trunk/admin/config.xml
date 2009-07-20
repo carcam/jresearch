@@ -10,7 +10,7 @@
 			<option value="no">No</option>
 		</param>
 		<param type="spacer" />
-		<param name="area_entries_per_page" default="10" label="JRESEARCH_CONFIG_AREAS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_AREAS_PER_PAGE_DESCRIPTION" ></param>
+		<param name="area_entries_per_page" default="10" label="JRESEARCH_CONFIG_AREAS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_AREAS_PER_PAGE_DESCRIPTION" />
 		<param name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
 		<param name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />			
 		<param name="area_number_last_theses" label="JRESEARCH_CONFIG_LAST_THESES_IN_AREA" default="5" type="text" />							
@@ -52,7 +52,7 @@
 			<option value="no">No</option>
 		</param>
 		<param type="spacer" />
-		<param name="projects_entries_per_page" default="25" label="JRESEARCH_CONFIG_PROJECTS_PER_PAGE" type="text" ></param>				
+		<param name="projects_entries_per_page" default="25" label="JRESEARCH_CONFIG_PROJECTS_PER_PAGE" type="text" />				
 		<param name="projects_default_sorting" default="date" label="JRESEARCH_ORDER_BY" type="radio">
 			<option value="date">JRESEARCH_DATE</option>
 			<option value="alphabetical">JRESEARCH_ALPHABETICAL</option>
@@ -67,13 +67,13 @@
 				
 		<param type="spacer" />
 
-		<param name="theses_entries_per_page" default="25" label="JRESEARCH_CONFIG_THESES_PER_PAGE" type="text" ></param>				
+		<param name="theses_entries_per_page" default="25" label="JRESEARCH_CONFIG_THESES_PER_PAGE" type="text" />				
 		<param name="theses_order" label="JRESEARCH_SORTED" type="radio">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
 		</param>	
 		<param type="spacer" />
-		<param name="staff_entries_per_page" default="25" label="JRESEARCH_CONFIG_MEMBERS_PER_PAGE" type="text" ></param>									
+		<param name="staff_entries_per_page" default="25" label="JRESEARCH_CONFIG_MEMBERS_PER_PAGE" type="text" />									
 		<param name="staff_order" label="JRESEARCH_SORTED" type="radio" default="asc">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
@@ -111,7 +111,7 @@
 		
 		<param type="spacer" />
 		
-		<param name="cooperation_entries_per_page" default="25" label="JRESEARCH_CONFIG_COOPERATIONS_PER_PAGE" type="text" ></param>									
+		<param name="cooperation_entries_per_page" default="25" label="JRESEARCH_CONFIG_COOPERATIONS_PER_PAGE" type="text" />									
 		<param name="cooperations_order" label="JRESEARCH_SORTED" type="radio" default="asc">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
@@ -122,7 +122,7 @@
 		
 		<param type="spacer" />
 		
-		<param name="facility_entries_per_page" default="25" label="JRESEARCH_CONFIG_FACILITY_PER_PAGE" type="text" ></param>									
+		<param name="facility_entries_per_page" default="25" label="JRESEARCH_CONFIG_FACILITY_PER_PAGE" type="text" />									
 		<param name="facilities_order" label="JRESEARCH_SORTED" type="radio" default="asc">
 			<option value="asc">JRESEARCH_ASCENDING</option>
 			<option value="desc">JRESEARCH_DESCENDING</option>
@@ -133,6 +133,6 @@
 		
 		<param type="spacer" />
 		
-		<param name="files_root_path" type="hidden" default="files"></param>			
+		<param name="files_root_path" type="hidden" default="files" />			
 	</params>
 </config>

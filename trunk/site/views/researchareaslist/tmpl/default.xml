@@ -6,5 +6,9 @@
 	<state>
 		<name>JRESEARCH_AREAS_LIST</name>
 		<description>JRESEARCH_AREAS_LIST_VIEW_MESSAGE</description>
+		
+		<params>
+			<param name="area_entries_per_page" default="10" label="JRESEARCH_CONFIG_AREAS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_AREAS_PER_PAGE_DESCRIPTION" ></param>
+		</params>
 	</state>
 </metadata>
