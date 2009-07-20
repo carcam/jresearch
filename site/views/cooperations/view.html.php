@@ -45,7 +45,7 @@ class JResearchViewCooperations extends JResearchView
 		$model 	= 	&$this->getModel();
 		$items 	= 	$model->getData(null, true, true);
 		$cats 	= 	$model->getCategories();
-		$params = 	$mainframe->getParams();
+		$params =   $this->getParams();
 		
 		$doc->setTitle(JText::_('JRESEARCH_COOPERATIONS'));
 		$this->assignRef('params', $params);

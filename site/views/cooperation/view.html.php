@@ -17,7 +17,7 @@ class JResearchViewCooperation extends JResearchView
 	{	
 		global $mainframe;
 		$arguments = array('cooperation');
-		$params = JComponentHelper::getParams('com_jresearch');
+		$params = $this->getParams();
 		
 		$id = JRequest::getInt('id');
 		$layout =& $this->getLayout();

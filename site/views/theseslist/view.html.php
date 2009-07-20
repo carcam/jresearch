@@ -48,7 +48,7 @@ class JResearchViewThesesList extends JResearchView
       	global $mainframe;
     	
       	$doc = JFactory::getDocument();
-      	$params = JComponentHelper::getParams('com_jresearch');
+      	$params = $this->getParams();
       	
     	//Get the model
     	$model =& $this->getModel();

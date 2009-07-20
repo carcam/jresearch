@@ -144,5 +144,26 @@ class JResearchView extends JView
         
         return false;
     }
+    
+    /*
+     * Returns merged parameter object
+     */
+    public function getParams()
+    {
+    	global $mainframe;
+    	
+    	$params =& JComponentHelper::getParams('com_jresearch');
+    	$itemid = JRequest::getVar('Itemid', null);
+    	
+    	if($itemid != null && !$mainframe->isAdmin())
+    	{
+    		$menu = JSite::getMenu();
+    		$mparams = $menu->getParams($itemid);
+    		
+    		$params->merge($mparams);
+    	}
+    	
+    	return $params;
+    }
 }
 ?>

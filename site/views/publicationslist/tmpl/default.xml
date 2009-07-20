@@ -39,7 +39,7 @@
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
 			</param>
-			<param type="@spacer" />
+			<param type="spacer" />
 			<param name="filter_teams" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>

@@ -24,7 +24,7 @@ class JResearchViewFacility extends JResearchView
     	global $mainframe;
         $layout = &$this->getLayout();
         $arguments = array('facility');
-        $params = JComponentHelper::getParams('com_jresearch');
+        $params = $this->getParams();
         $result = true;
         
         switch($layout)

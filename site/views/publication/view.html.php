@@ -251,7 +251,7 @@ class JResearchViewPublication extends JResearchView
 			$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , array());
 		}
 		
-		$params = JComponentHelper::getParams('com_jresearch');
+		$params = $this->getParams();
 		if(!empty($publication->files))
 			$uploadedFiles = explode(';', trim($publication->files));
 		else

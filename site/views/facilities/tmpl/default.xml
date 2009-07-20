@@ -8,6 +8,11 @@
 		<description>JRESEARCH_FACILITIES_VIEW_MESSAGE</description>
 		
 		<params>	
+			<param name="facility_entries_per_page" default="25" label="JRESEARCH_CONFIG_FACILITY_PER_PAGE" type="text" ></param>									
+			<param name="facilities_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+				<option value="asc">JRESEARCH_ASCENDING</option>
+				<option value="desc">JRESEARCH_DESCENDING</option>
+			</param>
 		</params>
 	</state>
 </metadata>
