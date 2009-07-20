@@ -1,4 +1,4 @@
-.button2-left .bibliography{
+button2-left .bibliography{
 	background: url(../assets/j_button2_bibliography.png) 100% 0 no-repeat;
 }
 
@@ -209,7 +209,7 @@ text-align:left;
 
 .divTd{
 	float: left;
-	width:70px;
+	width:100px;
 	margin:0px;
 	padding:0px 5px 0px 0px;
 	text-align:right;
@@ -232,6 +232,12 @@ text-align:left;
 	margin:0px;
 	padding:0px;
 }
+
+.divForm{
+	margin-right: 25%;
+	margin-left: 25%;
+}
+
 .divEspacio{
 	clear:both;
 	margin:0px;
@@ -242,10 +248,3 @@ div.divTdl2{
 	width: 200px;
 	overflow: visible;
 }
-
-.divForm{
-	margin:0px;
-	padding:0px;
-	
-}
-

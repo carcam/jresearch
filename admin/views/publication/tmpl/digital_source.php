@@ -14,15 +14,14 @@ if(!empty($this->publication)){
 	$type = JHTML::_('jresearchhtml.digitalresourcelist', array('name'=>'source_type'));
 }
 ?>
-<tr>
-	<th><?php echo JText::_('JRESEARCH_SOURCE_TYPE').': ' ?></th>
-	<td><?php echo $type; ?></td>
-	<th><?php echo JText::_('Publisher').': ' ?></th>
-	<td><input name="publisher" id="publisher" type="text" size="30" maxlength="60" value="<?php echo $this->publication?$this->publication->publisher:'' ?>" /></td>
-</tr>
-<tr>
-	<th><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></th>
-	<td><input type="text" name="address" id="address" size="30" maxlength="255" value="<?php echo $this->publication?$this->publication->address:'' ?>" /></td>
-	<td></td>
-	<td></td>
-</tr>
+<div class="divTR">
+	<div class="divTd"><label for="source_type" ><?php echo JText::_('JRESEARCH_SOURCE_TYPE').': ' ?></label></div>
+	<div class="divTdl divTdl2"><?php echo $type; ?></div>
+	<div class="divTd"><?php echo JText::_('Publisher').': ' ?></div>
+	<div class="divTdl"><input name="publisher" id="publisher" type="text" size="15" maxlength="60" value="<?php echo $this->publication?$this->publication->publisher:'' ?>" /></div>
+	<div class="divEspacio" ></div>			
+</div>
+<div class="divTR">
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></div>
+	<div class="divTdl"><input type="text" name="address" id="address" size="15" maxlength="255" value="<?php echo $this->publication?$this->publication->address:'' ?>" /></div>
+</div>
