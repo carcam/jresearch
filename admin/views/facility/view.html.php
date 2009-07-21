@@ -43,7 +43,7 @@ class JResearchAdminViewFacility extends JResearchView
     		$arguments[] = null;
 
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $fac?$fac->published:1));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="5"', 'selected' => $fac?$fac->id_research_area:1));
+   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $fac?$fac->id_research_area:1));
     	
     	$this->assignRef('fac', $fac, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
