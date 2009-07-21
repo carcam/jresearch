@@ -458,7 +458,7 @@ class JHTMLjresearchhtml
 		
 		//Render the uploaded files
 		$baseUrl = $url.'administrator/components/com_jresearch/'.str_replace(DS, '/', $filesFolder);
-		$result = '<ul style="list-style:none;">';
+		$result = '<ul style="padding:0px;margin:0px;">';
 		$n = 0;
 		foreach($uploadedFiles as $file){
 			$result .= '<li><a href="'.$baseUrl.'/'.$file.'">'.$file.'</a>&nbsp;&nbsp;<label for="delete_'.$name.'_'.$n.'">'.JText::_('Delete').'</label><input type="checkbox" name="delete_'.$name.'_'.$n.'" id="delete_'.$name.'_'.$n.'" /></li>';
@@ -818,6 +818,37 @@ class JHTMLjresearchhtml
 		        <img alt="!!!" src="'.$image.'" width="20" height="20" style="vertical-align: middle;"
 		                 title="'.$message.'" /></label>';
 		        
+	}
+	
+	/**
+	 * Renders an HTML list with all publication subtypes
+	 * @param $name Control name.
+	 * @return string
+	 */
+	public static function publicationstypeslist($name, $options = '', $value=''){	
+		// Publication type filter
+		$types = JResearchPublication::getPublicationsSubtypes();
+		$typesHTML = array();
+		$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
+		foreach($types as $type){
+			$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
+		}
+		
+		return JHTML::_('select.genericlist', $typesHTML, $name, $options, 'value','text', $value);		
+		
+	}
+	
+	/**
+	 * Returns the HTML needed to render a hits control: just a number with a checkbox used
+	 * to indicate the hits counter must be reseted.
+	 * @param $name Control name (used for the checkbox)
+	 * @param $value Hits until that moment
+	 * @return string
+	 */
+	public static function hitsControl($name, $value){
+		$result = '<span class="hits"><span>'.$value.'</span><span><label for="'.$name.'">(';
+		$result .= JText::_('Reset').': </label></span><span><input type="checkbox" name="'.$name.'" id="'.$name.'" />)</span></span>';
+		return $result;
 	}
 }
 ?>

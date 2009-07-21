@@ -234,8 +234,8 @@ text-align:left;
 }
 
 .divForm{
-	margin-right: 25%;
-	margin-left: 25%;
+	margin-right: 20%;
+	margin-left: 20%;
 }
 
 .divEspacio{
@@ -245,7 +245,21 @@ text-align:left;
 }
 
 div.divTdl2{
-	width: 200px;
+	width: 250px;
 	overflow: visible;
 }
 
+div.divChangeType{
+	width: 100%;
+	text-align: right;
+}
+
+span.hits span{
+	vertical-align: bottom;
+	margin: 2px;
+	padding: 0px;
+}
+
+#resethits{
+	vertical-align: middle;
+}

@@ -9,6 +9,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
 <div class="divForm">
 <form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
+<div class="divChangeType"><label for="types"><?php echo JText::_('JRESEARCH_CHANGE_TYPE').': '; ?></label><?php echo $this->changeType; ?></div>
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_BASIC')?></legend>
 	<div class="divTable">
@@ -63,7 +64,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	            <label for="keywords"><?php echo JText::_('JRESEARCH_KEYWORDS').': '?></label>
 	        </div>
 	        <div class="divTdl">
-				<input name="keywords" id="keywords" size="30" maxlength="255" class="validate-keywords" value="<?php echo $this->publication?$this->publication->keywords:'' ?>" />&nbsp;&nbsp;<span class="information">&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span>
+				<input name="keywords" id="keywords" size="30" maxlength="255" class="validate-keywords" value="<?php echo $this->publication?$this->publication->keywords:'' ?>" /><span class="information"><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span>
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'keywords', JText::_('JRESEARCH_PROVIDE_KEYWORDS')); ?>				
 	        </div>
 		  <div class="divEspacio" ></div>		        
@@ -85,7 +86,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</div>
 			<?php if(!empty($this->publication)): ?>
 				<div class="divTd"><label for="hits"><?php echo JText::_('Hits').': '?></label></div>
-				<div class="divTdl"><?php echo $this->publication->hits;  ?><label for="resethits"><?php echo JText::_('Reset').': '; ?></label><input type="checkbox" name="resethits" id="resethits" /></div>			
+				<div class="divTdl"><?php echo JHTML::_('jresearchhtml.hitsControl', 'resethits', $this->publication->hits); ?></div>			
 			<?php endif; ?>
 	  		<div class="divEspacio" ></div>			
 		</div>
@@ -115,8 +116,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	  	<div class="divEspacio" ></div>	        
     </div>
 	    <div class="divTR">
-			<div class="divTd"><label for="file_url_0"><?php echo JText::_('JRESEARCH_FILE').': '; ?></label></div>
-			<div class="divTdl divTdl2"><?php echo $this->files; ?><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_FILES_TOOLTIP')); ?></div>
+			<div class="divTd"><label for="file_url_0"><?php echo JText::_('JRESEARCH_FILE').': '; ?></label><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_FILES_TOOLTIP')); ?></div>
+			<div class="divTdl"><?php echo $this->files; ?></div>
 		</div>
 	  	<div class="divEspacio" ></div>		
 </div>

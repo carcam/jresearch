@@ -51,10 +51,10 @@ class JResearchAdminViewProject extends JResearchView
     	}
 
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $project?$project->published:1));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="5"', 'selected' => $project?$project->id_research_area:1)); 
-   	 	$statusHTML = JHTML::_('jresearchhtml.statuslist', array('name' => 'status', 'attributes' => 'class="inputbox" size="5"', 'selected' => $project?$project->status:'not_started'));
+   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $project?$project->id_research_area:1)); 
+   	 	$statusHTML = JHTML::_('jresearchhtml.statuslist', array('name' => 'status', 'attributes' => 'class="inputbox" size="1"', 'selected' => $project?$project->status:'not_started'));
    	 	$currencyHTML = JHTML::_('jresearchhtml.currencylist', array('name' => 'finance_currency', 'attributes' => 'class="inputbox"', 'selected' => $project?$project->finance_currency:1));
-    	$coopHTML = JHTML::_('jresearchhtml.cooperations', array('name' => 'id_cooperation[]', 'attributes' => 'class="inputbox" size="5"'));
+    	$coopHTML = JHTML::_('jresearchhtml.cooperations', array('name' => 'id_cooperation[]', 'attributes' => 'class="inputbox" size="1"'));
    	 	
 		$membersControl = JHTML::_('jresearchhtml.autoSuggest', 'members', $members, true, $principalFlags);	
 		
@@ -65,7 +65,7 @@ class JResearchAdminViewProject extends JResearchView
 			$fins[] = $fin->id;
 		}
 		
-		$finHTML = JHTML::_('jresearchhtml.financiers', array('name' => 'id_financier[]', 'attributes' => 'class="inputbox" size="3" multiple="multiple"', 'selected' => (count($fins) > 0) ? $fins : ''));
+		$finHTML = JHTML::_('jresearchhtml.financiers', array('name' => 'id_financier[]', 'attributes' => 'class="inputbox" size="1" multiple="multiple"', 'selected' => (count($fins) > 0) ? $fins : ''));
 
 		$params = JComponentHelper::getParams('com_jresearch');
 		if(!empty($project->files))
