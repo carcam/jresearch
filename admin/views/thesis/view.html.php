@@ -45,9 +45,9 @@ class JResearchAdminViewThesis extends JResearchView
     	}
 
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $thesis?$thesis->published:1));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="5"', 'selected' => $thesis?$thesis->id_research_area:1)); 
-   	 	$statusHTML = JHTML::_('jresearchhtml.statuslist', array('name' => 'status', 'attributes' => 'class="inputbox" size="5"', 'selected' => $thesis?$thesis->status:1));
-   	 	$degreeHTML = JHTML::_('jresearchhtml.degreelist', array('name' => 'degree', 'attributes' => 'class="inputbox" size="5"', 'selected' => $thesis?$thesis->degree:'bachelor'));
+   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->id_research_area:1)); 
+   	 	$statusHTML = JHTML::_('jresearchhtml.statuslist', array('name' => 'status', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->status:1));
+   	 	$degreeHTML = JHTML::_('jresearchhtml.degreelist', array('name' => 'degree', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->degree:'bachelor'));
     	
 		$studentsControl = JHTML::_('jresearchhtml.autoSuggest', 'students', $students);
 		$directorsControl = JHTML::_('jresearchhtml.autoSuggest', 'directors', $directors);
