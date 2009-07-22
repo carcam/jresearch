@@ -37,15 +37,15 @@ class JResearchAdminViewMember extends JResearchView
     	
     	//Lists
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $member->published));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="5"', 'selected' => $member->id_research_area)); 
+   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $member->id_research_area)); 
 
     	$orderOptions = array();
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, CONCAT_WS(\' \', firstname, lastname) AS text FROM #__jresearch_member ORDER by former_member,ordering ASC');
     	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , ($member)?$member->ordering:0);
     	
-    	$positionList = JHTML::_('jresearchhtml.memberpositions', array('name' => 'position', 'attributes' => 'class="inputbox" size="5"', 'selected' => $member->position));
+    	$positionList = JHTML::_('jresearchhtml.memberpositions', array('name' => 'position', 'attributes' => 'class="inputbox" size="1"', 'selected' => $member->position));
     	
-		$editor =& JFactory::getEditor();    	
+		$editor = JFactory::getEditor();    	
     	
     	$this->assignRef('member', $member, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('areasList', $researchAreasHTML);

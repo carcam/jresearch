@@ -59,7 +59,7 @@ class JResearchViewMember extends JResearchView
     	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
     	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
       	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
-		JHTML::_('JResearch.validation');
+		JHTML::_('jresearchhtml.validation');
     	JResearchToolbar::editMemberAdminToolbar();		
 		    	
     	$user =& JFactory::getUser();
@@ -89,7 +89,7 @@ class JResearchViewMember extends JResearchView
 		//Published options  	
 		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'selected' => $member->published));
     	
-    	$editor =& JFactory::getEditor();    	
+    	$editor = JFactory::getEditor();    	
     	
     	$doc->setTitle(JText::_('JRESEARCH_MEMBER').' - '.$member->__toString());
 
