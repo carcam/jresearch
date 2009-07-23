@@ -90,6 +90,7 @@
 			<filename>index.html</filename>
 			<filename>admin.jresearch.php</filename>
 			<filename>install.sql</filename>
+			<filename>joomfish_views.sql</filename>
 			<filename>toolbar.jresearch.html.php</filename>
 			<filename>uninstall.sql</filename>
 			<filename>controller.php</filename>
