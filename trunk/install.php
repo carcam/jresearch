@@ -23,16 +23,38 @@ require_once(JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'database'.DS.'table'.DS.'
  */
 function com_install(){
 	
+	// Time to install plugins
+	$db = &JFactory::getDBO();
+	$dbVersion = array();
+	$jresearchAdminFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_jresearch';
+	
+	preg_match_all( "/(\d+)\.(\d+)\.(\d+)/i", $db->getVersion(), $dbVersion );
+	$bDbVersion = ($dbVersion[1] >= 5 && $dbVersion[3] >= 1);
+	
 	// Copy Joom!Fish content elements if Joom!Fish extension exists
 	$joomFishCheckFile = JPATH_SITE.DS.'components'.DS.'com_joomfish'.DS.'joomfish.php';
-	$srcFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_jresearch'.DS.'contentelements';
+	$srcFolder = $jresearchAdminFolder.DS.'contentelements';
 	$destFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_joomfish'.DS.'contentelements';
 	
 	$dir = dir($srcFolder);
 	
-	//Install Joomfish elements
-	if(file_exists($joomFishCheckFile))
+	//Install Joomfish elements if joomfish exists and correct mysql version exists >= 5.0.1
+	if(file_exists($joomFishCheckFile) && $bDbVersion)
 	{
+		//Create views with extra sql file
+		$buffer = file_get_contents($jresearchAdminFolder.DS.'joomfish_views.sql');
+		$queries = $db->splitSql($buffer);
+		
+		foreach($queries as $query)
+		{
+			$db->setQuery($query);
+			
+			if(!$db->query())
+			{
+				JError::raiseWarning(1, 'J!Research: '.JText::_('SQL Error')." ".$db->stderr(true));
+			}
+		}
+		
 		//Install content elements
 		while(false !== ($file = $dir->read()))
 		{
@@ -48,6 +70,8 @@ function com_install(){
 			if($file != '.' && $file != '..' && is_file($srcFolder.DS.$file))
 				@unlink($srcFolder.DS.$file);
 		}
+		
+		JError::raiseWarning(1, JText::_('JoomFish content elements can\'t be installed'));
 	}
 
 	//Remove folder from component
@@ -103,9 +127,6 @@ function com_install(){
 	}else{
 		JError::raiseWarning(1, JText::_('TinyMCE editor new plugin file could be not modified so JResearch Automatic Citation plugin will be not available.' ));
 	}
-	
-	// Time to install plugins
-	$db = &JFactory::getDBO();
 
 	$searchPlugin = new JTablePlugin($db);	
 	$searchPlugin->name = 'Search - JResearch';
