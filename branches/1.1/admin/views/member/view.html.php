@@ -58,7 +58,7 @@ class JResearchAdminViewMember extends JResearchView
     	
 		$editor =& JFactory::getEditor();    	
     	
-    	$this->assignRef('member', $member, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('member', $member, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('orderList', $orderList);

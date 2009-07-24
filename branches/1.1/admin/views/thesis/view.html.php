@@ -82,7 +82,7 @@ class JResearchAdminViewThesis extends JResearchView
 		$studentsControl = JHTML::_('AuthorsSelector._', 'students', $students);
 		$directorsControl = JHTML::_('AuthorsSelector._', 'directors', $directors);		    	
 
-    	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('editor', $editor);    
