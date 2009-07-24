@@ -81,7 +81,7 @@ class JResearch
 			}
 			else
 			{
-				$fileVar = 'components/com_jresearch/'.JString::str_ireplace(DS,'/',$folder).basename($newName);
+				$fileVar = 'administrator/components/com_jresearch/'.JString::str_ireplace(DS,'/',$folder).basename($newName);
 			}
 		}
 		

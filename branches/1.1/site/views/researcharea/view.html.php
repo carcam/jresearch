@@ -95,7 +95,7 @@ class JResearchViewResearchArea extends JResearchView
     	$this->assignRef('projects_view_all', $projects_view_all);    	
     	$this->assignRef('theses_view_all', $theses_view_all);    	
 		$this->assignRef('members', $members);
-        $this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
+        $this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
         
         $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		
