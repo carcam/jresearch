@@ -48,7 +48,7 @@ class JResearchViewTeam extends JResearchView
 		');
 		$doc->setTitle(JText::_('JRESEARCH_TEAM').' - '.$item->name);
 
-		$this->assignRef('item', $item, JResearchFilter::OBJECT_XHTML_SAFE);
+		$this->assignRef('item', $item, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
 
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		

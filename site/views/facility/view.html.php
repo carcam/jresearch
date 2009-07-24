@@ -81,7 +81,7 @@ class JResearchViewFacility extends JResearchView
     	$doc->setTitle(JText::_('JRESEARCH_FACILITY').' - '.$area->name.' - '.$fac->name);
     			
     	// Bind variables for layout
-    	$this->assignRef('fac', $fac, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('fac', $fac, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
 
     	return true;

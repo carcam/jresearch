@@ -83,7 +83,7 @@ class JResearchViewProject extends JResearchView
     	$doc->setTitle(JText::_('JRESEARCH_PROJECT').' - '.$project->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
-    	$this->assignRef('project', $project, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('project', $project, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
     	

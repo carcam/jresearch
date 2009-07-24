@@ -25,18 +25,6 @@ $itemId = JRequest::getVar('Itemid');
     <td colspan="2" rowspan="3"><img src="<?php echo $this->member->getURLPhoto(); ?>" border="0" alt="<?php echo $this->member->__toString(); ?>" /></td>
     <?php endif; ?>		
   </tr>
-  <?php
-  if($this->member->former_member == 0)
-  {
-  ?>
-	  <tr>
-	  	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_EMAIL').': ' ?></td>
-	  	<td><?php echo JHTML::_('email.cloak',$this->member->email);?></td>
-	  	<td colspan="2"></td>
-	  </tr>
-  <?php 
-  }
-  ?>
   <tr>
   	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
   	<td>			

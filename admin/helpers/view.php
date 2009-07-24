@@ -91,8 +91,12 @@ class JResearchView extends JView
     {
         if(is_object($val))
         {
-            $val->raw = $val;
-            JFilterOutput::objectHTMLSafe($val, $config['quote_style'], $config['exclude_keys']);
+            $raw = $val;
+            $quote_style = array_key_exists('quote_style', $config)?$config['quote_style']:ENT_QUOTES;
+            $exclude_keys = array_key_exists('exclude_keys', $config)?$config['exclude_keys']:'';
+            
+            JFilterOutput::objectHTMLSafe($val, $quote_style, $exclude_keys);
+            $val->raw = $raw;
             return true;
         }
         

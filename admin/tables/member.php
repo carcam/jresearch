@@ -267,7 +267,7 @@ class JResearchMember extends JTable{
 		else
 			$base = JURI::base().'administrator/';
 
-		return $base.$this->url_photo;	
+		return $base.JString::str_ireplace($base, '', $this->url_photo);	
 				
 	}
 }
