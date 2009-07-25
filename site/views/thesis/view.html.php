@@ -85,10 +85,10 @@ class JResearchViewThesis extends JResearchView
 
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));    	
-    	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('degreeArray', $degreeArray);
-    	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
     	
     	return true;
 

@@ -43,5 +43,5 @@ $contentArr = explode('<hr id="system-readmore" />', $this->item->description);
 	<?php
 	}
 	?>
-	<div style="text-align: center;"><a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a></div>
+	<div><a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a></div>
 </div>

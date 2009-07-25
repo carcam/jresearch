@@ -26,7 +26,7 @@ if($intro_text != "")
 	foreach($this->items as $coop)
 	{
 	?>
-		<li class="licooperation" style="background: none; clear: both; margin-bottom: 10px;">
+		<li class="licooperation">
 			<?php 
 			if($coop->image_url != "")
 			{
@@ -35,16 +35,13 @@ if($intro_text != "")
 			<?php 
 			}
 			?>
-			<div style="width: 85%; margin-left: auto; margin-right: auto;">
 				<?php
 				$contentArray = explode('<hr id="system-readmore" />', $coop->description);
 				$itemId = JRequest::getVar('Itemid');
 				?>
-				<div class="contentheading">
-					<a href="<?php echo JFilterOutput::ampReplace($coop->url)?>">
-						<?php echo JFilterOutput::ampReplace($coop->name)?>
-					</a>
-				</div>
+				<h2 class="contentheading"><?php echo JFilterOutput::ampReplace($coop->name)?></h2>
+				<?php $ampReplacedUrl = JFilterOutput::ampReplace($coop->url); ?>		
+				<strong><?php echo JText::_('JRESEARCH_COOPERATION_URL').': ';?></strong> <a href="<?php echo $ampReplacedUrl;?>"><?php echo $ampReplacedUrl;?></a>
 				<?php 
 				if($contentArray[0] != "")
 				{
@@ -66,9 +63,7 @@ if($intro_text != "")
 				<?php 
 				}
 				?>
-			</div>
-			<div style="clear: both;">&nbsp;</div>
-			<hr style="clear: both;" />
+			<div style="clear: both;"></div>
 		</li>
 	<?php
 	}

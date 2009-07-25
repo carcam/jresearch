@@ -115,6 +115,15 @@ li.comments{
 	margin-top: 10px;
 }
 
+.licooperation{
+	list-style: none;
+	margin-top: 10px;
+}
+
+.liteam{
+	list-style: none;
+	margin-top: 10px;
+}
 
 div.help{
 	margin-left: 15px;

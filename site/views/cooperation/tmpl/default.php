@@ -24,7 +24,7 @@ $ampReplacedUrl = JFilterOutput::ampReplace($this->coop->url);
 ?>
 <div class="content">
 	<div>
-		<strong><?php echo JText::_('JRESEARCH_COOPERATION_URL');?></strong> <a href="<?php echo $ampReplacedUrl;?>"><?php echo $ampReplacedUrl;?></a>
+		<strong><?php echo JText::_('JRESEARCH_COOPERATION_URL').': ';?></strong> <a href="<?php echo $ampReplacedUrl;?>"><?php echo $ampReplacedUrl;?></a>
 	</div>
 	<div>
 		<?php echo $contentArr[0];?>
@@ -33,3 +33,4 @@ $ampReplacedUrl = JFilterOutput::ampReplace($this->coop->url);
 		<?php echo $contentArr[1];?>
 	</div>
 </div>
+<div><a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a></div>
