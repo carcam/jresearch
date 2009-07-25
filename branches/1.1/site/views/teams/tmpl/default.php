@@ -16,15 +16,14 @@ defined("_JEXEC") or die("Restricted access");
 	foreach($this->items as $team)
 	{
 	?>
-		<li class="liteam" style="background: none; clear: both; margin-bottom: 10px;">
-			<div style="width: 85%; margin-left: auto; margin-right: auto;">
+		<li class="liteam">
 				<?php
 				$contentArray = explode('<hr id="system-readmore" />', $team->description);
 				$itemId = JRequest::getVar('Itemid');
 				?>
-				<div class="contentheading">
+				<h2 class="contentheading">
 					<?php echo JFilterOutput::ampReplace($team->name); ?>
-				</div>
+				</h2>
 				<div>
 					<?php $leader = $team->getLeader(); ?>
 					<strong><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?php echo $leader->__toString(); ?>
@@ -34,9 +33,7 @@ defined("_JEXEC") or die("Restricted access");
 						<?php echo JText::_('JRESEARCH_READ_MORE'); ?>
 					</a>
 				</div>
-			</div>
-			<div style="clear: both;">&nbsp;</div>
-			<hr style="clear: both;" />
+			<div style="clear: both;"></div>
 		</li>
 	<?php
 	}
