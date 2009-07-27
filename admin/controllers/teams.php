@@ -53,6 +53,8 @@ class JResearchAdminTeamsController extends JController
 	 */
 	function display()
 	{
+		JResearchToolbar::teamsAdminListToolbar();
+		
 		$view = &$this->getView('Teams', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Teams', 'JResearchModel');
 		
@@ -67,12 +69,13 @@ class JResearchAdminTeamsController extends JController
 	*/	
 	function edit()
 	{
+		JResearchToolbar::editTeamAdminToolbar();
+		
 		$cid = JRequest::getVar('cid', array());
 		
 		$view = &$this->getView('Team', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Team', 'JResearchModel');
 		$membersModel =& $this->getModel('Staff', 'JResearchModel');
-		$teamsModel =& $this->getModel('Teams', 'JResearchModel');
 		
 		if(!empty($cid))
 		{
@@ -99,7 +102,6 @@ class JResearchAdminTeamsController extends JController
 		
 		$view->setModel($model,true);
 		$view->setModel($membersModel);
-		$view->setModel($teamsModel);
 		$view->display();
 	}
 
@@ -158,7 +160,7 @@ class JResearchAdminTeamsController extends JController
 		    $this->setRedirect('index.php?option=com_jresearch');
 		    return;
 		}
-		
+
 		$db =& JFactory::getDBO();
 		$team = new JResearchTeam($db);
 
@@ -168,14 +170,6 @@ class JResearchAdminTeamsController extends JController
 		$team->bind($post);
 		$team->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$team->description = JRequest::getVar('description','','post', 'string', JREQUEST_ALLOWRAW);
-		
-		//If parent isn't set to valid id, set to null
-		//@todo prevent to set cycle
-		if($team->parent <= 0 || $team->parent == $team->id)
-		{
-			$team->parent = null;
-		}
-		
 		$members = JRequest::getVar('members', array(), 'post');
 		
 		//Set members
@@ -184,7 +178,7 @@ class JResearchAdminTeamsController extends JController
 			$team->setMember($member);
 		}
 
-			// Validate and save
+		// Validate and save
 		if($team->check())
 		{
 			if($team->store())
@@ -204,13 +198,17 @@ class JResearchAdminTeamsController extends JController
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=com_jresearch&controller=teams&task=edit&cid[]='.$team->id, JText::_('JRESEARCH_SAVE_FAILED').': '.$team->getError());
+				for($i=0; $i<count($team->getErrors()); $i++)
+					JError::raiseWarning(1, $team->getError($i));
+				
+				$this->setRedirect('index.php?option=com_jresearch&controller=teams&task=edit&cid[]='.$team->id, JText::_('JRESEARCH_SAVE_FAILED'));
 			}
 		}
 		else
 		{
 			for($i=0; $i<count($team->getErrors()); $i++)
 				JError::raiseWarning(1, $team->getError($i));
+			
 			$this->setRedirect('index.php?option=com_jresearch&controller=teams&task=edit&cid[]='.$team->id);
 		}
 		

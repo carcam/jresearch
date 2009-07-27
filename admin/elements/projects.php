@@ -16,8 +16,6 @@ class JElementProjects extends JElement
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 	    global $mainframe;
-	    JHTML::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
-	    
 		$db =& JFactory::getDBO();
 		$sql = "SELECT id, title FROM #__jresearch_project WHERE published=1";
 		
@@ -37,41 +35,12 @@ class JElementProjects extends JElement
 		$doc->addScript($url."components/com_jresearch/helpers/html/projectselector.js");
 		
 		//Generate element
-		$html = JHTML::_('jresearchhtml.input', $fieldName, $value, 'hidden', array('id' => $name));
-		
-		if(count($projectsOptions) > 0)
-		{
-			$html .= JHTML::_('select.genericlist', $projectsOptions, 'projectslist', 'multiple="multiple" class="inputbox" size="5" onchange="changeValue(\''.$name.'\');"', 'value', 'text', explode(',',$value));
-			$html .= '&nbsp;&nbsp;';
-			$html .= JHTML::_(
-				'jresearchhtml.input',
-				'selectbtn',
-				JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_SELECT_ALL'),
-				'button',
-			    array(
-					'id' => 'selectbtn',
-					'onclick' => 'selectAll(\''.$name.'\');',
-					'style' => 'vertical-align: top;'
-			    )
-	        );
-			$html .= '&nbsp;';
-			$html .= JHTML::_(
-				'jresearchhtml.input',
-				'resetbtn',
-				JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_RESET'),
-				'button',
-			    array(
-			    	'id' => 'resetbtn',
-			    	'onclick' => 'unselectAll(\''.$name.'\');',
-			    	'style' => 'vertical-align: top;',
-			    	'title' => JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_TOOLTIP')
-			    )
-		    );
-		}
-		else 
-		{
-			$html .= JText::_('JRESEARCH_NO_PROJECTS');
-		}
+		$html = '<input type="hidden" name="'.$fieldName.'" id="'.$name.'" value="'.$value.'" /> ';
+		$html .= JHTML::_('select.genericlist', $projectsOptions, 'projectslist', 'multiple="multiple" class="inputbox" size="5" onchange="changeValue(\''.$name.'\');"', 'value', 'text', explode(',',$value));
+		$html .= '&nbsp;&nbsp;';
+		$html .= '<input type="button" name="selectbtn" id="selectbtn" value="'.JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_SELECT_ALL').'" onclick="selectAll(\''.$name.'\');" style="vertical-align: top;" />';
+		$html .= '&nbsp;';
+		$html .= '<input type="button" name="resetbtn" id="resetbtn" value="'.JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_RESET').'" onclick="unselectAll(\''.$name.'\');" title="'.JText::_('JRESEARCH_PROJECT_PARAM_SELECTION_TOOLTIP').'" style="vertical-align: top;" />';
 		
 		return $html;
 	}

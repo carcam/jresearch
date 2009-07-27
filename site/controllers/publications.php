@@ -11,16 +11,13 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-if(!class_exists('JResearchFrontendController'))
-{
-	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
-}
+jimport('joomla.application.component.controller');
 
 /**
 * JResearch Component Publications Controller
 *
 */
-class JResearchPublicationsController extends JResearchFrontendController
+class JResearchPublicationsController extends JController
 {
 
 	/**
@@ -58,9 +55,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publicationslist');
-		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publication');
-
-		$this->addPathwayItem(JText::_('JRESEARCH_PUBLICATIONS'), 'index.php?option=com_jresearch&view=publicationslist');
+		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publication');		
 	}
 
 	/**
@@ -116,8 +111,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	*/
 	function add()
 	{
-		$view = &$this->getView('Publication', 'html', 'JResearchView');
-		
+		$view = &$this->getView('Publication', 'html', 'JResearchView');	
 		$view->setLayout('new');
 		$view->display();
 	}
@@ -130,6 +124,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	function edit()
 	{	
 		$cid = JRequest::getVar('id');
+		$Itemid = JRequest::getVar('Itemid');
 		
 		$view = &$this->getView('Publication', 'html', 'JResearchView');
 		$pubModel = &$this->getModel('Publication', 'JResearchModel');	
@@ -139,14 +134,13 @@ class JResearchPublicationsController extends JResearchFrontendController
 		{
 			$publication = $pubModel->getItem($cid);
 			
-			if(!empty($publication))
-			{
+			if(!empty($publication)){
 				$user =& JFactory::getUser();
 				
 				// Verify if it is checked out
 				if($publication->isCheckedOut($user->get('id')))
 				{
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications&Itemid='.$Itemid, JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
 				}
 				else
 				{
@@ -240,7 +234,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 */
 	function citeFromDialog(){
 		// Add explicitly the view path (useful when requesting from the backend)
-		$this->addViewPath(JPATH_COMPONENT_SITE.DS.'views');
+		$this->addViewPath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views');
 		$view = &$this->getView('PublicationsList', 'html', 'JResearchView');
 		$view->setLayout('cite');
 		$view->display();
@@ -252,7 +246,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 */
 	function generateBibliography(){
 		// Add explicitly the view path (useful when requesting from the backend)
-		$this->addViewPath(JPATH_COMPONENT_SITE.DS.'views');
+		$this->addViewPath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views');
 		$view = &$this->getView('PublicationsList', 'html', 'JResearchView');
 		$model =& $this->getModel('Publication', 'JResearchModel');
 		$view->setLayout('generatebibliography');
@@ -408,7 +402,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 
 	 	// Get the captcha tests
 	 	$captchas = $mainframe->getUserState('jxcaptcha.captcha');
-	 	$captchaInstance = JXCaptcha::getInstance('image', array('filePath'=>JPATH_COMPONENT_SITE.DS.'views'.DS.'publication'.DS.'captcha'));
+	 	$captchaInstance = JXCaptcha::getInstance('image', array('filePath'=>JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publication'.DS.'captcha'));
 	 
 	 	foreach ($captchas as $captcha){
 	 		if (isset($post[$captcha['id']]))
@@ -450,55 +444,33 @@ class JResearchPublicationsController extends JResearchFrontendController
 		    return;
 		}
 		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');		
-		
 		$db =& JFactory::getDBO();
-		$params =& JComponentHelper::getParams('com_jresearch');				
 		$user = JFactory::getUser();
-		$id = JRequest::getInt('id');
+
+		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');
 		$type = JRequest::getVar('pubtype');
 		$publication =& JResearchPublication::getSubclassInstance($type);
-		
-		if(isset($id))
-			$publication->load($id);		
-
-		$delete = JRequest::getVar('delete_url_0');
-	    if($delete === 'on'){
-	    	if(!empty($publication->files)){
-		    	$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
-		    	@unlink($filetoremove);
-		    	$publication->files = '';
-	    	}
-	    }
-	   
-	     // Bind request variables to publication attributes	
 		$publication->bind($post);
-	    $countUrl = JRequest::getInt('count_url', 0);
-	    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
-	    if(!empty($file['name'])){	    	
-	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');
-	    }
-	    
-		
-		$check = $publication->check();
-		
+		$Itemid = JRequest::getVar('Itemid');
+		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
+
 		// Validate publication
-		if(!$check){
+		if(!$publication->check()){
 			for($i=0; $i<count($publication->getErrors()); $i++)
 				JError::raiseWarning(1, $publication->getError($i));
-							
+						
 			if($publication->id)			
-				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&id='.$publication->id);
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&id='.$publication->id.'&pubtype='.$publication->pubtype.$ItemidText);
 			else
-				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);	
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=add&pubtype='.$publication->pubtype.$ItemidText);	
 		}else{
 			//Time to set the authors
-			$maxAuthors = JRequest::getInt('nauthorsfield');
+			$maxAuthors = JRequest::getInt('maxauthors');
 			$k = 0;
 	
 			for($j=0; $j<=$maxAuthors; $j++){
-				$value = JRequest::getVar("authorsfield".$j);
+				$value = JRequest::getVar("authors".$j);
 				if(!empty($value)){
 					if(is_numeric($value)){
 						// In that case, we are talking about a staff member
@@ -547,10 +519,13 @@ class JResearchPublicationsController extends JResearchFrontendController
 			}	
 		}
 		
-		$user =& JFactory::getUser();
-		if(!$publication->isCheckedOut($user->get('id'))){
-			if(!$publication->checkin())
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+		//If the publication exists
+		if(!empty($publication->id)){
+			$user =& JFactory::getUser();
+			if(!$publication->isCheckedOut($user->get('id'))){
+				if(!$publication->checkin())
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+			}
 		}
 		
 	}

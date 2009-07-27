@@ -11,19 +11,6 @@
 			description="Publication displayed" query="SELECT id as value, title as id FROM #__jresearch_publication WHERE published = 1 AND internal=1" />	
 			<param type="hidden" name="task" default="show" />
 		</url>
-		<params>
-			<param type="list" name="show_journal_acceptance_rate" default="1">
-				<option value="no">No</option>
-				<option value="yes">Yes</option>
-			</param>
-			<param type="list" name="show_awards" default="yes">
-				<option value="no">No</option>
-				<option value="yes">Yes</option>
-			</param>
-			<param type="list" name="show_impact_factor" default="yes">
-				<option value="no">No</option>
-				<option value="yes">Yes</option>
-			</param>
-		</params>
+		
 	</state>
 </metadata>

@@ -8,6 +8,8 @@
 * This file implements the controller for all operations related to the management
 * of research projects in the backend interface.
 */
+define('_PROJECT_IMAGE_MAX_WIDTH_', 400);
+define('_PROJECT_IMAGE_MAX_HEIGHT_', 400);
 
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
@@ -64,7 +66,6 @@ class JResearchAdminProjectsController extends JController
 	* @access public
 	*/
 	function edit(){
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'cooperations');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers');
 		
@@ -73,7 +74,6 @@ class JResearchAdminProjectsController extends JController
 		$view = &$this->getView('Project', 'html', 'JResearchAdminView');	
 		
 		$finModel = &$this->getModel('Financiers', 'JResearchModel');
-		$coopModel = &$this->getModel('Cooperations', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
 		$model =& $this->getModel('Project', 'JResearchModel');
 
@@ -86,6 +86,10 @@ class JResearchAdminProjectsController extends JController
 					$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
 				}else{
 					$project->checkout($user->get('id'));
+					$view->setModel($model, true);
+					$view->setModel($areaModel);
+					$view->setModel($finModel);
+					$view->display();
 				}
 			}else{
 				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
@@ -94,14 +98,11 @@ class JResearchAdminProjectsController extends JController
 		}else{
 			$session =& JFactory::getSession();
 			$session->set('citedRecords', array(), 'jresearch');
+			$view->setModel($model, true);
+			$view->setModel($areaModel);
+			$view->setModel($finModel);
+			$view->display();
 		}
-		
-		//Set models
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
-		$view->setModel($finModel);
-		$view->setModel($coopModel);
-		$view->display();
 	}
 	
 	/**
@@ -161,7 +162,6 @@ class JResearchAdminProjectsController extends JController
 	 */
 	function save(){
 		global $mainframe;
-		
 	    if(!JRequest::checkToken())
 		{
 		    $this->setRedirect('index.php?option=com_jresearch');
@@ -171,49 +171,12 @@ class JResearchAdminProjectsController extends JController
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 		
 		$db =& JFactory::getDBO();
-		
-		$params = JComponentHelper::getParams('com_jresearch');
-		$imageWidth = $params->get('project_image_width', _PROJECT_IMAGE_MAX_WIDTH_);
-		$imageHeight = $params->get('project_image_height', _PROJECT_IMAGE_MAX_HEIGHT_);
-		
 		$project = new JResearchProject($db);
 		$user = JFactory::getUser();
-		$id = JRequest::getInt('id');
-		$post = JRequest::get('post');
-		if(isset($id))
-			$project->load($id);
-		
-		$filesCount = JRequest::getInt('count_attachments');
-		$filesResults = array();
-		if(!empty($project->files)){
-			$projectFiles = explode(';', $project->files);
-		}else{
-			$projectFiles = array();
-		}
-		
-		for($k=0; $k<= $filesCount; $k++){
-			$file = JRequest::getVar('file_attachments_'.$k, null, 'FILES');
-			$params = JComponentHelper::getParams('com_jresearch');
-			if(!empty($file['name'])){
-				 $result = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'projects');
-				 if($result != null)
-					 $filesResults[$k] = $result;
-			}else{
-				$delete = JRequest::getVar('delete_attachments_'.$k, null);
-				if($delete != null){
-					if($delete == 'on'){
-						if(!empty($projectFiles[$k])){
-							$path = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'projects'.DS.$projectFiles[$k];
-							@unlink($path);
-							unset($projectFiles[$k]);
-						}
-					}
-				}
-			}
-		}		
-		$project->files = implode(';', array_merge($projectFiles, $filesResults));
 
-		// Bind request variables to publication attributes			
+		// Bind request variables to publication attributes	
+		$post = JRequest::get('post');		
+		
 		$project->bind($post);
 		$project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
 		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -221,22 +184,21 @@ class JResearchAdminProjectsController extends JController
 		//Upload photo
 		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
 		$delete = JRequest::getVar('delete');
-		
 		JResearch::uploadImage(	$project->url_project_image, 	//Image string to save
 								$fileArr, 			//Uploaded File array
 								'assets'.DS.'projects'.DS, //Relative path from administrator folder of the component
 								($delete == 'on')?true:false,	//Delete?
-								 $imageWidth, //Max Width
-								 $imageHeight //Max Height
+								 _PROJECT_IMAGE_MAX_WIDTH_, //Max Width
+								 _PROJECT_IMAGE_MAX_HEIGHT_ //Max Height
 		);
-		
+
 		//Time to set the authors
-		$maxAuthors = JRequest::getInt('nmembersfield');
+		$maxAuthors = JRequest::getInt('maxmembers');
 		$k = 0;
 	
 		for($j=0; $j<=$maxAuthors; $j++){
-			$value = JRequest::getVar("membersfield".$j);
-			$flagValue = JRequest::getVar("check_membersfield".$j);
+			$value = JRequest::getVar("members".$j);
+			$flagValue = JRequest::getVar("check_members".$j);
 			$flag = $flagValue == 'on'?true:false;
 			if(!empty($value)){
 				if(is_numeric($value)){
@@ -252,7 +214,7 @@ class JResearchAdminProjectsController extends JController
 		}
 		
 		//Set financiers for the project
-		$financiers = JRequest::getVar('id_financier', array());
+		$financiers = JRequest::getVar('id_financier');
 		
 		if(is_array($financiers))
 		{
@@ -263,27 +225,10 @@ class JResearchAdminProjectsController extends JController
 				$project->setFinancier($id);
 			}
 		}
-		
-		//Set cooperations for the project
-		$cooperations = JRequest::getVar('id_cooperation', array());
-		
-		if(is_array($cooperations))
-		{
-			foreach($cooperations as $coop)
-			{
-				$project->setCooperation(intval($coop));
-			}
-		}
-		
 		// Set the id of the author if the item is new
 		if(empty($project->id))
 			$project->created_by = $user->get('id');
 		
-		$reset = JRequest::getVar('resethits', false);
-	    if($reset == 'on'){
-	    	$project->hits = 0;
-	    }	
-			
 		// Validate and save
 		$task = JRequest::getVar('task');
 		if($project->check()){

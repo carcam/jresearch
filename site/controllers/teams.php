@@ -9,9 +9,9 @@
 * of teams.
 */
 
+jimport('joomla.application.component.controller');
 
-
-class JResearchTeamsController extends JResearchFrontendController
+class JResearchTeamsController extends JController
 {
 	public function __construct($config = array())
 	{
@@ -20,7 +20,6 @@ class JResearchTeamsController extends JResearchFrontendController
 		//Load additionally language files
 		$lang = JFactory::getLanguage();
 		$lang->load('com_jresearch.teams');
-		$lang->load('com_jresearch.staff');
 		
 		// Task for edition of profile
 		$this->registerTask('show', 'show');
@@ -29,8 +28,6 @@ class JResearchTeamsController extends JResearchFrontendController
 		
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'teams');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'team');
-		
-		$this->addPathwayItem(JText::_('JRESEARCH_TEAMS'), 'index.php?option=com_jresearch&view=teams');
 	}
 	
 	/**
@@ -64,13 +61,8 @@ class JResearchTeamsController extends JResearchFrontendController
 	public function show()
 	{
 		$model =& $this->getModel('Team', 'JResearchModel');
-		$memberModel =& $this->getModel('Member', 'JResearchModel');
-		$pubsModel =& $this->getModel('Publicationlist', 'JResearchModel');
-		
 		$view =& $this->getView('Team', 'html', 'JResearchView');
 		$view->setModel($model, true);
-		$view->setModel($memberModel);
-		$view->setModel($pubsModel);
 		$view->display();				
 	}
 }

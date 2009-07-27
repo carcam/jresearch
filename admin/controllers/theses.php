@@ -163,60 +163,24 @@ class JResearchAdminThesesController extends JController
 		    return;
 		}
 		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
-				
 		$db =& JFactory::getDBO();
 		$thesis = new JResearchThesis($db);
 		$user = JFactory::getUser();
-		$id = JRequest::getInt('id');
-		if(isset($id))
-			$thesis->load($id);
-
-		$post = JRequest::get('post');		
-				
-		$filesCount = JRequest::getInt('count_attachments');
-		$filesResults = array();
-		if(!empty($thesis->files)){
-			$thesisFiles = explode(';', $thesis->files);
-		}else{
-			$thesisFiles = array();
-		}
-		
-		for($k=0; $k<= $filesCount; $k++){
-			$file = JRequest::getVar('file_attachments_'.$k, null, 'FILES');
-			$params = JComponentHelper::getParams('com_jresearch');
-			if(!empty($file['name'])){
-				$result = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'theses');
-				if($result != null)
-					 $filesResults[$k] = $result;				
-			}else{
-				$delete = JRequest::getVar('delete_attachments_'.$k, null);
-				if($delete != null){
-					if($delete == 'on'){
-						if(!empty($thesisFiles[$k])){
-							$path = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'theses'.DS.$thesisFiles[$k];
-							@unlink($path);
-							unset($thesisFiles[$k]);
-						}
-					}
-				}
-			}
-		}		
-		$thesis->files = implode(';', array_merge($thesisFiles, $filesResults));
-		
 		
 		// Bind request variables to publication attributes	
+		$post = JRequest::get('post');		
 		$thesis->bind($post);
 		$thesis->title = trim($thesis->title);
 		$thesis->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		
 		//Time to set the authors
 		$count = 0;
-		$maxStudents = JRequest::getInt('nstudentsfield');
-		$maxDirectors = JRequest::getInt('ndirectorsfield');
+		$maxStudents = JRequest::getInt('maxstudents');
+		$maxDirectors = JRequest::getInt('maxdirectors');
 		
 		// Save directors information
 		for($i=0; $i<=$maxDirectors; $i++){
-			$value = trim(JRequest::getVar('directorsfield'.$i));
+			$value = trim(JRequest::getVar('directors'.$i));
 			if(!empty($value)){
 				if(is_numeric($value)){
 					// In that case, we are talking about a staff member
@@ -231,7 +195,7 @@ class JResearchAdminThesesController extends JController
 
 		// Save students information
 		for($i=0; $i<=$maxStudents; $i++){
-			$value = trim(JRequest::getVar('studentsfield'.$i));
+			$value = trim(JRequest::getVar('students'.$i));
 			if(!empty($value)){
 				if(is_numeric($value)){
 					// In that case, we are talking about a staff member
@@ -248,11 +212,7 @@ class JResearchAdminThesesController extends JController
 		if(empty($thesis->id))
 			$thesis->created_by = $user->get('id');
 
-		$reset = JRequest::getVar('resethits', true);
-	    if($reset == 'on'){
-	    	$thesis->hits = 0;
-	    }			
-			// Time to store information in the database
+		// Time to store information in the database
 		if($thesis->check()){
 			if($thesis->store(true)){
 				$task = JRequest::getVar('task');
@@ -275,11 +235,9 @@ class JResearchAdminThesesController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit'.$idText);					
 			}
 		}else{
-			$idText = !empty($thesis->id)?'&cid[]='.$thesis->id:'';			
-			
 			for($i=0; $i<count($thesis->getErrors()); $i++)
-				JError::raiseWarning(1, $thesis->getError($i));
-			
+				JError::raiseWarning(1, $thesis->getError($i));			
+			$idText = !empty($thesis->id)?'&cid[]='.$thesis->id:'';			
 			$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit'.$idText);					
 		}
 
@@ -289,7 +247,8 @@ class JResearchAdminThesesController extends JController
 				if(!$thesis->checkin())
 					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
 			}
-		}
+		}		
+		
 
 	}
 	

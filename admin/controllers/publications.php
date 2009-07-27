@@ -198,7 +198,7 @@ class JResearchAdminPublicationsController extends JController
 	*/	
 	function exportSingle(){		
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'exporters'.DS.'factory.php');
 		$document =& JFactory::getDocument(); 
 
 		$id = JRequest::getInt('id');
@@ -235,7 +235,7 @@ class JResearchAdminPublicationsController extends JController
 		$uploadedFile = $fileArray['tmp_name'];
 		//$savedRecords = 0;
 
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'importers'.DS.'factory.php');
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'factory.php');
 
 		if($fileArray == null || $uploadedFile == null){
 			JError::raiseWarning(1, JText::_('JRESEARCH_NO_INPUT_FILE'));
@@ -262,11 +262,9 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function executeExport(){
-		$session = JFactory::getSession();
-		$exportOptions = array();		
-		
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');		
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+		$session = &JFactory::getSession();
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'exporters'.DS.'factory.php');
 		$markedRecords = $session->get('markedRecords', null, 'jresearch');
 		if($markedRecords !== null){
 			if($markedRecords === 'all'){
@@ -280,13 +278,9 @@ class JResearchAdminPublicationsController extends JController
 				}
 			}
 			
-			$strictBibtex = JRequest::getVar('strict_bibtex');
-			if($strictBibtex == 'on')
-				$exportOptions['strict_bibtex'] = true;
-				
 			$format = JRequest::getVar('outformat');
 			$exporter =& JResearchPublicationExporterFactory::getInstance($format);
-			$output = $exporter->parse($publicationsArray, $exportOptions);
+			$output = $exporter->parse($publicationsArray);
 			$document =& JFactory::getDocument();
 			$document->setMimeEncoding($exporter->getMimeEncoding());
 			$session->clear('markedRecords', 'jresearch');
@@ -298,9 +292,7 @@ class JResearchAdminPublicationsController extends JController
 			$tmpfname = "jresearch_output.$ext";
 			header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
 			echo $output;
-		}else{
-			JError::raiseNotice(1, JText::_('JRESEARCH_SELECT_ITEMS_TO_EXPORT'));
-			$this->setRedirect('index.php?option=com_jresearch&controller=publications');
+			
 		}
 				
 		
@@ -309,7 +301,7 @@ class JResearchAdminPublicationsController extends JController
 	/**
 	* Invoked when the user has decided to save a publication.
 	*/	
-	function save(){		
+	function save(){
 		global $mainframe;
 	    if(!JRequest::checkToken())
 		{
@@ -317,60 +309,31 @@ class JResearchAdminPublicationsController extends JController
 		    return;
 		}
 		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
-		
 		$db =& JFactory::getDBO();
-		$params =& JComponentHelper::getParams('com_jresearch');		
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');
 		$type = JRequest::getVar('pubtype');
 		$publication =& JResearchPublication::getSubclassInstance($type);
+		$publication->bind($post);
 		$user = JFactory::getUser();
-		$id = JRequest::getInt('id');
-
-		if(isset($id))
-			$publication->load($id);		
-
-		$delete = JRequest::getVar('delete_url_0');
-	    if($delete === 'on'){
-	    	if(!empty($publication->files)){
-		    	$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
-		    	@unlink($filetoremove);
-		    	$publication->files = '';
-	    	}
-	    }
-	   
-	    $publication->bind($post);
-	    $countUrl = JRequest::getInt('count_url', 0);
-	    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
-	    if(!empty($file['name'])){	    	
-	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');
-	    }
-	    
-	    $reset = JRequest::getVar('resethits', false);
-	    if($reset == 'on'){
-	    	$publication->hits = 0;
-	    }
-		
-		$check = $publication->check();
 		
 		// Validate publication
 		if(!$publication->check()){
 			for($i=0; $i<count($publication->getErrors()); $i++)
-				JError::raiseWarning(1, $publication->getError($i));
-						
+				JError::raiseWarning(1, $publication->getError($i));		
+				
 			if($publication->id)			
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype);
 			else
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);	
 		}else{
 			//Time to set the authors
-			$maxAuthors = JRequest::getInt('nauthorsfield');
+			$maxAuthors = JRequest::getInt('maxauthors');
 			$k = 0;
 	
 			for($j=0; $j<=$maxAuthors; $j++){
-				$value = JRequest::getVar("authorsfield".$j);
+				$value = JRequest::getVar("authors".$j);
 				if(!empty($value)){
 					if(is_numeric($value)){
 						// In that case, we are talking about a staff member
@@ -443,7 +406,6 @@ class JResearchAdminPublicationsController extends JController
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications');
 	}
 	
-	
 	/**
 	 * Invoked when the user has pressed any of the buttons for changing internal 
 	 * flag for publications. 
@@ -457,7 +419,7 @@ class JResearchAdminPublicationsController extends JController
 		$publication = new JResearchPublication($db);
 		$publication->toggleInternal($cid, $task == 'makeinternal'?1:0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));		
-	}	
+	}
 	
 	/**
 	 * Invoked when the user has pressed the toggle button for change a publication's 
@@ -465,7 +427,7 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function toggle_internal(){
-		//$db =& JFactory::getDBO();
+		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		$publication =& JResearchPublication::getById($cid[0]);
 		$publication->internal = !$publication->internal;
@@ -477,7 +439,6 @@ class JResearchAdminPublicationsController extends JController
 		}
 		
 	}
-	
 
 }
 ?>

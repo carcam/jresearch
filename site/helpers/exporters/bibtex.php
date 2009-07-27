@@ -27,27 +27,20 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 	*/	
 	private static $_supportedFields;
 	
-	private static $_bibtexTypes = array('article', 'book', 'booklet', 'conference', 'inbook', 'incollection', 'inproceedings', 'manual', 'mastersthesis', 'misc', 'phdthesis', 'proceedings', 'techreport', 'unpublished');
-
-	private static $_supportedTypes;
-
-	private static $_typesMap = array('patent' => 'misc', 'earticle' => 'article', 'digital_source' => 'misc', 'online_source' => 'misc');
-	
 	/**
 	 * Parse the array of JResearchPublication objects into a bibtex text.
 	 *
 	 * @param mixed $publications JResearchPublication object or array of them. 
-	 * @param array $options An associate array containing a series of configuration options.
 	 * @return string Representation of the objects in a bibtext format, null if it is
 	 * not possible to parse the objects.
 	 */
-	function parse($publications, $options = array()){
+	function parse($publications){
 		$output = "";
 		if(!is_array($publications))
 			return $this->parseSingle($publications);
 		else{
 			foreach($publications as $pub){
-				$output .= $this->parseSingle($pub, $options)."\n";
+				$output .= $this->parseSingle($pub)."\n";
 			}
 		}
 		
@@ -57,13 +50,10 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 	
 	/**
 	* Parse a single JResearchPublication object into a bibtex text.
-	* @param array $options An associate array containing a series of configuration options. The following keys are accepted:
-	* - strict_bibtex If true, non standard bibtex types will be mapped to standard types according to the following rules:
-	*   - patents, online_source and digital_source will be converted to misc
-	*   - earticle will be converted to article
+	*
 	* @param JResearchPublication Object to parse.
 	*/
-	private function parseSingle($publication, $options = array()){
+	private function parseSingle($publication){
 		$output = null;
 		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');	
 
@@ -71,25 +61,13 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 			$properties = $publication->__toArray();
 			$citekey = $publication->citekey;
 			$type = $publication->pubtype;
-			
-			if(isset($options['strict_bibtex'])){
-				if($options['strict_bibtex'])
-					$supportedTypes = $this->_getBibtexTypes();
-				else
-					$supportedTypes = $this->_getSupportedTypes();	
-			}else{
-				$supportedTypes = $this->_getSupportedTypes();	
-			}
-			
-			if(in_array($type, $supportedTypes))
-				$output = '@'.$type. '{'.$citekey.','."\n";	
-			else
-				$output	= '@'.$this->_mapNonStandardType($type).'{'.$citekey.','."\n";
-						
+
+			$output = '@'.$type. '{'.$citekey.','."\n";
 			$authors = $publication->getAuthors();
+
 			$authorsText = implode(" and ", JResearchPublicationsHelper::utf8ToBibCharsFromArray($authors));
 			$output .= "author = \"$authorsText\",\n";
-			$properties = $this->_getSupportedFields();
+			$properties = JResearchPublicationBibtexExporter::getSupportedFields();
 			foreach($properties as $p){
 				$value = JResearchPublicationsHelper::utf8ToBibCharsFromString($publication->$p);
 				if(!empty($value)){
@@ -108,47 +86,15 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 	* 
 	* @return array 	 
 	*/
-	private function _getSupportedFields(){
-		if(!isset(JResearchPublicationBibtexExporter::$_supportedFields)){		
-			$db = JFactory::getDBO();
+	private static function getSupportedFields(){
+		if(!isset(self::$_supportedFields)){		
+			$db = &JFactory::getDBO();
 			
 			$db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_property'));
-			JResearchPublicationBibtexExporter::$_supportedFields = $db->loadResultArray();
+			self::$_supportedFields = $db->loadResultArray();
 		}
 		
-		return JResearchPublicationBibtexExporter::$_supportedFields;
-	}
-	
-	/**
-	 * Returns an array with all standard Bibtex types.
-	 * @return array
-	 */
-	private function _getBibtexTypes(){
-		return JResearchPublicationBibtexExporter::$_bibtexTypes;
-	}
-	
-	/**
-	 * Returns an array with the names of all J!Research supported publication types
-	 * @return array
-	 */
-	private function _getSupportedTypes(){
-		if(!isset(JResearchPublicationBibtexExporter::$_supportedTypes)){		
-			$db = JFactory::getDBO();
-			
-			$db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_publication_type'));
-			JResearchPublicationBibtexExporter::$_supportedTypes = $db->loadResultArray();
-		}
-		
-		return JResearchPublicationBibtexExporter::$_supportedTypes;
-		
-	}
-	
-	/**
-	 * Maps non standard publication types to standard Bibtex types. 
-	 * @return string $type
-	 */
-	private function _mapNonStandardType($type){
-		return JResearchPublicationBibtexExporter::$_typesMap[$type];
+		return self::$_supportedFields;
 	}
 	
 }

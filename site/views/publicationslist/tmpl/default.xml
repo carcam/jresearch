@@ -17,15 +17,12 @@
 				<option value="book">JRESEARCH_BOOK</option>
 				<option value="booklet">JRESEARCH_BOOKLET</option>
 				<option value="conference">JRESEARCH_CONFERENCE</option>
-				<option value="digital_source">JRESEARCH_DIGITAL_SOURCE</option>				
-				<option value="earticle">JRESEARCH_EARTICLE</option>
 				<option value="inbook">JRESEARCH_INBOOK</option>
 				<option value="incollection">JRESEARCH_INCOLLECTION</option>
 				<option value="manual">JRESEARCH_MANUAL</option>
 				<option value="masterthesis">JRESEARCH_MASTERSTHESIS</option>
 				<option value="misc">JRESEARCH_MISC</option>
-				<option value="online_source">JRESEARCH_ONLINE_SOURCE</option>				
-				<option value="patent">JRESEARCH_PATENT</option>				
+				<option value="patent">JRESEARCH_PATENT</option>
 				<option value="phdthesis">JRESEARCH_PHDTHESIS</option>
 				<option value="proceedings">JRESEARCH_PROCEEDINGS</option>
 				<option value="techreport">JRESEARCH_TECHREPORT</option>
@@ -38,31 +35,6 @@
 			<param name="show_digital" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL" description="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
-			</param>
-			<param type="spacer" />
-			<param name="filter_teams" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</param>
-			<param name="filter_areas" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</param>
-			<param name="filter_year" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR" description="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</param>
-			<param name="filter_type" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</param>
-			<param name="filter_authors" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</param>
-			<param name="filter_search" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_TEXT" description="JRESEARCH_PUBLICATIONS_FILTER_TEXT_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>			
 			</param>
 		</params>
 	</state>

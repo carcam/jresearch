@@ -11,8 +11,6 @@
 			description="JRESEARCH_MEMBER_PROFILE_DISPLAYED" query="SELECT id as value, CONCAT_WS(' ', firstname, lastname) as id FROM #__jresearch_member WHERE published = 1" />	
 			<param type="hidden" name="task" default="show" />
 		</url>
-		<params>
-		</params>
 		
 	</state>
 </metadata>

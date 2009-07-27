@@ -28,7 +28,7 @@ class JResearchMLAPhdthesisCitationStyle extends JResearchMLACitationStyle{
 		$nAuthors = $publication->countAuthors();
 		$text = '';
 		
-		if(!$publication->__authorPreviouslyCited){
+		if(!isset($publication->__authorPreviouslyCited)){
 			if($nAuthors <= 0){
 				$authorsText = '';
 			}else{

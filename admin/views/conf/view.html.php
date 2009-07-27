@@ -10,6 +10,8 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+
+
 /**
  * HTML View class for configuration form in JResearch Component backend
  */

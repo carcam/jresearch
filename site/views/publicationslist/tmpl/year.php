@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 <?php 
 	$digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION');
 	foreach($this->items as $year=>$publications): ?>
-	<h3 class="frontendheader"><?php echo $year; ?></h3>
+	<div class="frontendheader"><?php echo $year; ?></div>
     <ul>
     
 	<?php 
@@ -21,24 +21,21 @@ defined('_JEXEC') or die('Restricted access');
 		$publicationText = $styleObj->getReferenceHTMLText($pub, true);
 	?>
 	<?php $url = $pub->url; ?>
-	<?php $attach = $pub->getAttachment(0, 'publications'); ?>
 	<li>
 	<span><?php echo $publicationText;  ?></span>
 	<?php if($this->showmore): ?>
-		<span><?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $pub->id); ?></span>
+		<span><a href="index.php?option=com_jresearch&view=publication&task=show&id=<?php echo $pub->id; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a></span>
 	<?php endif; ?>
 	<?php if($this->showdigital): ?>
 		<?php 
 			  if(!empty($url))
-				$link = str_replace('&', '&amp;', $url);
-			  elseif(!empty($attach))
-			  	$link = $attach;							
+				$link = $url;							
 		 ?>
 		<?php if(!empty($link)): ?>
 			<?php echo "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			
 		<?php endif; ?>
 	<?php endif; ?>	
-	<span><?php echo JHTML::_('Jresearch.icon','edit', 'publications', $pub->id); ?> <?php echo JHTML::_('Jresearch.icon','remove', 'publications', $pub->id); ?></span>
+	<span><?php JHTML::_('Jresearch.icon','edit', 'publications', $pub->id); ?> <?php JHTML::_('Jresearch.icon','remove', 'publications', $pub->id); ?></span>
 	</li>
 	<?php endforeach; ?>
 	</ul>

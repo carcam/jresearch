@@ -9,11 +9,13 @@
 * of research areas (which allow to categorize projects, theses and publications).
 */
 
+jimport('joomla.application.component.controller');
+
 /**
  * Research Areas Component Controller
  *
  */
-class JResearchResearchAreasController extends JResearchFrontendController
+class JResearchResearchAreasController extends JController
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -31,8 +33,6 @@ class JResearchResearchAreasController extends JResearchFrontendController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'researchareaslist');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'researcharea');
-		
-		$this->addPathwayItem(JText::_('JRESEARCH_RESEARCH_AREAS'), 'index.php?option=com_jresearch&view=researchareaslist');
 	}
 
 	/**

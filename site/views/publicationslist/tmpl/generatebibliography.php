@@ -61,7 +61,7 @@ function requestBibliographyGeneration(){
 	}
 			
 	bibliographyRequest = new XHR({method: 'get', onSuccess: generateBibliography, onFailure: onBibliographyGenerationFailure});
-	bibliographyRequest.send('index.php?option=com_jresearch&amp;controller=publications&amp;task=ajaxGenerateBibliography&amp;format=text', null);
+	bibliographyRequest.send('index.php?option=com_jresearch&controller=publications&task=ajaxGenerateBibliography&format=text', null);
 }
 	
 function generateBibliography(response){
@@ -79,7 +79,7 @@ function startAllRemoval(){
 	n = citedRecordsList.options.length;
 	
 	bibliographyRequest = new XHR({method: 'get', onSuccess: removeAllRecords, onFailure: onAllRemovalFailure});
-	bibliographyRequest.send('index.php?option=com_jresearch&controller=publications&task=ajaxRemoveAll&format=text', null);	
+	bibliographyRequest.send('index.php?option=com_jresearch&amp;controller=publications&amp;task=ajaxRemoveAll&amp;format=text', null);	
 }
 
 function removeAllRecords(response){

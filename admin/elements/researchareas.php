@@ -12,7 +12,7 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 /**
- * Renders a researcharea element
+ * Renders a projects element
  *
  * @package 	JResearch
  * @subpackage	ResearchAreas
@@ -28,19 +28,21 @@ class JElementResearchareas extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+		$db =& JFactory::getDBO();
+		$sql = "SELECT id, name FROM #__jresearch_research_area WHERE published=1";
 		
-		return JHTML::_('jresearchhtml.researchareas', array(
-				'name'=>$control_name.'['.$name.']',
-				'selected' => $value
-			), 
-			array(
-				array(
-					'id' => 0, 
-					'name' => JText::_('All')
-				)
-			)
-		);
+		$db->setQuery($sql);
+		$areas = $db->loadObjectList();
+		
+		$areasOptions = array();
+		$areasOptions[0] = JHTML::_('select.option', 0, 'all');
+		
+		foreach($areas as $area)
+		{
+			$areasOptions[] = JHTML::_('select.option', $area->id, $area->name);
+		}
+		
+		return JHTML::_('select.genericlist', $areasOptions, $control_name.'['.$name.']', 'class="inputbox" size="10"', 'value', 'text', $value);
 	}
 }
 ?>

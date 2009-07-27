@@ -32,7 +32,7 @@ function com_uninstall(){
 	}else{
 		$automaticCitationFolder = 	JPATH_PLUGINS.DS.'editors'.DS.'tinymce'.DS.'jscripts'.DS.'tiny_mce'.DS.'plugins'.DS.'jresearch';		
 	}
-		
+	
 	if(!deleteDirectory($automaticCitationFolder)){
 		echo "Warning: Directory $automaticCitationFolder could not be deleted. Please do it manually.";
 	}

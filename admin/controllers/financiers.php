@@ -142,7 +142,7 @@ class JResearchAdminFinanciersController extends JController
 		    $this->setRedirect('index.php?option=com_jresearch');
 		    return;
 		}
-		
+
 		$db =& JFactory::getDBO();
 
 		$fin = new JResearchFinancier($db);
@@ -178,14 +178,15 @@ class JResearchAdminFinanciersController extends JController
 				else
 					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$db->getErrorMsg());				
 				
-				$idText = !empty($fin->id) && $task == 'apply'?'&cid[]='.$fin->id:'';
-				
-				$this->setRedirect('index.php?option=com_jresearch&controller=financiers&task=edit'.$idText);
+				$idText = !empty($fin->id) && $task == 'apply'?'&cid[]='.$fin->id:'';								
+				$this->setRedirect('index.php?option=com_jresearch&controller=financiers&task=edit'.$idText, JText::_('JRESEARCH_SAVE_FAILED').': '.$fin->getError());
 			}
 		}
 		else
 		{
-			JError::raiseWarning(1, $fin->getError());
+			for($i=0; $i<count($fin->getErrors()); $i++)
+				JError::raiseWarning(1, $fin->getError($i));
+				
 			$idText = !empty($fin->id)?'&cid[]='.$fin->id:'';			
 			$this->setRedirect('index.php?option=com_jresearch&controller=financiers&task=edit'.$idText);
 		}

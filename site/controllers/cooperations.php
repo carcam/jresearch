@@ -8,17 +8,17 @@
 * This file implements the controller for all operations related to the management
 * of staff members.
 */
+define('_COOPERATION_IMAGE_MAX_WIDTH_', 400);
+define('_COOPERATION_IMAGE_MAX_HEIGHT_', 400);
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-
+jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
 
 /**
  * JResearch Cooperations Component Controller
  *
  */
-class JResearchCooperationsController extends JResearchFrontendController
+class JResearchCooperationsController extends JController
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -38,8 +38,7 @@ class JResearchCooperationsController extends JResearchFrontendController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'cooperations');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
-		
-		$this->addPathwayItem(JText::_('JRESEARCH_COOPERATIONS'), 'index.php?option=com_jresearch&view=cooperations');
+
 	}
 
 	/**
@@ -50,7 +49,7 @@ class JResearchCooperationsController extends JResearchFrontendController
 	function display()
 	{
 		global $mainframe;
-	    
+		
 		//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
     	$limit = $params->get('cooperation_entries_per_page');
@@ -61,6 +60,7 @@ class JResearchCooperationsController extends JResearchFrontendController
 		if($limitstart === null)
 			JRequest::setVar('limitstart', 0);
 			
+		
 		$model =& $this->getModel('Cooperations', 'JResearchModel');
 		$view =& $this->getView('Cooperations', 'html', 'JResearchView');
 		$view->setModel($model, true);
@@ -74,7 +74,6 @@ class JResearchCooperationsController extends JResearchFrontendController
 	{
 		$model =& $this->getModel('Cooperation', 'JResearchModel');
 		$view =& $this->getView('Cooperation', 'html', 'JResearchView');
-		
 		$view->setModel($model, true);
 		$view->display();				
 	}
@@ -89,10 +88,9 @@ class JResearchCooperationsController extends JResearchFrontendController
 		$view = &$this->getView('Cooperation', 'html', 'JResearchView');
 		$model = &$this->getModel('Cooperation', 'JResearchModel');
 		
-		$coop = $model->getItem($cid);
-		
-		if($cid && ($coop != null))
+		if($cid)
 		{
+			$coop = $model->getItem($cid);
 			$user = &JFactory::getUser();
 
 			//Check if it is checked out
@@ -121,11 +119,6 @@ class JResearchCooperationsController extends JResearchFrontendController
 		}
 		
 		$db =& JFactory::getDBO();
-		
-		$params = JComponentHelper::getParams('com_jresearch');
-		$imageWidth = $params->get('cooperation_image_width', _COOPERATION_IMAGE_MAX_WIDTH_);
-		$imageHeight = $params->get('cooperation_image_height', _COOPERATION_IMAGE_MAX_HEIGHT_);
-		
 		$coop = new JResearchCooperation($db);
 
 		// Bind request variables
@@ -143,8 +136,8 @@ class JResearchCooperationsController extends JResearchFrontendController
 								$fileArr, 			//Uploaded File array
 								'assets'.DS.'cooperations'.DS, //Relative path from administrator folder of the component
 								($del == 'on')?true:false,	//Delete?
-								 $imageWidth, //Max Width
-								 $imageHeight //Max Height
+								 _COOPERATION_IMAGE_MAX_WIDTH_, //Max Width
+								 _COOPERATION_IMAGE_MAX_HEIGHT_ //Max Height
 		);
 		
 		// Validate and save

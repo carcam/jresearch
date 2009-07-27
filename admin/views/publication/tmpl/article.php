@@ -8,32 +8,21 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<div class="divTR">
-	<div class="divTd"><label for="issn"><?php echo JText::_('JRESEARCH_ISSN').': ' ?></label></div>
-	<div class="divTdl">
-		<input type="text" name="issn" id="issn" size="20" maxlength="32" class="validate-issn" value="<?php echo $this->publication?$this->publication->issn:''; ?>" />
-		<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'issn', JText::_('JRESEARCH_PROVIDE_VALID_ISSN')); ?>				
-	</div>
-	<div class="divEspacio" ></div>	
-</div>
-<div class="divTR">
-	<div class="divTd"><label for="journal"><?php echo JText::_('JRESEARCH_JOURNAL').': ' ?></label></div>
-	<div class="divTdl divTdl2"><input name="journal" id="journal" type="text" size="15" maxlength="255" value="<?php echo $this->publication?$this->publication->journal:'' ?>" /></div>
-	<div class="divTd"><label for="volume"><?php echo JText::_('JRESEARCH_VOLUME').': ' ?></label></div>
-	<div class="divTdl"><input name="volume" id="volume" type="text" size="15" maxlength="30" value="<?php echo $this->publication?$this->publication->volume:'' ?>" /></div>
-	<div class="divEspacio" ></div>	
-</div>
-<div class="divTR">
-	<div class="divTd"><label for="number"><?php echo JText::_('JRESEARCH_NUMBER').': ' ?></label></div>
-	<div class="divTdl divTdl2"><input name="number" id="number" type="text" size="15" maxlength="20" value="<?php echo $this->publication?$this->publication->number:'' ?>" /></div>
-	<div class="divTd"><label for="pages"><?php echo JText::_('JRESEARCH_PAGES').': ' ?></label></div>
-	<div class="divTdl"><input name="pages" id="pages" type="text" size="10" maxlength="20" value="<?php echo $this->publication?$this->publication->pages:'' ?>" /></div>
-	<div class="divEspacio" ></div>	
-</div>
-<div class="divTR">
-	<div class="divTd"><label for="month"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></label></div>
-	<div class="divTdl divTdl2"><input type="text" name="month" id="month" size="15" maxlength="20" value="<?php echo $this->publication?$this->publication->month:'' ?>" /></div>
-	<div class="divTd"><label for="crossref"><?php echo JText::_('JRESEARCH_CROSS_REFERENCE').': ' ?></label></div>
-	<div class="divTdl"><input type="text" name="crossref" id="crossref" size="15" maxlength="255" value="<?php echo $this->publication?$this->publication->crossref:''; ?>" /></div>
-	<div class="divEspacio" ></div>	
-</div>
+<tr>
+	<td><?php echo JText::_('JRESEARCH_JOURNAL').': ' ?></td>
+	<td><input name="journal" id="journal" type="text" size="30" maxlength="255" value="<?php echo $this->publication?$this->publication->journal:'' ?>" /></td>
+	<td><?php echo JText::_('JRESEARCH_VOLUME').': ' ?></td>
+	<td><input name="volume" id="volume" type="text" size="30" maxlength="30" value="<?php echo $this->publication?$this->publication->volume:'' ?>" /></td>
+</tr>
+<tr>
+	<td><?php echo JText::_('JRESEARCH_NUMBER').': ' ?></td>
+	<td><input name="number" id="number" type="text" size="20" maxlength="20" value="<?php echo $this->publication?$this->publication->number:'' ?>" /></td>
+	<td><?php echo JText::_('JRESEARCH_PAGES').': ' ?></td>
+	<td><input name="pages" id="pages" type="text" size="10" maxlength="20" value="<?php echo $this->publication?$this->publication->pages:'' ?>" /></td>
+</tr>
+<tr>
+	<td><?php echo JText::_('JRESEARCH_MONTH').': ' ?></td>
+	<td><input type="text" name="month" id="month" size="20" maxlength="20" value="<?php echo $this->publication?$this->publication->month:'' ?>" /></td>
+	<td><?php echo JText::_('JRESEARCH_CROSS_REFERENCE').': ' ?></td>
+	<td><input type="text" name="crossref" id="crossref" size="20" maxlength="255" value="<?php echo $this->publication?$this->publication->crossref:''; ?>" /></td>
+</tr>

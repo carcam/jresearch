@@ -17,15 +17,13 @@ class JResearchViewTeams extends JResearchView
 	{
 		global $mainframe;
 		
-		$doc = JFactory::getDocument();
 		$layout = $this->getLayout();
-		
+		$doc = JFactory::getDocument();
 		
 		// Get data from the model
 		$model = &$this->getModel();
 		$items = $model->getData(null, true, true);
 		$params = $mainframe->getParams();
-		
 		$doc->setTitle(JText::_('JRESEARCH_TEAMS'));		
 		
 		$this->assignRef('params', $params);
@@ -34,11 +32,11 @@ class JResearchViewTeams extends JResearchView
 
 		$eArguments = array('teams', $layout);
 		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
 		
 		parent::display($tpl);
 		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
 	}
 }
 ?>

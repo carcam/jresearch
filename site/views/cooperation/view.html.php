@@ -14,16 +14,15 @@ class JResearchViewCooperation extends JResearchView
 	 * @return void
 	 **/
 	function display($tpl = null)
-	{	
+	{
 		global $mainframe;
 		$arguments = array('cooperation');
-		$params = $this->getParams();
 		
 		$id = JRequest::getInt('id');
 		$layout =& $this->getLayout();
 		$doc = JFactory::getDocument();
 		
-		if(empty($id)){
+	   	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
     		return;
     	}
@@ -31,13 +30,12 @@ class JResearchViewCooperation extends JResearchView
 		// Get data from the model
 		$model = &$this->getModel();
 		$item = $model->getItem($id);
-		
+
 		if(empty($item)){
 			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return;			
-		}
+		}		
 		
-		$this->addPathwayItem($item->alias, 'index.php?option=com_jresearch&view=cooperation&id='.$item->id);
 		$arguments[] = $id;
 		
 		$editor =& JFactory::getEditor();
@@ -47,16 +45,13 @@ class JResearchViewCooperation extends JResearchView
 				$this->_editCooperation($item);
 				break;
 			default:
+				JResearchPluginsHelper::onPrepareJResearchContent('cooperation', $item);
 				break;
 		}
 
 		$doc->setTitle(JText::_('JRESEARCH_COOPERATION').' - '.$item->name);
-		$description = explode('<hr id="system-readmore" />', $item->description);
-		
-		$this->assignRef('coop', $item, JResearchFilter::OBJECT_XHTML_SAFE);
-		$this->assignRef('description', $description);
+		$this->assignRef('coop', $item, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
 		$this->assignRef('editor', $editor);
-		$this->assignRef('params', $params);
 
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		
@@ -67,7 +62,8 @@ class JResearchViewCooperation extends JResearchView
 	
 	private function _editCooperation(&$coop)
 	{
-		JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+		JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		JHTML::_('Validator._');
 		
 		//Published options
     	$publishedOptions = array();
@@ -79,10 +75,9 @@ class JResearchViewCooperation extends JResearchView
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations ORDER by ordering ASC');
     	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $coop->ordering);
     	
-    	$this->addPathwayItem(JText::_('Edit'));
-    	
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('orderList', $orderList);
+
 	}
 }
 ?>

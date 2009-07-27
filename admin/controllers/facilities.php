@@ -8,6 +8,8 @@
 * This file implements the controller for all operations related to the management
 * of facilities in the backend interface.
 */
+define('_FACILITY_IMAGE_MAX_WIDTH_', 1024);
+define('_FACILITY_IMAGE_MAX_HEIGHT_', 768);
 
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'facility.php');
@@ -154,7 +156,6 @@ class JResearchAdminFacilitiesController extends JController
 	function save()
 	{
 		global $mainframe;
-		
 	    if(!JRequest::checkToken())
 		{
 		    $this->setRedirect('index.php?option=com_jresearch');
@@ -164,11 +165,6 @@ class JResearchAdminFacilitiesController extends JController
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 		
 		$db =& JFactory::getDBO();
-		
-		$params = JComponentHelper::getParams('com_jresearch');
-		$imageWidth = $params->get('facility_image_width', _FACILITY_IMAGE_MAX_WIDTH_);
-		$imageHeight = $params->get('facility_image_height', _FACILITY_IMAGE_MAX_HEIGHT_);
-		
 		$fac = new JResearchFacility($db);
 
 		// Bind request variables
@@ -186,8 +182,8 @@ class JResearchAdminFacilitiesController extends JController
 								$fileArr, 			//Uploaded File array
 								'assets'.DS.'facilities'.DS, //Relative path from administrator folder of the component
 								($del == 'on')?true:false,	//Delete?
-								 $imageWidth, //Max Width
-								 $imageHeight //Max Height
+								 _FACILITY_IMAGE_MAX_WIDTH_, //Max Width
+								 _FACILITY_IMAGE_MAX_HEIGHT_ //Max Height
 		); 
 
 		// Validate and save
@@ -218,10 +214,10 @@ class JResearchAdminFacilitiesController extends JController
 		else
 		{
 			$idText = !empty($fac->id) && $task == 'apply'?'&cid[]='.$fac->id:'';
-
+			
 			for($i=0; $i<count($fac->getErrors()); $i++)
 				JError::raiseWarning(1, $fac->getError($i));
-				
+			
 			$this->setRedirect('index.php?option=com_jresearch&controller=facilities&task=edit'.$idText);
 		}
 		

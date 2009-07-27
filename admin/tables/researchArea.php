@@ -26,13 +26,6 @@ class JResearchArea extends JTable{
 	public $id;
 	
 	/**
-	 * String for alias
-	 *
-	 * @var string
-	 */
-	public $alias;
-	
-	/**
 	 * Research area's name
 	 *
 	 * @var string

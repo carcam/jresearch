@@ -19,14 +19,15 @@
 				<option value="1">Yes</option>
 			</param>
 			
-			<param name="projects_entries_per_page" default="25" label="JRESEARCH_CONFIG_PROJECTS_PER_PAGE" type="text" ></param>				
-			<param name="projects_default_sorting" default="date" label="JRESEARCH_ORDER_BY" type="radio">
-				<option value="date">JRESEARCH_DATE</option>
-				<option value="alphabetical">JRESEARCH_ALPHABETICAL</option>
+			<param name="order" type="list" label="JRESEARCH_PROJECT_ORDER" default="title">
+				<option value="title">Default (Title)</option>
+				<option value="start_date">Start date</option>
+				<option value="finance_value">Finance value</option>
 			</param>
-			<param name="projects_order" label="JRESEARCH_SORTED" type="radio">
-				<option value="asc">JRESEARCH_ASCENDING</option>
-				<option value="desc">JRESEARCH_DESCENDING</option>
+			
+			<param name="order_Dir" type="radio" label="JRESEARCH_PROJECT_ORDER_DIR" default="ASC">
+				<option value="ASC">Ascending</option>
+				<option value="DESC">Descending</option>
 			</param>
 		</params>
 	</state>

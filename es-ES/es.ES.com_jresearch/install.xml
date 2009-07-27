@@ -12,6 +12,7 @@
   	<filename file="meta">es-ES.xml</filename>
 	<filename>es-ES.com_jresearch.cooperations.ini</filename>
 	<filename>es-ES.com_jresearch.facilities.ini</filename>
+	<filename>es-ES.com_jresearch.financiers.ini</filename>
 	<filename>es-ES.com_jresearch.projects.ini</filename>
 	<filename>es-ES.com_jresearch.publications.ini</filename>
 	<filename>es-ES.com_jresearch.researchareas.ini</filename>
@@ -20,6 +21,7 @@
 	<filename>es-ES.com_jresearch.theses.ini</filename>
   	<filename>es-ES.com_jresearch.ini</filename>
 	<filename>es-ES.com_jresearch.menu.ini</filename>
+	<filename>es-ES-jresearch_help.html</filename>	
     </files>
   </administration>
   <site>

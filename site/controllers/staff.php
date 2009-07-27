@@ -9,13 +9,16 @@
 * of staff members.
 */
 
+define('_MEMBER_IMAGE_MAX_WIDTH_', 1024);
+define('_MEMBER_IMAGE_MAX_HEIGHT_', 768);
 
+jimport('joomla.application.component.controller');
 
 /**
  * JResearch Staff Component Controller
  *
  */
-class JResearchStaffController extends JResearchFrontendController
+class JResearchStaffController extends JController
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -38,8 +41,6 @@ class JResearchStaffController extends JResearchFrontendController
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
-		
-		$this->addPathwayItem(JText::_('JRESEARCH_STAFF'), 'index.php?option=com_jresearch&view=staff');
 	}
 
 	/**
@@ -118,13 +119,12 @@ class JResearchStaffController extends JResearchFrontendController
 		    return;
 		}
 		
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		
 		$task = JRequest::getVar('task');
+		$itemId = JRequest::getVar('Itemid');
 		
 		$db =& JFactory::getDBO();
-		
-		$params = JComponentHelper::getParams('com_jresearch');
-		$imageWidth = $params->get('member_image_width', _MEMBER_IMAGE_MAX_WIDTH_);
-		$imageHeight = $params->get('member_image_height', _MEMBER_IMAGE_MAX_HEIGHT_);
 		
 		$member = new JResearchMember($db);
 
@@ -135,22 +135,24 @@ class JResearchStaffController extends JResearchFrontendController
 		$member->firstname = trim($member->firstname);
 		$member->lastname = trim($member->lastname);
 		$member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		
-		//Image upload
-		$fileArray = JRequest::getVar('inputfile', null, 'FILES');
+
+		//Upload photo
+		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
 		$delete = JRequest::getVar('delete');
-			
+		
 		JResearch::uploadImage(	$member->url_photo, 	//Image string to save
-								$fileArray, 			//Uploaded File array
+								$fileArr, 			//Uploaded File array
 								'assets'.DS.'members'.DS, //Relative path from administrator folder of the component
 								($delete == 'on')?true:false,	//Delete?
-								 $imageWidth, //Max Width
-								 $imageHeight //Max Height
+								 _MEMBER_IMAGE_MAX_WIDTH_, //Max Width
+								 _MEMBER_IMAGE_MAX_HEIGHT_ //Max Height
 		);
-
+		
 		$itemText = '';
+		
 		if($itemId != null)
-			$itemText = '&Itemid='.$itemId;		
+			$itemText = '&Itemid='.$itemId;
+				
 		if($member->check()){		
 			if($member->store()){
 				$itemId = JRequest::getVar('Itemid');

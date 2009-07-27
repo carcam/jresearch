@@ -7,9 +7,9 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div class="divTR">
-	<div class="divTd"><label for="howpublished"><?php echo JText::_('JRESEARCH_HOW_PUBLISHED').': ' ?></label></div>		
-	<div class="divTdl divTdl2"><input name="howpublished" id="howpublished" type="text" size="15" maxlength="255" value="<?php echo $this->publication?$this->publication->howpublished:'' ?>" /></div>
-	<div class="divTd"><label for="month"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></label></div>
-	<div class="divTdl"><input type="text" name="month" id="number" size="15" maxlength="20" value="<?php echo $this->publication?$this->publication->month:'' ?>" /></div>
-</div>
+<tr>
+	<td><?php echo JText::_('JRESEARCH_HOW_PUBLISHED').': ' ?></td>		
+	<td><input name="howpublished" id="howpublished" type="text" size="30" maxlength="255" value="<?php echo $this->publication?$this->publication->howpublished:'' ?>" /></td>
+	<td><?php echo JText::_('JRESEARCH_MONTH').': ' ?></td>
+	<td><input type="text" name="month" id="number" size="20" maxlength="20" value="<?php echo $this->publication?$this->publication->month:'' ?>" /></td>
+</tr>
