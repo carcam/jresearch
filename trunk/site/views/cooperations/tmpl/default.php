@@ -12,9 +12,9 @@ defined("_JEXEC") or die("Restricted access");
 	<?php echo JText::_('JRESEARCH_COOPERATIONS');?>
 </h1>
 <?php
-if(!empty($intro_text)):
+if(!empty($this->intro_text)):
 ?>
-	<p style="text-align: justify;"><?php echo $intro_text?></p>
+	<p style="text-align: justify;"><?php echo $this->intro_text?></p>
 <?php
 endif;
 
@@ -27,11 +27,14 @@ if(count($this->items) > 0):
 	foreach($this->items as $coop):
 		if($lastCat != $coop->catid && $coop->catid != 0):
 			$print = null;
-			foreach($this->cats as $cat)
+			foreach($this->cats as $key=>$cat)
 			{
 				if($cat->cid == $coop->catid)
 				{
 					$print = $cat;
+					unset($this->cats[$key]);
+					
+					break;
 				}
 			}
 			//print Category
@@ -65,33 +68,30 @@ if(count($this->items) > 0):
 			<div style="width: 85%; margin-left: auto; margin-right: auto;">
 				<?php
 				$contentArray = explode('<hr id="system-readmore" />', $coop->description);
-				$itemId = JRequest::getVar('Itemid');
 				?>
 				<h2 class="contentheading">
-					<a href="<?php echo JFilterOutput::ampReplace($coop->url)?>">
-						<?php echo JFilterOutput::ampReplace($coop->name)?>
-					</a>
+					<?php echo JFilterOutput::ampReplace($coop->name)?>
 				</h2>
+				<div>
+					<strong>Website:</strong> 
+					<a href="<?php echo $coop->url?>">
+						<?php echo $coop->url?>
+					</a>
+				</div>
 				<?php 
-				if($contentArray[0] != ""):
+				if(!empty($contentArray[0])):
 				?>
 					<p style="text-align: justify;" class="description">
 						<?php echo $contentArray[0];?>
 					</p>
 				<?php
 				endif;
-				
-				if(count($contentArray) > 1):
 				?>
-					<div style="text-align:left">
-						<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'cooperation', 'show', $coop->id); ?>
-					</div>
-				<?php 
-				endif;
-				?>
+				<div style="text-align:left">
+					<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'cooperation', 'show', $coop->id); ?>
+				</div>
 			</div>
 			<div style="clear: both;">&nbsp;</div>
-			<hr style="clear: both;" />
 		</li>
 	<?php
 	endforeach;

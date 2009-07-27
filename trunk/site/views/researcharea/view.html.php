@@ -74,6 +74,8 @@ class JResearchViewResearchArea extends JResearchView
 		else
     		$theses = $model->getLatestTheses($area->id);
 
+    	$facilities = $model->getFacilities($area->id);
+    		
     	$description = str_replace('<hr id="system-readmore" />', '', $area->description);	
     		
     	$applyStyle = ($params->get('publications_apply_style') == 'yes');
@@ -89,6 +91,7 @@ class JResearchViewResearchArea extends JResearchView
     	$this->assignRef('theses', $theses);
     	$this->assignRef('ntheses', $model->countTheses($area->id));    	
 
+    	$this->assignRef('facilities', $facilities);
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
     	$this->assignRef('theses_view_all', $theses_view_all);    	

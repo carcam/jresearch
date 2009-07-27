@@ -64,7 +64,7 @@ class JResearchViewFacilities extends JResearchView
     	
     	$doc->setTitle(JText::_('JRESEARCH_FACILITIES'));
     	$this->assignRef('params', $params);
-    	$this->assignRef('items', $facs);
+    	$this->assignRef('items', $facs, JResearchFilter::ARRAY_OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
     	$this->assignRef('areaModel', $areaModel);
     	$this->assignRef('page', $model->getPagination());	
 

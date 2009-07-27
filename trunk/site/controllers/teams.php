@@ -23,6 +23,7 @@ class JResearchTeamsController extends JResearchFrontendController
 		$lang->load('com_jresearch.staff');
 		
 		// Task for edition of profile
+		$this->registerDefaultTask('display');
 		$this->registerTask('show', 'show');
 
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
@@ -63,9 +64,12 @@ class JResearchTeamsController extends JResearchFrontendController
 	*/
 	public function show()
 	{
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+		
 		$model =& $this->getModel('Team', 'JResearchModel');
 		$memberModel =& $this->getModel('Member', 'JResearchModel');
-		$pubsModel =& $this->getModel('Publicationlist', 'JResearchModel');
+		$pubsModel =& $this->getModel('Publicationslist', 'JResearchModel');
 		
 		$view =& $this->getView('Team', 'html', 'JResearchView');
 		$view->setModel($model, true);

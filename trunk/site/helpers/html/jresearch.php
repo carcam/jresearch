@@ -276,12 +276,12 @@ class JHTMLJresearch
 	 */
 	public static function link($text, $view='cooperations', $task='display', $id=null, $bItemId = true, array $additional=array())
 	{
-		$itemid = JRequest::getVar('Itemid');
+		$itemid = JRequest::getVar('Itemid', null);
 		$view = JFilterOutput::stringURLSafe($view);
 		$task = JFilterOutput::stringURLSafe($task);
 		JFilterOutput::cleanText($text);
 		
-		$url = "index.php?option=com_jresearch&view=$view&task=$task".((!empty($id))?'&id='.intval($id):'').(($bItemId)?'&Itemid='.intval($itemid):'').((count($additional) > 0)?self::_getKeyValueString($additional):'');
+		$url = "index.php?option=com_jresearch&view=$view&task=$task".((!empty($id))?'&id='.intval($id):'').(($bItemId && !empty($itemid))?'&Itemid='.intval($itemid):'').((count($additional) > 0)?self::_getKeyValueString($additional):'');
 		return JFilterOutput::linkXHTMLSafe('<a href="'.$url.'">'.$text.'</a>');
 	}
 	

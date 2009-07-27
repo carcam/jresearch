@@ -49,7 +49,7 @@ class JResearchViewCooperations extends JResearchView
 		
 		$doc->setTitle(JText::_('JRESEARCH_COOPERATIONS'));
 		$this->assignRef('params', $params);
-		$this->assignRef('items', $items);
+		$this->assignRef('items', $items, JResearchFilter::ARRAY_OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
 		$this->assignRef('cats', $cats);
 		$this->assignRef('page', $model->getPagination());
 		$this->assignRef('introtext', $params->get('intro_text'));

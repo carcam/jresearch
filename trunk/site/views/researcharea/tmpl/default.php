@@ -11,12 +11,23 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <h2 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h2>
 <p><?php echo $this->description;  ?></p>
 <div>&nbsp;&nbsp;</div>
+<?php if(!empty($this->facilities)): ?>
+<h2 class="contentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h2>
+<ul class="float">
+<?php foreach($this->facilities as $facility): ?>
+	<li>
+		<?php echo JHTML::_('jresearch.link', $facility->name, 'facility', 'show', $facility->id); ?>
+	</li>
+<?php endforeach; ?>
+</ul>
+<div>&nbsp;&nbsp;</div>
+<?php endif; ?>
 <?php $itemId = JRequest::getVar('Itemid'); ?>
 <?php if(!empty($this->members)): ?>
 <h2 class="contentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
 <ul>
 <?php foreach($this->members as $member): ?>
-	<li><a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $member->__toString(); ?></a></li>
+	<li><?php echo JHTML::_('jresearch.link', $member, 'member', 'show', $member->id); ?></li>
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
@@ -32,10 +43,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
   			$styleObj =& JResearchCitationStyleFactory::getInstance($this->style, $publication->pubtype);
   			echo $styleObj->getReferenceHTMLText($publication, true); 
   		?>
-  		<a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $publication->id; ?><?php $Itemid = JRequest::getVar('Itemid'); echo !empty($itemid)?'&amp;Itemid='.$itemid:''; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a>&nbsp;
+  		<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $publication->id); ?>&nbsp;
   	</li>
 	<?php else: ?>
-	<li><a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $publication->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $publication->title; ?></a></li>
+	<li>
+		<?php echo JHTML::_('jresearch.link', $publication->title, 'publication', 'show', $publication->id); ?>
+	</li>
 	<?php endif; ?>
 <?php endforeach; ?>
 </ul>

@@ -36,10 +36,10 @@ function com_install(){
 	$srcFolder = $jresearchAdminFolder.DS.'contentelements';
 	$destFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_joomfish'.DS.'contentelements';
 	
-	$dir = dir($srcFolder);
+	$files = JFolder::files($srcFolder);
 	
 	//Install Joomfish elements if joomfish exists and correct mysql version exists >= 5.0.1
-	if(file_exists($joomFishCheckFile) && $bDbVersion)
+	if(JFile::exists($joomFishCheckFile) && $bDbVersion)
 	{
 		//Create views with extra sql file
 		$buffer = file_get_contents($jresearchAdminFolder.DS.'joomfish_views.sql');
@@ -56,7 +56,7 @@ function com_install(){
 		}
 		
 		//Install content elements
-		while(false !== ($file = $dir->read()))
+		foreach($files as $file)
 		{
 			if($file != '.' && $file != '..' && is_file($srcFolder.DS.$file))
 				@rename($srcFolder.DS.$file, $destFolder.DS.$file);
@@ -65,17 +65,17 @@ function com_install(){
 	else 
 	{
 		//Remove files from component installation, isn't necessary for the current joomla installation
-		while(false !== ($file = $dir->read()))
+		foreach($files as $file)
 		{
 			if($file != '.' && $file != '..' && is_file($srcFolder.DS.$file))
-				@unlink($srcFolder.DS.$file);
+				JFile::delete($srcFolder.DS.$file);
 		}
 		
-		JError::raiseWarning(1, JText::_('JoomFish content elements can\'t be installed'));
+		JError::raiseWarning(1, JText::_('JoomFish content elements can\'t be installed. JoomFish not installed or MySQL version < 5.0.1'));
 	}
 
 	//Remove folder from component
-	@rmdir($srcFolder);
+	JFolder::delete($srcFolder);
 	
 	// This has been added since 1.1.4 to ensure compatibility with Joomla! < 1.5.12
 	$version = new JVersion();
@@ -96,20 +96,19 @@ function com_install(){
 		$newTinyFile = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'tinymce.php';					
 	}
 	
-	if(file_exists($srcFolder)){
-		if(!@rename($srcFolder, $destFolder)){
+	if(JFolder::exists($srcFolder)){
+		if(!JFolder::move($srcFolder, $destFolder)){
 			JError::raiseWarning(1, JText::_('Native plugin for TinyMCE automatic citation could not be installed' ));
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Native plugin for TinyMCE automatic citation could not be installed' ));
 	}
-	@rmdir($srcFolder);
 	
 	// Replace tinymce.php file to load the new plugin and controls
 	$oldFile = JPATH_PLUGINS.DS.'editors'.DS.'tinymce.php';
 	$backupFile = $oldFile.'.bak';
 	
-	if(file_exists($oldFile)){
+	if(JFile::exists($oldFile)){
 		if(!@rename($oldFile, $backupFile)){
 			JError::raiseWarning(1, JText::_('TinyMCE editor plugin file could not be backup' ));
 		}
@@ -120,7 +119,7 @@ function com_install(){
 	// Move the new tinymce.php
 	$newTinyFile = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'tinymce.php';	
 	
-	if(file_exists($newTinyFile)){
+	if(JFile::exists($newTinyFile)){
 		if(!@rename($newTinyFile, $oldFile)){
 			JError::raiseWarning(1, JText::_('TinyMCE editor new plugin file could be not modified so JResearch Automatic Citation plugin will be not available.' ));
 		}
@@ -154,7 +153,7 @@ function com_install(){
 		else 
 		{
 			//Added deletion of empty dirs
-			@rmdir($filePath);
+			JFolder::delete($filePath);
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for searching JResearch items could not be installed. Please install it manually'));
@@ -187,7 +186,7 @@ function com_install(){
 		else 
 		{
 			//Added deletion of empty dirs
-			@rmdir($filePath);
+			JFolder::delete($filePath);
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for automatic citation could not be installed. Please install it manually'));
@@ -219,7 +218,7 @@ function com_install(){
 		else 
 		{
 			//Added deletion of empty dirs
-			@rmdir($filePath);
+			JFolder::delete($filePath);
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for automatic bibliography generation could not be installed. Please install it manually'));
@@ -251,7 +250,7 @@ function com_install(){
 		else 
 		{
 			//Added deletion of empty dirs
-			@rmdir($filePath);
+			JFolder::delete($filePath);
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for persistence of cited records for com_content could not be installed. Please install it manually'));
@@ -283,7 +282,7 @@ function com_install(){
 		else 
 		{
 			//Added deletion of empty dirs
-			@rmdir($filePath);
+			JFolder::delete($filePath);
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for loading cited records into session for com_content could not be installed. Please install it manually'));

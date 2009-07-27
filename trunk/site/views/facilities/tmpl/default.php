@@ -14,7 +14,7 @@ if(count($this->items) > 0):
 <ul id="jresearch-facility-list" style="padding-left:0px;">
 	<?php foreach($this->items as $fac): ?>
 		<?php $researchArea = $this->areaModel->getItem($fac->id_research_area); ?>
-		<li class="liresearcharea">
+		<li class="lifacility">
 			<div>
 				<?php $itemId = JRequest::getVar('Itemid'); ?>
 				<h2 class="contentheading">

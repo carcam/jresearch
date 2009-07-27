@@ -68,9 +68,23 @@ JHTML::_('behavior.modal');
   <tr><th scope="col" colspan="4"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></th></tr>
   <tr><td colspan="4"><?php echo $this->description; ?></td></tr>			  
   <?php endif; ?>
+  <?php if(!empty($this->teams)):?>
+  <tr>
+  	<th scope="col" colspan="4"><h2 class="contentheading"><?php echo JText::_('JRESEARCH_TEAMS').': '; ?></h2></th>
+  </tr>
+  <tr>
+  	<td colspan="4">
+  		<ul>
+  			<?php foreach($this->teams as $team):?>
+  				<li><?php echo JHTML::_('jresearch.link', $team, 'teams', 'show', $team->id); ?></li>
+  			<?php endforeach; ?>
+  		</ul>
+  	</td>
+  </tr>
+  <?php endif; ?>
   <?php $itemId = JRequest::getVar('Itemid', null); ?>
   <?php if(!empty($this->publications)){ ?>
-  	<tr><th style="width:100%;" scope="row" colspan="4" ><h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS').': '; ?></h2></th></tr>
+  	<tr><th style="width:100%;" scope="col" colspan="4" ><h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS').': '; ?></h2></th></tr>
   	<tr><td style="width:100%;" colspan="4">
 	  	<ul>
 		  	<?php foreach($this->publications as $pub): ?>
