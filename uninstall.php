@@ -40,8 +40,8 @@ function com_uninstall(){
 	$oldFile = JPATH_PLUGINS.DS.'editors'.DS.'tinymce.php';
 	$backupFile = $oldFile.'.bak';
 		
-	if(file_exists($backupFile)){
-		if(file_exists($oldFile)){		
+	if(JFile::exists($backupFile)){
+		if(JFile::exists($oldFile)){		
 			if(!@unlink($oldFile) || !@rename($backupFile, $oldFile))
 				echo "Error: File $oldFile could not be restored to ommit automatic citation plugin. Please do it manually.";				
 		}else{

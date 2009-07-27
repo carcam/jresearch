@@ -82,6 +82,8 @@ class JResearchViewMember extends JResearchView
 		$this->addPathwayItem($member, 'index.php?option=com_jresearch&view=member&id='.$member->id);
 		$this->addPathwayItem(JText::_('Edit'));
 		
+		$arguments[] = $member->id;
+		
 		$member->checkout($user->get('id'));		
     	
 		$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'selected' => $member->id_research_area));
@@ -125,8 +127,9 @@ class JResearchViewMember extends JResearchView
     	}
     
     	//Get the model
-    	$model =& $this->getModel();
-    	$member = $model->getItem($id);
+    	$model  =& $this->getModel();
+    	$member =  $model->getItem($id);
+    	$teams  =  $model->getTeams($id);
     	
     	if(!$member->published){
     		JError::raiseWarning(1, JText::_('JRESEARCH_MEMBER_NOT_FOUND'));
@@ -198,6 +201,7 @@ class JResearchViewMember extends JResearchView
     	$this->assignRef('style', $configuredCitationStyle);
     	$this->assignRef('format', $format);
     	$this->assignRef('description', $description);
+    	$this->assignRef('teams', $teams, JResearchFilter::ARRAY_OBJECT_XHTML_SAFE);
     	
     	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
     	
