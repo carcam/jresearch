@@ -110,6 +110,12 @@ class JResearchPublication extends JResearchActivity{
 	public $cover;
 	
 	/**
+	 * Digital Object identifier
+	 * @var string
+	 */
+	public $doi;
+	
+	/**
 	 * Name of the foreign key field in the subclass table.
 	 * 
 	 * @var string
@@ -538,6 +544,12 @@ class JResearchPublication extends JResearchActivity{
           	$ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
           	$this->$j = $db->insertid();
       	}
+      	
+	    if( !$ret ){
+	        $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+	        return false;
+	    }				
+   
 
 		// Delete the information about internal and external references
 		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);
@@ -554,6 +566,8 @@ class JResearchPublication extends JResearchActivity{
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 			return false;
 		}
+		
+		
 
 		// We construct an object with the derived properties only
  		$derivedProperties = $this->_getSubclassAttributes();
@@ -569,17 +583,12 @@ class JResearchPublication extends JResearchActivity{
 	 		$derivedObject->$d = $this->$j; 		
 	
 	 		// Time to insert the derived attributes
-	  		if( !$isNew){
-	          $ret = $db->updateObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key, $updateNulls );
+	  	  if(!$isNew){
+	          $db->updateObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key, $updateNulls );
 	      }else{
-	          $ret = $db->insertObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key );
+	          $db->insertObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key );
 	      }
-
-	      
-	      if( !$ret ){
-	          $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
-	          return false;
-	      }				
+	      	      
       	}
 		
 		$orderField = $db->nameQuote('order');

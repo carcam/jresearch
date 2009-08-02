@@ -9,7 +9,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
 <div class="divForm">
 <form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
-<div class="divChangeType"><label for="types"><?php echo JText::_('JRESEARCH_CHANGE_TYPE').': '; ?></label><?php echo $this->changeType; ?></div>
+<?php if(isset($this->publication)): ?>
+	<div class="divChangeType">
+		<?php echo $this->changeType; ?>
+		<input type="button" onclick="if(document.adminForm.change_type.value != '0' && document.adminForm.change_type.value != document.adminForm.pubtype.value ){msubmitform('changeType');}" value="<?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE'); ?>" />
+		<label for="keepold"><?php echo JText::_('JRESEARCH_KEEP_OLD_PUBLICATION').': '; ?><input type="checkbox" name="keepold" id="keepold" /></label>
+	</div>
+<?php endif; ?>	
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_BASIC')?></legend>
 	<div class="divTable">
@@ -164,7 +170,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<label for="impact_factor"><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></label>
 		</div>
 		<div class="divTdl">	
-			<input value="<?php echo $this->impact_factor?$this->publication->impact_factor:'' ?>" size="10" name="impact_factor" id="impact_factor" maxlength="8" class="validate-numeric" />
+			<input value="<?php echo $this->publication?$this->publication->impact_factor:'' ?>" size="10" name="impact_factor" id="impact_factor" maxlength="8" class="validate-numeric" />
 			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'impact_factor', JText::_('JRESEARCH_PROVIDE_VALID_NUMBER')); ?>				
 		</div>
         <div class="divEspacio" ></div>		
@@ -198,13 +204,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
     </div>
 </fieldset>
 
-<input type="hidden" name="pubtype" value="<?php echo $this->pubtype; ?>" />
+<input type="hidden" name="pubtype" id="pubtype" value="<?php echo $this->pubtype; ?>" />
 <input type="hidden" name="id" value="<?php echo $this->publication?$this->publication->id:'' ?>" />
 <?php if(JRequest::getVar('modelkey')): ?>
 	<input type="hidden" name="modelkey" value="<?php echo JRequest::getVar('modelkey'); ?>" />
 <?php endif; ?>
 <?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications'); ?>
 <?php echo JHTML::_('behavior.keepalive'); ?>
-<?php echo JHTML::_('form.token'); ?>	
+<?php echo JHTML::_('form.token'); ?>
+<?php
+	$Itemid = JRequest::getInt('Itemid', null);  
+	if(!empty($Itemid)): ?>
+		<input type="hidden" id="Itemid" name="Itemid" value="<?php echo $Itemid; ?>" />
+<?php endif; ?>	
 </form>
 </div>

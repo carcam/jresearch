@@ -262,7 +262,7 @@ class JHTMLjresearchhtml
 				$authorValue = $author instanceof JResearchMember?$author->id:$author;
 				$output .= "<span style=\"padding: 2px;\">$authorText</span>";
 				$output .= "<input type=\"hidden\" id=\"$textField".$j."\" name=\"$textField".$j."\" value=\"$authorValue\" />";
-				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:removeAuthor('liauthorsfield$j')\">$delete</a></span>";
+				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:removeAuthor('li$textField$j')\">$delete</a></span>";
 				if($allowPrincipals){
 					if($isPrincipalsArray != null)
 						$onText = $isPrincipalsArray[$j]?'value="on" checked="checked"':''; 

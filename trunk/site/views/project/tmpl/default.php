@@ -35,7 +35,7 @@ JHTML::_('behavior.modal');
        	<?php 
        	else: 
        		$url = JResearch::getUrlByRelative($this->project->url_project_image);
-       		$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->project->url_project_image):$url;
+       		$thumb = ($this->enableThumbnails == 1)?JResearch::getThumbUrlByRelative($this->project->url_project_image):$url;
        	?>		
     		<td colspan="2">
     			<a href="<?php echo $url?>" class="modal" rel="{handler: 'image'}">
