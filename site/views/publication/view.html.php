@@ -235,9 +235,11 @@ class JResearchViewPublication extends JResearchView
 			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', $publication->internal  );
 			$authors = $publication->getAuthors();
 			
-			$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' ,$authors);
-			
+			$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' ,$authors);						
 			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);	
+			$publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
+			$this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);			
+			
 		}
 		else 
 		{

@@ -76,7 +76,7 @@ class JResearch
 	function uploadDocument($file, $path){
 		$uploadedFile = $file['tmp_name'];
 		$availableTypes = array('application/msword'=>'doc','application/vnd.openxmlformats-officedocument.wordprocessingml.document'=>'docx',
-		'application/pdf'=>'pdf','application/postscript'=>'ps', 
+		'application/pdf'=>'pdf', 'application/x-pdf' => 'pdf', 'application/postscript'=>'ps', 
 		'application/vnd.oasis.opendocument.text'=>'odt', 'text/plain'=>'txt');
 		if($uploadedFile != null){
 			if(isset($availableTypes[$file['type']])){

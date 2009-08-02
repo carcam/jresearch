@@ -64,6 +64,8 @@ class JResearchAdminViewPublication extends JResearchView
 			$arguments[] = $publication->id;
 			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
 			$authors = $publication->getAuthors();
+			$publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
+			$this->assignRef('changeType', $publicationTypes);			
 		}
 		else
 		{
@@ -72,8 +74,7 @@ class JResearchAdminViewPublication extends JResearchView
 		
 		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));
    	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $publication?$publication->id_research_area:null)); 
-		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));
-		$publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type', '');
+		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));		
 		
 		$params = JComponentHelper::getParams('com_jresearch');
 		$authorsControl	= JHTML::_('jresearchhtml.autoSuggest', 'authors', $authors);		
@@ -91,7 +92,6 @@ class JResearchAdminViewPublication extends JResearchView
 		$this->assignRef('pubtype', $pubtype);
 		$this->assignRef('authors', $authorsControl);
 		$this->assignRef('files', $files);
-		$this->assignRef('changeType', $publicationTypes);
 	}
 	
 	/**

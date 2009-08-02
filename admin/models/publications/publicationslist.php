@@ -140,14 +140,13 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 			$db->setQuery($query);
 			$ids = $db->loadResultArray();
-			$this->_items = array();
 			foreach($ids as $id){
-				$pub =& JResearchPublication::getById($id);
+				$pub = JResearchPublication::getById($id);
 				$this->_items[] = $pub;
 			}
 			if($paginate)
 				$this->updatePagination();
-		}			
+		}	
 		return $this->_items;
 
 	}
