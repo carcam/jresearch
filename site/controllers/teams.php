@@ -66,15 +66,21 @@ class JResearchTeamsController extends JResearchFrontendController
 	{
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'theses');
 		
 		$model =& $this->getModel('Team', 'JResearchModel');
 		$memberModel =& $this->getModel('Member', 'JResearchModel');
 		$pubsModel =& $this->getModel('Publicationslist', 'JResearchModel');
+		$projectsModel =& $this->getModel('Projectslist', 'JResearchModel');
+		$thesesModel =& $this->getModel('Theseslist', 'JResearchModel');
 		
 		$view =& $this->getView('Team', 'html', 'JResearchView');
 		$view->setModel($model, true);
 		$view->setModel($memberModel);
 		$view->setModel($pubsModel);
+		$view->setModel($projectsModel);
+		$view->setModel($thesesModel);
 		$view->display();				
 	}
 }

@@ -60,7 +60,7 @@ class JResearchAdminViewTeam extends JResearchView
 			$selectedMembers = $team->getMembers();
 			foreach($selectedMembers as $member)
 			{
-				$selectedMemberOptions[] = $member->id;
+				$selectedMemberOptions[] = $member;
 			}			
 	    	$memberList = JHTML::_('select.genericlist', $memberOptions ,'members[]', 'class="inputbox" multiple="multiple" size="5"' ,'value', 'text' ,$selectedMemberOptions);
 
