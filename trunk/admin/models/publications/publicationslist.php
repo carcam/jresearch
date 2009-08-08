@@ -85,7 +85,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	 * @param int $teamId
 	 * @return array
 	 */
-	private function _getTeamPublicationIds($teamId){
+	private function _getTeamPublicationIds($teamId, $count=0){
 		$db = JFactory::getDBO();
 		
 		$id_staff_member = $db->nameQuote('id_staff_member');
@@ -98,6 +98,11 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		
 		$query = "SELECT DISTINCT $id_publication FROM $pub_internal_author, $team_member WHERE $team_member.$id_team = $teamValue "
 				 ." AND $pub_internal_author.$id_staff_member = $team_member.$id_member";
+				 
+		if($count > 0)
+		{
+			$query .= " LIMIT 0,$count";
+		}
 		
 		$db->setQuery($query);
 		return $db->loadResultArray();
@@ -157,7 +162,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	 * @param int $teamId
 	 * @return array
 	 */
-	public function getDataByTeamId($teamId)
+	public function getDataByTeamId($teamId, $count=0)
 	{
 		$model = JModel::getInstance('Team', 'JResearchModel');
 		$team = $model->getItem($teamId);
@@ -165,7 +170,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		
 		if(!empty($team))
 		{
-			$ids = $this->_getTeamPublicationIds($team->id);
+			$ids = $this->_getTeamPublicationIds($team->id, intval($count));
 			
 			foreach($ids as $id)
 			{

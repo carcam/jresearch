@@ -20,7 +20,6 @@ class JResearchViewTeams extends JResearchView
 		$doc = JFactory::getDocument();
 		$layout = $this->getLayout();
 		
-		
 		// Get data from the model
 		$model = &$this->getModel();
 		$items = $model->getData(null, true, true);
@@ -29,7 +28,7 @@ class JResearchViewTeams extends JResearchView
 		$doc->setTitle(JText::_('JRESEARCH_TEAMS'));		
 		
 		$this->assignRef('params', $params);
-		$this->assignRef('items', $items);
+		$this->assignRef('items', $items, JResearchFilter::ARRAY_OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
 		$this->assignRef('page', $model->getPagination());	
 
 		$eArguments = array('teams', $layout);

@@ -20,10 +20,6 @@ if(count($this->items) > 0):
 	?>
 		<li class="liteam" style="background: none; clear: both; margin-bottom: 10px;">
 			<div style="width: 85%; margin-left: auto; margin-right: auto;">
-				<?php
-				$contentArray = explode('<hr id="system-readmore" />', $team->description);
-				$itemId = JRequest::getVar('Itemid');
-				?>
 				<h2 class="contentheading">
 					<?php echo JFilterOutput::ampReplace($team->name)?>
 				</h2>
@@ -36,7 +32,6 @@ if(count($this->items) > 0):
 				</div>
 			</div>
 			<div style="clear: both;">&nbsp;</div>
-			<hr style="clear: both;" />
 		</li>
 	<?php
 	endforeach;

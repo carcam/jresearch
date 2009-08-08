@@ -128,17 +128,7 @@ class JResearchTeam extends JTable
 	 */
 	public function getMembers()
 	{
-		$db =& JFactory::getDBO();
-		$memberObjects = array(); 
-		
-		foreach($this->_members as $member)
-		{
-			$memberObject = new JResearchMember($db);
-			$memberObject->load($member['id_member']);
-			$memberObjects[] = $memberObject;
-		}
-		
-		return $memberObjects;
+		return $this->_members;
 	}
 	
 	/**
@@ -278,6 +268,11 @@ class JResearchTeam extends JTable
         {
         	$this->_members = array();	
         }
+	}
+	
+	public function __toString()
+	{
+		return $this->name;
 	}
 }
 ?>

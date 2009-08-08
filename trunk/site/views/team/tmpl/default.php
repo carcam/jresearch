@@ -14,18 +14,11 @@ defined('_JEXEC') or die('Restricted access');
 	<?php echo JFilterOutput::ampReplace($this->item->name);?>
 </h1>
 <table summary="<?php echo JText::_('JRESEARCH_TEAM_SUMMARY'); ?>">
-	<tfoot>
-		<tr>
-			<td colspan="2">
-				<a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a>
-			</td>
-		</tr>
-	</tfoot>
 	<tbody>
 		<tr>
 			<th><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</th>
 			<td>
-				<?php echo JHTML::_('jresearch.link', $this->leader, 'member', 'show', $leader->id); ?>
+				<?php echo JHTML::_('jresearch.link', $this->leader, 'member', 'show', $this->leader->id); ?>
 			</td>
 		</tr>
 		<?php 
@@ -60,7 +53,7 @@ defined('_JEXEC') or die('Restricted access');
 		?>
 		<tr>
 			<th><?php echo JText::_('Email').' :' ?></th>
-			<td><?php echo $this->leader->email; ?></td>
+			<td><?php echo JHTML::_('email.cloak',$this->leader->email, false); ?></td>
 		</tr>
 		<?php 
 		endif;
@@ -73,7 +66,7 @@ defined('_JEXEC') or die('Restricted access');
 		</tr>
 		<?php
 		//Show description only if description exists
-		if($this->description):
+		if(count($this->description) > 0 && !empty($this->description[0])):
 		?>
 		<tr>
 			<th colspan="2" scope="colgroup">
@@ -98,6 +91,15 @@ defined('_JEXEC') or die('Restricted access');
 		?>
 	</tbody>
 </table>
+<?php if(!empty($this->projects)): ?>
+<div>&nbsp;&nbsp;</div>
+<h2 class="contentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h2>
+<ul>
+<?php foreach($this->projects as $project): ?>
+	<li><?php echo JHTML::_('jresearch.link', $project->title, 'project', 'show', $project->id); ?></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
 <?php if(!empty($this->publications)): ?>
 <div>&nbsp;&nbsp;</div>
 <h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
@@ -107,3 +109,15 @@ defined('_JEXEC') or die('Restricted access');
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
+<?php if(!empty($this->theses)): ?>
+<div>&nbsp;&nbsp;</div>
+<h2 class="contentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h2>
+<ul>
+<?php foreach($this->theses as $thesis): ?>
+	<li><?php echo JHTML::_('jresearch.link', $thesis->title, 'thesis', 'show', $thesis->id); ?></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+<div>
+	<a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a>
+</div>

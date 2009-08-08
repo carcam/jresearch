@@ -187,6 +187,26 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 		return (int)$db->loadResult();
 	}
 	
-
+	
+	public function getTeams($memberId)
+	{
+		$db =& JFactory::getDBO();
+		$teams = array();
+		
+		$sql = 'SELECT '.$db->nameQuote('id_team').' FROM '.$db->nameQuote('#__jresearch_team_member').' WHERE '.$db->nameQuote('id_member').' = '.$db->Quote($memberId);
+		$db->setQuery($sql);
+		
+		$ids = $db->loadResultArray();
+		
+		foreach($ids as $id)
+		{
+			$team = new JResearchTeam($db);
+			$team->load($id);
+			$teams[] = $team;
+		}
+		
+		
+		return $teams;
+	}
 }
 ?>

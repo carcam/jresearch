@@ -21,13 +21,19 @@ class JResearchViewTeam extends JResearchView
 		$itemId = JRequest::getVar('Itemid');
 		$layout =& $this->getLayout();
 		$doc =& JFactory::getDocument();
+		$params = $this->getParams();
+		$publications = array();
+		$projects = array();
+		$theses = array();
 		
 		$arguments = array('team', $id);
 		
 		// Get data from the model
 		$model = &$this->getModel();
 		$memberModel = &$this->getModel('Member');
-		$pubsModel = &$this->getModel('Publicationlist');
+		$pubsModel = &$this->getModel('Publicationslist');
+		$projectsModel = &$this->getModel('Projectslist');
+		$thesesModel = &$this->getModel('Theseslist');
 		
 		$item = $model->getItem($id);
 		
@@ -45,13 +51,34 @@ class JResearchViewTeam extends JResearchView
 				break;
 		}
 		
-		$members = $item->getMembers();
-		$publications = $pubsModel->getDataByTeam($id);
+		$members = $model->getMembers($id);
+		
+		$show_publications = $params->get('team_show_publications', 'yes');
+		$show_projects = $params->get('team_show_projects', 'yes');
+		$show_theses = $params->get('team_show_theses', 'yes');
+		
+		if($show_publications == "yes")
+		{
+			$count = $params->get('team_number_last_publications', 5);
+			$publications = $pubsModel->getDataByTeamId($id, $count);
+		}
+		
+		if($show_projects == "yes")
+		{
+			$count = $params->get('team_number_last_projects', 5);
+			$projects = $projectsModel->getDataByTeamId($id, $count);
+		}
+		
+		if($show_theses == "yes")
+		{
+			$count = $params->get('team_number_last_theses', 5);
+			$theses = $thesesModel->getDataByTeamId($id, $count);
+		}
 		
 		$links = array();
 		foreach($members as $member)
 		{
-			array_push($links, '<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id='.$member->id.(isset($itemId)?'&amp;Itemid='.$itemId:'').'" title="">'.$member->__toString().'</a>');
+			$links[] = JHTML::_('jresearch.link', $member, 'members', 'show', $member->id);
 		}
 		
 		$doc->addStyleDeclaration('
@@ -70,10 +97,12 @@ class JResearchViewTeam extends JResearchView
 		$this->assignRef('memberLinks', $links);
 		$this->assignRef('memberModel', $memberModel);
 		$this->assignRef('publications', $publications);
+		$this->assignRef('projects', $projects);
+		$this->assignRef('theses', $theses);
 		$this->assignRef('itemId', $itemId);
 		$this->assignRef('description', $description);
 		$this->assignRef('leader', $leader);
-
+		
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		
        	parent::display($tpl);
