@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<label for="title"><?php echo JText::_('Title').': '?></label>
 			</div>
 			<div class="divTdl">			
-				<input name="title" id="title" size="50" maxlength="255" value="<?php echo $this->publication?$this->publication->title:'' ?>" class="required" />
+				<input name="title" id="title" size="50" maxlength="255" value="<?php echo isset($this->publication)?$this->publication->title:'' ?>" class="required" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'title', JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE')); ?>
 			</div>
 	        <div class="divEspacio" ></div>						
@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<label for="alias"><?php echo JText::_('Alias').': '?></label>
 			</div>
 			<div class="divTdl">
-				<input name="alias" id="alias" size="40" maxlength="255" class="required validate-alias" value="<?php echo $this->publication?$this->publication->alias:'' ?>" />
+				<input name="alias" id="alias" size="40" maxlength="255" class="required validate-alias" value="<?php echo isset($this->publication)?$this->publication->alias:'' ?>" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'alias', JText::_('JRESEARCH_PROVIDE_VALID_ALIAS')); ?>
 			</div>
 	        <div class="divEspacio" ></div>				
@@ -44,7 +44,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	            <label for="year"><?php echo JText::_('JRESEARCH_YEAR').': '?></label>
 	        </div>
 	        <div class="divTdl divTdl2">
-				<input maxlength="4" size="5" name="year" id="year" value="<?php echo $this->publication?$this->publication->year:'' ?>" class="validate-year" />
+				<input maxlength="4" size="5" name="year" id="year" value="<?php echo isset($this->publication)?$this->publication->year:'' ?>" class="validate-year" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'year', JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); ?>
 	        </div>
     		<div class="divTd">
@@ -60,7 +60,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	            <label for="url"><?php echo JText::_('URL').': '?></label>
 	        </div>
 	        <div class="divTdl">
-				<input name="url" id="url" size="50" maxlength="255" class="validate-url" value="<?php echo $this->publication?$this->publication->url:'' ?>" />
+				<input name="url" id="url" size="50" maxlength="255" class="validate-url" value="<?php echo isset($this->publication)?$this->publication->url:'' ?>" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'url', JText::_('JRESEARCH_PROVIDE_VALID_URL')); ?>				
 			</div>
 			<div class="divEspacio" ></div>				
@@ -70,7 +70,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	            <label for="keywords"><?php echo JText::_('JRESEARCH_KEYWORDS').': '?></label>
 	        </div>
 	        <div class="divTdl">
-				<input name="keywords" id="keywords" size="30" maxlength="255" class="validate-keywords" value="<?php echo $this->publication?$this->publication->keywords:'' ?>" /><span class="information"><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span>
+				<input name="keywords" id="keywords" size="30" maxlength="255" class="validate-keywords" value="<?php echo isset($this->publication)?$this->publication->keywords:'' ?>" /><span class="information"><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span>
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'keywords', JText::_('JRESEARCH_PROVIDE_KEYWORDS')); ?>				
 	        </div>
 		  <div class="divEspacio" ></div>		        
@@ -80,17 +80,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	        <label for="citekey"><?php echo JText::_('JRESEARCH_CITEKEY').': '?></label> 
 	        </div> 
 	        <div class="divTdl divTdl2">
-				<input size="15" maxlength="255" name="citekey" id="citekey" class="required" value="<?php echo $this->publication?$this->publication->citekey:'' ?>" /><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_CITEKEY_TOOLTIP')); ?>				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'citekey', JText::_('JRESEARCH_PROVIDE_CITEKEY')); ?>								
+				<input size="15" maxlength="255" name="citekey" id="citekey" class="required" value="<?php echo isset($this->publication)?$this->publication->citekey:'' ?>" /><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_CITEKEY_TOOLTIP')); ?>				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'citekey', JText::_('JRESEARCH_PROVIDE_CITEKEY')); ?>								
 	        </div>
 	  		<div class="divEspacio" ></div>		        
 		</div>
 		<div class="divTR">	        
 			<div class="divTd"><label for="doi"><?php echo JText::_('JRESEARCH_DOI').': '?></label></div>
 			<div class="divTdl divTdl2">
-			<input size="15" maxlength="255" name="doi" id="doi" class="validate-doi" value="<?php echo $this->publication?$this->publication->doi:'' ?>" />
+			<input size="15" maxlength="255" name="doi" id="doi" class="validate-doi" value="<?php echo isset($this->publication)?$this->publication->doi:'' ?>" />
 			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'doi', JText::_('JRESEARCH_PROVIDE_VALID_DOI')); ?>				
 			</div>
-			<?php if(!empty($this->publication)): ?>
+			<?php if(isset($this->publication)): ?>
 				<div class="divTd"><label for="hits"><?php echo JText::_('Hits').': '?></label></div>
 				<div class="divTdl"><?php echo JHTML::_('jresearchhtml.hitsControl', 'resethits', $this->publication->hits); ?></div>			
 			<?php endif; ?>
@@ -117,7 +117,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
             <label for="note"><?php echo JText::_('JRESEARCH_ABSTRACT').': ' ?></label>
         </div>
         <div class="divTdl">
-			<textarea name="abstract" id="abstract" cols="50" rows="4" ><?php echo $this->publication?$this->publication->abstract:'' ?></textarea>
+			<textarea name="abstract" id="abstract" cols="50" rows="4" ><?php echo isset($this->publication)?$this->publication->abstract:'' ?></textarea>
         </div>	    
 	  	<div class="divEspacio" ></div>	        
     </div>
@@ -153,7 +153,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<label for="cover"><?php echo JText::_('JRESEARCH_COVER').': '?></label>
 		</div>
 		<div class="divTdl">
-			<input name="cover" id="cover" size="30" maxlength="255" class="validate-url" value="<?php echo $this->publication?$this->publication->cover:'' ?>" />
+			<input name="cover" id="cover" size="30" maxlength="255" class="validate-url" value="<?php echo isset($this->publication)?$this->publication->cover:'' ?>" />
 			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'cover', JText::_('JRESEARCH_PROVIDE_VALID_URL')); ?>				
 		</div>
 		<div class="divEspacio" ></div>
@@ -163,14 +163,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<label for="journal_acceptance_rate"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': '?></label>
 		</div>
 		<div class="divTdl divTdl2">
-			<input value="<?php echo $this->publication?$this->publication->journal_acceptance_rate:'' ?>" size="10" name="journal_acceptance_rate" id="journal_acceptance_rate" maxlength="5" class="validate-numeric" />
+			<input value="<?php echo isset($this->publication)?$this->publication->journal_acceptance_rate:'' ?>" size="10" name="journal_acceptance_rate" id="journal_acceptance_rate" maxlength="5" class="validate-numeric" />
 			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'journal_acceptance_rate', JText::_('JRESEARCH_PROVIDE_VALID_NUMBER')); ?>				
 		</div>
 		<div class="divTd">
 		<label for="impact_factor"><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></label>
 		</div>
 		<div class="divTdl">	
-			<input value="<?php echo $this->publication?$this->publication->impact_factor:'' ?>" size="10" name="impact_factor" id="impact_factor" maxlength="8" class="validate-numeric" />
+			<input value="<?php echo isset($this->publication)?$this->publication->impact_factor:'' ?>" size="10" name="impact_factor" id="impact_factor" maxlength="8" class="validate-numeric" />
 			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'impact_factor', JText::_('JRESEARCH_PROVIDE_VALID_NUMBER')); ?>				
 		</div>
         <div class="divEspacio" ></div>		
@@ -180,7 +180,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
             <label for="awards"><?php echo JText::_('JRESEARCH_AWARDS').': '?></label>
         </div>
         <div class="divTdl">
-			<textarea cols="50" rows="5" name="awards" id="awards"  ><?php echo $this->publication?$this->publication->awards:''; ?></textarea>
+			<textarea cols="50" rows="5" name="awards" id="awards"  ><?php echo isset($this->publication)?$this->publication->awards:''; ?></textarea>
         </div>	    
         <div class="divEspacio" ></div>	        
 	    </div>		
@@ -189,7 +189,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
             <label for="comments"><?php echo JText::_('JRESEARCH_COMMENTS').': '?></label>
         </div>
         <div class="divTdl">
-			<textarea cols="50" rows="5" name="comments" id="comments"><?php echo $this->publication?$this->publication->comments:''  ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_TOOLTIP_COMMENTS')); ?>
+			<textarea cols="50" rows="5" name="comments" id="comments"><?php echo isset($this->publication)?$this->publication->comments:''  ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_TOOLTIP_COMMENTS')); ?>
         </div>
         <div class="divEspacio" ></div>
     </div>
@@ -198,14 +198,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
             <label for="note"><?php echo JText::_('JRESEARCH_NOTE').': ' ?></label>
         </div>
         <div class="divTdl">
-			<textarea name="note" id="note" cols="50" rows="5" ><?php echo $this->publication?$this->publication->note:'' ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_NOTE_TOOLTIP')); ?>
+			<textarea name="note" id="note" cols="50" rows="5" ><?php echo isset($this->publication)?$this->publication->note:'' ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_NOTE_TOOLTIP')); ?>
         </div>
         <div class="divEspacio" ></div>        	    
     </div>
 </fieldset>
 
 <input type="hidden" name="pubtype" id="pubtype" value="<?php echo $this->pubtype; ?>" />
-<input type="hidden" name="id" value="<?php echo $this->publication?$this->publication->id:'' ?>" />
+<input type="hidden" name="id" value="<?php echo isset($this->publication)?$this->publication->id:'' ?>" />
 <?php if(JRequest::getVar('modelkey')): ?>
 	<input type="hidden" name="modelkey" value="<?php echo JRequest::getVar('modelkey'); ?>" />
 <?php endif; ?>
