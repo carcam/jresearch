@@ -210,6 +210,8 @@ class JHTMLjresearchhtml
 		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		
 		$doc->addScript($urlBase.'components/com_jresearch/js/bsn.AutoSuggest_c_2.0.js');
+		$upImage = $urlBase.'administrator/components/com_jresearch/assets/up_16.png';
+		$downImage = $urlBase.'administrator/components/com_jresearch/assets/down_16.png';		
 		$textField = $baseName.'field';
 		$projectLeader = JText::_('JRESEARCH_PROJECT_LEADER');
 		$delete = JText::_('Delete');
@@ -236,7 +238,9 @@ class JHTMLjresearchhtml
 	            as_xml1_$baseName.projectLeaders = '$allowPrincipals';
 	            as_xml1_$baseName.lbl_repeatedAuthors = '$repeatedAuthors';
 	            as_xml1_$baseName.lbl_minAuthorLengthMessage = '$minAuthorLengthMessage';
-	            as_xml1_$baseName.lbl_noresults = '$noResults';            
+	            as_xml1_$baseName.lbl_noresults = '$noResults';
+	            as_xml1_$baseName.lbl_up_image = '$upImage';
+	            as_xml1_$baseName.lbl_down_image = '$downImage';            
         		});
 	        	        	            
             	function appendAuthor(){
@@ -260,9 +264,11 @@ class JHTMLjresearchhtml
 				$output .= "<li id=\"li".$textField.$j."\">";
 				$authorText = $author instanceof JResearchMember?$author->__toString():$author;
 				$authorValue = $author instanceof JResearchMember?$author->id:$author;
-				$output .= "<span style=\"padding: 2px;\">$authorText</span>";
+				$output .= "<span id=\"span$textField$j\" style=\"padding: 2px;\">$authorText</span>";
 				$output .= "<input type=\"hidden\" id=\"$textField".$j."\" name=\"$textField".$j."\" value=\"$authorValue\" />";
 				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:removeAuthor('li$textField$j')\">$delete</a></span>";
+				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveUp('li$textField$j')\"><img style=\"width:16px;height:16px\" src=\"$upImage\" alt=\"\" /></a></span>";
+				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveDown('li$textField$j')\"><img style=\"width:16px;height:16px\" src=\"$downImage\" alt=\"\" /></a></span>";				
 				if($allowPrincipals){
 					if($isPrincipalsArray != null)
 						$onText = $isPrincipalsArray[$j]?'value="on" checked="checked"':''; 
@@ -274,8 +280,8 @@ class JHTMLjresearchhtml
 				$output .= "</li>";
 				$j++;
 			}
-	    	$output .= "<input type=\"hidden\" id=\"n$textField\" name=\"n$textField\" value=\"$j\" />";
-		$output .= "</ul></div>";
+	    	$output .= "</ul><input type=\"hidden\" id=\"n$textField\" name=\"n$textField\" value=\"$j\" />";
+			$output .= "</div>";
 		}
 
 		return $output;

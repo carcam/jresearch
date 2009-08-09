@@ -590,6 +590,7 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	var aDelete;
 	var content;
 	var newLi;
+	var upDownSpan;
 	
 	newLi = document.createElement('li');
 	if(isInternal)
@@ -617,6 +618,8 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	}
 	
 	nameSpan = document.createElement('span');
+	nameSpan.setAttribute('id', 'span'+this.fld.name+nResults);
+	
 	if(isInternal)
 		nameSpan.appendChild(content);
 	else
@@ -629,6 +632,28 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	aDelete.setAttribute('href', 'javascript:removeAuthor(\'li'+this.fld.name+nResults+'\')');	
 	aDelete.appendChild(document.createTextNode(this.lbl_delete));
 	aSpan.appendChild(aDelete);
+	
+	upDownSpan = document.createElement('span');
+	upDownSpan.style.padding = '2px';
+	
+	aUp = document.createElement('a');
+	aUp.setAttribute('href', 'javascript:moveUp(\'li'+this.fld.name+nResults+'\')');
+	imgUp = document.createElement('img');
+	imgUp.setAttribute('src', this.lbl_up_image);
+	imgUp.setAttribute('style', 'width:16px;height:16px;');	
+	imgUp.setAttribute('alt', '');
+	aUp.appendChild(imgUp);
+	
+	aDown = document.createElement('a');
+	aDown.setAttribute('href', 'javascript:moveDown(\'li'+this.fld.name+nResults+'\')');
+	imgDown = document.createElement('img');
+	imgDown.setAttribute('src', this.lbl_down_image);
+	imgDown.setAttribute('alt', '');	
+	imgDown.setAttribute('style', 'width:16px;height:16px;');		
+	aDown.appendChild(imgDown);
+	
+	upDownSpan.appendChild(aUp);
+	upDownSpan.appendChild(aDown);
 	
 	if(this.projectLeaders){
 		checkSpan = document.createElement('span');
@@ -663,6 +688,7 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	
 	newLi.appendChild(nameSpan);		
 	newLi.appendChild(aSpan);
+	newLi.appendChild(upDownSpan);	
 	newLi.appendChild(hiddenInput);
 	if(checkSpan != null) newLi.appendChild(checkSpan);	
 	this.fldresults.appendChild(newLi);
@@ -682,10 +708,58 @@ function removeAuthor(controlName){
 	}
 }
 
+function moveUp(controlName){
+	var ili = document.getElementById(controlName);
+	var suffix = controlName.substring(2, controlName.length); 
+	var inputHidden = document.getElementById(suffix);
+	var nameSpan = document.getElementById('span'+suffix);
+	
+	if(ili){
+		var iliparent = ili.parentNode;
+		var iliPrevious = ili.previousSibling;
+		if(iliPrevious){			
+			var previousSuffix = iliPrevious.id.substring(2, iliPrevious.id.length);			
+			var previousInput = document.getElementById(previousSuffix);
+			var namePreviousSpan = document.getElementById('span'+previousSuffix);
 
+			// Intercambio del valor de los inputs
+			var spanTmp = nameSpan.firstChild.nodeValue;
+			nameSpan.firstChild.nodeValue = namePreviousSpan.firstChild.nodeValue;
+			namePreviousSpan.firstChild.nodeValue = spanTmp;
 
+			var tmp = inputHidden.value;			
+			inputHidden.value = previousInput.value;
+			previousInput.value = tmp;						
+		}
+	}
+}
 
+function moveDown(controlName){
+	var ili = document.getElementById(controlName);
+	var suffix = controlName.substring(2, controlName.length); 
+	var inputHidden = document.getElementById(suffix);
+	var nameSpan = document.getElementById('span'+suffix);
+	
+	if(ili){
+		var iliparent = ili.parentNode;
+		var iliNext = ili.nextSibling;
+		if(iliNext){			
+			var nextSuffix = iliNext.id.substring(2, iliNext.id.length);			
+			var nextInput = document.getElementById(nextSuffix);
+			var nameNextSpan = document.getElementById('span'+nextSuffix);
 
+			// Intercambio del valor de los inputs y etiquetas
+			var spanTmp = nameSpan.firstChild.nodeValue;
+			nameSpan.firstChild.nodeValue = nameNextSpan.firstChild.nodeValue;
+			nameNextSpan.firstChild.nodeValue = spanTmp;
+
+			var tmp = inputHidden.value;			
+			inputHidden.value = nextInput.value;
+			nextInput.value = tmp;						
+		}
+	}
+	
+}
 
 _bsn.AutoSuggest.prototype.killTimeout = function()
 {
