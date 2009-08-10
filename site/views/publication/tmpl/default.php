@@ -142,10 +142,21 @@ defined('_JEXEC') or die('Restricted access');
 	</tr>
 	<?php endif; ?>	
 	
-	<?php $url = str_replace('&', '&amp;', trim($this->publication->url)); ?>
+	<tr><td colspan="4">
+	<?php $url = str_replace('&', '&amp;', trim($this->publication->url)); ?>	
 	<?php if(!empty($url)): ?> 
-		<tr><td colspan="4"><span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span></td></tr>		
+		<span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span>
 	<?php endif; ?>
+	<?php if($this->showBibtex): 
+		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$this->publication->id, '[Bibtex]').'</span>';		
+	 endif;?>	
+	<?php if($this->showRIS): 
+		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=ris&amp;id='.$this->publication->id, '[RIS]').'</span>';		
+	 endif;?>
+	 <?php if($this->showMODS): 
+		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id='.$this->publication->id, '[MODS]').'</span>';		
+	 endif;?>				
+	</td></tr>			
 	
 </tbody>
 </table>

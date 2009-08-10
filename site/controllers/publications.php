@@ -54,6 +54,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$this->registerTask('cancel', 'cancel');
 		$this->registerTask('filtered', 'filtered');
 		$this->registerTask('changeType', 'changeType');
+		$this->registerTask('export', 'export');
+		$this->registerTask('exportAll', 'exportAll');
 				
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
@@ -758,6 +760,84 @@ class JResearchPublicationsController extends JResearchFrontendController
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$itemIdText);
 			}	
 		}
+	}
+	
+	/**
+	 * Invoked when a user has decided to export a publication from frontend
+	 * @return
+	 */
+	function export(){
+		$params = JComponentHelper::getParams('com_jresearch');
+		$exportEnabled = $params->get('enable_export_frontend');
+		$document =& JFactory::getDocument();		
+		$format = JRequest::getVar('format');
+		
+		if($exportEnabled == 'yes'){ 		
+			$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+			require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'exporters'.DS.'factory.php'); 
+			$id = JRequest::getInt('id');			
+			$model = $this->getModel('Publication', 'JResearchModel');
+			$publication = $model->getItem($id);
+			
+			if($publication == null){
+				$output = JText::_('JRESEARCH_ITEM_NOT_FOUND');		
+			}elseif($publication->published){			
+				$exporter = JResearchPublicationExporterFactory::getInstance($format);
+				$output = $exporter->parse($publication);	
+				$document->setMimeEncoding($exporter->getMimeEncoding());			
+			}else{
+				$output = JText::_('JRESEARCH_ITEM_NOT_FOUND');
+			}
+			
+		}else{
+			$output = JText::_('JRESEARCH_ENABLE_EXPORT_FROM_FRONTEND');
+			$document->setMimeEncoding('text/plain');
+		}
+		
+		if($format == 'bibtex')
+			$ext = 'bib';
+		else
+			$ext = $format;	
+			
+		$tmpfname = "jresearch_output.$ext";
+		header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
+		echo $output;
+	}
+	
+	/**
+	 * Invoked when the user has decided to export all public and internal publications
+	 * @return 
+	 */
+	function exportAll(){
+		//Do the export only if export from frontend is enabled		
+		$exportOptions = array();	
+		$params = JComponentHelper::getParams('com_jresearch');
+		$exportEnabled = $params->get('enable_export_frontend');
+		$document =& JFactory::getDocument();
+		$format = JRequest::getVar('format', 'bibtex');				
+		
+		if($exportEnabled == 'yes'){				
+			$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');		
+			require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+			$model = $this->getModel('PublicationsList', 'JResearchModel');
+			$publicationsArray = $model->getData(null, true, false);
+			$exportOptions['strict_bibtex'] = false;					
+			$exporter =& JResearchPublicationExporterFactory::getInstance($format);
+			$output = $exporter->parse($publicationsArray, $exportOptions);
+			$document->setMimeEncoding($exporter->getMimeEncoding());	
+		}else{
+			$output = JText::_('JRESEARCH_ENABLE_EXPORT_FROM_FRONTEND');
+			$document->setMimeEncoding('text/plain');			
+		}
+		
+		if($format == 'bibtex')
+			$ext = 'bib';			
+		else
+			$ext = $format;	
+		
+		$tmpfname = "jresearch_output.$ext";
+		header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
+		echo $output;
 	}
 }
 ?>

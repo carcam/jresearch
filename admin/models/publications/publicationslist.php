@@ -47,12 +47,11 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$resultQuery = '';
 		}
 		// Deal with pagination issues
+		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();		
 		if($paginate){
-			$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();
 			$limit = (int)$this->getState('limit');
 			if($limit != 0)
-					$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');
-							
+					$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');					
 		}
 		
 		return $resultQuery;
@@ -226,7 +225,6 @@ class JResearchModelPublicationsList extends JResearchModelList{
 
 		// prepare the WHERE clause
 		$where = array();
-		
 		if(!$published){
 			if($filter_state == 'P')
 				$where[] = $db->nameQuote('published').' = 1 ';
