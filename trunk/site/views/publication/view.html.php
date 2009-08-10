@@ -123,6 +123,7 @@ class JResearchViewPublication extends JResearchView
 	    	$limitStart = JRequest::getVar('limitstart', 0);
 	    	$comments = $model->getComments($publication->id, $limit, $limitStart);			
 	    	$total = $model->countComments($publication->id);
+	    		    	
 	    	$this->assignRef('comments', $comments);
 	    	$this->assignRef('limit', $limit);
 			$this->assignRef('limitstart', $limitStart);	    	
@@ -155,6 +156,10 @@ class JResearchViewPublication extends JResearchView
 		
 		$showHits = ($params->get('show_hits') == 'yes');
     	$format = $params->get('staff_format') == 'last_first'?1:0;		
+    	$showBibtex = ($params->get('show_export_bibtex') == 'yes');
+    	$showMODS = ($params->get('show_export_mods') == 'yes');    		
+    	$showRIS = ($params->get('show_export_ris') == 'yes');    	
+    	
 		
 		$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
     	// Bind variables for layout
@@ -168,6 +173,10 @@ class JResearchViewPublication extends JResearchView
 		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
 		$this->assignRef('params', $params);
 		$this->assignRef('format', $format);
+		$this->assignRef('showBibtex', $showBibtex);
+    	$this->assignRef('showMODS', $showMODS);	
+    	$this->assignRef('showRIS', $showRIS);			
+		
 		
 		return true;
 

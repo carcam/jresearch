@@ -15,6 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 		<?php echo $this->filter; ?>
 		<div>&nbsp;<?php echo JHTML::_('Jresearch.icon','add','publications'); ?></div>						
 	</div>
+	
 	<input type="hidden" name="option" value="com_jresearch" />
 	<input type="hidden" name="task" value="display" />
 	<input type="hidden" name="controller" value="publications"  />
@@ -23,7 +24,9 @@ defined('_JEXEC') or die('Restricted access');
 	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />	
 </form>
 <div style="clear: both;">
-&nbsp;
+<?php if($this->exportAll): ?>
+<div style="text-align: right;"><a title="<?php echo JText::_('JRESEARCH_EXPORT_ALL_TITLE')?>" href="index.php?option=com_jresearch&amp;controller=publications&amp;task=exportAll&amp;format=<?php echo $this->showAllFormat; ?>"><?php echo JText::_('JRESEARCH_EXPORT_ALL'); ?></a></div>
+<?php endif; ?>
 <?php 
 	require_once(JPATH_COMPONENT.DS.'views'.DS.'publicationslist'.DS.'tmpl'.DS.$this->layout.'.php');
 ?>

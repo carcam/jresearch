@@ -91,10 +91,12 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 			$output .= "author = \"$authorsText\",\n";
 			$properties = $this->_getSupportedFields();
 			foreach($properties as $p){
-				$value = JResearchPublicationsHelper::utf8ToBibCharsFromString($publication->$p);
-				if(!empty($value)){
-					$output .= "$p = \"$value\",";
-					$output .= "\n";
+				if(isset($publication->$p)){
+					$value = JResearchPublicationsHelper::utf8ToBibCharsFromString($publication->$p);
+					if(!empty($value)){
+						$output .= "$p = \"$value\",";
+						$output .= "\n";
+					}
 				}				
 			}
 			$output .= "}\n\n";			

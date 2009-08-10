@@ -156,6 +156,11 @@ class JResearchViewPublicationsList extends JResearchView
     	$showmore = ($params->get('show_more') == 'yes');
     	$showdigital = ($params->get('show_digital') == 'yes');
     	$layout = JRequest::getString('layout', 'year');
+    	$exportAll = ($params->get('show_export_all') == 'yes');
+    	$showAllFormat = $params->get('show_export_all_format', 'bibtex');
+    	$showBibtex = ($params->get('show_export_bibtex') == 'yes');
+    	$showMODS = ($params->get('show_export_mods') == 'yes');    		
+    	$showRIS = ($params->get('show_export_ris') == 'yes');    	
     	
     	$this->_setFilter();
     	
@@ -168,7 +173,13 @@ class JResearchViewPublicationsList extends JResearchView
     	$this->assignRef('showmore', $showmore);
     	$this->assignRef('showdigital', $showdigital);
     	$this->assignRef('style', $style);
-    	$this->assignREf('layout', $this->getLayout());
+    	$this->assignRef('layout', $layout);
+    	$this->assignRef('exportAll', $exportAll);
+    	$this->assignRef('showAllFormat', $showAllFormat);
+    	$this->assignRef('showBibtex', $showBibtex);
+    	$this->assignRef('showMODS', $showMODS);	
+    	$this->assignRef('showRIS', $showRIS);    	
+        	
     }
     
     private function _setFilter()

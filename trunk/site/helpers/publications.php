@@ -523,9 +523,9 @@ class JResearchPublicationsHelper{
 	public static function formatAuthor($author, $format){
 		$authorComponents = self::getAuthorComponents($author);
 		if($format == LASTNAME_FIRSTNAME){
-			$text = ($authorComponents['von']?$authorComponents['von'].' ':'').$authorComponents['lastname'].', '.($authorComponents['firstname']?' '.$authorComponents['firstname']:'').($authorComponents['jr']?' '.$authorComponents['jr']:''); 
+			$text = (isset($authorComponents['von'])?$authorComponents['von'].' ':'').$authorComponents['lastname'].', '.(isset($authorComponents['firstname'])?' '.$authorComponents['firstname']:'').(isset($authorComponents['jr'])?' '.$authorComponents['jr']:''); 
 		}else{
-			$text = ($authorComponents['firstname']?$authorComponents['firstname'].' ':'').($authorComponents['jr']?$authorComponents['jr'].' ':'').($authorComponents['von']?$authorComponents['von'].' ':'').$authorComponents['lastname'];			
+			$text = (isset($authorComponents['firstname'])?$authorComponents['firstname'].' ':'').(isset($authorComponents['jr'])?$authorComponents['jr'].' ':'').(isset($authorComponents['von'])?$authorComponents['von'].' ':'').$authorComponents['lastname'];			
 		}
 
 		return $text;
