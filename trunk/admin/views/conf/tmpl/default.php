@@ -124,7 +124,7 @@ $pane = JPane::getInstance('sliders', array('allowAllClose' => true));
 				</tr>
 				<tr>
 					<th scope="col"><?php echo JText::_('JRESEARCH_BIBUTILS_VERSION').': '; ?></th>
-					<td>3.41</td>
+					<td><?php echo _JRESEARCH_BIBUTILS_VERSION_; ?></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
