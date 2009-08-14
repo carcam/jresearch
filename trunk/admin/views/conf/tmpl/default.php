@@ -111,16 +111,20 @@ $pane = JPane::getInstance('sliders', array('allowAllClose' => true));
 					<td colspan="2" style="text-align:center;"><img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" /></td>
 				</tr>
 				<tr>
-					<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_VERSION').': '; ?></th>
+					<th scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_VERSION').': '; ?></th>
 					<td><?php echo _JRESEARCH_VERSION_; ?></td>
 				</tr>
 				<tr>
-					<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_COPYRIGHT').': '; ?></th>
+					<th scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_COPYRIGHT').': '; ?></th>
 					<td>Copyright 2008, Luis Galárraga</td>
 				</tr>
 				<tr>
-					<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_LICENSE').': '; ?></th>
+					<th scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_LICENSE').': '; ?></th>
 					<td>GPL version 2.0</td>
+				</tr>
+				<tr>
+					<th scope="col"><?php echo JText::_('JRESEARCH_BIBUTILS_VERSION').': '; ?></th>
+					<td><?php echo _BIBUTILS_VERSION; ?></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
@@ -141,15 +145,15 @@ $pane = JPane::getInstance('sliders', array('allowAllClose' => true));
 <table class="adminlist">
 	<tbody>
 		<tr>
-			<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_AUTHOR').': '; ?></th>
+			<th scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_AUTHOR').': '; ?></th>
 			<td>Luis Galárraga (<?php echo JHTML::_('email.cloak', 'shamantobi@gmail.com')?>) and Florian Prinz (<?php echo JHTML::_('email.cloak', 'prinz.florian@chello.at') ?>)</td>
 		</tr>
 		<tr>
-			<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_MENTOR').': '; ?></th>
+			<th scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_MENTOR').': '; ?></th>
 			<td>Nereyda Valentin-Macias, (<?php echo JHTML::_('email.cloak', 'neri@valenciasconsulting.com')?>)</td>
 		</tr>
 		<tr>
-			<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_MORE_CREDITS').': '; ?></th>
+			<th scope="col"><?php echo JText::_('JRESEARCH_MORE_CREDITS').': '; ?></th>
 			<td>
 				<ul class="creditslist">
 					<li><strong>Spanish Translation:</strong> Carlos Cámara Mora, (<?php echo JHTML::_('email.cloak', 'cmcamara@gmail.com')?>)</li>
