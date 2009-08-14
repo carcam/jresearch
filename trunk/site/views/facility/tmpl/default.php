@@ -26,9 +26,7 @@ endif;
 if($this->description):
 	foreach($this->description as $content):
 ?>
-<p>
 	<?php echo $content; ?>
-</p>
 <?php
 	endforeach;
 endif;
