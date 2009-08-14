@@ -263,3 +263,23 @@ span.hits span{
 #resethits{
 	vertical-align: middle;
 }
+
+div.jresearch-control-panel{
+	width: 54%; 
+	float: left; 
+	padding-left: 10px; 
+}
+
+div.jresearch-control-panel div{
+	float: left;
+}
+
+div.about-panel{
+	width: 45%; 
+	float:right;
+}
+
+ul.creditslist{
+	list-style-type: none;
+	padding: 0px;
+}

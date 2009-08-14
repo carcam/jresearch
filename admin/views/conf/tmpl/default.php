@@ -5,9 +5,14 @@
  * Default view for the control panel
  */
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<div id="cpanel" style="width: 51%; float: left;" class="adminform">
-	<div style="float: left;">
+defined('_JEXEC') or die('Restricted access'); 
+
+jimport('joomla.html.pane');
+$pane = JPane::getInstance('sliders', array('allowAllClose' => true));
+?>
+<div style="width:100%;">
+<div id="cpanel" class="jresearch-control-panel">
+	<div>
 		<div class="icon">
 			<a class="modal" rel="{handler: 'iframe', size: {x: 750, y: 500}}" href="index.php?option=com_config&amp;controller=component&amp;component=com_jresearch&amp;path=">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/config.png" alt="<?php echo JText::_('JRESEARCH_CONFIGURATION'); ?>" />					
@@ -15,7 +20,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</a>
 		</div>
 	</div>
-	<div style="float: left;">
+	<div>
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=cooperations">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/cooperations.png" alt="<?php echo JText::_('JRESEARCH_COOPERATIONS'); ?>" />					
@@ -23,7 +28,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</a>
 		</div>
 	</div>
-	<div style="float: left;">
+	<div>
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=facilities">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/facilities.png" alt="<?php echo JText::_('JRESEARCH_FACILITIES'); ?>" />					
@@ -31,7 +36,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</a>
 		</div>
 	</div>
-	<div style="float: left;">
+	<div>
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=financiers">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/financier.png" alt="<?php echo JText::_('JRESEARCH_FINANCIERS'); ?>" />					
@@ -39,7 +44,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</a>
 		</div>
 	</div>
-	<div style="float: left;">
+	<div>
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=projects">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/projects.png" alt="<?php echo JText::_('JRESEARCH_PROJECTS'); ?>" />					
@@ -47,7 +52,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</a>
 		</div>
 	</div>
-		<div style="float: left;">
+	<div>
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=publications">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/publications.png" alt="<?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?>" />					
@@ -55,14 +60,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</a>
 		</div>
 	</div>
-	<div style="float: left;">
+	<div>
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=researchAreas">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/areas.png" alt="<?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></span></a>
 		</div>
 	</div>
-	<div style="float: left;">
+	<div>
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=staff">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/staff.png" alt="<?php echo JText::_('JRESEARCH_STAFF'); ?>" />					
@@ -70,7 +75,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</a>
 		</div>
 	</div>
-	<div style="float: left;">
+	<div>
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=teams">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/teams.png" alt="<?php echo JText::_('JRESEARCH_TEAMS'); ?>" />					
@@ -78,7 +83,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</a>
 		</div>
 	</div>
-	<div style="float: left;">
+	<div>
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=theses">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/theses.png" alt="<?php echo JText::_('JRESEARCH_THESES'); ?>" />					
@@ -86,7 +91,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</a>
 		</div>
 	</div>
-	<div style="float: left;">
+	<div>
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;task=help">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/help-browser.png" alt="<?php echo JText::_('Help'); ?>" />					
@@ -95,38 +100,27 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</div>
 	</div>
 </div>	
-<div id="content-pane" class="pane-sliders" style="width: 48%; float: right;">
-	<div class="panel adminform">
-		<h3 class="title jpane-toggler-down" id="cpanel-panel-logged"><span><?php echo JText::_('JRESEARCH_CREDITS'); ?></span></h3>
-		<div style="border-top: medium none; border-bottom: medium none; overflow: hidden; padding-top: 0px; padding-bottom: 0px; height: 290px;" class="jpane-slider content">
+<div class="about-panel">
+<?php 
+	  echo $pane->startPane('adminform');  
+	  echo $pane->startPanel(JText::_('JRESEARCH_ABOUT'), 'about');
+?>
 		<table class="adminlist">
 			<tbody>
 				<tr>
 					<td colspan="2" style="text-align:center;"><img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" /></td>
 				</tr>
 				<tr>
-					<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_AUTHOR').': '; ?></td>
-					<td>Luis Gal&aacute;rraga (<?php echo JHTML::_('email.cloak', 'shamantobi@gmail.com')?>) and Florian Prinz (<?php echo JHTML::_('email.cloak', 'prinz.florian@chello.at')?>)</td>
-				</tr>
-				<tr>
-					<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_MENTOR').': '; ?></td>
-					<td>Nereyda Valentin-Macias, (<?php echo JHTML::_('email.cloak', 'neri@valenciasconsulting.com')?>)</td>
-				</tr>
-				<tr>
-					<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_VERSION').': '; ?></td>
+					<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_VERSION').': '; ?></th>
 					<td><?php echo _JRESEARCH_VERSION_; ?></td>
 				</tr>
 				<tr>
-					<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_COPYRIGHT').': '; ?></td>
-					<td>Copyright 2008, Luis Gal&aacute;rraga</td>
+					<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_COPYRIGHT').': '; ?></th>
+					<td>Copyright 2008, Luis Galárraga</td>
 				</tr>
 				<tr>
-					<td width="20%"><?php echo JText::_('JRESEARCH_SOFTWARE_LICENSE').': '; ?></td>
+					<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_LICENSE').': '; ?></th>
 					<td>GPL version 2.0</td>
-				</tr>
-				<tr>
-					<td width="20%"><?php echo JText::_('JRESEARCH_BIBUTILS_VERSION').': '; ?></td>
-					<td><?php echo _JRESEARCH_BIBUTILS_VERSION_; ?></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
@@ -137,9 +131,38 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						    <img width="1" height="1" border="0" alt="" src="https://www.paypal.com/es_XC/i/scr/pixel.gif"/>
 						</form>
 					</td>
-				</tr>																	
-			</tbody>
-			</table>		
-		</div>
-	</div>		
+				</tr>
+			</tbody>	
+		</table>
+<?php 
+	  echo $pane->endPanel(); 
+	  echo $pane->startPanel(JText::_('JRESEARCH_CREDITS'), 'credits');	
+?>				
+<table class="adminlist">
+	<tbody>
+		<tr>
+			<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_AUTHOR').': '; ?></th>
+			<td>Luis Galárraga (<?php echo JHTML::_('email.cloak', 'shamantobi@gmail.com')?>) and Florian Prinz (<?php echo JHTML::_('email.cloak', 'prinz.florian@chello.at') ?>)</td>
+		</tr>
+		<tr>
+			<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_MENTOR').': '; ?></th>
+			<td>Nereyda Valentin-Macias, (<?php echo JHTML::_('email.cloak', 'neri@valenciasconsulting.com')?>)</td>
+		</tr>
+		<tr>
+			<th style="width: 20%;" scope="col"><?php echo JText::_('JRESEARCH_MORE_CREDITS').': '; ?></th>
+			<td>
+				<ul class="creditslist">
+					<li><strong>Spanish Translation:</strong> Carlos Cámara Mora, (<?php echo JHTML::_('email.cloak', 'cmcamara@gmail.com')?>)</li>
+					<li><strong>German Translation:</strong> Florian Prinz</li>
+					<li><strong>Web site:</strong> Nereyda Valentin-Macias</li>
+					<li><strong>sf404sef Integration:</strong> Carlos Cámara Mora</li>
+				</ul>
+			</td>					
+		</tr>																		
+	</tbody>
+</table>
+<?php echo $pane->endPanel();
+	  echo $pane->endPane();
+?>
 </div>
+</div>		
