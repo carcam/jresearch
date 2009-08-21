@@ -169,9 +169,6 @@ class JResearchAdminThesesController extends JController
 		$thesis = new JResearchThesis($db);
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
-		if(isset($id))
-			$thesis->load($id);
-
 		$post = JRequest::get('post');		
 				
 		$filesCount = JRequest::getInt('count_attachments');

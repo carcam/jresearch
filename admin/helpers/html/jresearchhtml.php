@@ -472,7 +472,7 @@ class JHTMLjresearchhtml
 		}
 		$result .= '</ul>';
 		
-		return $textField.' '.$uploadField.' '.$textFields.$result;
+		return ' '.$uploadField.' '.$textFields.$result;
 	}
 	
 	/**
