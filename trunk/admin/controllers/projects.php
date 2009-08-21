@@ -180,8 +180,6 @@ class JResearchAdminProjectsController extends JController
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
 		$post = JRequest::get('post');
-		if(isset($id))
-			$project->load($id);
 		
 		$filesCount = JRequest::getInt('count_attachments');
 		$filesResults = array();
@@ -239,14 +237,7 @@ class JResearchAdminProjectsController extends JController
 			$flagValue = JRequest::getVar("check_membersfield".$j);
 			$flag = $flagValue == 'on'?true:false;
 			if(!empty($value)){
-				if(is_numeric($value)){
-					// In that case, we are talking about a staff member
-					$project->setAuthor(trim($value), $k, true, $flag); 
-				}else{
-					// For external authors 
-					$project->setAuthor(trim($value), $k, false, $flag);
-				}
-				
+				$project->setAuthor(trim($value), $k, is_numeric($value), $flag);
 				$k++;
 			}			
 		}
