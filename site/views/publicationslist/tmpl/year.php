@@ -32,7 +32,9 @@ defined('_JEXEC') or die('Restricted access');
 			  if(!empty($url))
 				$link = str_replace('&', '&amp;', $url);
 			  elseif(!empty($attach))
-			  	$link = $attach;							
+			  	$link = $attach;
+			  else
+			  	$link = '';				  	
 		 ?>
 		<?php if(!empty($link)): ?>
 			<?php echo "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			

@@ -29,7 +29,10 @@ $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 			<?php if(!empty($url))
 					$link = str_replace('&', '&amp;', $url);
 				  elseif(!empty($attach))
-				  	$link = $attach;							
+				  	$link = $attach;
+				  else
+			  		$link = '';	
+				  	
 			 ?>
 			<?php if(!empty($link)): ?>
 				<?php "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			
