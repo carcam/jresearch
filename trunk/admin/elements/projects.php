@@ -34,7 +34,7 @@ class JElementProjects extends JElement
 		$doc = JFactory::getDocument();
 		
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-		$doc->addScript($url."components/com_jresearch/helpers/html/projectselector.js");
+		$doc->addScript($url."components/com_jresearch/js/projectselector.js");
 		
 		//Generate element
 		$html = JHTML::_('jresearchhtml.input', $fieldName, $value, 'hidden', array('id' => $name));
