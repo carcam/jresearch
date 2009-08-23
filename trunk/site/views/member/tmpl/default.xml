@@ -12,7 +12,10 @@
 			<param type="hidden" name="task" default="show" />
 		</url>
 		<params>
-		</params>
-		
+			<param name="member_show_email" label="JRESEARCH_CONFIG_PROFILES_SHOW_EMAIL" default="yes" type="radio">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>		
+		</params>	
 	</state>
 </metadata>

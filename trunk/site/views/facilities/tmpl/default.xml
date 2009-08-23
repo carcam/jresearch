@@ -13,6 +13,8 @@
 				<option value="asc">JRESEARCH_ASCENDING</option>
 				<option value="desc">JRESEARCH_DESCENDING</option>
 			</param>
+			<param name="facility_image_width" default="1024" label="JRESEARCH_FACILITY_IMAGE_WIDTH" type="text" />
+			<param name="facility_image_height" default="768" label="JRESEARCH_FACILITY_IMAGE_HEIGHT" type="text" />			
 		</params>
 	</state>
 </metadata>

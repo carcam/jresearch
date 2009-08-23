@@ -22,7 +22,7 @@
 				<option value="inbook">JRESEARCH_INBOOK</option>
 				<option value="incollection">JRESEARCH_INCOLLECTION</option>
 				<option value="manual">JRESEARCH_MANUAL</option>
-				<option value="masterthesis">JRESEARCH_MASTERSTHESIS</option>
+				<option value="mastersthesis">JRESEARCH_MASTERSTHESIS</option>
 				<option value="misc">JRESEARCH_MISC</option>
 				<option value="online_source">JRESEARCH_ONLINE_SOURCE</option>				
 				<option value="patent">JRESEARCH_PATENT</option>				

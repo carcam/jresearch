@@ -27,7 +27,7 @@
 			<param name="projects_order" label="JRESEARCH_SORTED" type="radio">
 				<option value="asc">JRESEARCH_ASCENDING</option>
 				<option value="desc">JRESEARCH_DESCENDING</option>
-			</param>
+			</param>			
 		</params>
 	</state>
 </metadata>
