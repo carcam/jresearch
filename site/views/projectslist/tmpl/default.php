@@ -76,7 +76,7 @@ if(count($this->items) > 0):
 			if(!empty($contentArray[0])):
 			?>
 				<div>&nbsp;</div>
-				<p><?php echo $contentArray[0]; ?></p>
+				<?php echo $contentArray[0]; ?>
 			<?php
 			endif;
 			?>
