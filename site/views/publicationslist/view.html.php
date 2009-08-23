@@ -257,8 +257,7 @@ class JResearchViewPublicationsList extends JResearchView
 				}
 				if($result[$header])
 					$result[$header] = $styleObj->sort($result[$header]);								
-				break;
-				
+				break;				
 			default:
 				$result = $recordsArray;					
 		}

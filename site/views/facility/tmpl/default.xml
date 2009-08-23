@@ -11,6 +11,9 @@
 			description="JRESEARCH_ITEM_DISPLAYED" query="SELECT id as value, name as id FROM #__jresearch_facilities WHERE published = 1" />	
 			<param type="hidden" name="task" default="show" />
 		</url>
-		
+		<params>
+			<param name="facility_image_width" default="1024" label="JRESEARCH_FACILITY_IMAGE_WIDTH" type="text" />
+			<param name="facility_image_height" default="768" label="JRESEARCH_FACILITY_IMAGE_HEIGHT" type="text" />		
+		</params>		
 	</state>
 </metadata>
