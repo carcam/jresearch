@@ -9,7 +9,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1 class="componentheading"><?php echo $this->area->name; ?></h1>
 <h2 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h2>
-<p><?php echo $this->description;  ?></p>
+<?php echo $this->description;  ?>
 <div>&nbsp;&nbsp;</div>
 <?php if(!empty($this->facilities)): ?>
 <h2 class="contentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h2>
