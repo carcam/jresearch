@@ -78,9 +78,7 @@ defined('_JEXEC') or die('Restricted access');
 				<?php
 				foreach($this->description as $content):
 				?>
-				<p>
 					<?php echo $content; ?>
-				</p>
 				<?php
 				endforeach;
 				?>
