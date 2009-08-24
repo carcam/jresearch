@@ -456,7 +456,7 @@ class JHTMLjresearchhtml
 		
 		
 		$uploadField = '<div id="div_upload_'.$name.'">';
-		$uploadField .= '<input id="file_'.$name.'_'.$k.'" name="file_'.$name.'_'.$k.'" type="file" />&nbsp;';
+		$uploadField .= '<input id="file_'.$name.'_'.$k.'" name="file_'.$name.'_'.$k.'" type="file" /><div></div>';
 		if(!$oneFile)
 			$uploadField .= '<a id="add_'.$name.'" href="javascript:addUploader(\''.$name.'\', \''.JText::_('Delete').'\')">'.JText::_('Add').'</a>';
 
@@ -467,7 +467,9 @@ class JHTMLjresearchhtml
 		$result = '<ul style="padding:0px;margin:0px;">';
 		$n = 0;
 		foreach($uploadedFiles as $file){
-			$result .= '<li><a href="'.$baseUrl.'/'.$file.'">'.$file.'</a>&nbsp;&nbsp;<label for="delete_'.$name.'_'.$n.'">'.JText::_('Delete').'</label><input type="checkbox" name="delete_'.$name.'_'.$n.'" id="delete_'.$name.'_'.$n.'" /></li>';
+			$result .= '<li><a href="'.$baseUrl.'/'.$file.'">'.$file.'</a>&nbsp;&nbsp;<label for="delete_'.$name.'_'.$n.'">'.JText::_('Delete').'</label><input type="checkbox" name="delete_'.$name.'_'.$n.'" id="delete_'.$name.'_'.$n.'" />';
+			$result .= '<input type="hidden" name="old_'.$name.'_'.$n.'" id="old_'.$name.'_'.$n.'" value="'.$file.'" />';
+			$result .= '</li>';
 			$n++;
 		}
 		$result .= '</ul>';
@@ -847,7 +849,7 @@ class JHTMLjresearchhtml
 	/**
 	 * Returns the HTML needed to render a hits control: just a number with a checkbox used
 	 * to indicate the hits counter must be reseted.
-	 * @param $name Control name (used for the checkbox)
+	 * @param $name Control name (used for the checkbox). Input field holding hits value will be always called 'hits'
 	 * @param $value Hits until that moment
 	 * @return string
 	 */

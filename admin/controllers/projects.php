@@ -170,7 +170,7 @@ class JResearchAdminProjectsController extends JController
 		
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 		
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		
 		$params = JComponentHelper::getParams('com_jresearch');
 		$imageWidth = $params->get('project_image_width', _PROJECT_IMAGE_MAX_WIDTH_);
@@ -183,13 +183,17 @@ class JResearchAdminProjectsController extends JController
 		
 		$filesCount = JRequest::getInt('count_attachments');
 		$filesResults = array();
-		if(!empty($project->files)){
-			$projectFiles = explode(';', $project->files);
-		}else{
-			$projectFiles = array();
+		$projectFiles = array();
+		
+		// Construct array with previously attached files
+		for($k = 0; $k <= $filesCount; $k++){
+			$oldFile = JRequest::getVar('old_attachments_'.$k, null);
+			if($oldFile != null)
+				$projectFiles[] =  $oldFile;
 		}
 		
-		for($k=0; $k<= $filesCount; $k++){
+		// Verify new attached files
+		for($k = 0; $k <= $filesCount; $k++){
 			$file = JRequest::getVar('file_attachments_'.$k, null, 'FILES');
 			$params = JComponentHelper::getParams('com_jresearch');
 			if(!empty($file['name'])){
@@ -208,7 +212,7 @@ class JResearchAdminProjectsController extends JController
 					}
 				}
 			}
-		}		
+		}	
 		$project->files = implode(';', array_merge($projectFiles, $filesResults));
 
 		// Bind request variables to publication attributes			

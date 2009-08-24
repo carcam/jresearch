@@ -165,7 +165,7 @@ class JResearchAdminThesesController extends JController
 		
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 				
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$thesis = new JResearchThesis($db);
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
@@ -173,10 +173,13 @@ class JResearchAdminThesesController extends JController
 				
 		$filesCount = JRequest::getInt('count_attachments');
 		$filesResults = array();
-		if(!empty($thesis->files)){
-			$thesisFiles = explode(';', $thesis->files);
-		}else{
-			$thesisFiles = array();
+		$thesisFiles = array();
+		
+		// Construct array with previously attached files
+		for($k = 0; $k <= $filesCount; $k++){
+			$oldFile = JRequest::getVar('old_attachments_'.$k, null);
+			if($oldFile != null)
+				$thesisFiles[] =  $oldFile;
 		}
 		
 		for($k=0; $k<= $filesCount; $k++){
