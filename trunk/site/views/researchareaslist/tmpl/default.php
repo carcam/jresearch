@@ -19,7 +19,7 @@ if(count($this->items) > 0):
 			<?php $contentArray = explode('<hr id="system-readmore" />', $area->description); ?>
 			<?php $itemId = JRequest::getVar('Itemid'); ?>
 			<h2 class="contentheading"><?php echo JHTML::_('jresearch.link', $area->name, 'researcharea', 'show', $area->id); ?></h2>			
-			<p><?php echo $contentArray[0]; ?></p>
+			<?php echo $contentArray[0]; ?>
 			<div>&nbsp;</div>			
 			<div style="text-align:left"><?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'researcharea', 'show', $area->id); ?></div>
 		</div>
