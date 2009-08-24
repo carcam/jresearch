@@ -93,9 +93,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</div>
 		<div class="divTdl">
 			<?php
-			if($this->project->url_project_image):
-				$url = JResearch::getUrlByRelative($this->project->url_project_image);
-				$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->project->url_project_image):$url;
+			if(isset($this->project)):
+				if($this->project->url_project_image):
+					$url = JResearch::getUrlByRelative($this->project->url_project_image);
+					$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->project->url_project_image):$url;
 			?>
 				<a href="<?php echo $url;?>" class="modal">
 					<img src="<?php echo $thumb; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" />
@@ -103,7 +104,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<input type="hidden" name="url_project_image" value="<?php echo $this->project->url_project_image; ?>" />
 	
 				<label for="delete" /><?php echo JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
-			<?php endif; ?>
+				<?php endif; ?>
+			<?php endif; ?>			
 		</div>	
 		<div class="divEspacio" ></div>		
 	</div>	

@@ -12,7 +12,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php if(isset($this->publication)): ?>
 	<div class="divChangeType">
 		<?php echo $this->changeType; ?>
-		<input type="button" onclick="if(document.adminForm.change_type.value != '0' && document.adminForm.change_type.value != document.adminForm.pubtype.value ){msubmitform('changeType');}" value="<?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE'); ?>" />
+		<input type="button" onclick="
+		if(document.adminForm.change_type.value == '0'){ 
+			alert('<?php echo JText::_('JRESEARCH_SELECT_PUBTYPE'); ?>') 
+		} 
+		if(document.adminForm.change_type.value != '0' && document.adminForm.change_type.value != document.adminForm.pubtype.value && alert('<?php echo JText::_('JRESEARCH_SURE_CHANGE_PUBTYPE')?>') ){
+			msubmitform('changeType');
+		}" 
+		value="<?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE'); ?>" />
 		<label for="keepold"><?php echo JText::_('JRESEARCH_KEEP_OLD_PUBLICATION').': '; ?><input type="checkbox" name="keepold" id="keepold" /></label>
 	</div>
 <?php endif; ?>	
