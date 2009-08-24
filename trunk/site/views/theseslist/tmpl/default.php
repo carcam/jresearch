@@ -29,7 +29,7 @@ if(count($this->items) > 0):
 				<?php endif; ?>
 			</div>			
 			<div>&nbsp;</div>
-			<p><?php echo $contentArray[0]; ?></p>
+			<?php echo $contentArray[0]; ?>
 			<div style="text-align:left"><?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'thesis', 'show', $thesis->id); ?></div>
 		</div>
 	</li>	
