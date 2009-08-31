@@ -401,7 +401,7 @@ class JResearchPublication extends JResearchActivity{
 		// Verify year
 		if(!empty($this->year)){
 			$this->year = trim($this->year);			
-			if(!preg_match('/^\d{4}$/',$this->year)){
+			if(!preg_match('/^[1-9]\d{3}$/',$this->year)){
 				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); 
 				$withoutErrors = false;
 			}

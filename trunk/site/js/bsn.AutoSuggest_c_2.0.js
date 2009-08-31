@@ -605,13 +605,13 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	}
 	
 	nResults = parseInt(this.fldnresults.value);		
-	
 	// Time to verify it is not repeated
 	for(i = 0; i <= nResults; i++){
-		author = document.getElementById(this.fld.name+i);
+		var author = document.getElementById(this.fld.name+i);
 		if(author){
-			if(author.value == content){
-				alert(this.lbl_repeatedAuthor);
+			textValue = isInternal?this.aSuggestions[ this.iHighlighted-1 ].id:content; 
+			if(author.value == textValue){
+				alert(this.lbl_repeatedAuthors);
 				return;
 			}
 		}
