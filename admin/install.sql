@@ -256,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `published` tinyint(4) NOT NULL default '1' ,
   `title` varchar(255) NOT NULL,
   `doi` varchar(255) default NULL,
-  `year` year(4) NULL,	
+  `year` SMALLINT( 4 ) UNSIGNED NULL DEFAULT NULL ,	
   `citekey` varchar(255) NOT NULL,
   `abstract` text,
   `note` text,

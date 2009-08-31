@@ -404,7 +404,7 @@ class JHTMLjresearchhtml
     	
     	$doc->addScriptDeclaration('window.onDomReady(function() {
 			document.formvalidator.setHandler(\'year\', function(value) {
-			regex=/^\d{4}$/i;
+			regex=/^([1-9]\d{3}|0)$/i;
 			return regex.test(value); })
 		})');
     	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'language.php');
