@@ -686,7 +686,10 @@ class JResearchPublicationsController extends JResearchFrontendController
 		    	$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
 		    	@unlink($filetoremove);
 		    	$publication->files = '';
+		    	$oldPublication->files = '';
 	    	}
+	    }else{
+	    	$publication->files = $oldPublication->files;
 	    }
 	   
 	    $publication->bind($post, array('id'));	    
@@ -742,6 +745,16 @@ class JResearchPublicationsController extends JResearchFrontendController
 				$oldSuffix = JText::_('JRESEARCH_OLD');
 				$oldPublication->title .= ' ('.$oldSuffix.')';
 				$oldPublication->citekey .= $oldSuffix;
+				
+				// Duplicate files if they have not been removed
+				if(!empty($oldPublication->files)){
+					$source = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$oldPublication->files;				
+					$dest = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.'old_'.$oldPublication->files;					
+					if(!@copy($source, $dest))
+						JError::raiseWarning(1, JText::_('JRESEARCH_FILE_NOT_BACKUP'));
+					$oldPublication->files = 'old_'.$oldPublication->files;
+				}
+								
 				if(!$oldPublication->store(true)){
 					$idText = '&id='.$oldPublication->id;
 					JError::raiseWarning(1, JText::_('JRESEARCH_OLD_PUBLICATION_NOT_SAVED'));

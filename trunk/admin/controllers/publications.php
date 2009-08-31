@@ -491,8 +491,7 @@ class JResearchAdminPublicationsController extends JController
 	 * It is only applied to existing items.
 	 */
 	function changeType(){	
-		global $mainframe;
-		
+		global $mainframe;		
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 		
 		$db = JFactory::getDBO();
@@ -503,6 +502,7 @@ class JResearchAdminPublicationsController extends JController
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
 		$keepOld = JRequest::getVar('keepold', false);
+		$params = JComponentHelper::getParams('com_jresearch');
 		
 		if(empty($id)){
 			$this->setRedirect('index.php?option=com_jresearch');
@@ -519,8 +519,11 @@ class JResearchAdminPublicationsController extends JController
 		    	$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
 		    	@unlink($filetoremove);
 		    	$publication->files = '';
+		    	$oldPublication->files = '';
 	    	}
-	    }
+	    }else{
+	    	$publication->files = $oldPublication->files;
+	   }
 	   
 	    $publication->bind($post, array('id'));	    
 	    
@@ -562,30 +565,40 @@ class JResearchAdminPublicationsController extends JController
 					$k++;
 				}			
 			}
-		
-			// Change created by
-			$publication->created_by = $user->get('id');
-			
-			//Remove previous publication if user has not stated it must be backup
+
+					//Remove previous publication if user has not stated it must be backup
 			if($keepOld !== 'on'){
 				if(!$oldPublication->delete($id))
 					JError::raiseWarning(1, JText::sprintf('JRESEARCH_PUBLICATION_NOT_DELETED', $id));
-			}else{
+			}else{				
 				//Rename unique fields like title and citekey
 				$oldSuffix = JText::_('JRESEARCH_OLD');
 				$oldPublication->title .= ' ('.$oldSuffix.')';
 				$oldPublication->citekey .= $oldSuffix;
+		    	
+				// Duplicate files if they have not been removed
+				if(!empty($oldPublication->files)){
+					$source = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$oldPublication->files;				
+					$dest = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.'old_'.$oldPublication->files;					
+					if(!@copy($source, $dest))
+						JError::raiseWarning(1, JText::_('JRESEARCH_FILE_NOT_BACKUP'));
+					$oldPublication->files = 'old_'.$oldPublication->files;
+				}
+								
 				if(!$oldPublication->store(true)){
 					$idText = '&cid[]='.$oldPublication->id;
 					JError::raiseWarning(1, JText::_('JRESEARCH_OLD_PUBLICATION_NOT_SAVED'));
 					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype);					
 					return;
 				} 
-			}
+			}			
+		
+			// Change created by
+			$publication->created_by = $user->get('id');
 			
 			// Now, save the record
 			if($publication->store(true)){							
-				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));				
+		    	$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));				
 				// Trigger event
 				$arguments = array('publication', $publication->id);
 				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);												
@@ -600,8 +613,7 @@ class JResearchAdminPublicationsController extends JController
 				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype);
 			}	
 		}
-	}
-	
+	}	
 
 }
 ?>
