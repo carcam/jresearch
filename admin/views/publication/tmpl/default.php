@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		if(document.adminForm.change_type.value == '0'){ 
 			alert('<?php echo JText::_('JRESEARCH_SELECT_PUBTYPE'); ?>') 
 		} 
-		if(document.adminForm.change_type.value != '0' && document.adminForm.change_type.value != document.adminForm.pubtype.value && alert('<?php echo JText::_('JRESEARCH_SURE_CHANGE_PUBTYPE')?>') ){
+		if(document.adminForm.change_type.value != '0' && document.adminForm.change_type.value != document.adminForm.pubtype.value && confirm('<?php echo JText::_('JRESEARCH_SURE_CHANGE_PUBTYPE')?>') ){
 			msubmitform('changeType');
 		}" 
 		value="<?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE'); ?>" />
