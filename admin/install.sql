@@ -458,7 +458,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_cooperations` (
   `alias` varchar(255) NOT NULL,
   `name` varchar(100) NOT NULL,
   `image_url` varchar(256) DEFAULT NULL,
-  `description` tinytext NOT NULL,
+  `description` text NOT NULL,
   `url` varchar(255) DEFAULT NULL,
   `published` tinyint(4) NOT NULL default '0',
   `ordering` int(11) unsigned NOT NULL default '0',
@@ -475,7 +475,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_facilities` (
   `alias` varchar(255) NOT NULL,
   `name` varchar(50) NOT NULL,
   `image_url` varchar(256) DEFAULT NULL,
-  `description` tinytext NOT NULL,
+  `description` text NOT NULL,
   `published` tinyint(4) NOT NULL default '0',
   `ordering` int(11) unsigned NOT NULL default '0',
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
@@ -579,6 +579,9 @@ CREATE OR REPLACE VIEW `#__jresearch_publication_phdthesis` AS SELECT * FROM `#_
 CREATE OR REPLACE VIEW `#__jresearch_publication_mastersthesis` AS SELECT * FROM `#__jresearch_mastersthesis` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
 CREATE OR REPLACE VIEW `#__jresearch_publication_manual` AS SELECT * FROM `#__jresearch_manual` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
 CREATE OR REPLACE VIEW `#__jresearch_publication_techreport` AS SELECT * FROM `#__jresearch_techreport` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_earticle` AS SELECT * FROM `#__jresearch_earticle` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_digital_source` AS SELECT * FROM `#__jresearch_digital_source` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_online_source` AS SELECT * FROM `#__jresearch_online_source` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
 
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('article');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('book');
