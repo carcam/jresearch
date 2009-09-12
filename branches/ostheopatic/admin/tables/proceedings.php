@@ -76,14 +76,7 @@ class JResearchProceedings extends JResearchPublication{
 	 * @var string
 	 */
 	public $address;
-	
-	/**
-	 * Month of publication
-	 *
-	 * @var int
-	 */
-	public $month;
-	
+		
 	/**
 	 * Book's publisher
 	 * 

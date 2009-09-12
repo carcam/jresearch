@@ -84,26 +84,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php endif; ?>
 	<?php endif; ?>
 </tr>
-
-<tr>
-	<?php $colspan = 4; ?>
-	<?php $organization = trim($this->publication->organization);  ?>
-	<?php if(!empty($organization)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></th>		
-	<td><?php echo $organization; ?></td>
-	<?php endif; ?>
-	<?php $month = trim($this->publication->month); ?>
-	<?php if(!empty($month)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>
-	<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
-	<?php endif; ?>
-	<?php endif; ?>
-</tr>
 <tr>
 	<?php $colspan = 4; ?>
 	<?php $isbn = trim($this->publication->isbn);  ?>
@@ -122,5 +102,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
 	<?php endif; ?>
 	<?php endif; ?>
+</tr>
+<tr>
+	<?php $colspan = 4; ?>
+	<?php $organization = trim($this->publication->organization);  ?>
+	<?php if(!empty($organization)): ?>
+	<?php $colspan -= 2; ?>
+	<th scope="row"><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></th>		
+	<td><?php echo $organization; ?></td>
+	<?php endif; ?>
+	<td colspan="<?php echo $colspan; ?>"></td>	
 </tr>
 <?php echo isset($this->reference)?$this->reference:''; ?>

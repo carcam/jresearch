@@ -82,13 +82,6 @@ class JResearchConference extends JResearchPublication{
 	 * @var string
 	 */
 	public $address;
-	
-	/**
-	 * Month of publication
-	 *
-	 * @var int
-	 */
-	public $month;
 
 	/**
 	* Title of the book where the article was published.

@@ -858,5 +858,47 @@ class JHTMLjresearchhtml
 		$result .= JText::_('Reset').': </label></span><span><input type="checkbox" name="'.$name.'" id="'.$name.'" />)</span></span>';
 		return $result;
 	}
+	
+	/**
+	 * Returns the HTML needed to render language select list.
+	 * @param string $name Control name
+	 * @param string $options Extra HTML options
+	 * @param string $key The language information that will be used as key in the list. It can be
+	 * 'id' for J!Research table numeric ID or 'isocode'
+	 * @param string $display The displayed value for list items, it can be 'name' for the English name or 'native_name'
+	 * for the native or vernacular name.
+	 * @param string $value Selected value in the list
+	 * @return string
+	 */
+	public static function languagelist($name, $options, $key = 'id', $display = 'name', $value=0){
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
+		
+		$languages = JResearchLanguageHelper::getLanguages();
+		$langHtmlOptions = array();
+		$langHtmlOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_LANGUAGES'));
+		
+		foreach($languages as $lang){
+			$keyText = ($key == 'id' || $key == 'isocode')? $lang[$key] : $lang['id'];
+			$valueText = ($display == 'name' || $display == 'native_name')? $lang[$display] : $lang['name'];
+			$langHtmlOptions[] = JHTML::_('select.option', $keyText, $valueText);
+		}
+		
+		return JHTML::_('select.genericlist', $langHtmlOptions, $name, $options, 'value','text', $value);	
+	}
+	
+	/**
+	 * Renders a HTML generic select list with status options for publications
+	 */
+	public static function publicationstatuslist(array $attributes=array())
+	{
+		//Status options
+    	$statusOptions = array();
+    	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_IN_PROGRESS'));
+    	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_FINISHED'));
+    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_PROTOCOL'));
+    	
+    	return self::htmllist($statusOptions, $attributes);
+	}
+	
 }
 ?>

@@ -48,11 +48,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</div>	
 	<div class="divTR">
 	        <div class="divTd">
-	            <label for="year"><?php echo JText::_('JRESEARCH_YEAR').': '?></label>
+	            <label for="year"><?php echo JText::_('JRESEARCH_YEAR').'/'.JText::_('JRESEARCH_MONTH').'/'.JText::_('JRESEARCH_DAY').': '?></label>
 	        </div>
 	        <div class="divTdl divTdl2">
 				<input maxlength="4" size="5" name="year" id="year" value="<?php echo isset($this->publication)?$this->publication->year:'' ?>" class="validate-year" />
-				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'year', JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); ?>
+				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'year', JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); ?>/
+				<input maxlength="20" size="8" name="month" id="month" value="<?php echo isset($this->publication)?$this->publication->month:''; ?>" />/
+				<input maxlength="10" size="5" name="day" id="day" value="<?php echo isset($this->publication)?$this->publication->day:''; ?>" />				
 	        </div>
     		<div class="divTd">
 	            <label for="id_research_area"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></label>
@@ -118,6 +120,31 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php echo $this->publishedRadio; ?>						
 	        </div>
 	  		<div class="divEspacio" ></div>					
+		</div>
+		
+		<div class="divTR">
+			<div class="divTd">
+				<label for="id_language"><?php echo JText::_('JRESEARCH_LANGUAGE').': ' ?></label>
+			</div>
+			<div class="divTdl divTdl2">
+				<?php echo $this->languageList; ?>			
+			</div>
+	  		<div class="divEspacio" ></div>					
+		</div>		
+		<div class="divTR">
+			<div class="divTd">
+				<label for="status"><?php echo JText::_('JRESEARCH_PUBLICATION_STATUS').': ';?></label>
+			</div>
+			<div class="divTdl divTdl2">
+				<?php echo $this->statusRadio; ?>				
+			</div>
+			<div class="divTd">
+				<label for="recommended"><?php echo JText::_('JRESEARCH_RECOMMENDED').': ';?></label>
+			</div>
+			<div class="divTdl">
+				<?php echo $this->recommendedRadio; ?>				
+			</div>			
+	  		<div class="divEspacio" ></div>			
 		</div>
     	<div class="divTR">
         <div class="divTd">

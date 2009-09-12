@@ -41,14 +41,6 @@ class JResearchBooklet extends JResearchPublication{
 	 * @var string
 	 */
 	public $address;
-	
-	/**
-	 * Month of publication
-	 * 
-	 * @var int
-	 */
-	public $month;
-	
 
 	
 	/**

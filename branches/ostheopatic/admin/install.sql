@@ -11,7 +11,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_article` (
   `volume` varchar(30) default NULL,
   `number` varchar(10) default NULL,
   `pages` varchar(20) default NULL,
-  `month` varchar(20) default NULL,
   `crossref` varchar(255) default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -27,7 +26,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_book` (
   `series` varchar(255) default NULL,
   `address` varchar(255) default NULL,
   `edition` varchar(10) default NULL,
-  `month` varchar(20) default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -36,7 +34,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_booklet` (
   `id_publication` int(10) unsigned NOT NULL,
   `howpublished` varchar(255) default NULL,
   `address` varchar(255) default NULL,
-  `month` varchar(20) default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -61,7 +58,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_conference` (
   `series` varchar(255) default NULL,
   `pages` varchar(20) default NULL,
   `address` varchar(255) default NULL,
-  `month` varchar(20) default NULL,
   `publisher` varchar(60) default NULL,
   `organization` varchar(255) default NULL,
   `crossref` varchar(255) default NULL,
@@ -94,7 +90,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_inbook` (
   `type` varchar(20) default NULL,
   `address` varchar(255) default NULL,
   `edition` varchar(10) default NULL,
-  `month` varchar(20) default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -108,7 +103,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_incollection` (
   `organization` varchar(255) default NULL,
   `address` varchar(255) default NULL,
   `pages` varchar(20) default NULL,
-  `month` varchar(20) default NULL,
   `key` varchar(255) default NULL,
   `crossref` varchar(255) default NULL,
   PRIMARY KEY  (`id_publication`)
@@ -120,7 +114,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_manual` (
   `organization` varchar(255) default NULL,
   `address` varchar(255) default NULL,
   `edition` varchar(10) default NULL,
-  `month` varchar(20) default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -130,7 +123,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_mastersthesis` (
   `school` varchar(255) NOT NULL,
   `type` varchar(20) default NULL,
   `address` varchar(255) default NULL,
-  `month` varchar(20) default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -138,7 +130,6 @@ DROP TABLE IF EXISTS `#__jresearch_misc`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_misc` (
   `id_publication` int(10) unsigned NOT NULL,
   `howpublished` varchar(255) default NULL,
-  `month` varchar(20) default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -162,7 +153,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_phdthesis` (
   `school` varchar(255) NOT NULL,
   `type` varchar(20) default NULL,
   `address` varchar(255) default NULL,
-  `month` varchar(20) default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -176,7 +166,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_proceedings` (
   `number` varchar(10) default NULL,
   `series` varchar(255) default NULL,
   `address` varchar(255) default NULL,
-  `month` varchar(20) default NULL,
   `publisher` varchar(60) default NULL,
   `organization` varchar(255) default NULL,
   PRIMARY KEY  (`id_publication`)
@@ -267,6 +256,11 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `created` datetime NULL,
   `created_by` int(10) default NULL,
   `hits` int(10) default 0,
+  `id_language` int(10) default NULL,
+  `status` enum('in_progress','finished','protocol') NOT NULL default 'in_progress',
+  `recommended` BOOL default false,
+  `month` varchar(20) default NULL,
+  `day` varchar(10) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `citekey` (`citekey`),
   INDEX `year` (`year`),
@@ -362,7 +356,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_techreport` (
   `type` varchar(20) default NULL,
   `number` varchar(10) default NULL,
   `address` varchar(255) default NULL,
-  `month` varchar(20) default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -433,7 +426,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_thesis_internal_author` (
 DROP TABLE IF EXISTS `#__jresearch_unpublished`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_unpublished` (
   `id_publication` int(10) unsigned NOT NULL,
-  `month` varchar(20) default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -487,8 +479,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_facilities` (
 DROP TABLE IF EXISTS `#__jresearch_online_source`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_online_source` (
   `id_publication` int(10) unsigned NOT NULL,
-  `month` varchar(20) default NULL,
-  `day` varchar(2) default NULL,
   `access_date` date default NULL,
   `extra` text default NULL,
   `source_type` enum('website', 'video', 'audio', 'image', 'blog') NOT NULL default 'website',
@@ -511,10 +501,33 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_earticle` (
   `journal` varchar(255) NOT NULL,
   `volume` varchar(30) default NULL,
   `number` varchar(10) default NULL,
-  `month` varchar(20) default NULL,
-  `day` varchar(2) default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
+DROP TABLE IF EXISTS `#__jresearch_language`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_language` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(30) default NULL,
+  `native_name` varchar(30) NOT NULL,
+  `isocode` varchar(10) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (1, 'Czech', 'česky', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (2, 'Danish', 'dansk', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (3, 'Dutch', 'Nederlands', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (4, 'English', 'English', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (5, 'French', 'Français', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (6, 'German', 'Deutsch', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (7, 'Italian', 'Italiano', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (8, 'Japanese', '日本語 (にほんご／にっぽんご)', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (9, 'Norwegian', 'Norsk bokmål', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (10, 'Russian', 'русский язык', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (11, 'Serbo-Croatian', 'hrvatski', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (12, 'Spanish', 'Español', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (13, 'Swedish', 'svenska', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (14, 'Ukraine', 'Українська', '');
 
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('abstract');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('address');

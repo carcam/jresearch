@@ -83,13 +83,6 @@ class JResearchIncollection extends JResearchPublication{
 	 */
 	public $key;
 	
-	/**
-	 * Month of publication.
-	 *
-	 * @var int
-	 */
-	public $month;
-	
 	
 	/**
 	 * Used exclusively for cross-referencing with book records. 

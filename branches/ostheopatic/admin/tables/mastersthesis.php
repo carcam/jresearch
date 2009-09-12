@@ -49,13 +49,6 @@ class JResearchMastersthesis extends JResearchPublication{
 	 */
 	public $address;
 	
-	/**
-	 * Month of publication
-	 *
-	 * @var int
-	 */
-	public $month;
-	
 	
 	/**
 	 * Class constructor. Maps the class to Joomla tables.

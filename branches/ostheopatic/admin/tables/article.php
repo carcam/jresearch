@@ -65,13 +65,6 @@ class JResearchArticle extends JResearchPublication{
 	
 	
 	/**
-	 * Month of publication
-	 * 
-	 * @var int
-	 */
-	public $month;
-	
-	/**
 	 * Used exclusively for cross-referencing with book, inbook or article records. 
 	 * 
 	 * @var string

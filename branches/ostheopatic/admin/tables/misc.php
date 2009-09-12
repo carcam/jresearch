@@ -36,14 +36,6 @@ class JResearchMisc extends JResearchPublication{
 	public $howpublished;
 	
 	/**
-	 * Month of publication
-	 *
-	 * @var int
-	 */
-	public $month;
-
-	
-	/**
 	 * Class constructor. Maps the class to Joomla tables.
 	 *
 	 * @param JDatabase $db

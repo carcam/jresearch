@@ -27,20 +27,7 @@ class JResearchEarticle extends JResearchPublication{
 	 */
 	public $id_publication;
 	
-	/**
-	 * Information about how the article was published.
-	 *
-	 * @var string
-	 */
-	public $month;
-	
-	/**
-	 * Day of publication (0-31)
-	 *
-	 * @var int
-	 */
-	public $day;
-	
+
 	/**
 	 * The date the resource was accessed.
 	 *

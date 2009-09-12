@@ -191,10 +191,10 @@ class JResearchViewPublication extends JResearchView
 		$cid = JRequest::getVar('id', 0);
 		
 		$pubtype = JRequest::getVar('pubtype');
-		$model = $this->getModel('researchareaslist');
 		
 		$this->assignRef('id', $cid);
 		$doc = JFactory::getDocument();
+		$isNew = ($cid > 0); 
 		$doc->addScriptDeclaration('
 		function msubmitform(pressbutton){
 			if (pressbutton) {
@@ -215,52 +215,31 @@ class JResearchViewPublication extends JResearchView
     			document.adminForm.submit();
     		}
     	}');
-		
-    	// Retrieve the list of research areas   	
-    	$researchAreas = $model->getData(null, true, false);
-
-    	$researchAreasOptions = array();
-    	foreach($researchAreas as $r){
-    		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
-    	}
-    	
-    	//Published options
-    	$publishedOptions = array();
-    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
-    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));
-		
-		if($cid > 0)
+				
+		if($isNew)
 		{    		
 			$publication = JResearchPublication::getById($cid);
 			$pubtype = $publication->pubtype;
 			
 			$this->addPathwayItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
-			$this->addPathwayItem(JText::_('Edit'));
-					
-		    $researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $publication->id_research_area);
-			
-		    //Published radio
-			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $publication->published);
-			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', $publication->internal  );
-			$authors = $publication->getAuthors();
-			
-			$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' ,$authors);						
+			$this->addPathwayItem(JText::_('Edit'));					
 			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);	
 			$publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
-			$this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);			
-			
+			$this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);						
 		}
 		else 
 		{
-			$this->addPathwayItem(JText::_('Add'));
-			$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="1"', 'value', 'text', null);
-			
-		    //Published radio
-			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 0);
-			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', 0);
-			
-			$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , array());
+			$this->addPathwayItem(JText::_('Add'));			
 		}
+
+		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));
+   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => !$isNew?$publication->id_research_area:null)); 
+		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));			
+		$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , !$isNew?$publication->getAuthors():array());
+						
+		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->recommended:1));
+		$statusRadio = JHTML::_('jresearchhtml.publicationstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->status:'in_progress'));
+		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', $publication?$publication->id_language:0);
 		
 		$params = $this->getParams();
 		if(!empty($publication->files))
@@ -269,6 +248,9 @@ class JResearchViewPublication extends JResearchView
 			$uploadedFiles = array();	
 		$files = JHTML::_('JResearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
 		
+		$this->assignRef('statusRadio', $statusRadio);
+		$this->assignRef('recommendedRadio', $recommendedRadio);
+		$this->assignRef('languageList', $languageList);
 		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
 		$this->assignRef('pubtype', $pubtype);
 		$this->assignRef('areasList', $researchAreasHTML);

@@ -116,6 +116,36 @@ class JResearchPublication extends JResearchActivity{
 	public $doi;
 	
 	/**
+	 * Month of publication
+	 * @var string
+	 */
+	public $month;
+	
+	/**
+	 * Day of publication
+	 * @var string
+	 */
+	public $day;
+	
+	/**
+	 * Language ID in which the publication is written.
+	 * @var string
+	 */
+	public $id_language;
+	
+	/**
+	 * Publication status
+	 * @var string
+	 */
+	public $status;
+	
+	/**
+	 * If the school thinks the publication is really good and is recommended by it.
+	 * @var boolean
+	 */
+	public $recommended;
+	
+	/**
 	 * Name of the foreign key field in the subclass table.
 	 * 
 	 * @var string

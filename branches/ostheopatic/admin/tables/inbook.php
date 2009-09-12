@@ -100,13 +100,6 @@ class JResearchInbook extends JResearchPublication{
 	public $edition;
 	
 	/**
-	 * Month of publication.
-	 *
-	 * @var string
-	 */
-	public $month;
-	
-	/**
 	 * Book's series
 	 *
 	 * @var string

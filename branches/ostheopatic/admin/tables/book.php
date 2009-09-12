@@ -88,12 +88,6 @@ class JResearchBook extends JResearchPublication{
 	 */
 	public $edition;
 	
-	/**
-	 * Month of publication
-	 * 
-	 * @var string
-	 */
-	public $month;
 	
 
 	/**
