@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
 	<?php else: ?>
 	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $month; ?>"></td>	
+	<td colspan="<?php echo $colspan; ?>"></td>	
 	<?php endif; ?>
 	<?php endif; ?>
 </tr>

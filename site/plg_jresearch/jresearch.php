@@ -17,9 +17,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.event.plugin');
 
+$lang = JFactory::getLanguage();
+$lang->load('plg_search_jresearch');
 
-//JPlugin::loadLanguage( 'plg_search_jresearch' );
-
+define('COOPERATIONS', JText::_('JRESEARCH_COOPERATIONS'));
+define('FACILITIES', JText::_('JRESEARCH_FACILITIES'));
+define('PROJECTS', JText::_('JRESEARCH_PROJECTS'));
+define('THESES', JText::_('JRESEARCH_THESES'));
+define('PUBLICATIONS', JText::_('JRESEARCH_PUBLICATIONS'));
+define('RESEARCHAREAS', JText::_('JRESEARCH_RESEARCH_AREAS'));
+define('STAFF', JText::_('JRESEARCH_STAFF'));
 
 
 /**
@@ -54,13 +61,13 @@ class plgSearchJResearch extends JPlugin{
 	function &onSearchAreas()
 	{
 		static $areas = array(
-			'cooperations' => 'Cooperations',
-			'facilities' => 'Facilities',
-			'projects' => 'Research Projects',
-			'publications' => 'Publications',
-			'theses' => 'Degree Theses',
-			'researchAreas' => 'Research Areas',
-			'staff' => 'Staff Members'
+			'cooperations' => COOPERATIONS,
+			'facilities' => FACILITIES,
+			'projects' => PROJECTS,
+			'publications' => PUBLICATIONS,
+			'theses' => THESES,
+			'researchAreas' => RESEARCHAREAS,
+			'staff' => STAFF
 		);
 		return $areas;
 	}

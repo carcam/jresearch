@@ -34,6 +34,7 @@
 		<filename>fr-FR.com_jresearch.staff.ini</filename>
 		<filename>fr-FR.com_jresearch.teams.ini</filename>
 		<filename>fr-FR.com_jresearch.theses.ini</filename>
+		<filename>fr-FR.plg_jresearch.ini</filename>		
   	</files>
   </site>
   <params />
