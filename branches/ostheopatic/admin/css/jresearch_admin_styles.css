@@ -1,0 +1,285 @@
+button2-left .bibliography{
+	background: url(../assets/j_button2_bibliography.png) 100% 0 no-repeat;
+}
+
+table.adminlist {
+	background-color:#E7E7E7;
+	border-spacing:3px;
+	color:#666666;
+	width:100%;
+}
+
+table.adminlist td{
+	border: #666666;
+	background-color:#FFFFFF;
+}
+
+.adminform {
+	background-color:#F9F9F9;
+	border:1px solid #D5D5D5;
+	border-collapse:collapse;
+	margin:8px 0 15px;
+	width:100%;
+}
+
+/* NEW TABLE DEFINITIONS */
+table.edit {
+	border: 1px solid rgb(213, 213, 213); 
+	background-color: rgb(249, 249, 249); 
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	
+}
+
+table thead th, table tbody th.title, table tfoot th.title {
+	background-color: rgb(102, 102, 102); 
+	width: 100%;
+	color: white; 
+	text-align: center;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+table tbody th {
+	font-weight: bold;
+	text-align: left;
+}
+
+table td.center {
+	text-align: center;	
+}
+
+/* OTHER */
+.information{
+	font-weight: normal;
+	font-size: 10px;
+	color: rgb(0, 0, 225);
+}
+
+#div_sample{
+	display: none;	
+}
+
+table.staffimporter{
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;	
+}
+
+.staffimporter .staffoptions{
+	text-align:center;
+}
+
+select.staffimporter{
+	min-width: 180px;
+}
+
+.staffimporter th{
+	text-align:center;
+	width: 33%;
+}
+
+.staffimporter td{
+	width: 16%;
+	text-align:center;
+}
+
+label.invalid{
+	color: red;
+	display: inline;
+}
+
+input.invalid{
+	background-color: #f6f1a4;
+}
+
+.labelform{
+ 	display:none;
+}
+
+.field{
+	font-weight: bold;
+}
+
+.publicationlabel{
+	font-weight:bold;
+}
+
+ul.comments{
+	margin:0px;
+	padding:0px;	
+	
+}
+
+li.comments{
+	list-style: none;
+	border-top: 1px dotted;
+	margin-top: 5px;
+}
+
+#divcomments, #commentForm{
+	width: 80%;
+	margin-left:auto;
+	margin-right:auto;	
+	
+}
+
+.subjectComment{
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.liresearcharea{
+	list-style: none;
+	margin-top: 10px;
+	background-image: none;
+}
+
+
+div.help{
+	margin-left: 15px;
+}
+
+div.help p, div.help ul{
+	font-size: 12px;	
+	text-align: justify;
+}
+
+
+.helpindex{
+	margin-bottom: 50px;
+}
+
+.helpindex a{
+	font-size: 14px;
+}
+
+table.frontendsingleitem{
+	margin-bottom: 10px;
+}
+
+table.frontendsingleitem th{
+	width: 20%;
+	font-weight: bold;
+}
+
+table.frontendsingleitem td{
+	width: 30%;
+	padding-left: 10px;
+}
+
+table.frontendsingleitem ul{
+	margin:0px;
+	padding:0px;
+	list-style-type:none;
+}
+
+.frontendheader{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+table.stafftable{
+	width: 100%;
+}
+
+table.stafftable th{
+	width: 25%;
+	text-align: center;
+}
+
+table.stafftable td{
+	text-align: center;
+}
+
+table.editpublication{
+	margin-left:auto;
+	margin-right:auto;
+}
+
+/* CSS Document */
+.divTdl{
+float: left;
+margin:0px;
+padding:0px;
+text-align:left;
+}
+
+.divTd{
+	float: left;
+	width:100px;
+	margin:0px;
+	padding:0px 5px 0px 0px;
+	text-align:right;
+}
+.divPagination{
+	padding-top:10px;
+	text-align:center;
+}
+.divTds{
+	float: left;
+	width:100px;
+	margin:0px;
+	padding:0px;
+}
+.divTR{
+	margin:0px;
+	padding:5px;
+}
+.divTable{
+	margin:0px;
+	padding:0px;
+}
+
+.divForm{
+	margin-right: 20%;
+	margin-left: 20%;
+}
+
+.divEspacio{
+	clear:both;
+	margin:0px;
+	padding:0px;
+}
+
+div.divTdl2{
+	width: 250px;
+	overflow: visible;
+}
+
+div.divChangeType{
+	width: 100%;
+	text-align: right;
+}
+
+span.hits span{
+	vertical-align: bottom;
+	margin: 2px;
+	padding: 0px;
+}
+
+#resethits{
+	vertical-align: middle;
+}
+
+div.jresearch-control-panel{
+	width: 54%; 
+	float: left; 
+	padding-left: 10px; 
+}
+
+div.jresearch-control-panel div{
+	float: left;
+}
+
+div.about-panel{
+	width: 45%; 
+	float:right;
+}
+
+ul.creditslist{
+	list-style-type: none;
+	padding: 0px;
+}
