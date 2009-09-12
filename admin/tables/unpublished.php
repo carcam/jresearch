@@ -30,14 +30,6 @@ class JResearchUnpublished extends JResearchPublication{
 	
 	
 	/**
-	 * Month of publication
-	 * 
-	 * @var int
-	 */
-	public $month;
-	
-	
-	/**
 	 * Class constructor.  It maps the entity to Joomla tables
 	 *
 	 * @param JDatabase $db

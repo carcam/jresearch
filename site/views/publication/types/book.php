@@ -74,22 +74,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<th scope="row"><?php echo JText::_('JRESEARCH_EDITION').': ' ?></th>		
 	<td><?php echo $edition; ?></td>
 	<?php endif; ?>
-	<?php $month = trim($this->publication->month); ?>
-	<?php if(!empty($month)): ?>
+	<?php $isbn = trim($this->publication->isbn); ?>
+	<?php if(!empty($isbn)): ?>
 	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>
-	<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
+	<th scope="row"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></th>
+	<td><?php echo $isbn; ?></td>
 	<?php else: ?>
 	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
 	<?php endif; ?>
 	<?php endif; ?>
 </tr>
-<?php $isbn = trim($this->publication->isbn);  ?>
-<?php if(!empty($isbn)): ?>
-<tr>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></th>		
-	<td><?php echo $isbn; ?></td>
-	<td colspan="2"></td>	
-</tr>
-<?php endif; ?>

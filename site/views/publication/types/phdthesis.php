@@ -35,14 +35,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<th scope="row"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></th>		
 	<td><?php echo $address; ?></td>
 	<?php endif; ?>
-	<?php $type = trim($this->publication->month); ?>
-	<?php if(!empty($type)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>
-	<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
-	<?php endif; ?>
-	<?php endif; ?>
 </tr>

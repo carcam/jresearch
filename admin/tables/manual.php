@@ -49,14 +49,7 @@ class JResearchManual extends JResearchPublication{
 	 * @var string
 	 */
 	public $edition;
-	
-	/**
-	 * Month of publication
-	 *
-	 * @var int
-	 */
-	public $month;
-	
+		
 	
 	/**
 	 * Class constructor. Maps the class to Joomla tables.
