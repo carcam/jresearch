@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="JRESEARCH_PUBLICATIONS_ADVANCED_SEARCH_FORM">
+		<message>JRESEARCH_PUBLICATIONS_ADVANCED_SEARCH_FORM_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_PUBLICATIONS_ADVANCED_SEARCH_FORM</name>
+		<description>JRESEARCH_PUBLICATIONS_ADVANCED_SEARCH_FORM_MESSAGE</description>
+		<url>
+			<param type="hidden" name="task" default="advancedSearch" />
+		</url>
+		<params>															
+		</params>		
+	</state>
+</metadata>

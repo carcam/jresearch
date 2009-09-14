@@ -888,6 +888,8 @@ class JHTMLjresearchhtml
 	
 	/**
 	 * Renders a HTML generic select list with status options for publications
+	 * @param array $attributes
+	 * @return string
 	 */
 	public static function publicationstatuslist(array $attributes=array())
 	{
@@ -898,6 +900,71 @@ class JHTMLjresearchhtml
     	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_PROTOCOL'));
     	
     	return self::htmllist($statusOptions, $attributes);
+	}
+	
+	/**
+	 * Renders HTML list containing the publications fields in which a user might search
+	 * @param array $attributes
+	 * @return string
+	 */
+	public static function searchfieldslist(array $attributes = array()){
+		//Status options
+    	$fieldsOptions = array();
+    	$fieldsOptions[] = JHTML::_('select.option', 'all', JText::_('JRESEARCH_ALL_FIELDS'));
+    	$fieldsOptions[] = JHTML::_('select.option', 'abstract_word', JText::_('JRESEARCH_ABSTRACT_WORD'));
+    	$fieldsOptions[] = JHTML::_('select.option', 'heading_word', JText::_('JRESEARCH_HEADING_WORD'));
+    	$fieldsOptions[] = JHTML::_('select.option', 'institution_name', JText::_('JRESEARCH_INSTITUTION_NAME'));    	
+    	$fieldsOptions[] = JHTML::_('select.option', 'keywords', JText::_('JRESEARCH_KEYWORDS'));    	    	
+    	$fieldsOptions[] = JHTML::_('select.option', 'title_word', JText::_('JRESEARCH_TITLE_WORD'));    	    	
+    	
+    	return self::htmllist($fieldsOptions, $attributes);
+		
+	}
+	
+	/**
+	 * Renders HTML list containing possible operators used to compliment searches
+	 * @param array $attributes
+	 * @return string
+	 */
+	public static function operatorslist(array $attributes = array()){
+		//Status options
+    	$operatorsOptions = array();
+    	$operatorsOptions[] = JHTML::_('select.option', 'and', strtoupper(JText::_('JRESEARCH_AND')));
+    	$operatorsOptions[] = JHTML::_('select.option', 'or', strtoupper(JText::_('JRESEARCH_OR')));
+    	$operatorsOptions[] = JHTML::_('select.option', 'not', strtoupper(JText::_('JRESEARCH_NOT')));
+     	
+    	return self::htmllist($operatorsOptions, $attributes);		
+	}
+	
+	/**
+	 * Renders HTML list containing possible fields to considering when defining
+	 * date ranges for publications.
+	 * @param array $attributes
+	 * @return string
+	 */
+	public static function publicationdatesearchlist(array $attributes = array()){
+		//Status options
+    	$dateOptions = array();
+    	$dateOptions[] = JHTML::_('select.option', 'publication_date', JText::_('JRESEARCH_PUBLICATION_DATE'));
+    	$dateOptions[] = JHTML::_('select.option', 'entry_date', JText::_('JRESEARCH_ENTRY_DATE'));
+     	
+    	return self::htmllist($dateOptions, $attributes);		
+	}
+	
+	/**
+	 * HTML for ordering criteria in publication searches
+	 * @param array $attributes
+	 * @return string
+	 */
+	public static function orderbysearchlist(array $attributes = array()){
+		//Status options
+    	$orderOptions = array();
+    	$orderOptions[] = JHTML::_('select.option', 'date_descending', JText::_('JRESEARCH_DATE_DESCENDING'));
+    	$orderOptions[] = JHTML::_('select.option', 'date_ascending', JText::_('JRESEARCH_DATE_ASCENDING'));
+    	$orderOptions[] = JHTML::_('select.option', 'title', JText::_('JRESEARCH_TITLE'));
+    	$orderOptions[] = JHTML::_('select.option', 'author_name', JText::_('JRESEARCH_AUTHOR_NAME'));    	
+     	
+    	return self::htmllist($orderOptions, $attributes);		
 	}
 	
 }
