@@ -82,7 +82,7 @@ function __mapViewToController(){
 		case 'staff': case 'member':
 			$value = 'staff';
 			break;
-		case 'publicationslist': case 'publication':
+		case 'publicationslist': case 'publication': case 'publicationssearch':
 			$value = 'publications';
 			break;
 		case 'projectslist': case 'project':

@@ -56,6 +56,9 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$this->registerTask('changeType', 'changeType');
 		$this->registerTask('export', 'export');
 		$this->registerTask('exportAll', 'exportAll');
+		// Add for osteopathic adaptation
+		$this->registerTask('search', 'search');
+		$this->registerTask('advancedSearch', 'advancedSearch');
 				
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
@@ -858,6 +861,26 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$tmpfname = "jresearch_output.$ext";
 		header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
 		echo $output;
+	}
+	
+	/**
+	 * Invoked in response to publications search form submit
+	 * 
+	 */
+	function search(){
+		$view = &$this->getView('PublicationsSearch', 'html', 'JResearchView');
+		$pubModel = $this->getModel('PublicationsSearch', 'JResearchModel');
+		$view->setModel($pubModel);
+		$view->display();
+	}
+	
+	/**
+	 * Invoked to render advanced search form for publications
+	 */
+	function advancedSearch(){
+		$view = &$this->getView('PublicationsSearch', 'html', 'JResearchView');
+		$view->setLayout('advancedsearch');
+		$view->display();
 	}
 }
 ?>
