@@ -196,6 +196,121 @@ class JHTMLAuthorsSelector{
 	private static function _fetchHiddenField($value, $name){
 		return '<input type="hidden" id="'.$name.'" name="'.$name.'" value="'.$value.'" />';
 	}
+	
+	/**
+	 * Control to add recava groups
+	 * @param $name
+	 * @param $value
+	 * @param $show
+	 * @return string
+	 */
+	public function recavagroups($name, $value, $visible){
+		global $mainframe;
+		$doc =& JFactory::getDocument();
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$doc->addScript($url."components/com_jresearch/helpers/html/authorsselector.js");
+		$delete = JText::_('Delete');		
+		$doc->addScriptDeclaration("var deleteMessage = '$delete'");
+		
+		$output = '<div id="div_'.$name.'" style="padding:0px;display:'.($visible?'block':'none').'">';
+		$group = JText::_('JRESEARCH_GROUP');
+		$author = JText::_('JRESEARCH_AUTHOR');
+		$output .= "<table style=\"vertical-align:top;width:80%;text-align:center;\"><thead><tr><th style=\"width:30%;\">$group</th><th style=\"width:60%;\">$author</th><th></th></tr></thead><tbody id=\"body_$name\">";
+		
+		$rows = explode(';', $value);
+		$j = 0;
+		foreach($rows as $row){
+			$output .= '<tr id="tr_'.$name.$j.'">';
+			$cols = explode(',', $row);
+			$output .= '<td><input name="group_'.$name.$j.'" value="'.$cols[0].'" type="text" size="10" /></td>';
+			$output .= '<td><input name="author_'.$name.$j.'" value="'.$cols[1].'" type="text" size="10" /></td>';			
+			$output .= '<td><a href="javascript:removeRow(\'tr_'.$name.$j.'\', \''.$name.'\')" >'.$delete.'</a></td>';					
+			$output .= '</tr>';				
+			$j++;
+		}
+		
+		$add = JText::_('Add');
+		$output .= '</tbody></table>';
+		$output .= '<div style="width:80%;text-align:center;"><a href="javascript:addGroupRow(\'body_'.$name.'\', \''.$name.'\');">'.$add.'</a><input type="hidden" value="'.$j.'" id="count_'.$name.'" name="count_'.$name.'" /></div>';
+		$output .= '</div>';		
+				
+		return $output;
+	}
+	
+	/**
+	 * 
+	 * @param $name
+	 * @param $value
+	 * @param $visible
+	 * @return unknown_type
+	 */
+	public static function recavaplatforms($name, $value, $visible){
+		global $mainframe;
+		$doc =& JFactory::getDocument();
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$doc->addScript($url."components/com_jresearch/helpers/html/authorsselector.js");
+		$delete = JText::_('Delete');		
+		$doc->addScriptDeclaration("var deleteMessage = '$delete'");
+		
+		$output = '<div id="div_'.$name.'" style="display:'.($visible?'block':'none').'">';
+		$platform = JText::_('JRESEARCH_PLATFORM_NAME');
+		$output .= "<table style=\"vertical-align:top;width:80%;text-align:center;\"><thead><tr><th style=\"width:90%;\">$platform</th><th></th></tr></thead><tbody id=\"body_$name\">";
+		
+		$rows = explode(';', $value);
+		$j = 0;
+		foreach($rows as $row){
+			$output .= '<td><input name="platform_'.$name.$j.'" value="'.$row.'" type="text" size="18" /></td>';			
+			$output .= '<td><a href="javascript:removeRow(\'tr_'.$name.$j.'\', \''.$name.'\')" >'.$delete.'</a></td>';					
+			$output .= '</tr>';				
+			$j++;
+		}
+		
+		$add = JText::_('Add');
+		$output .= '</tbody></table>';
+		$output .= '<div style="width:80%;text-align:center;"><a href="javascript:addPlatformRow(\'body_'.$name.'\', \''.$name.'\');">'.$add.'</a><input type="hidden" value="'.$j.'" id="count_'.$name.'" name="count_'.$name.'" /></div>';
+		$output .= '</div>';		
+		
+		return $output;
+		
+	}
+	
+	/**
+	 * 
+	 * @param $name
+	 * @param $value
+	 * @return unknown_type
+	 */
+	public static function recavaotherlines($name, $value){
+		$lines = explode(";", $value);
+		$output = "<div><ul>";		
+		foreach($lines as $line){
+			$lineValues = explode("=", $line);
+			$lineValues[0] = trim($lineValues[0]);
+			$lineValues[1] = trim($lineValues[1]);			
+
+			$output .= '<li>';
+			$output .= '<input type="checkbox" name="'.$name.'_'.$lineValues[0].'" value="'.$lineValues[1].'" />';			
+			$output .= '<label for="'.$name.'_'.$lineValues[0].'" />'.JText::_('JRESEARCH_'.strtoupper($lineValues[0]));			
+			$output .= '</li>';			
+		}
+		
+		$output .= "</ul></div>";
+		return $output;
+	}
+	
+	/**
+	 * 
+	 * @param $memberId
+	 * @return JResearchMember
+	 */
+	private static function _getMember($memberId){
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+		$member = new JResearchMember(JFactory::getDBO());
+		$member->load($memberId);
+		return $member;
+	}
+	
+	
 }
 
 ?>

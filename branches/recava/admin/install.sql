@@ -15,6 +15,25 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_article` (
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `#__jresearch_recava_article`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_recava_article` (
+  `id_publication` int(11) NOT NULL,
+  `journal` varchar(255) NOT NULL,
+  `volume` varchar(30) default NULL,
+  `number` varchar(10) default NULL,
+  `pages` varchar(20) default NULL,
+  `month` varchar(20) default NULL,
+  `recava_ack` bool default false,
+  `other_recava_groups` bool default false,
+  `recava_groups` varchar(500) default NULL,
+  `used_recava_platforms` varchar(500) default NULL,
+  `recava_platforms` varchar(500) default NULL,	
+  `priority_line` varchar(255) default NULL,
+  `secondary_lines` varchar(255) default 'C1=0;C2=0;C3=0;C4=0;C5=0;C6=0;C7=0;C8=0;C9=0;C10=0;C11=0',
+  PRIMARY KEY  (`id_publication`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 DROP TABLE IF EXISTS `#__jresearch_book`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_book` (
   `id_publication` int(10) unsigned NOT NULL,
@@ -484,6 +503,7 @@ CREATE TABLE `#__jresearch_publication_type` (
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8; 
 
 CREATE OR REPLACE VIEW `#__jresearch_publication_article` AS SELECT * FROM `#__jresearch_article` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
+CREATE OR REPLACE VIEW `#__jresearch_publication_recava_article` AS SELECT * FROM `#__jresearch_recava_article` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
 CREATE OR REPLACE VIEW `#__jresearch_publication_unpublished` AS SELECT * FROM `#__jresearch_unpublished` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
 CREATE OR REPLACE VIEW `#__jresearch_publication_proceedings` AS SELECT * FROM `#__jresearch_proceedings` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
 CREATE OR REPLACE VIEW `#__jresearch_publication_book` AS SELECT * FROM `#__jresearch_book` JOIN `#__jresearch_publication` ON `id` = `id_publication`;
@@ -514,6 +534,6 @@ INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('phdthesis');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('proceedings');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('techreport');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('unpublished');
-
+INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('recava_article');
 
 INSERT INTO `#__jresearch_research_area`(`name`, `description`, `published` ) VALUES('Uncategorized', '', 1);

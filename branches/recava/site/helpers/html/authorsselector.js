@@ -113,3 +113,88 @@ function switchType(controlName, internalText, externalText){
 	parentControl.insertBefore(newControl, control);
 	parentControl.removeChild(control);	
 }
+
+function removeRow(rowId){
+	var row = document.getElementById(rowId);
+	if(row){
+		var parent = row.parentNode;
+		parent.removeChild(row);
+	}
+}
+
+function addGroupRow(tbodyId, name){
+	var tbody = document.getElementById(tbodyId);
+	if(tbody){
+		var tr = document.createElement('tr');
+		var td1 = document.createElement('td');
+		var td2 = document.createElement('td');
+		var td3 = document.createElement('td');
+		var count = document.getElementById('count_'+name);
+		var n = parseInt(count.value);
+		var input1 = document.createElement('input');
+		var input2 = document.createElement('input');
+		var aDelete = document.createElement('a');
+		input1.setAttribute('name', 'group_'+name+n);
+		input1.setAttribute('id', 'group_'+name+n);		
+		input1.setAttribute('type', 'text');
+		input1.setAttribute('size', '10');		
+		input2.setAttribute('name', 'author_'+name+n);
+		input2.setAttribute('id', 'author_'+name+n);		
+		input2.setAttribute('type', 'text');
+		input2.setAttribute('size', '10');		
+		td1.appendChild(input1);
+		td2.appendChild(input2);
+		aDelete.appendChild(document.createTextNode(deleteMessage));
+		aDelete.setAttribute('href', 'javascript:removeRow(\'tr_'+name+n+'\')');
+		td3.appendChild(aDelete);
+		tr.setAttribute('id', 'tr_'+name+n);
+
+		
+		tr.appendChild(td1);
+		tr.appendChild(td2);
+		tr.appendChild(td3);
+		tbody.appendChild(tr);
+		n++;
+		count.setAttribute('value', n);
+	}
+}
+
+function addPlatformRow(tbodyId, name){
+	var tbody = document.getElementById(tbodyId);
+	if(tbody){
+		var tr = document.createElement('tr');
+		var td2 = document.createElement('td');
+		var td3 = document.createElement('td');
+		var count = document.getElementById('count_'+name);
+		var n = parseInt(count.value);
+		var input2 = document.createElement('input');
+		var aDelete = document.createElement('a');		
+		input2.setAttribute('name', 'platform_'+name+n);
+		input2.setAttribute('id', 'platform_'+name+n);		
+		input2.setAttribute('type', 'text');		
+		input2.setAttribute('size', '18');
+		td2.appendChild(input2);
+		aDelete.appendChild(document.createTextNode(deleteMessage));
+		aDelete.setAttribute('href', 'javascript:removeRow(\'tr_'+name+n+'\')');
+		td3.appendChild(aDelete);
+		tr.setAttribute('id', 'tr_'+name+n);		
+
+		
+		tr.appendChild(td2);
+		tr.appendChild(td3);		
+		tbody.appendChild(tr);
+		n++;
+		count.setAttribute('value', n);
+	}
+}
+
+function switchControl(id){
+	element = document.getElementById(id);
+	if(element){
+		if(element.style.display == "block"){
+			element.style.display = "none";
+		}else if(element.style.display == "none"){
+			element.style.display = "block";
+		}
+	}
+}
