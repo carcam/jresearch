@@ -71,4 +71,5 @@
 		<div class="divEspacio"></div>		
 	</div>
 </fieldset>
+<?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications', 'search'); ?>
 </form>

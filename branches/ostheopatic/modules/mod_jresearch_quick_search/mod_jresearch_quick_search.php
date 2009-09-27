@@ -20,4 +20,4 @@ if(!JComponentHelper::isEnabled('com_jresearch', true))
 	JError::raiseError(0, JText::_('JRESEARCH_NOT_INSTALLED_OR_ENABLED'));
 }
 
-require(JModuleHelper::getLayoutPath('mod_jresearch_members'));
+require(JModuleHelper::getLayoutPath('mod_jresearch_quick_search'));
