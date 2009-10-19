@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<joomfish type="contentelement">
+	<name>J!Research Publication - Online Source</name>
+	<author>F. Prinz</author>
+	<version>0.1</version>
+	<description>Definition for the publication (online source) content of the J!Research component</description>
+	<reference type="content">
+		<table name="jresearch_publication_earticle">
+			<field type="referenceid" name="id" translate="0">ID</field>
+			<field type="titletext" name="title" translate="1">Title</field>
+			<field type="text" name="internal" translate="0">Internal</field>
+			<field type="text" name="year" translate="0">Year</field>
+			<field type="text" name="citekey" translate="0">Citekey</field>
+			<field type="text" name="keywords" translate="1">Keywords</field>
+			<field type="text" name="url" translate="0">URL</field>
+			<field type="text" name="journal_acceptance_rate" translate="0">Journal acceptance rate</field>
+			<field type="text" name="impact_factor" translate="0">Impact factor</field>
+			<field type="textarea" name="abstract" translate="1">Abstract</field>
+			<field type="textarea" name="note" translate="1">Note</field>
+			<field type="textarea" name="awards" translate="1">Awards</field>
+			<field type="textarea" name="comments" translate="1">Comments</field>
+			<field type="created_date" name="created" translate="0">Created</field>
+			<field type="checked_out_by" name="checked_out" translate="0">Check out by</field>
+			<field type="checked_out_date" name="checked_out_time" translate="0">Check out date</field>
+			<field type="text" name="month" translate="0">Month</field>
+			<field type="text" name="day" translate="0">Day</field>
+			<field type="text" name="access_date" translate="0">Access Date</field>
+			<field type="textarea" name="journal" translate="1">Journal</field>
+			<field type="text" name="volume" translate="0">Volume</field>
+			<field type="text" name="number" translate="0">Number</field>
+		</table>
+	</reference>
+	<translationfilters>
+	</translationfilters>
+</joomfish>

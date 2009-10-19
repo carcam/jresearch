@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_PROJECT_DESCRIPTION">
+		<message>JRESEARCH_PROJECT_DESCRIPTION_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>Project page</name>
+		<description>JRESEARCH_PROJECT_DESCRIPTION_VIEW_MESSAGE</description>
+		<url>
+			<param type="sql" name="id" label="JRESEARCH_PROJECT" 
+			description="JRESEARCH_ITEM_DISPLAYED" query="SELECT id as value, title as id FROM #__jresearch_project WHERE published = 1" />	
+			<param type="hidden" name="task" default="show" />
+		</url>
+		
+	</state>
+</metadata>
