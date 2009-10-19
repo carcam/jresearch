@@ -536,6 +536,8 @@ class JResearchAdminPublicationsController extends JController
 	    $reset = JRequest::getVar('resethits', false);
 	    if($reset == 'on'){
 	    	$publication->hits = 0;
+	    }else{
+	    	$publication->hits = $oldPublication->hits;
 	    }
 
 		// Validate publication	    

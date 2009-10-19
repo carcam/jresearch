@@ -703,6 +703,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 	    $reset = JRequest::getVar('resethits', false);
 	    if($reset == 'on'){
 	    	$publication->hits = 0;
+	    }else{
+	    	$publication->hits = $oldPublication->hits;
 	    }
 
 		// Validate publication	    

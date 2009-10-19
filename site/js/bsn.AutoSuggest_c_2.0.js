@@ -263,8 +263,6 @@ _bsn.AutoSuggest.prototype.getSuggestions = function (val)
 
 
 
-
-
 _bsn.AutoSuggest.prototype.doAjaxRequest = function ()
 {
 	
@@ -283,8 +281,8 @@ _bsn.AutoSuggest.prototype.doAjaxRequest = function ()
 	var onSuccessFunc = function (req) { pointer.setSuggestions(req) };
 	var onErrorFunc = function (status) { /*alert("AJAX error: "+status); */ };
 
-	var myAjax = new _bsn.Ajax();
-	myAjax.makeRequest( url, meth, onSuccessFunc, onErrorFunc );
+	var myAjax = new _bsn.Ajax();  
+  myAjax.makeRequest( url, meth, onSuccessFunc, onErrorFunc );
 }
 
 
@@ -640,16 +638,18 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	aUp.setAttribute('href', 'javascript:moveUp(\'li'+this.fld.name+nResults+'\')');
 	imgUp = document.createElement('img');
 	imgUp.setAttribute('src', this.lbl_up_image);
-	imgUp.setAttribute('style', 'width:16px;height:16px;');	
-	imgUp.setAttribute('alt', '');
+  imgUp.style.width = '16px';
+	imgUp.style.height = '16px';		
+	imgUp.setAttribute('alt', 'Go up');
 	aUp.appendChild(imgUp);
 	
 	aDown = document.createElement('a');
 	aDown.setAttribute('href', 'javascript:moveDown(\'li'+this.fld.name+nResults+'\')');
 	imgDown = document.createElement('img');
 	imgDown.setAttribute('src', this.lbl_down_image);
-	imgDown.setAttribute('alt', '');	
-	imgDown.setAttribute('style', 'width:16px;height:16px;');		
+	imgDown.setAttribute('alt', 'Go down');
+	imgDown.style.width = '16px';
+	imgDown.style.height = '16px';	
 	aDown.appendChild(imgDown);
 	
 	upDownSpan.appendChild(aUp);
