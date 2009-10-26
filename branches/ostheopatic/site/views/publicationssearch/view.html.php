@@ -25,7 +25,7 @@ class JResearchViewPublicationsSearch extends JResearchView
  		if($this->getLayout() == 'advancedsearch'){
  			$this->_displayAdvancedSearchForm($tpl);
  		}else{
- 			$model = $this->getModel();
+ 			$model = $this->getModel('PublicationsSearch');
  			$items = $model->getData();
  			$this->assignRef('items', $items);
 			parent::display($tpl); 			
