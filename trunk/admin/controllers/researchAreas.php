@@ -63,6 +63,12 @@ class JResearchAdminResearchAreasController extends JController
 		$area->name = trim($area->name);
 		$area->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		
+			//Generate an alias if needed
+		$alias = trim(JRequest::getVar('alias'));
+		if(empty($alias)){
+			$area->alias = JResearch::alias($area->name);
+		}
+		
 		// Validate and save
 		if($area->check()){		
 			if($area->store(true)){

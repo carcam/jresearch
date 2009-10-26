@@ -24,8 +24,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<label for="alias"><?php echo JText::_('Alias').': '?></label>
 		</div>
 		<div class="divTdl">
-			<input name="alias" id="alias" size="50" maxlength="255" class="required" value="<?php echo $this->project?$this->project->alias:'' ?>" />
-			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'title', JText::_('JRESEARCH_PROVIDE_VALID_ALIAS')); ?>							
+			<input name="alias" id="alias" size="50" maxlength="255" class="validate-alias" value="<?php echo $this->project?$this->project->alias:'' ?>" />
+			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'alias', JText::_('JRESEARCH_PROVIDE_VALID_ALIAS')); ?>							
 		</div>
 	    <div class="divEspacio" ></div>		
 	</div>

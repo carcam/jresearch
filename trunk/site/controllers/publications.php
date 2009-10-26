@@ -489,6 +489,12 @@ class JResearchPublicationsController extends JResearchFrontendController
 	    	}
 
 	    }
+	    
+		//Generate an alias if needed
+		$alias = trim(JRequest::getVar('alias'));
+		if(empty($alias)){
+			$publication->alias = JResearch::alias($publication->title);
+		}
 	   
 		
 		$check = $publication->check();		

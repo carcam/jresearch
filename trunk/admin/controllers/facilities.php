@@ -178,6 +178,12 @@ class JResearchAdminFacilitiesController extends JController
 		$fac->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$fac->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		
+		//Generate an alias if needed
+		$alias = trim(JRequest::getVar('alias'));
+		if(empty($alias)){
+			$fac->alias = JResearch::alias($fac->name);
+		}
+		
 		//Upload photo
 		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
 		$del = JRequest::getVar('delete');
