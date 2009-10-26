@@ -278,6 +278,12 @@ class JResearchAdminProjectsController extends JController
 	    if($reset == 'on'){
 	    	$project->hits = 0;
 	    }	
+	    
+		//Generate an alias if needed
+		$alias = trim(JRequest::getVar('alias'));
+		if(empty($alias)){
+			$project->alias = JResearch::alias($project->title);
+		}
 			
 		// Validate and save
 		$task = JRequest::getVar('task');

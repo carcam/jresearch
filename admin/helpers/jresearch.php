@@ -281,5 +281,32 @@ class JResearch
 		
 		return $class;
 	}
+	
+	/**
+	 * Generates an alias for the title sent as parameter. It uses Joomla! style 
+	 * for the generation of aliases
+	 * @param $text
+	 * @return string
+	 */
+	public static function alias($text){
+		//Get words
+		$matches = preg_split('/[-_\s\t,;:]+/', $text);     	
+       	// Now time to take the words and bring them to lowercase
+       	$length = 0;
+       	$alias = '';
+       	foreach($matches as $word){       		
+       		$newLength = $length + JString::strlen($word) + 1;
+       		if($newLength <= 255){
+		       	$alias .= '-'.JString::strtolower($word);
+		       	$length = $newLength;
+       		}else{
+       			break;
+       		}   		
+       	}
+       	
+       	return ltrim($alias, '-');
+
+       	
+	}
 }
 ?>

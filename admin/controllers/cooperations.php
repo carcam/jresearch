@@ -164,6 +164,12 @@ class JResearchAdminCooperationsController extends JController
 		$coop->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$coop->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
+		//Generate an alias if needed
+		$coop = trim(JRequest::getVar('alias'));
+		if(empty($coop)){
+			$coop->alias = JResearch::alias($coop->name);
+		}
+		
 		//Upload photo
 		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
 		$del = JRequest::getVar('delete');

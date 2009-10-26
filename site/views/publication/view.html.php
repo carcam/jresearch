@@ -187,14 +187,11 @@ class JResearchViewPublication extends JResearchView
     	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 	JHTML::_('jresearchhtml.validation');		
-	$user =& JFactory::getUser();
-	$cid = JRequest::getVar('id', 0);
-	
-	$pubtype = JRequest::getVar('pubtype');
-	
+	$user = JFactory::getUser();
+	$cid = JRequest::getVar('id', 0);	
 	$this->assignRef('id', $cid);
 	$doc = JFactory::getDocument();
-	$isNew = ($cid > 0); 
+	$isNew = ($cid == 0); 
 	$doc->addScriptDeclaration('
 		function msubmitform(pressbutton){
 			if (pressbutton) {
@@ -216,20 +213,17 @@ class JResearchViewPublication extends JResearchView
 		}
 	}');
 			
-	if($isNew)
-	{    		
-		$publication = JResearchPublication::getById($cid);
+	if($isNew){
+		$this->addPathwayItem(JText::_('Add'));
+		$pubtype = JRequest::getVar('pubtype');					
+	}else{
+		$publication = JResearchPublication::getById($cid);		
 		$pubtype = $publication->pubtype;
-		
 		$this->addPathwayItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
-		$this->addPathwayItem(JText::_('Edit'));					
-		$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);	
+		$this->addPathwayItem(JText::_('Edit'));						
 		$publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
-		$this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);						
-	}
-	else 
-	{
-		$this->addPathwayItem(JText::_('Add'));			
+		$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);														
+		$this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);		
 	}
 
 	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));
