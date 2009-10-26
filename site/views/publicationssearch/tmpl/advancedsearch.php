@@ -32,7 +32,7 @@
 </div>
 <div class="divTR">
 	<div class="divTdl"><label for="with_abstract"><?php echo JText::_('JRESEARCH_ITEMS_WITH_ABSTRACT');?></label></div>
-	<div class="divTdl"> <input name="with_abstract" type="checkbox" value="" /></div>	
+	<div class="divTdl"> <input name="with_abstract" type="checkbox" id="with_abstract" /></div>	
 	<div class="divTdl"><?php echo JText::_('JRESEARCH_ADVANCED_SEARCH_INSTRUCTIONS'); ?></div>
 	<div class="divEspacio"></div>	
 </div>

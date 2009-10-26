@@ -39,7 +39,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	*
 	* @return string
 	*/
-	protected function _buildQuery(){		
+	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false){		
 		$db =& JFactory::getDBO();		
 		if($memberId === null){	
 			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
@@ -77,7 +77,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	*
 	* @return 	array
 	*/
-	public function getData(){
+	public function getData($memberId = null, $onlyPublished = false, $paginate = false){
 		if($this->_items != null){
 			$this->_items = array();		
 			$db = JFactory::getDBO();
@@ -152,69 +152,118 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	private function _buildQueryWhere($published = false){
 		global $mainframe;
 		
-		$db = & JFactory::getDBO();
-		$modelKey = JRequest::getVar('modelkey', '');
-				
-		$filter_state = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_state', 'filter_state');
-		$filter_year = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_year', 'filter_year');
-		$filter_search = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_search', 'filter_search');
-		$filter_pubtype = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_pubtype', 'filter_pubtype');
-		$filter_area = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_area', 'filter_area');
-		$filter_author = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_author', 'filter_author');
-		$filter_team = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_team', 'filter_team');
+		$db = JFactory::getDBO();
+		//Obtention of search key
+		$key = JRequest::getVar('key');
+		$keyfield0 = JRequest::getVar('keyfield0');
 
+		$whereKeyClause = array();
+		$escapedKey = $db->Quote( '%'.$db->getEscaped( $key, true ).'%', false );
+		$whereKeyClause['title_word'] = "LOWER(title) LIKE $escapedKey";
+		$whereKeyClause['abstract_word'] = "LOWER(abstract) LIKE $escapedKey";
+		$whereKeyClause['keywords'] = "LOCATE($escapedKey, LOWER(keywords)) > 0";
+		if($keyfield0 == 'all'){
+			$where[] = '('.explode(' OR ', $whereKeyClause).')';
+		}else{
+			$where[] = $whereKeyClause[$keyfield0];
+		}
+		
 		// prepare the WHERE clause
-		$where = array();
-		if(!$published){
-			if($filter_state == 'P')
-				$where[] = $db->nameQuote('published').' = 1 ';
-			elseif($filter_state == 'U')
-				$where[] = $db->nameQuote('published').' = 0 '; 	
-		}else
-			$where[] = $db->nameQuote('published').' = 1 ';
-		
+		$where[] = $db->nameQuote('published').' = 1 ';
+		$where[] = $db->nameQuote('internal').' = 1 ';
 			
-		if($filter_year != null && $filter_year != -1 )
-			$where[] = $db->nameQuote('year').' = '.$db->Quote($filter_year);
-		
+		// operators
+		$op1 = JRequest::getVar('op1');		
+		$op2 = JRequest::getVar('op2');		
+		$op3 = JRequest::getVar('op3');		
 					
-		if(($filter_search = trim($filter_search))){
-			$filter_search = JString::strtolower($filter_search);
-			$filter_search = $db->getEscaped($filter_search);
-			$where[] = 'LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%');
+		$key1 = JRequest::getVar('key1');
+		$key2 = JRequest::getVar('key2');
+		$key3 = JRequest::getVar('key3');		
+		
+		$keyfield1 = JRequest::getVar('keyfield1');
+		$keyfield2 = JRequest::getVar('keyfield2');
+		$keyfield3 = JRequest::getVar('keyfield3');		
+		$whereAdditionals = '';
+		
+		if(!empty($key1)){
+			$where1 = array();
+			$whereKeyClause1 = array();
+			$escapedKey1 = $db->Quote( '%'.$db->getEscaped( $key1, true ).'%', false );
+			$whereKeyClause1['title_word'] = "LOWER(title) LIKE $escapedKey1";
+			$whereKeyClause1['abstract_word'] = "LOWER(abstract) LIKE $escapedKey1";
+			$whereKeyClause1['keywords'] = "LOCATE($escapedKey1, LOWER(keywords)) > 0";
+			if($keyfield1 == 'all'){
+				$whereAdditionals .= ' '.$op1.' ('.explode(' OR ', $whereKeyClause1).')';
+			}else{
+				$whereAdditionals .= ' '.$op1.' '.$whereKeyClause1[$keyfield1];
+			}
 		}
 		
-		if($filter_pubtype){
-			$where[] = $db->nameQuote('pubtype').' = '.$db->Quote($filter_pubtype);
-		}
-		
-		if($filter_area){
-			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
+		if(!empty($key2)){
+			$whereKeyClause2 = array();
+			$escapedKey2 = $db->Quote( '%'.$db->getEscaped( $key2, true ).'%', false );
+			$whereKeyClause2['title_word'] = "LOWER(title) LIKE $escapedKey2";
+			$whereKeyClause2['abstract_word'] = "LOWER(abstract) LIKE $escapedKey2";
+			$whereKeyClause2['keywords'] = "LOCATE($escapedKey2, LOWER(keywords)) > 0";
+			if($keyfield2 == 'all'){
+				$whereAdditionals .= ' '.$op2.' ('.explode(' OR ', $whereKeyClause2).')';
+			}else{
+				$whereAdditionals .= ' '.$op2.' '.$whereKeyClause2[$keyfield2];
+			}
+			
 		}
 
+		if(!empty($key3)){
+			$whereKeyClause3 = array();
+			$escapedKey3 = $db->Quote( '%'.$db->getEscaped( $key3, true ).'%', false );
+			$whereKeyClause3['title_word'] = "LOWER(title) LIKE $escapedKey3";
+			$whereKeyClause3['abstract_word'] = "LOWER(abstract) LIKE $escapedKey3";
+			$whereKeyClause3['keywords'] = "LOCATE($escapedKey3, LOWER(keywords)) > 0";
+			if($keyfield3 == 'all'){
+				$whereAdditionals .= ' '.$op3.' ('.explode(' OR ', $whereKeyClause3).')';
+			}else{
+				$whereAdditionals .= ' '.$op3.' '.$whereKeyClause3[$keyfield3];
+			}
+			
+		}		
 		
-		if(!empty($filter_author) && $filter_author != -1){
-			$ids = $this->_getAuthorPublicationIds(trim($filter_author));			
-			if(count($ids) > 0)
-				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
-			else
-				$where[] = '0 = 1';	
-		}
-		
-		if(!empty($filter_team)){
-			if($filter_team > 0){
-				$tmids = $this->_getTeamPublicationIds(trim($filter_team));
-				if(count($tmids) > 0)
-					$where[] = $db->nameQuote('id').' IN ('.implode(',', $tmids).')';
-				else
-					$where[] = '0 = 1';
-			}					
-		}
-		
-		if(!$mainframe->isAdmin()){
-			$where[] = $db->nameQuote('internal').' = '.$db->Quote('1');
+		if(!empty($whereAdditionals)){
+			$where[] = $whereAdditionals;
 		}
 
+		$with_abstract = JRequest::getVar('with_abstract');
+		if($with_abstract == 'on'){
+			$where[] = "NOT ISNULL(abstract) AND NOT abstract = ''";
+		}
+		
+		$pubtype = JRequest::getVar('pubtype');
+		if($pubtype != '0'){
+			$where[] = 'pubtype = '.$db->nameQuote($pubtype);			
+		}
+		
+		$language = JRequest::getVar('language');
+		if($language != '0'){
+			$where[] = 'id_language = '.$db->nameQuote($language);			
+		}
+		
+		$status = JRequest::getVar('status');
+		if($status != '0'){
+			$where[] = 'status = '.$db->nameQuote($language);			
+		}
+		
+		$from_year = JRequest::getInt('from_year');
+		$from_month = JRequest::getInt('from_month');
+		$from_day = JRequest::getInt('from_day');
+		$to_year = JRequest::getInt('to_year');
+		$to_month = JRequest::getInt('to_month');		
+		$to_day = JRequest::getInt('to_day');
+		
+		$fromDate = new JDate();
+		if(empty($from_month) || empty($from_day)){
+			
+		}
+				
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			
