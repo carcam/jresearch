@@ -2,7 +2,13 @@
 	<?php echo JText::_('JRESEARCH_'.JString::strtoupper(JRequest::getVar('task')).'_PUBLICATION');?>
 </h1>
 <?php 
-if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this->id > 0)) || (JHTML::_('Jresearch.authorize','add', 'publications') && ($this->id <= 0))):
+// Changes by Pablo Moncada
+$params = $mainframe->getPageParameters('com_jresearch');
+$edit = $params->get('everybody_can_edit');
+$user =& JFactory::getUser($userid);
+if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this->id > 0)) || (JHTML::_('Jresearch.authorize','add', 'publications') 
+&& ($this->id <= 0)) || (($edit == "yes")&&($user->guest == 0))):
+//End of changes
 ?>
 	<div style="float: right;">
 		<button type="button" onclick="javascript:msubmitform('apply');"><?php echo JText::_('Apply'); ?></button>
