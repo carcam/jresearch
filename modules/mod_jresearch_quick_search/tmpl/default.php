@@ -5,5 +5,6 @@
      ?>
      <div class="menu<?php echo $params->get('moduleclass_sfx')?>">
 	     <input name="key" size="<?php echo $size?>" value="" />
+	     <input type="hidden" name="newSearch" value="1" /> 
      </div>
 </form>

@@ -868,7 +868,9 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 * 
 	 */
 	function search(){
-		$view = &$this->getView('PublicationsSearch', 'html', 'JResearchView');
+		$limitstart = JRequest::getInt('limitstart', 0);
+ 		JRequest::setVar('limitstart', $limitstart);	
+		$view = $this->getView('PublicationsSearch', 'html', 'JResearchView');
 		$pubModel = $this->getModel('PublicationsSearch', 'JResearchModel');
 		$view->setModel($pubModel);
 		$view->display();
@@ -878,9 +880,48 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 * Invoked to render advanced search form for publications
 	 */
 	function advancedSearch(){
+		$newSearch = JRequest::getInt('newSearch', 0);
+		if($newSearch == 1)
+			$this->_resetUserState();
+			
 		$view = &$this->getView('PublicationsSearch', 'html', 'JResearchView');
 		$view->setLayout('advancedsearch');
 		$view->display();
 	}
+	
+	/**
+	 * 
+	 * @return unknown_type
+	 */
+	private function _resetUserState(){
+		global $mainframe;
+		
+		JRequest::setVar('key', '');
+		JRequest::setVar('keyfield0', 'all');
+		JRequest::setVar('keyfield1', 'all');
+		JRequest::setVar('keyfield2', 'all');
+		JRequest::setVar('keyfield3', 'all');						
+		JRequest::setVar('key1', '');
+		JRequest::setVar('key2', '');		
+		JRequest::setVar('key3', '');
+		JRequest::setVar('op1', 'and');
+		JRequest::setVar('op2', 'and');		
+		JRequest::setVar('op3', 'and');
+		JRequest::setVar('with_abstract', 'off');
+		JRequest::setVar('pubtype', '0');
+		JRequest::setVar('language', '0');
+		JRequest::setVar('status', '0');
+		JRequest::setVar('date_field', 'publication_date');
+		JRequest::setVar('from_year', '');																		
+		JRequest::setVar('from_month', '');
+		JRequest::setVar('from_day', '');
+		JRequest::setVar('to_year', null);																		
+		JRequest::setVar('to_month', null);
+		JRequest::setVar('to_day', null);
+		JRequest::setVar('order_by1', null);
+		JRequest::setVar('order_by2', null);									
+	}
+	
+
 }
 ?>
