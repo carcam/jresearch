@@ -34,11 +34,18 @@ class JHTMLJresearch
 		$modelKey = JRequest::getVar('modelkey');
 		$modelKeyText = !empty($modelKey)?'&modelkey='.$modelKey:'';
 		
+		// Changes by Pablo Moncada
+		$params = &JComponentHelper::getParams( 'com_jresearch' );
+		$edit = $params->get('everybody_can_edit');
+		$user =& JFactory::getUser($userid);
+		$all = (($edit == "yes")&&($user->guest == 0)); //All except anonymous
+		//End of changes
+		
 		if(in_array($controller, $availableController))
 		{
 			$authorized = JHTMLJResearch::authorize($task, $controller, $itemid, $userid);
 
-			if($authorized)
+			if($authorized || $all) //Changes by Pablo Moncada
 			{
 				switch($controller)
 				{
