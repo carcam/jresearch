@@ -42,6 +42,17 @@ abstract class JResearchPublicationImporter{
 	}
 	
 	/**
+	* Parse contents of a String Text
+	* @param string text
+	* @return array of the JResearchPublication objects that could be parsed. null if
+	* there were problems when accessing the file.
+	* Modification by Pablo Moncada
+	*/
+	function parseText ($text) {
+		return $this->parse($text);
+	}
+	
+	/**
 	 * Parse the text sent as parameter into an array of JResearchPublication objects.
 	 *
 	 * @param string $text

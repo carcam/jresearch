@@ -55,9 +55,17 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 						$newPub->citekey = JResearchPublicationsHelper::bibCharsToUtf8FromString($data['cite']);
 						foreach($data as $key=>$info)
 							$data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
-	
+						
+						$params = &JComponentHelper::getParams( 'com_jresearch' );
+						$mi = $params->get('make_internal');
+						
 						$newPub->bind($data);
-						$newPub->internal = false;
+						//Auto make internal when uploading from bibtex file
+						if($mi == "yes")
+							$newPub->internal = true;
+						else
+							$newPub->internal = false;
+
 						$newPub->published = true;
 						$newPub->created_by = $user->get('id');	
 						
