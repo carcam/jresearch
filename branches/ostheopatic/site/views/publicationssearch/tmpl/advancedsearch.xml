@@ -8,6 +8,7 @@
 		<description>JRESEARCH_PUBLICATIONS_ADVANCED_SEARCH_FORM_MESSAGE</description>
 		<url>
 			<param type="hidden" name="task" default="advancedSearch" />
+			<param type="hidden" name="newSearch" default="1" />
 		</url>
 		<params>															
 		</params>		

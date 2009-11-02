@@ -895,9 +895,10 @@ class JHTMLjresearchhtml
 	{
 		//Status options
     	$statusOptions = array();
-    	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_IN_PROGRESS'));
-    	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_FINISHED'));
-    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_PROTOCOL'));
+    	$statusOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_STATUS'));
+    	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
+    	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
+    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));
     	
     	return self::htmllist($statusOptions, $attributes);
 	}
@@ -912,8 +913,9 @@ class JHTMLjresearchhtml
     	$fieldsOptions = array();
     	$fieldsOptions[] = JHTML::_('select.option', 'all', JText::_('JRESEARCH_ALL_FIELDS'));
     	$fieldsOptions[] = JHTML::_('select.option', 'abstract_word', JText::_('JRESEARCH_ABSTRACT_WORD'));
-    	$fieldsOptions[] = JHTML::_('select.option', 'heading_word', JText::_('JRESEARCH_HEADING_WORD'));
-    	$fieldsOptions[] = JHTML::_('select.option', 'institution_name', JText::_('JRESEARCH_INSTITUTION_NAME'));    	
+//    	$fieldsOptions[] = JHTML::_('select.option', 'heading_word', JText::_('JRESEARCH_HEADING_WORD'));
+//    	$fieldsOptions[] = JHTML::_('select.option', 'institution_name', JText::_('JRESEARCH_INSTITUTION_NAME'));    	
+		$fieldsOptions[] = JHTML::_('select.option', 'author_name', JText::_('JRESEARCH_AUTHOR_NAME'));    	
     	$fieldsOptions[] = JHTML::_('select.option', 'keywords', JText::_('JRESEARCH_KEYWORDS'));    	    	
     	$fieldsOptions[] = JHTML::_('select.option', 'title_word', JText::_('JRESEARCH_TITLE_WORD'));    	    	
     	
@@ -962,7 +964,7 @@ class JHTMLjresearchhtml
     	$orderOptions[] = JHTML::_('select.option', 'date_descending', JText::_('JRESEARCH_DATE_DESCENDING'));
     	$orderOptions[] = JHTML::_('select.option', 'date_ascending', JText::_('JRESEARCH_DATE_ASCENDING'));
     	$orderOptions[] = JHTML::_('select.option', 'title', JText::_('JRESEARCH_TITLE'));
-    	$orderOptions[] = JHTML::_('select.option', 'author_name', JText::_('JRESEARCH_AUTHOR_NAME'));    	
+//    	$orderOptions[] = JHTML::_('select.option', 'author_name', JText::_('JRESEARCH_AUTHOR_NAME'));    	
      	
     	return self::htmllist($orderOptions, $attributes);		
 	}

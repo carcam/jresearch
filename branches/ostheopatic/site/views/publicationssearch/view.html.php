@@ -27,7 +27,8 @@ class JResearchViewPublicationsSearch extends JResearchView
  		}else{
  			$model = $this->getModel('PublicationsSearch');
  			$items = $model->getData();
- 			$this->assignRef('items', $items);
+  			$this->assignRef('items', $items);
+  			$this->assignRef('page', $model->getPagination());
 			parent::display($tpl); 			
  		}
     }
