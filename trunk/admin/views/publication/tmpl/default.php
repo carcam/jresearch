@@ -5,7 +5,57 @@
  * Default view for adding/editing a single publication
  */
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+$folder = 'components'.DS.'com_jresearch'.DS.'files'.DS.'publications';
+$folder_url = 'administrator'.DS.'components'.DS.'com_jresearch'.DS.'files'.DS.'publications'.DS;
+if(!eregi("administrator",$_SERVER['SCRIPT_FILENAME'])){
+	$folder = $folder_url;
+	$completar = 'administrator'.DS.'components'.DS.'com_jresearch'.DS;	
+	}
+else
+	$completar = 'components'.DS.'com_jresearch'.DS;
+	
+$nombre = date("Ymdgi").".pdf";
+
+function comprobar($str,$folder,$n=1) {
+	if(file_exists($folder.$str)) 
+		comprobar($n."_".$str,$folder,$n++);
+	else
+		return $str;
+}	
+$nombre = comprobar($nombre,$folder);
+?>
+
+
+<link href="<?php echo $completar.'css'.DS.'default.css'; ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo $completar.'css'.DS.'uploadify.css'; ?>" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<?php echo $completar.'scripts'.DS.'jquery-1.3.2.min.js'; ?>"></script>
+<script type="text/javascript" src="<?php echo $completar.'scripts'.DS.'swfobject.js'; ?>"></script>
+<script type="text/javascript" src="<?php echo $completar.'scripts'.DS.'jquery.uploadify.v2.1.0.min.js'; ?>"></script>
+<script type="text/javascript">
+jQuery.noConflict();
+jQuery(document).ready(function() {
+	jQuery("#uploadify").uploadify({
+		'uploader'       : '<?php echo $completar."scripts".DS."uploadify.swf"; ?>',
+		'script'         : '<?php echo $completar."scripts".DS."uploadify.php"; ?>',
+		'cancelImg'      : '<?php echo $completar."scripts".DS."cancel.png"; ?>',
+		'folder'         : '<?php echo $folder;?>',
+		'queueSizeLimit' : '1',
+		'auto'           : true,
+		'fileDesc'       : 'File',
+		'fileExt'        : '*.pdf;',
+		'buttonText'     : '<?php echo JText::_('JRESEARCH_FILE') ?>',
+		'onComplete': function(a, b, c, d, e){ 
+			jQuery("#resultado").html('File <a href=\"<?php echo $folder; ?><?php echo $nombre ; ?>" target=\"_blank\"><?php echo $nombre ; ?></a> succesfuly uploaded');
+			jQuery("#urlPDF").html('<input type=\"hidden\" name=\"url\" id=\"url\"  value=\"<?php echo $folder_url; ?><?php echo $nombre ; ?>\" />');
+
+		;}
+	});
+});
+
+
+</script>
+
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
 <div class="divForm">
 <form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
@@ -41,7 +91,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<label for="alias"><?php echo JText::_('Alias').': '?></label>
 			</div>
 			<div class="divTdl">
-				<input name="alias" id="alias" size="40" maxlength="255" class="validate-alias" value="<?php echo isset($this->publication)?$this->publication->alias:'' ?>" />
+				<input name="alias" id="alias" size="40" maxlength="255" class="required validate-alias" value="<?php echo isset($this->publication)?$this->publication->alias:'' ?>" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'alias', JText::_('JRESEARCH_PROVIDE_VALID_ALIAS')); ?>
 			</div>
 	        <div class="divEspacio" ></div>				
@@ -129,8 +179,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	  	<div class="divEspacio" ></div>	        
     </div>
 	    <div class="divTR">
-			<div class="divTd"><label for="file_url_0"><?php echo JText::_('JRESEARCH_FILE').': '; ?></label><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_FILES_TOOLTIP')); ?></div>
-			<div class="divTdl"><?php echo $this->files; ?></div>
+			<div class="divTd"><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) ' ?></div>
+			<div class="divTdl">
+				<div id="resultado"></div>
+				<div id="urlPDF">
+				<input name="url" id="url" size="20" maxlength="255" value="<?php echo $this->publication?$this->publication->url:'' ?>" />
+				</div>
+				<br />
+				<input type="file" name="uploadify" id="uploadify" />
+				<?php if(!is_writable($folder)) echo JText::_('JRESEARCH_DIRECTORY')." $folder ".JText::_('JRESEARCH_NOT_WRITABLE'); ?>			
+				<br />
+				<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
+			</div>
 		</div>
 	  	<div class="divEspacio" ></div>		
 </div>
