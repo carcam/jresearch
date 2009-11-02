@@ -10,6 +10,17 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <?php $Itemid = JRequest::getVar('Itemid'); 
 	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
+	  
+	//BibTex show in frontend; Pablo Moncada
+	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'exporters'.DS.'factory.php');		
+	$document =& JFactory::getDocument(); 
+	$id = JRequest::getInt('id');
+	$format = "bibtex";		
+	$model = &$this->getModel('Publication', 'JResearchModel');		
+	$publication = $model->getItem($id);		
+	$exporter =& JResearchPublicationExporterFactory::getInstance($format);		
+	$output2 = $exporter->parse($publication);				
+	//End Pablo Moncada
 	  	
 ?>
 <div style="float: right;"><?php echo JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
@@ -118,6 +129,16 @@ defined('_JEXEC') or die('Restricted access');
 		<td style="width:85%;" colspan="3"><div style="text-align:justify;"><?php echo $awards; ?></div></td>
 	</tr>
 	<?php endif; ?>	
+	
+	
+	<?php if($this->params->get('show_bibtex') == "yes"): ?>
+	<tr>
+		<th scope="row"><div style="text-align:justify;"><?php echo JText::_('BibTex').': '; ?></div></th>
+	</tr>
+	<tr>
+		<td colspan="4" align="left"><textarea rows="6" cols="45"><?php echo $output2; ?></textarea></td>
+	</tr>
+	<?php endif; ?>
 	
 	<?php $note = trim($this->publication->note); ?>	
 	<?php if(!empty($note)): ?>
