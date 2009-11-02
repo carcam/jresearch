@@ -41,6 +41,48 @@
 		<param name="member_image_height" default="768" label="JRESEARCH_MEMBER_IMAGE_HEIGHT" type="text" />
 		
 		<param type="spacer" />
+		
+		<param name="enable_bibtex" type="radio" default="yes" label="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		
+		<param name="make_internal" type="radio" default="no" label="JRESEARCH_CONFIG_MAKE_INTERNAL" description="JRESEARCH_CONFIG_MAKE_INTERNAL_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		
+		<param name="show_bibtex" type="radio" default="yes" label="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		
+		<param name="everybody_can_edit" type="radio" default="no" label="JRESEARCH_CONFIG_EVERY_EDIT" description="JRESEARCH_CONFIG_EVERY_EDIT_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		
+		<param type="spacer" />
+		
+		<param name="show_acceptance_rate" type="radio" default="yes" label="JRESEARCH_CONFIG_ACCEPTANCE" description="JRESEARCH_CONFIG_ACCEPTANCE_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		
+		<param name="show_edit" type="radio" default="no" label="JRESEARCH_CONFIG_EDIT" description="JRESEARCH_CONFIG_EDIT_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		
+		<param name="show_edit_list" type="radio" default="no" label="JRESEARCH_CONFIG_EDIT_LIST" description="JRESEARCH_CONFIG_EDIT_LIST_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		
+		<param name="allow_upload" type="radio" default="yes" label="JRESEARCH_CONFIG_UPLOAD" description="JRESEARCH_CONFIG_UPLOAD_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
 						
 		<param name="files_root_path" type="hidden" default="files" />			
 	</params>
