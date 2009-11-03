@@ -42,7 +42,7 @@ $itemId = JRequest::getVar('Itemid');
 					<?php echo $researchArea->name; ?>				
 				<?php endif; ?>
 			</td>
-			<td><?php echo $member->position; ?></td>
+			<td><?php echo empty($member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$member->getPosition(); ?></td>
 		</tr>
         <?php
         endforeach;
