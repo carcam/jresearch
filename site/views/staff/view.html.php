@@ -1,5 +1,6 @@
 <?php
 /**
+/**
 * @version		$Id$
 * @package		JResearch
 * @subpackage	Staff
@@ -32,6 +33,8 @@ class JResearchViewStaff extends JResearchView
     	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
+		$positionModel = &$this->getModel('member_position');
+		
     	
     	//$model->setFormer($former);
     	JRequest::setVar('filter_former', $former);
@@ -39,6 +42,10 @@ class JResearchViewStaff extends JResearchView
         switch($layout){
         	case 'staffflow':
 	        	$this->_displayStaffFlow($model);
+	        	break;
+				
+				case 'positions':
+	        	$this->_displayPositions($model);
 	        	break;
 	        	
         	default:
@@ -184,6 +191,30 @@ class JResearchViewStaff extends JResearchView
 		$this->assignRef('js_path', $js_path);
 		$this->assignRef('assets_path', $assets);
 		$this->assignRef('params', $params);	
+    }
+	
+	/**
+    * Display the list of published staff members by positions
+	* @author Pablo Moncada
+    */
+    private function _displayPositions(&$model){
+      	global $mainframe;
+      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+      	
+      	$doc = JFactory::getDocument();
+      	$params = $mainframe->getPageParameters('com_jresearch');
+      	
+      	$members =  $model->getData(null, true, true);
+		$positionModelList = &$this->getModel('member_positionList');
+		$positions = $positionModelList->getData(null, true, true);
+    	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));
+    	
+    	$format = $params->get('staff_format') == 'last_first'?1:0;
+    	$this->assignRef('items', $members);
+		$this->assignRef('positions', $positions);
+    	$this->assignRef('page', $model->getPagination());	
+    	$this->assignRef('format', $format);
+
     }
     
     /**
