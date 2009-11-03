@@ -24,18 +24,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-function comprobar($str,$folder,$n=1) {
-	if(file_exists($folder.$str)) 
-		comprobar($n."_".$str,$folder,$n++);
-	else
-		return $str;
-}	
-
+function file_ext($filename){
+	return end(explode(".", $filename));
+}
 if (!empty($_FILES)) {
-	
 	$tempFile = $_FILES['Filedata']['tmp_name'];
 	$targetPath = $_SERVER['DOCUMENT_ROOT'] . $_REQUEST['folder'] . '/';
-	$targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
+	$nombre = date("Ymdgi").".pdf";
+	if(file_exists($folder.DS.$nombre)) $nombre = "2".$nombre;
+	$targetFile =  str_replace('//','/',$targetPath) . $nombre;
 	
 	// $fileTypes  = str_replace('*.','',$_REQUEST['fileext']);
 	// $fileTypes  = str_replace(';','|',$fileTypes);
