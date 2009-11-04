@@ -363,6 +363,12 @@ class JResearchAdminPublicationsController extends JController
 		
 		$check = $publication->check();
 		
+		//Generate an alias if needed
+		$alias = trim(JRequest::getVar('alias'));
+		if(empty($alias)){
+			$publication->alias = JResearch::alias($publication->title);
+		}
+		
 		// Validate publication
 		if(!$check){
 			for($i=0; $i<count($publication->getErrors()); $i++)
@@ -536,6 +542,8 @@ class JResearchAdminPublicationsController extends JController
 	    $reset = JRequest::getVar('resethits', false);
 	    if($reset == 'on'){
 	    	$publication->hits = 0;
+	    }else{
+	    	$publication->hits = $oldPublication->hits;
 	    }
 
 		// Validate publication	    

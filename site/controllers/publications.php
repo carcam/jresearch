@@ -492,8 +492,13 @@ class JResearchPublicationsController extends JResearchFrontendController
 	    	}
 
 	    }
-	   
-		
+	    
+	 	//Generate an alias if needed
+		$alias = trim(JRequest::getVar('alias'));
+	  	if(empty($alias)){
+ 	  	 	$publication->alias = JResearch::alias($publication->title);
+		}
+	   		
 		$check = $publication->check();		
 		// Validate publication
 		if(!$check){
@@ -915,11 +920,13 @@ class JResearchPublicationsController extends JResearchFrontendController
 		JRequest::setVar('from_year', '');																		
 		JRequest::setVar('from_month', '');
 		JRequest::setVar('from_day', '');
-		JRequest::setVar('to_year', null);																		
-		JRequest::setVar('to_month', null);
-		JRequest::setVar('to_day', null);
-		JRequest::setVar('order_by1', null);
-		JRequest::setVar('order_by2', null);									
+		JRequest::setVar('to_year', '');																		
+		JRequest::setVar('to_month', '');
+		JRequest::setVar('to_day', '');
+		JRequest::setVar('order_by1', '');
+		JRequest::setVar('order_by2', '');
+		JRequest::setVar('with_abstract', '');
+		JRequest::setVar('recommended', '');													
 	}
 	
 

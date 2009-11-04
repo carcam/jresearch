@@ -96,17 +96,17 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	private function _buildQueryOrderBy(){		
 		global $mainframe;
 		$output = '';
-		$first_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by1', 'order_by1');
-		$second_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by2', 'order_by2');		
+		$first_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by1', 'order_by1', 'date_descending');
+		$second_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by2', 'order_by2', 'title');		
 		
 		switch($first_filter){
 			case 'date_descending':
 				$first_clause = 'year DESC, month DESC, day DESC';
 				break;
-			case 'date_descending':
+			case 'date_ascending':
 				$first_clause = 'year ASC, month ASC, day ASC';
 				break;
-			case 'title':
+			case 'title': default:
 				$first_clause = 'title ASC';				
 				break;	
 					
@@ -116,10 +116,10 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			case 'date_descending':
 				$second_clause = 'year DESC, month DESC, day DESC';
 				break;
-			case 'date_descending':
+			case 'date_ascending':
 				$second_clause = 'year ASC, month ASC, day ASC';
 				break;
-			case 'title':
+			case 'title': default:
 				$second_clause = 'title ASC';				
 				break;	
 					
@@ -138,13 +138,14 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$db = JFactory::getDBO();
 		//Obtention of search key		
 		$key = $mainframe->getUserStateFromRequest('publicationssearchkey', 'key');
-		$keyfield0 = $mainframe->getUserStateFromRequest('publicationssearchkeyfield0', 'keyfield0');
+		$keyfield0 = $mainframe->getUserStateFromRequest('publicationssearchkeyfield0', 'keyfield0', 'all');
 
 		$whereKeyClause = array();
-		$escapedKey = $db->Quote( '%'.$db->getEscaped( $key, true ).'%', false );
+		$escapedKey = $db->Quote( '%'.$db->getEscaped( strtolower($key), true ).'%', false );
+		$quotedKey = $db->Quote($db->getEscaped( strtolower($key), true ));
 		$whereKeyClause['title_word'] = "LOWER(title) LIKE $escapedKey";
 		$whereKeyClause['abstract_word'] = "LOWER(abstract) LIKE $escapedKey";
-		$whereKeyClause['keywords'] = "LOCATE($escapedKey, LOWER(keywords)) > 0";
+		$whereKeyClause['keywords'] = "LOCATE($quotedKey, LOWER(keywords)) > 0";
 		$ids = $this->_getAuthorPublicationIds(trim($key));			
 		if(count($ids) > 0)
 			$whereKeyClause['author_name'] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
@@ -180,10 +181,11 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		if(!empty($key1)){
 			$where1 = array();
 			$whereKeyClause1 = array();
-			$escapedKey1 = $db->Quote( '%'.$db->getEscaped( $key1, true ).'%', false );
+			$escapedKey1 = $db->Quote( '%'.$db->getEscaped( strtolower($key1), true ).'%', false );
+			$quotedKey1 = $db->Quote($db->getEscaped( strtolower($key1), true ));			
 			$whereKeyClause1['title_word'] = "LOWER(title) LIKE $escapedKey1";
 			$whereKeyClause1['abstract_word'] = "LOWER(abstract) LIKE $escapedKey1";
-			$whereKeyClause1['keywords'] = "LOCATE($escapedKey1, LOWER(keywords)) > 0";
+			$whereKeyClause1['keywords'] = "LOCATE($quotedKey1, LOWER(keywords)) > 0";
 			$ids1 = $this->_getAuthorPublicationIds(trim($key1));			
 
 			if(count($ids1) > 0)
@@ -201,10 +203,11 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		
 		if(!empty($key2)){
 			$whereKeyClause2 = array();
-			$escapedKey2 = $db->Quote( '%'.$db->getEscaped( $key2, true ).'%', false );
+			$escapedKey2 = $db->Quote( '%'.$db->getEscaped( strtolower($key2), true ).'%', false );
+			$quotedKey2 = $db->Quote($db->getEscaped( strtolower($key2), true ));		
 			$whereKeyClause2['title_word'] = "LOWER(title) LIKE $escapedKey2";
 			$whereKeyClause2['abstract_word'] = "LOWER(abstract) LIKE $escapedKey2";
-			$whereKeyClause2['keywords'] = "LOCATE($escapedKey2, LOWER(keywords)) > 0";
+			$whereKeyClause2['keywords'] = "LOCATE($quotedKey2, LOWER(keywords)) > 0";
 			$ids2 = $this->_getAuthorPublicationIds(trim($key2));			
 			if(count($ids2) > 0)
 				$whereKeyClause2['author_name'] = $db->nameQuote('id').' IN ('.implode(',', $ids2).')';
@@ -222,10 +225,11 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 
 		if(!empty($key3)){
 			$whereKeyClause3 = array();
-			$escapedKey3 = $db->Quote( '%'.$db->getEscaped( $key3, true ).'%', false );
+			$escapedKey3 = $db->Quote( '%'.$db->getEscaped( strtolower($key3), true ).'%', false );
+			$quotedKey3 = $db->Quote($db->getEscaped( strtolower($key3), true ));		
 			$whereKeyClause3['title_word'] = "LOWER(title) LIKE $escapedKey3";
 			$whereKeyClause3['abstract_word'] = "LOWER(abstract) LIKE $escapedKey3";
-			$whereKeyClause3['keywords'] = "LOCATE($escapedKey3, LOWER(keywords)) > 0";
+			$whereKeyClause3['keywords'] = "LOCATE($quotedKey3, LOWER(keywords)) > 0";
 			
 			$op3 = ($op3 == 'not')? 'and '.$op3:$op3;			
 			if($keyfield3 == 'all'){
@@ -239,21 +243,21 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 
 		$with_abstract = $mainframe->getUserStateFromRequest('publicationssearchwith_abstract', 'with_abstract');
 		if($with_abstract == 'on'){
-			$where[] = "NOT ISNULL(abstract) AND NOT abstract = ''";
+			$where[] = "NOT ISNULL(abstract)";
 		}
 		
 		$pubtype = $mainframe->getUserStateFromRequest('publicationssearchpubtype', 'pubtype');
-		if($pubtype != '0'){
+		if($pubtype != '0' && $pubtype != null){
 			$where[] = 'pubtype = '.$db->Quote($pubtype);			
 		}
 		
 		$language = $mainframe->getUserStateFromRequest('publicationssearchlanguage', 'language');;
-		if($language != '0'){
+		if($language != '0' && $language != null){
 			$where[] = 'id_language = '.$db->Quote($language);			
 		}
 		
 		$status = $mainframe->getUserStateFromRequest('publicationssearchkeystatus', 'status');
-		if($status != '0'){
+		if($status != '0' && $status != null){
 			$where[] = 'status = '.$db->Quote($status);			
 		}
 		

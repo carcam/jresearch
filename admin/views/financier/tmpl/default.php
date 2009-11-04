@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <div class="divTR">
 		<div class="divTd"><label for="name"><?php echo JText::_('Name').': '?></label></div>
 		<div class="divTdl">
-			<input name="name" id="name" size="50" maxlength="255" value="<?php echo $this->financier?$this->financier->name:'' ?>" class="required" />
+			<input name="name" id="name" size="50" maxlength="255" value="<?php echo $this->financier?$this->financier->name:'' ?>" class="validate-alias" />
 			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'name', JText::_('JRESEARCH_FINANCIER_PROVIDE_VALID_NAME')); ?>
 		</div>
 	    <div class="divEspacio" ></div>								

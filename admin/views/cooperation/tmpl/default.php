@@ -24,7 +24,7 @@ JHTML::_('behavior.modal');
 	<div class="divTR">
 		<div class="divTd"><label for="alias"><?php echo JText::_('Alias').': '?></label></div>
 		<div class="divTdl">
-			<input name="alias" id="alias" size="50" maxlength="255" class="required" value="<?php echo ($this->coop)?$this->coop->alias:'' ?>" />
+			<input name="alias" id="alias" size="50" maxlength="255" class="validate-alias" value="<?php echo ($this->coop)?$this->coop->alias:'' ?>" />
 			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'alias', JText::_('JRESEARCH_PROVIDE_VALID_ALIAS')); ?>			
 		</div>
 		<div class="divEspacio" ></div>		
