@@ -169,6 +169,12 @@ class JResearchAdminTeamsController extends JController
 		$team->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$team->description = JRequest::getVar('description','','post', 'string', JREQUEST_ALLOWRAW);
 		
+		//Generate an alias if needed
+		$alias = trim(JRequest::getVar('alias'));
+		if(empty($alias)){
+			$team->alias = JResearch::alias($team->name);
+		}
+		
 		//If parent isn't set to valid id, set to null
 		//@todo prevent to set cycle
 		if($team->parent <= 0 || $team->parent == $team->id)

@@ -190,11 +190,9 @@ class JResearchViewPublication extends JResearchView
 		$user =& JFactory::getUser();
 		$cid = JRequest::getVar('id', 0);
 		
-		$pubtype = JRequest::getVar('pubtype');
-		
 		$this->assignRef('id', $cid);
 		$doc = JFactory::getDocument();
-		$isNew = ($cid > 0); 
+		$isNew = ($cid == 0); 
 		$doc->addScriptDeclaration('
 		function msubmitform(pressbutton){
 			if (pressbutton) {
@@ -218,6 +216,11 @@ class JResearchViewPublication extends JResearchView
 				
 		if($isNew)
 		{    		
+			$pubtype = JRequest::getVar('pubtype');	
+			$this->addPathwayItem(JText::_('Add'));	
+		}
+		else 
+		{
 			$publication = JResearchPublication::getById($cid);
 			$pubtype = $publication->pubtype;
 			
@@ -226,10 +229,8 @@ class JResearchViewPublication extends JResearchView
 			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);	
 			$publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
 			$this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);						
-		}
-		else 
-		{
-			$this->addPathwayItem(JText::_('Add'));			
+			
+		
 		}
 
 		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));
@@ -260,6 +261,8 @@ class JResearchViewPublication extends JResearchView
 		$this->assignRef('files', $files);
 		
 		return true;
+		
+		
     }
     
 	/**

@@ -32,7 +32,8 @@
 </div>
 <div class="divTR">
 	<div class="divTdl"><label for="with_abstract"><?php echo JText::_('JRESEARCH_ITEMS_WITH_ABSTRACT');?></label></div>
-	<div class="divTdl"> <input name="with_abstract" type="checkbox" id="with_abstract" /></div>	
+	<?php $with_abstract = $mainframe->getUserStateFromRequest('publicationssearchwith_abstract', 'with_abstract'); ?>
+	<div class="divTdl"><input name="with_abstract" type="checkbox" id="with_abstract" <?php echo $with_abstract == 'on'? 'checked="checked"':''; ?> /></div>	
 	<div class="divTdl"><?php echo JText::_('JRESEARCH_ADVANCED_SEARCH_INSTRUCTIONS'); ?></div>
 	<div class="divEspacio"></div>	
 </div>
@@ -56,7 +57,8 @@
 </div>
 <div class="divTR">
 	<div class="divTdl"><label for="recommended"><?php echo JText::_('JRESEARCH_SEARCH_ONLY_RECOMMENDED').': '?></label></div>	
-	<div class="divTdl"> <input name="recommended" type="checkbox" id="recommended" /></div>	
+	<?php $recommended = $mainframe->getUserStateFromRequest('publicationssearchrecommended', 'recommended'); ?>
+	<div class="divTdl"> <input name="recommended" type="checkbox" id="recommended" <?php echo $recommended == 'on'?'checked="checked"':'' ?> /></div>	
 	<div class="divEspacio"></div>	
 </div>
 <div class="divTR">

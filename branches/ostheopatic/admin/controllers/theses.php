@@ -252,7 +252,14 @@ class JResearchAdminThesesController extends JController
 	    if($reset == 'on'){
 	    	$thesis->hits = 0;
 	    }			
-			// Time to store information in the database
+	    
+			//Generate an alias if needed
+		$alias = trim(JRequest::getVar('alias'));
+		if(empty($alias)){
+			$thesis->alias = JResearch::alias($thesis->title);
+		}
+		
+		// Time to store information in the database
 		if($thesis->check()){
 			if($thesis->store(true)){
 				$task = JRequest::getVar('task');
