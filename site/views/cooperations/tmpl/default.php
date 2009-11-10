@@ -8,9 +8,9 @@
 defined("_JEXEC") or die("Restricted access");
 
 ?>
-<h1 class="componentheading">
+<h2 class="componentheading">
 	<?php echo JText::_('JRESEARCH_COOPERATIONS');?>
-</h1>
+</h2>
 <?php
 if(!empty($this->intro_text)):
 ?>
@@ -47,7 +47,7 @@ if(count($this->items) > 0):
 				<?php 
 				else:
 					?>
-					<h2><?php echo $print->title?></h2>
+					<h3><?php echo $print->title?></h3>
 					<?php
 				endif;
 				?>
@@ -69,15 +69,15 @@ if(count($this->items) > 0):
 				<?php
 				$contentArray = explode('<hr id="system-readmore" />', $coop->description);
 				?>
-				<h2 class="contentheading">
+				<h4 class="contentheading">
 					<?php echo JFilterOutput::ampReplace($coop->name)?>
-				</h2>
-				<div>
+				</h4>
+				<p>
 					<strong>Website:</strong> 
 					<a href="<?php echo $coop->url?>">
 						<?php echo $coop->url?>
 					</a>
-				</div>
+				</p>
 				<?php 
 				if(!empty($contentArray[0])):
 				?>

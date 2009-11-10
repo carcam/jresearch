@@ -15,9 +15,9 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.filesystem.file');
 
 ?>
-<h1 class="componentheading">
+<h2 class="componentheading">
 	<?php echo JText::_('JRESEARCH_FACILITIES'); ?>
-</h1>
+</h2>
 
 <div id="imageflow" class="imageflow">
 	<div id="imageflow_loading">
