@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.modal');
 
 ?>
-<h1 class="componentheading"><?php echo $this->fac->name; ?></h1>
+<h2 class="componentheading"><?php echo $this->fac->name; ?></h2>
 <?php 
 if($this->fac->image_url):
 	$url = JResearch::getUrlByRelative($this->fac->image_url);

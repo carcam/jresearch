@@ -6,11 +6,11 @@
 */
 JHTML::_('behavior.modal');
 ?>
-<h1 class="componentheading">
+<h2 class="componentheading">
 	<?php echo JText::_('JRESEARCH_COOPERATION');?>
 	-
 	<?php echo $this->coop->name;?>
-</h1>
+</h2>
 <?php 
 if($this->coop->image_url):
 	$url = JResearch::getUrlByRelative($this->coop->image_url);
@@ -27,12 +27,14 @@ endif;
 $ampReplacedUrl = JFilterOutput::ampReplace($this->coop->url);
 ?>
 <div class="content">
-	<div>
+	<p>
 		<strong><?php echo JText::_('JRESEARCH_COOPERATION_CATEGORY'); ?>:</strong> <?php echo $this->coop->getCategory()->title; ?>
-	</div>
-	<div>
+	</p>
+	<p>
+
 		<strong><?php echo JText::_('JRESEARCH_COOPERATION_URL');?>:</strong> <a href="<?php echo $ampReplacedUrl;?>"><?php echo $ampReplacedUrl;?></a>
-	</div>
+
+	</p>
 	<?php
 	if($this->description):
 		foreach($this->description as $content):

@@ -7,7 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<h1 class="componentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h1>
+<h2 class="componentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h2>
 <?php
 if(count($this->items) > 0):
 ?>
@@ -17,17 +17,17 @@ if(count($this->items) > 0):
 		<li class="lifacility">
 			<div>
 				<?php $itemId = JRequest::getVar('Itemid'); ?>
-				<h2 class="contentheading">
+				<h3 class="contentheading">
 					<?php echo $fac->name; ?>
-				</h2>		
-				<div>
+				</h3>		
+				<p>
 					<strong>
 						<?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?>
 					</strong>
 					<span>
 						<?php echo $researchArea->name;  ?>
 					</span>
-				</div>			
+				</p>			
 				<div>&nbsp;</div>
 				<div style="text-align:left">
 					<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'facility', 'show', $fac->id); ?>
