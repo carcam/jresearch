@@ -13,9 +13,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-<h1 class="componentheading">
+<h2 class="componentheading">
 	<?php echo JText::_('JRESEARCH_MEMBERS'); ?>
-</h1>
+</h2>
 
 <div id="imageflow" class="imageflow">
 	<div id="imageflow_loading">

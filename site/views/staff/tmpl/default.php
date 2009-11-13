@@ -10,7 +10,9 @@
 defined('_JEXEC') or die('Restricted access'); 
 $itemId = JRequest::getVar('Itemid');
 ?>
-<h1 class="componentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h1>
+<h2 class="componentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
+<br />
+<br />
 <table class="stafftable">
 	<thead>
 		<tr>

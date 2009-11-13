@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 	  	
 ?>
 <div style="float: right;"><?php echo JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
-<h1 class="componentheading"><?php echo $this->publication->title; ?></h1>
+<h2 class="componentheading"><?php echo $this->publication->title; ?></h2>
 <table class="frontendsingleitem">
 <tbody>
 	<tr>

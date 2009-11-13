@@ -8,9 +8,9 @@
 defined("_JEXEC") or die("Restricted access");
 
 ?>
-<h1 class="componentheading">
+<h2 class="componentheading">
 	<?php echo JText::_('JRESEARCH_TEAMS');?>
-</h1>
+</h2>
 <?php
 if(count($this->items) > 0):
 ?>
@@ -20,12 +20,12 @@ if(count($this->items) > 0):
 	?>
 		<li class="liteam" style="background: none; clear: both; margin-bottom: 10px;">
 			<div style="width: 85%; margin-left: auto; margin-right: auto;">
-				<h2 class="contentheading">
+				<h3 class="contentheading">
 					<?php echo JFilterOutput::ampReplace($team->name)?>
-				</h2>
+				</h3>
 				<div>
 					<?php $leader = $team->getLeader(); ?>
-					<strong><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</strong> <?php echo !empty($leader)?$leader->__toString():'';?>
+					<h4><?php echo JText::_('JRESEARCH_TEAM_LEADER');?></h4> <?php echo !empty($leader)?$leader->__toString():'';?>
 				</div>
 				<div style="text-align:left">
 					<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'team', 'show', $team->id); ?>

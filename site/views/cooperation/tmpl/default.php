@@ -27,14 +27,10 @@ endif;
 $ampReplacedUrl = JFilterOutput::ampReplace($this->coop->url);
 ?>
 <div class="content">
-	<p>
-		<strong><?php echo JText::_('JRESEARCH_COOPERATION_CATEGORY'); ?>:</strong> <?php echo $this->coop->getCategory()->title; ?>
-	</p>
-	<p>
-
-		<strong><?php echo JText::_('JRESEARCH_COOPERATION_URL');?>:</strong> <a href="<?php echo $ampReplacedUrl;?>"><?php echo $ampReplacedUrl;?></a>
-
-	</p>
+	<h3><?php echo JText::_('JRESEARCH_COOPERATION_CATEGORY'); ?></h3>
+	<p><?php echo $this->coop->getCategory()->title; ?></p>
+	<h3><?php echo JText::_('JRESEARCH_COOPERATION_URL');?></h3>
+	<p><a href="<?php echo $ampReplacedUrl;?>"><?php echo $ampReplacedUrl;?></a></p>
 	<?php
 	if($this->description):
 		foreach($this->description as $content):

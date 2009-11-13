@@ -7,7 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<h1 class="componentheading"><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></h1>
+<h2 class="componentheading"><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></h2>
 
 <?php
 if(count($this->items) > 0):
@@ -18,7 +18,7 @@ if(count($this->items) > 0):
 		<div>
 			<?php $contentArray = explode('<hr id="system-readmore" />', $area->description); ?>
 			<?php $itemId = JRequest::getVar('Itemid'); ?>
-			<h2 class="contentheading"><?php echo JHTML::_('jresearch.link', $area->name, 'researcharea', 'show', $area->id); ?></h2>			
+			<h3 class="contentheading"><?php echo JHTML::_('jresearch.link', $area->name, 'researcharea', 'show', $area->id); ?></h3>			
 			<?php echo $contentArray[0]; ?>
 			<div>&nbsp;</div>			
 			<div style="text-align:left"><?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'researcharea', 'show', $area->id); ?></div>

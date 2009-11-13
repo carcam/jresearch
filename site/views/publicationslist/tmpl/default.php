@@ -9,7 +9,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-<h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
+<h2 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<div style="text-align: left;">
 		<?php echo $this->filter; ?>

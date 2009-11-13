@@ -8,11 +8,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
 ?>
-<h1 class="componentheading">
+<h2 class="componentheading">
 	<?php echo JText::_('JRESEARCH_TEAM');?>
 	-
 	<?php echo JFilterOutput::ampReplace($this->item->name);?>
-</h1>
+</h2>
+<div>&nbsp;&nbsp;</div>
 <table summary="<?php echo JText::_('JRESEARCH_TEAM_SUMMARY'); ?>">
 	<tbody>
 		<tr>
@@ -91,7 +92,7 @@ defined('_JEXEC') or die('Restricted access');
 </table>
 <?php if(!empty($this->projects)): ?>
 <div>&nbsp;&nbsp;</div>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h2>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h3>
 <ul>
 <?php foreach($this->projects as $project): ?>
 	<li><?php echo JHTML::_('jresearch.link', $project->title, 'project', 'show', $project->id); ?></li>
@@ -100,7 +101,7 @@ defined('_JEXEC') or die('Restricted access');
 <?php endif; ?>
 <?php if(!empty($this->publications)): ?>
 <div>&nbsp;&nbsp;</div>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h3>
 <ul>
 <?php foreach($this->publications as $publication): ?>
 	<li><?php echo JHTML::_('jresearch.link', $publication->title, 'publication', 'show', $publication->id); ?></li>
@@ -109,7 +110,7 @@ defined('_JEXEC') or die('Restricted access');
 <?php endif; ?>
 <?php if(!empty($this->theses)): ?>
 <div>&nbsp;&nbsp;</div>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h2>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h3>
 <ul>
 <?php foreach($this->theses as $thesis): ?>
 	<li><?php echo JHTML::_('jresearch.link', $thesis->title, 'thesis', 'show', $thesis->id); ?></li>

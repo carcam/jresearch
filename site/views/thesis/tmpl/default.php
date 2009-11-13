@@ -13,7 +13,7 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  	
 ?>
-<h1 class="componentheading"><?php echo $this->thesis->title; ?></h1>
+<h2 class="componentheading"><?php echo $this->thesis->title; ?></h2>
 <?php if($this->showHits): ?>
 <div class="small"><?php echo JText::_('Hits').': '.$this->publication->hits; ?></div>
 <?php endif; ?>
