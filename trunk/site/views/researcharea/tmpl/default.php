@@ -7,12 +7,12 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<h1 class="componentheading"><?php echo $this->area->name; ?></h1>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h2>
+<h2 class="componentheading"><?php echo $this->area->name; ?></h2>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h3>
 <?php echo $this->description;  ?>
 <div>&nbsp;&nbsp;</div>
 <?php if(!empty($this->facilities)): ?>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h2>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h3>
 <ul class="float">
 <?php foreach($this->facilities as $facility): ?>
 	<li>
@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <?php $itemId = JRequest::getVar('Itemid'); ?>
 <?php if(!empty($this->members)): ?>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h3>
 <ul>
 <?php foreach($this->members as $member): ?>
 	<li><?php echo JHTML::_('jresearch.link', $member, 'member', 'show', $member->id); ?></li>
@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php if(!empty($this->publications)): ?>
 <div>&nbsp;&nbsp;</div>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h3>
 <ul>
 <?php foreach($this->publications as $publication): ?>
 	<?php if($this->applyStyle): ?>
@@ -65,7 +65,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php if(!empty($this->projects)): ?>
 <div>&nbsp;&nbsp;</div>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h2>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h3>
 <ul>
 <?php foreach($this->projects as $project): ?>
 	<li><a href="index.php?option=com_jresearch&amp;view=project&amp;task=show&amp;id=<?php echo $project->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $project->title; ?></a></li>
@@ -84,7 +84,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php if(!empty($this->theses)): ?>
 <div>&nbsp;&nbsp;</div>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h2>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h3>
 <ul>
 <?php foreach($this->theses as $thesis): ?>
 	<li><a href="index.php?option=com_jresearch&amp;view=thesis&amp;task=show&amp;id=<?php echo $thesis->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $thesis->title; ?></a></li>

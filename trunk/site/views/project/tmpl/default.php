@@ -13,7 +13,7 @@ JHTML::_('behavior.modal');
 	  $ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
 	  	
 ?>
-<h1 class="componentheading"><?php echo $this->project->title; ?></h1>
+<h2 class="componentheading"><?php echo $this->project->title; ?></h2>
 <?php if($this->showHits): ?>
 <div class="small"><?php echo JText::_('Hits').': '.$this->project->hits; ?></div>
 <?php endif; ?>

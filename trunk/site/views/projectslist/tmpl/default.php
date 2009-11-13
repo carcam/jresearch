@@ -7,7 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<h1 class="componentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h1>
+<h2 class="componentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h2>
 
 <?php
 if(count($this->items) > 0):
@@ -20,13 +20,13 @@ if(count($this->items) > 0):
 		<div>
 			<?php $contentArray = explode('<hr id="system-readmore" />', $project->description); ?>
 			<?php $itemId = JRequest::getVar('Itemid'); ?>
-			<h2 class="contentheading"><?php echo $project->title; ?></h2>
+			<h3 class="contentheading"><?php echo $project->title; ?></h3>
 			<?php 
 			//Show research area?
 			if($this->params->get('show_researcharea') == 1):
 			?>		
 			<div>
-				<strong><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></strong>
+				<h4><?php echo JText::_('JRESEARCH_RESEARCH_AREA')?></h4>
 				<?php if($researchArea->id > 1): ?>
 					<span><a href="index.php?option=com_jresearch&amp;view=researcharea&amp;id=<?php echo $researchArea->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $researchArea->name;  ?></a></span>
 				<?php else: ?>
@@ -41,7 +41,7 @@ if(count($this->items) > 0):
 				$members = implode(', ',$project->getPrincipalInvestigators());
 			?>			
 			<div>
-        		<strong><?php echo JText::_('JRESEARCH_PROJECT_LEADERS').':'?></strong>
+        		<h4><?php echo JText::_('JRESEARCH_PROJECT_LEADERS')?></h4>
         		<span><?php echo $members; ?></span>
 			</div>
 			<?php 
@@ -67,8 +67,8 @@ if(count($this->items) > 0):
 			if($project->finance_value > 0):
 			?>
 			<div>
-				<strong><?php echo JText::_('JRESEARCH_PROJECT_FUNDING').': '?></strong>
-				<span><?php echo $financiers ?></span>, <strong><?php echo $project->finance_currency." ".$value?></strong>
+				<h4><?php echo JText::_('JRESEARCH_PROJECT_FUNDING')?></h4>
+				<span><?php echo $financiers ?></span>, <h4><?php echo $project->finance_currency." ".$value?></h4>
 			</div>
 			<?php
 			endif;
