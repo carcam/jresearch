@@ -26,6 +26,21 @@ class JResearchLanguageHelper{
 		$db->setQuery($query);
 		return $db->loadAssocList();
 	}
+	
+	/**
+	 * Returns the information about a single language
+	 * @param string $key The column by which the query is performed. 
+	 * @param string $value
+	 * @return $value
+	 */
+	static function getLanguage($key = 'id', $value = ''){
+		$db = JFactory::getDBO();
+		
+		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_language').' WHERE '.$db->nameQuote($key).' = '.$db->Quote($value);
+		$db->setQuery($query);
+		return $db->loadAssoc();
+		
+	}
 }
 
 ?>

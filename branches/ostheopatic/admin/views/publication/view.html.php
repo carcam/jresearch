@@ -73,7 +73,6 @@ class JResearchAdminViewPublication extends JResearchView
 		}
 		
 		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $publication?$publication->id_research_area:null)); 
 		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));		
 		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->recommended:1));
 		$statusRadio = JHTML::_('jresearchhtml.publicationstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->status:'in_progress'));
@@ -92,7 +91,6 @@ class JResearchAdminViewPublication extends JResearchView
 		$this->assignRef('statusRadio', $statusRadio);
 		$this->assignRef('recommendedRadio', $recommendedRadio);
 		$this->assignRef('languageList', $languageList);	
-		$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('pubtype', $pubtype);
@@ -112,7 +110,7 @@ class JResearchAdminViewPublication extends JResearchView
 		foreach($subtypes as $type){
 			// Inproceedings is the same as conference 
 			if($type != 'inproceedings')
-				$typesOptions[] = JHTML::_('select.option', $type, $type.': '.JText::_('JRESEARCH_'.strtoupper($type)));			
+				$typesOptions[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));			
 		}
 		
 		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		

@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS `#__jresearch_facilities`;
 DROP TABLE IF EXISTS `#__jresearch_financier`;
 DROP TABLE IF EXISTS `#__jresearch_inbook`;
 DROP TABLE IF EXISTS `#__jresearch_incollection`;
+DROP TABLE IF EXISTS `#__jresearch_institutes`;
 DROP TABLE IF EXISTS `#__jresearch_manual`;
 DROP TABLE IF EXISTS `#__jresearch_mastersthesis`;
 DROP TABLE IF EXISTS `#__jresearch_member`;

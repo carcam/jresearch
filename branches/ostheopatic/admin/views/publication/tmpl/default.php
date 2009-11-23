@@ -38,14 +38,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</div>
 		<div class="divTR">
 	        <div class="divTd">
-				<label for="alias"><?php echo JText::_('Alias').': '?></label>
+				<label for="original_title"><?php echo JText::_('JRESEARCH_ORIGINAL_TITLE').': '?></label>
 			</div>
-			<div class="divTdl">
-				<input name="alias" id="alias" size="40" maxlength="255" class="validate-alias" value="<?php echo isset($this->publication)?$this->publication->alias:'' ?>" />
-				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'alias', JText::_('JRESEARCH_PROVIDE_VALID_ALIAS')); ?>
+			<div class="divTdl">			
+				<input name="original_title" id="original_title" size="50" maxlength="255" value="<?php echo isset($this->publication)?$this->publication->original_title:'' ?>" />
 			</div>
-	        <div class="divEspacio" ></div>				
-		</div>	
+	        <div class="divEspacio" ></div>						
+		</div>
+	
 	<div class="divTR">
 	        <div class="divTd">
 	            <label for="year"><?php echo JText::_('JRESEARCH_YEAR').'/'.JText::_('JRESEARCH_MONTH').'/'.JText::_('JRESEARCH_DAY').': '?></label>
@@ -55,14 +55,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'year', JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); ?>/
 				<input maxlength="20" size="8" name="month" id="month" value="<?php echo isset($this->publication)?$this->publication->month:''; ?>" />/
 				<input maxlength="10" size="5" name="day" id="day" value="<?php echo isset($this->publication)?$this->publication->day:''; ?>" />				
-	        </div>
-    		<div class="divTd">
-	            <label for="id_research_area"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></label>
-	        </div>
-	        <div class="divTdl">
-				<?php echo $this->areasList; ?>
 	        </div>		        
-			<div class="divEspacio" ></div>		        				
+			<div class="divTd">
+				<label for="country"><?php echo JText::_('JRESEARCH_COUNTRY').': ';?></label>
+			</div>
+			<div class="divTdl">
+				<input maxlength="40" size="15" name="country" id="country" value="<?php echo isset($this->publication)?$this->publication->country:'' ?>" />								
+			</div>			
+	        <div class="divEspacio" ></div>						
+			
 	    </div>
 		<div class="divTR">
 	    	<div class="divTd">
@@ -84,44 +85,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	        </div>
 		  <div class="divEspacio" ></div>		        
 		</div>
-		<div class="divTR">
-			<div class="divTd">
-	        <label for="citekey"><?php echo JText::_('JRESEARCH_CITEKEY').': '?></label> 
-	        </div> 
-	        <div class="divTdl divTdl2">
-				<input size="15" maxlength="255" name="citekey" id="citekey" class="required" value="<?php echo isset($this->publication)?$this->publication->citekey:'' ?>" /><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_CITEKEY_TOOLTIP')); ?>				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'citekey', JText::_('JRESEARCH_PROVIDE_CITEKEY')); ?>								
-	        </div>
-	  		<div class="divEspacio" ></div>		        
-		</div>
-		<div class="divTR">	        
-			<div class="divTd"><label for="doi"><?php echo JText::_('JRESEARCH_DOI').': '?></label></div>
-			<div class="divTdl divTdl2">
-			<input size="15" maxlength="255" name="doi" id="doi" class="validate-doi" value="<?php echo isset($this->publication)?$this->publication->doi:'' ?>" />
-			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'doi', JText::_('JRESEARCH_PROVIDE_VALID_DOI')); ?>				
-			</div>
-			<?php if(isset($this->publication)): ?>
-				<div class="divTd"><label for="hits"><?php echo JText::_('Hits').': '?></label></div>
-				<div class="divTdl"><?php echo JHTML::_('jresearchhtml.hitsControl', 'resethits', $this->publication->hits); ?></div>			
-			<?php endif; ?>
-	  		<div class="divEspacio" ></div>			
-		</div>
-		<div class="divTR">
-			<div class="divTd">
-				<label for="internal"><?php echo JText::_('JRESEARCH_INTERNAL').': ' ?></label>
-			</div>
-			<div class="divTdl divTdl2">
-				<?php echo $this->internalRadio; ?><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_INTERNAL_TOOLTIP')) ?>				
-			</div>
-			<div class="divTd">
-			<label for="published"><?php echo JText::_('Published').': ' ?></label>
-			</div>
-			
-	        <div class="divTdl">
-				<?php echo $this->publishedRadio; ?>						
-	        </div>
-	  		<div class="divEspacio" ></div>					
-		</div>
 		
+		<div class="divTR">
+        	<div class="divTd">
+            	<label for="headings"><?php echo JText::_('JRESEARCH_HEADINGS').': ' ?></label>
+        	</div>
+       	 	<div class="divTdl">
+				<textarea name="headings" id="headings" cols="30" rows="4" ><?php echo isset($this->publication)?$this->publication->headings:'' ?></textarea>
+        	</div>	    
+	  		<div class="divEspacio" ></div>	        
+    	</div>
 		<div class="divTR">
 			<div class="divTd">
 				<label for="id_language"><?php echo JText::_('JRESEARCH_LANGUAGE').': ' ?></label>
@@ -147,20 +120,24 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	  		<div class="divEspacio" ></div>			
 		</div>
     	<div class="divTR">
-        <div class="divTd">
-            <label for="note"><?php echo JText::_('JRESEARCH_ABSTRACT').': ' ?></label>
-        </div>
-        <div class="divTdl">
-			<textarea name="abstract" id="abstract" cols="50" rows="4" ><?php echo isset($this->publication)?$this->publication->abstract:'' ?></textarea>
-        </div>	    
-	  	<div class="divEspacio" ></div>	        
+        	<div class="divTd">
+            	<label for="abstract"><?php echo JText::_('JRESEARCH_ABSTRACT').': ' ?></label>
+        	</div>
+       	 	<div class="divTdl">
+				<textarea name="abstract" id="abstract" cols="70" rows="15" ><?php echo isset($this->publication)?$this->publication->abstract:'' ?></textarea>
+        	</div>	    
+	  		<div class="divEspacio" ></div>	        
+    	</div>
+    	<div class="divTR">
+	        <div class="divTd">
+	            <label for="original_abstract"><?php echo JText::_('JRESEARCH_ORIGINAL_ABSTRACT').': ' ?></label>
+	        </div>
+	        <div class="divTdl">
+				<textarea name="original_abstract" id="original_abstract" cols="70" rows="15" ><?php echo isset($this->publication)?$this->publication->original_abstract:'' ?></textarea>
+	        </div>	    
+		  	<div class="divEspacio" ></div>	        
+    	</div>    	
     </div>
-	    <div class="divTR">
-			<div class="divTd"><label for="file_url_0"><?php echo JText::_('JRESEARCH_FILE').': '; ?></label><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_FILES_TOOLTIP')); ?></div>
-			<div class="divTdl"><?php echo $this->files; ?></div>
-		</div>
-	  	<div class="divEspacio" ></div>		
-</div>
 </fieldset>	
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_AUTHORS'); ?></legend>
@@ -183,12 +160,69 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_EXTRA'); ?></legend>
 	<div class="divTR">
+        <div class="divTd">
+			<label for="alias"><?php echo JText::_('Alias').': '?></label>
+		</div>
+		<div class="divTdl">
+			<input name="alias" id="alias" size="40" maxlength="255" class="validate-alias" value="<?php echo isset($this->publication)?$this->publication->alias:'' ?>" />
+			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'alias', JText::_('JRESEARCH_PROVIDE_VALID_ALIAS')); ?>
+			<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_ALIAS_TOOLTIP')); ?>
+		</div>
+        <div class="divEspacio" ></div>				
+	</div>
+	<div class="divTR">
+		<div class="divTd"><label for="file_url_0"><?php echo JText::_('JRESEARCH_FILE').': '; ?></label></div>
+		<div class="divTdl"><?php echo $this->files; ?><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_FILES_TOOLTIP')); ?></div>
+	  	<div class="divEspacio" ></div>		
+	</div>
+	<div class="divTR">
+		<div class="divTd">
+			<label for="internal"><?php echo JText::_('JRESEARCH_INTERNAL').': ' ?></label>
+		</div>
+		<div class="divTdl divTdl2">
+			<?php echo $this->internalRadio; ?><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_INTERNAL_TOOLTIP')) ?>				
+		</div>
+		<div class="divTd">
+		<label for="published"><?php echo JText::_('Published').': ' ?></label>
+		</div>
+		
+        <div class="divTdl">
+			<?php echo $this->publishedRadio; ?>						
+			 <?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_PUBLISHED_TOOLTIP')); ?>			
+        </div>
+  		<div class="divEspacio" ></div>					
+	</div>
+    <div class="divTR">
+		<div class="divTd">
+        <label for="citekey"><?php echo JText::_('JRESEARCH_CITEKEY').': '?></label> 
+        </div> 
+        <div class="divTdl divTdl2">
+			<input size="15" maxlength="255" name="citekey" id="citekey" value="<?php echo isset($this->publication)?$this->publication->citekey:'' ?>" /><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_CITEKEY_TOOLTIP')); ?>				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'citekey', JText::_('JRESEARCH_PROVIDE_CITEKEY')); ?>								
+        </div>
+  		<div class="divEspacio" ></div>		        
+		</div>
+	<div class="divTR">	        
+			<div class="divTd"><label for="doi"><?php echo JText::_('JRESEARCH_DOI').': '?></label></div>
+			<div class="divTdl divTdl2">
+			<input size="15" maxlength="255" name="doi" id="doi" class="validate-doi" value="<?php echo isset($this->publication)?$this->publication->doi:'' ?>" />
+			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'doi', JText::_('JRESEARCH_PROVIDE_VALID_DOI')); ?>				
+			<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_DOI_TOOLTIP')); ?>
+			</div>
+			<?php if(isset($this->publication)): ?>
+				<div class="divTd"><label for="hits"><?php echo JText::_('Hits').': '?></label></div>
+				<div class="divTdl"><?php echo JHTML::_('jresearchhtml.hitsControl', 'resethits', $this->publication->hits); ?></div>			
+			<?php endif; ?>
+	  		<div class="divEspacio" ></div>			
+		</div>
+	
+	<div class="divTR">
 		<div class="divTd">
 			<label for="cover"><?php echo JText::_('JRESEARCH_COVER').': '?></label>
 		</div>
 		<div class="divTdl">
 			<input name="cover" id="cover" size="30" maxlength="255" class="validate-url" value="<?php echo isset($this->publication)?$this->publication->cover:'' ?>" />
-			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'cover', JText::_('JRESEARCH_PROVIDE_VALID_URL')); ?>				
+			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'cover', JText::_('JRESEARCH_PROVIDE_VALID_URL')); ?>
+			<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_COVER_TOOLTIP')); ?>							
 		</div>
 		<div class="divEspacio" ></div>
 	</div>	
@@ -198,7 +232,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</div>
 		<div class="divTdl divTdl2">
 			<input value="<?php echo isset($this->publication)?$this->publication->journal_acceptance_rate:'' ?>" size="10" name="journal_acceptance_rate" id="journal_acceptance_rate" maxlength="5" class="validate-numeric" />
-			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'journal_acceptance_rate', JText::_('JRESEARCH_PROVIDE_VALID_NUMBER')); ?>				
+			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'journal_acceptance_rate', JText::_('JRESEARCH_PROVIDE_VALID_NUMBER')); ?>
+							
 		</div>
 		<div class="divTd">
 		<label for="impact_factor"><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></label>
@@ -208,7 +243,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'impact_factor', JText::_('JRESEARCH_PROVIDE_VALID_NUMBER')); ?>				
 		</div>
         <div class="divEspacio" ></div>		
-	</div>		
+	</div>
+			
 	<div class="divTR">
         <div class="divTd">
             <label for="awards"><?php echo JText::_('JRESEARCH_AWARDS').': '?></label>
@@ -250,6 +286,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	$Itemid = JRequest::getInt('Itemid', null);  
 	if(!empty($Itemid)): ?>
 		<input type="hidden" id="Itemid" name="Itemid" value="<?php echo $Itemid; ?>" />
-<?php endif; ?>	
+<?php endif; ?>
+<input type="hidden" name="id_research_area" id="id_research_area" value="0" />
 </form>
 </div>
