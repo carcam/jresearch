@@ -144,6 +144,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$escapedKey = $db->Quote( '%'.$db->getEscaped( strtolower($key), true ).'%', false );
 		$quotedKey = $db->Quote($db->getEscaped( strtolower($key), true ));
 		$whereKeyClause['title_word'] = "LOWER(title) LIKE $escapedKey";
+		$whereKeyClause['heading_word'] = "LOWER(headings) LIKE $escapedKey";
 		$whereKeyClause['abstract_word'] = "LOWER(abstract) LIKE $escapedKey";
 		$whereKeyClause['keywords'] = "LOCATE($quotedKey, LOWER(keywords)) > 0";
 		$ids = $this->_getAuthorPublicationIds(trim($key));			
@@ -185,6 +186,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			$quotedKey1 = $db->Quote($db->getEscaped( strtolower($key1), true ));			
 			$whereKeyClause1['title_word'] = "LOWER(title) LIKE $escapedKey1";
 			$whereKeyClause1['abstract_word'] = "LOWER(abstract) LIKE $escapedKey1";
+			$whereKeyClause1['heading_word'] = "LOWER(headings) LIKE $escapedKey1";
 			$whereKeyClause1['keywords'] = "LOCATE($quotedKey1, LOWER(keywords)) > 0";
 			$ids1 = $this->_getAuthorPublicationIds(trim($key1));			
 
@@ -208,6 +210,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			$whereKeyClause2['title_word'] = "LOWER(title) LIKE $escapedKey2";
 			$whereKeyClause2['abstract_word'] = "LOWER(abstract) LIKE $escapedKey2";
 			$whereKeyClause2['keywords'] = "LOCATE($quotedKey2, LOWER(keywords)) > 0";
+			$whereKeyClause2['heading_word'] = "LOWER(headings) LIKE $escapedKey2";			
 			$ids2 = $this->_getAuthorPublicationIds(trim($key2));			
 			if(count($ids2) > 0)
 				$whereKeyClause2['author_name'] = $db->nameQuote('id').' IN ('.implode(',', $ids2).')';
@@ -230,6 +233,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			$whereKeyClause3['title_word'] = "LOWER(title) LIKE $escapedKey3";
 			$whereKeyClause3['abstract_word'] = "LOWER(abstract) LIKE $escapedKey3";
 			$whereKeyClause3['keywords'] = "LOCATE($quotedKey3, LOWER(keywords)) > 0";
+			$whereKeyClause3['heading_word'] = "LOWER(headings) LIKE $escapedKey3";			
 			
 			$op3 = ($op3 == 'not')? 'and '.$op3:$op3;			
 			if($keyfield3 == 'all'){

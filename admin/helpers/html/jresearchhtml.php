@@ -913,7 +913,7 @@ class JHTMLjresearchhtml
     	$fieldsOptions = array();
     	$fieldsOptions[] = JHTML::_('select.option', 'all', JText::_('JRESEARCH_ALL_FIELDS'));
     	$fieldsOptions[] = JHTML::_('select.option', 'abstract_word', JText::_('JRESEARCH_ABSTRACT_WORD'));
-//    	$fieldsOptions[] = JHTML::_('select.option', 'heading_word', JText::_('JRESEARCH_HEADING_WORD'));
+    	$fieldsOptions[] = JHTML::_('select.option', 'heading_word', JText::_('JRESEARCH_HEADING_WORD'));
 //    	$fieldsOptions[] = JHTML::_('select.option', 'institution_name', JText::_('JRESEARCH_INSTITUTION_NAME'));    	
 		$fieldsOptions[] = JHTML::_('select.option', 'author_name', JText::_('JRESEARCH_AUTHOR_NAME'));    	
     	$fieldsOptions[] = JHTML::_('select.option', 'keywords', JText::_('JRESEARCH_KEYWORDS'));    	    	

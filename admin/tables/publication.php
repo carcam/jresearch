@@ -145,6 +145,30 @@ class JResearchPublication extends JResearchActivity{
 	 */
 	public $recommended;
 	
+
+	/**
+	 * The title in the original language of the publication
+	 * @var unknown_type
+	 */
+	public $original_title;
+	
+	/**
+	 * @var string
+	 */
+	public $country;
+	
+	/**
+	 * 
+	 * @var string
+	 */
+	public $headings;
+	
+	/**
+	 * The abstract in the l
+	 * @var unknown_type
+	 */
+	public $original_abstract;	
+	
 	/**
 	 * Name of the foreign key field in the subclass table.
 	 * 
@@ -415,13 +439,6 @@ class JResearchPublication extends JResearchActivity{
 		if(!parent::checkAuthors())
 			return false;
 		
-			
-		if(empty($this->citekey)){
-			$this->citekey = trim($this->citekey);
-			$this->setError(JText::_('JRESEARCH_PROVIDE_CITEKEY'));
-			$withoutErrors = false;
-		}	
-		
 		// Verify if title is not empty
 		if(empty($this->title)){
 			$this->title = trim($this->title);			
@@ -567,6 +584,16 @@ class JResearchPublication extends JResearchActivity{
 			 if($this->$prop !== null)
 				$parentObject->$prop = $this->$prop;
 		}
+      	
+		//We get the last ID in order to provide this value to the citekey
+		$db->setQuery('SHOW TABLE STATUS WHERE '.$db->nameQuote('Name').str_replace('#__', $db->getPrefix() ," = '#__jresearch_publication'"));
+      	$row = $db->loadAssoc();
+	    $next_id = $row['Auto_increment'] ;
+		if(empty($this->citekey)){
+			$this->citekey = $next_id;
+			$parentObject->citekey = $next_id;			
+		}
+		
  		// Time to insert the attributes
       	if($this->$j){
           	$ret = $db->updateObject( $this->_tbl, $parentObject, $this->_tbl_key, $updateNulls );
@@ -826,6 +853,22 @@ class JResearchPublication extends JResearchActivity{
         }
         $this->setError('');
         return true;		
+	}
+	
+	/**
+	 * Returns all the abstract in all the supported languages
+	 * @return string
+	 */
+	public function getAbstracts(){
+		$abstracts = array();
+		
+		if(!empty($this->abstract))
+			$abstracts[4] = $this->abstract;
+			
+		if(!empty($this->original_abstract))
+			$abstracts[$this->id_language] = $this->original_abstract;	
+			
+		return $abstracts;	
 	}
 }
 ?>

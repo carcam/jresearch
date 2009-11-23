@@ -108,6 +108,28 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_incollection` (
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `#__jresearch_institutes`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_institutes` (
+	`id` int(11) unsigned NOT NULL auto_increment,
+	`alias` varchar(255) NOT NULL,
+	`name` varchar(255) NOT NULL,
+  	`comment` text,
+	`published` tinyint(4) NOT NULL default '1',
+  	`logo_url` varchar(255) default NULL,
+  	`street` varchar(255) default NULL,
+  	`place` varchar(255) default NULL,
+  	`zip` varchar(20) default NULL,
+  	`phone` varchar(20) default NULL,
+  	`fax` varchar(20) default NULL,
+  	`email` varchar(255) default NULL,
+  	`recognized` tinyint(4) NOT NULL default '1',
+  	`fore_member` tinyint(4) NOT NULL default '1',
+  	`url` varchar(255) default NULL,
+  	`checked_out` tinyint(11) unsigned NOT NULL default '0',
+	`checked_out_time` datetime NOT NULL,
+	PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `#__jresearch_manual`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_manual` (
   `id_publication` int(10) unsigned NOT NULL,
@@ -142,7 +164,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_patent` (
   `claims` longtext DEFAULT NULL,
   `drawings_dir` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
-  `country` varchar(60) DEFAULT NULL,
   `office` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -203,6 +224,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_external_author` (
   `author_name` varchar(60) NOT NULL,
   `is_principal` tinyint(4) NOT NULL default '0',
   `order` smallint(5) unsigned NOT NULL,
+  `email` varchar(60) NOT NULL,
   PRIMARY KEY  (`id_project`,`author_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -261,6 +283,10 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `recommended` BOOL default false,
   `month` varchar(20) default NULL,
   `day` varchar(10) default NULL,
+  `original_title` varchar(255) default NULL,
+  `country` varchar(40) default NULL,
+  `headings` text default NULL,
+  `original_abstract` text default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `citekey` (`citekey`),
   INDEX `year` (`year`),
@@ -514,20 +540,20 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_language` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (1, 'Czech', 'česky', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (1, 'Czech', 'Ä�esky', '');
 INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (2, 'Danish', 'dansk', '');
 INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (3, 'Dutch', 'Nederlands', '');
 INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (4, 'English', 'English', '');
-INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (5, 'French', 'Français', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (5, 'French', 'FranÃ§ais', '');
 INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (6, 'German', 'Deutsch', '');
 INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (7, 'Italian', 'Italiano', '');
-INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (8, 'Japanese', '日本語 (にほんご／にっぽんご)', '');
-INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (9, 'Norwegian', 'Norsk bokmål', '');
-INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (10, 'Russian', 'русский язык', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (8, 'Japanese', 'æ—¥æœ¬èªž (ã�«ã�»ã‚“ã�”ï¼�ã�«ã�£ã�½ã‚“ã�”)', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (9, 'Norwegian', 'Norsk bokmÃ¥l', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (10, 'Russian', 'Ñ€ÑƒÑ�Ñ�ÐºÐ¸Ð¹ Ñ�Ð·Ñ‹Ðº', '');
 INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (11, 'Serbo-Croatian', 'hrvatski', '');
-INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (12, 'Spanish', 'Español', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (12, 'Spanish', 'EspaÃ±ol', '');
 INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (13, 'Swedish', 'svenska', '');
-INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (14, 'Ukraine', 'Українська', '');
+INSERT INTO `#__jresearch_language` (`id`, `name`, `native_name`, `isocode`) VALUES (14, 'Ukraine', 'Ð£ÐºÑ€Ð°Ñ—Ð½Ñ�ÑŒÐºÐ°', '');
 
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('abstract');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('address');
@@ -615,7 +641,7 @@ INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('online_source');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('earticle');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('digital_source');
 
-INSERT INTO `#__jresearch_research_area`(`name`, `description`, `published` ) VALUES('Uncategorized', '', 1);
+INSERT INTO `#__jresearch_research_area`(`name`, `description`, `published` ) VALUES('Osteopathy', '', 1);
 
 DELETE FROM `#__categories` WHERE `section` = 'com_jresearch_cooperations';
 INSERT INTO `#__categories` (`title`, `name`, `alias`, `image`, `section`, `image_position`, `description`, `published`, `checked_out`, `checked_out_time`, `editor`, `ordering`, `access`, `count`, `params`) VALUES
