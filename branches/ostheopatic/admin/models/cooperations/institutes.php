@@ -2,23 +2,23 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	Cooperations
+* @subpackage	Institutes
 * @copyright	Copyright (C) 2008 Florian Prinz.
 * @license		GNU/GPL
-* This file implements the cooperations model.
+* This file implements the institutes model.
 */
 
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'institute.php');
 
-class JResearchModelCooperations extends JResearchModelList
+class JResearchModelInstitutes extends JResearchModelList
 {
     public function __construct()
     {
 		parent::__construct();
-		$this->_tableName = '#__jresearch_cooperations';
+		$this->_tableName = '#__jresearch_institutes';
 	}	
 	
 	/**
@@ -48,7 +48,7 @@ class JResearchModelCooperations extends JResearchModelList
 			
 			foreach($ids as $id)
 			{				
-				$coop = new JResearchCooperation($db);
+				$coop = new JResearchInstitute($db);
 				$coop->load($id);
 				$this->_items[] = $coop;
 			}
@@ -58,21 +58,6 @@ class JResearchModelCooperations extends JResearchModelList
 		}		
 			
 		return $this->_items;
-	}
-	
-	/**
-	 * Returns categories for existing cooperations with id, title and image
-	 * @return array Keys are 'id', 'title' and 'image'
-	 */
-	public function getCategories()
-	{
-		$db = JFactory::getDBO();
-		
-		//Select categories from existing cooperations
-		$sql = 'SELECT DISTINCT jc.catid AS cid, title, image FROM '.$db->nameQuote('#__jresearch_cooperations').' AS jc LEFT JOIN '.$db->nameQuote('#__categories').' AS c ON jc.catid = c.id WHERE jc.catid != 0 AND jc.published=1';
-		
-		$db->setQuery($sql);
-		return $db->loadObjectList();
 	}
 	
 	/**
@@ -111,10 +96,10 @@ class JResearchModelCooperations extends JResearchModelList
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('name', 'published', 'ordering');
+		$orders = array('name', 'published');
 		
-		$filter_order = $mainframe->getUserStateFromRequest('coopsfilter_order', 'filter_order', 'ordering');
-		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('coopsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
+		$filter_order = $mainframe->getUserStateFromRequest('institutesfilter_order', 'filter_order', 'name');
+		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('institutesfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -124,7 +109,7 @@ class JResearchModelCooperations extends JResearchModelList
 		if(!in_array($filter_order, $orders))
 			$filter_order = $db->nameQuote('ordering');	
 		
-		return ' ORDER BY catid,'.$filter_order.' '.$filter_order_Dir;
+		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
 	}	
 	
 	/**
@@ -133,9 +118,8 @@ class JResearchModelCooperations extends JResearchModelList
 	private function _buildQueryWhere($published = false){
 		global $mainframe;
 		$db = & JFactory::getDBO();
-		$filter_state = $mainframe->getUserStateFromRequest('coopsfilter_state', 'filter_state');
-		$filter_search = $mainframe->getUserStateFromRequest('coopsfilter_search', 'filter_search');
-		$filter_category = $mainframe->getUserStateFromRequest('coopsfilter_category', 'filter_category');
+		$filter_state = $mainframe->getUserStateFromRequest('institutesfilter_state', 'filter_state');
+		$filter_search = $mainframe->getUserStateFromRequest('institutesfilter_search', 'filter_search');
 		
 		// prepare the WHERE clause
 		$where = array();
@@ -150,16 +134,12 @@ class JResearchModelCooperations extends JResearchModelList
 		else
 			$where[] = $db->nameQuote('published').' = 1 ';		
 
-		if($filter_category)
-		{
-			$where[] = $db->nameQuote('catid').' = '.$filter_category;
-		}
 			
 		if(($filter_search = trim($filter_search)))
 		{
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
-			$where[] = 'LOWER('.$db->nameQuote('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
+			$where[] = 'LOWER('.$db->nameQuote('name').') LIKE '.$db->Quote('%'.$filter_search.'%');
 		}
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
@@ -176,63 +156,6 @@ class JResearchModelCooperations extends JResearchModelList
 		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
-	}
-	
-	/**
-	 * Ordering item
-	*/
-	function orderItem($item, $movement)
-	{
-		$db =& JFactory::getDBO();
-		$row = new JResearchCooperation($db);
-		$row->load($item);
-		
-		if (!$row->move($movement))
-		{
-			$this->setError($row->getError());
-			return false;
-		}
-
-		return true;
-	}
-	
-	/**
-	 * Set ordering
-	*/
-	function setOrder($items)
-	{
-		$db 		=& JFactory::getDBO();
-		$total		= count($items);
-		$row		= new JResearchCooperation($db);
-
-		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
-		JArrayHelper::toInteger($order);
-
-		// update ordering values
-		for( $i=0; $i < $total; $i++ )
-		{
-			$row->load( $items[$i] );
-			$groupings[] = $row->catid;
-			
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-				if (!$row->store())
-				{
-					$this->setError($row->getError());
-					return false;
-				}
-			} // if
-		} // for
-
-		//Ordering for groups
-		$groupings = array_unique($groupings);
-		foreach($groupings as $group)
-		{
-			$row->reorder('catid='.$group);
-		}
-
-		return true;
 	}
 }
 ?>
