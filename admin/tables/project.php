@@ -79,13 +79,13 @@ class JResearchProject extends JResearchActivity{
 	 * Holds financiers of the project
 	 * @var array
 	 */
-	protected $_financiers;
+	protected $_financiers = array();
 	
 	/**
 	 * Holds cooperations of the project
 	 * @var array
 	 */
-	protected $_cooperations;
+	protected $_cooperations = array();
 	
 	/**
 	 * Class constructor. Maps the class to a Joomla table.
