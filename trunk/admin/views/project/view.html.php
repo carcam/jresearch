@@ -65,7 +65,7 @@ class JResearchAdminViewProject extends JResearchView
 			$fins[] = $fin->id;
 		}
 		
-		$finHTML = JHTML::_('jresearchhtml.financiers', array('name' => 'id_financier[]', 'attributes' => 'class="inputbox" size="1" multiple="multiple"', 'selected' => (count($fins) > 0) ? $fins : ''));
+		$finHTML = JHTML::_('jresearchhtml.financiers', array('name' => 'id_financier[]', 'attributes' => 'class="inputbox" size="5" multiple="multiple"', 'selected' => (count($fins) > 0) ? $fins : ''));
 
 		$params = JComponentHelper::getParams('com_jresearch');
 		if(!empty($project->files))
