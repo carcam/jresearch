@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_INSTITUTE_DESCRIPTION">
+		<message>JRESEARCH_INSTITUTE_DESCRIPTION_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_INSTITUTE_DESCRIPTION</name>
+		<description>JRESEARCH_INSTITUTE_DESCRIPTION_VIEW_MESSAGE</description>
+		<url>
+			<param type="sql" name="id" label="JRESEARCH_INSTITUTE" description="JRESEARCH_INSTITUTE_DISPLAYED" query="SELECT id as value, name as id FROM #__jresearch_institutes WHERE published = 1" />	
+			<param type="hidden" name="task" default="show" />
+		</url>
+		<params>
+			<param name="institute_image_width" default="1024" label="JRESEARCH_INSTITUTE_IMAGE_WIDTH" type="text" />
+			<param name="institute_image_height" default="768" label="JRESEARCH_INSTITUTE_IMAGE_HEIGHT" type="text" />		
+		</params>
+	</state>
+</metadata>

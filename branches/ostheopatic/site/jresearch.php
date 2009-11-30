@@ -94,6 +94,9 @@ function __mapViewToController(){
 		case 'cooperations': case 'cooperation':
 			$value = 'cooperations';
 			break;
+		case 'institutes': case 'institute':
+			$value = 'institutes';
+			break;
 		case 'facilities': case 'facility':
 			$value = 'facilities';
 			break;
