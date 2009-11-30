@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_INSTITUTES_LIST">
+		<message>JRESEARCH_INSTITUTES_LIST_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_INSTITUTES_LIST</name>
+		<description>JRESEARCH_INSTITUTES_LIST_VIEW_MESSAGE</description>
+		
+		<params>
+			<param name="institute_entries_per_page" default="25" label="JRESEARCH_CONFIG_INSTITUTES_PER_PAGE" type="text" ></param>									
+			<param name="institutes_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+				<option value="asc">JRESEARCH_ASCENDING</option>
+				<option value="desc">JRESEARCH_DESCENDING</option>
+			</param>
+			<param name="institute_image_width" default="1024" label="JRESEARCH_INSTITUTE_IMAGE_WIDTH" type="text" />
+			<param name="institute_image_height" default="768" label="JRESEARCH_INSTITUTE_IMAGE_HEIGHT" type="text" />
+			
+		</params>
+	</state>
+</metadata>
