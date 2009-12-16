@@ -68,6 +68,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 
 						$newPub->published = true;
 						$newPub->created_by = $user->get('id');	
+						$newPub->alias = JResearch::alias($newPub->title);
 						
 						$resultArray[] = $newPub;
 					}

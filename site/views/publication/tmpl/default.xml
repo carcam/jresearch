@@ -11,7 +11,7 @@
 			description="Publication displayed" query="SELECT id as value, alias as id FROM #__jresearch_publication WHERE published = 1 AND internal=1" />	
 			<param type="hidden" name="task" default="show" />
 		</url>
-		<params>
+		<params>		
 			<param type="list" name="show_journal_acceptance_rate" default="1">
 				<option value="no">No</option>
 				<option value="yes">Yes</option>
@@ -33,6 +33,10 @@
 				<option value="users">JRESEARCH_AUTHENTICATED</option>
 			</param>
 			<param type="spacer" />
+			<param name="show_bibtex" type="radio" default="yes" label="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
 			<param name="show_export_bibtex" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_BIBTEX" description="JRESEARCH_PUBLICATION_EXPORT_BIBTEX_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>						

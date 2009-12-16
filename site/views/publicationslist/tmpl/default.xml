@@ -90,6 +90,10 @@
 				<option value="yes">Yes</option>
 				<option value="no">No</option>			
 			</param>
+			<param name="show_bibtex" type="radio" default="yes" label="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
 			<param name="show_export_bibtex" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_BIBTEX" description="JRESEARCH_PUBLICATION_EXPORT_BIBTEX_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>						

@@ -82,7 +82,9 @@ class JResearchViewPublicationsList extends JResearchView
     		$this->assignRef('average', $average);
     	}
     	
+    	
     	$format = $params->get('staff_format') == 'last_first'?1:0;
+    	$showScore = $params->get('show_score');
     	
     	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
     
@@ -91,6 +93,7 @@ class JResearchViewPublicationsList extends JResearchView
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $page);
     	$this->assignRef('lists', $lists);
+    	$this->assignRef('showScore', $showScore);
     	$this->assignRef('punctuationField', $field);
     	$this->assignRef('format', $format);
     }
@@ -238,7 +241,7 @@ class JResearchViewPublicationsList extends JResearchView
 					$result[$yearHeader][] = $pub;		
 					$previousYear = $pub->year;								
 				}
-				if($result[$yearHeader])
+				if(isset($result[$yearHeader]))
 					$result[$yearHeader] = $styleObj->sort($result[$yearHeader]);
 	    		break;
 			case 'type':

@@ -16,6 +16,10 @@
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
 			</param>
+			<param name="show_score" type="radio" default="yes" label="JRESEARCH_CONFIG_SHOW_SCORE" description="JRESEARCH_CONFIG_SHOW_SCORE_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>			
 			<param name="show_average" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_AVERAGE" description="JRESEARCH_PUBLICATIONS_SHOW_AVERAGE_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>

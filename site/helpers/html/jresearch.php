@@ -33,19 +33,12 @@ class JHTMLJresearch
 
 		$modelKey = JRequest::getVar('modelkey');
 		$modelKeyText = !empty($modelKey)?'&modelkey='.$modelKey:'';
-		
-		// Changes by Pablo Moncada
-		$params = &JComponentHelper::getParams( 'com_jresearch' );
-		$edit = $params->get('everybody_can_edit');
-		$user =& JFactory::getUser($userid);
-		$all = (($edit == "yes")&&($user->guest == 0)); //All except anonymous
-		//End of changes
-		
+				
 		if(in_array($controller, $availableController))
 		{
 			$authorized = JHTMLJResearch::authorize($task, $controller, $itemid, $userid);
 
-			if($authorized || $all) //Changes by Pablo Moncada
+			if($authorized) //Changes by Pablo Moncada
 			{
 				switch($controller)
 				{
@@ -57,6 +50,25 @@ class JHTMLJresearch
 						break;
 					default:
 						break;
+				}
+			}else{					
+				// Changes by Pablo Moncada/ Moved by Luis Galárraga
+				$params = &JComponentHelper::getParams('com_jresearch');
+				$edit = $params->get('publications_everybody_can_edit');
+				$user =& JFactory::getUser($userid);
+				$all = (($edit == "yes") && ($user->guest == 0)); //All except anonymous
+				//End of changes			
+				if($all){
+					switch($controller){
+						case 'publications':
+							$task = ($task == 'add')?'new':$task;
+							return '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="Edit publication">'
+							.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
+							.'</a>';
+							break;
+						default:
+							break;
+					}
 				}
 			}
 		}

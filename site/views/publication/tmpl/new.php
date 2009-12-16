@@ -36,9 +36,8 @@ $bibtex = $params->get('enable_bibtex');
 		<?php endif; ?>		
 		<input type="hidden" name="id" value="0" />
 	</form>
-	<?php //BEGIN PABLO MONCADA ?>
 	<?php if($bibtex == "yes") {?>
-	<h1><?php echo JText::_('JRESEARCH_NEW_PUBLICATION_BY_BIBTEX'); ?></h1>
+	<h1><?php echo JText::_('JRESEARCH_IMPORT_PUBLICATIONS'); ?></h1>
 	<form name="upload" enctype="multipart/form-data" method="post" >
 	<table class="adminform">
 			<tbody>
@@ -57,8 +56,11 @@ $bibtex = $params->get('enable_bibtex');
 			</tbody>
 		</table>
 		 <div style="text-align: center;">
-			<input  name="submit" value="Importar" type="submit">
+			<input  name="submit" value="<?php echo JText::_('JRESEARCH_IMPORT');?>" type="submit">
 		</div>
+		<?php if(isset($Itemid)): ?>
+			<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
+		<?php endif; ?>
 	</form>
 <?php
 }else {}

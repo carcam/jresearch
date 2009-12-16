@@ -130,14 +130,15 @@ defined('_JEXEC') or die('Restricted access');
 	</tr>
 	<?php endif; ?>	
 	
-	
-	<?php if($this->params->get('show_bibtex') == "yes"): ?>
-	<tr>
-		<th scope="row"><div style="text-align:justify;"><?php echo JText::_('BibTex').': '; ?></div></th>
-	</tr>
-	<tr>
-		<td colspan="4" align="left"><textarea rows="6" cols="45"><?php echo $output2; ?></textarea></td>
-	</tr>
+	<?php if($this->params->get('enable_export_frontend') == 'yes'): ?>	
+		<?php if($this->params->get('show_bibtex') == "yes"): ?>
+		<tr>
+			<th scope="row"><div style="text-align:justify;"><?php echo JText::_('BibTex').': '; ?></div></th>
+		</tr>
+		<tr>
+			<td colspan="4" align="left"><textarea rows="6" cols="45"><?php echo $output2; ?></textarea></td>
+		</tr>
+		<?php endif; ?>
 	<?php endif; ?>
 	
 	<?php $note = trim($this->publication->note); ?>	

@@ -268,14 +268,14 @@ class JResearchViewPublication extends JResearchView
 		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
 		
 		$this->assignRef('types', $typesList);
-		if(isset($_POST[submit])) {
+		$submit = JRequest::getVar('submit'); 
+		if(isset($_POST['submit'])) {
 			$fileArray = JRequest::getVar('inputfile', null, 'FILES');
 			$format = JRequest::getVar('formats');
 			$texto = JRequest::getVar('bibtex');
 			$idResearchArea = JRequest::getVar('researchAreas');
 			$uploadedFile = $fileArray['tmp_name'];
 			
-			error_reporting(0);
 			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'factory.php');
 			$importer = &JResearchPublicationImporterFactory::getInstance("bibtex"); //Usamos bibtex como metodo de importacion
 			
@@ -283,15 +283,16 @@ class JResearchViewPublication extends JResearchView
 			* Se comprueba que el archivo ha sido subido
 			*/
 			if($fileArray == null || $uploadedFile == null){
-				$parsedPublications = $importer->parseText($texto);	
-				foreach($parsedPublications as $p){
-					$p->id_research_area = $idResearchArea;
-					if(!$p->store()){					
-						JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
-					}else{
-						$n++;
-						echo '<b><font color="red">BibTex Importado correctamente</font></b>'; //Se ha de cambiar y mostrar con JTEXT
-
+				$n = 0;
+				if($texto != null){
+					$parsedPublications = $importer->parseText($texto);	
+					foreach($parsedPublications as $p){
+						$p->id_research_area = $idResearchArea;
+						if(!$p->store()){					
+							JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
+						}else{
+							$n++;
+						}
 					}
 				}
 			/*
@@ -300,13 +301,13 @@ class JResearchViewPublication extends JResearchView
 			*/
 			}else{			
 				$parsedPublications = $importer->parseFile($uploadedFile);	
+				$n = 0;
 				foreach($parsedPublications as $p){
 					$p->id_research_area = $idResearchArea;
 					if(!$p->store()){					
 						JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
 					}else{
 						$n++;
-						echo '<b><font color="red">BibTex Importado correctamente</font></b>'; //Se ha de cambiar y mostrar con JTEXT
 					}
 				}
 				

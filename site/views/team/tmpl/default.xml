@@ -7,7 +7,7 @@
 		<name>JRESEARCH_TEAM_DESCRIPTION</name>
 		<description>JRESEARCH_TEAM_DESCRIPTION_VIEW_MESSAGE</description>
 		<url>
-			<param type="sql" name="id" label="JRESEARCH_TEAM" description="JRESEARCH_TEAM_DISPLAYED" query="SELECT id as value, name as id FROM #__jresearch_team WHERE published = 1" />	
+			<param type="sql" name="id" label="JRESEARCH_TEAM" description="JRESEARCH_TEAM_DISPLAYED" query="SELECT id as value, alias as id FROM #__jresearch_team WHERE published = 1" />	
 			<param type="hidden" name="task" default="show" />
 		</url>
 		<params>
