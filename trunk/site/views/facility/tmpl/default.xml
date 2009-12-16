@@ -8,7 +8,7 @@
 		<description>JRESEARCH_FACILITY_VIEW_MESSAGE</description>
 		<url>
 			<param type="sql" name="id" label="JRESEARCH_FACILITY" 
-			description="JRESEARCH_ITEM_DISPLAYED" query="SELECT id as value, name as id FROM #__jresearch_facilities WHERE published = 1" />	
+			description="JRESEARCH_ITEM_DISPLAYED" query="SELECT id as value, alias as id FROM #__jresearch_facilities WHERE published = 1" />	
 			<param type="hidden" name="task" default="show" />
 		</url>
 		<params>

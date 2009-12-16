@@ -8,7 +8,7 @@
 		<description>JRESEARCH_THESIS_DESCRIPTION_VIEW_MESSAGE</description>
 		<url>
 			<param type="sql" name="id" label="JRESEARCH_THESIS" 
-			description="Thesis displayed" query="SELECT id as value, title as id FROM #__jresearch_thesis WHERE published = 1" />	
+			description="Thesis displayed" query="SELECT id as value, alias as id FROM #__jresearch_thesis WHERE published = 1" />	
 			<param type="hidden" name="task" default="show" />
 		</url>
 		

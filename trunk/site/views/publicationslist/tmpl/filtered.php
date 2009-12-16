@@ -26,7 +26,9 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 			<th style="text-align:center;width:40%;"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
 			<th style="text-align:center;width:35%;"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
 			<th style="text-align:center;width:10%;"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
+			<?php if($this->showScore): ?>
 			<th style="text-align:center;width:10%;"><?php echo $this->punctuationField == 'journal_acceptance_rate'?JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'):JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR'); ?></th>
+			<?php endif; ?>
 			<?php $user = JFactory::getUser(); 
 				  if(!$user->guest): ?>
 						<th style="width:2%;"></th>
@@ -58,7 +60,9 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 					<td><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=show&amp;modelkey=tabular&amp;id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'&amp;Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td style="text-align:center"><?php echo $text; ?></td>
 					<td style="text-align:center"><?php echo $this->items[$i]->year; ?></td>
+					<?php if($this->showScore): ?>
 					<td style="text-align:center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
+					<?php endif; ?>
 					<?php if(!$user->guest): ?>
 						<td><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
 					<?php endif; ?>			
