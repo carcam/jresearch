@@ -56,6 +56,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$this->registerTask('changeType', 'changeType');
 		$this->registerTask('export', 'export');
 		$this->registerTask('exportAll', 'exportAll');
+		$this->registerTask('executeImport', 'executeImport');
 				
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
@@ -868,6 +869,60 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$tmpfname = "jresearch_output.$ext";
 		header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
 		echo $output;
+	}
+	
+	/**
+	 * Invoked when a user has imported a set of publications
+	 * from frontend
+	 * 
+	 */
+	function executeImport(){
+		global $mainframe;
+		$params = $mainframe->getPageParameters('com_jresearch');
+		$bibtex = $params->get('enable_bibtex_frontend_import');
+		
+		if($bibtex == "yes"){		
+			$fileArray = JRequest::getVar('inputfile', null, 'FILES');
+			$format = JRequest::getVar('formats');
+			$texto = JRequest::getVar('bibtex');
+			$idResearchArea = JRequest::getVar('researchAreas');
+			$uploadedFile = $fileArray['tmp_name'];
+			
+			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'factory.php');
+			$importer = &JResearchPublicationImporterFactory::getInstance("bibtex");
+			
+			if($fileArray == null || $uploadedFile == null){
+				$n = 0;
+				if($texto != null){
+					$parsedPublications = $importer->parseText($texto);	
+					foreach($parsedPublications as $p){
+						$p->id_research_area = $idResearchArea;
+						if(!$p->store()){					
+							JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
+						}else{
+							$n++;
+						}
+					}
+				}
+			}else{			
+				$parsedPublications = $importer->parseFile($uploadedFile);	
+				$n = 0;
+				foreach($parsedPublications as $p){
+					$p->id_research_area = $idResearchArea;
+					if(!$p->store()){					
+						JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
+					}else{
+						$n++;
+					}
+				}
+				
+			}
+			$mainframe->enqueueMessage(JText::_('JRESEARCH_IMPORTED_ITEMS').': '.$n);
+		}else{
+			JError::raiseWarning(1, JText::_('JRESEARCH_IMPORT_FROM_FRONTEND_NOT_ENABLED'));
+		}
+		
+		$this->add();
 	}
 }
 ?>

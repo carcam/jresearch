@@ -46,16 +46,17 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 								elseif(!empty($auth['jr']))
 									$authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
 								else
-									$authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
+									$authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];	
 								$newPub->setAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);
 								$j++;
 							}
 						}
 						// Normalize the data, bibtex entities are not stored in database
 						$newPub->citekey = JResearchPublicationsHelper::bibCharsToUtf8FromString($data['cite']);
-						foreach($data as $key=>$info)
-							$data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
-						
+						foreach($data as $key=>$info){
+							if($key != 'author')
+								$data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
+						}
 						$params = &JComponentHelper::getParams( 'com_jresearch' );
 						$mi = $params->get('make_internal');
 						

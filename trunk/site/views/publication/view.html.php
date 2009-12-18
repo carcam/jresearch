@@ -268,52 +268,6 @@ class JResearchViewPublication extends JResearchView
 		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
 		
 		$this->assignRef('types', $typesList);
-		$submit = JRequest::getVar('submit'); 
-		if(isset($_POST['submit'])) {
-			$fileArray = JRequest::getVar('inputfile', null, 'FILES');
-			$format = JRequest::getVar('formats');
-			$texto = JRequest::getVar('bibtex');
-			$idResearchArea = JRequest::getVar('researchAreas');
-			$uploadedFile = $fileArray['tmp_name'];
-			
-			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'factory.php');
-			$importer = &JResearchPublicationImporterFactory::getInstance("bibtex"); //Usamos bibtex como metodo de importacion
-			
-			/*
-			* Se comprueba que el archivo ha sido subido
-			*/
-			if($fileArray == null || $uploadedFile == null){
-				$n = 0;
-				if($texto != null){
-					$parsedPublications = $importer->parseText($texto);	
-					foreach($parsedPublications as $p){
-						$p->id_research_area = $idResearchArea;
-						if(!$p->store()){					
-							JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
-						}else{
-							$n++;
-						}
-					}
-				}
-			/*
-			* En caso contrario, se lee el cuadro de texto, y se interpreta el BibTex escrito
-			* Se traga bibtex en blanco
-			*/
-			}else{			
-				$parsedPublications = $importer->parseFile($uploadedFile);	
-				$n = 0;
-				foreach($parsedPublications as $p){
-					$p->id_research_area = $idResearchArea;
-					if(!$p->store()){					
-						JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
-					}else{
-						$n++;
-					}
-				}
-				
-			}
-			JText::sprintf('JRESEARCH_IMPORTED_ITEMS', count($parsedPublications), $n);
-		}
 		return true;
 	}
 }
