@@ -9,16 +9,5 @@
 		<url>
 			<param type="hidden" name="task" default="new" />
 		</url>
-		<params>
-			<param name="enable_bibtex" type="radio" default="yes" label="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</param>
-		
-			<param name="make_internal" type="radio" default="no" label="JRESEARCH_CONFIG_MAKE_INTERNAL" description="JRESEARCH_CONFIG_MAKE_INTERNAL_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</param>		
-		</params>
 	</state>
 </metadata>

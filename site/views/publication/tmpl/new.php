@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 if(JHTML::_('Jresearch.authorize','add', 'publications'))
 {
 $params = $mainframe->getPageParameters('com_jresearch');
-$bibtex = $params->get('enable_bibtex');
+$bibtex = $params->get('enable_bibtex_frontend_import');
 ?>
 	<h1><?php echo JText::_('JRESEARCH_NEW_PUBLICATION'); ?></h1>
 	<form name="adminForm" id="adminForm" method="post" action="index.php">
@@ -61,13 +61,13 @@ $bibtex = $params->get('enable_bibtex');
 		<?php if(isset($Itemid)): ?>
 			<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 		<?php endif; ?>
+		<input type="hidden" name="task" id="task" value="executeImport" />
+		<input type="hidden" name="controller" id="controller" value="publications" />
+		<input type="hidden" name="option" id="option" value="com_jresearch" />		
 	</form>
+	<?php } ?>
 <?php
-}else {}
-//END PABLO MONCADA
-}
-else
-{
+}else{
 ?>
 	<div style="clear: both;">&nbsp;</div>
 	<div style="text-align:center;"><?php echo JText::_('JRESEARCH_ACCESS_NOT_ALLOWED')?></div>

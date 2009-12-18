@@ -97,7 +97,7 @@ class JResearchAdminViewStaff extends JResearchView
     	
     	JRequest::setVar( 'hidemainmenu', 1 );  	
     	JResearchToolbar::addMemberToolBar();    	    	
-    	$control = JHTML::_('jresearchhtml.staffImporter', 'importedMembers');
+    	$control = JHTML::_('jresearchhtml.staffImporter2', 'importedMembers');
   
     	$this->assignRef('control', $control);
     	
