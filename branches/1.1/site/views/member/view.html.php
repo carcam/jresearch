@@ -94,7 +94,11 @@ class JResearchViewMember extends JResearchView
     		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
     	}    	
     	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $member->id_research_area);
-
+    	
+    	$orderOptions = array();
+    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, CONCAT_WS(\' \', firstname, lastname) AS text FROM #__jresearch_member ORDER by former_member,ordering ASC');
+    	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , ($member)?$member->ordering:0);
+    	
 		//Published options
     	$publishedOptions = array();
     	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
@@ -107,6 +111,7 @@ class JResearchViewMember extends JResearchView
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('editor', $editor);    	
+    	$this->assignRef('orderList', $orderList);
     	
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments); 	
