@@ -24,15 +24,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 class JResearchTeam extends JTable
 {
 	public $id;
-	public $parent;
 	public $id_leader;
-	/**
-	 * String for alias
-	 *
-	 * @var string
-	 */
-	public $alias;
-	
 	public $name;
 	public $description;
 	public $published;
@@ -107,20 +99,6 @@ class JResearchTeam extends JTable
 		parent::delete($oid);
 	}
 	
-	public function getParent()
-	{
-		if($this->parent)
-		{
-			$db =& JFactory::getDBO();
-			$parent = new JResearchTeam($db);
-			$parent->load($this->parent);
-			
-			return $parent;
-		}
-		
-		return null;
-	}
-	
 	/**
 	 * Gets all members, an array of member objects
 	 *
@@ -128,7 +106,17 @@ class JResearchTeam extends JTable
 	 */
 	public function getMembers()
 	{
-		return $this->_members;
+		$db =& JFactory::getDBO();
+		$memberObjects = array(); 
+		
+		foreach($this->_members as $member)
+		{
+			$memberObject = new JResearchMember($db);
+			$memberObject->load($member['id_member']);
+			$memberObjects[] = $memberObject;
+		}
+		
+		return $memberObjects;
 	}
 	
 	/**
@@ -268,11 +256,6 @@ class JResearchTeam extends JTable
         {
         	$this->_members = array();	
         }
-	}
-	
-	public function __toString()
-	{
-		return $this->name;
 	}
 }
 ?>

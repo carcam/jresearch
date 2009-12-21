@@ -27,7 +27,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 	 * @param string $text
 	 * @param array of JResearchPublication objects
 	 */
-	public function parse($text){
+	public function parse($text){		
 		$resultArray = array();
 		$parser = new Structures_BibTex();
 		$parser->content = $text;
@@ -35,44 +35,34 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 		if($parser->parse()){
 			foreach($parser->data as $data){
 				$type = strtolower($data['entryType']);
-				if(!empty($type)){
-					$newPub =& JResearchPublication::getSubclassInstance($type);
-					if($newPub != null){
-						$j = 0;
-						if(!empty($data['author'])){
-							foreach($data['author'] as $auth){
-								if(empty($auth['von']))
-									$authorName = $auth['first'].' '.$auth['last'];
-								elseif(!empty($auth['jr']))
-									$authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
-								else
-									$authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];	
-								$newPub->setAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);
-								$j++;
-							}
+				$newPub =& JResearchPublication::getSubclassInstance($type);
+				if($newPub != null){
+					$j = 0;
+					if(!empty($data['author'])){
+						foreach($data['author'] as $auth){
+							if(empty($auth['von']))
+								$authorName = $auth['first'].' '.$auth['last'];
+							elseif(!empty($auth['jr']))
+								$authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
+							else
+								$authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
+							$newPub->setAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);
+							$j++;
 						}
-						// Normalize the data, bibtex entities are not stored in database
-						$newPub->citekey = JResearchPublicationsHelper::bibCharsToUtf8FromString($data['cite']);
-						foreach($data as $key=>$info){
-							if($key != 'author')
-								$data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
-						}
-						$params = &JComponentHelper::getParams( 'com_jresearch' );
-						$mi = $params->get('make_internal');
-						
-						$newPub->bind($data);
-						//Auto make internal when uploading from bibtex file
-						if($mi == "yes")
-							$newPub->internal = true;
-						else
-							$newPub->internal = false;
-
-						$newPub->published = true;
-						$newPub->created_by = $user->get('id');	
-						$newPub->alias = JResearch::alias($newPub->title);
-						
-						$resultArray[] = $newPub;
 					}
+					// Normalize the data, bibtex entities are not stored in database
+					$newPub->citekey = JResearchPublicationsHelper::bibCharsToUtf8FromString($data['cite']);
+					foreach($data as $key=>$info){
+						if($key != 'author')
+							$data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
+					}
+					
+					$newPub->bind($data);
+					$newPub->internal = false;
+					$newPub->published = true;
+					$newPub->created_by = $user->get('id');	
+					
+					$resultArray[] = $newPub;
 				}
 			}
 		}

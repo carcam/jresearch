@@ -8,31 +8,33 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
+
 ?>
+
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<div style="text-align:left">
-		<?php echo $this->filter; ?>
-		<div>&nbsp;<?php echo JHTML::_('Jresearch.icon','add','publications'); ?></div>						
+		<?php echo !empty($this->lists['search'])?'<span>'.$this->lists['search'].'</span>':''; ?>
+		<?php echo !empty($this->lists['teams'])?'<span>'.$this->lists['teams'].'</span>':''; ?>	
+		<?php echo !empty($this->lists['areas'])?'<span>'.$this->lists['areas'].'</span>':''; ?>
+		<?php echo !empty($this->lists['years'])?'<span>'.$this->lists['years'].'</span>':''; ?>
+		<?php echo !empty($this->lists['pubtypes'])?'<span>'.$this->lists['pubtypes'].'</span>':''; ?>
+		<?php echo !empty($this->lists['authors'])?'<span>'.$this->lists['authors'].'</span>':''; ?>
+		<div><?php JHTML::_('Jresearch.icon','add','publications'); ?></div>						
 	</div>
 	<?php $label = JText::_('JRESEARCH_PUNCTUATION_AVERAGE'); ?>
 	<?php if(!empty($this->average))
 		printf("<div><h2>%s:&nbsp;%.2f</h2></div>", $label, $this->average); 
 	?>
-	<table style="clear: both;">
+	<table>
 		<thead>
 		<tr>		
-			<th style="width:3%;">#</th>
-			<th style="text-align:center;width:40%;"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
-			<th style="text-align:center;width:35%;"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
-			<th style="text-align:center;width:10%;"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
-			<?php if($this->showScore): ?>
-			<th style="text-align:center;width:10%;"><?php echo $this->punctuationField == 'journal_acceptance_rate'?JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'):JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR'); ?></th>
-			<?php endif; ?>
-			<?php $user = JFactory::getUser(); 
-				  if(!$user->guest): ?>
-						<th style="width:2%;"></th>
-			<?php endif; ?>			
+			<th width="3%">#</th>
+			<th style="text-align:center;" width="40%"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
+			<th style="text-align:center;" nowrap="nowrap" width="35%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
+			<th style="text-align:center;" width="10%"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
+			<th style="text-align:center;" width="10%"><?php echo $this->punctuationField == 'journal_acceptance_rate'?JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'):JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR'); ?></th>
+			<th width="2%"></th>
 		</tr>
 		</thead>
 		
@@ -48,33 +50,26 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 		<tbody>
 		<?php 
 			$n = count($this->items);
-			
-			if($n > 0):
 			$Itemid = JRequest::getVar('Itemid');
+			$modelkey = JRequest::getVar('modelkey');			
 			for($i=0; $i<$n; $i++){
-	          		$authors = $this->items[$i]->getAuthors();
-    	      			$text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->format);
+	          $authors = $this->items[$i]->getAuthors();
+	          $text = JResearchPublicationsHelper::formatAuthorsArray($authors);
 		?>
+			
 				<tr class="<?php echo "row$i"; ?>">
-					<td><?php echo $i+1; ?></td>
-					<td><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=show&amp;modelkey=tabular&amp;id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'&amp;Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
-					<td style="text-align:center"><?php echo $text; ?></td>
-					<td style="text-align:center"><?php echo $this->items[$i]->year; ?></td>
-					<?php if($this->showScore): ?>
-					<td style="text-align:center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
-					<?php endif; ?>
-					<?php if(!$user->guest): ?>
-						<td><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
-					<?php endif; ?>			
+					<td width="3%"><?php echo $i+1; ?></td>
+					<td width="40%"><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=show<?php !empty($modelkey)?'&amp;modelkey='.$modelkey:''; ?>&amp;id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
+					<td width="35%" align="center"><?php echo $text; ?></td>
+					<td width="10%" align="center"><?php echo $this->items[$i]->year; ?></td>
+					<?php if($this->punctuationField == 'journal_acceptance_rate'): ?>
+						<td width="10%" align="center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
+					<?php else: ?>
+						<td width="10%" align="center"><?php echo !empty($this->items[$i]->impact_factor)?$this->items[$i]->impact_factor:'--'; ?></td>					
+					<?php endif; ?>	
+					<td width="2%"><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
 				</tr>
-			<?php
-			}
-			else:
-			?>
-			<tr><td colspan="5">&nbsp;</td></tr>
-			<?php 
-			endif;
-			?>
+			<?php } ?>
 		</tbody>
 	</table>
 	<input type="hidden" name="option" value="com_jresearch" />

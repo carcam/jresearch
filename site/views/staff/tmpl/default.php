@@ -5,55 +5,43 @@
  * Default view for showing a list of staff members
  */
 
-//@todo Change styling attributes for table to CSS
 // no direct access
-defined('_JEXEC') or die('Restricted access'); 
-$itemId = JRequest::getVar('Itemid');
+defined('_JEXEC') or die('Restricted access'); ?>
+<h1 class="componentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h1>
+<table width="100%" cellpadding="2" cellspacing="2" align="center">
+<thead>
+	<tr align="center">
+		<th width="25%"><?php echo JText::_('JRESEARCH_NAME'); ?></th>
+		<th width="25%"><?php echo JText::_('JRESEARCH_EMAIL'); ?></th>	
+		<th width="25%"><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
+		<th width="25%"><?php echo JText::_('JRESEARCH_POSITION'); ?></th>												
+	</tr>
+</thead>
+<?php $itemId = JRequest::getVar('Itemid'); ?>
+<tbody>
+<?php foreach($this->items as $member){ 
+	$researchArea = $this->areaModel->getItem($member->id_research_area);
 ?>
-<h2 class="componentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
-<br />
-<br />
-<table class="stafftable">
-	<thead>
-		<tr>
-			<th><?php echo JText::_('JRESEARCH_NAME'); ?></th>
-			<th><?php echo JText::_('JRESEARCH_EMAIL'); ?></th>	
-			<th><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
-			<th><?php echo JText::_('JRESEARCH_POSITION'); ?></th>												
-		</tr>
-	</thead>
-	<tfoot align="center">
-		<tr><td colspan="4"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></td></tr>
-	</tfoot>
-    <?php
-    $itemId = JRequest::getVar('Itemid');
-    ?>
-	<tbody>
-	    <?php
-	    if(count($this->items) > 0):
-	    foreach($this->items as $member): 
-		    $researchArea = $this->areaModel->getItem($member->id_research_area);
-	    ?>
-		<tr>
-			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a></td>
-			<td><?php echo JHTML::_('email.cloak', $member->email); ?></td>
-			<td>
-				<?php if($researchArea->id > 1):?>
-					<?php echo JHTML::_('jresearch.link', $researchArea->name, 'researcharea', 'show', $researchArea->id); ?>
-				<?php else: ?>
-					<?php echo $researchArea->name; ?>				
-				<?php endif; ?>
-			</td>
-			<td><?php echo empty($member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$member->getPosition(); ?></td>
-		</tr>
-        <?php
-        endforeach;
-        
-        else:
-        ?>
-        <tr><td colspan="4"></td></tr>
-        <?php
-        endif;
-        ?>
-	</tbody>
+	<tr align="center">
+		<td width="25%"><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $member->__toString(); ?></a></td>
+		<td width="25%"><?php echo JHTML::_('email.cloak', $member->email); ?></td>
+		<td width="25%">
+			<?php if($researchArea->id > 1):?>
+				<a href="index.php?option=com_jresearch&amp;view=researcharea&amp;task=show&amp;id=<?php echo $researchArea->id;?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $researchArea->name; ?></a>
+			<?php else: ?>
+				<?php echo $researchArea->name; ?>				
+			<?php endif; ?>
+		</td>
+		<td width="25%"><?php echo $member->position; ?></td>
+	</tr>
+<?php } ?>
+</tbody>
+<tfoot align="center">
+	<tr><td colspan="4"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></td></tr>
+</tfoot>
 </table>
+<input type="hidden" name="option" value="com_jresearch" />
+<input type="hidden" name="controller" value="staff"  />
+<input type="hidden" name="limitstart" value="" />
+<input type="hidden" name="hidemainmenu" value="" />
+<?php echo JHTML::_( 'form.token' ); ?>

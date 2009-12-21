@@ -30,7 +30,7 @@ function plgJResearchOnBeforeEditEntity($entityType, $recordId){
 	global $mainframe;
 	$db =& JFactory::getDBO();
 	$session =& JFactory::getSession();
-	
+
 	if($recordId != null){
 		$query = 'SELECT '.$db->nameQuote('citekey').' FROM '.$db->nameQuote('#__jresearch_cited_records')
 				.' WHERE '.$db->nameQuote('id_record').'='.$db->Quote($recordId).' AND '.$db->nameQuote('record_type').'='.$db->Quote($entityType);

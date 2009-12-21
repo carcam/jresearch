@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<params>
-		<param name="thumbnail_enable" type="radio" default="true" label="JRESEARCH_THUMBNAIL_ENABLE" description="JRESEARCH_THUMBNAIL_ENABLE_DESCRIPTION">
-			<option value="true">Yes</option>
-			<option value="false">No</option>
+		<param name="area_entries_per_page" default="10" label="JRESEARCH_CONFIG_AREAS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_AREAS_PER_PAGE_DESCRIPTION" ></param>
+		<param name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
+		<param name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />			
+		<param name="area_number_last_theses" label="JRESEARCH_CONFIG_LAST_THESES_IN_AREA" default="5" type="text" />							
+		<param type="spacer" />
+		<param name="publications_entries_per_page" default="25" label="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE_DESCRIPTION" ></param>
+		<param name="publications_default_sorting" default="year" label="JRESEARCH_ORDER_BY" type="radio">
+			<option value="year">JRESEARCH_YEAR</option>
+			<option value="alphabetical">Title</option>
+			<option value="type">JRESEARCH_TYPE</option>
 		</param>
-		<param name="show_hits" type="radio" default="yes" label="JRESEARCH_SHOW_HITS" description="JRESEARCH_SHOW_HITS_DESCRIPTION">
+		<param name="publications_order" label="JRESEARCH_SORTED" type="radio" default="DESC">
+			<option value="ASC">JRESEARCH_ASCENDING</option>
+			<option value="DESC">JRESEARCH_DESCENDING</option>
+		</param>
+		<param name="publications_activate_sindication" label="JRESEARCH_CONFIG_ACTIVATE_SINDICATION" type="radio" default="yes">
 			<option value="yes">Yes</option>
 			<option value="no">No</option>
 		</param>
-		<param type="spacer" />
-				
+		<param name="publications_items_in_feed" default="10" label="JRESEARCH_CONFIG_ITEMS_IN_RSS_FEED" type="text" />
+		
+		<param name="publications_allow_comentaries" label="JRESEARCH_CONFIG_ALLOW_COMENTARIES" type="radio" default="no">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		<param name="publications_allow_comentaries_from" label="JRESEARCH_CONFIG_ALLOW_COMENTARIES_FROM" type="radio" default="users">
+			<option value="everyone">JRESEARCH_EVERYONE</option>
+			<option value="users">JRESEARCH_AUTHENTICATED</option>
+		</param>
 		<param name="citationStyle" type="list" default="APA" label="JRESEARCH_CITATION_STYLE" description="JRESEARCH_CITATION_STYLE_DESCRIPTION">
 			<option value="APA">APA</option>
 			<option value="IEEE">IEEE</option>
@@ -19,60 +38,65 @@
 			<option value="Chicago">Chicago (Author-Date system)</option>
 			<option value="Vancouver">Vancouver</option>
 		</param>
-		<param name="enable_export_frontend" type="radio" default="no" label="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT">
-			<option value="yes">Yes</option>
-			<option value="no">No</option>			
-		</param>
-		<param name="enable_bibtex_frontend_import" type="radio" default="yes" label="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND_DESCRIPTION">
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</param>		
-		<param name="make_internal" type="radio" default="no" label="JRESEARCH_CONFIG_MAKE_INTERNAL" description="JRESEARCH_CONFIG_MAKE_INTERNAL_DESCRIPTION">
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</param>		
-		
-		<param name="publications_apply_style" type="radio" label="JRESEARCH_PUBLICATIONS_APPLY_STYLE" description="JRESEARCH_PUBLICATIONS_APPLY_STYLE_DESCRIPTION" default="no">
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</param>
 	
 		<param type="spacer" />
+		<param name="projects_entries_per_page" default="25" label="JRESEARCH_CONFIG_PROJECTS_PER_PAGE" type="text" ></param>				
+		<param name="projects_default_sorting" default="date" label="JRESEARCH_ORDER_BY" type="radio">
+			<option value="date">JRESEARCH_DATE</option>
+			<option value="alphabetical">JRESEARCH_ALPHABETICAL</option>
+		</param>
+		<param name="projects_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+			<option value="asc">JRESEARCH_ASCENDING</option>
+			<option value="desc">JRESEARCH_DESCENDING</option>
+		</param>	
+		
+		<param type="spacer" />
+
+		<param name="theses_entries_per_page" default="25" label="JRESEARCH_CONFIG_THESES_PER_PAGE" type="text" ></param>				
+		<param name="theses_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+			<option value="asc">JRESEARCH_ASCENDING</option>
+			<option value="desc">JRESEARCH_DESCENDING</option>
+		</param>	
+		<param type="spacer" />
+		<param name="staff_entries_per_page" default="25" label="JRESEARCH_CONFIG_MEMBERS_PER_PAGE" type="text" ></param>									
+		<param name="staff_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+			<option value="asc">JRESEARCH_ASCENDING</option>
+			<option value="desc">JRESEARCH_DESCENDING</option>
+		</param>		
+		<param name="staff_show_publications" label="JRESEARCH_CONFIG_SHOW_PUBLICATIONS_IN_PROFILES" type="radio" default="yes">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
 		<param name="staff_list_arrangement" type="list" default="vertical" label="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT" description="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT_DESCRIPTION">
 			<option value="vertical">JRESEARCH_VERTICAL</option>
 			<option value="horizontal">JRESEARCH_HORIZONTAL</option>
-		</param>
-		<param name="staff_format" type="list" default="last_first" label="JRESEARCH_CONFIG_STAFF_FORMAT" description="JRESEARCH_CONFIG_STAFF_FORMAT_DESCRIPTION">
-			<option value="last_first">JRESEARCH_LASTNAME_FIRSTNAME</option>
-			<option value="first_last">JRESEARCH_FIRSTNAME_LASTNAME</option>			
-		</param>				
-		<param name="member_image_width" default="1024" label="JRESEARCH_MEMBER_IMAGE_WIDTH" type="text" />
-		<param name="member_image_height" default="768" label="JRESEARCH_MEMBER_IMAGE_HEIGHT" type="text" />
-		
-		<param type="spacer" />		
-		
-		<param name="publications_everybody_can_edit" type="radio" default="no" label="JRESEARCH_CONFIG_PUBLICATIONS_EVERYBODY_EDIT" description="JRESEARCH_CONFIG_PUBLICATIONS_EVERYBODY_DESCRIPTION">
+		</param>		
+		<param name="staff_number_last_publications" label="JRESEARCH_CONFIG_PROFILES_NUMBER_PUBLICATIONS" default="5" type="text" />
+		<param name="staff_show_projects" label="JRESEARCH_CONFIG_SHOW_PROJECTS_IN_PROFILES" type="radio" default="yes">
 			<option value="yes">Yes</option>
 			<option value="no">No</option>
+		</param>
+		<param name="staff_number_last_projects" label="JRESEARCH_CONFIG_PROFILES_NUMBER_PROJECTS" default="5" type="text" />
+		<param name="staff_show_theses" label="JRESEARCH_CONFIG_SHOW_THESES_IN_PROFILES" type="radio" default="yes">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		<param name="staff_number_last_theses" label="JRESEARCH_CONFIG_PROFILES_NUMBER_THESES" default="5" type="text" />	
+		
+		<param type="spacer" />
+		
+		<param name="cooperation_entries_per_page" default="25" label="JRESEARCH_CONFIG_COOPERATIONS_PER_PAGE" type="text"></param>									
+		<param name="cooperations_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+			<option value="asc">JRESEARCH_ASCENDING</option>
+			<option value="desc">JRESEARCH_DESCENDING</option>
 		</param>
 		
 		<param type="spacer" />
 		
-		<param name="show_edit" type="radio" default="no" label="JRESEARCH_CONFIG_EDIT" description="JRESEARCH_CONFIG_EDIT_DESCRIPTION">
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</param>
-		
-		<param name="show_edit_list" type="radio" default="no" label="JRESEARCH_CONFIG_EDIT_LIST" description="JRESEARCH_CONFIG_EDIT_LIST_DESCRIPTION">
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</param>
-		
-		<param name="allow_upload" type="radio" default="yes" label="JRESEARCH_CONFIG_UPLOAD" description="JRESEARCH_CONFIG_UPLOAD_DESCRIPTION">
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</param>
-						
-		<param name="files_root_path" type="hidden" default="files" />			
+		<param name="facility_entries_per_page" default="25" label="JRESEARCH_CONFIG_FACILITY_PER_PAGE" type="text" ></param>									
+		<param name="facilities_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+			<option value="asc">JRESEARCH_ASCENDING</option>
+			<option value="desc">JRESEARCH_DESCENDING</option>
+		</param>			
 	</params>
 </config>

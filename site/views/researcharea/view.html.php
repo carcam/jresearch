@@ -11,6 +11,8 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+
+
 /**
  * HTML View class for management of research areas information in
  * JResearch Component frontend
@@ -21,7 +23,6 @@ class JResearchViewResearchArea extends JResearchView
     public function display($tpl = null)
     {
     	global $mainframe;
-    	
     	$arguments = array('researcharea');
     	$doc = JFactory::getDocument();
     	
@@ -31,24 +32,35 @@ class JResearchViewResearchArea extends JResearchView
     	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
     	$theses_view_all = JRequest::getVar('theses_view_all', 0);
     	
-    	if($id == 1){
+       	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
     		return;
     	}
-
+    	
+    	if($id == 1){
+    		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+    		return;
+    	}
+    	
         $model =& $this->getModel();
-        $area = $model->getItem($id);
-        $members = $model->getStaffMembers($id);
-        //Get and use configuration
-    	$params = $mainframe->getPageParameters('com_jresearch');
-		if(!$area->published){
-			JError::raiseWarning(1, JText::_('JRESEARCH_AREA_NOT_FOUND'));
+        $area = $model->getItem($id);        
+        if(empty($area)){
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 			return;
 		}
         
-		$this->addPathwayItem($area->alias, 'index.php?option=com_jresearch&view=researcharea&id='.$area->id);
+		if(!$area->published){
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+			return;
+		}
 		
+		JResearchPluginsHelper::onPrepareJResearchContent('researcharea', $area);
+        
 		$arguments[] = $id;
+        
+        $members = $model->getStaffMembers($id);
+        //Get and use configuration
+    	$params = $mainframe->getPageParameters('com_jresearch');
         
 		$latestPublications = $params->get('area_number_last_publications', 5);        
         if($publications_view_all == 0)	
@@ -72,35 +84,18 @@ class JResearchViewResearchArea extends JResearchView
     	if($theses_view_all == 0)
     		$theses = $model->getLatestTheses($area->id, $latestTheses);
 		else
-    		$theses = $model->getLatestTheses($area->id);
-
-    	$facilities = $model->getFacilities($area->id);
-    		
-    	$description = str_replace('<hr id="system-readmore" />', '', $area->description);	
-    		
-    	$applyStyle = ($params->get('publications_apply_style') == 'yes');
-    	$configuredCitationStyle = $params->get('citationStyle', 'APA');
-    	if($applyStyle){
-    		// Require publications lang package
-			$lang = JFactory::getLanguage();
-			$lang->load('com_jresearch.publications');		
-    	}
-    		    	
+    		$theses = $model->getLatestTheses($area->id);		
+    	
     	$doc->setTitle(JText::_('JRESEARCH_RESEARCH_AREA').' - '.$area->name);	
     		
     	$this->assignRef('theses', $theses);
     	$this->assignRef('ntheses', $model->countTheses($area->id));    	
 
-    	$this->assignRef('facilities', $facilities);
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
     	$this->assignRef('theses_view_all', $theses_view_all);    	
 		$this->assignRef('members', $members);
-        $this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
-        $this->assignRef('description', $description);
-        $this->assignRef('applyStyle', $applyStyle);        
-    	$this->assignRef('style', $configuredCitationStyle);
-    	$this->assignRef('format', $format); 
+        $this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
         
         $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		

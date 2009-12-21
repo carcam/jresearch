@@ -55,6 +55,13 @@ class JResearchProject extends JResearchActivity{
 	public $url_project_image;	
 	
 	/**
+	 * Url to the project official page
+	 *
+	 * @var string
+	 */
+	public $url;
+	
+	/**
 	 * Project's complete description
 	 * 
 	 * @var string
@@ -75,17 +82,8 @@ class JResearchProject extends JResearchActivity{
 	 */
 	public $finance_currency;
 	
-	/**
-	 * Holds financiers of the project
-	 * @var array
-	 */
-	protected $_financiers = array();
+	protected $_financiers;
 	
-	/**
-	 * Holds cooperations of the project
-	 * @var array
-	 */
-	protected $_cooperations = array();
 	
 	/**
 	 * Class constructor. Maps the class to a Joomla table.
@@ -164,7 +162,6 @@ class JResearchProject extends JResearchActivity{
 		$result = parent::load($oid);
 		$this->_loadAuthors($oid);
 		$this->_loadFinanciers($oid);
-		$this->_loadCooperations($oid);
 		return $result;
 	}
 	
@@ -193,14 +190,15 @@ class JResearchProject extends JResearchActivity{
 		
 		//Delete information of financiers
 		$deleteFinQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_financier').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
+		
 		$db->setQuery($deleteInternalQuery);
 		if(!$db->query()){
-			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());	
+			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 			return false;
 		}	
-
+		
 		$db->setQuery($deleteExternalQuery);
-		if(!$db->query()){					
+		if(!$db->query()){
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 			return false;
 		}
@@ -218,7 +216,6 @@ class JResearchProject extends JResearchActivity{
        	$idStaffField = $db->nameQuote('id_staff_member');
        	$isPrincipalField = $db->nameQuote('is_principal');
        	
-       	//Internal authors
 		foreach($this->_internalAuthors as $author){
 			$id_staff_member = $author['id_staff_member'];
 			$order = $author['order'];
@@ -232,7 +229,6 @@ class JResearchProject extends JResearchActivity{
 			}
 		}
 		
-		//External authors
 		$authorField = $db->nameQuote('author_name');
 		foreach($this->_externalAuthors as $author){
 			$order = $db->Quote($author['order'], false);
@@ -248,32 +244,15 @@ class JResearchProject extends JResearchActivity{
 			}
 		}  
 
-		//Financiers
+		$idProjectField = $db->nameQuote('id_project');
 		$idFinField = $db->nameQuote('id_financier');
 		$tableName = $db->nameQuote('#__jresearch_project_financier');
 		foreach($this->_financiers as $fin)
 		{
 			$idFin = (int) $fin['id_financier'];
-			$insertFinQuery = 'INSERT INTO '.$tableName.' ('.$idPubField.', '.$idFinField.') VALUES('.$this->id.', '.$idFin.')';
+			$insertFinQuery = 'INSERT INTO '.$tableName.' ('.$idProjectField.', '.$idFinField.') VALUES('.$this->id.', '.$idFin.')';
 			
 			$db->setQuery($insertFinQuery);
-			
-			if(!$db->query())
-			{
-				$this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
-				return false;
-			}
-		}
-		
-		//Set cooperations
-		$idCoopField = $db->nameQuote('id_cooperation');
-		$tableName = $db->nameQuote('#__jresearch_project_cooperation');
-		foreach($this->_cooperations as $coop)
-		{
-			$idCoop = intval($coop['id_cooperation']);
-			$insertQuery = 'INSERT INTO '.$tableName.' ('.$idPubField.', '.$idCoopField.' ) VALUES ('.$this->id.', '.$idCoop.')';
-			
-			$db->setQuery($insertQuery);
 			
 			if(!$db->query())
 			{
@@ -289,21 +268,15 @@ class JResearchProject extends JResearchActivity{
 	/**
 	 * Sets a funder for the project
 	 *
-	 * @param int $financier
+	 * @param int $funder
 	 * @return bool
 	 */
 	public function setFinancier($financier)
 	{
 		if($financier > 0)
-			array_push($this->_financiers, array('id' => $this->id, 'id_financier' => $financier));
+			$this->_financiers[] = array('id' => $this->id, 'id_financier' => $financier);
 		
 		return true;
-	}
-	
-	public function setCooperation($cooperation)
-	{
-		if($cooperation > 0)
-			array_push($this->_cooperations, array('id' => $this->id, 'id_cooperation' => $cooperation));
 	}
 	
 	/**
@@ -320,25 +293,10 @@ class JResearchProject extends JResearchActivity{
 		{
 			$finObject = new JResearchFinancier($db);
 			$finObject->load($financier['id_financier']);
-			array_push($finObjects,$finObject);
+			$finObjects[] = $finObject;
 		}
 		
 		return $finObjects;
-	}
-	
-	public function getCooperations()
-	{
-		$db =& $this->getDBO();
-		$cObjects = array();
-		
-		foreach($this->_cooperations as $cooperation)
-		{
-			$cObject = new JResearchCooperation($db);
-			$cObject->load($cooperation['id_cooperation']);
-			array_push($cObjects, $cObject);
-		}
-		
-		return $cObjects;
 	}
 	
 	/**
@@ -351,37 +309,25 @@ class JResearchProject extends JResearchActivity{
 		return count($this->_financiers);
 	}
 	
-	public function countCooperations()
-	{
-		return count($this->_cooperations);
-	}
-
-	protected function _load($oid, $table)
+	protected function _loadFinanciers($oid)
 	{
 		$db = &$this->getDBO();
 		
-		$table = $db->nameQuote($table);
+		$table = $db->nameQuote('#__jresearch_project_financier');
 		$idProject = $db->nameQuote('id_project');
 		
 		$qoid = $db->Quote($oid);
 		
 		// Get internal authors
-        $query = "SELECT * FROM $table WHERE $idProject = $qoid";
-		$db->setQuery($query);
+        $financiersQuery = "SELECT * FROM $table WHERE $idProject = $qoid";
+		$db->setQuery($financiersQuery);
         
-		return $db->loadAssocList();
-	}
-	
-	protected function _loadFinanciers($oid)
-	{
-		$result = $this->_load($oid, '#__jresearch_project_financier');
-        $this->_financiers = (!empty($result)) ? $result : array();
-	}
-	
-	protected function _loadCooperations($oid)
-	{
-		$result = $this->_load($oid, '#__jresearch_project_cooperation');
-		$this->_cooperations = (!empty($result)) ? $result : array();
+		if(($result = $db->loadAssocList()))
+        {
+        	$this->_financiers = $result;
+        }else{
+        	$this->_financiers = array();	
+        }
 	}
 	
 	/**
@@ -509,6 +455,20 @@ class JResearchProject extends JResearchActivity{
 		return $result;		
 	}
 	
+	/**
+	 * Returns the project's logo full URL. 
+	 * @return string
+	 */
+	function getURLLogo(){
+		global $mainframe;
+		
+		if($mainframe->isAdmin())
+			$base = JURI::base();
+		else
+			$base = JURI::base().'administrator/';
+
+		return $base.$this->url_project_image;	
+	}
 }
 
 ?>

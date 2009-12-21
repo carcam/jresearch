@@ -13,14 +13,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $address = trim($this->publication->address);  ?>
 	<?php if(!empty($address)): ?>
 	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></th>		
-	<td><?php echo $address; ?></td>
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></td>		
+	<td style="width:35%;"><?php echo $address; ?></td>
 	<?php endif; ?>
 	<?php $institution = trim($this->publication->institution); ?>
 	<?php if(!empty($institution)): ?>
 	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_INSTITUTION').': ' ?></th>
-	<td><?php echo $institution; ?></td>
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_INSTITUTION').': ' ?></td>
+	<td style="width:35%;"><?php echo $institution; ?></td>
 	<?php else: ?>
 	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
@@ -32,14 +32,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $number = trim($this->publication->number);  ?>
 	<?php if(!empty($number)): ?>
 	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_NUMBER').': ' ?></th>		
-	<td><?php echo $number; ?></td>
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_NUMBER').': ' ?></td>		
+	<td style="width:35%;"><?php echo $number; ?></td>
 	<?php endif; ?>
 	<?php $type = trim($this->publication->type); ?>
 	<?php if(!empty($type)): ?>
 	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
-	<td><?php echo $type; ?></td>
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></td>
+	<td style="width:35%;"><?php echo $type; ?></td>
 	<?php else: ?>
 	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
@@ -52,8 +52,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $month = trim($this->publication->month);  ?>
 	<?php if(!empty($number)): ?>
 	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>		
-	<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
+	<td style="width:15%;" class="publicationlabel"><?php echo JText::_('Month of publication').': ' ?></td>		
+	<td style="width:35%;"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
 	<?php endif; ?>
 	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	

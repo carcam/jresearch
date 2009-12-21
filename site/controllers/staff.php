@@ -9,13 +9,16 @@
 * of staff members.
 */
 
+define('_MEMBER_IMAGE_MAX_WIDTH_', 1024);
+define('_MEMBER_IMAGE_MAX_HEIGHT_', 768);
 
+jimport('joomla.application.component.controller');
 
 /**
  * JResearch Staff Component Controller
  *
  */
-class JResearchStaffController extends JResearchFrontendController
+class JResearchStaffController extends JController
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -34,13 +37,10 @@ class JResearchStaffController extends JResearchFrontendController
 		$this->registerTask('save', 'save');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
-		$this->registerTask('autoSuggestMembers', 'autoSuggestMembers');		
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
-		
-		$this->addPathwayItem(JText::_('JRESEARCH_STAFF'), 'index.php?option=com_jresearch&view=staff');
 	}
 
 	/**
@@ -119,13 +119,12 @@ class JResearchStaffController extends JResearchFrontendController
 		    return;
 		}
 		
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		
 		$task = JRequest::getVar('task');
+		$itemId = JRequest::getVar('Itemid');
 		
 		$db =& JFactory::getDBO();
-		
-		$params = JComponentHelper::getParams('com_jresearch');
-		$imageWidth = $params->get('member_image_width', _MEMBER_IMAGE_MAX_WIDTH_);
-		$imageHeight = $params->get('member_image_height', _MEMBER_IMAGE_MAX_HEIGHT_);
 		
 		$member = new JResearchMember($db);
 
@@ -136,22 +135,24 @@ class JResearchStaffController extends JResearchFrontendController
 		$member->firstname = trim($member->firstname);
 		$member->lastname = trim($member->lastname);
 		$member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		
-		//Image upload
-		$fileArray = JRequest::getVar('inputfile', null, 'FILES');
+
+		//Upload photo
+		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
 		$delete = JRequest::getVar('delete');
-			
+		
 		JResearch::uploadImage(	$member->url_photo, 	//Image string to save
-								$fileArray, 			//Uploaded File array
+								$fileArr, 			//Uploaded File array
 								'assets'.DS.'members'.DS, //Relative path from administrator folder of the component
 								($delete == 'on')?true:false,	//Delete?
-								 $imageWidth, //Max Width
-								 $imageHeight //Max Height
+								 _MEMBER_IMAGE_MAX_WIDTH_, //Max Width
+								 _MEMBER_IMAGE_MAX_HEIGHT_ //Max Height
 		);
-
+		
 		$itemText = '';
+		
 		if($itemId != null)
-			$itemText = '&Itemid='.$itemId;		
+			$itemText = '&Itemid='.$itemId;
+				
 		if($member->check()){		
 			if($member->store()){
 				$itemId = JRequest::getVar('Itemid');
@@ -174,7 +175,7 @@ class JResearchStaffController extends JResearchFrontendController
 		$user =& JFactory::getUser();
 		if(!$member->isCheckedOut($user->get('id'))){
 			if(!$member->checkin())
-				JError::raiseWarning(1, JText::_('The record could not be unlocked.'));		
+				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));		
 		}		
 	}
 	
@@ -183,29 +184,21 @@ class JResearchStaffController extends JResearchFrontendController
 	 *
 	 */
 	function cancel(){
-		$user = JFactory::getUser();
+		$user =& JFactory::getUser();
+		$id = JRequest::getVar('id');
 		$username = $user->get('username');
 		$model = &$this->getModel('Member', 'JResearchModel');		
 		
 		if($id != null){
 			$member = $model->getByUsername($username);			
-			if(!$member->checkin()){
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+			if(!$member->isCheckedOut($user->get('id'))){
+				if(!$member->checkin()){
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+				}
 			}
 		}
 		
 		$this->setRedirect('index.php?option=com_jresearch&view=staff');		
-	}
-	
-	/**
-	 * Returns the information about the members whose names begin with the key
-	 * sent as a HTTP parameter.
-	 *
-	 */
-	function autoSuggestMembers(){
-		$key = JRequest::getVar('key');
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-		echo JHTML::_('jresearchhtml.jsonMembers', $key);
 	}
 	
 }

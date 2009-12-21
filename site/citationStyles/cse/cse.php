@@ -185,7 +185,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 				$authors = explode(',', trim($publication->editor));		
 			else
 				$authors = array();	
-		}
+		}		
 				
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents(($auth instanceof JResearchMember)?$auth->__toString():$auth));
@@ -193,9 +193,9 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 			$firstnames[] = JResearchPublicationsHelper::bibCharsToUtf8FromString($result['firstname']);
 		}
 		
-		$text = '';
+		$text = "";
 		if($nAuthors == 0){
-			$text = '';
+			$text = "";
 		}elseif($nAuthors == 1){
 			$text .= $formattedAuthors[0];
 		}elseif($nAuthors == 2){
@@ -485,6 +485,7 @@ class JResearchCSECitationStyle implements JResearchCitationStyle{
 		}
 		
 		return $address;
+		
 	}
 	
 

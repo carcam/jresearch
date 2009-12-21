@@ -19,14 +19,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * JResearch Component frontend
  *
  */
+
+
+
 class JResearchViewResearchAreasList extends JResearchView
 {
     public function display($tpl = null)
     {
-        global $mainframe;
-        
+    	global $mainframe;
+    	
+    	$layout = $this->getLayout();
     	$doc = JFactory::getDocument();
-    	$layout = &$this->getLayout();
     	
     	// Require css and styles
         $model =& $this->getModel();
@@ -36,14 +39,14 @@ class JResearchViewResearchAreasList extends JResearchView
         
 		$this->assignRef('items', $areas);
 		$this->assignRef('page', $model->getPagination());
-       	
+        
 		$eArguments = array('researchareas', $layout);
 		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
 		
 		parent::display($tpl);
 		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
 }
 

@@ -16,14 +16,14 @@
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
 			</param>
-			<param name="show_score" type="radio" default="yes" label="JRESEARCH_CONFIG_SHOW_SCORE" description="JRESEARCH_CONFIG_SHOW_SCORE_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</param>			
 			<param name="show_average" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_AVERAGE" description="JRESEARCH_PUBLICATIONS_SHOW_AVERAGE_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
 			</param>
+			<param name="field_for_average" type="radio" default="impact_factor" label="JRESEARCH_PUBLICATIONS_FIELD_FOR_PUNCTUATION" description="JRESEARCH_PUBLICATIONS_FIELD_FOR_PUNCTUATION_DESCRIPTION">
+				<option value="impact_factor">JRESEARCH_JOURNAL_IMPACT_FACTOR</option>
+				<option value="journal_acceptance_rate">JRESEARCH_JOURNAL_ACCEPTANCE_RATE</option>
+			</param>			
 			<param name="filter_areas" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
@@ -31,10 +31,6 @@
 			<param name="filter_year" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR" description="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
-			</param>
-			<param name="field_for_average" type="radio" default="impact_factor" label="JRESEARCH_PUBLICATIONS_FIELD_FOR_PUNCTUATION" description="JRESEARCH_PUBLICATIONS_FIELD_FOR_PUNCTUATION_DESCRIPTION">
-				<option value="impact_factor">JRESEARCH_JOURNAL_IMPACT_FACTOR</option>
-				<option value="journal_acceptance_rate">JRESEARCH_JOURNAL_ACCEPTANCE_RATE</option>
 			</param>
 			<param name="filter_type" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE_DESCRIPTION">
 				<option value="yes">Yes</option>
@@ -48,7 +44,7 @@
 				<option value="yes">Yes</option>
 				<option value="no">No</option>			
 			</param>
-			<param name="publications_entries_per_page" default="25" label="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE_DESCRIPTION" ></param>																		
-		</params>		
+		</params>
+		<advanced></advanced>		
 	</state>
 </metadata>

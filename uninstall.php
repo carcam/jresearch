@@ -32,7 +32,7 @@ function com_uninstall(){
 	}else{
 		$automaticCitationFolder = 	JPATH_PLUGINS.DS.'editors'.DS.'tinymce'.DS.'jscripts'.DS.'tiny_mce'.DS.'plugins'.DS.'jresearch';		
 	}
-		
+	
 	if(!deleteDirectory($automaticCitationFolder)){
 		echo "Warning: Directory $automaticCitationFolder could not be deleted. Please do it manually.";
 	}
@@ -40,8 +40,8 @@ function com_uninstall(){
 	$oldFile = JPATH_PLUGINS.DS.'editors'.DS.'tinymce.php';
 	$backupFile = $oldFile.'.bak';
 		
-	if(JFile::exists($backupFile)){
-		if(JFile::exists($oldFile)){		
+	if(file_exists($backupFile)){
+		if(file_exists($oldFile)){		
 			if(!@unlink($oldFile) || !@rename($backupFile, $oldFile))
 				echo "Error: File $oldFile could not be restored to ommit automatic citation plugin. Please do it manually.";				
 		}else{

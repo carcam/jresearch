@@ -24,6 +24,7 @@ class JResearchViewProjectsList extends JResearchView
     function display($tpl = null)
     {
     	global $mainframe;
+    	
         $layout = &$this->getLayout();
         switch($layout){
         		case 'default':
@@ -33,11 +34,11 @@ class JResearchViewProjectsList extends JResearchView
 	
         $eArguments = array('projects', $layout);
 		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
 		
 		parent::display($tpl);
 		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+		$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**
@@ -62,6 +63,7 @@ class JResearchViewProjectsList extends JResearchView
     	$this->assignRef('items', $projects);
     	$this->assignRef('areaModel', $areaModel);
     	$this->assignRef('page', $model->getPagination());	
+
     }
 }
 

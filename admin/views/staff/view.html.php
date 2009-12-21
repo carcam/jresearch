@@ -12,6 +12,8 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+
+
 /**
  * HTML View class for management of members lists in JResearch Component backend
  *
@@ -22,8 +24,8 @@ class JResearchAdminViewStaff extends JResearchView
     function display($tpl = null)
     {
     	global $mainframe;
+    	
         $layout = &$this->getLayout();
-         
         switch($layout){
         		case 'add':
         			$this->_displayAddForm();
@@ -34,11 +36,11 @@ class JResearchAdminViewStaff extends JResearchView
         }
 	
         $eArguments = array('staff');
-		$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
+        
+        parent::display($tpl);
+        
+        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**
@@ -46,10 +48,10 @@ class JResearchAdminViewStaff extends JResearchView
     * which is the admin list of members.
     */
     private function _displayDefaultList(){
-		global $mainframe;
+      global $mainframe;
     	JResearchToolbar::staffAdminListToolbar();
-
-        //Get the model
+    	
+    	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
     	$members =  $model->getData(null, false, true);
@@ -60,8 +62,6 @@ class JResearchAdminViewStaff extends JResearchView
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('stafffilter_order_Dir', 'filter_order_Dir', 'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('stafffilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('stafffilter_search', 'filter_search');
-    	$filter_former = $mainframe->getUserStateFromRequest('stafffilter_former', 'filter_former');
-    	$filter_area = $mainframe->getUserStateFromRequest('stafffilter_area', 'filter_area');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
@@ -69,14 +69,7 @@ class JResearchAdminViewStaff extends JResearchView
 		$lists['state'] = JHTML::_('grid.state', $filter_state);
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
-		$lists['area'] = JHTML::_('jresearchhtml.researchareas', array('name' => 'filter_area', 'selected' => $filter_area, 'attributes' => 'onchange="document.adminForm.submit();"'), array(array('id' => null, 'name' => JText::_('JRESEARCH_RESEARCH_AREA'))));
     	
-		//Former member filter
-		$formerHTML[] = JHTML::_('select.option', '0', JText::_('- Former Member -'));
-		$formerHTML[] = JHTML::_('select.option', '-1', JText::_('No'));
-		$formerHTML[] = JHTML::_('select.option', '1', JText::_('Yes'));
-		$lists['former'] = JHTML::_('select.genericlist', $formerHTML, 'filter_former', 'class="inputbox" size="1" '.$js, 'value','text', $filter_former);
-		
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'ordering');
     	
@@ -95,10 +88,16 @@ class JResearchAdminViewStaff extends JResearchView
     private function _displayAddForm(){
     	global $mainframe;
     	
-    	JRequest::setVar( 'hidemainmenu', 1 );  	
-    	JResearchToolbar::addMemberToolBar();    	    	
-    	$control = JHTML::_('jresearchhtml.staffImporter2', 'importedMembers');
-  
+    	JRequest::setVar( 'hidemainmenu', 1 );
+    	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+    	JResearchToolbar::addMemberToolBar();
+    	
+    	$doc =& JFactory::getDocument();
+    	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+    	$doc->addScript($url.'components/com_jresearch/helpers/html/staffimporter.js');
+    	
+    	$control = JHTML::_('StaffImporter._', 'importedMembers');
+    	
     	$this->assignRef('control', $control);
     	
     }

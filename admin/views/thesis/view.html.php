@@ -12,6 +12,8 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+
+
 /**
  * HTML View class for single thesis management in JResearch Component backend
  *
@@ -23,44 +25,64 @@ class JResearchAdminViewThesis extends JResearchView
     {
     	global $mainframe;
 		JResearchToolbar::editThesisAdminToolbar();
-
+      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
     	JRequest::setVar( 'hidemainmenu', 1 );
-    	JHTML::_('jresearchhtml.validation');
+    	JHTML::_('Validator._');
     	
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$editor =& JFactory::getEditor();
     	$model =& $this->getModel();
     	$thesis = $model->getItem($cid[0]);
+    	$areaModel =& $this->getModel('researchareaslist');   	
+    	$researchAreas = $areaModel->getData(null, true, false);
     	$directors = null;
     	$students = null;
     	$arguments = array('thesis');
     	
+		//Published options
+    	$publishedOptions = array();
+    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
+    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
+
+		//Research areas 
+		$researchAreasOptions = array();
+    	foreach($researchAreas as $r){
+    		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
+    	}
+    	
+    	//Degree options
+    	$degreeOptions = array();
+    	$degreeOptions[] = JHTML::_('select.option', 'bachelor', JText::_('JRESEARCH_BACHELOR'));
+    	$degreeOptions[] = JHTML::_('select.option', 'master', JText::_('JRESEARCH_MASTER'));
+    	$degreeOptions[] = JHTML::_('select.option', 'phd', JText::_('JRESEARCH_PHD'));
+
+    	//Status options
+    	$statusOptions = array();
+    	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
+    	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
+    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('Finished'));
+    	
     	if($cid){
         	$arguments[] = $thesis->id;
+    	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $thesis->published);   	
+    	  	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $thesis->id_research_area);
+    	  	$statusHTML = JHTML::_('select.genericlist', $statusOptions, 'status', 'class="inputbox" size="5"', 'value', 'text', $thesis->status);
+    	  	$degreeHTML = JHTML::_('select.genericlist', $degreeOptions, 'degree', 'class="inputbox" size="5"', 'value', 'text', $thesis->degree);
     	  	$directors = $thesis->getDirectors();
     	  	$students = $thesis->getStudents();
     	}else{
     		$arguments[] = null;
+    	   	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);   		
+    	 	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox"" size="5"', 'value', 'text', 1); 
+    	 	$statusHTML = JHTML::_('select.genericlist', $statusOptions, 'status', 'class="inputbox" size="5"', 'value', 'text', 'not_started');
+    	 	$degreeHTML = JHTML::_('select.genericlist', $degreeOptions, 'degree', 'class="inputbox" size="5"', 'value', 'text', 'bachellor');
     	}
 
-    	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $thesis?$thesis->published:1));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->id_research_area:1)); 
-   	 	$statusHTML = JHTML::_('jresearchhtml.statuslist', array('name' => 'status', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->status:1));
-   	 	$degreeHTML = JHTML::_('jresearchhtml.degreelist', array('name' => 'degree', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->degree:'bachelor'));
-    	
-		$studentsControl = JHTML::_('jresearchhtml.autoSuggest', 'students', $students);
-		$directorsControl = JHTML::_('jresearchhtml.autoSuggest', 'directors', $directors);
+		$studentsControl = JHTML::_('AuthorsSelector._', 'students', $students);
+		$directorsControl = JHTML::_('AuthorsSelector._', 'directors', $directors);		    	
 
-		$params = JComponentHelper::getParams('com_jresearch');
-		if(!empty($thesis->files))
-			$uploadedFiles = explode(';', trim($thesis->files));
-		else
-			$uploadedFiles = array();	
-		$files = JHTML::_('jresearchhtml.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'theses','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
-		
-
-    	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('editor', $editor);    
@@ -68,13 +90,12 @@ class JResearchAdminViewThesis extends JResearchView
 		$this->assignRef('directorsControl', $directorsControl);	
 		$this->assignRef('status', $statusHTML);
 		$this->assignRef('degree', $degreeHTML);
-		$this->assignRef('files', $files);
 
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 		
        	parent::display($tpl);
-       	
+    	
        	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);
     }
 }

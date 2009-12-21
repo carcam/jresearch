@@ -40,7 +40,7 @@ class JResearchViewPublicationsList extends JResearchView{
 			$item->date = $pub->year;
 			$item->description = $pub->abstract;
 			$item->guid = $pub->id;
-			$item->link = JRoute::_('index.php?option=com_jresearch&amp;task=show&amp;view=publication&amp;id='.$pub->id);
+			$item->link = JRoute::_('index.php?option=com_jresearch&task=show&view=publication&id='.$pub->id);
 			$item->pubDate = $pub->created;
 			$item->title = $pub->title;
 			$doc->addItem($item);

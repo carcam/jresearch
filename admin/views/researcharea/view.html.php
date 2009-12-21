@@ -11,6 +11,8 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+
+
 /**
  * HTML Admin View class for single research area management in JResearch Component
  *
@@ -22,8 +24,8 @@ class JResearchAdminViewResearchArea extends JResearchView
     {
     	global $mainframe;
       	JResearchToolbar::editResearchAreaAdminToolbar();
-    			
-		JHTML::_('jresearchhtml.validation');
+      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		JHTML::_('Validator._');
         JRequest::setVar( 'hidemainmenu', 1 );
         
     	// Information about the member
@@ -33,12 +35,18 @@ class JResearchAdminViewResearchArea extends JResearchView
     	$area = $model->getItem($cid[0]);
     	$arguments = array('researcharea');
     	
-    	if($cid)
-        	$arguments[] = $area->id; 	
-    	else
-    		$arguments[] = null;	
+		//Published options
+    	$publishedOptions = array();
+    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
+    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
+
     	
-    	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $area?$area->published:1));
+    	if($cid){
+        	$arguments[] = $area->id;   	
+    	}else{
+    		$arguments[] = null;		
+    	}
+    	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $area?$area->published:1);
     	
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);

@@ -22,7 +22,7 @@ class JResearchMLAPatentCitationStyle extends JResearchMLACitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = JText::_('JRESEARCH_AND');
 		$nAuthors = $publication->countAuthors();
-		$text = '';		
+		$text = '';
 		
 		if(!isset($publication->__authorPreviouslyCited)){
 			if($nAuthors <= 0){

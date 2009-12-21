@@ -26,21 +26,6 @@ class JResearchProceedings extends JResearchPublication{
 	 * @var int
 	 */
 	public $id_publication;
-	
-	/**
-	 * Book's isbn
-	 *
-	 * @var string
-	 */
-	public $isbn;
-	
-	/**
-	 * Conference's issn
-	 *
-	 * @var string
-	 */
-	public $issn;
-	
 	/**
 	 * Publication's editor
 	 * 

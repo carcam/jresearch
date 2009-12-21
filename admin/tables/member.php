@@ -14,8 +14,6 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 
 /**
  * This class represents a staff member.
@@ -83,13 +81,6 @@ class JResearchMember extends JTable{
 	public $position;	
 	
 	/**
-	* Member's location
-	* 
-	* @var string
-	*/
-	public $location;
-	
-	/**
 	 * Published status
 	 *
 	 * @var boolean
@@ -153,7 +144,7 @@ class JResearchMember extends JTable{
 	 * @return unknown
 	 */
 	function __toString(){
-		return "$this->lastname, $this->firstname";
+		return "$this->firstname $this->lastname";
 	}
 
 	/**
@@ -161,7 +152,7 @@ class JResearchMember extends JTable{
 	* are imported into the object. Used for impòrting members from Joomla tables.
 	*/	
 	function bindFromUser($username){
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
 		
 		$db =& JFactory::getDBO();
 		$query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('username').' = '.$db->Quote($username);
@@ -236,24 +227,6 @@ class JResearchMember extends JTable{
 	}
 	
 	/**
-	 * Returns position of the member as an Table object
-	 * @return JResearchMember_position Object or null
-	 */
-	public function getPosition()
-	{
-		if(intval($this->position) > 0)
-		{
-			$db =& JFactory::getDBO();
-			$position = new JResearchMember_position($db);
-			$position->load($this->position);
-			
-			return $position;
-		}
-		
-		return null;
-	}
-	
-	/**
 	 * Returns array of teams, where the member is a member of these teams.
 	 * @return array
 	 */
@@ -282,6 +255,21 @@ class JResearchMember extends JTable{
 		return $teams;
 	}
 	
+	/**
+	 * Returns the member's photo URL
+	 * @return string
+	 */
+	function getURLPhoto(){
+		global $mainframe;
+		
+		if($mainframe->isAdmin())
+			$base = $mainframe->getSiteURL();
+		else
+			$base = JURI::base();
+
+		return $base.JString::str_ireplace($base, '', $this->url_photo);	
+				
+	}
 }
 
 ?>

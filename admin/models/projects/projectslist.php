@@ -70,30 +70,6 @@ class JResearchModelProjectsList extends JResearchModelList{
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
 	}
-	
-	private function _getTeamProjectIds($teamId, $count=0)
-	{
-		$db = JFactory::getDBO();
-		
-		$id_staff_member = $db->nameQuote('id_staff_member');
-		$team_member = $db->nameQuote('#__jresearch_team_member');
-		$id_project = $db->nameQuote('id_project');
-		$internal_author = $db->nameQuote('#__jresearch_project_internal_author');
-		$teamValue = $db->Quote($teamId);
-		$id_team = $db->nameQuote('id_team');
-		$id_member = $db->nameQuote('id_member');
-		
-		$query = "SELECT DISTINCT $id_project FROM $internal_author, $team_member WHERE $team_member.$id_team = $teamValue "
-				 ." AND $internal_author.$id_staff_member = $team_member.$id_member";
-				 
-		if($count > 0)
-		{
-			$query .= " LIMIT 0,$count";
-		}
-		
-		$db->setQuery($query);
-		return $db->loadResultArray();
-	}
 		
 	/**
 	* Returns an array of ALL the items of an entity independently of its published state considering
@@ -129,34 +105,6 @@ class JResearchModelProjectsList extends JResearchModelList{
 		}			
 		return $this->_items;
 
-	}
-	
-	/**
-	 * Gets data by team id
-	 *
-	 * @param int $teamId
-	 * @return array
-	 */
-	public function getDataByTeamId($teamId, $count=0)
-	{
-		$model = JModel::getInstance('Team', 'JResearchModel');
-		$team = $model->getItem($teamId);
-		$db = JFactory::getDBO();
-		$projects = array();
-		
-		if(!empty($team))
-		{
-			$ids = $this->_getTeamProjectIds($team->id, intval($count));
-			
-			foreach($ids as $id)
-			{
-				$project = new JResearchProject($db);
-				if($project->load($id))
-					$projects[] = $project;
-			}
-		}
-		
-		return $projects;
 	}
 
 	/**
@@ -200,9 +148,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('projectsfilter_search', 'filter_search');
-		$filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');
-		$filter_area = $mainframe->getUserStateFromRequest('projectsfilter_area', 'filter_area');
-		
+		$filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');		
 		// prepare the WHERE clause
 		$where = array();
 		
@@ -250,11 +196,6 @@ class JResearchModelProjectsList extends JResearchModelList{
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
 			$where[] = 'LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%');
-		}
-		
-		if($filter_area)
-		{
-			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
 		}
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
