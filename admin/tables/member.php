@@ -263,9 +263,9 @@ class JResearchMember extends JTable{
 		global $mainframe;
 		
 		if($mainframe->isAdmin())
-			$base = JURI::base();
+			$base = $mainframe->getSiteURL();
 		else
-			$base = JURI::base().'administrator/';
+			$base = JURI::base();
 
 		return $base.JString::str_ireplace($base, '', $this->url_photo);	
 				

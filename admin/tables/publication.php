@@ -187,7 +187,7 @@ class JResearchPublication extends JResearchActivity{
 	 * @return unknown
 	 */
 	protected function _getSubclassAttributes(){
-		if($_derivedVariablesArray == null){
+		if($this->_derivedVariablesArray == null){
 			$baseProperties = $this->_getParentAttributes();
 			$className = get_class($this);
 			$subclassProperties = get_class_vars($className);

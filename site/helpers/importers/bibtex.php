@@ -52,9 +52,11 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 					}
 					// Normalize the data, bibtex entities are not stored in database
 					$newPub->citekey = JResearchPublicationsHelper::bibCharsToUtf8FromString($data['cite']);
-					foreach($data as $key=>$info)
-						$data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
-
+					foreach($data as $key=>$info){
+						if($key != 'author')
+							$data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
+					}
+					
 					$newPub->bind($data);
 					$newPub->internal = false;
 					$newPub->published = true;

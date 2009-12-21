@@ -175,7 +175,7 @@ class JResearchStaffController extends JController
 		$user =& JFactory::getUser();
 		if(!$member->isCheckedOut($user->get('id'))){
 			if(!$member->checkin())
-				JError::raiseWarning(1, JText::_('The record could not be unlocked.'));		
+				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));		
 		}		
 	}
 	
@@ -184,14 +184,17 @@ class JResearchStaffController extends JController
 	 *
 	 */
 	function cancel(){
-		$user = JFactory::getUser();
+		$user =& JFactory::getUser();
+		$id = JRequest::getVar('id');
 		$username = $user->get('username');
 		$model = &$this->getModel('Member', 'JResearchModel');		
 		
 		if($id != null){
 			$member = $model->getByUsername($username);			
-			if(!$member->checkin()){
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+			if(!$member->isCheckedOut($user->get('id'))){
+				if(!$member->checkin()){
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+				}
 			}
 		}
 		
