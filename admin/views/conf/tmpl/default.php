@@ -160,6 +160,7 @@ $pane = JPane::getInstance('sliders', array('allowAllClose' => true));
 					<li><strong>German Translation:</strong> Florian Prinz</li>
 					<li><strong>Web site:</strong> Nereyda Valentin-Macias</li>
 					<li><strong>sf404sef Integration:</strong> Carlos Cámara Mora</li>
+					<li><strong>Several improvements 1.2 Beta: </strong>Pablo Moncada, (<?php echo JHTML::_('email.cloak', 'pmoncadaisla@gmail.com')?>)</li>
 				</ul>
 			</td>					
 		</tr>																		
