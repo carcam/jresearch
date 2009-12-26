@@ -12,6 +12,14 @@
 
 		</url>
 		<params>
+			<param name="publications_default_sorting" default="year" label="JRESEARCH_ORDER_BY" type="radio">
+				<option value="year">JRESEARCH_YEAR</option>
+				<option value="alphabetical">Title</option>
+			</param>
+			<param name="publications_order" label="JRESEARCH_SORTED" type="radio" default="DESC">
+				<option value="ASC">JRESEARCH_ASCENDING</option>
+				<option value="DESC">JRESEARCH_DESCENDING</option>
+			</param>
 			<param name="filter_teams" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
