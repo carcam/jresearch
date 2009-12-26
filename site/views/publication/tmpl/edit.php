@@ -1,14 +1,8 @@
-<h1 class="componentheading" style="float: left;">
+<div class="componentheading" style="float: left;">
 	<?php echo JText::_('JRESEARCH_'.JString::strtoupper(JRequest::getVar('task')).'_PUBLICATION');?>
-</h1>
+</div>
 <?php 
-// Changes by Pablo Moncada
-$params = $mainframe->getPageParameters('com_jresearch');
-$edit = $params->get('everybody_can_edit');
-$user =& JFactory::getUser($userid);
-if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this->id > 0)) || (JHTML::_('Jresearch.authorize','add', 'publications') 
-&& ($this->id <= 0)) || (($edit == "yes")&&($user->guest == 0))):
-//End of changes
+if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this->id > 0)) || (JHTML::_('Jresearch.authorize','add', 'publications') && ($this->id <= 0))):
 ?>
 	<div style="float: right;">
 		<button type="button" onclick="javascript:msubmitform('apply');"><?php echo JText::_('Apply'); ?></button>
@@ -20,7 +14,8 @@ if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this-
 	include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.'default.php');
 else:
 ?>
-	<div style="text-align:center; clear: both;"><?php echo JText::_('JRESEARCH_ACCESS_NOT_ALLOWED')?></div>
+	<div style="clear: both;">&nbsp;</div>
+	<div style="text-align:center;"><?php echo JText::_('JRESEARCH_ACCESS_NOT_ALLOWED')?></div>
 <?php
 endif;
 ?>

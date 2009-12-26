@@ -12,18 +12,19 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+
+
 /**
  * HTML View class for management of members lists in JResearch Component backend
  *
  */
 
-class JResearchAdminViewCooperations extends JResearchView 
+class JResearchAdminViewCooperations extends JResearchView
 {
     function display($tpl = null)
     {
-    	global $mainframe;
-    	
         $layout = &$this->getLayout();
+        global $mainframe;
         
         switch($layout)
         {
@@ -33,11 +34,11 @@ class JResearchAdminViewCooperations extends JResearchView
         }
 	
         $eArguments = array('cooperations');
-        $mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
         
         parent::display($tpl);
         
-        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**
@@ -48,7 +49,7 @@ class JResearchAdminViewCooperations extends JResearchView
     	global $mainframe;
     	
     	//Toolbar
-    	JResearchToolbar::cooperationsAdminListToolbar();
+    	//JResearchToolbar::staffAdminListToolbar();
     	
     	//Get the model
     	$model =& $this->getModel();
@@ -60,8 +61,7 @@ class JResearchAdminViewCooperations extends JResearchView
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('coopsfilter_order_Dir', 'filter_order_Dir', 'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('coopsfilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('coopsfilter_search', 'filter_search');
-    	$filter_category = $mainframe->getUserStateFromRequest('coopsfilter_category', 'filter_category');
-        
+    	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
 		
@@ -70,10 +70,8 @@ class JResearchAdminViewCooperations extends JResearchView
 		
 		// State filter
 		$lists['state'] = JHTML::_('grid.state', $filter_state);
+		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
-		
-		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit();"';
-		$lists['category'] = JHTML::_('list.category', 'filter_category', 'com_jresearch_cooperations', $filter_category, $js);
     	
     	$this->assignRef('items', $coops);
     	$this->assignRef('lists', $lists);

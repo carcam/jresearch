@@ -16,7 +16,6 @@ final class JResearchFilter
     const URL_ENCODE = 1;
     const HTML_ENTITIES = 2;
     const OBJECT_XHTML_SAFE = 4;
-    const ARRAY_OBJECT_XHTML_SAFE = 8;
 }
 
 class JResearchView extends JView
@@ -50,11 +49,6 @@ class JResearchView extends JView
             case JResearchFilter::OBJECT_XHTML_SAFE:
                 $this->_filterObjectXHtmlSafe($val, $config);
                 break;
-                
-            case JResearchFilter::ARRAY_OBJECT_XHTML_SAFE:
-            	if(is_array($val))
-            		$this->_filterArrayObjectXHtmlSafe($val, $config);
-            	break;
                 
             case JResearchFilter::NO_FILTER:
             default:
@@ -108,66 +102,27 @@ class JResearchView extends JView
         
         return false;
     }
-    
-	/**
-     * Filters the whole object to make the value XHTML safe. Raw value will be added by the function
-     *
-     * @param object $val
-     * @param array $config
-     * @return bool
-     */
-    private function _filterArrayObjectXHtmlSafe(array &$val, array $config=array())
-    {
-    	foreach($val as &$object)
-    	{
-	        $this->_filterObjectXHtmlSafe($object, $config);
-    	}
-        
-        return false;
-    }
 
     /**
      * Adds a pathway item to the current pathway if no ItemId exists
      *
      * @param string $name
      * @param string $link
-     * @param bool $bItemid 
      * @return bool
      */
-    public function addPathwayItem($name, $link='', $bItemid = false)
+    public function addPathwayItem($name, $link='')
     {
         global $mainframe;
         
-        $itemid = JRequest::getVar('Itemid', null);
+        $itemid = JRequest::getVar('ItemId', null);
         
-        if(is_null($itemid) || $bItemid)
+        if(!is_null($itemid))
         {
             $pathway = &$mainframe->getPathway();
             return $pathway->addItem($name, $link);
         }
         
         return false;
-    }
-    
-    /*
-     * Returns merged parameter object
-     */
-    public function getParams()
-    {
-    	global $mainframe;
-    	
-    	$params =& JComponentHelper::getParams('com_jresearch');
-    	$itemid = JRequest::getVar('Itemid', null);
-    	
-    	if($itemid != null && !$mainframe->isAdmin())
-    	{
-    		$menu = JSite::getMenu();
-    		$mparams = $menu->getParams($itemid);
-    		
-    		$params->merge($mparams);
-    	}
-    	
-    	return $params;
     }
 }
 ?>

@@ -9,13 +9,13 @@
 * of research projects.
 */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+jimport('joomla.application.component.controller');
 
 /**
 * JResearch Component Projects Controller
 *
 */
-class JResearchProjectsController extends JResearchFrontendController
+class JResearchProjectsController extends JController
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -32,11 +32,8 @@ class JResearchProjectsController extends JResearchFrontendController
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'projectslist');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'project');		
-		
-		$this->addPathwayItem(JText::_('JRESEARCH_PROJECTS'), 'index.php?option=com_jresearch&view=projectslist');
 	}
 
 	/**
@@ -91,14 +88,11 @@ class JResearchProjectsController extends JResearchFrontendController
 	* @access public
 	*/
 	function show(){
-		require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 		$model =& $this->getModel('Project', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-		
 		$view =& $this->getView('Project', 'html', 'JResearchView');
 		$view->setModel($model, true);
 		$view->setModel($areaModel);
-
 		$view->display();
 	}
 
@@ -109,7 +103,7 @@ class JResearchProjectsController extends JResearchFrontendController
 	*/
 	function administer(){
 		JRequest::setVar('view', 'projects');
-		JRequest::setVar('layout', 'admin');
+		JRequest::serVar('layout', 'admin');
 		parent::display();
 	}
 }

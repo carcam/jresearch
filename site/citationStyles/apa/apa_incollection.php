@@ -35,7 +35,6 @@ class JResearchAPAIncollectionCitationStyle extends JResearchAPACitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = $html?'&amp;':'&';
 		$in = JText::_('JRESEARCH_IN');
-		$text = '';
 		if(count($publication->getEditors()) > 1){
 			$ed = JText::_('JRESEARCH_APA_EDITORS');
 		}else{

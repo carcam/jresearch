@@ -47,11 +47,12 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$resultQuery = '';
 		}
 		// Deal with pagination issues
-		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();		
 		if($paginate){
+			$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();
 			$limit = (int)$this->getState('limit');
 			if($limit != 0)
-					$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');					
+					$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');
+							
 		}
 		
 		return $resultQuery;
@@ -73,8 +74,6 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		
 		$result = $db->loadResultArray();
 		
-		//@todo Add id_author comparison
-		
 		return $result;
 	}
 	
@@ -82,9 +81,8 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	 * Returns the internal publications developed by members of the specified team.
 	 *
 	 * @param int $teamId
-	 * @return array
 	 */
-	private function _getTeamPublicationIds($teamId, $count=0){
+	private function _getTeamPublicationIds($teamId){
 		$db = JFactory::getDBO();
 		
 		$id_staff_member = $db->nameQuote('id_staff_member');
@@ -93,15 +91,11 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$pub_internal_author = $db->nameQuote('#__jresearch_publication_internal_author');
 		$teamValue = $db->Quote($teamId);
 		$id_team = $db->nameQuote('id_team');
+		$id = $db->nameQuote('id');
 		$id_member = $db->nameQuote('id_member');
 		
 		$query = "SELECT DISTINCT $id_publication FROM $pub_internal_author, $team_member WHERE $team_member.$id_team = $teamValue "
 				 ." AND $pub_internal_author.$id_staff_member = $team_member.$id_member";
-				 
-		if($count > 0)
-		{
-			$query .= " LIMIT 0,$count";
-		}
 		
 		$db->setQuery($query);
 		return $db->loadResultArray();
@@ -133,7 +127,6 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* @return 	array
 	*/
 	public function getData($memberId = null, $onlyPublished = false, $paginate = false){
-	
 		if($memberId !== $this->_memberId || $onlyPublished !== $this->_onlyPublished || $this->_paginate !== $this->_paginate || empty($this->_items)){
 			$this->_memberId = $memberId;
 			$this->_onlyPublished = $onlyPublished;
@@ -141,43 +134,20 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$this->_items = array();
 			
 			$db = &JFactory::getDBO();
-			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
+			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);			
 			$db->setQuery($query);
 			$ids = $db->loadResultArray();
+			$this->_items = array();
 			foreach($ids as $id){
-				$pub = JResearchPublication::getById($id);
+				$pub =& JResearchPublication::getById($id);
 				$this->_items[] = $pub;
 			}
 			if($paginate)
 				$this->updatePagination();
-		}	
+		}			
+
 		return $this->_items;
 
-	}
-	
-	/**
-	 * Gets data by team id
-	 *
-	 * @param int $teamId
-	 * @return array
-	 */
-	public function getDataByTeamId($teamId, $count=0)
-	{
-		$model = JModel::getInstance('Team', 'JResearchModel');
-		$team = $model->getItem($teamId);
-		$pubs = array();
-		
-		if(!empty($team))
-		{
-			$ids = $this->_getTeamPublicationIds($team->id, intval($count));
-			
-			foreach($ids as $id)
-			{
-				$pubs[] = JResearchPublication::getById($id);
-			}
-		}
-		
-		return $pubs;
 	}
 	
 	/**
@@ -197,7 +167,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
 			$filter_order_Dir = 'ASC';	
-		//if order column is unknown, use the default
+
 		if($filter_order == 'type')
 			$filter_order = $db->nameQuote('pubtype');
 		elseif($filter_order == 'alphabetical' || !in_array($filter_order, $orders))	
@@ -225,6 +195,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 
 		// prepare the WHERE clause
 		$where = array();
+		
 		if(!$published){
 			if($filter_state == 'P')
 				$where[] = $db->nameQuote('published').' = 1 ';
@@ -292,10 +263,10 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$mdresult = array();
 		$name = array();
 		// First, bring them to the form lastname, firstname.
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
 		foreach($result as $key => $author){
 			$components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
-			$value = (isset($components['von'])?$components['von'].' ':'').$components['lastname'].(isset($components['firstname'])?', '.$components['firstname']:'').(isset($components['jr'])?' '.$components['jr']:'');
+			$value = (isset($components['von'])?$components['von'].' ':'').(isset($components['lastname'])?$components['lastname']:'').', '.(isset($components['firstname'])?$components['firstname']:'').(isset($components['jr'])?' '.$components['jr']:'');
 			$mdresult[] = array('id'=>$author['id'], 'name'=>$value);
 			$name[$key] = $value;
 			

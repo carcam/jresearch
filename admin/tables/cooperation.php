@@ -19,19 +19,6 @@ class JResearchCooperation extends JTable
 	 * @var int
 	 */
     public $id;
-    
-    /**
-	 * String for alias
-	 *
-	 * @var string
-	 */
-	public $alias;
-    
-    /**
-     * Category ID of cooperation
-     * @var int
-     */
-    public $catid;
     /**
      * Cooperation name
      *
@@ -91,15 +78,6 @@ class JResearchCooperation extends JTable
         }
         	
         return true;
-    }
-    
-    public function getCategory()
-    {
-    	$db =& JFactory::getDBO();
-    	$sql = 'SELECT id, image, title FROM '.$db->nameQuote('#__categories').' WHERE '.$db->nameQuote('id').'='.$db->Quote($this->catid);
-    	
-    	$db->setQuery($sql);
-		return $db->loadObject();
     }
 }
 ?>

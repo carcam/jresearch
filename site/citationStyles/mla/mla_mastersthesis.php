@@ -68,7 +68,7 @@ class JResearchMLAMastersthesisCitationStyle extends JResearchMLACitationStyle{
 			$authorsText = rtrim($authorsText, '.');
 			$text .= $authorsText.'. '.$title;
 		}else{
-			$text .= $title;	
+			$text = $title;	
 		}
 		
 		$type = trim($publication->type);

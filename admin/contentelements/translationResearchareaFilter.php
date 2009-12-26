@@ -28,19 +28,18 @@ class translationResearchareaFilter extends translationFilter
 		$areaOptions[] = JHTML::_('select.option', '-1', JText::_('All Sections'));
 		$areaOptions[] = JHTML::_('select.option', '0', JText::_('Uncategorized'));
 
-		$sql = 	"SELECT DISTINCT area.id, area.title FROM #__jresearch_research_area as area, #__".$this->tableName." as c "
+		$sql = 	"SELECT DISTINCT area.id, area.title FROM #__jresearch_research_area as area, #__".$this->tableName.' as c'
 				."WHERE c.".$this->filterField."=area.id ORDER BY area.name";
 		
 		$db->setQuery($sql);
 		$areas = $db->loadObjectList();
 		
 		$areaCount=0;
-		if(count($areas) > 0)
-			foreach($areas as $area)
-			{
-				$areaOptions[] = JHTML::_('select.option', $area->id,$area->name);
-				$areaCount++;
-			}
+		foreach($areas as $area)
+		{
+			$areaOptions[] = JHTML::_('select.option', $area->id,$area->name);
+			$areaCount++;
+		}
 		
 		$areaList=array();
 		$areaList["title"]= JText::_('Researcharea filter');

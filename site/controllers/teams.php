@@ -9,9 +9,9 @@
 * of teams.
 */
 
+jimport('joomla.application.component.controller');
 
-
-class JResearchTeamsController extends JResearchFrontendController
+class JResearchTeamsController extends JController
 {
 	public function __construct($config = array())
 	{
@@ -20,18 +20,14 @@ class JResearchTeamsController extends JResearchFrontendController
 		//Load additionally language files
 		$lang = JFactory::getLanguage();
 		$lang->load('com_jresearch.teams');
-		$lang->load('com_jresearch.staff');
 		
 		// Task for edition of profile
-		$this->registerDefaultTask('display');
 		$this->registerTask('show', 'show');
 
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
 		
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'teams');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'team');
-		
-		$this->addPathwayItem(JText::_('JRESEARCH_TEAMS'), 'index.php?option=com_jresearch&view=teams');
 	}
 	
 	/**
@@ -64,23 +60,9 @@ class JResearchTeamsController extends JResearchFrontendController
 	*/
 	public function show()
 	{
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'theses');
-		
 		$model =& $this->getModel('Team', 'JResearchModel');
-		$memberModel =& $this->getModel('Member', 'JResearchModel');
-		$pubsModel =& $this->getModel('Publicationslist', 'JResearchModel');
-		$projectsModel =& $this->getModel('Projectslist', 'JResearchModel');
-		$thesesModel =& $this->getModel('Theseslist', 'JResearchModel');
-		
 		$view =& $this->getView('Team', 'html', 'JResearchView');
 		$view->setModel($model, true);
-		$view->setModel($memberModel);
-		$view->setModel($pubsModel);
-		$view->setModel($projectsModel);
-		$view->setModel($thesesModel);
 		$view->display();				
 	}
 }

@@ -28,11 +28,10 @@ class JResearchPublicationRISExporter extends JResearchPublicationExporter{
 	 * Parse the array of JResearchPublication objects into MODS text.
 	 *
 	 * @param mixed $publications JResearchPublication object or array of them. 
-	 * @param array $options An associate array containing a series of configuration options.
 	 * @return string Representation of the objects in MODS format, null if it is
 	 * not possible to parse the objects.
 	 */
-	function parse($publications, $options = array()){
+	function parse($publications){
 		if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
 			$folder = 'win32';
 		elseif(strtoupper(substr(PHP_OS, 0, 3)) === 'MAC')

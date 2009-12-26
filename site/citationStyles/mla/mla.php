@@ -303,7 +303,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 
 		$firstname = $authorComponents['firstname']; 
 			
-		$jr = $authorComponents['jr']; 
+		$jr = isset($authorComponents['jr'])?$authorComponents['jr']:''; 
 		if($isFirst){
 			// We have two components: firstname and lastname
 			if(count($authorComponents) == 1){
@@ -418,7 +418,7 @@ class JResearchMLACitationStyle implements JResearchCitationStyle{
 		if(!empty($adr))
 			$address = $adr;
 		
-		$publ = isset($publication->publisher)?trim($publication->publisher):'';	
+		$publ = isset($publication->publisher)?trim($publication->publisher):'';			
 		if(!empty($publ)){
 			if(empty($address))
 				$address = $publ;

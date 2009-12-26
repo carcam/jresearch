@@ -20,8 +20,9 @@
 			</param>
 			
 			<param name="caption_text" type="text" default="Scroll through our members" size="40" label="Caption" description="PARAMCAPTIONTEXT" />
-		</params>
-		<advanced>
+		
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			
 			<param name="cssfile" type="text" default="" size="50" label="Cascading stylesheet file" description="PARAMCSSFILE" />
 			
 			<param name="alphareflect" type="radio" default="0" label="Transparent reflections" description="PARAMALPHAREFLECT">
@@ -50,6 +51,6 @@
 			</param>
 			<param name="cache_time" type="text" default="15" label="Cache Time" description="The time before the module is recached" />
 			<param name="imagethumbnailclass" type="text" default="" size="25" label="Image thumbnail class" description="PARAMIMAGETHUMBNAILCLASS" />
-		</advanced>
+		</params>
 	</state>
 </metadata>

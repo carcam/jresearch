@@ -199,28 +199,5 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		
 	}
 
-	
-	public function getFacilities($areaId, $n=0)
-	{
-		$db =& JFactory::getDBO();
-		$facilities = array();
-		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_facilities').' WHERE '.$db->nameQuote('published').' = 1'
-				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY name DESC';
-
-		if($n > 0){
-			$query .= ' LIMIT 0, '.$n;
-		}
-				 				 
-		$db->setQuery($query);
-		$result = $db->loadAssocList();
-		foreach($result as $r){
-			$item = new JResearchFacility($db);
-			$item->bind($r);
-			$facilities[] = $item;
-		}
-		
-		return $facilities;	
-	}
 }
 ?>

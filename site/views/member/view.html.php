@@ -24,27 +24,24 @@ class JResearchViewMember extends JResearchView
     function display($tpl = null)
     {
     	global $mainframe;
+    	$arguments = array('project');
     	
         $layout = &$this->getLayout();
-        $arguments = array('member');
-        $params = $this->getParams();
-        
         switch($layout){
         	case 'edit':
         		$value = $this->_displayEditProfile($arguments);
+        		$event = 'onAfterRenderJResearchEntityForm';
         		break;
         	default:
         		$value = $this->_displayProfile($arguments);
+        		$event = 'onAfterRenderJResearchEntity';
         		break;
         }
-        
-        $this->assignRef('params', $params);
 	
         if($value)
         {
-	        parent::display($tpl);
-	        
-	        $mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+	       	parent::display($tpl);
+	    	$mainframe->triggerEvent($event, $arguments);
         }
     }
     
@@ -53,64 +50,73 @@ class JResearchViewMember extends JResearchView
      * profile.
      *
      */
-    private function _displayEditProfile(array &$arguments){
+    private function _displayEditProfile(&$arguments){
     	global $mainframe;
     	
     	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
-    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-      	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
-		JHTML::_('jresearchhtml.validation');
+      	JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
+		JHTML::_('Validator._');
     	JResearchToolbar::editMemberAdminToolbar();		
 		    	
     	$user =& JFactory::getUser();
     	$model = $this->getModel();
     	$member = $model->getByUsername($user->username);
+    	
+    	if(empty($member)){
+    		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+    		return false;
+    	}
+    	
     	$areaModel = $this->getModel('ResearchArea');
     	$doc = JFactory::getDocument();
     
     	// Modify it, so administrators may edit the item.
     	if(empty($member->username)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_PROFILE_USER_NOT_AUTHORIZED'));
-    		return false;
+    		return;
     	}
     	
     	if($member->isCheckedOut($user->get('id'))){
 			JError::raiseWarning(1, JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-			return false;
+			return;
 		}
-		
-		$this->addPathwayItem($member, 'index.php?option=com_jresearch&view=member&id='.$member->id);
-		$this->addPathwayItem(JText::_('Edit'));
 		
 		$arguments[] = $member->id;
 		
 		$member->checkout($user->get('id'));		
+		$areasModel = $this->getModel('researchareaslist');    	
+    	$researchAreas = $areasModel->getData(null, true, false);
     	
-		$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'selected' => $member->id_research_area));
+    	$researchAreasOptions = array();
+
+    	// Retrieve the list of research areas
+    	foreach($researchAreas as $r){
+    		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
+    	}    	
+    	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'id_research_area', 'class="inputbox" size="5"', 'value', 'text', $member->id_research_area);
     	
-		//Published options  			
-		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'selected' => $member->published));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $member->id_research_area)); 
     	$orderOptions = array();
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, CONCAT_WS(\' \', firstname, lastname) AS text FROM #__jresearch_member ORDER by former_member,ordering ASC');
-    	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , ($member)?$member->ordering:0);    	
-    	$positionList = JHTML::_('jresearchhtml.memberpositions', array('name' => 'position', 'attributes' => 'class="inputbox" size="1"', 'selected' => $member->position));
-		
+    	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , ($member)?$member->ordering:0);
     	
-    	$editor = JFactory::getEditor();    	
+		//Published options
+    	$publishedOptions = array();
+    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
+    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
+    	$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $member->published);   	
+		$editor =& JFactory::getEditor();    	
     	
-    	$doc->setTitle(JText::_('JRESEARCH_MEMBER').' - '.$member->__toString());
-
+    	$doc->setTitle(JText::_('JRESEARCH_MEMBER').' - '.$member);
     	$this->assignRef('member', $member, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('editor', $editor);    	
-		$this->assignRef('orderList', $orderList);
-    	$this->assignRef('positionList', $positionList);		
+    	$this->assignRef('orderList', $orderList);
     	
 		// Load cited records
 		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments); 	
 		return true;
+    	
     }
     
     /**
@@ -119,10 +125,8 @@ class JResearchViewMember extends JResearchView
     * @return boolean True if the information of the member was correctly bind to
     * the template file.
     */
-    private function _displayProfile(array &$arguments){
+    private function _displayProfile(&$arguments){
       	global $mainframe;
-      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
-      	
     	$id = JRequest::getInt('id');
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);
     	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
@@ -130,23 +134,19 @@ class JResearchViewMember extends JResearchView
 
     	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		$arguments[] = null;
     		return false;
     	}
     
     	//Get the model
-    	$model  =& $this->getModel();
-    	$member =  $model->getItem($id);
-    	$teams  =  $model->getTeams($id);
+    	$model =& $this->getModel();
+    	$member = $model->getItem($id);
     	
     	if(!$member->published){
     		JError::raiseWarning(1, JText::_('JRESEARCH_MEMBER_NOT_FOUND'));
-    		$arguments[] = null;
     		return false;
     	}
     	
-    	$this->addPathwayItem($member, 'index.php?option=com_jresearch&view=member&id='.$member->id);
-    	$arguments[] = $id;
+    	JResearchPluginsHelper::onPrepareJResearchContent('member', $member);
     	
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($member->id_research_area);
@@ -187,32 +187,17 @@ class JResearchViewMember extends JResearchView
     		$this->assignRef('ntheses', $model->countTheses($member->id));
     	}
     	
-    	$applyStyle = ($params->get('publications_apply_style') == 'yes');
-    	$configuredCitationStyle = $params->get('citationStyle', 'APA');
-    	if($applyStyle){
-    		// Require publications lang package
-			$lang = JFactory::getLanguage();
-			$lang->load('com_jresearch.publications');		
-    	}    	
+    	$arguments[] = $member->id;
     	
-    	$format = $params->get('staff_format') == 'last_first'?1:0;
-    	$description = str_replace('<hr id="system-readmore" />', '', $member->description);
-
     	// Bind variables for layout
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
     	$this->assignRef('theses_view_all', $theses_view_all);
     	$this->assignRef('params', $params);
-    	$this->assignRef('member', $member, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('member', $member);
     	$this->assignRef('area', $area);
-    	$this->assignRef('applyStyle', $applyStyle);
-    	$this->assignRef('style', $configuredCitationStyle);
-    	$this->assignRef('format', $format);
-    	$this->assignRef('description', $description);
-    	$this->assignRef('teams', $teams, JResearchFilter::ARRAY_OBJECT_XHTML_SAFE);
     	
     	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
-    	
     	return true;
     }
 }

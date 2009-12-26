@@ -24,15 +24,14 @@ class JResearchViewProject extends JResearchView
 {
     function display($tpl = null)
     {
-	    global $mainframe;
-    	$arguments = array('project');    	
+    	global $mainframe;
+    	$arguments = array();    	
     	$result = true;
         $layout = $this->getLayout();
 
         switch($layout){
         	case 'default':
-        	default:
-        		$result = $this->_displayProject($arguments);
+        		$result = $this->_displayProject(&$arguments);
         		break;
         }
 	
@@ -49,47 +48,46 @@ class JResearchViewProject extends JResearchView
     /**
     * Display the information of a project.
     */
-    private function _displayProject(array &$arguments){
+    private function _displayProject(&$arguments){
       	global $mainframe;
-      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
-      	
     	$id = JRequest::getInt('id');
-	$doc =& JFactory::getDocument();
-	$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
+   		$doc =& JFactory::getDocument();
+   		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
+   		$arguments[] = 'project';
 
-		if(empty($id)){
-			JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-			return false;
-		}
+   		if(empty($id)){
+    		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+    		return false;
+    	}
     	//Get the model
     	$model =& $this->getModel();
     	$project = $model->getItem($id);
     	
-    	if(empty($project) || !$project->published){
+    	if(empty($project)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
     		return false;
     	}
     	
-    	$this->addPathwayItem($project->alias, 'index.php?option=com_jresearch&view=project&id='.$project->id);
-    	$arguments[] = $id;
+		if(!$project->published){
+			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+			return false;
+		}
+    	JResearchPluginsHelper::onPrepareJResearchContent('project', $project);		
+
+		$arguments[] = $id;
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($project->id_research_area);
     	$params = $mainframe->getPageParameters('com_jresearch');
-    	$coops = $project->getCooperations;
-    	$description = str_replace('<hr id="system-readmore" />', '', trim($project->description));
 
     	$doc->setTitle(JText::_('JRESEARCH_PROJECT').' - '.$project->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
-    	$this->assignRef('project', $project, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('project', $project, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
-    	$this->assignRef('coops', $coops);
-    	$this->assignRef('description', $description);
-    	$this->assignRef('enableThumbnails', $params->get('thumbnail_enable', 1));
     	
-    	return true;    	
+    	return true;
 
     }
 }

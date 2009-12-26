@@ -20,9 +20,8 @@ defined('_JEXEC') or die('Restricted access');
 
 global $mainframe;
 
-// Common needed files
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
-require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 
 //Set ACL
 setACL();
@@ -32,6 +31,7 @@ $controller = JRequest::getVar('controller', null);
 if($controller === null)
 	$controller = __mapViewToController();
 
+
 require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
 
 //Require media and styles
@@ -39,18 +39,10 @@ $document = &JFactory::getDocument();
 $url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 $document->addStyleSheet($url.'/components/com_jresearch/css/jresearch_styles.css');
 
-//Session
 $session =& JFactory::getSession();
 
 if($session->get('citedRecords', null, 'jresearch') == null){
 	$session->set('citedRecords', array(), 'jresearch');
-}
-
-//Pathway
-if(!JRequest::getVar('Itemid'))
-{
-    $pathway = &$mainframe->getPathway();
-    $pathway->addItem('J!Research', 'index.php?option=com_jresearch');
 }
 
 // Make an instance of the controller
@@ -65,7 +57,8 @@ if(!$pluginhandledRequest)
 $mainframe->triggerEvent('onAfterExecuteJResearchTask' , array());
 
 // Redirect if set by the controller
-$controller->redirect();
+if(!$pluginhandledRequest)
+	$controller->redirect();
 
 
 /**
@@ -109,5 +102,6 @@ function __mapViewToController(){
 	return $value;
 	
 }
+
 
 ?>

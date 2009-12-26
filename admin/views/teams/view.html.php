@@ -12,6 +12,8 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+
+
 /**
  * HTML View class for management of members lists in JResearch Component backend
  *
@@ -20,7 +22,7 @@ class JResearchAdminViewTeams extends JResearchView
 {
     function display($tpl = null)
     {
-    	global $mainframe;
+    	global $mainframe;    	
         $layout = &$this->getLayout();
         
         switch($layout)
@@ -30,12 +32,12 @@ class JResearchAdminViewTeams extends JResearchView
         			break;
         }
 	
-        $eArguments = array('list' => 'teams');
-		$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+        $eArguments = array('teams');
+        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
+        
+        parent::display($tpl);
+        
+        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**
@@ -44,10 +46,7 @@ class JResearchAdminViewTeams extends JResearchView
     private function _displayDefaultList()
     {
     	global $mainframe;
-    	
-    	//Toolbar
-    	JResearchToolbar::teamsAdminListToolbar();
-    	
+    	    	
     	//Get the model
     	$model =& $this->getModel();
     	$teams = $model->getData(null, false, true);

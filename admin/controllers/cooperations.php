@@ -8,6 +8,8 @@
 * This file implements the controller for all operations related to the management
 * of cooperations in the backend interface.
 */
+define('_COOPERATION_IMAGE_MAX_WIDTH_', 400);
+define('_COOPERATION_IMAGE_MAX_HEIGHT_', 400);
 
 jimport('joomla.application.component.controller');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
@@ -52,6 +54,8 @@ class JResearchAdminCooperationsController extends JController
 	 */
 	function display()
 	{
+		JResearchToolbar::cooperationsAdminListToolbar();
+
 		$view = &$this->getView('Cooperations', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Cooperations', 'JResearchModel');
 		
@@ -61,6 +65,7 @@ class JResearchAdminCooperationsController extends JController
 
 	function edit()
 	{
+		JResearchToolbar::editCooperationAdminToolbar();
 		$cid = JRequest::getVar('cid', array());
 
 		$view = &$this->getView('Cooperation', 'html', 'JResearchAdminView');
@@ -141,7 +146,7 @@ class JResearchAdminCooperationsController extends JController
 	function save()
 	{
 		global $mainframe;
-	    if(!JRequest::checkToken())
+		if(!JRequest::checkToken())
 		{
 		    $this->setRedirect('index.php?option=com_jresearch');
 		    return;
@@ -150,10 +155,6 @@ class JResearchAdminCooperationsController extends JController
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 		
 		$db =& JFactory::getDBO();
-		
-		$params = JComponentHelper::getParams('com_jresearch');
-		$imageWidth = $params->get('cooperation_image_width', _COOPERATION_IMAGE_MAX_WIDTH_);
-		$imageHeight = $params->get('cooperation_image_height', _COOPERATION_IMAGE_MAX_HEIGHT_);
 
 		$coop = new JResearchCooperation($db);
 
@@ -164,12 +165,6 @@ class JResearchAdminCooperationsController extends JController
 		$coop->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$coop->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
-		//Generate an alias if needed
-		$coop = trim(JRequest::getVar('alias'));
-		if(empty($coop)){
-			$coop->alias = JResearch::alias($coop->name);
-		}
-		
 		//Upload photo
 		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
 		$del = JRequest::getVar('delete');
@@ -178,12 +173,12 @@ class JResearchAdminCooperationsController extends JController
 								$fileArr, 			//Uploaded File array
 								'assets'.DS.'cooperations'.DS, //Relative path from administrator folder of the component
 								($del == 'on')?true:false,	//Delete?
-								 $imageWidth, //Max Width
-								 $imageHeight //Max Height
+								 _COOPERATION_IMAGE_MAX_WIDTH_, //Max Width
+								 _COOPERATION_IMAGE_MAX_HEIGHT_ //Max Height
 		); 
 		
 		// Validate and save
-		$task = JRequest::getVar('task');
+		$task = JRequest::getVar('task');		
 		if($coop->check())
 		{
 			if($coop->store())
@@ -209,10 +204,8 @@ class JResearchAdminCooperationsController extends JController
 		else
 		{
 			$idText = !empty($coop->id) && $task == 'apply'?'&cid[]='.$coop->id:'';			
-
 			for($i=0; $i<count($coop->getErrors()); $i++)
 				JError::raiseWarning(1, $coop->getError($i));
-				
 			$this->setRedirect('index.php?option=com_jresearch&controller=cooperations&task=edit'.$idText);
 		}
 

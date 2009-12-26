@@ -164,7 +164,7 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
 			else
 				$authors = array();	
 		}
-				
+						
 		foreach($authors as $auth){
 			$result = JResearchPublicationsHelper::getAuthorComponents(($auth instanceof JResearchMember)?$auth->__toString():$auth);
 			$formattedAuthors[] = (isset($result['von'])?JResearchPublicationsHelper::bibCharsToUtf8FromString($result['von']).' ':'').JResearchPublicationsHelper::bibCharsToUtf8FromString($result['lastname']);		
