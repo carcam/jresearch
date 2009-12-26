@@ -19,7 +19,7 @@
 			<option value="Chicago">Chicago (Author-Date system)</option>
 			<option value="Vancouver">Vancouver</option>
 		</param>
-		<param name="enable_export_frontend" type="radio" default="no" label="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT">
+		<param name="enable_export_frontend" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT" description="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT_DESCRIPTION">
 			<option value="yes">Yes</option>
 			<option value="no">No</option>			
 		</param>
@@ -57,22 +57,7 @@
 		</param>
 		
 		<param type="spacer" />
-		
-		<param name="show_edit" type="radio" default="no" label="JRESEARCH_CONFIG_EDIT" description="JRESEARCH_CONFIG_EDIT_DESCRIPTION">
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</param>
-		
-		<param name="show_edit_list" type="radio" default="no" label="JRESEARCH_CONFIG_EDIT_LIST" description="JRESEARCH_CONFIG_EDIT_LIST_DESCRIPTION">
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</param>
-		
-		<param name="allow_upload" type="radio" default="yes" label="JRESEARCH_CONFIG_UPLOAD" description="JRESEARCH_CONFIG_UPLOAD_DESCRIPTION">
-			<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</param>
-						
+									
 		<param name="files_root_path" type="hidden" default="files" />			
 	</params>
 </config>

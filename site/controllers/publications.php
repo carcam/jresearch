@@ -798,7 +798,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	function export(){
 		global $mainframe;	
 		$params = $mainframe->getPageParameters('com_jresearch');
-		$exportEnabled = $params->get('enable_export_frontend');
+		$exportEnabled = $params->get('enable_export_frontend', 'no');
 		$document =& JFactory::getDocument();		
 		$format = JRequest::getVar('format');
 		
@@ -842,7 +842,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		//Do the export only if export from frontend is enabled		
 		$exportOptions = array();
 		global $mainframe;	
-		$params = $mainframe->getPageParams('com_jresearch');
+		$params = $mainframe->getPageParameters('com_jresearch');
 		$exportEnabled = $params->get('enable_export_frontend', 'no');
 		$document =& JFactory::getDocument();
 		$format = JRequest::getVar('format', 'bibtex');				
@@ -879,7 +879,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	function executeImport(){
 		global $mainframe;
 		$params = $mainframe->getPageParameters('com_jresearch');
-		$bibtex = $params->get('enable_bibtex_frontend_import');
+		$bibtex = $params->get('enable_bibtex_frontend_import', 'no');
 		
 		if($bibtex == "yes"){		
 			$fileArray = JRequest::getVar('inputfile', null, 'FILES');
