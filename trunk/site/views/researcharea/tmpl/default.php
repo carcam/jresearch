@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
   			<?php if($this->publications_view_all): ?>		
   				<a href="index.php?option=com_jresearch&amp;publications_view_all=0&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;projects_view_all=<?php echo $this->projects_view_all; ?>&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_VIEW_LESS'); ?></a>
   			<?php endif; ?>
-  	<? endif; ?>
+  	<?php endif; ?>
 </div>
 <?php endif; ?>
 
@@ -78,7 +78,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
   			<?php if($this->projects_view_all): ?>		
   				<a href="index.php?option=com_jresearch&amp;projects_view_all=0&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;publications_view_all=<?php echo $this->publications_view_all; ?>&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_VIEW_LESS'); ?></a>
   			<?php endif; ?>
-  	<? endif; ?>
+  	<?php endif; ?>
   </div>
 <?php endif; ?>
 
