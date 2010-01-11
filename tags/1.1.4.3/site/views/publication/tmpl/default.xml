@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_PUBLICATION_DESCRIPTION">
+		<message>JRESEARCH_PUBLICATION_DESCRIPTION_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_PUBLICATION_DESCRIPTION</name>
+		<description>JRESEARCH_PUBLICATION_DESCRIPTION_VIEW_MESSAGE</description>
+		<url>
+			<param type="sql" name="id" label="JRESEARCH_PUBLICATION" 
+			description="Publication displayed" query="SELECT id as value, title as id FROM #__jresearch_publication WHERE published = 1 AND internal=1" />	
+			<param type="hidden" name="task" default="show" />
+		</url>
+		
+	</state>
+</metadata>
