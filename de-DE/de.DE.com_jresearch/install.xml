@@ -21,7 +21,7 @@
 	<filename>de-DE.com_jresearch.theses.ini</filename>
   	<filename>de-DE.com_jresearch.ini</filename>
 	<filename>de-DE.com_jresearch.menu.ini</filename>
-	<filename>de-DE.com_jresearch.member_positions.ini</filename>		
+	<filename>de-DE-jresearch.html</filename>
     </files>
   </administration>
   <site>
@@ -37,7 +37,6 @@
 		<filename>de-DE.com_jresearch.staff.ini</filename>
 		<filename>de-DE.com_jresearch.teams.ini</filename>
 		<filename>de-DE.com_jresearch.theses.ini</filename>
-		<filename>es-ES.plg_jresearch.ini</filename>		
   	</files>
   </site>
   <params />

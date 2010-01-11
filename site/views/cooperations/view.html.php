@@ -18,15 +18,18 @@ class JResearchViewCooperations extends JResearchView
 		global $mainframe;
 		
 		$layout = &$this->getLayout();
+		$doc = JFactory::getDocument();
 		
-		switch($layout)
-		{
-		    case 'default':
-		    default:
-		        $this->_defaultList();
-		        break;
-		}
-			
+		// Get data from the model
+		$model = &$this->getModel();
+		$items = $model->getData(null, true, true);
+		$params = $mainframe->getParams();
+		
+		$doc->setTitle(JText::_('JRESEARCH_COOPERATIONS'));
+		$this->assignRef('params', $params);
+		$this->assignRef('items', $items);
+		$this->assignRef('page', $model->getPagination());	
+
 		$eArguments = array('cooperations', $layout);
 		
 		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
@@ -34,25 +37,6 @@ class JResearchViewCooperations extends JResearchView
 		parent::display($tpl);
 		
 		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
-	}
-	
-	private function _defaultList()
-	{
-	    global $mainframe;
-	    $doc    = &JFactory::getDocument();
-	    
-	    // Get data from the model
-		$model 	= 	&$this->getModel();
-		$items 	= 	$model->getData(null, true, true);
-		$cats 	= 	$model->getCategories();
-		$params =   $this->getParams();
-		
-		$doc->setTitle(JText::_('JRESEARCH_COOPERATIONS'));
-		$this->assignRef('params', $params);
-		$this->assignRef('items', $items, JResearchFilter::ARRAY_OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
-		$this->assignRef('cats', $cats);
-		$this->assignRef('page', $model->getPagination());
-		$this->assignRef('introtext', $params->get('intro_text'));
 	}
 }
 ?>

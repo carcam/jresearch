@@ -10,54 +10,44 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <?php $Itemid = JRequest::getVar('Itemid'); 
 	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
-	  
-	//BibTex show in frontend; Pablo Moncada
-	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'exporters'.DS.'factory.php');		
-	$document =& JFactory::getDocument(); 
-	$id = JRequest::getInt('id');
-	$format = "bibtex";		
-	$model = &$this->getModel('Publication', 'JResearchModel');		
-	$publication = $model->getItem($id);		
-	$exporter =& JResearchPublicationExporterFactory::getInstance($format);		
-	$output2 = $exporter->parse($publication);				
-	//End Pablo Moncada
 	  	
 ?>
-<div style="float: right;"><?php echo JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
-<h2 class="componentheading"><?php echo $this->publication->title; ?></h2>
-<table class="frontendsingleitem">
+<div style="float: right;"><?php JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
+<div class="componentheading"><?php echo $this->publication->title; ?></div>
+<table cellspacing="2" cellpadding="2">
 <tbody>
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
-		<td><?php if($this->area->id > 1): ?>
-			<?php echo JHTML::_('jresearch.link', $this->area->name, 'researcharea', 'show', $this->area->id)?>
+		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
+		<td style="width:35%;">
+		<?php if($this->area->id > 1): ?>
+			<a href="index.php?option=com_jresearch&amp;controller=researchAreas&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
 		<?php else: ?>
 			<?php echo $this->area->name; ?>	
 		<?php endif; ?>	
 		</td>
 		<?php $year = $this->publication->year; ?>
 		<?php if($year != null && $year != '0000' && !empty($year)): ?>
-		<th scope="row"><?php echo JText::_('JRESEARCH_YEAR').': ' ?></th>
-		<td><?php echo $this->publication->year; ?></td>
+		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_YEAR').': ' ?></td>
+		<td style="width:35%;"><?php echo $this->publication->year; ?></td>
 		<?php else: ?>
-		<td colspan="2"></td>
+		<td colspan="2">&nbsp;</td>
 		<?php endif; ?>
 	</tr>
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
-		<td><?php echo JResearchText::_($this->publication->pubtype); ?></td>
+		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></td>
+		<td style="width:35%;"><?php echo JResearchText::_($this->publication->pubtype); ?></td>
 		<?php $keywords = trim($this->publication->keywords); ?>
 		<?php if(!empty($keywords)): ?>		
-		<th scope="row"><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></th>		
-		<td><?php echo $this->publication->keywords; ?></td>
+		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></td>		
+		<td style="width:35%;"><?php echo $this->publication->keywords; ?></td>
 		<?php else: ?>
-		<td colspan="2"></td>
+		<td colspan="2">&nbsp;</td>
 		<?php endif; ?>
 	</tr>
 	<?php $authors = $this->publication->getAuthors(); ?>
 	<?php if(!empty($authors)): ?>
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_AUTHORS').': ' ?></th>
+		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_AUTHORS').': ' ?></td>
 		
 		<?php if($this->staff_list_arrangement == 'horizontal'): ?>
 		<td style="width:85%;" colspan="3">
@@ -66,36 +56,36 @@ defined('_JEXEC') or die('Restricted access');
 				<?php foreach($authors as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<?php echo JHTML::_('jresearch.link', JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format), 'member', 'show', $auth->id)?><?php echo $i == $n - 1?'':';' ?>
+								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
 							<?php else: ?>
-								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
+								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?><?php echo $i == $n - 1?'':';' ?>
+								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
 						<?php endif; ?>
 						<?php $i++; ?>
 				<?php endforeach; ?>
 		</td>		
 		<?php else: ?>
-		<td>
-			<ul>
+		<td style="width:35%;">
+			<ul style="margin:0px;padding:0px;">
 				<?php foreach($authors as $auth): ?>
 					<li style="list-style:none;">
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<?php echo JHTML::_('jresearch.link', JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format), 'member', 'show', $auth->id)?>
+								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
 							<?php else: ?>
-								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
+								<?php echo $auth->__toString(); ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?>
+								<?php echo $auth; ?>
 						<?php endif; ?>
 					</li>
 				<?php endforeach; ?>
 			</ul>
 		</td>
 		<?php endif; ?>
-		<td colspan="2"></td>		
+		<td colspan="2">&nbsp;</td>		
 	</tr>	
 	<?php endif; ?>
 	
@@ -105,83 +95,70 @@ defined('_JEXEC') or die('Restricted access');
 	<?php $colspan=4; ?>
 	<?php $acceptance = trim($this->publication->journal_acceptance_rate); ?>
 	<?php $impact_factor = trim($this->publication->impact_factor); ?>
-	<?php if(!empty($acceptance) && ($this->params->get('show_journal_acceptance_rate') == 'yes')): ?>
+	<?php if(!empty($acceptance)): ?>
 		<?php $colspan = 2; ?>
-		<th scope="row"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': ' ?></th>		
-		<td><?php echo $acceptance; ?>%</td>
+		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': ' ?></td>		
+		<td style="width:35%;"><?php echo $acceptance; ?>%</td>
 	<?php else: ?>
-			<td colspan="<?php echo $colspan; ?>"></td>
+			<td colspan="<?php echo $colspan; ?>">&nbsp;</td>
 	<?php endif; ?>
-	<?php if(!empty($impact_factor) && ($this->params->get('show_journal_impact_factor') == 'yes')): ?>
+	<?php if(!empty($impact_factor)): ?>
 		<?php $colspan -= 2; ?>	
-		<th scope="row"><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></th>		
-		<td><?php echo $impact_factor; ?></td>			
+		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></td>		
+		<td style="width:35%;"><?php echo $impact_factor; ?></td>			
 	<?php endif; ?>
 	<?php if($colspan > 0): ?>
-		<td colspan="<?php echo $colspan; ?>"></td>
+		<td colspan="<?php echo $colspan; ?>">&nbsp;</td>
 	<?php endif; ?>
 	</tr>
 		
 	<?php $awards = trim($this->publication->awards); ?>
-	<?php if(!empty($awards) && ($this->params->get('show_awards') == 'yes')): ?>
+	<?php if(!empty($awards)): ?>
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_AWARDS').': '; ?></th>
-		<td style="width:85%;" colspan="3"><div style="text-align:justify;"><?php echo $awards; ?></div></td>
+		<td colspan="4" align="left" class="publicationlabel"><div style="text-align:justify;"><?php echo JText::_('JRESEARCH_AWARDS').': '; ?></div></td>
+	</tr>
+	<tr>
+		<td colspan="4" align="left"><?php echo $awards; ?></td>
 	</tr>
 	<?php endif; ?>	
-	
-	<?php if($this->params->get('enable_export_frontend') == 'yes'): ?>	
-		<?php if($this->params->get('show_bibtex') == "yes"): ?>
-		<tr>
-			<th scope="row"><div style="text-align:justify;"><?php echo JText::_('BibTex').': '; ?></div></th>
-		</tr>
-		<tr>
-			<td colspan="4" align="left"><textarea rows="6" cols="45"><?php echo $output2; ?></textarea></td>
-		</tr>
-		<?php endif; ?>
-	<?php endif; ?>
 	
 	<?php $note = trim($this->publication->note); ?>	
 	<?php if(!empty($note)): ?>
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_NOTE').': '; ?></th>
-		<td style="width:85%;" colspan="3"><div style="text-align:justify;"><?php echo $note; ?></div></td>	
+		<td colspan="4" align="left" class="publicationlabel"><?php echo JText::_('JRESEARCH_NOTE').': '; ?></td>
+	</tr>
+	<tr>
+		<td colspan="4" align="left"><div style="text-align:justify;"><?php echo $note; ?></div></td>	
 	</tr>
 	<?php endif; ?>	
 	
 	<?php $abstract = trim($this->publication->abstract); ?>
 	<?php if(!empty($abstract)): ?>
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_ABSTRACT').': '; ?></th>
-		<td style="width:85%;" colspan="3"><div style="text-align:justify;"><?php echo $abstract; ?></div></td>	
+		<td colspan="4" align="left" class="publicationlabel"><?php echo JText::_('JRESEARCH_ABSTRACT').': '; ?></td>
+	</tr>
+	<tr>
+		<td colspan="4" align="left" ><div style="text-align:justify"><?php echo $abstract; ?></div></td>
 	</tr>
 	<?php endif; ?>	
 	<?php $comments = trim($this->publication->comments); ?>	
 	<?php if(!empty($comments)): ?>
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_COMMENTS').': '; ?></th>
-		<td style="width:85%;" colspan="3"><div style="text-align:justify;"><?php echo $comments; ?></div></td>	
+		<td colspan="4" align="left" class="publicationlabel"><?php echo JText::_('JRESEARCH_COMMENTS').': '; ?></td>
+	</tr>
+	<tr>
+		<td colspan="4" align="left"><div style="text-align:justify;"><?php echo $comments; ?></div></td>	
 	</tr>
 	<?php endif; ?>	
 	
-	<tr><td colspan="4">
-	<?php $url = str_replace('&', '&amp;', trim($this->publication->url)); ?>	
+	<?php $url = trim($this->publication->url); ?>
 	<?php if(!empty($url)): ?> 
-		<span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span>
+		<tr><td colspan="4"><span><?php echo JHTML::_('link', str_replace('&', '&amp;', $url), JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span></td></tr>		
 	<?php endif; ?>
-	<?php if($this->showBibtex): 
-		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$this->publication->id, '[Bibtex]').'</span>';		
-	 endif;?>	
-	<?php if($this->showRIS): 
-		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=ris&amp;id='.$this->publication->id, '[RIS]').'</span>';		
-	 endif;?>
-	 <?php if($this->showMODS): 
-		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id='.$this->publication->id, '[MODS]').'</span>';		
-	 endif;?>				
-	</td></tr>			
 	
 </tbody>
 </table>
+<div>&nbsp;&nbsp;&nbsp;</div>
 <?php if($this->commentsAllowed): ?>
 	<?php if($this->showComments): ?>
 	<div><span><a id="showComments" href="javascript:showComments(0, <?php echo "'".JText::_('JRESEARCH_SHOW_COMMENTS')."','".JText::_('JRESEARCH_HIDE_COMMENTS')."'"; ?>);"><?php echo JText::_('JRESEARCH_HIDE_COMMENTS') ?></a></span>&nbsp;&nbsp;&nbsp;<span><a id="postComment" href="javascript:postComment();"><?php echo JText::_('JRESEARCH_POST_COMMENT'); ?></a></span></div>

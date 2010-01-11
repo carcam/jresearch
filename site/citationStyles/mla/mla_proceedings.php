@@ -54,9 +54,8 @@ class JResearchMLAProceedingsCitationStyle extends JResearchMLACitationStyle{
 		}else{
 			$authorsText = '---';
 		}
-
-		$title = trim($publication->title);
-		$title = $html?"<u>$title</u>":$title;
+		$title = trim($publication->title);		
+		$title = $html?'<u>'.$title.'</u>':$title;
 		$ed = JText::_('JRESEARCH_APA_ED');
 
 		if(!empty($authorsText)){
@@ -65,7 +64,6 @@ class JResearchMLAProceedingsCitationStyle extends JResearchMLACitationStyle{
 		}else{
 			$text .= $title;	
 		}
-
 		
 		if(!empty($editorsText))
 			$text .= ". $ed. $editorsText";
@@ -77,7 +75,7 @@ class JResearchMLAProceedingsCitationStyle extends JResearchMLACitationStyle{
 		$year = trim($publication->year);
 		if($year != null && $year != '0000')		
 			$text .= ', '.$year;
-							
+			
 		return $text.'.';			
 	}
 	

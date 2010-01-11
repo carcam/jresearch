@@ -12,6 +12,8 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+
+
 /**
  * HTML View class for management of theses lists in JResearch Component backend
  *
@@ -22,8 +24,7 @@ class JResearchAdminViewThesesList extends JResearchView
     function display($tpl = null)
     {
         global $mainframe;	
- 		JResearchToolbar::thesesAdminListToolbar();
- 	
+		JResearchToolbar::thesesAdminListToolbar();
        	$model = &$this->getModel();
       	$items = $model->getData(null, false, true);
       	$areaModel =& $this->getModel('researcharea');
@@ -33,16 +34,16 @@ class JResearchAdminViewThesesList extends JResearchView
     	$filter_order = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order', 'title');
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order_Dir', 'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('thesesfilter_state', 'filter_state');
-    	$filter_search = $mainframe->getUserStateFromRequest('thesesfilter_search', 'filter_search');
-		$filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');
-    	
-    	$lists['order_Dir'] = $filter_order_Dir;
+		$filter_search = $mainframe->getUserStateFromRequest('thesesfilter_search', 'filter_search');
+		$filter_author = $mainframe->getUserStateFromRequest('thesesfilter_author', 'filter_author');
+		   	
+		$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
 		// State filter
 		$lists['state'] = JHTML::_('grid.state', $filter_state);
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
-
+		
 		// Authors filter
 		$authors = $model->getAllAuthors();
 		$authorsHTML = array();
@@ -57,12 +58,12 @@ class JResearchAdminViewThesesList extends JResearchView
      	$this->assignRef('page', $model->getPagination());
      	$this->assignRef('area', $areaModel);
      	
-     	$eArguments = array('list' => 'theses');
-		$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+     	$eArguments = array('theses');
+        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
+        
+        parent::display($tpl);
+        
+        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
 }
 

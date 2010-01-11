@@ -30,14 +30,6 @@ class JResearchBook extends JResearchPublication{
 	public $id_publication;
 	
 	/**
-	 * Book's isbn
-	 *
-	 * @var string
-	 */
-	public $isbn;
-	
-	
-	/**
 	 * Book's publisher
 	 * 
 	 * @var string

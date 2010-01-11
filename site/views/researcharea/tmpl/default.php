@@ -7,49 +7,26 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<h2 class="componentheading"><?php echo $this->area->name; ?></h2>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h3>
-<?php echo $this->description;  ?>
+<h1 class="componentheading"><?php echo $this->area->name; ?></h1>
+<h2><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h2>
+<div><?php echo str_replace('<hr id="system-readmore" />', '', $this->area->description);  ?></div>
 <div>&nbsp;&nbsp;</div>
-<?php if(!empty($this->facilities)): ?>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h3>
-<ul class="float">
-<?php foreach($this->facilities as $facility): ?>
-	<li>
-		<?php echo JHTML::_('jresearch.link', $facility->name, 'facility', 'show', $facility->id); ?>
-	</li>
-<?php endforeach; ?>
-</ul>
-<div>&nbsp;&nbsp;</div>
-<?php endif; ?>
 <?php $itemId = JRequest::getVar('Itemid'); ?>
 <?php if(!empty($this->members)): ?>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h3>
+<h2><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
 <ul>
 <?php foreach($this->members as $member): ?>
-	<li><?php echo JHTML::_('jresearch.link', $member, 'member', 'show', $member->id); ?></li>
+	<li><a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $member->__toString(); ?></a></li>
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
 
 <?php if(!empty($this->publications)): ?>
 <div>&nbsp;&nbsp;</div>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h3>
+<h2><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
 <ul>
 <?php foreach($this->publications as $publication): ?>
-	<?php if($this->applyStyle): ?>
-  	<li>
-  		<?php  
-  			$styleObj =& JResearchCitationStyleFactory::getInstance($this->style, $publication->pubtype);
-  			echo $styleObj->getReferenceHTMLText($publication, true); 
-  		?>
-  		<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $publication->id); ?>&nbsp;
-  	</li>
-	<?php else: ?>
-	<li>
-		<?php echo JHTML::_('jresearch.link', $publication->title, 'publication', 'show', $publication->id); ?>
-	</li>
-	<?php endif; ?>
+	<li><a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $publication->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $publication->title; ?></a></li>
 <?php endforeach; ?>
 </ul>
 <div>
@@ -59,13 +36,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
   			<?php if($this->publications_view_all): ?>		
   				<a href="index.php?option=com_jresearch&amp;publications_view_all=0&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;projects_view_all=<?php echo $this->projects_view_all; ?>&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_VIEW_LESS'); ?></a>
   			<?php endif; ?>
-  	<?php endif; ?>
+  	<? endif; ?>
 </div>
 <?php endif; ?>
 
 <?php if(!empty($this->projects)): ?>
 <div>&nbsp;&nbsp;</div>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h3>
+<h2><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h2>
 <ul>
 <?php foreach($this->projects as $project): ?>
 	<li><a href="index.php?option=com_jresearch&amp;view=project&amp;task=show&amp;id=<?php echo $project->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $project->title; ?></a></li>
@@ -78,13 +55,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
   			<?php if($this->projects_view_all): ?>		
   				<a href="index.php?option=com_jresearch&amp;projects_view_all=0&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;publications_view_all=<?php echo $this->publications_view_all; ?>&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_VIEW_LESS'); ?></a>
   			<?php endif; ?>
-  	<?php endif; ?>
+  	<? endif; ?>
   </div>
 <?php endif; ?>
 
 <?php if(!empty($this->theses)): ?>
 <div>&nbsp;&nbsp;</div>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h3>
+<h2><?php echo JText::_('JRESEARCH_THESES'); ?></h2>
 <ul>
 <?php foreach($this->theses as $thesis): ?>
 	<li><a href="index.php?option=com_jresearch&amp;view=thesis&amp;task=show&amp;id=<?php echo $thesis->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $thesis->title; ?></a></li>

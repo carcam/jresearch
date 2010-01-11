@@ -9,15 +9,6 @@
 		
 		<params>
 			<param name="intro_text" type="textarea" label="Intro Text" description="Intro text for cooperations" cols="30" rows="5" />
-			
-			<param name="cooperation_entries_per_page" default="25" label="JRESEARCH_CONFIG_COOPERATIONS_PER_PAGE" type="text" ></param>									
-			<param name="cooperations_order" label="JRESEARCH_SORTED" type="radio" default="asc">
-				<option value="asc">JRESEARCH_ASCENDING</option>
-				<option value="desc">JRESEARCH_DESCENDING</option>
-			</param>
-			<param name="cooperation_image_width" default="1024" label="JRESEARCH_COOPERATION_IMAGE_WIDTH" type="text" />
-			<param name="cooperation_image_height" default="768" label="JRESEARCH_COOPERATION_IMAGE_HEIGHT" type="text" />
-			
 		</params>
 	</state>
 </metadata>

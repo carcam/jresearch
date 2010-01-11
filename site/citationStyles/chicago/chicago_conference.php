@@ -35,7 +35,7 @@ class JResearchChicagoConferenceCitationStyle extends JResearchChicagoCitationSt
 		$nAuthors = $publication->countAuthors();
 		$text = '';
 		$in = JText::_('JRESEARCH_IN');
-		$nEditors = count($publication->getEditors());
+		$nEditors = count($publication->getEditors());		
 		$eds = $nEditors > 1? JText::_('JRESEARCH_LC_EDITORS'):JText::_('JRESEARCH_LC_EDITOR');
 						
 		if($nAuthors <= 0){

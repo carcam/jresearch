@@ -12,6 +12,8 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+
+
 /**
  * HTML View class for management of facilities lists in JResearch Component backend
  *
@@ -22,7 +24,6 @@ class JResearchAdminViewFacilities extends JResearchView
     function display($tpl = null)
     {
     	global $mainframe;
-    	
         $layout = &$this->getLayout();
         
         switch($layout)
@@ -33,11 +34,11 @@ class JResearchAdminViewFacilities extends JResearchView
         }
 	
         $eArguments = array('facilities');
-        $mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
         
         parent::display($tpl);
         
-        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     /**
@@ -61,7 +62,6 @@ class JResearchAdminViewFacilities extends JResearchView
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('facsfilter_order', 'filter_order_Dir', 'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('facsfilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('facsfilter_search', 'filter_search');
-    	$filter_area = $mainframe->getUserStateFromRequest('facsfilter_area', 'filter_area');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
@@ -71,9 +71,8 @@ class JResearchAdminViewFacilities extends JResearchView
 		
 		// State filter
 		$lists['state'] = JHTML::_('grid.state', $filter_state);
+		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
-		
-		$lists['area'] = JHTML::_('jresearchhtml.researchareas', array('name' => 'filter_area', 'selected' => $filter_area, 'attributes' => 'onchange="document.adminForm.submit();"'), array(array('id' => null, 'name' => JText::_('JRESEARCH_RESEARCH_AREA'))));
     	
     	$this->assignRef('items', $facs);
     	$this->assignRef('area', $areaModel);

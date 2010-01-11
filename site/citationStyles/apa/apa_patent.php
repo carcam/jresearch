@@ -51,7 +51,6 @@ class JResearchAPAPatentCitationStyle extends JResearchAPACitationStyle{
 		$address = trim($publication->address);
 		if(!empty($address))
 			$text .= '. '.$address;	
-				
 		
 		$office	= trim($publication->office);
 		if(!empty($office)){

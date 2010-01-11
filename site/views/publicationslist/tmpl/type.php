@@ -9,7 +9,7 @@
 defined('_JEXEC') or die('Restricted access'); 
 $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 <?php foreach($this->items as $type=>$publications): ?>
-	<h3 class="frontendheader"><?php echo $type; ?></h3>
+	<div class="frontendheader"><?php echo $type; ?></div>
 	<ul>
 
 	<?php 
@@ -19,35 +19,20 @@ $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 	?>
 
 		<?php $url = $pub->url; ?>	
-		<?php $attach = $pub->getAttachment(0, 'publications'); ?>		
 				
 		<li><span><?php echo $publicationText;  ?></span>
 			<?php if($this->showmore): ?>
-			<span><?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $pub->id); ?></span>
+			<span><a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $pub->id; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a></span>
 		<?php endif; ?>
 		<?php if($this->showdigital): ?>
 			<?php if(!empty($url))
 					$link = str_replace('&', '&amp;', $url);
-				  elseif(!empty($attach))
-				  	$link = $attach;
-				  else
-			  		$link = '';	
-				  	
 			 ?>
 			<?php if(!empty($link)): ?>
 				<?php "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			
 			<?php endif; ?>
 		<?php endif; ?>
-		<?php if($this->showBibtex): 
-			echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$pub->id, '[Bibtex]').'</span>';		
-		 endif;?>	
-		<?php if($this->showRIS): 
-			echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=ris&amp;id='.$pub->id, '[RIS]').'</span>';		
-		 endif;?>
-		 <?php if($this->showMODS): 
-			echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id='.$pub->id, '[MODS]').'</span>';		
-		 endif;?>	 	
-		<span><?php echo JHTML::_('Jresearch.icon','edit', 'publications', $pub->id); ?> <?php echo JHTML::_('Jresearch.icon','remove', 'publications', $pub->id); ?></span>	
+		<span><?php JHTML::_('Jresearch.icon','edit', 'publications', $pub->id); ?> <?php JHTML::_('Jresearch.icon','remove', 'publications', $pub->id); ?></span>	
 		</li>
 	<?php endforeach; ?>
 	</ul>

@@ -19,6 +19,7 @@ jimport('joomla.utilities.date');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'activity.php');
 
+
 /**
  * This class defines the base for all types of publications managed by JResearch.
  * Extensions for JResearch supported types imply write JResearchPublication derived
@@ -58,7 +59,13 @@ class JResearchPublication extends JResearchActivity{
 	/**
 	 * @var string
 	 */
-	public $awards;	
+	public $awards;
+	
+	/**
+	 * @var string
+	 */
+	public $url;
+	
 	
 	/**
 	 * Year of publication.
@@ -101,19 +108,6 @@ class JResearchPublication extends JResearchActivity{
 	 * @var string
 	*/
 	public $note;
-	
-	/**
-	 * Optional cover URL for the publication
-	 *
-	 * @var string
-	 */
-	public $cover;
-	
-	/**
-	 * Digital Object identifier
-	 * @var string
-	 */
-	public $doi;
 	
 	/**
 	 * Name of the foreign key field in the subclass table.
@@ -238,7 +232,7 @@ class JResearchPublication extends JResearchActivity{
 		$pub = $db->loadResult();
 		if($pub){
 			$result = JResearchPublication::getSubclassInstance($pub);
-			$result->loadByCitekey($pub, $citekey);	
+			$result->_loadByCitekey($pub, $citekey);	
 			return $result;
 		}else{
 			return null;
@@ -283,11 +277,12 @@ class JResearchPublication extends JResearchActivity{
 	
 	/**
 	 * Loads a row from the database and binds the fields to the object properties.
+	 * @param string $pubtype Publication type. Just for security as the item might not have this property set.
 	 * @param string $citekey Label or key that identifies the record and is used
 	 * during citation.
 	 * @return True if successful
 	 */
-	public function loadByCitekey($pubtype, $citekey){
+	private function _loadByCitekey($pubtype, $citekey){
 		if($citekey === null || $citekey === '')
 		    return false;
 		
@@ -308,6 +303,7 @@ class JResearchPublication extends JResearchActivity{
 		    $this->setError( $db->getErrorMsg() );
 		    return false;
 		}
+		
 	}
 
 
@@ -378,8 +374,7 @@ class JResearchPublication extends JResearchActivity{
 	* @return boolean
 	*/
 	public function check(){
-		$db =& JFactory::getDBO();
-		$withoutErrors = true;		
+		$db =& JFactory::getDBO();		
 		
 		// Verify authors integrity
 		if(!parent::checkAuthors())
@@ -387,128 +382,41 @@ class JResearchPublication extends JResearchActivity{
 		
 			
 		if(empty($this->citekey)){
-			$this->citekey = trim($this->citekey);
 			$this->setError(JText::_('JRESEARCH_PROVIDE_CITEKEY'));
-			$withoutErrors = false;
+			return false;
 		}	
 		
 		// Verify if title is not empty
 		if(empty($this->title)){
-			$this->title = trim($this->title);			
 			$this->setError(JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'));
-			$withoutErrors = false;
+			return false;
 		}
 		// Verify year
 		if(!empty($this->year)){
-			$this->year = trim($this->year);			
-			if(!preg_match('/^[1-9]\d{3}$/',$this->year)){
+			if(!preg_match('/^\d{4}$/',$this->year)){
 				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); 
-				$withoutErrors = false;
+				return false;
 			}
 					
 		}
-		
-		if(!empty($this->issn)){
-			$this->issn = trim($this->issn);
-			if(!preg_match("/^\d{4}-?\d{4}$/", $this->issn)){				
-				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_ISSN'));
-				$withoutErrors = false;
-			}else{
-				//Validate last digit control
-				$text = $this->issn;
-				$k = 0;
-				$acum = 0;
-				$j = 8;
-				while($j>= 2){
-					if(is_numeric($text{$k})){
-						$acum += $j * (int)$text{$k};
-						$j--;
-					}
-					$k++;										
-				}
-				$controlDigit = 11 - ($acum % 11);
-				if((int)($text{$k}) !== $controlDigit){
-					$this->setError(JText::_('JRESEARCH_ISSN_CONTROL_DIGIT_FAILED').' '.$controlDigit);
-				}
-			}
-		}
-		
-		if(!empty($this->isbn)){
-			$this->isbn = trim($this->isbn);			
-			if(!preg_match("/^(\d{10}|\d{13}|\d{9}x)$/i", $this->isbn)){
-				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_ISBN'));
-				$withoutErrors = false;
-			}else{
-				//Validate last digit control
-				$text = $this->isbn;
-				$acum = 0;				
-				if(strlen($text) == 10){
-					$k = 0;
-					$j = 10;
-					while($j>= 2){
-						$acum += $j * (int)$text{$k};
-						$j--;
-						$k++;										
-					}
-					$controlDigit = 11 - ($acum % 11);
-					
-					if($controlDigit == 10){						
-						$controlDigit = 'X';	
-						if($controlDigit == strtoupper($text{$k})){
-							$this->setError(JText::_('JRESEARCH_ISBN_CONTROL_DIGIT_FAILED'));
-						}
-						
-					}else{
-						if((int)($text{$k}) !== $controlDigit){
-							$this->setError(JText::_('JRESEARCH_ISBN_CONTROL_DIGIT_FAILED'));
-						}						
-					}
-				}else{
-					for($j=0; $j<strlen($text); $j++){
-						$acum += ((int)$text{$j}) * ($j % 2 == 0?1:3); 
-					}
-					
-					$controlDigit = 10 - ($acum % 10);
-					if($controlDigit == 10)
-						$controlDigit = 0;
-					
-					if((int)($text{$j}) !== $controlDigit){
-						$this->setError(JText::_('JRESEARCH_ISBN_CONTROL_DIGIT_FAILED').$acum.' '.$controlDigit);
-					}						
-					
-				}
-				
-			}
-		}
-		
-		if(!empty($this->doi)){
-			$this->doi = trim($this->doi);			
-			if(!preg_match("/^\d+\.\d+\/\d+$/", $this->doi)){
-				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_DOI'));
-				$withoutErrors = false;
-			}
-		}
-		
 		
 		if(!empty($this->keywords)){
-			$this->doi = trim($this->doi);			
-			require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'language.php');
+			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
 			$extra = extra_word_characters();
 			if(!preg_match("/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/", $this->keywords)){
 				$this->setError(JText::_('Error in the keywords field. They must be provided as several words separated by commas'));
-				$withoutErrors = false;
+				return false;
 			}
 		}
 		
 		if(!empty($this->journal_acceptance_rate)){
-			$this->journal_acceptance_rate = trim($this->journal_acceptance_rate);			
 			if(!is_numeric($this->journal_acceptance_rate)){
 				$this->setError(JText::_('Journal acceptance rate must be a number'));
-				$withoutErrors = false;
+				return false;
 			}
 		}
-
-		return $withoutErrors;
+		
+		return true;
 	}
 	
 	/**
@@ -544,12 +452,6 @@ class JResearchPublication extends JResearchActivity{
           	$ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
           	$this->$j = $db->insertid();
       	}
-      	
-	    if( !$ret ){
-	        $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
-	        return false;
-	    }				
-   
 
 		// Delete the information about internal and external references
 		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);
@@ -566,8 +468,6 @@ class JResearchPublication extends JResearchActivity{
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 			return false;
 		}
-		
-		
 
 		// We construct an object with the derived properties only
  		$derivedProperties = $this->_getSubclassAttributes();
@@ -577,18 +477,27 @@ class JResearchPublication extends JResearchActivity{
 	 		$d = $this->_d_tbl_key;
 	 		$derivedObject->$d = $parentObject->$j;
 	 		foreach($derivedProperties as $prop){
-			 	$derivedObject->$prop = $this->$prop;
+	 			if($this->$prop !== null){				
+			 		$derivedObject->$prop = $this->$prop;
+			 	}else{
+			 		$derivedObject->$prop = ' ';
+			 	}
 	 		}
 	 		
 	 		$derivedObject->$d = $this->$j; 		
 	
 	 		// Time to insert the derived attributes
-	  	  if(!$isNew){
-	          $db->updateObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key, $updateNulls );
+	  		if( !$isNew){
+	          $ret = $db->updateObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key, $updateNulls );
 	      }else{
-	          $db->insertObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key );
+	          $ret = $db->insertObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key );
 	      }
-	      	      
+
+	      
+	      if( !$ret ){
+	          $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+	          return false;
+	      }				
       	}
 		
 		$orderField = $db->nameQuote('order');
@@ -683,8 +592,7 @@ class JResearchPublication extends JResearchActivity{
 			else
 				return array();	
 		}else
-			return array();	
-			
+			return array();
 	}
 	
 	
@@ -742,10 +650,8 @@ class JResearchPublication extends JResearchActivity{
 			}
 		}
 		
-		return $result;
-		
+		return $result;	
 	}
-	
 	
 	/**
 	 * Sets internal status for a single or a set of publications.

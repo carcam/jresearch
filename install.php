@@ -23,40 +23,18 @@ require_once(JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'database'.DS.'table'.DS.'
  */
 function com_install(){
 	
-	// Time to install plugins
-	$db = &JFactory::getDBO();
-	$dbVersion = array();
-	$jresearchAdminFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_jresearch';
-	
-	preg_match_all( "/(\d+)\.(\d+)\.(\d+)/i", $db->getVersion(), $dbVersion );
-	$bDbVersion = ($dbVersion[1] >= 5 && $dbVersion[3] >= 1);
-	
 	// Copy Joom!Fish content elements if Joom!Fish extension exists
 	$joomFishCheckFile = JPATH_SITE.DS.'components'.DS.'com_joomfish'.DS.'joomfish.php';
-	$srcFolder = $jresearchAdminFolder.DS.'contentelements';
+	$srcFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_jresearch'.DS.'contentelements';
 	$destFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_joomfish'.DS.'contentelements';
 	
-	$files = JFolder::files($srcFolder);
+	$dir = dir($srcFolder);
 	
-	//Install Joomfish elements if joomfish exists and correct mysql version exists >= 5.0.1
-	if(JFile::exists($joomFishCheckFile) && $bDbVersion)
+	//Install Joomfish elements
+	if(file_exists($joomFishCheckFile))
 	{
-		//Create views with extra sql file
-		$buffer = file_get_contents($jresearchAdminFolder.DS.'joomfish_views.sql');
-		$queries = $db->splitSql($buffer);
-		
-		foreach($queries as $query)
-		{
-			$db->setQuery($query);
-			
-			if(!$db->query())
-			{
-				JError::raiseWarning(1, 'J!Research: '.JText::_('SQL Error')." ".$db->stderr(true));
-			}
-		}
-		
 		//Install content elements
-		foreach($files as $file)
+		while(false !== ($file = $dir->read()))
 		{
 			if($file != '.' && $file != '..' && is_file($srcFolder.DS.$file))
 				@rename($srcFolder.DS.$file, $destFolder.DS.$file);
@@ -65,18 +43,16 @@ function com_install(){
 	else 
 	{
 		//Remove files from component installation, isn't necessary for the current joomla installation
-		foreach($files as $file)
+		while(false !== ($file = $dir->read()))
 		{
 			if($file != '.' && $file != '..' && is_file($srcFolder.DS.$file))
-				JFile::delete($srcFolder.DS.$file);
+				@unlink($srcFolder.DS.$file);
 		}
-		
-		JError::raiseWarning(1, JText::_('JoomFish content elements can\'t be installed. JoomFish not installed or MySQL version < 5.0.1'));
 	}
 
 	//Remove folder from component
-	JFolder::delete($srcFolder);
-	
+	@rmdir($srcFolder);
+
 	// This has been added since 1.1.4 to ensure compatibility with Joomla! < 1.5.12
 	$version = new JVersion();
 	$versionText = $version->getShortVersion();
@@ -95,20 +71,21 @@ function com_install(){
 		// Move the new tinymce.php
 		$newTinyFile = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'tinymce.php';					
 	}
-	
-	if(JFolder::exists($srcFolder)){
-		if(!JFolder::move($srcFolder, $destFolder)){
+		
+	if(file_exists($srcFolder)){
+		if(!@rename($srcFolder, $destFolder)){
 			JError::raiseWarning(1, JText::_('Native plugin for TinyMCE automatic citation could not be installed' ));
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Native plugin for TinyMCE automatic citation could not be installed' ));
 	}
-	
-	// Replace tinymce.php file to load the new plugin and controls
+	@rmdir($srcFolder);
+
+	// Backup TinyMCE
 	$oldFile = JPATH_PLUGINS.DS.'editors'.DS.'tinymce.php';
-	$backupFile = $oldFile.'.bak';
+	$backupFile = $oldFile.'.bak';	
 	
-	if(JFile::exists($oldFile)){
+	if(file_exists($oldFile)){
 		if(!@rename($oldFile, $backupFile)){
 			JError::raiseWarning(1, JText::_('TinyMCE editor plugin file could not be backup' ));
 		}
@@ -116,16 +93,17 @@ function com_install(){
 		JError::raiseWarning(1, JText::_('TinyMCE editor plugin file could not be backup' ));
 	}
 	
-	// Move the new tinymce.php
-	$newTinyFile = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'tinymce.php';	
-	
-	if(JFile::exists($newTinyFile)){
+	// Copy hacked tinyMCE plugin
+	if(file_exists($newTinyFile)){
 		if(!@rename($newTinyFile, $oldFile)){
 			JError::raiseWarning(1, JText::_('TinyMCE editor new plugin file could be not modified so JResearch Automatic Citation plugin will be not available.' ));
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('TinyMCE editor new plugin file could be not modified so JResearch Automatic Citation plugin will be not available.' ));
 	}
+	
+	// Time to install plugins
+	$db = &JFactory::getDBO();
 
 	$searchPlugin = new JTablePlugin($db);	
 	$searchPlugin->name = 'Search - JResearch';
@@ -153,7 +131,7 @@ function com_install(){
 		else 
 		{
 			//Added deletion of empty dirs
-			JFolder::delete($filePath);
+			@rmdir($filePath);
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for searching JResearch items could not be installed. Please install it manually'));
@@ -186,7 +164,7 @@ function com_install(){
 		else 
 		{
 			//Added deletion of empty dirs
-			JFolder::delete($filePath);
+			@rmdir($filePath);
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for automatic citation could not be installed. Please install it manually'));
@@ -218,7 +196,7 @@ function com_install(){
 		else 
 		{
 			//Added deletion of empty dirs
-			JFolder::delete($filePath);
+			@rmdir($filePath);
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for automatic bibliography generation could not be installed. Please install it manually'));
@@ -250,7 +228,7 @@ function com_install(){
 		else 
 		{
 			//Added deletion of empty dirs
-			JFolder::delete($filePath);
+			@rmdir($filePath);
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for persistence of cited records for com_content could not be installed. Please install it manually'));
@@ -282,7 +260,7 @@ function com_install(){
 		else 
 		{
 			//Added deletion of empty dirs
-			JFolder::delete($filePath);
+			@rmdir($filePath);
 		}
 	}else{
 		JError::raiseWarning(1, JText::_('Plugin for loading cited records into session for com_content could not be installed. Please install it manually'));

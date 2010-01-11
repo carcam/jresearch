@@ -72,30 +72,6 @@ class JResearchModelThesesList extends JResearchModelList{
 		return $resultQuery;
 	}
 
-	private function _getTeamThesisIds($teamId, $count=0)
-	{
-		$db = JFactory::getDBO();
-		
-		$id_staff_member = $db->nameQuote('id_staff_member');
-		$team_member = $db->nameQuote('#__jresearch_team_member');
-		$id_thesis = $db->nameQuote('id_thesis');
-		$internal_author = $db->nameQuote('#__jresearch_thesis_internal_author');
-		$teamValue = $db->Quote($teamId);
-		$id_team = $db->nameQuote('id_team');
-		$id_member = $db->nameQuote('id_member');
-		
-		$query = "SELECT DISTINCT $id_thesis FROM $internal_author, $team_member WHERE $team_member.$id_team = $teamValue "
-				 ." AND $internal_author.$id_staff_member = $team_member.$id_member";
-		
-		if($count > 0)
-		{
-			$query .= " LIMIT 0,$count";
-		}
-				 
-		$db->setQuery($query);
-		return $db->loadResultArray();
-	}
-	
 	/**
 	* Returns an associative array with the information of all members and external authors.
 	* @return array
@@ -143,34 +119,6 @@ class JResearchModelThesesList extends JResearchModelList{
 		}			
 		return $this->_items;
 
-	}
-	
-	/**
-	 * Gets data by team id
-	 *
-	 * @param int $teamId
-	 * @return array
-	 */
-	public function getDataByTeamId($teamId, $count=0)
-	{
-		$model = JModel::getInstance('Team', 'JResearchModel');
-		$team = $model->getItem($teamId);
-		$theses = array();
-		$db = JFactory::getDBO();
-		
-		if(!empty($team))
-		{
-			$ids = $this->_getTeamThesisIds($team->id, intval($count));
-			
-			foreach($ids as $id)
-			{
-				$thesis = new JResearchThesis($db);
-				$thesis->load($id);
-				$theses[] = $thesis;
-			}
-		}
-		
-		return $theses;
 	}
 	
 	/**

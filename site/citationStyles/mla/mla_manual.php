@@ -40,7 +40,7 @@ class JResearchMLAManualCitationStyle extends JResearchMLACitationStyle{
 		$title = $html? "<i>$title</i>":$title;
 
 		if(empty($authorsText))
-			$text .= $title;
+			$text = $title;
 		else{
 			$authorsText = rtrim($authorsText, '.');
 			$text .= $authorsText.'. '.$title;
