@@ -70,9 +70,8 @@ class JResearchPublicationsController extends JController
 		global $mainframe;
 		
 		//Get and use configuration
-    	$params = $mainframe->getPageParameters('com_jresearch');
+    		$params = $mainframe->getPageParameters('com_jresearch');
 		$format = JRequest::getVar('format', 'html');	
-		
 		// Sort parameters
 		if($format == 'html'){
 			// For publications page, take configuration parameters
