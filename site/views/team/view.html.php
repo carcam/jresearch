@@ -78,7 +78,7 @@ class JResearchViewTeam extends JResearchView
 		$links = array();
 		foreach($members as $member)
 		{
-			$links[] = JHTML::_('jresearch.link', $member, 'members', 'show', $member->id);
+			$links[] = JHTML::_('jresearch.link', $member, 'member', 'show', $member->id);
 		}
 		
 		$doc->addStyleDeclaration('
