@@ -219,6 +219,7 @@ class JResearchViewPublicationsList extends JResearchView
     	$filter_order = JRequest::getVar('filter_order', 'year');
     	$filter_order_Dir = JRequest::getVar('filter_order_Dir', 'DESC');
     	$style = $params->get('citationStyle', 'APA');
+    	$layout = JRequest::getString('layout', 'year');    	
     	
     	//Now time to sort the data for presentation
     	$sortedItems = $this->_sort($publications, $style, $filter_order);
@@ -234,6 +235,7 @@ class JResearchViewPublicationsList extends JResearchView
     	$this->assignRef('showmore', $showmore);
     	$this->assignRef('showdigital', $showdigital);
     	$this->assignRef('style', $style);    	
+    	$this->assignRef('layout');
     }
     
 	/**

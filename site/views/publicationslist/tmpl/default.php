@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 <div style="float: right;"><?php JHTML::_('Jresearch.icon','add','publications'); ?></div>
 <div>
 <?php 
-	$layout = $this->layout;
+	$layout = JRequest::getVar('filter_order', 'year');
 	require_once(JPATH_COMPONENT.DS.'views'.DS.'publicationslist'.DS.'tmpl'.DS.$layout.'.php');
 ?>
 </div>

@@ -12,6 +12,11 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_article` (
   `pages` varchar(20) default NULL,
   `month` varchar(20) default NULL,
   `crossref` varchar(255) default NULL,
+  `design_type` text default NULL,
+  `students_included` text default NULL,
+  `location` varchar(255) default NULL,
+  `fidelity_data_collected` tinyint(4) NOT NULL default '0',
+  `other_tags` text default NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -228,7 +233,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `id_research_area` int(10) unsigned NOT NULL default '1',
   `comments` text,
   `journal_acceptance_rate` float unsigned default NULL,
-  `impact_factor` float unsigned default NULL,
   `pubtype` varchar(20) NOT NULL default 'book',
   `awards` text,
   `url` varchar(255) default NULL,
