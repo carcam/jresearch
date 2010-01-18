@@ -75,9 +75,11 @@ class JResearchAdminPublicationsController extends JController
 	* @access public
 	*/
 	function add(){
-		$view = &$this->getView('Publication', 'html', 'JResearchAdminView');	
+/*		$view = &$this->getView('Publication', 'html', 'JResearchAdminView');	
 		$view->setLayout('new');
-		$view->display();
+		$view->display();*/
+		JRequest::setVar('pubtype', 'article');
+		$this->edit();
 	}
 
 	/**

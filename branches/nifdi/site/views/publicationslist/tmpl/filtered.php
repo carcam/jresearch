@@ -22,25 +22,19 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 		<?php echo !empty($this->lists['authors'])?'<span>'.$this->lists['authors'].'</span>':''; ?>
 		<div><?php JHTML::_('Jresearch.icon','add','publications'); ?></div>						
 	</div>
-	<?php $label = JText::_('JRESEARCH_PUNCTUATION_AVERAGE'); ?>
-	<?php if(!empty($this->average))
-		printf("<div><h2>%s:&nbsp;%.2f</h2></div>", $label, $this->average); 
-	?>
-	<table>
+	<table style="width:100%;">
 		<thead>
 		<tr>		
-			<th width="3%">#</th>
-			<th style="text-align:center;" width="40%"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
-			<th style="text-align:center;" nowrap="nowrap" width="35%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
-			<th style="text-align:center;" width="10%"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
-			<th style="text-align:center;" width="10%"><?php echo $this->punctuationField == 'journal_acceptance_rate'?JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'):JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR'); ?></th>
-			<th width="2%"></th>
+			<th style="text-align:center;width:50%;"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
+			<th style="text-align:center;width:38%;" nowrap="nowrap"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
+			<th style="text-align:center;width:10%;"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
+			<th></th>
 		</tr>
 		</thead>
 		
 		<tfoot>
 			<tr>
-				<td colspan="6">
+				<td colspan="4">
 					<div>&nbsp;</div>
 					<div style="text-align:center;"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>
 				</td>
@@ -58,16 +52,10 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 		?>
 			
 				<tr class="<?php echo "row$i"; ?>">
-					<td width="3%"><?php echo $i+1; ?></td>
-					<td width="40%"><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=show<?php !empty($modelkey)?'&amp;modelkey='.$modelkey:''; ?>&amp;id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
-					<td width="35%" align="center"><?php echo $text; ?></td>
-					<td width="10%" align="center"><?php echo $this->items[$i]->year; ?></td>
-					<?php if($this->punctuationField == 'journal_acceptance_rate'): ?>
-						<td width="10%" align="center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
-					<?php else: ?>
-						<td width="10%" align="center"><?php echo !empty($this->items[$i]->impact_factor)?$this->items[$i]->impact_factor:'--'; ?></td>					
-					<?php endif; ?>	
-					<td width="2%"><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
+					<td><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=show<?php !empty($modelkey)?'&amp;modelkey='.$modelkey:''; ?>&amp;id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo ($i+1).'.- '.$this->items[$i]->title;  ?></a></td>
+					<td style="text-align:center;"><?php echo $text; ?></td>
+					<td style="text-align:center;"><?php echo $this->items[$i]->year; ?></td>
+					<td><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
 				</tr>
 			<?php } ?>
 		</tbody>

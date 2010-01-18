@@ -111,9 +111,11 @@ class JResearchPublicationsController extends JController
 	*/
 	function add()
 	{
-		$view = &$this->getView('Publication', 'html', 'JResearchView');	
+/*		$view = &$this->getView('Publication', 'html', 'JResearchView');	
 		$view->setLayout('new');
-		$view->display();
+		$view->display();*/
+		JRequest::setVar('pubtype', 'article');
+		$this->edit();
 	}
 	
 	/**

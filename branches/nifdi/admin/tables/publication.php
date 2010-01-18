@@ -49,12 +49,6 @@ class JResearchPublication extends JResearchActivity{
 	 */
 	public $journal_acceptance_rate;	
 	
-	/**
-	 * The impact factor of the publication
-	 *
-	 * @var float
-	 */
-	public $impact_factor;
 	
 	/**
 	 * @var string

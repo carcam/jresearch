@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('Title').': '?></td>
 		<td colspan="3">
-			<input name="title" id="title" size="60" maxlength="255" value="<?php echo $this->publication?$this->publication->title:'' ?>" class="required" />
+			<input name="title" id="title" size="60" maxlength="255" value="<?php echo isset($this->publication)?$this->publication->title:'' ?>" class="required" />
 			<br />
 			<label for="title" class="labelform"><?php echo JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'); ?></label>
 		</td>
@@ -26,27 +26,27 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td><?php echo $this->areasList; ?></td>
 		<td><?php echo JText::_('JRESEARCH_YEAR').' :' ?></td>
 		<td>
-			<input maxlength="4" size="5" name="year" id="year" value="<?php echo $this->publication?$this->publication->year:'' ?>" class="validate-year" />
+			<input maxlength="4" size="5" name="year" id="year" value="<?php echo isset($this->publication)?$this->publication->year:'' ?>" class="validate-year" />
 			<br />
 			<label for="year" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_YEAR'); ?></label>
 		</td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_NOTE').': ' ?></td>
-		<td><textarea name="note" id="note" cols="20" rows="5" ><?php echo $this->publication?$this->publication->note:'' ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_NOTE_TOOLTIP')); ?></td>
+		<td><textarea name="note" id="note" cols="20" rows="5" ><?php echo isset($this->publication)?$this->publication->note:'' ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_NOTE_TOOLTIP')); ?></td>
 		<td><?php echo JText::_('JRESEARCH_ABSTRACT').': ' ?></td>
-		<td><textarea name="abstract" id="abstract" cols="20" rows="5" ><?php echo $this->publication?$this->publication->abstract:'' ?></textarea></td>
+		<td><textarea name="abstract" id="abstract" cols="20" rows="5" ><?php echo isset($this->publication)?$this->publication->abstract:'' ?></textarea></td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></td>
 		<td>
-			<input name="keywords" id="keywords" size="20" maxlength="255" class="validate-keywords" value="<?php echo $this->publication?$this->publication->keywords:'' ?>" />&nbsp;&nbsp;<span class="information">&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span>
+			<input name="keywords" id="keywords" size="20" maxlength="255" class="validate-keywords" value="<?php echo isset($this->publication)?$this->publication->keywords:'' ?>" />&nbsp;&nbsp;<span class="information">&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span>
 			<br />
 			<label for="keywords" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_KEYWORDS'); ?></label>			
 		</td>
 		<td><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').' (Url) : ' ?></td>
 		<td>
-			<input name="url" id="url" size="20" maxlength="255" class="validate-url" value="<?php echo $this->publication?$this->publication->url:'' ?>" />
+			<input name="url" id="url" size="20" maxlength="255" class="validate-url" value="<?php echo isset($this->publication)?$this->publication->url:'' ?>" />
 			<br />
 			<label for="url" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_URL'); ?></label>
 		</td>		
@@ -60,7 +60,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_CITEKEY').': '?></td>
 		<td>
-			<input size="20" maxlength="255" name="citekey" id="citekey" class="required" value="<?php echo $this->publication?$this->publication->citekey:'' ?>" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_CITEKEY_TOOLTIP')); ?>
+			<input size="20" maxlength="255" name="citekey" id="citekey" class="required" value="<?php echo isset($this->publication)?$this->publication->citekey:'' ?>" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_CITEKEY_TOOLTIP')); ?>
 			<br />
 			<label for="citekey" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_CITEKEY'); ?></label>
 		</td>
@@ -76,23 +76,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_COMMENTS').': '?></td>
-		<td><textarea cols="30" rows="5" name="comments" id="comments"><?php echo $this->publication?$this->publication->comments:''  ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_TOOLTIP_COMMENTS')); ?></td>
+		<td><textarea cols="30" rows="5" name="comments" id="comments"><?php echo isset($this->publication)?$this->publication->comments:''  ?></textarea>&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_TOOLTIP_COMMENTS')); ?></td>
 		<td><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': '?></td>
 		<td>
-			<input value="<?php echo $this->publication?$this->publication->journal_acceptance_rate:'' ?>" size="10" name="journal_acceptance_rate" id="journal_acceptance_rate" maxlength="5" class="validate-numeric" />
+			<input value="<?php echo isset($this->publication)?$this->publication->journal_acceptance_rate:'' ?>" size="10" name="journal_acceptance_rate" id="journal_acceptance_rate" maxlength="5" class="validate-numeric" />
 			<br />
 			<label for="journal_acceptance_rate" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_NUMBER'); ?></label>
 		</td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_AWARDS').': '?></td>
-		<td><textarea cols="30" rows="5" name="awards" id="awards"  ><?php echo $this->publication?$this->publication->awards:''; ?></textarea></td>
-		<td><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></td>
-		<td>	
-			<input value="<?php echo $this->publication?$this->publication->impact_factor:'' ?>" size="10" name="impact_factor" id="impact_factor" maxlength="8" class="validate-numeric" />
-			<br />
-			<label for="impact_factor" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_NUMBER'); ?></label>
-		</td>
+		<td><textarea cols="30" rows="5" name="awards" id="awards"  ><?php echo isset($this->publication)?$this->publication->awards:''; ?></textarea></td>
+		<td colspan="2"></td>
 	</tr>
 
 </tbody>
@@ -101,7 +96,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="task" value="" />		
 <input type="hidden" name="controller" value="publications" />
 <input type="hidden" name="pubtype" value="<?php echo $this->pubtype; ?>" />
-<input type="hidden" name="id" value="<?php echo $this->publication?$this->publication->id:'' ?>" />	
+<input type="hidden" name="id" value="<?php echo isset($this->publication)?$this->publication->id:'' ?>" />	
 <?php $Itemid = JRequest::getVar('Itemid'); ?>
 <input type="hidden" name="Itemid" value="<?php echo !empty($Itemid)?$Itemid:''; ?>" />
 <?php if(JRequest::getVar('modelkey')): ?>

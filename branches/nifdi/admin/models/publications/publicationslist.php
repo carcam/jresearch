@@ -42,7 +42,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
 		if($memberId === null){	
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName).' pub, '.$db->nameQuote('#__jresearch_article').' art '; 	
 		}else{
 			$resultQuery = '';
 		}
@@ -70,6 +70,23 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		}else{
 			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
 		}
+		$db->setQuery($query);
+		
+		$result = $db->loadResultArray();
+		
+		return $result;
+	}
+
+	/**
+	* Returns the ids of the publications where the author has participated. 
+	* @param string $author Always a string which searches internal and external authors as strings.
+	*/
+	private function _getAuthorPublicationIdsByString($author){
+		$db = JFactory::getDBO();
+
+		$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote( '%'.$db->getEscaped( $author, true ).'%', false ).' ';
+		$query .= 'UNION SELECT pa.id_publication FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' pa, ';
+		$query .= $db->nameQuote('#__jresearch_member').' m WHERE m.id = pa.id_staff_member AND (m.lastname LIKE '.$db->Quote( '%'.$db->getEscaped( $author, true ).'%', false ).' OR m.firstname LIKE '.$db->Quote( '%'.$db->getEscaped( $author, true ).'%', false ).')';
 		$db->setQuery($query);
 		
 		$result = $db->loadResultArray();
@@ -108,7 +125,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	*/	
 	protected function _buildRawQuery(){
 		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName).' pub, '.$db->nameQuote('#__jresearch_article').' art '; 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();		
 		return $resultQuery;
 	}
@@ -169,11 +186,11 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$filter_order_Dir = 'ASC';	
 
 		if($filter_order == 'type')
-			$filter_order = $db->nameQuote('pubtype');
+			$filter_order = 'pub.pubtype';
 		elseif($filter_order == 'alphabetical' || !in_array($filter_order, $orders))	
-			$filter_order = $db->nameQuote('title');	
+			$filter_order = 'pub.title';	
 		
-		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->nameQuote('created').' DESC';
+		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', pub.created DESC';
 	}	
 	
 	/**
@@ -198,36 +215,61 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		
 		if(!$published){
 			if($filter_state == 'P')
-				$where[] = $db->nameQuote('published').' = 1 ';
+				$where[] = $db->nameQuote('pub').'.'.$db->nameQuote('published').' = 1 ';
 			elseif($filter_state == 'U')
-				$where[] = $db->nameQuote('published').' = 0 '; 	
+				$where[] = $db->nameQuote('pub').'.'.$db->nameQuote('published').' = 0 '; 	
 		}else
-			$where[] = $db->nameQuote('published').' = 1 ';
+			$where[] = $db->nameQuote('pub').'.'.$db->nameQuote('published').' = 1 ';
 		
+		$where[] = $db->nameQuote('pub').'.'.$db->nameQuote('id').' = '.$db->nameQuote('art').'.'.$db->nameQuote('id_publication');	
 			
 		if($filter_year != null && $filter_year != -1 )
-			$where[] = $db->nameQuote('year').' = '.$db->Quote($filter_year);
+			$where[] = $db->nameQuote('pub').'.'.$db->nameQuote('year').' = '.$db->Quote($filter_year);
 		
-					
-		if(($filter_search = trim($filter_search))){
+
+			
+		if(($filter_search = trim($filter_search))){			
 			$filter_search = JString::strtolower($filter_search);
-			$filter_search = $db->getEscaped($filter_search);
-			$where[] = 'LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%');
+			$words = explode( ' ', $filter_search );
+			$whereSearch = array();			
+			foreach($words as $word){
+				$quotedEscapedKey = $db->Quote( '%'.$word.'%', false );
+				$quotedKey = $db->Quote( $word, false );				
+				$whereSearch[] = 'LOWER('.$db->nameQuote('pub').'.'.$db->nameQuote('title').') LIKE '.$quotedEscapedKey;
+				$whereSearch[] = "LOCATE($quotedKey, LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('keywords').")) > 0";
+				$whereSearch[] = "LOCATE($quotedKey, LOWER(".$db->nameQuote('art').'.'.$db->nameQuote('other_tags').")) > 0";
+				$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('location').') LIKE '.$quotedEscapedKey;				
+				$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('journal').') LIKE '.$quotedEscapedKey;
+				$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('students_included').') LIKE '.$quotedEscapedKey;												
+				$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('abstract')." ) LIKE $quotedEscapedKey";
+				$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('note')." ) LIKE $quotedEscapedKey";
+				$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('awards')." ) LIKE $quotedEscapedKey";									
+				$whereSearch[] = "LOWER(".$db->nameQuote('art').'.'.$db->nameQuote('design_type')." ) LIKE $quotedEscapedKey";
+				$ids = $this->_getAuthorPublicationIdsByString(trim($word));			
+				if(count($ids) > 0)
+					$whereSearch[] = $db->nameQuote('pub').'.'.$db->nameQuote('id').' IN ('.implode(',', $ids).')';
+
+								
+			}
+			
+			if(count($whereSearch) > 0)
+				$where[] = '('.implode(' OR ', $whereSearch).')';
+		
 		}
 		
 		if($filter_pubtype){
-			$where[] = $db->nameQuote('pubtype').' = '.$db->Quote($filter_pubtype);
+			$where[] = $db->nameQuote('pub').'.'.$db->nameQuote('pubtype').' = '.$db->Quote($filter_pubtype);
 		}
 		
 		if($filter_area){
-			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
+			$where[] = $db->nameQuote('pub').'.'.$db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
 		}
 
 		
 		if(!empty($filter_author) && $filter_author != -1){
 			$ids = $this->_getAuthorPublicationIds(trim($filter_author));			
 			if(count($ids) > 0)
-				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
+				$where[] = $db->nameQuote('pub').'.'.$db->nameQuote('id').' IN ('.implode(',', $ids).')';
 			else
 				$where[] = '0 = 1';	
 		}
@@ -236,14 +278,14 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			if($filter_team > 0){
 				$tmids = $this->_getTeamPublicationIds(trim($filter_team));
 				if(count($tmids) > 0)
-					$where[] = $db->nameQuote('id').' IN ('.implode(',', $tmids).')';
+					$where[] = $db->nameQuote('pub').'.'.$db->nameQuote('id').' IN ('.implode(',', $tmids).')';
 				else
 					$where[] = '0 = 1';
 			}					
 		}
 		
 		if(!$mainframe->isAdmin()){
-			$where[] = $db->nameQuote('internal').' = '.$db->Quote('1');
+			$where[] = $db->nameQuote('pub').'.'.$db->nameQuote('internal').' = '.$db->Quote('1');
 		}
 
 		
