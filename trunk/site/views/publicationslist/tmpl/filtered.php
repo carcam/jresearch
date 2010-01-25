@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
 ?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
-<form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
+<form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publicationslist&amp;layout=filtered&amp;task=filtered&amp;modelkey=tabular">
 	<div style="text-align:left">
 		<?php echo $this->filter; ?>
 		<div>&nbsp;<?php echo JHTML::_('Jresearch.icon','add','publications'); ?></div>						
@@ -51,12 +51,13 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 			
 			if($n > 0):
 			$Itemid = JRequest::getVar('Itemid');
+			$outIndex = JRequest::getInt('limitstart', 0) + 1;
 			for($i=0; $i<$n; $i++){
 	          		$authors = $this->items[$i]->getAuthors();
     	      			$text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->format);
 		?>
-				<tr class="<?php echo "row$i"; ?>">
-					<td><?php echo $i+1; ?></td>
+				<tr class="<?php $k = i%2; echo "row$k"; ?>">
+					<td><?php echo $outIndex; ?></td>
 					<td><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=show&amp;modelkey=tabular&amp;id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'&amp;Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td style="text-align:center"><?php echo $text; ?></td>
 					<td style="text-align:center"><?php echo $this->items[$i]->year; ?></td>
@@ -67,6 +68,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 						<td><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
 					<?php endif; ?>			
 				</tr>
+				<?php $outIndex++; ?>
 			<?php
 			}
 			else:
