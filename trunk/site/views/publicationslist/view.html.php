@@ -108,10 +108,11 @@ class JResearchViewPublicationsList extends JResearchView
     	
     	$doc = JFactory::getDocument();
     	$params = $mainframe->getParams('com_jresearch');    	
-    	$filter_pubtype = $params->get('filter_pubtype','0');
+    	$filter_pubtype = $params->get('filter_pubtype');
     	
-    	if($filter_pubtype != '')
+    	if($filter_pubtype != '0')
     	{
+    		//Only in this case, force the model (ignore the filters)
     		JRequest::setVar('filter_pubtype', $filter_pubtype);
     	}
     	
@@ -119,22 +120,18 @@ class JResearchViewPublicationsList extends JResearchView
     	$filter_show = $params->get('filter_show');
     	
     	//My publications
-    	$id_member = null;
+    	$id_member = -1;
     	
     	if($filter_show == "my")
     	{
     		//Filter only my publications
 	    	$db = JFactory::getDBO();
-	    	
+    		//Only in this case, force the model (ignore the filters)	    	
     		$member = new JResearchMember($db);
     		$member->bindFromUsername($user->username);
-    		$id_member = $member->id;
+    		$id_member = $member->id;    	
+   		    JRequest::setVar('filter_author', $id_member); 			
     	}
-    	
-    	if($id_member == null)
-    			$id_member = -1;
-	    	
-	    JRequest::setVar('filter_author', $id_member);
     	
     	$document =& JFactory::getDocument();    	
     	//$document->setTitle('Publications');
