@@ -213,7 +213,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		global $mainframe;
 		
 		$db = & JFactory::getDBO();
-		$modelKey = JRequest::getVar('modelkey', '');
+		$modelKey = JRequest::getVar('modelkey', 'default');
 				
 		$filter_state = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_state', 'filter_state');
 		$filter_year = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_year', 'filter_year');
