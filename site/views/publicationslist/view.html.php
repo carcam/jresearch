@@ -138,7 +138,7 @@ class JResearchViewPublicationsList extends JResearchView
     	
         if($params->get('filter_search') == 'yes'){
     		$filter_search = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_search', 'filter_search');
-     		$lists['search'] = JText::_('Filter').': <input type="text" name="filter_search" id="filter_search" value="'.$filter_search.'" class="text_area" onchange="document.adminForm.submit();" />
+     		$lists['search'] = JText::_('Filter').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search, ENT_QUOTES, 'UTF-8').'" class="text_area" onchange="document.adminForm.submit();" />
 								<button onclick="document.adminForm.submit();">'.JText::_('Go').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
 								.JText::_('Reset').'</button>';
     	}

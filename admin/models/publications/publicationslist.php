@@ -20,6 +20,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 */
 class JResearchModelPublicationsList extends JResearchModelList{
 	
+	private static $stop_words = null;
 	
 	/**
 	* Class constructor.
@@ -27,6 +28,22 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	function __construct(){
 		parent::__construct();
 		$this->_tableName = '#__jresearch_publication';
+	}
+	
+	/**
+	 * Loads 
+	 * @return unknown_type
+	 */
+	private static function getStopWords(){
+		if(self::$stop_words == null){
+			$stop_words_file = JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications'.DS.'common-english-words.txt';
+			$fh = fopen($stop_words_file, 'r');
+			$data = fread($fh, filesize($stop_words_file));
+			self::$stop_words = explode(',', $data);
+			fclose($fh);
+		}
+		
+		return self::$stop_words;
 	}
 	
 	/**
@@ -125,7 +142,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	*/	
 	protected function _buildRawQuery(){
 		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName).' pub, '.$db->nameQuote('#__jresearch_article').' art '; 	
+		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName).' pub, '.$db->nameQuote('#__jresearch_article').' art '; 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();		
 		return $resultQuery;
 	}
@@ -230,30 +247,51 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			
 		if(($filter_search = trim($filter_search))){			
 			$filter_search = JString::strtolower($filter_search);
-			$words = explode( ' ', $filter_search );
+			$tokens = $this->tokenize($filter_search);
+			$stopWords = JResearchModelPublicationsList::getStopWords();
+			//For optional tokens
 			$whereSearch = array();			
-			foreach($words as $word){
-				$quotedEscapedKey = $db->Quote( '%'.$word.'%', false );
-				$quotedKey = $db->Quote( $word, false );				
-				$whereSearch[] = 'LOWER('.$db->nameQuote('pub').'.'.$db->nameQuote('title').') LIKE '.$quotedEscapedKey;
-				$whereSearch[] = "LOCATE($quotedKey, LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('keywords').")) > 0";
-				$whereSearch[] = "LOCATE($quotedKey, LOWER(".$db->nameQuote('art').'.'.$db->nameQuote('other_tags').")) > 0";
-				$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('location').') LIKE '.$quotedEscapedKey;				
-				$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('journal').') LIKE '.$quotedEscapedKey;
-				$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('students_included').') LIKE '.$quotedEscapedKey;												
-				$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('abstract')." ) LIKE $quotedEscapedKey";
-				$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('note')." ) LIKE $quotedEscapedKey";
-				$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('awards')." ) LIKE $quotedEscapedKey";									
-				$whereSearch[] = "LOWER(".$db->nameQuote('art').'.'.$db->nameQuote('design_type')." ) LIKE $quotedEscapedKey";
-				$ids = $this->_getAuthorPublicationIdsByString(trim($word));			
-				if(count($ids) > 0)
-					$whereSearch[] = $db->nameQuote('pub').'.'.$db->nameQuote('id').' IN ('.implode(',', $ids).')';
-
-								
+			foreach($tokens['optional'] as $word){
+				if(!in_array($word, $stopWords)){
+					$quotedEscapedKey = $db->Quote( '%'.$word.'%', false );
+					$quotedKey = $db->Quote( $word, false );				
+					$whereSearch[] = 'LOWER('.$db->nameQuote('pub').'.'.$db->nameQuote('title').') LIKE '.$quotedEscapedKey;
+					$whereSearch[] = "LOCATE($quotedKey, LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('keywords').")) > 0";
+					$whereSearch[] = "LOCATE($quotedKey, LOWER(".$db->nameQuote('art').'.'.$db->nameQuote('other_tags').")) > 0";
+					$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('location').') LIKE '.$quotedEscapedKey;				
+					$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('journal').') LIKE '.$quotedEscapedKey;
+					$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('students_included').') LIKE '.$quotedEscapedKey;												
+					$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('abstract')." ) LIKE $quotedEscapedKey";
+					$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('note')." ) LIKE $quotedEscapedKey";
+					$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('awards')." ) LIKE $quotedEscapedKey";
+					$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('year')." ) LIKE $quotedEscapedKey";									
+					$whereSearch[] = "LOWER(".$db->nameQuote('art').'.'.$db->nameQuote('design_type')." ) LIKE $quotedEscapedKey";
+					$ids = $this->_getAuthorPublicationIdsByString(trim($word));			
+					if(count($ids) > 0)
+						$whereSearch[] = $db->nameQuote('pub').'.'.$db->nameQuote('id').' IN ('.implode(',', $ids).')';	
+				}							
 			}
-			
 			if(count($whereSearch) > 0)
 				$where[] = '('.implode(' OR ', $whereSearch).')';
+			
+			//For required tokens	
+			$wids = array();
+			$first = true;
+			foreach($tokens['required'] as $word){
+				$partial = $this->getIdsForRequiredWord($word);
+				if($first){
+					$wids = $wids + $partial;
+					$first = false;
+				}else{	
+					$wids = array_intersect($wids, $partial);
+				}
+			}
+			if(count($tokens['required']) > 0){
+				if(count($wids) > 0)					
+					$where[] = $db->nameQuote('pub').'.'.$db->nameQuote('id').' IN ('.implode(',', $wids).')';
+				else
+					$where[] = "0 = 1";		
+			}
 		
 		}
 		
@@ -291,6 +329,110 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			
+	}
+	
+	/**
+	 * For required 
+	 * @param unknown_type $word
+	 * @return unknown_type
+	 */
+	private function getIdsForRequiredWord($word){
+		$db = JFactory::getDBO();
+		$whereSearch = array();
+		$query = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName).' pub, '.$db->nameQuote('#__jresearch_article').' art ';
+		$query .= 'WHERE '.$db->nameQuote('pub').'.'.$db->nameQuote('id').' = '.$db->nameQuote('art').'.'.$db->nameQuote('id_publication');
+		
+		$quotedEscapedKey = $db->Quote( '%'.$word.'%', false );
+		$quotedKey = $db->Quote( $word, false );				
+		$whereSearch[] = 'LOWER('.$db->nameQuote('pub').'.'.$db->nameQuote('title').') LIKE '.$quotedEscapedKey;
+		$whereSearch[] = "LOCATE($quotedKey, LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('keywords').")) > 0";
+		$whereSearch[] = "LOCATE($quotedKey, LOWER(".$db->nameQuote('art').'.'.$db->nameQuote('other_tags').")) > 0";
+		$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('location').') LIKE '.$quotedEscapedKey;				
+		$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('journal').') LIKE '.$quotedEscapedKey;
+		$whereSearch[] = 'LOWER('.$db->nameQuote('art').'.'.$db->nameQuote('students_included').') LIKE '.$quotedEscapedKey;												
+		$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('abstract')." ) LIKE $quotedEscapedKey";
+		$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('note')." ) LIKE $quotedEscapedKey";
+		$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('awards')." ) LIKE $quotedEscapedKey";
+		$whereSearch[] = "LOWER(".$db->nameQuote('pub').'.'.$db->nameQuote('year')." ) LIKE $quotedEscapedKey";									
+		$whereSearch[] = "LOWER(".$db->nameQuote('art').'.'.$db->nameQuote('design_type')." ) LIKE $quotedEscapedKey";
+		$ids = $this->_getAuthorPublicationIdsByString(trim($word));			
+		if(count($ids) > 0)
+			$whereSearch[] = $db->nameQuote('pub').'.'.$db->nameQuote('id').' IN ('.implode(',', $ids).')';
+			
+		$query .= (count($whereSearch)) ? ' AND ('.implode(' OR ', $whereSearch).')' : '';
+		
+		$db->setQuery($query);
+		return $db->loadResultArray();		
+	}
+	
+	/**
+	 * Divides the search key into tokens that will be used to query the database. The result is an 
+	 * associative array with 2 elements which are arrays. "required" and "optional". Tokens can be 
+	 * a single word or bags of words delimited by "".
+	 * @param string $text
+	 * @return array
+	 */
+	private function tokenize($text){
+		$tokens = array('required' => array(), 'optional' => array());
+		$stop_chars = array("'", "%");
+		$text = trim($text);
+		$literalMode = $requiredMode = false;
+		$candidateToken = '';
+		$currentpos = 0;
+		$textlength = strlen($text);
+		$readToken = false;
+			
+		while($currentpos < $textlength){
+			switch($text{$currentpos}){
+				case '+':
+					if(!$literalMode)
+						$requiredMode = true;
+					else
+						$candidateToken .= $text{$currentpos};
+					break;
+				case '"':
+					if($literalMode){
+						$literalMode = false;
+						$readToken = true; 
+					}else{
+						$literalMode = true;
+					}
+					break;
+				case ' ':
+					if(!$literalMode)
+						$readToken = true;
+					else
+						$candidateToken .= $text{$currentpos};
+					break;
+				default:
+					//Add it to the candidateToken
+					if(!in_array($text{$currentpos}, $stop_chars))
+						$candidateToken .= $text{$currentpos};
+					break;	
+			}
+
+			if($currentpos == $textlength - 1)
+				$readToken = true;
+
+			
+			if($readToken){
+				if(strlen($candidateToken) > 0){
+					if($requiredMode)
+						$tokens['required'][] = $candidateToken;
+					else
+						$tokens['optional'][] = $candidateToken;	
+
+					$candidateToken = '';
+					$literalMode = false;	
+					$requiredMode = false;
+				}
+				$readToken = false;
+			}
+			$currentpos++;
+				
+		}
+		
+		return $tokens;
 	}
 
 	/**

@@ -12,7 +12,7 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 ?>
 
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
-<form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
+<form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publicationslist&amp;layout=filtered&amp;task=filtered&amp;modelkey=tabular">
 	<div style="text-align:left">
 		<?php echo !empty($this->lists['search'])?'<span>'.$this->lists['search'].'</span>':''; ?>
 		<?php echo !empty($this->lists['teams'])?'<span>'.$this->lists['teams'].'</span>':''; ?>	
@@ -45,18 +45,20 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 		<?php 
 			$n = count($this->items);
 			$Itemid = JRequest::getVar('Itemid');
-			$modelkey = JRequest::getVar('modelkey');			
+			$modelkey = JRequest::getVar('modelkey');
+			$outIndex = JRequest::getInt('limitstart', 0) + 1;			
 			for($i=0; $i<$n; $i++){
-	          $authors = $this->items[$i]->getAuthors();
-	          $text = JResearchPublicationsHelper::formatAuthorsArray($authors);
+		          $authors = $this->items[$i]->getAuthors();
+		          $text = JResearchPublicationsHelper::formatAuthorsArray($authors);
 		?>
 			
-				<tr class="<?php echo "row$i"; ?>">
-					<td><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=show<?php !empty($modelkey)?'&amp;modelkey='.$modelkey:''; ?>&amp;id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'Itemid='.$Itemid:''; ?>"><?php echo ($i+1).'.- '.$this->items[$i]->title;  ?></a></td>
+				<tr class="<?php $k = i%2; echo "row$k"; ?>">
+					<td><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=show<?php !empty($modelkey)?'&amp;modelkey='.$modelkey:''; ?>&amp;id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'&amp;Itemid='.$Itemid:''; ?>"><?php echo ($outIndex).'.- '.$this->items[$i]->title;  ?></a></td>
 					<td style="text-align:center;"><?php echo $text; ?></td>
 					<td style="text-align:center;"><?php echo $this->items[$i]->year; ?></td>
 					<td><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
 				</tr>
+				<?php $outIndex++; ?>
 			<?php } ?>
 		</tbody>
 	</table>
