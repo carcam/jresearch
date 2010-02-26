@@ -12,8 +12,8 @@ defined('_JEXEC') or die('Restricted access');
 	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  
 	//BibTex show in frontend; Pablo Moncada
-	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'exporters'.DS.'factory.php');		
-	$document =& JFactory::getDocument(); 
+	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');		
+	$document = JFactory::getDocument(); 
 	$id = JRequest::getInt('id');
 	$format = "bibtex";		
 	$model = &$this->getModel('Publication', 'JResearchModel');		
@@ -45,7 +45,7 @@ defined('_JEXEC') or die('Restricted access');
 	</tr>
 	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
-		<td><?php echo JResearchText::_($this->publication->pubtype); ?></td>
+		<td><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->pubtype)); ?></td>
 		<?php $keywords = trim($this->publication->keywords); ?>
 		<?php if(!empty($keywords)): ?>		
 		<th scope="row"><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></th>		

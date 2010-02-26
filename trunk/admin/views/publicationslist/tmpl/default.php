@@ -63,9 +63,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
           			$text = JResearchPublicationsHelper::formatAuthorsArray($authors);
 					// Links for exporting
 					$exportLinks = array();
-					$exportLinks[] = JHTML::_('link', 'index.php?option=com_jresearch&controller=publications&task=exportSingle&format=bibtex&id='.$this->items[$i]->id, 'Bibtex');	
-					$exportLinks[] = JHTML::_('link', 'index.php?option=com_jresearch&controller=publications&task=exportSingle&format=mods&id='.$this->items[$i]->id, 'MODS');	
-					$exportLinks[] = JHTML::_('link', 'index.php?option=com_jresearch&controller=publications&task=exportSingle&format=ris&id='.$this->items[$i]->id, 'RIS');
+					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=bibtex&id='.$this->items[$i]->id), 'Bibtex');	
+					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=mods&id='.$this->items[$i]->id), 'MODS');	
+					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=ris&id='.$this->items[$i]->id), 'RIS');
 					$researchArea = $this->area->getItem((int)$this->items[$i]->id_research_area);
 			?>
 				<tr class="<?php echo "row$k"; ?>">

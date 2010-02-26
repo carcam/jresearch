@@ -25,7 +25,7 @@ class JResearchViewMember extends JResearchView
     {
     	global $mainframe;
     	
-        $layout = &$this->getLayout();
+        $layout = $this->getLayout();
         $arguments = array('member');
         $params = $this->getParams();
         
@@ -121,7 +121,7 @@ class JResearchViewMember extends JResearchView
     */
     private function _displayProfile(array &$arguments){
       	global $mainframe;
-      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+      	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
       	
     	$id = JRequest::getInt('id');
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);

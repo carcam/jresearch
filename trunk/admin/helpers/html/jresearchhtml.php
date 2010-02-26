@@ -372,7 +372,7 @@ class JHTMLjresearchhtml
 	public function staffImporter2($name){
 		static $dependenciesLoad = false;
 		global $mainframe;
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');		
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');		
 		$doc = JFactory::getDocument();
 		$db = JFactory::getDBO();		
 		
@@ -435,9 +435,13 @@ class JHTMLjresearchhtml
 	* Renders the DHTML code needed to enable validation in JResearch forms.
 	*/
 	static function validation(){
-		$doc =& JFactory::getDocument();
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'charsets.php');
+		
+		$extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());
+		$doc = JFactory::getDocument();
 		$token = JUtility::getToken();
-		JHTML::_('behavior.formvalidation');
+		JHTML::_('behavior.formvalidation');		
+		
 		$message = JText::_('JRESEARCH_FORM_NOT_VALID');
     	$doc->addScriptDeclaration("function validate(f) {
 			if(document.adminForm.task.value != 'cancel'){
@@ -455,12 +459,6 @@ class JHTMLjresearchhtml
 			regex=/^\d{4}(-\d{2}){2}$/;
 			return regex.test(value); })
 		})');
-
-    	$doc->addScriptDeclaration('window.onDomReady(function() {
-			document.formvalidator.setHandler(\'alias\', function(value) {
-			regex=/^[\w\s_-]+$/;
-			return regex.test(value); })
-		})');
     	
     	$doc->addScriptDeclaration('window.onDomReady(function() {
 			document.formvalidator.setHandler(\'url\', function(value) {
@@ -473,8 +471,8 @@ class JHTMLjresearchhtml
 			regex=/^([1-9]\d{3}|0)$/i;
 			return regex.test(value); })
 		})');
-    	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'language.php');
-		$extra = extra_word_characters();
+    	
+
     	$doc->addScriptDeclaration("window.onDomReady(function() {
 			document.formvalidator.setHandler('keywords', function(value) {
 			regex=/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/i;

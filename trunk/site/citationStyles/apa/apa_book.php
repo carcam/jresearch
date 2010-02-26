@@ -14,7 +14,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'apa'.DS.'apa.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
 
 /**
 * Implementation of APA citation style for book records.

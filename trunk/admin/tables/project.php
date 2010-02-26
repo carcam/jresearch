@@ -184,7 +184,7 @@ class JResearchProject extends JResearchActivity{
 		if(!parent::store($updateNulls))
 			return false;
 
-		$db = &$this->getDBO();
+		$db = $this->getDBO();
  		$j = $this->_tbl_key;		
 			
 		// Delete the information about internal and external references

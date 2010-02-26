@@ -15,24 +15,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-/**
- * Imports all the subclasses of JResearchPublication. Must be invoked
- * for any script that works with JResearchPublication entities.
- *
- */
-function __loadPublicationsSubclasses(){
-	jimport('joomla.filesystem.path');
-	jimport('joomla.filesystem.folder');
-	$db = JFactory::getDBO();
-	$db->setQuery('SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type'));
-	
-	$path = JPATH_COMPONENT_ADMINISTRATOR.DS.'tables';
-	$files = JFolder::files($path, '.php');
-	foreach($files as $f){
-		require_once($path.DS.$f);
-	}
-	
-}
 
 /**
  * This file loads common classes and files used by J!Research.
@@ -44,8 +26,7 @@ require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'defines.php');
 
 //Helpers
 require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'acl.php');
-require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'cite.php');
-require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'text.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'cite.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'view.php');
 
@@ -71,7 +52,5 @@ if(!function_exists('jximport'))
 // Plugin management
 JPluginHelper::importPlugin('jresearch');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'plugins.php');
-
-__loadPublicationsSubclasses();
 
 ?>

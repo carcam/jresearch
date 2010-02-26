@@ -14,7 +14,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'exporters'.DS.'exporter.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'exporter.php');
 
 /**
  * This class allows to convert JResearchPublication instances into bibtex
@@ -65,7 +65,7 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 	*/
 	private function parseSingle($publication, $options = array()){
 		$output = null;
-		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');	
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');	
 
 		if($publication instanceof JResearchPublication){
 			$properties = $publication->__toArray();

@@ -16,30 +16,33 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * This class is used to implement the factory pattern design for 
- * exporters objects. Exporters are objects that take JResearchPublication objects
- * and parse them to different text formats like MODS, Bibtex, RDF, and RSS
+ * importers objects. Importers are objects that take publications
+ * records in different text formats and parse them into JResearchPublications
+ * objects.
  *
  */
-class JResearchPublicationExporterFactory{
+class JResearchPublicationImporterFactory{
 	
 	/**
-	 * Returns an instance of the exporter object that can convert JResearchPublication objects
-	 * into the output format.
+	 * Returns an instance of the importer object that can parse records in the text
+	 * format indicated in the parameter $inputFormat. All importers classes must reside
+	 * in the frontend folder helpers/importers.
 	 *
-	 * @param string $outputFormat, e.g MODS, Bibtex, RDF, etc.
-	 * @return JResearchPublicationExporter 
+	 * @param string $inputFormat
+	 * @return JResearchPublicationImporter 
 	 */
-	public static function &getInstance($outputFormat){
+	public static function getInstance($inputFormat){
 		static $instances;
 		
-		$exportersFolder  = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'exporters';
+		$importersFolder  = JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'importers';
 
 		if(!$instances){
 			$instances = array();
 		}			
-		// We just construct the name of the class based on the standard defined: JResearch{Format name in original case}Exporter
-		$classname = 'JResearchPublication'.$outputFormat.'Exporter';
-		$filename = $exportersFolder.DS.strtolower($outputFormat).'.php';
+		// We just construct the name of the class based on the standard defined: JResearch{Format name in original case}Importer
+		$classname = 'JResearch'.$inputFormat.'Importer';
+		$filename = $importersFolder.DS.strtolower($inputFormat).'.php';
+		
 		if(!isset($instances[$classname])){	
 			if(!class_exists($classname)){
 				if(!file_exists($filename))

@@ -168,6 +168,8 @@ class JResearchAdminCooperationsController extends JController
 		$alias = trim(JRequest::getVar('alias'));
 		if(empty($alias)){
 			$coop->alias = JResearch::alias($coop->name);
+		}else{
+			$coop->alias = JResearch::alias($coop->alias);			
 		}
 		
 		//Upload photo

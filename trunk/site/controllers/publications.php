@@ -462,7 +462,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$id = JRequest::getInt('id');
 		$post = JRequest::get('post');
 		$type = JRequest::getVar('pubtype');
-		$publication = JResearchPublication::getSubclassInstance($type);
+		$publication = JResearchPublication::getInstance();
 		$Itemid = JRequest::getVar('Itemid');
 		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';		
 		$publication->bind($post);		
@@ -804,7 +804,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		
 		if($exportEnabled == 'yes'){ 		
 			$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-			require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'exporters'.DS.'factory.php'); 
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php'); 
 			$id = JRequest::getInt('id');			
 			$model = $this->getModel('Publication', 'JResearchModel');
 			$publication = $model->getItem($id);
@@ -844,12 +844,12 @@ class JResearchPublicationsController extends JResearchFrontendController
 		global $mainframe;	
 		$params = $mainframe->getPageParameters('com_jresearch');
 		$exportEnabled = $params->get('enable_export_frontend', 'no');
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$format = JRequest::getVar('format', 'bibtex');				
 		
 		if($exportEnabled == 'yes'){				
 			$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');		
-			require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');
 			$model = $this->getModel('PublicationsList', 'JResearchModel');
 			$publicationsArray = $model->getData(null, true, false);
 			$exportOptions['strict_bibtex'] = false;					
@@ -888,8 +888,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 			$idResearchArea = JRequest::getVar('researchAreas');
 			$uploadedFile = $fileArray['tmp_name'];
 			
-			require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'factory.php');
-			$importer = &JResearchPublicationImporterFactory::getInstance("bibtex");
+			require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'importers'.DS.'factory.php');
+			$importer = JResearchPublicationImporterFactory::getInstance("bibtex");
 			
 			if($fileArray == null || $uploadedFile == null){
 				$n = 0;

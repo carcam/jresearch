@@ -13,16 +13,15 @@
 */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'importer.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'factory.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'importers'.DS.'bibtex.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.'helpers'.DS.'importers'.DS.'importer.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'importers'.DS.'factory.php');
 
 /**
-* Imports sets of bibliographical references in RIS format. 
-* For more information about RIS, see http://
+* Imports sets of bibliographical references in MODS format. 
+* For more information about MODS format, see http://
 * 
 */
-class JResearchRISImporter extends JResearchPublicationImporter{
+class JResearchMODSImporter extends JResearchPublicationImporter{
 	
 	/**
 	 * Parse the text sent as parameter in MODS format and converts it into 
@@ -32,31 +31,33 @@ class JResearchRISImporter extends JResearchPublicationImporter{
 	 * @param array of JResearchPublication objects
 	 */
 	function parse($text){
-		$filename = tempnam(JPATH_SITE.DS.'media', "mods_");
+		$filename = tempnam(JPATH_SITE.DS.'media', "bibtex_");
 		$inputFile = fopen($filename, "w");
 		
 		/** boolean True if a Windows based host */
 		fwrite($inputFile, $text);	
+		fclose($inputFile);
+		@chmod($filename, 0755); 
 
-		if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+		if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'){
 			$folder = 'win32';
-		elseif(strtoupper(substr(PHP_OS, 0, 3)) === 'MAC')
+		}elseif(strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'){
 			$folder = 'macos';
-		else
+		}else{
 			$folder = 'unix';	
+		}
 
-		$modsParser = &JResearchPublicationImporterFactory::getInstance('MODS');
+		$bibtexParser = &JResearchPublicationImporterFactory::getInstance('Bibtex');
 		// Invoke the conversion command
-		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'ris2xml'.' '.$filename;
-		
+		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'xml2bib'.' '.$filename;
 		$output = array();
 		exec($conversionCommand, $output);
-		$modsText = implode("\n", $output); 
-		
-		fclose($inputFile);
+		$bibtexText = implode("\n", $output); 
+
+	
 		@unlink($filename);
 		
-		return $modsParser->parse($modsText);		
+		return $bibtexParser->parse($bibtexText);		
 	}
 }
 ?>

@@ -161,7 +161,7 @@ class JResearchMember extends JTable{
 	* are imported into the object. Used for impòrting members from Joomla tables.
 	*/	
 	function bindFromUser($username){
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
 		
 		$db =& JFactory::getDBO();
 		$query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('username').' = '.$db->Quote($username);

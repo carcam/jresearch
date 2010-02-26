@@ -124,10 +124,8 @@ class JResearchViewPublicationsList extends JResearchView
     	
     	if($filter_show == "my")
     	{
-    		//Filter only my publications
-	    	$db = JFactory::getDBO();
     		//Only in this case, force the model (ignore the filters)	    	
-    		$member = new JResearchMember($db);
+    		$member = JTable::getInstance('Member', 'JResearch');
     		$member->bindFromUsername($user->username);
     		$id_member = $member->id;    	
    		    JRequest::setVar('filter_author', $id_member); 			
