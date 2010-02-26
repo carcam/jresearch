@@ -28,7 +28,7 @@ class JResearchViewPublication extends JResearchView
     	
     	$arguments = array('publication', $id);
     	
-        $layout = &$this->getLayout();
+        $layout = $this->getLayout();
         $result = true;
 
         switch($layout){
@@ -62,13 +62,13 @@ class JResearchViewPublication extends JResearchView
     */
     private function _displayPublication(){
       	global $mainframe;
-      	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');      	
+      	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');      	
     	
       	$id = JRequest::getInt('id');
     	$user = JFactory::getUser();    	    	
     	$commentsAllowed = false;
    		$showComments = JRequest::getInt('showcomm', 0);
-   		$doc =& JFactory::getDocument();
+   		$doc = JFactory::getDocument();
    		//Verify if the visit is done in the same session
 		$session = JFactory::getSession();
    		 		
@@ -81,7 +81,7 @@ class JResearchViewPublication extends JResearchView
     		return false;
     	}
     	//Get the model
-    	$model =& $this->getModel();
+    	$model = $this->getModel();
     	$publication = $model->getItem($id);
     	
 		if(!$publication->internal || !$publication->published){

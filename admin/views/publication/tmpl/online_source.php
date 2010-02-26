@@ -9,9 +9,9 @@
 defined('_JEXEC') or die('Restricted access'); 
 
 if(!empty($this->publication)){
-	$type = JHTML::_('jresearchhtml.onlineresourcelist', array('selected'=> $this->publication->source_type, 'name'=> 'source_type'));
+	$type = JHTML::_('jresearchhtml.onlineresourcelist', array('selected'=> $this->publication->online_source_type, 'name'=> 'online_source_type'));
 }else{
-	$type = JHTML::_('jresearchhtml.onlineresourcelist', array('name'=>'source_type'));
+	$type = JHTML::_('jresearchhtml.onlineresourcelist', array('name'=>'online_source_type'));
 }
 ?>
 

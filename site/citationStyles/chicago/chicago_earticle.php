@@ -10,7 +10,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'chicago'.DS.'chicago.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
 
 
 /**

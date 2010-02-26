@@ -173,6 +173,8 @@ class JResearchAdminTeamsController extends JController
 		$alias = trim(JRequest::getVar('alias'));
 		if(empty($alias)){
 			$team->alias = JResearch::alias($team->name);
+		}else{
+			$team->alias = JResearch::alias($team->alias);			
 		}
 		
 		//If parent isn't set to valid id, set to null

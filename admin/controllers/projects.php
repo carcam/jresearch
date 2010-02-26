@@ -283,6 +283,8 @@ class JResearchAdminProjectsController extends JController
 		$alias = trim(JRequest::getVar('alias'));
 		if(empty($alias)){
 			$project->alias = JResearch::alias($project->title);
+		}else{
+			$project->alias = JResearch::alias($project->alias);			
 		}
 			
 		// Validate and save

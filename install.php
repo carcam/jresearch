@@ -24,12 +24,8 @@ require_once(JPATH_SITE.DS.'libraries'.DS.'joomla'.DS.'database'.DS.'table'.DS.'
 function com_install(){
 	
 	// Time to install plugins
-	$db = &JFactory::getDBO();
-	$dbVersion = array();
+	$db = JFactory::getDBO();
 	$jresearchAdminFolder = JPATH_SITE.DS.'administrator'.DS.'components'.DS.'com_jresearch';
-	
-	preg_match_all( "/(\d+)\.(\d+)\.(\d+)/i", $db->getVersion(), $dbVersion );
-	$bDbVersion = ($dbVersion[1] >= 5 && $dbVersion[3] >= 1);
 	
 	// Copy Joom!Fish content elements if Joom!Fish extension exists
 	$joomFishCheckFile = JPATH_SITE.DS.'components'.DS.'com_joomfish'.DS.'joomfish.php';
@@ -39,22 +35,8 @@ function com_install(){
 	$files = JFolder::files($srcFolder);
 	
 	//Install Joomfish elements if joomfish exists and correct mysql version exists >= 5.0.1
-	if(JFile::exists($joomFishCheckFile) && $bDbVersion)
-	{
-		//Create views with extra sql file
-		$buffer = file_get_contents($jresearchAdminFolder.DS.'joomfish_views.sql');
-		$queries = $db->splitSql($buffer);
-		
-		foreach($queries as $query)
-		{
-			$db->setQuery($query);
-			
-			if(!$db->query())
-			{
-				JError::raiseWarning(1, 'J!Research: '.JText::_('SQL Error')." ".$db->stderr(true));
-			}
-		}
-		
+	if(JFile::exists($joomFishCheckFile))
+	{	
 		//Install content elements
 		foreach($files as $file)
 		{

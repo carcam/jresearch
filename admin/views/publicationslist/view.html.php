@@ -57,7 +57,7 @@ class JResearchAdminViewPublicationsList extends JResearchView
     private function _displayDefaultList(){
     	global $mainframe, $option;
     	
-    	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+    	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
     	
     	JResearchToolbar::publicationsAdminListToolbar();
     	JHTML::_('behavior.tooltip');
@@ -87,7 +87,7 @@ class JResearchAdminViewPublicationsList extends JResearchView
 		$lists['search'] = $filter_search;
 		
 		// Year filter
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
 		$years = $db->loadResultArray();
 		$yearsHTML = array();

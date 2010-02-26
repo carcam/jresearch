@@ -42,7 +42,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
 		if($memberId === null){	
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName); 	
 		}else{
 			$resultQuery = '';
 		}
@@ -143,11 +143,13 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$db = &JFactory::getDBO();
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
-			foreach($ids as $id){
-				$pub = JResearchPublication::getById($id);
+			$result = $db->loadAssocList();
+			foreach($result as $item){
+				$pub = JTable::getInstance("Publication", "JResearch");
+				$pub->bind($item, array(), true);
 				$this->_items[] = $pub;
 			}
+			
 			if($paginate)
 				$this->updatePagination();
 		}	
@@ -292,7 +294,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$mdresult = array();
 		$name = array();
 		// First, bring them to the form lastname, firstname.
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
 		foreach($result as $key => $author){
 			$components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
 			$value = (isset($components['von'])?$components['von'].' ':'').$components['lastname'].(isset($components['firstname'])?', '.$components['firstname']:'').(isset($components['jr'])?' '.$components['jr']:'');

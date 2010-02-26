@@ -128,28 +128,33 @@ class JResearchActivity extends JTable{
 	 */
 	protected $_type;
 	
+
 	
-	/**
-	 * Class constructor
-	 */
-	public function __construct( $table, $key, &$db ){
+
+	public function __construct($table, $key, $db ){
 	 	parent::__construct($table, $key, $db);
 	 	$this->_internalAuthors = array();
 		$this->_externalAuthors = array();
 		$this->_internalAuthorsObjects = null;
-	 	
+	}
+	
+	
+	public function bind($from, $ignore = array(), $loadAuthors = false){
+		parent::bind($from, $ignore);
+		if($loadAuthors)
+			$this->_loadAuthors();
 	}
 	 
 	/**
 	 * Loads the information about internal and external authors.
 	 *
 	 */
-	protected function _loadAuthors($oid){
-		$db = &$this->getDBO();
+	protected function _loadAuthors(){
+		$db = $this->getDBO();
 		
 		$internalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_internal_author');
 		$idActivity = $db->nameQuote('id_'.$this->_type);
-		$qoid = $db->Quote($oid);
+		$qoid = $db->Quote($this->id);
 		$externalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_external_author');
 		
 		// Get internal authors
@@ -168,7 +173,8 @@ class JResearchActivity extends JTable{
         	$this->_externalAuthors = $result;
         }else{
         	$this->_externalAuthors = array();	
-        }        		
+        }
+
 	}
 	
 
@@ -186,7 +192,7 @@ class JResearchActivity extends JTable{
 	* @return true If the author could be correctly added (order is >= 0 and there is not any other author associated
 	* to the order number), false otherwise.
 	*/	
-	function setAuthor($member, $order, $internal=false){
+	function setAuthor($member, $order, $internal=false){		
 		$newEntry = array();
 		
 		if($order < 0)
@@ -270,7 +276,7 @@ class JResearchActivity extends JTable{
 	 */
 	public function getInternalAuthors(){
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');		
-		$db = &$this->getDBO();
+		$db = $this->getDBO();
 		if($this->_internalAuthorsObjects == null){
 			foreach($this->_internalAuthors as $member){
 				$memberObject = new JResearchMember($db);

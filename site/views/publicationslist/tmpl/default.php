@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <h2 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
-<form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publicationslist&amp;layout=default&amp;task=list&amp;modelkey=default">
+<form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publicationslist&amp;task=list&amp;modelkey=default">
 	<div style="text-align: left;">
 		<?php echo $this->filter; ?>
 		<div>&nbsp;<?php echo JHTML::_('Jresearch.icon','add','publications'); ?></div>						

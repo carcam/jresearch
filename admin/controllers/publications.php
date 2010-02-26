@@ -88,7 +88,6 @@ class JResearchAdminPublicationsController extends JController
 	function edit(){
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$cid = JRequest::getVar('cid', array());
-		
 		$view = &$this->getView('Publication', 'html', 'JResearchAdminView');
 		$pubModel = &$this->getModel('Publication', 'JResearchModel');	
 		$model = &$this->getModel('ResearchAreasList', 'JResearchModel');
@@ -325,7 +324,7 @@ class JResearchAdminPublicationsController extends JController
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');
 		$type = JRequest::getVar('pubtype');
-		$publication = JResearchPublication::getSubclassInstance($type);
+		$publication = JTable::getInstance("Publication", "JResearch");
 		$params = JComponentHelper::getParams('com_jresearch');
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
@@ -367,6 +366,8 @@ class JResearchAdminPublicationsController extends JController
 		$alias = trim(JRequest::getVar('alias'));
 		if(empty($alias)){
 			$publication->alias = JResearch::alias($publication->title);
+		}else{
+			$publication->alias = JResearch::alias($publication->alias);
 		}
 		
 		// Validate publication
@@ -504,7 +505,8 @@ class JResearchAdminPublicationsController extends JController
 		$type = JRequest::getVar('change_type');
 		JRequest::setVar('pubtype', $type, 'POST', true);
 		$post = JRequest::get('post');
-		$publication = JResearchPublication::getSubclassInstance($type);
+		$publication = JTable::getInstance('Publication', 'JResearch');
+		$publication->pubtype = $type;
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
 		$keepOld = JRequest::getVar('keepold', false);

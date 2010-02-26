@@ -10,8 +10,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'cse'.DS.'cse.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');
-
 
 /**
 * Implementation of CSE citation style for booklet records.
