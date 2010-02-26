@@ -154,7 +154,7 @@ class JResearchModelTeams extends JResearchModelList
 	*/	
 	protected function _buildRawQuery(){
 		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
 	}
