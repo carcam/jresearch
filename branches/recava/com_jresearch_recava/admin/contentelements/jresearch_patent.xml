@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<joomfish type="contentelement">
+	<name>J!Research Publication - Patent</name>
+	<author>F. Prinz</author>
+	<version>0.1</version>
+	<description>Definition for the publication (patent) content of the J!Research component</description>
+	<reference type="content">
+		<table name="jresearch_patent">
+			<field type="referenceid" name="id_publication" translate="0">ID</field>
+			<field type="text" name="patent_number" translate="0">Patent number</field>
+			<field type="text" name="filing_date" translate="0">Filing date</field>
+			<field type="text" name="issue_date" translate="0">Issue date</field>
+			<field type="text" name="country" translate="1">Country</field>
+			<field type="textarea" name="drawings_dir" translate="0">Drawings directory</field>
+			<field type="textarea" name="claims" translate="1">Claims</field>
+			<field type="textarea" name="address" translate="1">Address</field>
+			<field type="textarea" name="office" translate="1">Office</field>
+		</table>
+	</reference>
+</joomfish>
