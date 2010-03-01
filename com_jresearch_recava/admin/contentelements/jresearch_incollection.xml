@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<joomfish type="contentelement">
+	<name>J!Research Publication - Incollection</name>
+	<author>F. Prinz</author>
+	<version>0.1</version>
+	<description>Definition for the publication (incollection) content of the J!Research component</description>
+	<reference type="content">
+		<table name="jresearch_incollection">
+			<field type="referenceid" name="id_publication" translate="0">ID</field>
+			<field type="text" name="pages" translate="0">Pages</field>
+			<field type="text" name="month" translate="0">Month</field>
+			<field type="text" name="publisher" translate="0">Publisher</field>
+			<field type="textarea" name="booktitle" translate="1">Book title</field>
+			<field type="textarea" name="editor" translate="1">Editor</field>
+			<field type="textarea" name="organization" translate="1">Organization</field>
+			<field type="textarea" name="key" translate="1">Key</field>
+			<field type="textarea" name="crossref" translate="1">Cross reference</field>
+			<field type="textarea" name="address" translate="1">Address</field>
+		</table>
+	</reference>
+</joomfish>

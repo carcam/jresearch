@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<joomfish type="contentelement">
+	<name>J!Research Publication - Unpublished</name>
+	<author>F. Prinz</author>
+	<version>0.1</version>
+	<description>Definition for the publication (unpublished) content of the J!Research component</description>
+	<reference type="content">
+		<table name="jresearch_unpublished">
+			<field type="referenceid" name="id_publication" translate="0">ID</field>
+			<field type="text" name="month" translate="0">Month</field>
+		</table>
+	</reference>
+</joomfish>

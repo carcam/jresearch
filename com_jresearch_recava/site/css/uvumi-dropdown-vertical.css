@@ -1,0 +1,67 @@
+/* this is the main UL element*/
+.dropdown{
+	display:none;
+	margin:0;
+	padding:0;
+	list-style:none;
+	display: inline;
+}
+
+/* these are the inner menus*/
+.dropdown ul{
+	margin:0px;
+	padding:0px;
+	border-top:1px solid #444;
+	list-style:none;
+}
+
+/* these are all the LIs in the menu*/
+.dropdown li{
+	margin:0;
+	padding:3px;
+	width:120px;
+	background-color:#fff;
+	cursor:pointer;
+	border-top:0;
+}
+
+/* these are anchor in the menu, if you want to style them differently from the rest of you website*/
+.dropdown a{
+	text-decoration:none;
+	color:#000;
+	width:90%;
+}
+
+.dropdown a:hover{
+	text-decoration:none;
+}
+
+.dropdown a:visited{
+	color:#000;
+}
+
+
+/* these are the LIs that only belong to submenu*/
+.dropdown ul li{
+/*	border:1px solid #444;*/
+/*	border-top:0; */
+	margin-left:-1px;
+}
+
+.dropdown>li:first-child{
+	border:1px inset #BBBBBB;
+}
+
+/* these are the LIs that contains a submenu*/
+.dropdown li.submenu-down{
+	background:#fff url('expand_down.gif') center right no-repeat;
+	padding-left:5px;
+/*	width:105px; */
+}
+
+/* these are the LIs that contains a submenu and which are in a sub-menu themselve*/
+.dropdown li.submenu-left{
+	background:#fff url('expand_right.gif') center right no-repeat;
+	padding-right:20px;
+/*	width:105px; */
+}
