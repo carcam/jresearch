@@ -208,8 +208,8 @@ class JResearchViewPublication extends JResearchView
     	
     	//Published options
     	$publishedOptions = array();
-    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
-    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));
+    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('JRESEARCH_YES'));    	
+    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_NO'));
 		
 		if($cid > 0)
 		{    		

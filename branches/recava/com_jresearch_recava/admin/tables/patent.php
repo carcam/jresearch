@@ -28,12 +28,11 @@ class JResearchPatent extends JResearchPublication
 	 */
 	public $id_publication;
 	public $patent_number;
-	public $filing_date;
 	public $issue_date;
-	public $claims;
-	public $drawings_dir;
-	public $address;
-	public $office;
+	public $titular_entity;
+	public $extended_countries;
+	public $in_explotation;
+	public $country;
 
 	/**
 	 * Class constructor.  It maps the entity to Joomla tables
