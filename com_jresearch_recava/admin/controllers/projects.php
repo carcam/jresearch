@@ -193,36 +193,31 @@ class JResearchAdminProjectsController extends JController
 		);
 
 		//Time to set the authors
-		$maxAuthors = JRequest::getInt('maxmembers');
+		$maxAuthors = JRequest::getInt('nmembersfield');
 		$k = 0;
 	
 		for($j=0; $j<=$maxAuthors; $j++){
-			$value = JRequest::getVar("members".$j);
-			$flagValue = JRequest::getVar("check_members".$j);
+			$value = JRequest::getVar("membersfield".$j);
+			$flagValue = JRequest::getVar("check_membersfield".$j);
 			$flag = $flagValue == 'on'?true:false;
 			if(!empty($value)){
-				if(is_numeric($value)){
-					// In that case, we are talking about a staff member
-					$project->setAuthor(trim($value), $k, true, $flag); 
-				}else{
-					// For external authors 
-					$project->setAuthor(trim($value), $k, false, $flag);
-				}
-				
+				$project->setAuthor(trim($value), $k, is_numeric($value), $flag);
 				$k++;
 			}			
 		}
 		
 		//Set financiers for the project
-		$financiers = JRequest::getVar('id_financier');
-		
-		if(is_array($financiers))
-		{
-			foreach($financiers as $fin)
+		if(empty($project->text_id_financier)){
+			$financiers = JRequest::getVar('id_financier');
+			
+			if(is_array($financiers))
 			{
-				$id = (int) $fin;
-				
-				$project->setFinancier($id);
+				foreach($financiers as $fin)
+				{
+					$id = (int) $fin;
+					
+					$project->setFinancier($id);
+				}
 			}
 		}
 		// Set the id of the author if the item is new

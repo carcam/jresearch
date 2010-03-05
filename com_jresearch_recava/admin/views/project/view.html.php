@@ -61,15 +61,7 @@ class JResearchAdminViewProject extends JResearchView
     	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
     	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
     	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('Finished'));
-    	
-    	//Financier options
-    	$financierOptions = array();
-    	$financierOptions[0] = JHTML::_('select.option', '', JText::_('JRESEARCH_PROJECT_NO_FINANCIERS'));
-    	foreach($financiers as $fin)
-    	{
-    		$financierOptions[] = JHTML::_('select.option', $fin->id, $fin->name);
-    	}
-    	
+    	    	
     	//Currency options
     	$currencyOptions = array();
     	$currencyOptions[] = JHTML::_('select.option', 'EUR', 'Euro');
@@ -90,15 +82,13 @@ class JResearchAdminViewProject extends JResearchView
     	$statusHTML = JHTML::_('select.genericlist', $statusOptions, 'status', 'class="inputbox" size="5"', 'value', 'text', $project?$project->status:'not_started');
     	$currencyHTML = JHTML::_('select.genericlist', $currencyOptions, 'finance_currency', 'class="inputbox"', 'value', 'text', $project?$project->finance_currency:null);
 
-		$membersControl = JHTML::_('AuthorsSelector._', 'members', $members, true, $principalFlags);	
-		
+		//$membersControl = JHTML::_('AuthorsSelector._', 'members', $members, true, $principalFlags);	
+		$membersControl = JHTML::_('AuthorsSelector.autoSuggest', 'members', $members, true, $principalFlags);
 		$fins = array();
-		foreach($projectFins as $fin)
-		{
+		foreach($projectFins as $fin){
 			$fins[] = $fin->id;
-		}
-		
-		$finHTML = JHTML::_('select.genericlist', $financierOptions, 'id_financier[]', 'class="inputbox" size="3" multiple="multiple"', 'value', 'text', (count($fins) > 0) ? $fins : '');
+		}		
+		$finHTML = JHTML::_('ProjectsControl.financiersControl', 'id_financier', $fins);
 
     	$this->assignRef('project', $project, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);

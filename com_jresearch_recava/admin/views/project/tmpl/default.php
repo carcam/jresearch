@@ -15,13 +15,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('Title').': '?></td>
 		<td colspan="3">
-			<input name="title" id="title" size="80" maxlength="255" value="<?php echo $this->project?$this->project->title:'' ?>" class="required" />
+			<input name="title" id="title" size="60" maxlength="255" value="<?php echo $this->project?$this->project->title:'' ?>" class="required" />
 			<br />
 			<label for="title" class="labelform"><?php echo JText::_('JRESEARCH_PROJECT_PROVIDE_VALID_TITLE'); ?></label>
 		</td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>		
+		<td><?php echo JText::_('JRESEARCH_PROJECT_CODE'); ?></td>
+		<td><input name="code" id="code" size="10" maxlength="10" value="<?php echo isset($this->project)?$this->project->code:'' ?>" /></td>
+		<td><?php echo JText::_('JRESEARCH_ACRONIMO'); ?></td>
+		<td><input name="acronimo" id="acronimo" size="10" maxlength="10" value="<?php echo isset($this->project)?$this->project->acronimo:'' ?>" /></td>
+	</tr>	
+	<tr>
+		<td><?php echo JText::_('JRESEARCH_PRIORITY_LINE').': ' ?></td>		
 		<td><?php echo $this->areasList; ?></td>
 		<td><?php echo JText::_('JRESEARCH_PROJECT_STATUS').' :' ?></td>
 		<td><?php echo $this->status; ?></td>
@@ -29,8 +35,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('Published').': '; ?></td>
 		<td><?php echo $this->publishedRadio; ?></td>
+		<td colspan="2"></td>
+	</tr>
+	
+	<tr>
 		<td><?php echo JText::_('JRESEARCH_MEMBERS').': '; ?></td>
-		<td><?php echo $this->membersControl; ?></td>
+		<td colspan="3" style="text-align:left;"><?php echo $this->membersControl; ?></td>
 	</tr>
 	<tr>
 		<th class="editpublication" colspan="4"><?php echo JText::_('JRESEARCH_OPTIONAL'); ?></th>
@@ -54,6 +64,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td><?php echo $this->finList; ?></td>
 		<td><?php echo JText::_('JRESEARCH_FINANCE_LEVEL').': '; ?></td>
 		<td><input name="finance_value" id="finance_value" size="12" maxlength="12" value="<?php echo $this->project?$this->project->finance_value:'' ?>" /> <?php echo $this->currencyList; ?></td>
+	</tr>
+	<tr>
+		<td><?php echo JText::_('JRESEARCH_PROJECT_PUBLICATIONS').': '; ?></td>
+		<td><?php echo JHTML::_('ProjectsControl.toogleControl', 'publications', isset($this->project)? $this->project->publications : null, JText::_('JRESEARCH_PROJECT_PMIDS_SEPARATED_COMMAS'));?></td>
+		<td><?php echo JText::_('JRESEARCH_ENSAYO_CLINICO').': '; ?></td>
+		<td><?php echo JHTML::_('ProjectsControl.toogleControl', 'ensayo_clinico', isset($this->project)? $this->project->ensayo_clinico : null);?></td>
 	</tr>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_PROJECT_PAGE').' (Url) : ' ?></td>

@@ -482,6 +482,7 @@ class JResearchPublication extends JResearchActivity{
 		
 		$orderField = $db->nameQuote('order');
 		$idPubField = $db->nameQuote('id_publication');
+		$teamIdField = $db->nameQuote('teamid');
        
 		foreach($this->_internalAuthors as $author){			
 			$id_staff_member = $author['id_staff_member'];
@@ -498,11 +499,12 @@ class JResearchPublication extends JResearchActivity{
 
 		foreach($this->_externalAuthors as $author){
 			$order = $db->Quote($author['order'], false);
+			$teamId = $db->Quote($author['teamid'], false);
 			$authorName = $db->Quote($db->getEscaped($author['author_name'], true), false);
 			
 			$authorField = $db->nameQuote('author_name');
 			$tableName = $db->nameQuote('#__jresearch_publication_external_author');
-			$insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField) VALUES($this->id, $authorName, $order)";			
+			$insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField, $teamIdField) VALUES($this->id, $authorName, $order, $teamId)";			
 			$db->setQuery($insertExternalQuery);
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -695,6 +697,53 @@ class JResearchPublication extends JResearchActivity{
 	
 	function getJournal(){
 		return $this->journal;
+	}
+	
+	/**
+	* Sets an author. 
+	* 
+	* @param mixed $value. It has two interpretations depending on the $internal parameter. If $internal
+	* is true, $value must be a member database integer id, otherwise it will be considered as a name.
+	* @param int $order. The order of the author in the thesis. Order is important in theses
+	* as it shows the relevance of author's participation. Small numbers indicate more relevance. It must be
+	* a non negative number.
+	* @param boolean $internal If true, the author is part of staff and $member is the id, otherwise
+	* the author is not part of the center. 
+	* @param boolean $teamId It only makes sense for external authors.
+	*/
+	function setAuthor($member, $order, $internal=false, $teamId = -1){
+		$newEntry = array();
+		
+		if($order < 0)
+			return false;
+			
+		// Another author is using the same order number						
+		if($this->getAuthor($order) != null)
+			return false;
+
+		$newEntry['id'] = $this->id;					
+		$newEntry['order'] = $order;
+		$newEntry['teamid'] = $teamId;
+		
+		if($internal){
+			$newEntry['id_staff_member'] = $member;
+			$this->_internalAuthors[] = $newEntry;
+		}else{
+			$newEntry['author_name'] = $member;  
+			$this->_externalAuthors[] = $newEntry;
+		}
+
+		return true;		
+	}
+	
+
+	function getExternalAuthorTeam($authorName){
+		foreach($this->_externalAuthors as $authorEntry){
+			if($authorEntry['author_name'] == $authorName)
+				return $authorEntry['teamid'];
+		}
+		
+		return null;
 	}
 	
 }

@@ -221,7 +221,7 @@ class JResearchViewPublication extends JResearchView
 		    //Published radio
 			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , $publication->published);
 			$authors = $publication->getAuthors();			
-			$authorsControl = JHTML::_('AuthorsSelector.autoSuggest', 'authors' ,$authors);			
+			$authorsControl = JHTML::_('AuthorsSelector.autoSuggest2', 'authors' ,$authors);			
 			$this->assignRef('publication', $publication);	
 			$arguments[] = $publication->id;
 			
@@ -239,7 +239,7 @@ class JResearchViewPublication extends JResearchView
 			$publishedRadio = JHTML::_('select.genericlist', $publishedOptions ,'published', 'class="inputbox"' ,'value', 'text' , 1);
 			$member = new JResearchMember(JFactory::getDBO());
 			$member->bindFromUsername($user->username);
-			$authorsControl = JHTML::_('AuthorsSelector.autoSuggest', 'authors' , array($member));
+			$authorsControl = JHTML::_('AuthorsSelector.autoSuggest2', 'authors' , array($member));
 			$arguments[] = null;
 		}
 		$journalsControl = JHTML::_('JournalsControl.journalscontrol', 'journal', $journalValue, $selectFromList);
