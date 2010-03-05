@@ -260,11 +260,9 @@ class JResearchMember extends JTable{
 		// First, get the staff member
 		$db = JFactory::getDBO();
 		$components = explode(' ', strtolower(trim($authorName)));
-		$query = 'SELECT tm.id_team FROM '.$db->nameQuote('#__jresearch_member').' m, '
-				.$db->nameQuote('#__jresearch_team_member').' tm WHERE '
-				.'m.id = tm.id_member AND LOWER(m.firstname) = '.$db->Quote($components[0]).' AND '
-				.'LOWER(m.lastname) = '.$db->Quote($components[1]);
-		$db->setQuery($query);		
+		$query = 'SELECT teamid FROM '.$db->nameQuote('#__jresearch_publication_external_author')
+				.' WHERE LOWER('.$db->nameQuote('author_name').') = LOWER('.$db->Quote($authorName).')';
+		$db->setQuery($query);
 		$teamId = $db->loadResult();
 		$team = null;
 		if(!empty($teamId)){
