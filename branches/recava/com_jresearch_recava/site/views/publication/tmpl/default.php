@@ -56,12 +56,23 @@ defined('_JEXEC') or die('Restricted access');
 				<?php foreach($authors as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a><?php echo $i == $n - 1?'':',' ?>
+								<?php $team = $author->getTeam(); ?>
+								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
+								<?php if(!empty($team)): ?>
+									<span>(<?php echo $team->name; ?>)</span>
+								<?php endif; ?>
+								<?php echo $i == $n - 1?'':',' ?>
 							<?php else: ?>
 								<?php echo $auth->__toString(); ?><?php echo $i == $n - 1?'':',' ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo $auth; ?><?php echo $i == $n - 1?'':',' ?>
+								<?php echo $auth; ?>
+								<?php
+									$team = JResearchMember::getTeamByAuthorName($auth); 
+									if(!empty($team)): ?>
+										<span>(<?php echo $team->name; ?>)</span>
+								<?php endif; ?>								
+								<?php echo $i == $n - 1?'':',' ?>
 						<?php endif; ?>
 						<?php $i++; ?>
 				<?php endforeach; ?>
@@ -73,12 +84,21 @@ defined('_JEXEC') or die('Restricted access');
 					<li style="list-style:none;">
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
+								<?php $team = $author->getTeam(); ?>
 								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
+								<?php if(!empty($team)): ?>
+									<span>(<?php echo $team->name; ?>)</span>
+								<?php endif; ?>								
 							<?php else: ?>
 								<?php echo $auth->__toString(); ?>
 							<?php endif; ?>	
 						<?php else: ?>
 								<?php echo $auth; ?>
+								<?php
+									$team = JResearchMember::getTeamByAuthorName($auth); 
+									if(!empty($team)): ?>
+										<span>(<?php echo $team->name; ?>)</span>
+								<?php endif; ?>									
 						<?php endif; ?>
 					</li>
 				<?php endforeach; ?>
