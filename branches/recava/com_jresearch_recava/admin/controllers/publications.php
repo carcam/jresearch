@@ -75,7 +75,7 @@ class JResearchAdminPublicationsController extends JController
 	* @access public
 	*/
 	function add(){
-		$view = &$this->getView('Publication', 'html', 'JResearchAdminView');	
+		$view = $this->getView('Publication', 'html', 'JResearchAdminView');	
 		$view->setLayout('new');
 		$view->display();
 	}
@@ -124,7 +124,7 @@ class JResearchAdminPublicationsController extends JController
 	*/ 
 	function publish(){
 		// Array of ids
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		
 		$publication = new JResearchPublication($db);
@@ -140,7 +140,7 @@ class JResearchAdminPublicationsController extends JController
 	*/ 
 	function unpublish(){
 		// Array of ids
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		
 		$publication = new JResearchPublication($db);
@@ -153,7 +153,7 @@ class JResearchAdminPublicationsController extends JController
 	* @access	public
 	*/ 
 	function remove(){
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		$n = 0;		
 		$publication = new JResearchPublication($db);
@@ -172,8 +172,8 @@ class JResearchAdminPublicationsController extends JController
 	*/
 	function import(){
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$view = &$this->getView('PublicationsList', 'html', 'JResearchAdminView');
-		$model = &$this->getModel('ResearchAreasList', 'JResearchModel');
+		$view = $this->getView('PublicationsList', 'html', 'JResearchAdminView');
+		$model = $this->getModel('ResearchAreasList', 'JResearchModel');
 		$view->setLayout('import');
 		$view->setModel($model);
 		$view->display();
@@ -334,13 +334,14 @@ class JResearchAdminPublicationsController extends JController
 	
 			for($j=0; $j<=$maxAuthors; $j++){
 				$value = JRequest::getVar("authorsfield".$j);
+				$teamId = JRequest::getVar("teams_authorsfield".$j);
 				if(!empty($value)){
 					if(is_numeric($value)){
 						// In that case, we are talking about a staff member
 						$publication->setAuthor($value, $k, true); 
 					}else{
 						// For external authors 
-						$publication->setAuthor($value, $k);
+						$publication->setAuthor($value, $k, false, $teamId);
 					}
 					
 					$k++;

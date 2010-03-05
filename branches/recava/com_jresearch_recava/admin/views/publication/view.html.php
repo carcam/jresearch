@@ -100,7 +100,7 @@ class JResearchAdminViewPublication extends JResearchView
 			$internalRadio = JHTML::_('select.genericlist', $publishedOptions, 'internal', 'class="inputbox"', 'value', 'text', 1);
 		}
 		
-		$authorsControl = JHTML::_('AuthorsSelector.autoSuggest', 'authors' ,$authors);
+		$authorsControl = JHTML::_('AuthorsSelector.autoSuggest2', 'authors' ,$authors);
 		$journalsControl = JHTML::_('JournalsControl.journalscontrol', 'journal', $journalValue, $selectFromList);
 		
 		$this->assignRef('areasList', $researchAreasHTML);

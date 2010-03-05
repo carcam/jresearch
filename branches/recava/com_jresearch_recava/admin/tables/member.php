@@ -235,7 +235,7 @@ class JResearchMember extends JTable{
 		$teams = array();
 		
 		//Get teams
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$table = '#__jresearch_team_member';
 		$id = $db->nameQuote('id_team');
 		$id_member = $db->nameQuote('id_member');
@@ -255,6 +255,34 @@ class JResearchMember extends JTable{
 		return $teams;
 	}
 	
+	
+	static function getTeamByAuthorName($authorName){
+		// First, get the staff member
+		$db = JFactory::getDBO();
+		$components = explode(' ', strtolower(trim($authorName)));
+		$query = 'SELECT tm.id_team FROM '.$db->nameQuote('#__jresearch_member').' m, '
+				.$db->nameQuote('#__jresearch_team_member').' tm WHERE '
+				.'m.id = tm.id_member AND LOWER(m.firstname) = '.$db->Quote($components[0]).' AND '
+				.'LOWER(m.lastname) = '.$db->Quote($components[1]);
+		$db->setQuery($query);		
+		$teamId = $db->loadResult();
+		$team = null;
+		if(!empty($teamId)){
+			$team = JTable::getInstance('Team', 'JResearch');
+			$team->load($teamId);
+		}
+		
+		return $team;
+	}
+	
+	function getTeam(){
+		$teams = $this->getTeams();
+		if(!empty($teams))
+			return $teams[0];
+		else
+			return null;
+	}		
+	
 	/**
 	 * Returns the member's photo URL
 	 * @return string
@@ -263,9 +291,9 @@ class JResearchMember extends JTable{
 		global $mainframe;
 		
 		if($mainframe->isAdmin())
-			$base = JURI::base();
+			$base = $mainframe->getSiteURL();
 		else
-			$base = JURI::base().'administrator/';
+			$base = JURI::base();
 
 		return $base.JString::str_ireplace($base, '', $this->url_photo);	
 				

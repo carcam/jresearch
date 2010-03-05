@@ -411,6 +411,139 @@ class JHTMLAuthorsSelector{
 		return $output;
 	}
 	
+	public static function autoSuggest2($baseName, $values = null, $allowPrincipals=false, $isPrincipalsArray=null){
+		global $mainframe;
+//		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'member.php');
+		$doc = JFactory::getDocument();
+		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$db = JFactory::getDBO();
+		
+		$doc->addScript($urlBase.'components/com_jresearch/helpers/html/bsn.AutoSuggest_c_2.0.1.js');
+		$upImage = $urlBase.'administrator/components/com_jresearch/assets/up_16.png';
+		$downImage = $urlBase.'administrator/components/com_jresearch/assets/down_16.png';		
+		$textField = $baseName.'field';
+		$projectLeader = JText::_('JRESEARCH_PROJECT_LEADER');
+		$delete = JText::_('JRESEARCH_REMOVE');
+		$repeatedAuthors = JText::_('JRESEARCH_AUTHOR_ADDED_BEFORE');
+		$minAuthorLengthMessage = JText::_('JRESEARCH_MIN_AUTHOR_LENGTH_MESSAGE');   	
+		$noResults = JText::_('JRESEARCH_NO_RESULTS');
+		$belongsRecava = JText::_('JRESEARCH_BELONGS_RECAVA');
+
+		$doc->addScriptDeclaration("
+	        var options_xml1_$baseName;
+	        	
+			window.onDomReady(function() {
+	                options_xml1_$baseName = {
+	                script:'index.php?option=com_jresearch&controller=staff&task=autoSuggestMembers&format=json&' ,
+	                varname:'key',
+	                json:true,
+	                cache:false,
+	                callback: function (obj) {
+	                    document.getElementById('$baseName').value = obj?obj.id:'';
+	                }
+	            };
+	            as_xml1_$baseName = new AutoSuggest('$textField', options_xml1_$baseName);
+	            as_xml1_$baseName.lbl_projectLeader = '$projectLeader';
+	            as_xml1_$baseName.lbl_delete = '$delete';
+	            as_xml1_$baseName.projectLeaders = '$allowPrincipals';
+	            as_xml1_$baseName.lbl_repeatedAuthors = '$repeatedAuthors';
+	            as_xml1_$baseName.lbl_minAuthorLengthMessage = '$minAuthorLengthMessage';
+	            as_xml1_$baseName.lbl_noresults = '$noResults';
+	            as_xml1_$baseName.lbl_up_image = '$upImage';
+	            as_xml1_$baseName.lbl_down_image = '$downImage';
+	            as_xml1_$baseName.lbl_belongs_recava = '$belongsRecava';            
+        		});
+	        	        	            
+            	function appendAuthor(){
+            		if(as_xml1_$baseName){
+            			as_xml1_$baseName.setHighlightedValue();
+					}
+				}
+				
+				function toogleTeamsControl(index, fieldText){
+					booleanControl = document.getElementById('boolean_'+fieldText+index);
+					teamsControl = document.getElementById('teams_'+fieldText+index);
+					if(booleanControl && teamsControl){
+						if(booleanControl.value == 'yes'){
+							teamsControl.style.display = 'inline';
+						}else{
+							teamsControl.style.display = 'none';
+							teamsControl.selectedIndex = 0;
+						}
+					}
+					
+				}
+			");
+		$doc->addStyleSheet($urlBase.'components/com_jresearch/helpers/html/autosuggest_inquisitor.css');
+		$button = '<input style="margin-left:8px;" type="button" onclick="javascript:appendAuthor();" value="'.JText::_('Add').'" />';
+		$output = "<div class=\"divTdl\"><input type=\"text\" name=\"$textField\" id=\"$textField\" class=\"validate-integrante\" size=\"15\" />$button</div>";
+		
+		// Here we verify if there are authors
+		$output .= "<input type=\"hidden\" id=\"$baseName\" value=\"\" />";
+		
+		$teamOptions = array();
+		$db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_team').' WHERE '.$db->nameQuote('published').' = 1');
+		$result = $db->loadAssocList();
+		$teamOptions[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_ALL_TEAMS'));
+		foreach($result as $team){
+			$teamOptions[] = JHTML::_('select.option', $team['id'], $team['name']);
+		}
+		
+		$booleanOptions = array();
+		$booleanOptions[] = JHTML::_('select.option', 'yes', JText::_('JRESEARCH_YES'));
+		$booleanOptions[] = JHTML::_('select.option', 'no', JText::_('JRESEARCH_NO'));
+						
+		if(empty($values)){
+			$output .= "<input type=\"hidden\" id=\"n$textField\" name=\"n$textField\" value=\"0\" />";
+			$output .= "<div class=\"divTdl\"><ul id=\"".$textField."result\"></ul>";
+		}else{
+			$output .= "<div class=\"divTdl\"><ul id=\"".$textField."result\">";			
+			$j = 0;
+			foreach($values as $author){
+				$output .= "<li id=\"li".$textField.$j."\">";
+				$authorText = null;
+				$authorValue = null;
+				$team = null;
+				if($author instanceof JResearchMember){
+					$team = $author->getTeam(); 
+					$authorText = $author->__toString();
+					$authorValue = $author->id;					
+				}else{
+					$team = JResearchMember::getTeamByAuthorName($author);	
+					$authorText = $author;
+					$authorValue = $author;										
+				}
+				$booleanControl = JHTML::_('select.genericlist', $booleanOptions ,'boolean_'.$textField.$j, 'class="inputbox" onchange="javascript:toogleTeamsControl('.$j.', \''.$textField.'\');" id="boolean_'.$textField.$j.'"' ,'value', 'text', !empty($team)? 'yes': 'no');	
+				$teamsList = JHTML::_('select.genericlist', $teamOptions ,'teams_'.$textField.$j, 'class="inputbox" '.(!empty($team)? 'style="display:inline;"' : 'style="display:none";').' id="teams_'.$textField.$j.'"' ,'value', 'text', !empty($team)? $team->id: '-1');	
+				 
+				$output .= "<span id=\"span$textField$j\" style=\"padding: 2px;\">$authorText</span>";
+				$output .= "<input type=\"hidden\" id=\"$textField".$j."\" name=\"$textField".$j."\" value=\"$authorValue\" />";
+				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:removeAuthor('li$textField$j')\">$delete</a></span>";
+				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveUp('li$textField$j')\"><img style=\"width:16px;height:16px\" src=\"$upImage\" alt=\"\" /></a></span>";
+				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveDown('li$textField$j')\"><img style=\"width:16px;height:16px\" src=\"$downImage\" alt=\"\" /></a></span>";
+				$output .= "<span>$belongsRecava: </span><span style=\"padding: 2px;\">$booleanControl</span><span style=\"padding: 2px;\">$teamsList</span>";				
+				if($allowPrincipals){
+					if($isPrincipalsArray != null)
+						$onText = $isPrincipalsArray[$j]?'value="on" checked="checked"':''; 
+					else
+						$onText = '';	
+
+					$output .= "<label for=\"check_".$textField."$j\">$projectLeader</label><input type=\"checkbox\" id=\"check_".$textField."$j\" name=\"check_".$textField."$j\" ".$onText."  />";
+				}
+				$output .= "</li>";
+				$j++;
+			}
+	    	$output .= "</ul><input type=\"hidden\" id=\"n$textField\" name=\"n$textField\" value=\"$j\" />";
+		}
+		
+		$output .= JHTML::_('select.genericlist', $teamOptions ,'masterteamslist_'.$textField, 'class="inputbox" style="display:none;" id="masterlist_'.$textField.'"' ,'value', 'text', '-1');	
+		$output .= JHTML::_('select.genericlist', $booleanOptions ,'masterbooleanlist_'.$textField, 'class="inputbox" style="display:none;" id="masterbooleanlist_'.$textField.'"' ,'value', 'text', 'no');
+		$output .= "</div>";
+		
+
+		return $output;
+	}
+	
 	public static function jsonMembers($key){
 		$db = JFactory::getDBO();
 		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
@@ -421,7 +554,13 @@ class JHTMLAuthorsSelector{
 		$output = "{\"results\": [";
 		$arr = array();
 		foreach($members as $member){
-			$arr[] = "{\"id\": \"".$member['id']."\", \"value\": \"".$member['firstname'].' '.$member['lastname']."\", \"info\": \"".$member['email']."\"}";
+			$memberObj = JTable::getInstance('Member', 'JResearch');
+			$memberObj->load($member['id']);
+			$team = $memberObj->getTeam();
+			$teamId = -1;
+			if(!empty($team))
+				$teamId = $team->id;
+			$arr[] = "{\"id\": \"".$member['id']."\", \"value\": \"".$member['firstname'].' '.$member['lastname']."\", \"info\": \"".$member['email']."\", \"teamid\": ".$teamId."}";
 		}
 		$output .= implode(", ", $arr);
 		$output .= "]}";

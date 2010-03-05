@@ -41,7 +41,8 @@ class JResearchAdminStaffController extends JController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('save', 'save');
 		$this->registerTask('cancel', 'cancel');
-		$this->registerTask('autoSuggestMembers', 'autoSuggestMembers');		
+		$this->registerTask('autoSuggestMembers', 'autoSuggestMembers');
+		$this->registerTask('getTeam', 'getTeam');				
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'staff');
@@ -381,6 +382,44 @@ class JResearchAdminStaffController extends JController
 		$key = JRequest::getVar('key');
 		JHTML::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 		echo JHTML::_('AuthorsSelector.jsonMembers', $key);
+	}
+	
+	/**
+	 * 
+	 * @return unknown_type
+	 */
+	function getTeam(){
+		$doc = JFactory::getDocument();
+		$doc->setMimeEncoding('text/xml');
+		$index = JRequest::getInt('index');
+		$value = JRequest::getVar('value');
+		$team = null;
+		$teamId = -1;
+		
+		if(is_numeric($value)){
+			//It is a J!Research member
+			$member = JTable::getInstance('Member', 'JResearch');
+			$member->load((int)$value);
+			$team = $member->getTeam();
+		}else{
+			//It is a string
+			$team = JResearchMember::getTeamByAuthorName($value);
+		}
+		
+		if(!empty($team))
+			$teamId = $team->id;
+		
+		$writer = new XMLWriter;
+		$writer->openMemory();
+		$writer->startDocument('1.0');
+		
+		$writer->startElement("result");
+		$writer->writeElement('index', $index);
+		$writer->writeElement('value', $teamId);
+		$writer->endElement();											
+		$output = $writer->outputMemory();
+		echo $output;				
+				
 	}
 	
 }

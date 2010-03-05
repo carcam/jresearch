@@ -82,6 +82,20 @@ class JResearchProject extends JResearchActivity{
 	 */
 	public $finance_currency;
 	
+	/**
+	 * List of PMIDs for related publications
+	 * @var string
+	 */
+	public $publications;
+	
+	public $ensayo_clinico;
+	
+	public $code;
+	
+	public $acronimo;
+	
+	public $text_id_financier;
+	
 	protected $_financiers;
 	
 	
@@ -286,17 +300,21 @@ class JResearchProject extends JResearchActivity{
 	 */
 	public function getFinanciers()
 	{
-		$db = &$this->getDBO();
-		$finObjects = array(); 
-		
-		foreach($this->_financiers as $financier)
-		{
-			$finObject = new JResearchFinancier($db);
-			$finObject->load($financier['id_financier']);
-			$finObjects[] = $finObject;
+		if(empty($this->text_id_financier)){
+			$db = $this->getDBO();
+			$finObjects = array(); 
+			
+			foreach($this->_financiers as $financier)
+			{
+				$finObject = new JResearchFinancier($db);
+				$finObject->load($financier['id_financier']);
+				$finObjects[] = $finObject;
+			}
+			
+			return $finObjects;
+		}else{
+			return $this->text_id_financier;
 		}
-		
-		return $finObjects;
 	}
 	
 	/**
@@ -463,9 +481,9 @@ class JResearchProject extends JResearchActivity{
 		global $mainframe;
 		
 		if($mainframe->isAdmin())
-			$base = JURI::base();
+			$base = $mainframe->getSiteURL();
 		else
-			$base = JURI::base().'administrator/';
+			$base = JURI::base();
 
 		return $base.$this->url_project_image;	
 	}

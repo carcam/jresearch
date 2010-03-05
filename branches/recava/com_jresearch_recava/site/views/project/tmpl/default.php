@@ -30,10 +30,66 @@ defined('_JEXEC') or die('Restricted access'); ?>
     	<?php endif; ?>	
 	</tr>
 	<tr>
+		<?php $colspan = 4; ?>
+		<?php if(!empty($this->project->code)): ?>
+		<?php $colspan = 2; ?>
+	  	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_PROJECT_CODE').': ' ?></td>
+	  	<td><?php echo $this->project->code; ?></td>
+	  	<?php endif; ?>
+		<?php if(!empty($this->project->acronimo)):  ?> 
+		<?php $colspan = 0; ?> 	
+		<td width="20%" class="field"><?php echo JText::_('JRESEARCH_ACRONIMO').': '; ?></td>
+		<td><?php echo $this->project->acronimo; ?></td>  	
+		<?php else: ?>
+			<?php if($colspan > 0): ?>
+				<td colspan="<?php echo $colspan; ?>"></td>
+			<?php endif;?>	
+		<?php endif; ?>	
+	</tr>
+	<tr>
 		<?php $status = $this->statusArray[$this->project->status]; ?>
 		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_STATUS').': ' ?></td>
 		<td style="width:35%;"><?php echo $status; ?></td>
-		<td colspan="2">&nbsp;</td>
+		<td style="width:15%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_FUNDED_BY').': '; ?></td>
+		<td>
+		<?php 
+			//Get values and financiers for project
+          	$financiers = $this->project->getFinanciers();
+          	$financiersText = '';
+			
+          	if(is_array($financiers)){
+	          	foreach($financiers as $financier){
+	            	$financiersText .= $financier->__toString().', ';
+	          	}
+	          	$financiersText = rtrim($financiersText);
+	          	$financiersText = rtrim($financiersText, ',');
+          	}else{
+          		$financiersText = $financiers;
+          	}
+          
+
+			$value = str_replace(array(",00",".00"), ",-", $this->project->finance_value); //Replace ,/.00 with ,-
+			
+			//Convert value to format 1.000.000,xx
+			$aFloat = substr($value, strpos($value, ","));
+			$cValue = array_reverse(str_split(strrev(substr($value, 0, strpos($value, ","))), 3));
+			
+			$convertedArray = array();
+			foreach($cValue as $val)
+			{
+				$convertedArray[] = strrev($val);
+			}
+			
+			$value = implode(".",$convertedArray).$aFloat;
+			?>
+			<?php echo JText::_('JRESEARCH_PROJECT_FUNDING').': '?><span><?php echo $financiersText?></span>, <?php echo $this->project->finance_currency." ".$value; ?>
+			<?php
+			if($contentArray[0] != "")
+			{
+			?>
+				<div><?php echo $contentArray[0]; ?></div>
+			<?php } ?>
+		</td>
 	</tr>
 	
 	<?php $authors = $this->project->getPrincipalInvestigators(); ?>
@@ -149,9 +205,29 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td colspan="<?php echo $colspan; ?>">&nbsp;</td>
 		<?php endif; ?>	
 	</tr>
+	<?php if(!empty($this->project->publications)): ?>
+	<tr>
+		<td colspan="4" class="field"><?php echo JText::_('JRESEARCH_PROJECT_PUBLICATIONS').': ';?></td>
+	</tr>
+	<tr>
+		<td colspan="4">
+			<ul>
+				<?php
+					$citekeys = explode(',', $this->project->publications); 
+					foreach($citekeys as $citekey):
+						$publication = JResearchPublication::getByCitekey($citekey);
+						if(!empty($publication)):
+				?>
+							<li><?php echo $publication->title; ?></li>
+						<?php endif;?>
+				<?php endforeach; ?>
+			</ul>
+		</td>
+	</tr>
+	<?php endif; ?>
 	<?php $url = trim($this->project->url); ?>
 	<? if(!empty($url)) : ?>
-		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',str_replace('&', '&amp;', $url), JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span>
+		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',str_replace('&', '&amp;', $url), JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span></td>
 	<?php endif; ?>	
 	<?php $description = trim($this->project->description); ?>
 	<?php if(!empty($description)): ?>
