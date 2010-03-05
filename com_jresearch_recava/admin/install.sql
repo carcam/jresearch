@@ -159,15 +159,38 @@ DROP TABLE IF EXISTS `#__jresearch_patent`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_patent` (
   `id_publication` int(10) unsigned NOT NULL,
   `patent_number` varchar(10) NOT NULL,
-  `filing_date` date DEFAULT NULL,
   `issue_date` date DEFAULT NULL,
-  `claims` longtext DEFAULT NULL,
-  `drawings_dir` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
+  `titular_entity` varchar(255) DEFAULT NULL,
+  `extended_countries` varchar(255) DEFAULT NULL,
+  `in_explotation` bool DEFAULT false,
   `country` varchar(60) DEFAULT NULL,
-  `office` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `#__jresearch_patent_external_inventor`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_patent_external_inventor` (
+  `id_patent` int(10) unsigned NOT NULL,
+  `author_name` varchar(60) NOT NULL,
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id_patent`,`author_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `#__jresearch_patent_internal_inventor`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_patent_internal_inventor` (
+  `id_patent` int(10) unsigned NOT NULL,
+  `id_staff_member` int(10) unsigned NOT NULL,
+  `order` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id_patent`,`id_staff_member`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `#__jresearch_patent_team`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_patent_team` (
+  `id_patent` int(10) unsigned NOT NULL,
+  `id_team` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id_patent`,`id_team`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS `#__jresearch_phdthesis`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_phdthesis` (
@@ -211,15 +234,10 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
   `created_by` int(10) default NULL,
-  `publications` varchar(255) default NULL,
-	`ensayo_clinico` varchar(255) default NULL,
-  `code` varchar(255) default NULL, 
-	`acronimo` varchar(255) default NULL,  
-	`text_id_financier` varchar(255) default NULL,  
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`),
   INDEX `id_research_area` (`id_research_area`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `#__jresearch_project_external_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_external_author` (
@@ -297,7 +315,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication_external_author` (
   `id_publication` int(10) unsigned NOT NULL,
   `author_name` varchar(60) NOT NULL,
   `order` smallint(5) unsigned NOT NULL,
-  `teamid` int(10) unsigned NULL,
   PRIMARY KEY  (`id_publication`,`author_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
