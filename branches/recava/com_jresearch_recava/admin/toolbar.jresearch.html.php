@@ -132,6 +132,22 @@ class JResearchToolbar
 	}
 	
 	/**
+	* Toolbar printed when editing or adding an item like a publication, project,
+	* thesis or research area.
+	*/	
+	public static function editCourseAdminToolbar(){
+		$cid = JRequest::getVar('cid');
+		
+		if(isset($cid))
+			$title = JText::_('JRESEARCH_EDIT_COURSE');
+		else
+			$title = JText::_('JRESEARCH_NEW_COURSE');	
+
+		JToolBarHelper::title($title);
+		self::editItemAdminToolbar();
+	}
+	
+	/**
 	* Toolbar printed when editing a staff member profile.
 	*/
 	public static function editMemberAdminToolbar(){		
@@ -144,6 +160,24 @@ class JResearchToolbar
 	*/
 	public static function projectsListToolbar(){
 		JToolBarHelper::title(JText::_('JRESEARCH_PROJECTS'));
+		
+		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+		JToolBarHelper::divider();
+		JToolBarHelper::addNewX('add', JText::_('Add'));
+		JToolBarHelper::editListX('edit', JText::_('Edit'));
+		JToolBarHelper::deleteList(JText::_('Are you sure you want to delete the selected items?'),'remove', JText::_('Delete'));		
+
+		JToolBarHelper::divider();		
+		
+		JToolBarHelper::publishList('publish', JText::_('Publish'));
+		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
+	}
+	
+/**
+	* Toolbar printed when listing JResearch projects admin list.
+	*/
+	public static function coursesAdminListToolbar(){
+		JToolBarHelper::title(JText::_('JRESEARCH_COURSES'));
 		
 		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
 		JToolBarHelper::divider();

@@ -83,6 +83,38 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_conference` (
   PRIMARY KEY  (`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `#__jresearch_course`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_course` (
+	`id` int(10) unsigned NOT NULL auto_increment,
+	`title` varchar(60) NOT NULL,
+	`place` varchar(60) NOT NULL,
+	`start_date` datetime NOT NULL,
+	`end_date` datetime NOT NULL,
+	`participants` ENUM('<50','50-100','>100'),
+	`published` tinyint(4) NOT NULL default '1',
+	`checked_out` tinyint(11) unsigned NOT NULL default '0',
+  	`checked_out_time` datetime NOT NULL,
+  	`created` datetime NULL,
+	`created_by` int(10) default NULL,
+  	PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `#__jresearch_course_external_author`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_course_external_author` (
+	`id_course` int(10) unsigned NOT NULL auto_increment,
+	`author_name` varchar(60) NOT NULL,
+	`order` smallint(5) unsigned NOT NULL,
+  	PRIMARY KEY (`id_course`, `author_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `#__jresearch_course_internal_author`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_course_internal_author` (
+	`id_course` int(10) unsigned NOT NULL,
+	`id_staff_member` int(10) unsigned NOT NULL,
+	`order` smallint(5) unsigned NOT NULL,
+  	PRIMARY KEY (`id_course`, `id_staff_member`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `#__jresearch_financier`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_financier` (
   `id` int(11) unsigned NOT NULL auto_increment,
