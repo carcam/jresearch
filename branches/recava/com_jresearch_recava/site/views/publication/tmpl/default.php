@@ -56,7 +56,7 @@ defined('_JEXEC') or die('Restricted access');
 				<?php foreach($authors as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<?php $team = $author->getTeam(); ?>
+								<?php $team = $auth->getTeam(); ?>
 								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
 								<?php if(!empty($team)): ?>
 									<span>(<?php echo $team->name; ?>)</span>
@@ -84,7 +84,7 @@ defined('_JEXEC') or die('Restricted access');
 					<li style="list-style:none;">
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<?php $team = $author->getTeam(); ?>
+								<?php $team = $auth->getTeam(); ?>
 								<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
 								<?php if(!empty($team)): ?>
 									<span>(<?php echo $team->name; ?>)</span>
@@ -105,7 +105,7 @@ defined('_JEXEC') or die('Restricted access');
 			</ul>
 		</td>
 		<?php endif; ?>
-		<td colspan="2">&nbsp;</td>		
+		<td colspan="2"></td>		
 	</tr>	
 	<?php endif; ?>
 	

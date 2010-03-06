@@ -37,3 +37,6 @@ DROP TABLE IF EXISTS `#__jresearch_thesis_internal_author`;
 DROP TABLE IF EXISTS `#__jresearch_unpublished`;
 DROP TABLE IF EXISTS `#__jresearch_cited_records`;
 DROP TABLE IF EXISTS `#__jresearch_publication_type`;
+DROP TABLE IF EXISTS `#__jresearch_patent_external_inventor`;
+DROP TABLE IF EXISTS `#__jresearch_patent_internal_inventor`;
+DROP TABLE IF EXISTS `#__jresearch_patent_team`;

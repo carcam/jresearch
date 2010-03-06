@@ -484,6 +484,28 @@ class JResearchPublicationsController extends JController
 					$k++;
 				}			
 			}
+			
+			if($publication->pubtype == 'patent'){
+				//In case of patents bind the inventors
+				$maxInventors = JRequest::getInt('ninventorsfield');
+				$k = 0;
+		
+				for($j=0; $j<=$maxInventors; $j++){
+					$value = JRequest::getVar("inventorsfield".$j);
+					if(!empty($value)){
+						if(is_numeric($value)){
+							// In that case, we are talking about a staff member
+							$publication->setInventor($value, $k, true); 
+						}else{
+							// For external authors 
+							$publication->setInventor($value, $k, false);
+						}
+						
+						$k++;
+					}			
+				}
+			}
+			
 		
 			// Set the id of the author if the item is new
 			if(empty($publication->id))
