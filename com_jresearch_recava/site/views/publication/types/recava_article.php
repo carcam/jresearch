@@ -59,37 +59,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if($colspan > 0): ?>
 	<td colspan="<?php echo $colspan; ?>"></td>	
 	<?php endif; ?>
-</tr>
-	<?php $colspan = 4; ?>
-	<?php $other_recava_groups = trim($this->publication->other_recava_groups);  ?>
-	<?php if($other_recava_groups == 1): 
-			$entries = explode(';', $this->publication->recava_groups);
-	?>	
-	<tr>		
-	<td colspan="4">
-		<div class="publicationlabel"><?php echo JText::_('JRESEARCH_RECAVA_GROUPS'); ?></div>
-		<table style="text-align:center;width:70%;margin-left:auto;margin-right:auto;">
-			<thead>
-				<tr>
-					<th style="width:30%;border:1px solid;"><?php echo JText::_('JRESEARCH_GROUP');?></th>
-					<th style="width:70%;border:1px solid;"><?php echo JText::_('JRESEARCH_AUThOR');?></th>				
-				</tr>				
-			</thead>
-			<tbody>
-				<?php foreach($entries as $row): 
-						$components = explode(',', $row);
-				?>
-				<tr>
-					<td style="border:1px solid;"><?php echo $components[0]; ?></td>
-					<td style="border:1px solid;"><?php echo $components[1]; ?></td>
-				</tr>
-				<?php endforeach;?>				
-			</tbody>
-		</table>
-	</td>
-	</tr>	
-	<?php endif; ?>
-	
+</tr>	
 	<?php $used_recava_platforms = trim($this->publication->used_recava_platforms);  ?>
 	<?php if($used_recava_platforms == 1): ?>	
 	<tr>
@@ -133,6 +103,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php }
 			}	
 		?>
+			<?php if(!empty($this->publication->priority_line)): ?>
+			<?php $items = explode(',', $this->publication->priority_line); ?>
+			<?php foreach($items as $item): ?>
+				<li><?php echo $item; ?></li>
+			<?php endforeach; ?>
+			<?php endif; ?>
 			</ul>
 		</td>
 	</tr>

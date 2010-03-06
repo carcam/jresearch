@@ -8,8 +8,17 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
+	<?php 
+		  if(isset($this->publication))
+			  $inventors = $this->publication->getInventors(); //This method is only available for patents 
+		  else
+		  	  $inventors = array();		  
+		  $inventorsControl = JHTML::_('AuthorsSelector.autoSuggest', 'inventors' ,$inventors);	
+	?>
+	<td><?php echo JText::_('JRESEARCH_INVENTORS').': '; ?></td>
+	<td><?php echo $inventorsControl; ?></td>
 	<td><?php echo JText::_('JRESEARCH_PATENT_NUMBER').': ' ?></td>		
-	<td colspan="3"><input name="patent_number" id="patent_number" type="text" size="10" maxlength="10" value="<?php echo $this->publication?$this->publication->patent_number:'' ?>" /></td>
+	<td><input name="patent_number" id="patent_number" type="text" size="10" maxlength="10" value="<?php echo $this->publication?$this->publication->patent_number:'' ?>" /></td>
 </tr>
 <tr>
 	<td><?php echo JText::_('JRESEARCH_ISSUE_DATE').': ' ?></td>
@@ -42,5 +51,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	
 		echo JHTML::_('select.genericlist', $booleanOptions , 'in_explotation', 'class="inputbox"' ,'value', 'text' , isset($this->publication) ? $this->publication->in_explotation : 0); ?>
 	</td>
-	<td colspan="2" />
+
+	
 </tr>

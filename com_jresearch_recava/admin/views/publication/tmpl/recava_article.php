@@ -10,8 +10,8 @@ defined('_JEXEC') or die('Restricted access');
 
 //Published options
 $publishedOptions = array();
-$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));    	
-$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));   
+$publishedOptions[] = JHTML::_('select.option', '1', JText::_('JRESEARCH_YES'));    	
+$publishedOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_NO'));   
 ?>
 
 <tr>
@@ -31,12 +31,8 @@ $publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));
 <tr>
 	<td><?php echo JText::_('JRESEARCH_OTHER_RECAVA_ACK').': ' ?></td>
 	<td><?php echo JHTML::_('select.genericlist', $publishedOptions ,'recava_ack', 'class="inputbox"' ,'value', 'text' , $this->publication?$this->publication->recava_ack:0);?></td>
-</tr>
-<tr>
-	<td><?php echo JText::_('JRESEARCH_OTHER_RECAVA_GROUPS').': ' ?></td>
-	<td><?php echo JHTML::_('select.genericlist', $publishedOptions ,'other_recava_groups', 'class="inputbox"  onchange="javascript:switchControl(\'div_recava_groups\');" ' ,'value', 'text' , $this->publication?$this->publication->other_recava_groups:0);?></td>
 	<td><?php echo JText::_('JRESEARCH_USED_RECAVA_PLATFORMS').': ' ?></td>
-	<td><?php echo JHTML::_('select.genericlist', $publishedOptions ,'used_recava_platforms', 'class="inputbox" onchange="javascript:switchControl(\'div_recava_platforms\');"' ,'value', 'text' , $this->publication?$this->publication->used_recava_platforms:0);?></td>	
+	<td><?php echo JHTML::_('select.genericlist', $publishedOptions ,'used_recava_platforms', 'class="inputbox" onchange="javascript:switchControl(\'div_recava_platforms\');"' ,'value', 'text' , $this->publication?$this->publication->used_recava_platforms:0);?></td>		
 </tr>
 <tr>
 	<td style="vertical-align:top;padding:0px;" colspan="2"><?php echo JHTML::_('AuthorsSelector.recavagroups', 'recava_groups', $this->publication?$this->publication->recava_groups:'' , $this->publication?$this->publication->other_recava_groups:0); ?></td>
@@ -49,7 +45,8 @@ $publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));
 <tr>
 	<td><?php echo JText::_('JRESEARCH_PRIORITY_LINE').': ' ?></td>
  	<td>
- 	<input type="text" name="priority_line" id="priority_line" size="20" maxlength="255" value="<?php echo $this->publication?$this->publication->priority_line:'' ?>" />
+ 	<input type="text" name="priority_line" id="priority_line" size="40" maxlength="255" value="<?php echo $this->publication?$this->publication->priority_line:'' ?>" />
+ 	<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS')) ?>
  	</td>
 	<td colspan="2"></td>
 </tr>
