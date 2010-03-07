@@ -9,6 +9,7 @@
 */
 
 // No direct access
+//@todo Directors and groups of directors
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'activity.php');
@@ -45,7 +46,7 @@ class JResearchCourse extends JResearchActivity
     
     function check()
     {
-    $date_pattern = '/^\d{4}-\d{2}-\d{2}$/';
+    	$date_pattern = '/^\d{4}-\d{2}-\d{2}$/';
 		
 		// Verify the integrity of members
 		if(!parent::checkAuthors())
@@ -117,8 +118,8 @@ class JResearchCourse extends JResearchActivity
  		$j = $this->_tbl_key;		
 			
 		// Delete the information about internal and external references
-		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_course_internal_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
-		$deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_course_external_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
+		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_course_internal_author').' WHERE '.$db->nameQuote('id_course').' = '.$db->Quote($this->$j);
+		$deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_course_external_author').' WHERE '.$db->nameQuote('id_course').' = '.$db->Quote($this->$j);
 		
 		$db->setQuery($deleteInternalQuery);
 		if(!$db->query()){

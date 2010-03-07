@@ -5,6 +5,8 @@
  * Default view for listing courses
  */
 // no direct access
+
+//@todo Add directors to the list
 defined('_JEXEC') or die('Restricted access'); ?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<table>
@@ -50,7 +52,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td width="1%"><?php echo $checked; ?></td>
-					<td width="30%">
+					<td>
 						<a href="index.php?option=com_jresearch&controller=courses&task=edit&cid[]=<?php echo $this->items[$i]->id; ?>">
 							<?php echo $this->items[$i]->title; ?>
 						</a>
