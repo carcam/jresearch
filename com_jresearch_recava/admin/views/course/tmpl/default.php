@@ -1,9 +1,9 @@
 <?php
 /**
-* @package JResearch
-* @subpackage Courses
-* Default view for adding/editing a course
-*/
+ * @package JResearch
+ * @subpackage Courses
+ * Default view for listing courses
+ */
 // no direct access
 //@todo Add control for directors and groups
 defined('_JEXEC') or die('Restricted access');

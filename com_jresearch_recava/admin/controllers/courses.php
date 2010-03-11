@@ -166,6 +166,25 @@ class JResearchAdminCoursesController extends JController
 		$task = JRequest::getVar('task');		
 		if($course->check())
 		{
+			//Time to set the authors
+			$maxAuthors = JRequest::getInt('ndirectorsfield');
+			$k = 0;
+	
+			for($j=0; $j<=$maxAuthors; $j++){
+				$value = JRequest::getVar("directorsfield".$j);
+				$teamId = JRequest::getVar("teams_directorsfield".$j);
+				if(!empty($value)){
+					if(is_numeric($value)){
+						// In that case, we are talking about a staff member
+						$course->setAuthor($value, $k, true); 
+					}else{
+						// For external authors 
+						$course->setAuthor($value, $k, false, $teamId);
+					}
+					$k++;
+				}			
+			}			
+			
 			if($course->store())
 			{
 				//Specific redirect for specific task
