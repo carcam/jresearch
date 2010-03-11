@@ -62,10 +62,13 @@ class JResearchViewPublicationsList extends JResearchView
      * Invoked when the user has selected the option to show lists of publications
      * filtered by team groups and showing the journal acceptance rate per each publication
      * and calculating the average per group.
+     * 
+     * @todo Set marked publications
      */
     private function _displayTabularList(){
     	global $mainframe;    	
     	
+    	$session =& JFactory::getSession();
     	$doc = JFactory::getDocument();
     	$lang = JFactory::getLanguage();
     	$lang->load('com_jresearch.teams');
@@ -82,10 +85,23 @@ class JResearchViewPublicationsList extends JResearchView
     	$model = $this->getModel();
     	$teamsModel = $this->getModel('teams');
     	$areasModel = $this->getModel('researchareaslist');
-    	$lists = array();    	
+    	$items = array();
+    	$lists = array();
+    	$markedItems = array();    	
 
     	$items = $model->getData(null, true, true);
     	$page = $model->getPagination();
+    	
+    	//Set marked items for export
+    	$markedItems = $model->getData(null, true);
+    	
+    	$ids = array();
+    	foreach($markedItems as $item)
+    	{
+    		array_push($ids, $item->id);
+    	}
+    	$session->set('markedRecords', $ids, 'jresearch');
+    	
     	$params = $mainframe->getParams('com_jresearch'); 
     	$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$field = $params->get('field_for_average');    	

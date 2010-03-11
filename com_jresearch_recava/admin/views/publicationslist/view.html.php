@@ -183,6 +183,7 @@ class JResearchAdminViewPublicationsList extends JResearchView
     	$formatsOptions[] = JHTML::_('select.option', 'bibtex', 'Bibtex');
     	$formatsOptions[] = JHTML::_('select.option', 'mods', 'MODS');
     	$formatsOptions[] = JHTML::_('select.option', 'ris', 'RIS');
+    	$formatsOptions[] = JHTML::_('select.option', 'doc', 'DOC');
     	$formatsHTML = JHTML::_('select.genericlist', $formatsOptions, 'outformat', 'size="1"');
 		
 		$this->assignRef('formatsList', $formatsHTML);		

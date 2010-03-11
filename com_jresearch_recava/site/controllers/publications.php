@@ -38,6 +38,7 @@ class JResearchPublicationsController extends JController
 		$this->registerTask('admin', 'administer');
 		// When the user sees the profile of a single publication
 		$this->registerTask('show', 'show');
+		$this->registerTask('executeExport', 'executeExport');
 		$this->registerTask('cite', 'cite');
 		$this->registerTask('citeFromDialog', 'citeFromDialog');
 		$this->registerTask('generateBibliography', 'generateBibliography');
@@ -179,10 +180,45 @@ class JResearchPublicationsController extends JController
 	*/
 	function administer(){
 		JRequest::setVar('view', 'publications');
-		JRequest::serVar('layout', 'admin');
+		JRequest::setVar('layout', 'admin');
 		parent::display();
 	}
 
+	/**
+	 * Triggered when the user clicks the submit button in the export publications
+	 * form.
+	 *
+	 */
+	function executeExport(){
+		$session = &JFactory::getSession();
+		JRequest::setVar('format', 'raw');
+		
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+		$markedRecords = $session->get('markedRecords', null, 'jresearch');
+		if($markedRecords !== null){
+			if($markedRecords !== 'all'){
+				$model = &$this->getModel('Publication', 'JResearchModel');
+				$publicationsArray = array();
+				foreach($markedRecords as $id){
+					$publicationsArray[] = $model->getItem($id);
+				}
+			}
+			
+			$format = 'doc';
+			
+			$exporter =& JResearchPublicationExporterFactory::getInstance($format);
+			$output = $exporter->parse($publicationsArray);
+			$document =& JFactory::getDocument();
+			$document->setMimeEncoding($exporter->getMimeEncoding());
+			$session->clear('markedRecords', 'jresearch');
+
+			$tmpfname = "jresearch_output.$format";
+			header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
+			echo $output;
+		}
+	}
+	
 	/**
 	 * Invoked when a user cites one or more records from publications database through
 	 * an editor.

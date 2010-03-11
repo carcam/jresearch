@@ -159,6 +159,11 @@ class JResearchToolbar
 	* Toolbar printed when listing JResearch projects admin list.
 	*/
 	public static function projectsListToolbar(){
+		
+		$doc =& JFactory::getDocument();
+		$css = ".icon-32-export{background: url(".$url."administrator/components/com_jresearch/assets/export.png) 100% 0 no-repeat;}";
+		$doc->addStyleDeclaration($css);		
+		
 		JToolBarHelper::title(JText::_('JRESEARCH_PROJECTS'));
 		
 		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
@@ -171,6 +176,11 @@ class JResearchToolbar
 		
 		JToolBarHelper::publishList('publish', JText::_('Publish'));
 		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
+		
+		JToolBarHelper::divider();
+		
+		self::exportButton();
+		JToolBarHelper::custom('exportAll', 'export', '', JText::_('JRESEARCH_EXPORT_ALL_PROJECTS'), false);
 	}
 	
 /**

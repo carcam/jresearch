@@ -36,9 +36,12 @@ class JResearchAdminProjectsController extends JController
 		$this->registerTask('publish', 'publish');
 		$this->registerTask('unpublish', 'unpublish');
 		$this->registerTask('remove', 'remove');
+		$this->registerTask('export', 'export');
+		$this->registerTask('exportAll', 'export');
 		$this->registerTask('save', 'save');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
+		$this->registerTask('executeExport', 'executeExport');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
 	}
 
@@ -280,6 +283,56 @@ class JResearchAdminProjectsController extends JController
 		}
 		
 		$this->setRedirect('index.php?option=com_jresearch&controller=projects');
+	}
+	
+	function export()
+	{
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
+		$view = &$this->getView('ProjectsList', 'html', 'JResearchAdminView');
+		$model = &$this->getModel('ProjectsList', 'JResearchModel');
+		$view->setModel($model, true);
+		$view->setLayout('export');
+		$view->display();
+	}
+	
+	/**
+	 * Triggered when the user clicks the submit button in the export projects
+	 * form.
+	 *
+	 */
+	function executeExport(){
+		$session = &JFactory::getSession();
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'projectexporters'.DS.'factory.php');
+		$markedRecords = $session->get('markedRecords', null, 'jresearch');
+		if($markedRecords !== null){
+			if($markedRecords === 'all'){
+				$model = &$this->getModel('ProjectsList', 'JResearchModel');
+				$projectsArray = $model->getData();
+			}else{
+				$model = &$this->getModel('Project', 'JResearchModel');
+				$projectsArray = array();
+				foreach($markedRecords as $id){
+					$projectsArray[] = $model->getItem($id);
+				}
+			}
+			
+			$format = JRequest::getVar('outformat');
+			$exporter =& JResearchProjectExporterFactory::getInstance($format);
+			$output = $exporter->parse($projectsArray);
+			$document =& JFactory::getDocument();
+			$document->setMimeEncoding($exporter->getMimeEncoding());
+			$session->clear('markedRecords', 'jresearch');
+
+			if($format == 'bibtex')
+				$ext = 'bib';			
+			else
+				$ext = $format;	
+			$tmpfname = "jresearch_output.$ext";
+			header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
+			echo $output;
+			
+		}
 	}
 	
 }
