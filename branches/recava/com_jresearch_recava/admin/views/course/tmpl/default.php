@@ -42,16 +42,14 @@ JHTML::_('behavior.modal');
 		</td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_COURSE_DIRECTORS').': ' ?></td>
-		<td><?php echo $this->membersControl; ?></td>
-		<td><?php echo JText::_('JRESEARCH_COURSE_GROUPS').': ' ?></td>
-		<td><?php echo $this->groupsControl; ?></td>
-	</tr>
-	<tr>
 		<td><?php echo JText::_('Published').': '; ?></td>
 		<td><?php echo $this->publishedRadio; ?></td>
 		<td><?php echo JText::_('JRESEARCH_COURSE_PARTICIPANTS').': ' ?></td>
 		<td><?php echo $this->participantsSelect; ?></td>
+	</tr>
+		<tr>
+		<td><?php echo JText::_('JRESEARCH_COURSE_DIRECTORS').': ' ?></td>
+		<td colspan="3"><?php echo $this->membersControl; ?></td>
 	</tr>
 </tbody>
 </table>
