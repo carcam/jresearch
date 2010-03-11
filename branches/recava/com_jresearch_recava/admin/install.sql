@@ -88,13 +88,13 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_course` (
 	`id` int(10) unsigned NOT NULL auto_increment,
 	`title` varchar(60) NOT NULL,
 	`place` varchar(60) NOT NULL,
-	`start_date` datetime NOT NULL,
-	`end_date` datetime NOT NULL,
+	`start_date` date NOT NULL,
+	`end_date` date NOT NULL,
 	`participants` ENUM('<50','50-100','>100'),
 	`published` tinyint(4) NOT NULL default '1',
 	`checked_out` tinyint(11) unsigned NOT NULL default '0',
-  	`checked_out_time` datetime NOT NULL,
-  	`created` datetime NULL,
+  `checked_out_time` datetime NOT NULL,
+  `created` datetime NULL,
 	`created_by` int(10) default NULL,
   	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
