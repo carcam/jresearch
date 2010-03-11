@@ -24,7 +24,30 @@ class JResearchAdminViewProjectsList extends JResearchView
     function display($tpl = null)
     {
      	global $mainframe;	
-		JResearchToolbar::projectsListToolbar();
+    	$layout = $this->getLayout();
+    	
+    	switch($layout){
+    		case 'export':
+    			$this->_displayExportForm();
+    			break;
+    		default:
+    			$this->_displayDefaultList();
+    			break;		
+    	}
+     	
+     	$eArguments = array('projects');
+        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
+        
+        parent::display($tpl);
+        
+        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
+    }
+    
+    private function _displayDefaultList()
+    {
+    	global $mainframe;
+    	
+    	JResearchToolbar::projectsListToolbar();
        	$model = &$this->getModel();
       	$items = $model->getData(null, false, true);
       	$areaModel =& $this->getModel('researcharea');
@@ -53,18 +76,33 @@ class JResearchAdminViewProjectsList extends JResearchView
 		}
 		$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);
 
-
      	$this->assignRef('items', $items);
      	$this->assignRef('lists', $lists );
      	$this->assignRef('page', $model->getPagination());
      	$this->assignRef('area', $areaModel);
-     	
-     	$eArguments = array('projects');
-        $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
-        
-        parent::display($tpl);
-        
-        $mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
+    }
+    
+	private function _displayExportForm(){
+		JResearchToolbar::importPublicationsToolbar();
+		$session =& JFactory::getSession();
+		$task = JRequest::getVar('task');
+		
+		if($task == 'export'){
+			$cid = JRequest::getVar('cid', null);
+			$exportComplete = false;
+			$session->set('markedRecords', $cid, 'jresearch');
+		}elseif($task == 'exportAll'){
+			$exportComplete = true;
+			$session->set('markedRecords', 'all', 'jresearch'); 
+		}
+		      	
+      
+    	$formatsOptions = array();
+    	$formatsOptions[] = JHTML::_('select.option', 'doc', 'DOC');
+    	$formatsHTML = JHTML::_('select.genericlist', $formatsOptions, 'outformat', 'size="1"');
+		
+		$this->assignRef('formatsList', $formatsHTML);		
+		$this->assignRef('exportAll', $exportComplete);
     }
 }
 
