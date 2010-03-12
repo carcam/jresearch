@@ -47,6 +47,7 @@ class JResearchViewProjectsList extends JResearchView
     private function _displayDefaultList(){
       	global $mainframe;
     	
+      	$session =& JFactory::getSession();
       	$doc = JFactory::getDocument();
     	//Get the model
     	$model =& $this->getModel();
@@ -56,7 +57,17 @@ class JResearchViewProjectsList extends JResearchView
 		$ids = explode(',',$params->get('project_id'));  
 		
 		$model->setIds($ids);
-    	$projects =  $model->getData(null, true, true);   
+    	$projects =  $model->getData(null, true, true);
+    	
+    	//Set marked items for export
+    	$markedItems = $model->getData(null, true);
+    	
+    	$ids = array();
+    	foreach($markedItems as $item)
+    	{
+    		array_push($ids, $item->id);
+    	}
+    	$session->set('markedRecords', $ids, 'jresearch');
     	
     	$doc->setTitle(JText::_('JRESEARCH_PROJECTS'));
     	$this->assignRef('params', $params);

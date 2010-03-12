@@ -54,6 +54,15 @@ function setACL()
 	$acl->addACL('com_jresearch', 'export', 'users', 'administrator', 'publications', 'all');
 	$acl->addACL('com_jresearch', 'export', 'users', 'super administrator', 'publications', 'all');
 	
+	//Export projects
+	$acl->addACL('com_jresearch', 'export', 'users', 'registered', 'projects', 'own');
+	$acl->addACL('com_jresearch', 'export', 'users', 'author', 'projects', 'own');
+	$acl->addACL('com_jresearch', 'export', 'users', 'editor', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'export', 'users', 'publisher', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'export', 'users', 'manager', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'export', 'users', 'administrator', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'export', 'users', 'super administrator', 'projects', 'all');
+	
 	//Theses
 	//Add theses
 	$acl->addACL('com_jresearch', 'add', 'users', 'author', 'theses', 'all');

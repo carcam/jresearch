@@ -8,6 +8,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h1>
+<div style="clear:both"></div>
+<div><?php JHTML::_('Jresearch.icon','executeExport','projects'); ?></div>	
+
 <ul style="padding-left:0px;">
  
 <?php foreach($this->items as $project): ?>
