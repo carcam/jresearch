@@ -29,6 +29,8 @@ class JResearchProjectsController extends JController
 		$lang->load('com_jresearch.projects');
 		
 		$this->registerTask('show', 'show');
+		$this->registerTask('executeExport', 'executeExport');
+		
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
@@ -105,6 +107,42 @@ class JResearchProjectsController extends JController
 		JRequest::setVar('view', 'projects');
 		JRequest::serVar('layout', 'admin');
 		parent::display();
+	}
+	
+	/**
+	 * Triggered when the user clicks the submit button in the export projects
+	 * form.
+	 *
+	 */
+	function executeExport(){
+		$session = &JFactory::getSession();
+		JRequest::setVar('format', 'raw');
+		
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
+		require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'projectexporters'.DS.'factory.php');
+		$markedRecords = $session->get('markedRecords', null, 'jresearch');
+		if($markedRecords !== null){
+			if($markedRecords !== 'all'){
+				$model = &$this->getModel('Project', 'JResearchModel');
+				$projectsArray = array();
+				foreach($markedRecords as $id){
+					$projectsArray[] = $model->getItem($id);
+				}
+			}
+			
+			$format = 'doc';
+			
+			$exporter =& JResearchProjectExporterFactory::getInstance($format);
+			$output = $exporter->parse($projectsArray);
+			$document =& JFactory::getDocument();
+			$document->setMimeEncoding($exporter->getMimeEncoding());
+			$session->clear('markedRecords', 'jresearch');
+
+			$tmpfname = "jresearch_output.$format";
+			header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
+			echo $output;
+			
+		}
 	}
 }
 ?>
