@@ -347,6 +347,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication_external_author` (
   `id_publication` int(10) unsigned NOT NULL,
   `author_name` varchar(60) NOT NULL,
   `order` smallint(5) unsigned NOT NULL,
+  `teamid` int(10) unsigned NOT NULL,  
   PRIMARY KEY  (`id_publication`,`author_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -355,6 +356,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication_internal_author` (
   `id_publication` int(10) unsigned NOT NULL,
   `id_staff_member` int(10) unsigned NOT NULL,
   `order` smallint(6) NOT NULL,
+  `teamid` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_publication`,`id_staff_member`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

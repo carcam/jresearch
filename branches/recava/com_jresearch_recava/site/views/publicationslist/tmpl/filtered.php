@@ -22,7 +22,12 @@ require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publ
 		<?php echo !empty($this->lists['authors'])?'<span>'.$this->lists['authors'].'</span>':''; ?>						
 	</div>
 	<div style="clear:both"></div>
-	<div><?php JHTML::_('Jresearch.icon','add','publications'); ?> <?php JHTML::_('Jresearch.icon','executeExport','publications'); ?></div>	
+	<div><?php JHTML::_('Jresearch.icon','add','publications'); ?>
+		<?php $user = JFactory::getUser();
+			  if($user->guest == 0)
+			  	echo '<span style="width:20%;"><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=executeExport&amp;format=raw">Exportar</a>';
+		?>
+		<?php JHTML::_('Jresearch.icon','export','publications'); ?></div>	
 	<?php $label = JText::_('JRESEARCH_PUNCTUATION_AVERAGE'); ?>
 	<?php if(!empty($this->average))
 		printf("<div><h2>%s:&nbsp;%.2f</h2></div>", $label, $this->average); 
