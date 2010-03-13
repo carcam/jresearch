@@ -9,7 +9,14 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h1>
 <div style="clear:both"></div>
-<div><?php JHTML::_('Jresearch.icon','executeExport','projects'); ?></div>	
+
+<div>
+<?php $user = JFactory::getUser();
+	  if($user->guest == 0)
+	  	echo '<span style="width:20%;"><a href="index.php?option=com_jresearch&amp;controller=projects&amp;task=executeExport&amp;format=raw">Exportar</a>';
+?>
+
+<?php echo ''; //JHTML::_('Jresearch.icon','executeExport','projects'); ?></div>	
 
 <ul style="padding-left:0px;">
  

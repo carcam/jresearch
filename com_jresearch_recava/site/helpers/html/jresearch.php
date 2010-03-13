@@ -34,16 +34,19 @@ class JHTMLJresearch
 		if(in_array($controller, $availableController))
 		{
 			$authorized = JHTMLJResearch::authorize($task, $controller, $itemid, $userid);
-
 			if($authorized)
 			{
 				switch($controller)
 				{
 					case 'publications':
-						$task = ($task == 'add')?'new':$task;
-						echo '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="Edit publication">'
-						.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
-						.'</a>';
+						switch($task){
+							case 'add': case 'edit':
+								$task = ($task == 'add')?'new':$task;
+								echo '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="Edit publication">'
+								.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
+								.'</a>';						
+								break;
+						}
 						break;
 					default:
 						break;
@@ -106,7 +109,7 @@ class JHTMLJresearch
 								//Return true if I'm able to edit all publications or only mine
 								if(is_a($author, 'JResearchMember'))
 								{
-									if($canDo || ($canDoOwn && ($author->id == $user->id)) || $pub->created_by == $user->id)
+									if($canDo || ($canDoOwn && ($author->id == $user->id)))
 									{
 										return true;
 									}
@@ -126,6 +129,9 @@ class JHTMLJresearch
 									}
 								}
 							}
+								
+							if(($canDo || $canDoOwn) && $pub->created_by == $user->id)
+								return true;
 						}
 						elseif($itemid <= 0 && $canDo)
 						{
