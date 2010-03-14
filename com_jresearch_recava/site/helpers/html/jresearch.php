@@ -46,6 +46,11 @@ class JHTMLJresearch
 								.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
 								.'</a>';						
 								break;
+							case 'export':
+								echo '<a href="index.php?option=com_jresearch&view=publication&task=executeExport&format=raw'.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="'.JText::_('JRESEARCH_EXPORT_PUBLICATION').'">'
+								.JText::_('JRESEARCH_EXPORT').'<img src="'.JURI::base().'/components/com_jresearch/assets/export.png" alt="'.JText::_('JRESEARCH_EXPORT_PUBLICATION').' Publications Image"/>'
+								.'</a>';
+								break;
 						}
 						break;
 					default:
