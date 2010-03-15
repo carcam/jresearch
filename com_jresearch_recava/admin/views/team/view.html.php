@@ -41,6 +41,7 @@ class JResearchAdminViewTeam extends JResearchView
     	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));    	
     	
     	//Staff options
+    	$mainframe->setUserState('stafffilter_order', 'lastname');
     	$members = $membersModel->getData();
     	$memberOptions = array();
     	
