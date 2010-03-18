@@ -91,9 +91,11 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$id_team = $db->nameQuote('id_team');
 		$id = $db->nameQuote('id');
 		$id_member = $db->nameQuote('id_member');
+		$pub_external_author = $db->nameQuote('#__jresearch_publication_external_author');
 		
 		$query = "SELECT DISTINCT $id_publication FROM $pub_internal_author, $team_member WHERE $team_member.$id_team = $teamValue "
-				 ." AND $pub_internal_author.$id_staff_member = $team_member.$id_member";
+				 ." AND $pub_internal_author.$id_staff_member = $team_member.$id_member"
+				 ." UNION SELECT DISTINCT $id_publication FROM $pub_external_author WHERE teamid = $teamValue";
 		
 		$db->setQuery($query);
 		return $db->loadResultArray();
