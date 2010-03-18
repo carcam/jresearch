@@ -54,6 +54,13 @@ class JHTMLValidator{
 			regex=/^\d{4}$/i;
 			return regex.test(value); })
 		})');
+    	
+    	$doc->addScriptDeclaration('window.onDomReady(function() {
+			document.formvalidator.setHandler(\'quantity\', function(value) {
+			regex=/^([0-9]+[.][0-9]*|[0-9]*[.][0-9]+)$/i;
+			return regex.test(value); })
+		})');
+    	
     	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'language.php');
 		$extra = extra_word_characters();
     	$doc->addScriptDeclaration("window.onDomReady(function() {

@@ -87,7 +87,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php if(isset($this->publication)): ?>
 				<input value="<?php echo $this->publication->getImpactFactor(); ?>" size="10" name="impact_factor" <?php echo $this->publication->id_journal == null? 'disabled="disabled"': ''; ?> id="impact_factor" maxlength="5" class="validate-numeric" />
 			<?php else: ?>
-				<input value="" size="10" name="impact_factor" id="impact_factor" maxlength="5" class="validate-numeric" />			
+				<input value="" size="10" name="impact_factor" id="impact_factor" maxlength="5" class="validate-quantity" />			
 			<?php endif; ?>	
 			<br />
 			<label for="impact_factor" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_NUMBER'); ?></label>

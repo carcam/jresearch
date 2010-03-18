@@ -109,15 +109,16 @@ class JResearchViewPublicationsList extends JResearchView
     	if($params->get('filter_teams') == 'yes'){
 	    	$filter_team = $mainframe->getUserStateFromRequest('tabularpublicationsfilter_team', 'filter_team');    		
     		$teams = $teamsModel->getData();
+	        $Itemid = JRequest::getInt('Itemid', -1);	        	    		
         	$teamsOptions = array();        
 	        $teamsOptions[] = JHTML::_('select.option', -1 ,JText::_('JRESEARCH_ALL_TEAMS'));
 	        $lists['teams'] = '<ul id="dropdown-menu" class="dropdown">';
-	        $href = 'index.php?option=com_jresearch&amp;view=publicationslist&amp;layout=filtered&amp;task=filtered&amp;modelkey=tabular&amp;limitstart=0&amp;filter_team=-1';	        
+	        $href = 'index.php?option=com_jresearch&amp;view=publicationslist&amp;layout=filtered&amp;task=filtered&amp;modelkey=tabular&amp;limitstart=0&amp;filter_team=-1'.($Itemid != -1? '&amp;Itemid='.$Itemid:'');	        
 	        $lists['teams'] .= '<li><a href="#">'.JText::_('JRESEARCH_TEAMS').'</a>'; 	        
 	        $lists['teams'] .= '<ul>';
 	        $lists['teams'] .= '<li><a href="'.$href.'">'.JText::_('JRESEARCH_ALL_TEAMS').'</a>';	        
 	        foreach($teams as $t){
-	        	$href = 'index.php?option=com_jresearch&amp;view=publicationslist&amp;layout=filtered&amp;task=filtered&amp;modelkey=tabular&amp;limitstart=0&amp;filter_team='.$t->id;
+	        	$href = 'index.php?option=com_jresearch&amp;view=publicationslist&amp;layout=filtered&amp;task=filtered&amp;modelkey=tabular&amp;limitstart=0&amp;filter_team='.$t->id.($Itemid != -1? '&amp;Itemid='.$Itemid:'');
 	    		$lists['teams'] .= '<li><a title="'.$t->name.'" href="'.$href.'">'.$t->name.'</a>';
 	    	}    		
 	        $lists['teams'] .= '</ul></li>';
