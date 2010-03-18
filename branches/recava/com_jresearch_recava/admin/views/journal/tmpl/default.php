@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td><?php echo JText::_('JRESEARCH_IMPACT_FACTOR').': '?></td>
 		<td colspan="3">
-			<input name="impact_factor" id="impact_factor" size="3" maxlength="10" value="<?php echo isset($this->journal)?$this->journal->impact_factor:'' ?>" class="validate-number" />
+			<input name="impact_factor" id="impact_factor" size="3" maxlength="10" value="<?php echo isset($this->journal)?$this->journal->impact_factor:'' ?>" class="validate-quantity" />
 			<br />
 			<label for="impact_factor" class="labelform" ><?php echo JText::_('JRESEARCH_JOURNAL_PROVIDE_VALID_IMPACT_FACTOR'); ?></label>
 		</td>
