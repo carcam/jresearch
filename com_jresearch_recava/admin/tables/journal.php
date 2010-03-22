@@ -51,13 +51,13 @@ class JResearchJournal extends JTable
     
     function check()
     {
-    	$number_pattern = '/^[0-9]+$/';
+    	$number_pattern = '/^([0-9]+[.][0-9]*|[0-9]*[.][0-9]+|[0-9]+)$/';
     	
         if(!empty($this->impact_factor))
         {
         	if(!preg_match($number_pattern, $this->impact_factor))
         	{
-        		$this->setError(JText::_('Please provide an integer value for impact factor ('.$this->url.')'));
+        		$this->setError(JText::_('Please provide a valid number for impact factor ('.$this->title.')'));
         		return false;
         	}
         }
