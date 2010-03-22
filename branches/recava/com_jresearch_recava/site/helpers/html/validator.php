@@ -57,7 +57,7 @@ class JHTMLValidator{
     	
     	$doc->addScriptDeclaration('window.onDomReady(function() {
 			document.formvalidator.setHandler(\'quantity\', function(value) {
-			regex=/^([0-9]+[.][0-9]*|[0-9]*[.][0-9]+)$/i;
+			regex=/^([0-9]+[.][0-9]*|[0-9]*[.][0-9]+|[0-9]+)$/i;
 			return regex.test(value); })
 		})');
     	

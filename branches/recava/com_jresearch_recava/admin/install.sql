@@ -521,7 +521,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_journals` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
   `published` tinyint(4) NOT NULL default '0',
-  `impact_factor` int(11) NOT NULL default '0',
+  `impact_factor` float NOT NULL default '0',
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL,
   PRIMARY KEY  (`id`)
