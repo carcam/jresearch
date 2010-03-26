@@ -54,6 +54,33 @@ function setACL()
 	$acl->addACL('com_jresearch', 'export', 'users', 'administrator', 'publications', 'all');
 	$acl->addACL('com_jresearch', 'export', 'users', 'super administrator', 'publications', 'all');
 	
+	//Add publications
+	$acl->addACL('com_jresearch', 'add', 'users', 'author', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'editor', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'publisher', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'manager', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'administrator', 'publications', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'super administrator', 'publications', 'all');
+	
+	//Edit projects
+	$acl->addACL('com_jresearch', 'edit', 'users', 'registered', 'projects', 'own');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'author', 'projects', 'own');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'editor', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'publisher', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'manager', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'administrator', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'super administrator', 'projects', 'all');
+	
+	//Remove projects
+	$acl->addACL('com_jresearch', 'remove', 'users', 'registered', 'projects', 'own');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'author', 'projects', 'own');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'editor', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'publisher', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'manager', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'administrator', 'projects', 'all');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'super administrator', 'projects', 'all');
+	
+	
 	//Export projects
 	$acl->addACL('com_jresearch', 'export', 'users', 'registered', 'projects', 'own');
 	$acl->addACL('com_jresearch', 'export', 'users', 'author', 'projects', 'own');
