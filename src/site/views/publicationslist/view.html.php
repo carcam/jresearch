@@ -108,7 +108,7 @@ class JResearchViewPublicationsList extends JResearchView
     	
     	$doc = JFactory::getDocument();
     	$params = $mainframe->getParams('com_jresearch');    	
-    	$filter_pubtype = $params->get('filter_pubtype');
+    	$filter_pubtype = $params->get('filter_pubtype', '0');
     	
     	if($filter_pubtype != '0')
     	{
@@ -117,7 +117,7 @@ class JResearchViewPublicationsList extends JResearchView
     	}
     	
     	$user = JFactory::getUser();
-    	$filter_show = $params->get('filter_show');
+    	$filter_show = $params->get('filter_show', '0');
     	
     	//My publications
     	$id_member = -1;

@@ -190,7 +190,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 	
 	public function getTeams($memberId)
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$teams = array();
 		
 		$sql = 'SELECT '.$db->nameQuote('id_team').' FROM '.$db->nameQuote('#__jresearch_team_member').' WHERE '.$db->nameQuote('id_member').' = '.$db->Quote($memberId);
@@ -200,7 +200,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 		
 		foreach($ids as $id)
 		{
-			$team = new JResearchTeam($db);
+			$team = JTable::getInstance('Team', 'JResearch');
 			$team->load($id);
 			$teams[] = $team;
 		}

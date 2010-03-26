@@ -36,9 +36,10 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 			foreach($parser->data as $data){
 				$type = strtolower($data['entryType']);
 				if(!empty($type)){
-					$newPub =& JResearchPublication::getSubclassInstance($type);
+					$newPub = JTable::getInstance('Publication', 'JResearch');
 					if($newPub != null){
 						$j = 0;
+						$newPub->pubtype = $type;						
 						if(!empty($data['author'])){
 							foreach($data['author'] as $auth){
 								if(empty($auth['von']))
