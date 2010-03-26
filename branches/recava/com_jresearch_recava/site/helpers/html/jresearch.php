@@ -23,7 +23,7 @@ class JHTMLJresearch
 	public static function icon($task, $controller, $itemid=0, $userid=null)
 	{
 		$authorized = false;
-		$availableController = array('publications');
+		$availableController = array('publications', 'projects');
 		// Menu ID retention
 		$Menuid = JRequest::getVar('Itemid');
 		$MenuidText = !empty($Menuid)?'&Itemid='.$Menuid:'';
@@ -42,12 +42,22 @@ class JHTMLJresearch
 						switch($task){
 							case 'add': case 'edit':
 								$task = ($task == 'add')?'new':$task;
-								echo '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="Edit publication">'
+								echo '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="'.JText::_($task == 'add'? 'JRESEARCH_ADD_PUBLICATION':'JRESEARCH_EDIT_PUBLICATION').'">'
 								.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
 								.'</a>';						
 								break;
 						}
 						break;
+					case 'projects':
+						switch($task){
+							case 'add': case 'edit':
+								$task = ($task == 'add')?'new':$task;
+								echo '<a href="index.php?option=com_jresearch&view=project&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$MenuidText.'" title="'.JText::_($task == 'add'? 'JRESEARCH_ADD_PROJECT':'JRESEARCH_EDIT_PROJECT').'">'
+								.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
+								.'</a>';						
+								break;
+							}
+						break;						
 					default:
 						break;
 				}
@@ -170,7 +180,7 @@ class JHTMLJresearch
 										}
 									}
 									
-									if(($canDo || $canDoOwn) && $pub->created_by == $user->id)
+									if(($canDo || $canDoOwn) && $project->created_by == $user->id)
 										return true;
 									
 								}

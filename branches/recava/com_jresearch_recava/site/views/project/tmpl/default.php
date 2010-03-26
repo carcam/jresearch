@@ -11,6 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	  $ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
 	  	
 ?>
+<div style="float: right;"><?php JHTML::_('Jresearch.icon','edit','projects', $this->project->id); ?></div>
 <h1 class="componentheading"><?php echo $this->project->title; ?></h1>
 <table cellspacing="2" cellpadding="2">
 <tbody>

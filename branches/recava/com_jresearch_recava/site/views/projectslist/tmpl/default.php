@@ -17,7 +17,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 ?>
 
 <?php echo ''; //JHTML::_('Jresearch.icon','executeExport','projects'); ?></div>	
-
+<?php JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html'); ?>
+<div style="float: right;"><?php JHTML::_('Jresearch.icon','add','projects'); ?></div>
 <ul style="padding-left:0px;">
  
 <?php foreach($this->items as $project): ?>
@@ -99,7 +100,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<div><?php echo $contentArray[0]; ?></div>
 			<?php } ?>
 			<div style="text-align:left"><a href="index.php?option=com_jresearch&amp;task=show&amp;view=project&amp;id=<?php echo $project->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo JText::_('JRESEARCH_READ_MORE'); ?></a></div>
-			
+			<div style="text-align:left">
+				<span><?php JHTML::_('Jresearch.icon','edit', 'projects', $project->id); ?> <?php JHTML::_('Jresearch.icon','remove', 'projects', $project->id); ?></span>
+			</div>			
 		</div>
 
 	</li>	
