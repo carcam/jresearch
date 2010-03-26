@@ -100,7 +100,7 @@ class JResearchModelTeams extends JResearchModelList
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('name', 'published', 'ordering');
+		$orders = array('name', 'published');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('teamfilter_order', 'filter_order', 'name');
 		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('teamfilter_order_Dir', 'filter_order_Dir', 'ASC'));

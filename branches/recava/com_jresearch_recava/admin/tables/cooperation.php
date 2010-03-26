@@ -43,6 +43,15 @@ class JResearchCooperation extends JTable
   	 * @var string
   	 */
   	public $url;
+  	
+  	//Interchanges
+  	public $person_name;
+  	public $receptor;
+  	public $emisor;
+  	public $start_date;
+  	public $end_date;
+  	public $type_ic;
+  	
   	public $checked_out;
   	public $checked_out_time;
   	public $published;

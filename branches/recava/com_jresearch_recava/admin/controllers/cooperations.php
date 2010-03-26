@@ -66,10 +66,13 @@ class JResearchAdminCooperationsController extends JController
 	function edit()
 	{
 		JResearchToolbar::editCooperationAdminToolbar();
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
+		
 		$cid = JRequest::getVar('cid', array());
 
 		$view = &$this->getView('Cooperation', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Cooperation', 'JResearchModel');
+		$teamModel = & $this->getModel('Teams', 'JResearchModel');
 
 		if(!empty($cid)){
 			$coop = $model->getItem($cid[0]);
@@ -84,6 +87,7 @@ class JResearchAdminCooperationsController extends JController
 				{
 					$coop->checkout($user->get("id"));
 					$view->setModel($model,true);
+					$view->setModel($teamModel);
 					$view->display();					
 				}
 			}else{
@@ -92,6 +96,7 @@ class JResearchAdminCooperationsController extends JController
 			}			
 		}else{
 			$view->setModel($model,true);
+			$view->setModel($teamModel);
 			$view->display();
 		}
 	}
