@@ -235,7 +235,7 @@ class JResearchAdminPublicationsController extends JController
 		$uploadedFile = $fileArray['tmp_name'];
 		//$savedRecords = 0;
 
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'importers'.DS.'factory.php');
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'importers'.DS.'factory.php');
 
 		if($fileArray == null || $uploadedFile == null){
 			JError::raiseWarning(1, JText::_('JRESEARCH_NO_INPUT_FILE'));
