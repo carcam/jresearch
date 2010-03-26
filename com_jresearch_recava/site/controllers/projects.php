@@ -30,6 +30,7 @@ class JResearchProjectsController extends JController
 		
 		$this->registerTask('show', 'show');
 		$this->registerTask('executeExport', 'executeExport');
+		$this->registerTask('new', 'edit');		
 		$this->registerTask('add', 'edit');
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('apply', 'save');
