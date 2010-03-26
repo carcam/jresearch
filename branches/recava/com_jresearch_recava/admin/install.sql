@@ -266,6 +266,11 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
   `created_by` int(10) default NULL,
+  `publications` varchar(255) default NULL, 	 
+	`ensayo_clinico` varchar(255) default NULL, 	 
+	`code` varchar(255) default NULL, 	 
+	`acronimo` varchar(255) default NULL, 	 
+	`text_id_financier` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`),
   INDEX `id_research_area` (`id_research_area`)

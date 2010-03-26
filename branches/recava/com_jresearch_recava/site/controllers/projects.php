@@ -30,10 +30,16 @@ class JResearchProjectsController extends JController
 		
 		$this->registerTask('show', 'show');
 		$this->registerTask('executeExport', 'executeExport');
+		$this->registerTask('add', 'edit');
+		$this->registerTask('edit', 'edit');
+		$this->registerTask('apply', 'save');
+		$this->registerTask('save', 'save');
+		$this->registerTask('cancel', 'cancel');
 		
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'projectslist');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'project');		
 	}
@@ -64,9 +70,9 @@ class JResearchProjectsController extends JController
 		JRequest::setVar('filter_order_Dir', $order_Dir);
 		
 		// Set the view and the model
-		$model =& $this->getModel('ProjectsList', 'JResearchModel');
-		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-		$view =& $this->getView('ProjectsList', 'html', 'JResearchView');
+		$model = $this->getModel('ProjectsList', 'JResearchModel');
+		$areaModel = $this->getModel('ResearchArea', 'JResearchModel');
+		$view = $this->getView('ProjectsList', 'html', 'JResearchView');
 		$view->setModel($model, true);
 		$view->setModel($areaModel);
 		$view->display();		
@@ -78,10 +84,42 @@ class JResearchProjectsController extends JController
 	* @access public
 	*/
 	function edit(){
+		$cid = JRequest::getVar('id');
+		$Itemid = JRequest::getVar('Itemid');
 		
-		JRequest::setVar('view', 'projects');
-		JRequest::serVar('layout', 'edit');
-		parent::display();
+		$view = $this->getView('Project', 'html', 'JResearchView');
+		$projModel = $this->getModel('Project', 'JResearchModel');	
+		$finModel = $this->getModel('Financiers', 'JResearchModel');
+		$model = $this->getModel('ResearchAreasList', 'JResearchModel');
+		
+		if($this->getTask() == 'edit')
+		{
+			$project = $projModel->getItem($cid);
+			
+			if(!empty($project)){
+				$user = JFactory::getUser();
+				
+				// Verify if it is checked out
+				if($project->isCheckedOut($user->get('id')))
+				{
+					$this->setRedirect('index.php?option=com_jresearch&controller=projects&Itemid='.$Itemid, JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+				}
+				else
+				{
+					$publication->checkout($user->get('id'));	
+				}
+			}
+			else
+			{
+				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+			}
+		}
+		
+		$view->setLayout('edit');
+		$view->setModel($projModel, 'Project');
+		$view->setModel($finModel, 'Financiers');
+		$view->setModel($model, 'Researchareaslist');
+		$view->display();		
 	}
 
 	/**
@@ -144,5 +182,134 @@ class JResearchProjectsController extends JController
 			
 		}
 	}
+	
+/**
+	 * Invoked when an administrator has decided to the information of a project.
+	 *
+	 */
+	function save(){
+		global $mainframe;
+	    if(!JRequest::checkToken())
+		{
+		    $this->setRedirect('index.php?option=com_jresearch&controller=projects');
+		    return;
+		}
+		
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		
+		$db = JFactory::getDBO();
+		$project = JTable::getInstance('Project', 'JResearch');
+		$user = JFactory::getUser();
+
+		// Bind request variables to publication attributes	
+		$post = JRequest::get('post');		
+		
+		$project->bind($post);
+		$project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
+		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		
+		//Upload photo
+		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
+		$delete = JRequest::getVar('delete');
+		JResearch::uploadImage(	$project->url_project_image, 	//Image string to save
+								$fileArr, 			//Uploaded File array
+								'assets'.DS.'projects'.DS, //Relative path from administrator folder of the component
+								($delete == 'on')?true:false,	//Delete?
+								 _PROJECT_IMAGE_MAX_WIDTH_, //Max Width
+								 _PROJECT_IMAGE_MAX_HEIGHT_ //Max Height
+		);
+
+		//Time to set the authors
+		$maxAuthors = JRequest::getInt('nmembersfield');
+		$k = 0;
+	
+		for($j=0; $j<=$maxAuthors; $j++){
+			$value = JRequest::getVar("membersfield".$j);
+			$flagValue = JRequest::getVar("check_membersfield".$j);
+			$flag = $flagValue == 'on'?true:false;
+			if(!empty($value)){
+				$project->setAuthor(trim($value), $k, is_numeric($value), $flag);
+				$k++;
+			}			
+		}
+		
+		//Set financiers for the project
+		if(empty($project->text_id_financier)){
+			$financiers = JRequest::getVar('id_financier');
+			
+			if(is_array($financiers))
+			{
+				foreach($financiers as $fin)
+				{
+					$id = (int) $fin;
+					
+					$project->setFinancier($id);
+				}
+			}
+		}
+		// Set the id of the author if the item is new
+		if(empty($project->id))
+			$project->created_by = $user->get('id');
+		
+		// Validate and save
+		$task = JRequest::getVar('task');
+		if($project->check()){
+			if($project->store()){
+				if($task == 'save')
+					$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_PROJECT_SUCCESSFULLY_SAVED'));
+				elseif($task == 'apply') 
+					$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$project->id, JText::_('JRESEARCH_PROJECT_SUCCESSFULLY_SAVED'));					
+
+				// Trigger event
+				$arguments = array('project', $project->id);
+				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
+					
+			}else{
+				if($db->getErrorNum() == 1062)				
+					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+				else
+					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$db->getErrorMsg());				
+				
+				$idText = !empty($project->id) && $task == 'apply'?'&cid[]='.$project->id:'';
+				$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit'.$idText);					
+			}
+		}else{
+			for($i=0; $i<count($project->getErrors()); $i++)
+				JError::raiseWarning(1, $project->getError($i));
+				
+			$idText = !empty($project->id)?'&cid[]='.$project->id:'';			
+			$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit'.$idText);				
+		}
+		
+		if(!empty($project->id)){
+			$user =& JFactory::getUser();
+			if(!$project->isCheckedOut($user->get('id'))){
+				if(!$project->checkin())
+					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
+			}
+		}
+		
+	}
+	
+	/**
+	 * Invoked when pressing cancel button in the form for editing publications.
+	 *
+	 */
+	function cancel(){
+		$id = JRequest::getInt('id');
+		$model = &$this->getModel('Project', 'JResearchModel');
+		$Itemid = JRequest::getVar('Itemid');
+		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
+			
+		if($id != null){
+			$project = $model->getItem($id);
+			if(!$project->checkin()){
+				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+			}
+		}
+		
+		$this->setRedirect('index.php?option=com_jresearch&controller=projects'.$ItemidText.$viewText);
+	}
+	
 }
 ?>

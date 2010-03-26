@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_NEW_PROJECT">
+		<message>JRESEARCH_NEW_PROJECT_VIEW_DESCRIPTION</message>
+	</layout>
+	<state> 
+		<name>JRESEARCH_NEW_PROJECT</name>
+		<description>JRESEARCH_NEW_PROJECT_VIEW_DESCRIPTION</description>
+		<url>
+			<param type="hidden" name="task" default="add" />
+		</url>
+	</state>
+</metadata>

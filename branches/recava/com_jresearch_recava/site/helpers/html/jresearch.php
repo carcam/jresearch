@@ -46,11 +46,6 @@ class JHTMLJresearch
 								.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
 								.'</a>';						
 								break;
-							case 'export':
-								echo '<a href="index.php?option=com_jresearch&view=publication&task=executeExport&format=raw'.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="'.JText::_('JRESEARCH_EXPORT_PUBLICATION').'">'
-								.JText::_('JRESEARCH_EXPORT').'<img src="'.JURI::base().'/components/com_jresearch/assets/export.png" alt="'.JText::_('JRESEARCH_EXPORT_PUBLICATION').' Publications Image"/>'
-								.'</a>';
-								break;
 						}
 						break;
 					default:
@@ -92,7 +87,7 @@ class JHTMLJresearch
 							&& ($task == 'edit' || $task == 'remove'))
 						? true 
 						: false;
-			
+
 			//I'm able to do specific task?
 			if($canDo || $canDoOwn)
 			{
@@ -156,7 +151,7 @@ class JHTMLJresearch
 								//Return true if I'm able to edit all publications or only mine
 								if(is_a($author, 'JResearchMember'))
 								{
-									if($canDo || ($canDoOwn && ($author->id == $user->id)) || $project->created_by == $user->id)
+									if($canDo || ($canDoOwn && ($author->id == $user->id)))
 									{
 										return true;
 									}
@@ -174,6 +169,10 @@ class JHTMLJresearch
 											return true;
 										}
 									}
+									
+									if(($canDo || $canDoOwn) && $pub->created_by == $user->id)
+										return true;
+									
 								}
 							}
 						}
