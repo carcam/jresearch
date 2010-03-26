@@ -54,6 +54,40 @@ JHTML::_('behavior.modal');
 	<tr>
 		<td colspan="4"><?php echo $this->editor->display( 'description',  $this->coop?$this->coop->description:'' , '100%', '350', '75', '20' ) ; ?></td>
 	</tr>
+	<tr>
+		<th colspan="4"><?php echo JText::_('JRESEARCH_COOPERATION_INTERCHANGE')?></th>
+	</tr>
+	<tr>
+		<th><?php echo JText::_('JRESEARCH_COOPERATION_PERSON_NAME')?></th>
+		<td>
+			<input name="person_name" id="person_name" size="50" maxlength="100" class="required" value="<?php echo $this->coop?$this->coop->person_name:'' ?>" />
+			<br /><label for="person_name" class="labelform"><?php echo JText::_('Please provide a name. Alphabetic characters plus _- and spaces are allowed.'); ?></label>
+		</td>
+		<th><?php echo JText::_('JRESEARCH_COOPERATION_TOI')?></th>
+		<td>
+			<?php echo $this->toiElement; ?>
+		</td>
+	</tr>
+	<tr>
+		<th><?php echo JText::_('JRESEARCH_START_DATE').': ' ?></th>
+		<?php $startDate = $this->coop?$this->coop->start_date:''; ?>
+		<td>
+			<?php echo JHTML::_('calendar', $startDate ,'start_date', 'start_date', '%Y-%m-%d', array('class'=>'validate-date')); ?><br />
+			<label for="start_date" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_DATE'); ?></label> 
+		</td>
+		<th><?php echo JText::_('JRESEARCH_DEADLINE').': ' ?></th>
+		<?php $endDate = $this->coop?$this->coop->end_date:''; ?>
+		<td>
+			<?php echo JHTML::_('calendar', $endDate ,'end_date', 'end_date', '%Y-%m-%d', array('class'=>'validate-date')); ?><br />
+			<label for="end_date" class="labelform"><?php echo JText::_('JRESEARCH_PROVIDE_VALID_DATE'); ?></label>
+		</td>
+	</tr>
+	<tr>
+		<th><?php echo JText::_('JRESEARCH_COOPERATION_RECEPTOR')?></th>
+		<td><?php echo $this->receptorElement; ?></td>
+		<th><?php echo JText::_('JRESEARCH_COOPERATION_EMISOR')?></th>
+		<td><?php echo $this->emisorElement; ?></td>
+	</tr>
 </tbody>
 </table>
 <input type="hidden" name="option" value="com_jresearch" />

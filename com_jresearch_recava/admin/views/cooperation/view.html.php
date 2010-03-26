@@ -28,7 +28,10 @@ class JResearchAdminViewCooperation extends JResearchView
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$model =& $this->getModel();
+    	$teamModel =& $this->getModel('teams');
+    	
 	    $coop = $model->getItem($cid[0]);
+	    $teams = $teamModel->getData(null,true);
     	
     	$arguments = $coop ? array('cooperation', $coop->id) : array('cooperation', null);
     	
@@ -42,10 +45,32 @@ class JResearchAdminViewCooperation extends JResearchView
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations ORDER by ordering ASC');
     	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $coop?$coop->ordering:0);
     	
+    	//Receptor & emisor groups & TOI list
+    	$teamOptions = array();
+    	foreach($teams as $team)
+    	{
+    		$teamOptions[] = JHTML::_('select.option', $team->id, $team->name);
+    	}
+    	$receptorElement = JHTML::_('select.genericlist', $teamOptions ,'receptor', 'class="inputbox"' ,'value', 'text' , $coop?$coop->receptor:0);
+    	$emisorElement = JHTML::_('select.genericlist', $teamOptions ,'emisor', 'class="inputbox"' ,'value', 'text' , $coop?$coop->emisor:0);
+    	
+    	$toiOptions = array();
+    	$toiOptions[] = JHTML::_('select.option', '1', JText::_('JRESEARCH_COOPERATION_TOI_1'));
+    	$toiOptions[] = JHTML::_('select.option', '2', JText::_('JRESEARCH_COOPERATION_TOI_2'));
+    	$toiOptions[] = JHTML::_('select.option', '3', JText::_('JRESEARCH_COOPERATION_TOI_3'));
+    	$toiOptions[] = JHTML::_('select.option', '4', JText::_('JRESEARCH_COOPERATION_TOI_4'));
+    	$toiOptions[] = JHTML::_('select.option', '5', JText::_('JRESEARCH_COOPERATION_TOI_5'));
+    	$toiOptions[] = JHTML::_('select.option', '6', JText::_('JRESEARCH_COOPERATION_TOI_6'));
+    	
+    	$toiElement = JHTML::_('select.genericlist', $toiOptions ,'type_ic', 'class="inputbox"' ,'value', 'text' , $coop?$coop->type_ic:0);
+    	
 		$editor =& JFactory::getEditor();    	
     	
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('orderList', $orderList);
+    	$this->assignRef('emisorElement', $emisorElement);
+    	$this->assignRef('receptorElement', $receptorElement);
+    	$this->assignRef('toiElement', $toiElement);
 		$this->assignRef('editor', $editor);
 		$this->assignRef('coop', $coop, JResearchFilter::OBJECT_XHTML_SAFE);
     	
