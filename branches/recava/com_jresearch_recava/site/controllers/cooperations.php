@@ -72,9 +72,12 @@ class JResearchCooperationsController extends JController
 	*/
 	function show()
 	{
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
 		$model =& $this->getModel('Cooperation', 'JResearchModel');
+		$teamModel =& $this->getModel('Team', 'JResearchModel');
 		$view =& $this->getView('Cooperation', 'html', 'JResearchView');
 		$view->setModel($model, true);
+		$view->setModel($teamModel);
 		$view->display();				
 	}
 	
