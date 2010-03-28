@@ -45,10 +45,19 @@ function moveAllFrom(source, target, add){
 		control = sourceControl.options[i].cloneNode(true);
 		targetControl.appendChild(control);					
 		if(add)
-			addHiddenField(current.value);
-		else
-			removeHiddenField(current.value);		
+			addHiddenField(sourceControl.options[i].value);
 	}
+	
+	if(!add){
+		var staffCount = document.adminForm["staffCount"];
+		var n = parseInt(staffCount.getAttribute('value'));
+		for(j = 0; j < n; j++){
+			if(document.adminForm['member'+j] != null)
+				document.adminForm.removeChild(document.adminForm['member'+j]);
+		}
+		staffCount.setAttribute('value', 0);
+	}
+	
 	sourceControl.innerHTML = '';
 }
 
@@ -113,7 +122,7 @@ function insertAfter( referenceNode, newNode )
 }
 
 function addHiddenField(value){
-	staffCount = document.getElementById("staffCount");
+	staffCount = document.adminForm["staffCount"];
 	n = parseInt(staffCount.getAttribute('value'));
 	staffCount.setAttribute('value', n + 1);
 	newInput = document.createElement("input");
@@ -125,16 +134,28 @@ function addHiddenField(value){
 }
 
 function removeHiddenField(value){
-	staffCount = document.getElementById("staffCount");
-	n = parseInt(staffCount.getAttribute('value'));
-
-	for(i=0; i<=n; i++){
+	var staffCount = document.adminForm["staffCount"];
+	var n = parseInt(staffCount.getAttribute('value'));
+	var k = -1;
+	for(i = 0; i < n; i++){
 		input = document.getElementById("member"+i);
 		if(input != null){
 			if(input.getAttribute('value') == value){
 				document.adminForm.removeChild(input);
+				staffCount.setAttribute('value', n - 1);
+				//Lets adjust indices
+				k = i;
 				break;
 			}
 		}
-	}	
+	}
+	
+	if(k != -1){
+		for(j = k + 1; j < n; j++){
+			if(document.adminForm['member'+j] != null){
+				document.adminForm['member'+j].setAttribute('name', 'member'+(j - 1));
+				document.adminForm['member'+j].setAttribute('id', 'member'+(j - 1));				
+			}
+		}
+	}
 }

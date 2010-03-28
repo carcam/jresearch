@@ -163,9 +163,6 @@ class JResearchAdminStaffController extends JController
 	* importing members from Joomla users table.
 	*/
 	function import(){
-
-		$db =& JFactory::getDBO();
-		
 		// Get the maximum index for members 
 		$n = JRequest::getInt('staffCount');
 		$count = 0;
@@ -173,7 +170,8 @@ class JResearchAdminStaffController extends JController
 		for($i=0; $i<= $n; $i++){
 			$username = JRequest::getVar('member'.$i);
 			if($username !== null){
-				$newMember = new JResearchMember($db);
+				$newMember = JTable::getInstance('Member', 'JResearch');
+				$newMember->ordering = (int)$newMember->getNextOrder();
 				$newMember->bindFromUser($username);
 				if($newMember->store())
 					$count++;
