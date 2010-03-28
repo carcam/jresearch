@@ -55,12 +55,12 @@ class JResearchAdminViewCooperation extends JResearchView
     	$emisorElement = JHTML::_('select.genericlist', $teamOptions ,'emisor', 'class="inputbox"' ,'value', 'text' , $coop?$coop->emisor:0);
     	
     	$toiOptions = array();
-    	$toiOptions[] = JHTML::_('select.option', '1', JText::_('JRESEARCH_COOPERATION_TOI_1'));
-    	$toiOptions[] = JHTML::_('select.option', '2', JText::_('JRESEARCH_COOPERATION_TOI_2'));
-    	$toiOptions[] = JHTML::_('select.option', '3', JText::_('JRESEARCH_COOPERATION_TOI_3'));
-    	$toiOptions[] = JHTML::_('select.option', '4', JText::_('JRESEARCH_COOPERATION_TOI_4'));
-    	$toiOptions[] = JHTML::_('select.option', '5', JText::_('JRESEARCH_COOPERATION_TOI_5'));
-    	$toiOptions[] = JHTML::_('select.option', '6', JText::_('JRESEARCH_COOPERATION_TOI_6'));
+    	$toiOptions[] = JHTML::_('select.option', '1', JText::_('JRESEARCH_COOPERATION_INTERCHANGE_TYPE_1'));
+    	$toiOptions[] = JHTML::_('select.option', '2', JText::_('JRESEARCH_COOPERATION_INTERCHANGE_TYPE_2'));
+    	$toiOptions[] = JHTML::_('select.option', '3', JText::_('JRESEARCH_COOPERATION_INTERCHANGE_TYPE_3'));
+    	$toiOptions[] = JHTML::_('select.option', '4', JText::_('JRESEARCH_COOPERATION_INTERCHANGE_TYPE_4'));
+    	$toiOptions[] = JHTML::_('select.option', '5', JText::_('JRESEARCH_COOPERATION_INTERCHANGE_TYPE_5'));
+    	$toiOptions[] = JHTML::_('select.option', '6', JText::_('JRESEARCH_COOPERATION_INTERCHANGE_TYPE_6'));
     	
     	$toiElement = JHTML::_('select.genericlist', $toiOptions ,'type_ic', 'class="inputbox"' ,'value', 'text' , $coop?$coop->type_ic:0);
     	

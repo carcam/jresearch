@@ -29,6 +29,8 @@ class JResearchViewCooperation extends JResearchView
 		
 		// Get data from the model
 		$model = &$this->getModel();
+		$teamModel =& $this->getModel('team');
+		
 		$item = $model->getItem($id);
 
 		if(empty($item)){
@@ -51,6 +53,7 @@ class JResearchViewCooperation extends JResearchView
 
 		$doc->setTitle(JText::_('JRESEARCH_COOPERATION').' - '.$item->name);
 		$this->assignRef('coop', $item, JResearchFilter::OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
+		$this->assignRef('team', $teamModel);
 		$this->assignRef('editor', $editor);
 
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
