@@ -24,15 +24,16 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
 
 $document = &JFactory::getDocument();
-$url = JURI::base();
+$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 $document->addStyleSheet($url.'components/com_jresearch/css/jresearch_styles.css');
 
 // Require specific controller. Publications is the default
 $controller = JRequest::getVar('controller', null);
 $task = JRequest::getVar('task');
 $prefix = 'JResearchAdmin';
+$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas', 'financiers');
 
-if($controller == null){
+if($controller == null || !in_array($controller, $availableControllers)){
 	// It is the default controller
 	require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
 	$classname = $prefix.'Controller';
@@ -42,7 +43,7 @@ if($controller == null){
 		// It is the default controller
 		require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
 		$classname = $prefix.'Controller';
-	}else{				
+	}else{			
 		require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controllers'.DS.$controller.'.php');
 		$inlineCitingTasks = array('cite', 'citeFromDialog', 'generateBibliography', 'searchByPrefix', 'ajaxRemoveAll', 'ajaxGenerateBibliography', 'removeCitedRecord' ); 
 		

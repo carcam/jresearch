@@ -30,14 +30,18 @@ $controller = JRequest::getVar('controller', null);
 // Verify if view parameter is set (usually for frontend requests and map to a controller
 if($controller === null)
 	$controller = __mapViewToController();
-
+else{
+	$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas');
+	if(!in_array($controller, $availableControllers))
+		$controller = 'researchAreas';
+}
 
 require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
 
 //Require media and styles
 $document = &JFactory::getDocument();
-$url = JURI::base();
-$document->addStyleSheet($url.'components/com_jresearch/css/jresearch_styles.css');
+$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+$document->addStyleSheet($url.'/components/com_jresearch/css/jresearch_styles.css');
 
 $session =& JFactory::getSession();
 
