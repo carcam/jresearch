@@ -31,6 +31,11 @@ $controller = JRequest::getVar('controller', null);
 // Verify if view parameter is set (usually for frontend requests and map to a controller
 if($controller === null)
 	$controller = __mapViewToController();
+else{
+	$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas');
+	if(!in_array($controller, $availableControllers))
+		$controller = 'researchAreas';
+}
 
 require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
 

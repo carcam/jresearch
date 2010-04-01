@@ -32,8 +32,9 @@ $document->addStyleSheet($url.'administrator/components/com_jresearch/css/jresea
 $controller = JRequest::getVar('controller', null);
 $task = JRequest::getVar('task');
 $prefix = 'JResearchAdmin';
+$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas', 'financiers', 'member_positions');
 
-if($controller == null){
+if($controller == null || !in_array($controller, $availableControllers)){
 	// It is the default controller
 	require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
 	$classname = $prefix.'Controller';
