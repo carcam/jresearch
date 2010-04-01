@@ -216,7 +216,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	private function _buildQueryWhere($published = false){
 		global $mainframe;
 		
-		$db = & JFactory::getDBO();
+		$db =  JFactory::getDBO();
 		$modelKey = JRequest::getVar('modelkey', '');
 				
 		$filter_state = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_state', 'filter_state');
@@ -385,9 +385,10 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		while($currentpos < $textlength){
 			switch($text{$currentpos}){
 				case '+':
-					if(!$literalMode)
+					if(!$literalMode){
 						$requiredMode = true;
-					else
+						$readToken = true;
+					}else
 						$candidateToken .= $text{$currentpos};
 					break;
 				case '"':
