@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_FACILITIES">
+		<message>JRESEARCH_FACILITIES_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_FACILITIES</name>
+		<description>JRESEARCH_FACILITIES_VIEW_MESSAGE</description>
+		
+		<params>	
+		</params>
+	</state>
+</metadata>
