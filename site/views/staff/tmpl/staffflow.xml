@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_STAFF_FLOW">
+		<message>JRESEARCH_STAFF_FLOW_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_STAFF_FLOW</name>
+		<description>JRESEARCH_STAFF_FLOW_VIEW_MESSAGE</description>
+		
+		<params>
+			<param name="former_members" type="radio" default="0" label="Which members?" description="PARAMFORMERMEMBERS">
+				<option value="0">All</option>
+				<option value="-1">Only real members</option>
+				<option value="1">Only former members</option>
+			</param>
+			
+			<param name="ordering" type="radio" default="0" label="Order by" description="PARAMORDERINGMEMBERS">
+				<option value="0">Last name</option>
+				<option value="1">Ordering</option>
+			</param>
+			
+			<param name="caption_text" type="text" default="Scroll through our members" size="40" label="Caption" description="PARAMCAPTIONTEXT" />
+		
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			
+			<param name="cssfile" type="text" default="" size="50" label="Cascading stylesheet file" description="PARAMCSSFILE" />
+			
+			<param name="alphareflect" type="radio" default="0" label="Transparent reflections" description="PARAMALPHAREFLECT">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="fadetocolor" type="text" default="#000000" label="Fade to color" description="PARAMFADETOCOLOR" />
+			<param name="tintcolor" type="text" default="" label="Tint color" description="PARAMTINTCOLOR" />
+			<param name="reflectresize" type="text" default="35" label="Thumbnail size percent" description="PARAMREFLECTSIZE" />
+			<param name="reflectheight" type="text" default="50" label="Reflection height percent" description="PARAMREFLECTHEIGHT" />
+			<param name="imageslider" type="radio" default="1" label="Image slider" description="PARAMIMAGESLIDER">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="captions" type="radio" default="1" label="Captions" description="PARAMCAPTIONS">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="imagelimit" type="text" default="" label="Image limit" description="PARAMIMAGELIMIT" />
+			<param name="glidetoimage" type="text" default="1" label="Glide to image" description="PARAMGLIDETOIMAGE" />
+			<param name="imagestacksize" type="text" default="4" label="Image stack size" description="PARAMIMAGESTACKSIZE" />
+	
+			<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+				<option value="1">Use global</option>
+				<option value="0">No caching</option>
+			</param>
+			<param name="cache_time" type="text" default="15" label="Cache Time" description="The time before the module is recached" />
+			<param name="imagethumbnailclass" type="text" default="" size="25" label="Image thumbnail class" description="PARAMIMAGETHUMBNAILCLASS" />
+		</params>
+	</state>
+</metadata>
