@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 global $mainframe;
 
 // Common needed files
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
+require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'init.php');
 require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
 
 //Set ACL
@@ -38,11 +38,6 @@ else{
 }
 
 require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
-
-//Require media and styles
-$document = &JFactory::getDocument();
-$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-$document->addStyleSheet($url.'/components/com_jresearch/css/jresearch_styles.css');
 
 //Session
 $session =& JFactory::getSession();

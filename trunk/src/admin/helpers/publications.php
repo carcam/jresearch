@@ -419,7 +419,68 @@ class JResearchPublicationsHelper{
 
 		return $text;
 	}
+	
+	/**
+	 * Remove braces {} from Bibtex titles. It assumes bibtex entities for accented 
+	 * characters have been parsed into utf8 characters, it is recommended to call this 
+	 * function after bibCharsToUtf8FromString function.
+	 * 
+	 * @param string $title
+	 */
+	public static function formatBibtexTitleForImport($title){
+		$masterPattern = '/\{([-_,:;.\s\d\w]*)\}/';
+		$replacementPattern = "$1";
+		$matches = array();
+		$result = $title;
+		$result = preg_replace($masterPattern, $replacementPattern, $result, PREG_SET_ORDER);
+				
+		return $result;
+	}
+	
+	/**
+	 * Takes a title and embraces with{} all words (except the 1st) containing non-lower case characters, so
+	 * external tools interprets the word-case literally. 
+	 * @param string $title
+	 * @return string
+	 */
+	public static function formatBibtexTitleForExport($text){
+  		$n = JString::strlen($text);
+		if($n <= 0) 
+			return '';
+		
+		$previousUpperCase = false;
+		$title = JString::ucfirst($text);
+		$result = '';
+		$openBraces = false;
+		for($i = 0; $i < $n; $i++){
+			if(ctype_alpha($title{$i})){
+				if(ctype_upper($title{$i}) && !$previousUpperCase){
+					$result .= '{'.$title{$i};
+					$previousUpperCase = true;
+					$openBraces = true;
+				}elseif(!ctype_upper($title{$i}) && $previousUpperCase){
+					$result .= '}'.$title{$i};
+					$previousUpperCase = false;					
+					$openBraces = false;
+				}else{
+					$result .= $title{$i};					
+				}
+			}else{
+				if($openBraces){  
+					$result .= '}'.$title{$i};
+            		$openBraces = false;
+        		}else{
+					$result .= $title{$i};        
+        		}
+        		$previousUpperCase = false;        
+			}
+			
+			if($openBraces && $i == $n - 1)
+        		$result .= '}';
+		}
+		
+		return $result;		
+	}
 
 }
-
 ?>

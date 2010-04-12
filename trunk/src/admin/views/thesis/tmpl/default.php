@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<legend><?php echo JText::_('JRESEARCH_REQUIRED')?></legend>
 	<div class="divTable">
 		<div class="divTR">
-			<div class="divTd"><label for="title"><?php echo JText::_('Title').': '?></label></div>
+			<div class="divTd"><label for="title"><?php echo JText::_('JRESEARCH_TITLE').': '?></label></div>
 			<div class="divTdl">
 				<input name="title" id="title" size="50" maxlength="255" class="required" value="<?php echo $this->thesis?$this->thesis->title:'' ?>" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'title', JText::_('JRESEARCH_THESIS_PROVIDE_VALID_TITLE')); ?>			
