@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<th class="formheader" colspan="4"><?php echo JText::_('JRESEARCH_BASIC')?></th>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('Title').': '?></td>
+		<td><?php echo JText::_('JRESEARCH_TITLE').': '?></td>
 		<td colspan="3">
 			<input name="title" id="title" size="60" maxlength="255" value="<?php echo $this->publication?$this->publication->title:'' ?>" class="required" />
 			<br />
