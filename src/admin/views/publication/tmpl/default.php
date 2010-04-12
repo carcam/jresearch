@@ -28,7 +28,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div class="divTable">
 	    <div class="divTR">
 	        <div class="divTd">
-				<label for="title"><?php echo JText::_('Title').': '?></label>
+				<label for="title"><?php echo JText::_('JRESEARCH_TITLE').': '?></label>
 			</div>
 			<div class="divTdl">			
 				<input name="title" id="title" size="50" maxlength="255" value="<?php echo isset($this->publication)?$this->publication->title:'' ?>" class="required" />

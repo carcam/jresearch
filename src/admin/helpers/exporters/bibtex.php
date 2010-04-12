@@ -93,6 +93,10 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 			foreach($properties as $p){
 				if(isset($publication->$p)){
 					$value = JResearchPublicationsHelper::utf8ToBibCharsFromString($publication->$p);
+					
+					if($p == 'title')
+						$value = JResearchPublicationsHelper::formatBibtexTitleForExport($value);					
+
 					if(!empty($value)){
 						$output .= "$p = \"$value\",";
 						$output .= "\n";
