@@ -31,7 +31,7 @@ $document->addStyleSheet($url.'components/com_jresearch/css/jresearch_styles.css
 $controller = JRequest::getVar('controller', null);
 $task = JRequest::getVar('task');
 $prefix = 'JResearchAdmin';
-$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas', 'financiers');
+$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas', 'financiers', 'courses', 'journals');
 
 if($controller == null || !in_array($controller, $availableControllers)){
 	// It is the default controller
