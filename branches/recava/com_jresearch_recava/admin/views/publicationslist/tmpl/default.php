@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th width="1%">#</th>
 			<th align="center" width="1%"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th class="title" width="29%"><?php echo JHTML::_('grid.sort',  JText::_('Title'), 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th class="title" width="29%"><?php echo JHTML::_('grid.sort',  JText::_('JRESEARCH_TITLE'), 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Published'), 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Internal'), 'internal', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>			
 			<th align="center" width="22%"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
