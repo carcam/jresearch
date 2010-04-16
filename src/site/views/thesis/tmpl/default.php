@@ -147,7 +147,7 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 		<tr><th scope="row"><?php echo JText::_('JRESEARCH_FILES').': ' ?></th><td colspan="3"><ul style="list-style:none;">
 		<?php for($i=0; $i<$n; $i++): ?>
 			<?php $attach = $this->thesis->getAttachment($i, 'theses'); ?>
-			<?php echo !empty($attach)?'<li>'.JHTML::_('JResearch.attachment', $attach).'<li>':''; ?>
+			<?php echo !empty($attach)?'<li>'.JHTML::_('JResearchhtml.attachment', $attach).'<li>':''; ?>
 		<?php endfor; ?>
 		</ul>
 		</td></tr>

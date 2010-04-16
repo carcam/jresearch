@@ -313,7 +313,7 @@ class JHTMLjresearchhtml
 	public function staffImporter($name){
 		global $mainframe;
 		
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
 
 		$doc = JFactory::getDocument();
 		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();

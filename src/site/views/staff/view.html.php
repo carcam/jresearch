@@ -70,7 +70,7 @@ class JResearchViewStaff extends JResearchView
     */
     private function _displayDefaultList(&$model){
       	global $mainframe;
-      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+      	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
       	
       	$doc = JFactory::getDocument();
       	$params = $mainframe->getPageParameters('com_jresearch');
@@ -199,7 +199,7 @@ class JResearchViewStaff extends JResearchView
     */
     private function _displayPositions(&$model){
       	global $mainframe;
-      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+      	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
       	
       	$doc = JFactory::getDocument();
       	$params = $mainframe->getPageParameters('com_jresearch');

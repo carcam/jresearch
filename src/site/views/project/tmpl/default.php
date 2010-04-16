@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.modal');
 ?>
 <?php $Itemid = JRequest::getVar('Itemid'); 
-	  $ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
+	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  	
 ?>
 <h2 class="componentheading"><?php echo $this->project->title; ?></h2>
@@ -87,7 +87,7 @@ JHTML::_('behavior.modal');
 							<li style="list-style:none;">
 								<?php if($auth instanceof JResearchMember): ?>
 									<?php if($auth->published): ?>
-										<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;<?php echo $ItemidText ?>id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
+										<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
 									<?php else: ?>
 										<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
 									<?php endif; ?>	
@@ -110,7 +110,7 @@ JHTML::_('behavior.modal');
 							<?php foreach($nonleaders as $auth): ?>
 									<?php if($auth instanceof JResearchMember): ?>
 										<?php if($auth->published): ?>
-											<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;<?php echo $ItemidText ?>id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
+											<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
 										<?php else: ?>
 											<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 										<?php endif; ?>	
@@ -211,7 +211,7 @@ JHTML::_('behavior.modal');
 		<tr><td class="publicationlabel"><?php echo JText::_('JRESEARCH_FILES').': ' ?></td><td colspan="3"><ul style="list-style:none;">
 		<?php for($i=0; $i<$n; $i++): ?>
 			<?php $attach = $this->project->getAttachment($i, 'projects'); ?>
-			<?php echo !empty($attach)?'<li>'.JHTML::_('JResearch.attachment', $attach).'<li>':''; ?>
+			<?php echo !empty($attach)?'<li>'.JHTML::_('JResearchhtml.attachment', $attach).'<li>':''; ?>
 		<?php endfor; ?>
 		</ul>
 		</td></tr>
