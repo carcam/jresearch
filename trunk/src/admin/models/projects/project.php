@@ -30,13 +30,10 @@ class JResearchModelProject extends JResearchModelSingleRecord{
 	public function getItem($itemId){
 		$db = JFactory::getDBO();
 		
-		$project = new JResearchProject($db);
-		$result = $project->load($itemId);
+		$project = JTable::getInstance('Project','JResearch');
+		$project->load($itemId);
 		
-		if($result)
-			return $project;
-		else
-			return null;	
+	    return $project;	
 	}
 
 }

@@ -266,7 +266,7 @@ class JResearchAdminPublicationsController extends JController
 		$exportOptions = array();		
 		
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');		
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');
 		$markedRecords = $session->get('markedRecords', null, 'jresearch');
 		if($markedRecords !== null){
 			if($markedRecords === 'all'){

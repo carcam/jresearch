@@ -241,10 +241,8 @@ class JResearchMember extends JTable{
 	 */
 	public function getPosition()
 	{
-		if(intval($this->position) > 0)
-		{
-			$db =& JFactory::getDBO();
-			$position = new JResearchMember_position($db);
+		if(intval($this->position) > 0){
+			$position = JTable::getInstance('Member_position', 'JResearch');
 			$position->load($this->position);
 			
 			return $position;

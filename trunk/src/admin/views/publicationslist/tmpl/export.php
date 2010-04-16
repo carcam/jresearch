@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<td style="text-align:left;">
 			<label for="strict_bibtex"><?php echo JText::_('JRESEARCH_STRICT_BIBTEX'); ?></label>
 			<input type="checkbox" id="strict_bibtex" name="strict_bibtex" />
-			<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_STRICT_BIBTEX_DESCRIPTION')); ?>"
+			<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_STRICT_BIBTEX_DESCRIPTION')); ?>
 		</td>
 	</tr>
 	</tbody>

@@ -44,7 +44,7 @@ class JResearchViewThesis extends JResearchView
     */
     private function _displayThesis(&$arguments){
       	global $mainframe;
-      	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
+      	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
       	      	
     	$id = JRequest::getInt('id');
    		$doc =& JFactory::getDocument();
