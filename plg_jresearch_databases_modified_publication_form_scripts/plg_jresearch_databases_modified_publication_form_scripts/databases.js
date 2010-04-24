@@ -130,6 +130,7 @@ function mapPublicationToForm(response, responsexml){
 								// The journal is in the database
 								switchTo('journalslist');
 								document.forms['adminForm'].list_journal.selectedIndex = k;
+                                                                bringImpactFactor();
 								mapped = true;
 								break;
 							}

@@ -35,22 +35,39 @@ class JHTMLJournalsControl{
 		foreach($journals as $journal){
 			$journalsOptions[] = JHTML::_('select.option', $journal['id'], $journal['title']);
 		}
+
+                $js = 'onchange="javascript:bringImpactFactor();"';
 		
 		if($selectFromList){
-			$journalsHTML = JHTML::_('select.genericlist', $journalsOptions, 'list_'.$baseName, 'class="inputbox" id="list_'.$baseName.'" style="display:inline;"', 'value', 'text', $value);
+			$journalsHTML = JHTML::_('select.genericlist', $journalsOptions, 'list_'.$baseName, 'class="inputbox" id="list_'.$baseName.'" style="display:inline;" '.$js, 'value', 'text', $value);
 			$journalsHTML .= '<span></span>'.'<input type="text" size="15" style="display:none;" name="'.$baseName.'" id="'.$baseName.'" />';
 			$mode = 'inputtext';
 			$label = $inputTextLabel;
 		}else{
 			$mode = 'journalslist';
 			$label = $selectListLabel;
-			$journalsHTML = JHTML::_('select.genericlist', $journalsOptions, 'list_'.$baseName, 'class="inputbox" id="list_'.$baseName.'" style="display:none;"', 'value', 'text', $value);
+			$journalsHTML = JHTML::_('select.genericlist', $journalsOptions, 'list_'.$baseName, 'class="inputbox" id="list_'.$baseName.'" style="display:none;" '.$js, 'value', 'text', $value);
 			$journalsHTML .= '<span></span>'.'<input type="text" size="15" style="display:inline;" name="'.$baseName.'" value="'.$value.'" id="'.$baseName.'" />';			
 		}	
 		$switchControl = '<a name="a_'.$baseName.'" id="a_'.$baseName.'" href="javascript:switchTo(\''.$mode.'\')">'.$label.'</a>';
 		$doc->addScriptDeclaration("
 			document.jclbl_inputtext = '$inputTextLabel';
 			document.jclbl_selectlist = '$selectListLabel';
+
+                        function bringImpactFactor(){
+                            var selectedIndex = document.forms['adminForm'].list_journal.selectedIndex;
+                            var journalId = document.forms['adminForm'].list_journal.options[selectedIndex].value;
+                            if(journalId != '0'){
+                                var request = new XHR({method: 'get', onSuccess: mapImpactFactor});
+                                request.send('index.php?option=com_jresearch&controller=journals&task=getImpactFactor&format=raw&journalId='+journalId);
+                            }
+                        }
+
+                        function mapImpactFactor(responseText, responseXML){
+                            if(responseText != ''){
+                                journalId = document.forms['adminForm'].impact_factor.value = responseText;
+                            }
+                        }
 			
 			function switchTo(mode){
 				switchControl = document.getElementById('a_$baseName');
@@ -63,15 +80,13 @@ class JHTMLJournalsControl{
 						switchControl.setAttribute('href', 'javascript:switchTo(\'inputtext\')');
 						switchControl.removeChild(switchControl.firstChild);		
 						switchControl.appendChild(document.createTextNode(document.jclbl_inputtext));
-						document.forms['adminForm'].impact_factor.disabled = 'disabled';				
-						document.forms['adminForm'].impact_factor.value = '';				
+						document.forms['adminForm'].impact_factor.value = '';
 					}else{
 						listControl.style.display = 'none';
 						inputControl.style.display = 'inline';										
 						switchControl.setAttribute('href', 'javascript:switchTo(\'journalslist\')');
 						switchControl.removeChild(switchControl.firstChild);						
 						switchControl.appendChild(document.createTextNode(document.jclbl_selectlist));
-						document.forms['adminForm'].impact_factor.disabled = '';									
 					}
 				}
 			}

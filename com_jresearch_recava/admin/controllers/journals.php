@@ -40,6 +40,7 @@ class JResearchAdminJournalsController extends JController
 		$this->registerTask('save', 'save');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
+                $this->registerTask('getImpactFactor', 'getImpactFactor');
 
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'journals');
 		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'journals');
@@ -212,5 +213,15 @@ class JResearchAdminJournalsController extends JController
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=journals');
 	}
+
+        function getImpactFactor(){
+            $doc = JFactory::getDocument();
+            $db = JFactory::getDBO();
+            
+            $doc->setMimeEncoding('text/plain');
+            $journalId = JRequest::getInt('journalId');
+            $db->setQuery('SELECT impact_factor FROM #__jresearch_journals WHERE id = '.$db->Quote($journalId));
+            echo $db->loadResult();
+        }
 }
 ?>

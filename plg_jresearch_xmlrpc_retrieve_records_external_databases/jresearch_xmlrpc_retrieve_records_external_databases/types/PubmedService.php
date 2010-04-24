@@ -136,12 +136,14 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 		$publication['title'] = new xmlrpcval(rtrim($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->ArticleTitle, '.'), $xmlrpcString);		
 		$publication['abstract'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Abstract->AbstractText, $xmlrpcString);		
 		if(!empty($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation)){
-			$publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation, $xmlrpcString);
-			$publication['fulljournal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);				
+                    $publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation, $xmlrpcString);
+                    $publication['fulljournal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);
+                    $journal = $result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation;
 		}else{			
-			$publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);
+                    $publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);
+                    $journal = $result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title;
 		}
-				
+                		
 		$publication['volume'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->JournalIssue->Volume, $xmlrpcString);		
 		$publication['number'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->JournalIssue->Issue, $xmlrpcString);		
 		$publication['issn'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISSN->_, $xmlrpcString);				
@@ -178,11 +180,17 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 			$publication['abstract'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Abstract->AbstractText, $xmlrpcString);		
 
 			if(!empty($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation)){
-				$publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation, $xmlrpcString);
-				$publication['fulljournal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);				
+                            $publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation, $xmlrpcString);
+                            $publication['fulljournal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);
+                            $journal = $result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation;
 			}else{			
-				$publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);
-			}
+                            $journal = $result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title;
+                        }
+//                        //Once the journal is retrieved, get the impact_factor in local database
+//                        $db = JFactory::getDBO();
+//                        $db->setQuery('SELECT impact_factor FROM #__jresearch_journals WHERE title = '.$db->Quote($journal));
+//                        $impact_factor = $db->loadResult();
+//                        $publication['impact_factor'] = new xmlrpcval($impact_factor);
 		
 			$publication['volume'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->JournalIssue->Volume, $xmlrpcString);		
 			$publication['number'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->JournalIssue->Issue, $xmlrpcString);		

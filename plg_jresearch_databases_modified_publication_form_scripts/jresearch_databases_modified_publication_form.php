@@ -57,7 +57,7 @@ function plgJResearchDatabasesModifiedPublicationForm(){
 	
 	JHTML::_('behavior.mootools');	
 	$doc = JFactory::getDocument();
-	$buttonText = JText::_('Apply');
+	$buttonText = JText::_('JRESEARCH_APPLY');
 	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 	$xmlRpcUrl = $url.'xmlrpc';
 	$loading = JText::_('JRESEARCH_LOADING');
