@@ -31,7 +31,7 @@ $controller = JRequest::getVar('controller', null);
 if($controller === null)
 	$controller = __mapViewToController();
 else{
-	$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas');
+	$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas', 'journals');
 	if(!in_array($controller, $availableControllers))
 		$controller = 'researchAreas';
 }
