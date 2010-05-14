@@ -53,6 +53,29 @@ class JResearchViewThesesList extends JResearchView
     	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
+
+        $filterByArea = $params->get('theses_filterby_researcharea', '0');
+        if($filterByArea == '1'){
+            JRequest::setVar('filter_area', $params->get('theses_filter_area', '1'));
+        }
+
+        $filterByDegree = $params->get('theses_filterby_degree', '0');
+        if($filterByArea == '1'){
+            JRequest::setVar('filter_degree', $params->get('theses_filter_degree', 'bachelor'));
+        }
+
+
+        $filterByStatus = $params->get('theses_filterby_status', '0');
+        if($filterByStatus == '1'){
+            JRequest::setVar('filter_status', $params->get('theses_status_filter', 'not_started'));
+        }
+
+        $defaultSorting = $params->get('theses_default_sorting', 'start_date');
+        JRequest::setVar('filter_order', $defaultSorting);
+
+        $ordering = $params->get('theses_order', 'asc');
+        JRequest::setVar('filter_order_Dir', $ordering);
+
     	$theses =  $model->getData(null, true, true); 
     	$doc->setTitle(JText::_('JRESEARCH_THESES'));  
     	

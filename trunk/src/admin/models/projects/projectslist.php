@@ -43,7 +43,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
 		if($memberId === null){		
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
 		}else{
 			$resultQuery = '';
 		}
@@ -117,11 +117,11 @@ class JResearchModelProjectsList extends JResearchModelList{
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 	
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
-			$this->_items = array();			
-			foreach($ids as $id){
-				$proj = new JResearchProject($db);
-				$proj->load($id);
+			$rows = $db->loadAssocList();
+			$this->_items = array();
+			foreach($rows as $row){
+				$proj = JTable::getInstance('Project', 'JResearch');
+				$proj->bind($row, array(), true);
 				$this->_items[] = $proj;
 			}
 			if($paginate)
@@ -198,11 +198,11 @@ class JResearchModelProjectsList extends JResearchModelList{
 	private function _buildQueryWhere($published = false){
 		global $mainframe;
 		$db = & JFactory::getDBO();
+		$filter_status = $mainframe->getUserStateFromRequest('projectsfilter_status', 'filter_status');
 		$filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('projectsfilter_search', 'filter_search');
 		$filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');
 		$filter_area = $mainframe->getUserStateFromRequest('projectsfilter_area', 'filter_area');
-		
 		// prepare the WHERE clause
 		$where = array();
 		
@@ -256,6 +256,10 @@ class JResearchModelProjectsList extends JResearchModelList{
 		{
 			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
 		}
+
+                if($filter_status){
+                    $where[] = $db->nameQuote('status').' = '.$db->Quote($filter_status);
+                }
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			

@@ -415,7 +415,7 @@ INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('online_source');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('earticle');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('digital_source');
 
-INSERT INTO `#__jresearch_research_area`(`name`, `description`, `published` ) VALUES('Uncategorized', '', 1);
+INSERT INTO `#__jresearch_research_area`(`name`, `alias` ,`description`, `published` ) VALUES('Uncategorized', 'Uncategorized' , '', 1);
 
 DELETE FROM `#__categories` WHERE `section` = 'com_jresearch_cooperations';
 INSERT INTO `#__categories` (`title`, `name`, `alias`, `image`, `section`, `image_position`, `description`, `published`, `checked_out`, `checked_out_time`, `editor`, `ordering`, `access`, `count`, `params`) VALUES

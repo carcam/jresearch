@@ -68,16 +68,15 @@ class JResearchAdminThesesController extends JController
 	*/
 	function edit(){
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$cid = JRequest::getVar('cid');		
+		$cid = JRequest::getVar('cid', array());
 		$view = &$this->getView('Thesis', 'html', 'JResearchAdminView');	
 		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
 		$model =& $this->getModel('Thesis', 'JResearchModel');
 		
 		if($cid){
 			$thesis = $model->getItem($cid[0]);
-			
 			if(!empty($thesis)){
-				$user =& JFactory::getUser();
+				$user = JFactory::getUser();
 				// Verify if it is checked out
 				if($thesis->isCheckedOut($user->get('id'))){
 					$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
@@ -111,9 +110,7 @@ class JResearchAdminThesesController extends JController
 
 		$thesis = new JResearchThesis($db);
 		$thesis->publish($cid, 1);
-		$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
-		
-		
+		$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));		
 	}
 
 	/**
