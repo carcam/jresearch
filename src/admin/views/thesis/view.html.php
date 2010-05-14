@@ -22,7 +22,7 @@ class JResearchAdminViewThesis extends JResearchView
     function display($tpl = null)
     {
     	global $mainframe;
-		JResearchToolbar::editThesisAdminToolbar();
+        JResearchToolbar::editThesisAdminToolbar();
 
     	JRequest::setVar( 'hidemainmenu', 1 );
     	JHTML::_('jresearchhtml.validation');
@@ -45,33 +45,33 @@ class JResearchAdminViewThesis extends JResearchView
     	}
 
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $thesis?$thesis->published:1));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->id_research_area:1)); 
-   	 	$statusHTML = JHTML::_('jresearchhtml.statuslist', array('name' => 'status', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->status:1));
-   	 	$degreeHTML = JHTML::_('jresearchhtml.degreelist', array('name' => 'degree', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->degree:'bachelor'));
-    	
-		$studentsControl = JHTML::_('jresearchhtml.autoSuggest', 'students', $students);
-		$directorsControl = JHTML::_('jresearchhtml.autoSuggest', 'directors', $directors);
+        $researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->id_research_area:1));
+        $statusHTML = JHTML::_('jresearchhtml.statuslist', array('name' => 'status', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->status:1));
+        $degreeHTML = JHTML::_('jresearchhtml.degreelist', array('name' => 'degree', 'attributes' => 'class="inputbox" size="1"', 'selected' => $thesis?$thesis->degree:'bachelor'));
 
-		$params = JComponentHelper::getParams('com_jresearch');
-		if(!empty($thesis->files))
-			$uploadedFiles = explode(';', trim($thesis->files));
-		else
-			$uploadedFiles = array();	
-		$files = JHTML::_('jresearchhtml.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'theses','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
+        $studentsControl = JHTML::_('jresearchhtml.autoSuggest', 'students', $students);
+        $directorsControl = JHTML::_('jresearchhtml.autoSuggest', 'directors', $directors);
+
+        $params = JComponentHelper::getParams('com_jresearch');
+        if(!empty($thesis->files))
+                $uploadedFiles = explode(';', trim($thesis->files));
+        else
+                $uploadedFiles = array();
+        $files = JHTML::_('jresearchhtml.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'theses','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
 		
 
     	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
-		$this->assignRef('editor', $editor);    
-		$this->assignRef('studentsControl', $studentsControl);
-		$this->assignRef('directorsControl', $directorsControl);	
-		$this->assignRef('status', $statusHTML);
-		$this->assignRef('degree', $degreeHTML);
-		$this->assignRef('files', $files);
+        $this->assignRef('editor', $editor);
+        $this->assignRef('studentsControl', $studentsControl);
+        $this->assignRef('directorsControl', $directorsControl);
+        $this->assignRef('status', $statusHTML);
+        $this->assignRef('degree', $degreeHTML);
+        $this->assignRef('files', $files);
 
-		// Load cited records
-		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+        // Load cited records
+        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 		
        	parent::display($tpl);
        	

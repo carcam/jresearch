@@ -83,8 +83,8 @@ class JResearchPublication extends JResearchActivity{
 	 */
 	public $doi;	
 	public $issn;
-    public $isbn;
-    public $volume;
+        public $isbn;
+        public $volume;
 	public $number;
 	public $pages;
 	public $month;	    

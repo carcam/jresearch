@@ -43,7 +43,7 @@ class JResearchModelThesesList extends JResearchModelList{
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
 		if($memberId === null){		
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
 		}else{
 			$resultQuery = '';
 		}
@@ -131,12 +131,12 @@ class JResearchModelThesesList extends JResearchModelList{
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 	
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$rows = $db->loadAssocList();
 			$this->_items = array();
-			foreach($ids as $id){
-				$thesis = new JResearchThesis($db);
-				$thesis->load($id);
-				$this->_items[] = $thesis;
+			foreach($rows as $row){
+                            $thesis = JTable::getInstance('Thesis', 'JResearch');
+                            $thesis->bind($row, array(), true);
+                            $this->_items[] = $thesis;
 			}
 			if($paginate)
 				$this->updatePagination();
@@ -178,9 +178,9 @@ class JResearchModelThesesList extends JResearchModelList{
 	*/
 	private function _buildQueryOrderBy(){
 		global $mainframe;
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('title', 'published', 'id_research_area');
+		$orders = array('title', 'published', 'id_research_area', 'start_date', 'degree');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order', 'title');
 		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('thesesfilter_order_Dir', 'filter_order_Dir', 'ASC'));
@@ -202,8 +202,10 @@ class JResearchModelThesesList extends JResearchModelList{
 		global $mainframe;
 		$db = & JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('thesesfilter_state', 'filter_state');
+		$filter_status = $mainframe->getUserStateFromRequest('thesesfilter_status', 'filter_status');
 		$filter_search = $mainframe->getUserStateFromRequest('thesesfilter_search', 'filter_search');
 		$filter_author = $mainframe->getUserStateFromRequest('thesesfilter_author', 'filter_author');
+		$filter_degree = $mainframe->getUserStateFromRequest('thesesfilter_degree', 'filter_degree');
 		
 		// prepare the WHERE clause
 		$where = array();
@@ -230,6 +232,14 @@ class JResearchModelThesesList extends JResearchModelList{
 			$filter_search = $db->getEscaped($filter_search);
 			$where[] = 'LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%');
 		}
+
+                if(!empty($filter_degree)){
+                    $where[] = $db->nameQuote('degree').' = '.$db->Quote($filter_degree);
+                }
+
+                if(!empty($filter_status)){
+                    $where[] = $db->nameQuote('status').' = '.$db->Quote($filter_status);
+                }
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			

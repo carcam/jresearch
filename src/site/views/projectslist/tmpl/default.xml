@@ -21,13 +21,29 @@
 			
 			<param name="projects_entries_per_page" default="25" label="JRESEARCH_CONFIG_PROJECTS_PER_PAGE" type="text" ></param>				
 			<param name="projects_default_sorting" default="date" label="JRESEARCH_ORDER_BY" type="radio">
-				<option value="date">JRESEARCH_DATE</option>
-				<option value="alphabetical">JRESEARCH_ALPHABETICAL</option>
+				<option value="start_date">JRESEARCH_DATE</option>
+				<option value="title">JRESEARCH_ALPHABETICAL</option>
+				<option value="finance_level">JRESEARCH_FINANCE_LEVEL</option>
 			</param>
-			<param name="projects_order" label="JRESEARCH_SORTED" type="radio">
+			<param name="projects_order" label="JRESEARCH_SORTED" type="radio" default="asc">
 				<option value="asc">JRESEARCH_ASCENDING</option>
 				<option value="desc">JRESEARCH_DESCENDING</option>
-			</param>			
+			</param>
+                        <param name="projects_filterby_status" type="radio" label="JRESEARCH_FILTER_STATUS" default="0">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+                        <param name="projects_status_filter" type="radio" label="JRESEARCH_STATUS" default="not_started">
+				<option value="not_started">JRESEARCH_NOT_STARTED</option>
+				<option value="in_progress">JRESEARCH_IN_PROGRESS</option>
+				<option value="finished">Finished</option>
+			</param>
+                        <param name="projects_filterby_researcharea" type="radio" label="JRESEARCH_FILTER_RESEARCHAREA" default="0">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+                        <param type="sql" name="projects_filter_area" label="JRESEARCH_RESEARCH_AREA"
+			description="JRESEARCH_RESEARCH_AREA" query="SELECT id as value, alias as projects_filter_area FROM #__jresearch_research_area WHERE published = 1" />
 		</params>
 	</state>
 </metadata>
