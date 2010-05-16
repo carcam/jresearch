@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="jresearch">
+	<name>J!Research Databases Modified Publication Form</name>
+	<author>Luis Galárraga</author>
+	<creationDate>May 2010</creationDate>
+	<copyright>Copyright (C) 2010 - Luis Galárraga</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>shamantobi@gmail.com</authorEmail>
+	<authorUrl>http://joomla-research.com</authorUrl>
+	<version>1.5</version>
+	<description>Plugin that wraps component Update Manager for Joomla! in order to support automatic J!Research upgrades</description>
+	<files>
+		<filename plugin="jresearch_upgrader">jresearch_upgrader.php</filename>
+		<folder plugin="jresearch_upgrader">com_updater</filename>
+	</files>
+	<languages folder="languages">
+		<language tag="en-GB">en-GB.plg_jresearch_upgrader.ini</language>
+		<language tag="es-ES">es-ES.plg_jresearch_upgrader.ini</language>
+		<language tag="de-DE">de-DE.plg_jresearch_upgrader.ini</language>				
+	</languages>
+	<params />
+</install>
