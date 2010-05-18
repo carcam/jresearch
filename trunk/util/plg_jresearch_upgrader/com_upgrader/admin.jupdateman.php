@@ -16,10 +16,9 @@ if (!$user->authorize('com_installer', 'installer')) {
 }
 
 // Require the base controller
-require_once( JPATH_COMPONENT.DS.'controller.php' );
-
-require_once (JApplicationHelper::getPath('admin_html'));
-require_once (JApplicationHelper::getPath('class'));
+require_once( JPATH_JRESEARCH_UPDATER.DS.'controller.php' );
+require_once (JPATH_JRESEARCH_UPDATER.DS.'admin.jupdateman.html.php');
+require_once (JPATH_JRESEARCH_UPDATER.DS.'jupdateman.class.php');
 
 // Require specific controller if requested
 if($controller = JRequest::getWord('controller')) {
