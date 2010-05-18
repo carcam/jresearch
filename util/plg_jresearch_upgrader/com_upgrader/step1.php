@@ -6,18 +6,20 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
+// Here define variants for J!Research
+// ---------------------
 $v = new JVersion();
 $version = $v->getShortVersion();
 
+// ----------------------
+
+//Decide the URL (I think it should be in joomlacode
 $url = "http://jsitepoint.com/update/packages/joomla/update.xml";
 
 $config =& JFactory::getConfig();
 $tmp_path = $config->getValue('config.tmp_path');
-
-$params =& JComponentHelper::getParams('com_jupdateman');
-
-
-
+$plugin = JPluginHelper::getPlugin('jresearch', 'jresearch_upgrader');
+$params = new JParameter($plugin->params);
 
 $target = $tmp_path . DS . 'jupgrader.xml';
 
