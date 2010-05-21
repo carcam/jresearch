@@ -9,14 +9,15 @@ jimport('joomla.filesystem.file');
 juimport('pasamio.pfactory');
 
 $session =& JFactory::getSession();
-$file = $session->get('jupdateman_filename');
+$file = $session->get('jresearchupgrade_filename');
 
 if(!$file) { // jump again
 	$app =& JFactory::getApplication();
-	$app->redirect('index.php?option=com_jupdateman&task=step1'); // back to step one if invalid session 
+	$app->redirect('index.php?option=com_jresearch&controller=upgrader&task=step1'); // back to step one if invalid session
 }
 
-$params = JComponentHelper::getParams('com_jupdateman');
+$plugin = JPluginHelper::getPlugin('jresearch', 'jresearch_upgrader');
+$params = new JParameter($plugin->params);
 $extractor = $params->get('extractor', 0);
 
 define('JUPDATEMAN_EXTRACTOR_16', 		0);
