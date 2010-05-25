@@ -37,6 +37,7 @@ class JResearchStaffController extends JResearchFrontendController
 		$this->registerTask('autoSuggestMembers', 'autoSuggestMembers');		
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'member_position');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
 		
@@ -50,28 +51,30 @@ class JResearchStaffController extends JResearchFrontendController
 	 */
 
 	function display(){
-		global $mainframe;
+            global $mainframe;
 		
-		//Layout
-		$layout = JRequest::getVar('layout','default');
+            //Layout
+            $layout = JRequest::getVar('layout','default');
 		
 		//Get and use configuration
-    	$params = $mainframe->getPageParameters('com_jresearch');
-    	$limit = $params->get('staff_entries_per_page');
-		JRequest::setVar('limit', $limit);
-		$limitstart = JRequest::getVar('limitstart', null);		
-		if($limitstart === null)
-			JRequest::setVar('limitstart', 0);
-			
-		
-		$model =& $this->getModel('Staff', 'JResearchModel');
-		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-		$view =& $this->getView('Staff', 'html', 'JResearchView');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
-		$view->setLayout($layout);
-		
-		$view->display();
+            $params = $mainframe->getPageParameters('com_jresearch');
+            $limit = $params->get('staff_entries_per_page');
+            JRequest::setVar('limit', $limit);
+            $limitstart = JRequest::getVar('limitstart', null);
+            if($limitstart === null)
+                JRequest::setVar('limitstart', 0);
+
+
+            $model =& $this->getModel('Staff', 'JResearchModel');
+            $areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
+            $positionsModel = $this->getModel('member_positionList', 'JResearchModel');
+            $view =& $this->getView('Staff', 'html', 'JResearchView');
+            $view->setModel($model, true);
+            $view->setModel($areaModel);
+            $view->setLayout($layout);
+            $view->setModel($positionsModel);
+
+            $view->display();
 	}
 
 	/**
