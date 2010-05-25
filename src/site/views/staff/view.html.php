@@ -33,7 +33,7 @@ class JResearchViewStaff extends JResearchView
     	//Get the model
     	$model =& $this->getModel();
     	$areaModel = &$this->getModel('researcharea');
-		$positionModel = &$this->getModel('member_position');
+        $positionModel = &$this->getModel('member_position');
 		
     	
     	//$model->setFormer($former);
@@ -44,7 +44,7 @@ class JResearchViewStaff extends JResearchView
 	        	$this->_displayStaffFlow($model);
 	        	break;
 				
-				case 'positions':
+		case 'positions':
 	        	$this->_displayPositions($model);
 	        	break;
 	        	
@@ -58,11 +58,11 @@ class JResearchViewStaff extends JResearchView
 	
         $eArguments = array('staff', $layout);
 		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+
+        parent::display($tpl);
+
+        $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
     
     /**
@@ -95,102 +95,102 @@ class JResearchViewStaff extends JResearchView
     	jimport('joomla.filesystem.file');
     	
     	//Includes
-		require(JPATH_COMPONENT_SITE.DS.'includes'.DS.'reflect2.php');
-		require(JPATH_COMPONENT_SITE.DS.'includes'.DS.'reflect3.php');
+        require(JPATH_COMPONENT_SITE.DS.'includes'.DS.'reflect2.php');
+        require(JPATH_COMPONENT_SITE.DS.'includes'.DS.'reflect3.php');
     	
     	$doc = JFactory::getDocument();
     	
-		$members =& $model->getData(null, true, false);
+        $members =& $model->getData(null, true, false);
     	$images = $this->_getImages($members);
     	$params = $mainframe->getPageParameters('com_jresearch');
     	$format = $params->get('staff_format') == 'last_first'?1:0;
     	
     	$base = JURI::base();
-		$component = $base.'components/com_jresearch/';
-		
-		//Paths
-		$js_path = $component.'js';
-		$css_path = $component.'css';
-		$assets = $component.'assets';
-		
-		//Add params to the head script declaration
-		if ($params->get('imageslider') == '1')
-		{
-			$scrpt = 'imf.hide_slider = false;'.PHP_EOL;
-		}
-		else
-		{
-			$scrpt = 'imf.hide_slider = true;'.PHP_EOL;
-		}
-		if ($params->get('captions') == '1')
-		{
-			$scrpt .= 'imf.hide_caption = false;'.PHP_EOL;
-		}
-		else
-		{
-			$scrpt .= 'imf.hide_caption = true;'.PHP_EOL;
-		}
-		if ($params->get('glidetoimage') != '')
-		{
-			$glidetoimage = $this->get('glidetoimage');
-			//	Have they given us a percentage?
-			if (JString::substr($glidetoimage, -1) == '%')
-			{
-				//	Yes, remove the % sign
-				$glidetoimage = (int) JString::substr($glidetoimage, 0, -1);
-				$glidetoimage = (int) (count($images)) * ($glidetoimage/100);
-				$glidetoimage = (int) ($glidetoimage+.50);
-			}
-			else
-			{
-				$glidetoimage = (int) $glidetoimage;
-			}
-			if ($glidetoimage > count($images))
-			{
-				$glidetoimage = count($images);
-			}
-			if ($glidetoimage < 1)
-			{
-				$glidetoimage = 1;
-			}
-			$glidetoimage--;
-			$scrpt .= 'imf.caption_id = '.$glidetoimage.';'.PHP_EOL;
-			$scrpt .= 'imf.current = '.-$glidetoimage.' * imf.xstep;'.PHP_EOL;
-		}
-		if ($params->get('imagestacksize') != '')
-		{
-			$imagestacksize = (int) $params->get('imagestacksize');
-			if ($imagestacksize > 0 && $imagestacksize < 10)
-			{
-				$scrpt .= 'imf.conf_focus = '.$imagestacksize.';'.PHP_EOL;
-			}
-		}
-		if ($params->get('imagethumbnailclass') != '')
-		{
-			$scrpt .= "imf.conf_thumbnail = '".$params->get('imagethumbnailclass')."';".PHP_EOL;
-		}
-		if ($params->get('reflectheight') != '')
-		{
-			$height = JString::str_ireplace('%', '', $params->get('reflectheight'));
-			$height = ($height / 100);
-			$scrpt .= 'imf.conf_reflection_p = '.$height.';'.PHP_EOL;
-		}
-		
-		//Get document and add various scripts/stylesheets
-		$document =& JFactory::getDocument();
-		
-		$document->addScript($js_path.'/imageflow.js');
-		$document->addScriptDeclaration($scrpt);
-		
-		$document->addStyleSheet($css_path.'/imageflow.css');
+        $component = $base.'components/com_jresearch/';
+
+        //Paths
+        $js_path = $component.'js';
+        $css_path = $component.'css';
+        $assets = $component.'assets';
+
+        //Add params to the head script declaration
+        if ($params->get('imageslider') == '1')
+        {
+                $scrpt = 'imf.hide_slider = false;'.PHP_EOL;
+        }
+        else
+        {
+                $scrpt = 'imf.hide_slider = true;'.PHP_EOL;
+        }
+        if ($params->get('captions') == '1')
+        {
+                $scrpt .= 'imf.hide_caption = false;'.PHP_EOL;
+        }
+        else
+        {
+                $scrpt .= 'imf.hide_caption = true;'.PHP_EOL;
+        }
+        if ($params->get('glidetoimage') != '')
+        {
+                $glidetoimage = $this->get('glidetoimage');
+                //	Have they given us a percentage?
+                if (JString::substr($glidetoimage, -1) == '%')
+                {
+                        //	Yes, remove the % sign
+                        $glidetoimage = (int) JString::substr($glidetoimage, 0, -1);
+                        $glidetoimage = (int) (count($images)) * ($glidetoimage/100);
+                        $glidetoimage = (int) ($glidetoimage+.50);
+                }
+                else
+                {
+                        $glidetoimage = (int) $glidetoimage;
+                }
+                if ($glidetoimage > count($images))
+                {
+                        $glidetoimage = count($images);
+                }
+                if ($glidetoimage < 1)
+                {
+                        $glidetoimage = 1;
+                }
+                $glidetoimage--;
+                $scrpt .= 'imf.caption_id = '.$glidetoimage.';'.PHP_EOL;
+                $scrpt .= 'imf.current = '.-$glidetoimage.' * imf.xstep;'.PHP_EOL;
+        }
+        if ($params->get('imagestacksize') != '')
+        {
+                $imagestacksize = (int) $params->get('imagestacksize');
+                if ($imagestacksize > 0 && $imagestacksize < 10)
+                {
+                        $scrpt .= 'imf.conf_focus = '.$imagestacksize.';'.PHP_EOL;
+                }
+        }
+        if ($params->get('imagethumbnailclass') != '')
+        {
+                $scrpt .= "imf.conf_thumbnail = '".$params->get('imagethumbnailclass')."';".PHP_EOL;
+        }
+        if ($params->get('reflectheight') != '')
+        {
+                $height = JString::str_ireplace('%', '', $params->get('reflectheight'));
+                $height = ($height / 100);
+                $scrpt .= 'imf.conf_reflection_p = '.$height.';'.PHP_EOL;
+        }
+
+        //Get document and add various scripts/stylesheets
+        $document =& JFactory::getDocument();
+
+        $document->addScript($js_path.'/imageflow.js');
+        $document->addScriptDeclaration($scrpt);
+
+        $document->addStyleSheet($css_path.'/imageflow.css');
 		
     	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));    	
     	$this->assignRef('images', $images);
-		$this->assignRef('format', $format);
-		$this->assignRef('css_path', $css_path);
-		$this->assignRef('js_path', $js_path);
-		$this->assignRef('assets_path', $assets);
-		$this->assignRef('params', $params);	
+        $this->assignRef('format', $format);
+        $this->assignRef('css_path', $css_path);
+        $this->assignRef('js_path', $js_path);
+        $this->assignRef('assets_path', $assets);
+        $this->assignRef('params', $params);
     }
 	
 	/**
@@ -203,15 +203,15 @@ class JResearchViewStaff extends JResearchView
       	
       	$doc = JFactory::getDocument();
       	$params = $mainframe->getPageParameters('com_jresearch');
-      	
+
       	$members =  $model->getData(null, true, true);
-		$positionModelList = &$this->getModel('member_positionList');
-		$positions = $positionModelList->getData(null, true, true);
+        $positionModelList = $this->getModel('member_positionList');
+        $positions = $positionModelList->getData(null, true, true);
     	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));
     	
     	$format = $params->get('staff_format') == 'last_first'?1:0;
     	$this->assignRef('items', $members);
-		$this->assignRef('positions', $positions);
+        $this->assignRef('positions', $positions);
     	$this->assignRef('page', $model->getPagination());	
     	$this->assignRef('format', $format);
 
