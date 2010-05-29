@@ -44,7 +44,9 @@ $bibtex = $params->get('enable_bibtex_frontend_import');
 			<tr>
 				<th style="width: 20%;"><?php echo JText::_('JRESEARCH_BIBTEX_FILE'); ?></th>
 				<td width="80%">
-			<input type="file" name="inputfile" />
+                                    <input type="file" name="inputfile" />
+                                    <label for="maptostaff"><?php echo JText::_('JRESEARCH_MAP_TO_STAFF').': '; ?></label>
+                                <input type="checkbox" name="maptostaff" id="maptostaff"  />
 			</td>
 			</tr>
 			<tr>

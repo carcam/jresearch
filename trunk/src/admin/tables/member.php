@@ -172,9 +172,9 @@ class JResearchMember extends JTable{
 		$this->email = $result['email'];
 		$arrayName = JResearchPublicationsHelper::getAuthorComponents($result['name']);
 		if($arrayName['firstname'])
-			$this->firstname = $arrayName['firstname'];
+			$this->firstname = trim($arrayName['firstname'].' '.$arrayName['jr']);
 
-		$this->lastname = $arrayName['von'].' '.$arrayName['lastname'];
+		$this->lastname = trim($arrayName['von'].' '.$arrayName['lastname']);
 			
 	}
 
@@ -279,6 +279,58 @@ class JResearchMember extends JTable{
 		
 		return $teams;
 	}
+
+        /**
+         * This function binds a member from an array of name components.
+         * @param array $authorComps Associative array containing values for keys:
+         * first, last, von and jr corresponding to the components of an author name
+         * in the bibtex standard.
+         */
+        function bindFromArray(array $authorComps){
+            $lastname = strtolower($authorComps['last']);           
+            $firstname = strtolower($authorComps['first']);
+            $changedlast = false;
+            $changedfirst = false;
+            $db = JFactory::getDBO();
+
+            $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '
+                     .' LOWER(lastname) = '.$db->Quote($lastname).' AND LOWER(firstname) = '.$db->Quote($firstname);
+
+            $db->setQuery($query);
+            $result = $db->loadAssoc();
+            if(!empty($result)){
+                $this->bind($result);
+                return true;
+            }
+
+            //Now try the full name
+             if(!empty($authorComps['von'])){
+                $lastname = strtoupper($authorComps['von']).' '.$lastname;
+                $changedlast = true;
+             }
+
+             if(!empty($authorComps['jr'])){
+                $firstname = $firstname.' '.strtoupper($authorComps['jr']);
+                $changedfirst = true;
+             }
+
+             //Try to run the query again
+            if($changedfirst || $changedlast){
+                $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '
+                         .' LOWER(lastname) = '.$db->Quote($lastname).' AND LOWER(firstname) = '.$db->Quote($firstname);
+
+                $db->setQuery($query);
+                $result = $db->loadAssoc();
+                if(!empty($result)){
+                    $this->bind($result);
+                    return true;
+                }
+
+            }
+
+            return false;
+
+        }
 	
 }
 

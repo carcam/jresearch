@@ -375,9 +375,9 @@ class JResearchPublication extends JResearchActivity{
 		$idPubField = $db->nameQuote('id_publication');
        
 		foreach($this->_internalAuthors as $author){			
-			$id_staff_member = $author['id_staff_member'];
+			$id_staff_member = $db->Quote($author['id_staff_member']);
 			$idStaffField = $db->nameQuote('id_staff_member');
-			$order = $author['order'];
+			$order = $db->Quote($author['order']);
 			$tableName = $db->nameQuote('#__jresearch_publication_internal_author');
 			$insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField) VALUES ($this->id, $id_staff_member,$order)";
 			$db->setQuery($insertInternalQuery);			
