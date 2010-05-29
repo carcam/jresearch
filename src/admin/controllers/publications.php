@@ -198,7 +198,7 @@ class JResearchAdminPublicationsController extends JController
 	*/	
 	function exportSingle(){		
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');
 		$document =& JFactory::getDocument(); 
 
 		$id = JRequest::getInt('id');

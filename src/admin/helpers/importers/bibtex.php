@@ -17,6 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'importers'.DS.'importer.php');
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'BibTex.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 
 class JResearchBibtexImporter extends JResearchPublicationImporter{
 	
@@ -31,25 +32,35 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 		$resultArray = array();
 		$parser = new Structures_BibTex();
 		$parser->content = $text;
-		$user = JFactory::getUser();		
+		$user = JFactory::getUser();
+                $mapToStaff = JRequest::getVar('maptostaff', null);
 		if($parser->parse()){
 			foreach($parser->data as $data){
 				$type = strtolower($data['entryType']);
 				if(!empty($type)){
 					$newPub = JTable::getInstance('Publication', 'JResearch');
 					if($newPub != null){
-						$j = 0;
-						$newPub->pubtype = $type;						
+						$j = -1;
+                                                $type = strtolower($type);
+						$newPub->pubtype = ($type == 'inproceedings') ? 'conference' : $type;
 						if(!empty($data['author'])){
-							foreach($data['author'] as $auth){
-								if(empty($auth['von']))
-									$authorName = $auth['first'].' '.$auth['last'];
-								elseif(!empty($auth['jr']))
-									$authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
-								else
-									$authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];	
-								$newPub->setAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);
-								$j++;
+                                                        foreach($data['author'] as $auth){
+                                                            $j++;
+                                                            if($mapToStaff == 'on'){
+                                                                $member = JTable::getInstance('Member', 'JResearch');
+                                                                //First determine if this author can be mapped to a member in the staff                                                                
+                                                                if($member->bindFromArray($auth)){
+                                                                    $newPub->setAuthor($member->id, $j, true);
+                                                                    continue;
+                                                                }
+                                                            }
+                                                            if(empty($auth['von']))
+                                                                $authorName = $auth['first'].' '.$auth['last'];
+                                                            elseif(!empty($auth['jr']))
+                                                                $authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
+                                                            else
+                                                                $authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
+                                                            $newPub->setAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);                                                            
 							}
 						}
 						// Normalize the data, bibtex entities are not stored in database

@@ -349,8 +349,8 @@ class JHTMLjresearchhtml
 		foreach($joomlaUsers as $user){
 			$value = $user['username'];
 			$nameComponents = JResearchPublicationsHelper::getAuthorComponents($user['name']);
-			$lastname = $nameComponents['lastname'];
-			$firstname = isset($nameComponents['firstname'])?$nameComponents['firstname']:'';
+                        $lastname = trim($nameComponents['von'].' '.$nameComponents['lastname']);
+                        $firstname = isset($nameComponents['firstname'])?trim($nameComponents['firstname'].' '.$nameComponents['jr']):'';
 			$output .= "<option id=\"$value\" value=\"$value\">$lastname, $firstname</option>";
 		}
 		
@@ -409,11 +409,11 @@ class JHTMLjresearchhtml
 		$output .= '<select multiple="multiple" name="users" id="users" size="15" class="inputbox staffimporter">';
 
 		foreach($joomlaUsers as $user){
-			$userid = $user['username'];
-			$nameComponents = JResearchPublicationsHelper::getAuthorComponents($user['name']);
-			$lastname = $nameComponents['lastname'];
-			$firstname = isset($nameComponents['firstname'])?$nameComponents['firstname']:'';			
-			$output .= "<option id=\"$userid\" value=\"$userid\">$lastname, $firstname</option>";
+                    $userid = $user['username'];
+                    $nameComponents = JResearchPublicationsHelper::getAuthorComponents($user['name']);
+                    $lastname = trim($nameComponents['von'].' '.$nameComponents['lastname']);
+                    $firstname = isset($nameComponents['firstname'])?trim($nameComponents['firstname'].' '.$nameComponents['jr']):'';
+                    $output .= "<option id=\"$userid\" value=\"$userid\">$lastname, $firstname</option>";
 		}
 		
 		$output .= '</select></td>';
@@ -443,7 +443,7 @@ class JHTMLjresearchhtml
 		JHTML::_('behavior.formvalidation');		
 		
 		$message = JText::_('JRESEARCH_FORM_NOT_VALID');
-    	$doc->addScriptDeclaration("function validate(f) {
+        	$doc->addScriptDeclaration("function validate(f) {
 			if(document.adminForm.task.value != 'cancel'){
 	    		if (document.formvalidator.isValid(f)) {
 					return true; 
@@ -454,26 +454,26 @@ class JHTMLjresearchhtml
     		}else
     			return true;
 		}");
-    	$doc->addScriptDeclaration('window.onDomReady(function() {
+                $doc->addScriptDeclaration('window.onDomReady(function() {
 			document.formvalidator.setHandler(\'date\', function(value) {
 			regex=/^\d{4}(-\d{2}){2}$/;
 			return regex.test(value); })
 		})');
     	
-    	$doc->addScriptDeclaration('window.onDomReady(function() {
+                $doc->addScriptDeclaration('window.onDomReady(function() {
 			document.formvalidator.setHandler(\'url\', function(value) {
 			regex=/^(ftp|http|https|ftps):\/\/([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}|localhost|\d{1,3}(\.\d{1,3}){3})(:\d{2,5})?(([0-9]{1,5})?\/.*)?$/i;
 			return regex.test(value); })
 		})');
     	
-    	$doc->addScriptDeclaration('window.onDomReady(function() {
+        	$doc->addScriptDeclaration('window.onDomReady(function() {
 			document.formvalidator.setHandler(\'year\', function(value) {
 			regex=/^([1-9]\d{3}|0)$/i;
 			return regex.test(value); })
 		})');
     	
 
-    	$doc->addScriptDeclaration("window.onDomReady(function() {
+        	$doc->addScriptDeclaration("window.onDomReady(function() {
 			document.formvalidator.setHandler('keywords', function(value) {
 			regex=/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/i;
 			return regex.test(value); })
@@ -489,14 +489,7 @@ class JHTMLjresearchhtml
 			document.formvalidator.setHandler('isbn', function(value) {
 			regex=/^(\d{10}|\d{13}|\d{9}x)$/i;
 			return regex.test(value); })
-		})");
-    	
-		$doc->addScriptDeclaration("window.onDomReady(function() {
-			document.formvalidator.setHandler('doi', function(value) {
-			regex=/^\d+\.\d+\/\d+$/i;
-			return regex.test(value); })
-		})");
-    	
+		})");    	
 	}
 	
 	/**

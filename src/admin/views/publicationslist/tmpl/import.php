@@ -21,6 +21,8 @@ defined('_JEXEC') or die('Restricted access');
 		<th width="20%"><?php echo JText::_('File').': ' ?></th>
 		<td width="80%"> 
 			<input class="inputbox" name="inputfile" id="inputfile" type="file" />
+                        <label for="maptostaff"><?php echo JText::_('JRESEARCH_MAP_TO_STAFF').': '; ?></label>
+                        <input type="checkbox" name="maptostaff" id="maptostaff"  />
 		</td>
 	</tr>
 	<tr>
