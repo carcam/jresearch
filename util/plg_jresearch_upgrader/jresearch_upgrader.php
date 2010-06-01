@@ -18,18 +18,21 @@ define('JPATH_JRESEARCH_UPDATER', JPATH_PLUGINS.DS.'jresearch'.DS.'com_upgrader'
  *
  */
 function plgJResearchUpgrader(){
-	$controller = JRequest::getVar('controller');
-	$task = JRequest::getVar('task');
-	global $mainframe;
+	$mode = JRequest::getVar('mode');
 
 	// Here check if we 
-	if($controller != 'upgrader'){            
+	if($mode == 'upgrader'){
             require_once(JPATH_JRESEARCH_UPDATER.DS.'admin.jupdateman.php');
             
-		// We have to change relative paths there
-		// And a line to execute SQL Script
+            // We have to change relative paths there
+            // And a line to execute SQL Script
+
+            // We want to handle the request
+            return true;
+
 	}
-	
+
+        return false;
 }
 
 ?>

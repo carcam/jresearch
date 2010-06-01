@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="jresearch">
-	<name>J!Research Databases Modified Publication Form</name>
+	<name>J!Research Automatic Upgrader</name>
 	<author>Luis Galárraga</author>
 	<creationDate>May 2010</creationDate>
 	<copyright>Copyright (C) 2010 - Luis Galárraga</copyright>
@@ -11,14 +11,13 @@
 	<description>Plugin that wraps component Update Manager for Joomla! in order to support automatic J!Research upgrades</description>
 	<files>
 		<filename plugin="jresearch_upgrader">jresearch_upgrader.php</filename>
-		<folder plugin="jresearch_upgrader">com_updater</filename>
+		<folder>com_upgrader</folder>
 	</files>
 	<languages folder="languages">
 		<language tag="en-GB">en-GB.plg_jresearch_upgrader.ini</language>
 		<language tag="es-ES">es-ES.plg_jresearch_upgrader.ini</language>
 		<language tag="de-DE">de-DE.plg_jresearch_upgrader.ini</language>				
 	</languages>
-	<params>
 	<params>
 		<param name="extractor" type="list" default="0" label="Extraction Method" description="The method to use when extracting files. Note that PEAR Archive_Tar does not use the Joomla! FTP layer.">
 			<option value="0">1.6 Extractor</option>

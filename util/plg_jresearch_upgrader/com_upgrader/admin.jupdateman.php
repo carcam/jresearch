@@ -6,6 +6,7 @@
 // no direct access
 defined('_JEXEC') or die('No direct access allowed ;)');
 
+
 /*
  * Make sure the user is authorized to view this page
  * We are the same security as the installer subsystem
@@ -22,7 +23,7 @@ require_once (JPATH_JRESEARCH_UPDATER.DS.'jupdateman.class.php');
 
 // Require specific controller if requested
 if($controller = JRequest::getWord('controller')) {
-    $path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
+    $path = JPATH_JRESEARCH_UPDATER.DS.'controllers'.DS.$controller.'.php';
     if (file_exists($path)) {
         require_once $path;
     } else {
@@ -42,3 +43,5 @@ $controller->execute( JRequest::getVar( 'task' ) );
 
 // Redirect if set by the controller
 $controller->redirect();
+
+?>

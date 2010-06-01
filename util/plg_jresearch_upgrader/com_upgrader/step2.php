@@ -17,7 +17,7 @@ switch(JRequest::getVar('target', 'patch')) {
 }
 if(!is_object($details)) {
 	$app =& JFactory::getApplication();
-	$app->redirect('index.php?option=com_jresearch&controller=upgrader&task=step1'); // back to step one if invalid session
+	$app->redirect('index.php?option=com_jresearch&mode=upgrader&task=step1'); // back to step one if invalid session
 }
 $url  = $details->url;
 $file = $details->filename;
@@ -59,4 +59,4 @@ $session->set('jresearchupgrader_filename', $file);
 
 ?>
 <p>The file '<?php echo $file ?>' has been downloaded from <a href="<?php echo $url ?>" target="_blank"><?php echo $url ?></a>.</p>
-<p>If you are certain you want to use this method, <a href="index.php?option=com_jresearch&controller=upgrader&task=step3">you can proceed with the install &gt;&gt;&gt;</a></p>
+<p>If you are certain you want to use this method, <a href="index.php?option=com_jresearch&mode=upgrader&task=step3">you can proceed with the install &gt;&gt;&gt;</a></p>
