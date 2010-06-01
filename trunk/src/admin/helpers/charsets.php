@@ -14,10 +14,6 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
-define('LASTNAME_FIRSTNAME', 1);
-define('FIRSTNAME_LASTNAME', 0);
-
 /**
  * This class holds useful methods for dealing with word special characters
  * 

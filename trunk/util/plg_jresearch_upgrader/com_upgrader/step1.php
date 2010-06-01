@@ -6,15 +6,19 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
+echo 'Before proceeding, we <strong>strongly</strong> suggest to make a backup of your database and folders';
+
 // For 1.1, we will assume they are using 1.1.4.4
-if(defined('JRESEARCH_1.2'))
-    $version = JResearchApp::getShortVersion();
-else
+if(defined('JRESEARCH_UPGRADER_SUPPORT')){
+    $version = JRESEARCH_VERSION;
+    $versionComps = explode(' ', $version);
+    $version = $versionComps[0];
+}else
     $version = '1.1.4';
 
-$url = "http://localhost/jresearchupgrade.xml";
+$url = "http://localhost/jresearchupgrader.xml";
 
-$config =& JFactory::getConfig();
+$config = JFactory::getConfig();
 $tmp_path = $config->getValue('config.tmp_path');
 $plugin = JPluginHelper::getPlugin('jresearch', 'jresearch_upgrader');
 $params = new JParameter($plugin->params);
@@ -58,7 +62,7 @@ if ($root->name() != 'update') {
 $rootattributes = $root->attributes();
 $latest = $rootattributes['release'];
 if($latest == $version) {
-	echo "<p>No updates were found. <a href='index.php?option=com_jresearch&controller=upgrader&task=step2&target=full'>Force full update &gt;&gt;&gt;</a></p><br /><br /><p>Please check again later or watch <a href='http://www.joomla.org' target='_blank'>www.joomla.org</a></p>";
+	echo "<p>No updates were found. <a href='index.php?option=com_jresearch&mode=upgrader&task=step2&target=full'>Force full update &gt;&gt;&gt;</a></p><br /><br /><p>Please check again later or watch <a href='http://www.joomla.org' target='_blank'>www.joomla.org</a></p>";
 	echo '</div>';
 	return true;
 } elseif(version_compare($latest, $version, '<')) {
@@ -66,33 +70,6 @@ if($latest == $version) {
 	echo "<p>Please check <a href='http://www.joomla-research.com' target='_blank'>www.joomla-research.com</a> for release information.</p>";
 	echo '</div>';
 	return true;
-}
-
-$updater = $root->getElementByPath('updater', 1);
-if(!$updater) {
-	HTML_jupgrader::showError( 'Failed to get updater element. Possible invalid update!');
-	return false;
-}
-
-$updater_attributes = $updater->attributes();
-
-$session =& JFactory::getSession();
-$session->set('jresearchupgrader_updateurl', $updater->data());
-
-if(version_compare($updater_attributes['minimumversion'], getComponentVersion(), '>')) 
-{
-	echo '<p>Current updater version is lower than minimum version for this update.</p>';
-	echo '<p>Please update this extension. This can be attempted automatically or you can download the update and install it yourself.</p>';
-	echo '<ul>';
-	echo '<li><a href="index.php?option=com_jresearch&controller=upgrader&task=autoupdate">Automatically update &gt;&gt;&gt;</a></li>';
-	echo '<li><a target="_blank" href="'. $updater->data() .'">Download package and install manually (new window) &gt;&gt;&gt;</a></li>';
-	echo '</ul>';
-	return false;
-}
-
-if(version_compare($updater_attributes['currentversion'], getComponentVersion(), '>')) 
-{
-	echo '<p>An update ('. $updater_attributes['currentversion'] .') is available for this extension. You can <a href="index.php?option=com_jupdateman&task=autoupdate">update automatically</a> or <a target="_blank" href="'. $updater->data() .'">manually download</a> and install the update.</p>';
 }
 
 echo "<p>You are currently running $version. The latest release is currently $latest. Please select a download:</p>";
@@ -136,12 +113,13 @@ if($message_element) {
 		echo '<p style="background: lightblue; padding: 5px; spacing: 5px; border: 1px solid black;"><b>Update Message:</b><br /> '. $message.'</p>';
 	}
 }
+$session = JFactory::getSession();
 $session->set('jresearchupgrader_fullpackage', $fulldetails);
 $session->set('jresearchupgrader_patchpackage', $patchdetails);
 ?>
 <ul>
 	<li><a
-		href="index.php?option=com_jresearch&controller=upgrader&task=step2&target=full">Full
+		href="index.php?option=com_jresearch&mode=upgrader&task=step2&target=full">Full
 	Package</a> (<?php echo round($fulldetails->filesize/1024/1024,2) ?>MB)<?php
 	if($cached_update && !file_exists($tmp_path.DS.$fulldetails->filename)) {
 		echo ' - <a href="'. $fulldetails->url .'" target="_blank">Download file and upload to your temporary directory first</a>';
@@ -149,7 +127,7 @@ $session->set('jresearchupgrader_patchpackage', $patchdetails);
 	?></li>
 	<?php if($patchdetails) { ?>
 	<li><a
-		href="index.php?option=com_jresearch&controller=upgrader&task=step2&target=patch">Patch
+		href="index.php?option=com_jresearch&mode=upgrader&task=step2&target=patch">Patch
 	Package</a> (<?php echo round($patchdetails->filesize/1024/1024,2) ?>MB)<?php
 	if($cached_update && !file_exists($tmp_path.DS.$patchdetails->filename)) {
 		echo ' - <a href="'. $patchdetails->url .'" target="_blank">Download file and upload to your temporary directory first</a>';

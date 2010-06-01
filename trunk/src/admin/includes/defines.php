@@ -1,4 +1,6 @@
 <?php
+defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
+
 define('_COOPERATION_IMAGE_MAX_WIDTH_', 1024);
 define('_COOPERATION_IMAGE_MAX_HEIGHT_', 768);
 
@@ -13,6 +15,7 @@ define('_MEMBER_IMAGE_MAX_HEIGHT_', 768);
 
 define('_JRESEARCH_VERSION_', '1.2 Beta 2');
 define('_JRESEARCH_BIBUTILS_VERSION_', '4.8 for Unix, 4.2 for Windows, 4.9 for Unix x86/64');
+define('JRESEARCH_UPGRADER_SUPPORT', true);
 
 if (!defined('PHP_EOL'))
 {

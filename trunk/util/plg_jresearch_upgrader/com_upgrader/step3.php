@@ -9,11 +9,12 @@ jimport('joomla.filesystem.file');
 juimport('pasamio.pfactory');
 
 $session =& JFactory::getSession();
-$file = $session->get('jresearchupgrade_filename');
+$file = $session->get('jresearchupgrader_filename');
 
 if(!$file) { // jump again
-	$app =& JFactory::getApplication();
-	$app->redirect('index.php?option=com_jresearch&controller=upgrader&task=step1'); // back to step one if invalid session
+    JError::raiseWarning(1, var_export($file, true));
+    $app =& JFactory::getApplication();
+    $app->redirect('index.php?option=com_jresearch&mode=upgrader&task=step1'); // back to step one if invalid session
 }
 
 $plugin = JPluginHelper::getPlugin('jresearch', 'jresearch_upgrader');
@@ -58,6 +59,8 @@ switch($extractor)
 		}		
 		break;
 }
+
+//Now time to execute the update scripts
 
 $installation = JPATH_SITE .DS.'installation';
 
