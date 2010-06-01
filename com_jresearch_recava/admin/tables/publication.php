@@ -427,12 +427,12 @@ class JResearchPublication extends JResearchActivity{
 				$parentObject->$prop = $this->$prop;
 		}
  		// Time to insert the attributes
-      	if($this->$j){
-          	$ret = $db->updateObject( $this->_tbl, $parentObject, $this->_tbl_key, $updateNulls );
-      	}else{
-          	$ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
-          	$this->$j = $db->insertid();
-      	}
+                if($this->$j){
+                        $ret = $db->updateObject( $this->_tbl, $parentObject, $this->_tbl_key, $updateNulls );
+                }else{
+                        $ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
+                        $this->$j = $db->insertid();
+                }
 
 		// Delete the information about internal and external references
 		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);
