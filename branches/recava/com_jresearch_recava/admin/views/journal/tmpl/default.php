@@ -14,23 +14,27 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<th colspan="4"><?php echo JText::_('JRESEARCH_JOURNAL')?></th>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_TITLE').': '?></td>
-		<td>
-			<input name="title" id="name" size="60" maxlength="255" value="<?php echo isset($this->journal)?$this->journal->title:'' ?>" class="required" />
-			<br />
-			<label for="title" class="labelform" ><?php echo JText::_('JRESEARCH_JOURNAL_PROVIDE_VALID_TITLE'); ?></label>
-		</td>
-		<td><?php echo JText::_('Published').': '; ?></td>
-		<td><?php echo $this->publishedRadio; ?></td>
+            <td><?php echo JText::_('JRESEARCH_TITLE').': '?></td>
+            <td colspan="3">
+                    <input name="title" id="name" size="60" maxlength="255" value="<?php echo isset($this->journal)?$this->journal->title:'' ?>" class="required" />
+                    <br />
+                    <label for="title" class="labelform" ><?php echo JText::_('JRESEARCH_JOURNAL_PROVIDE_VALID_TITLE'); ?></label>
+            </td>
 	</tr>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_IMPACT_FACTOR').': '?></td>
-		<td colspan="3">
-			<input name="impact_factor" id="impact_factor" size="3" maxlength="10" value="<?php echo isset($this->journal)?$this->journal->impact_factor:'' ?>" class="validate-quantity" />
-			<br />
-			<label for="impact_factor" class="labelform" ><?php echo JText::_('JRESEARCH_JOURNAL_PROVIDE_VALID_IMPACT_FACTOR'); ?></label>
-		</td>
+            <td><?php echo JText::_('JRESEARCH_IMPACT_FACTOR').': '?></td>
+            <td>
+                    <input name="impact_factor" id="impact_factor" size="3" maxlength="10" value="<?php echo isset($this->journal)?$this->journal->impact_factor:'' ?>" class="validate-quantity" />
+                    <br />
+                    <label for="impact_factor" class="labelform" ><?php echo JText::_('JRESEARCH_PROVIDE_VALID_IMPACT_FACTOR'); ?></label>
+            </td>
+            <td><?php echo JText::_('Published').': '; ?></td>
+            <td><?php echo $this->publishedRadio; ?></td>
 	</tr>
+        <tr>
+            <td><?php echo JText::_('JRESEARCH_JOURNAL_HISTORY').': '; ?></td>
+            <td><?php echo JHTML::_('JournalsControl.journalhistory', 'history', isset($this->journal)? $this->journal->getHistory(): array()); ?></td>
+        </tr>
 </tbody>
 </table>
 <input type="hidden" name="option" value="com_jresearch" />

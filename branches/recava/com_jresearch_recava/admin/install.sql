@@ -538,6 +538,13 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_journals` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
+DROP TABLE IF EXISTS `#__jresearch_journal_history`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_journal_history` (
+  `id_journal` int(11) unsigned NOT NULL,
+  `year` year(4) NOT NULL,
+  `impact_factor` float NOT NULL default '0',
+  PRIMARY KEY  (`id_journal`, `year`, `impact_factor`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 

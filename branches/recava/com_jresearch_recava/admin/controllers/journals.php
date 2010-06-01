@@ -151,16 +151,29 @@ class JResearchAdminJournalsController extends JController
 		$post = JRequest::get('post');
 
 		$journal->bind($post);
-		$task = JRequest::getVar('task');		
+		$task = JRequest::getVar('task');
+                // Read history
+                $historyCount = JRequest::getInt('history_count', 0);
+                echo $historyCount;
+                for($j = 0; $j < $historyCount; $j++){
+                    $entry = array();
+                    $entry['year'] = JRequest::getInt('historyyear'.$j, -1);
+                    $entry['impact_factor'] = JRequest::getVar('historyfactor'.$j, -1);
+                    if($entry['year'] > 0 && $entry['impact_factor'] >= 0){
+                        $journal->addHistory($entry);
+                    }
+                }
+
 		if($journal->check())
 		{
+
 			if($journal->store())
 			{
 				//Specific redirect for specific task
 				if($task == 'save')
 					$this->setRedirect('index.php?option=com_jresearch&controller=journals', JText::_('The journal was successfully saved.'));
 				elseif($task == 'apply')
-					$this->setRedirect('index.php?option=com_jresearch&controller=journals&task=edit&cid[]='.$journal->id, JText::_('The cooperation was successfully saved.'));
+					$this->setRedirect('index.php?option=com_jresearch&controller=journals&task=edit&cid[]='.$journal->id, JText::_('The journal was successfully saved.'));
 
 				// Trigger event
 				$arguments = array('journal', $journal->id);
