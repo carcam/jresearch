@@ -134,7 +134,15 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 		$publication = array();
 		$publication['citekey'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->PMID, $xmlrpcString);		
 		$publication['title'] = new xmlrpcval(rtrim($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->ArticleTitle, '.'), $xmlrpcString);		
-		$publication['abstract'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Abstract->AbstractText, $xmlrpcString);		
+		$publication['abstract'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Abstract->AbstractText, $xmlrpcString);
+
+                $year = $result->PubmedArticleSet->PubmedArticle->MedlineCitation->DateCreated->Year;
+		$month = $result->PubmedArticleSet->PubmedArticle->MedlineCitation->DateCreated->Month;
+		$day = $result->PubmedArticleSet->PubmedArticle->MedlineCitation->DateCreated->Day;
+		$publication['year'] = new xmlrpcval($year, $xmlrpcString);
+		$publication['month'] = new xmlrpcval($month, $xmlrpcString);
+		$publication['day'] = new xmlrpcval($day, $xmlrpcString);
+
 		if(!empty($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation)){
                     $publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISOAbbreviation, $xmlrpcString);
                     $publication['fulljournal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);
@@ -158,14 +166,7 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 				$authors[] = new xmlrpcval($author->LastName.' '.$author->Initials, $xmlrpcString);        
 		}
 		
-		$publication['authors'] = new xmlrpcval($authors, $xmlrpcArray);
-		
-		$year = $result->PubmedArticleSet->PubmedArticle->MedlineCitation->DateCreated->Year;
-		$month = $result->PubmedArticleSet->PubmedArticle->MedlineCitation->DateCreated->Month;
-		$day = $result->PubmedArticleSet->PubmedArticle->MedlineCitation->DateCreated->Day;
-		$publication['year'] = new xmlrpcval($year, $xmlrpcString);	
-		$publication['month'] = new xmlrpcval($month, $xmlrpcString);
-		$publication['day'] = new xmlrpcval($day, $xmlrpcString);
+		$publication['authors'] = new xmlrpcval($authors, $xmlrpcArray);		
 		$xmlpub = new xmlrpcval($publication, $xmlrpcStruct);
 		return new xmlrpcresp($xmlpub);
 	}

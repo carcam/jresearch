@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	HTML
+* @subpackage           HTML
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
@@ -54,12 +54,12 @@ class JHTMLJournalsControl{
 			document.jclbl_inputtext = '$inputTextLabel';
 			document.jclbl_selectlist = '$selectListLabel';
 
-                        function bringImpactFactor(){
+                        function bringImpactFactor(year){
                             var selectedIndex = document.forms['adminForm'].list_journal.selectedIndex;
                             var journalId = document.forms['adminForm'].list_journal.options[selectedIndex].value;
                             if(journalId != '0'){
                                 var request = new XHR({method: 'get', onSuccess: mapImpactFactor});
-                                request.send('index.php?option=com_jresearch&controller=journals&task=getImpactFactor&format=raw&journalId='+journalId);
+                                request.send('index.php?option=com_jresearch&controller=journals&task=getImpactFactor&format=raw&journalId='+journalId+'&year='+year);
                             }
                         }
 
