@@ -233,8 +233,20 @@ class JResearchAdminJournalsController extends JController
             
             $doc->setMimeEncoding('text/plain');
             $journalId = JRequest::getInt('journalId');
-            $db->setQuery('SELECT impact_factor FROM #__jresearch_journals WHERE id = '.$db->Quote($journalId));
-            echo $db->loadResult();
+            $year = JRequest::getInt('year', 0);
+
+            //Look in the history
+            $query = 'SELECT impact_factor FROM '.$db->nameQuote('#__jresearch_journal_history').' WHERE id_journal = '.$db->Quote($journalId)
+                   .' AND year < '.$db->Quote($year).' ORDER BY year DESC';
+
+            $db->setQuery($query);
+            $result = $db->loadResult();
+            if(empty($result)){
+                $db->setQuery('SELECT impact_factor FROM #__jresearch_journals WHERE id = '.$db->Quote($journalId));
+                $result = $db->loadResult();
+            }
+
+            echo $result;
         }
 }
 ?>

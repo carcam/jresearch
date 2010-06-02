@@ -130,7 +130,8 @@ function mapPublicationToForm(response, responsexml){
 								// The journal is in the database
 								switchTo('journalslist');
 								document.forms['adminForm'].list_journal.selectedIndex = k;
-                                                                bringImpactFactor();
+                                                                // It is valid since I changed the RPC server to ensure the year is always before                                                                
+                                                                bringImpactFactor(document.forms['adminForm'].year.value);
 								mapped = true;
 								break;
 							}
