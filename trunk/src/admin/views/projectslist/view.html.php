@@ -22,28 +22,28 @@ class JResearchAdminViewProjectsList extends JResearchView
     function display($tpl = null)
     {
      	global $mainframe;	
- 		JResearchToolbar::projectsListToolbar();
+        JResearchToolbar::projectsListToolbar();
     	 	
        	$model = &$this->getModel();
       	$items = $model->getData(null, false, true);
       	$areaModel =& $this->getModel('researcharea');
 
       	// Filters and pagination
-		$lists = array();    	
+        $lists = array();
     	$filter_order = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order', 'title');
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order_Dir', 'ASC');
-		$filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
+        $filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('projectsfilter_search', 'filter_search');
-		$filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');
-		$filter_area = $mainframe->getUserStateFromRequest('projectsfilter_area', 'filter_area');
+        $filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');
+        $filter_area = $mainframe->getUserStateFromRequest('projectsfilter_area', 'filter_area');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
-		$lists['order'] = $filter_order;
-		// State filter
-		$lists['state'] = JHTML::_('grid.state', $filter_state);
-		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
-		$lists['search'] = $filter_search;
-		$lists['area'] = JHTML::_('jresearchhtml.researchareas', array('name' => 'filter_area', 'selected' => $filter_area, 'attributes' => 'onchange="document.adminForm.submit();"'), array(array('id' => null, 'name' => JText::_('JRESEARCH_RESEARCH_AREA'))));
+        $lists['order'] = $filter_order;
+        // State filter
+        $lists['state'] = JHTML::_('grid.state', $filter_state);
+        $js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
+        $lists['search'] = $filter_search;
+        $lists['area'] = JHTML::_('jresearchhtml.researchareas', array('name' => 'filter_area', 'selected' => $filter_area, 'attributes' => 'onchange="document.adminForm.submit();"'), array(array('id' => null, 'name' => JText::_('JRESEARCH_RESEARCH_AREA'))));
 		
 		// Authors filter
 		$authors = $model->getAllAuthors();

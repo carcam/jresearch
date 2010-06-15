@@ -127,6 +127,7 @@ class JResearchViewMember extends JResearchView
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);
     	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
     	$theses_view_all = JRequest::getVar('theses_view_all', 0);
+        $doc = JFactory::getDocument();
 
     	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
@@ -191,14 +192,15 @@ class JResearchViewMember extends JResearchView
     	$configuredCitationStyle = $params->get('citationStyle', 'APA');
     	if($applyStyle){
     		// Require publications lang package
-			$lang = JFactory::getLanguage();
-			$lang->load('com_jresearch.publications');		
+            $lang = JFactory::getLanguage();
+            $lang->load('com_jresearch.publications');
     	}    	
     	
     	$format = $params->get('staff_format') == 'last_first'?1:0;
     	$description = str_replace('<hr id="system-readmore" />', '', $member->description);
+        $doc->setTitle($member->__toString());
 
-    	// Bind variables for layout
+        // Bind variables for layout
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
     	$this->assignRef('theses_view_all', $theses_view_all);
