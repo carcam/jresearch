@@ -29,8 +29,8 @@ $mainframe->registerEvent('onAfterSaveJResearchEntity', 'plgJResearchOnAfterSave
 function plgJResearchOnAfterSaveEntity($entityType, $recordId){
 	global $mainframe;
 	
-	$db = &JFactory::getDBO();	
-	$session =& JSession::getInstance();
+	$db = JFactory::getDBO();	
+	$session = JFactory::getSession() ;
 	$citedRecords = $session->get('citedRecords', array(), 'jresearch');
 	
 	if($recordId == null)

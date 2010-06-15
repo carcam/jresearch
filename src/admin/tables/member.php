@@ -172,9 +172,9 @@ class JResearchMember extends JTable{
 		$this->email = $result['email'];
 		$arrayName = JResearchPublicationsHelper::getAuthorComponents($result['name']);
 		if($arrayName['firstname'])
-			$this->firstname = trim($arrayName['firstname'].' '.$arrayName['jr']);
+			$this->firstname = trim($arrayName['firstname'].isset($arrayName['jr'])?' '.$arrayName['jr'].'':'');
 
-		$this->lastname = trim($arrayName['von'].' '.$arrayName['lastname']);
+		$this->lastname = (isset($arrayName['von'])?$arrayName['von'].' ':'').$arrayName['lastname'];
 			
 	}
 
