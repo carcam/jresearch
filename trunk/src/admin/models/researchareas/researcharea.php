@@ -56,7 +56,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$result = $db->loadAssocList();
 
 		foreach($result as $r){
-			$newMember = new JResearchMember($db);
+			$newMember = JTable::getInstance('Member', 'JResearch');
 			$newMember->bind($r);
 			$members[] = $newMember;
 		}

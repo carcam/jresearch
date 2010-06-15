@@ -411,8 +411,9 @@ class JHTMLjresearchhtml
 		foreach($joomlaUsers as $user){
                     $userid = $user['username'];
                     $nameComponents = JResearchPublicationsHelper::getAuthorComponents($user['name']);
-                    $lastname = trim($nameComponents['von'].' '.$nameComponents['lastname']);
-                    $firstname = isset($nameComponents['firstname'])?trim($nameComponents['firstname'].' '.$nameComponents['jr']):'';
+                    $lastname = (isset($nameComponents['von'])? $nameComponents['von'].' ' : '').$nameComponents['lastname'];
+                    $firstname = isset($nameComponents['firstname'])?$nameComponents['firstname']:'';
+                    $firstname .= isset($nameComponents['jr'])?$nameComponents['jr']:'';
                     $output .= "<option id=\"$userid\" value=\"$userid\">$lastname, $firstname</option>";
 		}
 		

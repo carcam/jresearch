@@ -112,10 +112,10 @@ class JResearch
 		$uploadedFile = $file['tmp_name'];
 		
 		if($uploadedFile != null)
-		{		
+		{
+                        $newName = JPATH_COMPONENT_ADMINISTRATOR.DS.JPath::clean($folder).DS.$file['name'];
 			if(array_key_exists($file['type'], $types))
 			{
-				$newName = JPATH_COMPONENT_ADMINISTRATOR.DS.JPath::clean($folder).DS.$file['name'];
 				$base = basename($newName);
 				
 				if(!move_uploaded_file($uploadedFile, $newName))

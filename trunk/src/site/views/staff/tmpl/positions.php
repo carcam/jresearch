@@ -22,7 +22,7 @@ $itemId = JRequest::getVar('Itemid');
 			foreach($this->positions as $position):
 				if($position->published == 1):
 				?>
-					<h1 class="componentheading"><?php echo $position->position; ?></h1>
+					<h2 class="contentheading"><?php echo $position->position; ?></h2>
 					<p>
 					
 				<?php		
@@ -48,7 +48,7 @@ $itemId = JRequest::getVar('Itemid');
 		endif;
 		if($empty):
 		?>
-		<h1 class="componentheading"><?php echo JText::_('JRESEARCH_NOT_SPECIFIED'); ?></h1>
+		<h2 class="contentheading"><?php echo JText::_('JRESEARCH_NOT_SPECIFIED'); ?></h2>
 		<p>
 		<?php
 			if(count($this->items) > 0):
