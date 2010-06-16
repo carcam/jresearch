@@ -237,7 +237,7 @@ class JResearchAdminJournalsController extends JController
 
             //Look in the history
             $query = 'SELECT impact_factor FROM '.$db->nameQuote('#__jresearch_journal_history').' WHERE id_journal = '.$db->Quote($journalId)
-                   .' AND year < '.$db->Quote($year).' ORDER BY year DESC';
+                   .' AND year <= '.$db->Quote($year).' ORDER BY year DESC';
 
             $db->setQuery($query);
             $result = $db->loadResult();

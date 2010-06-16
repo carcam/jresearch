@@ -302,7 +302,7 @@ class JResearchAdminPublicationsController extends JController
 	* Invoked when the user has decided to save a publication.
 	*/	
 	function save(){
-		global $mainframe;
+            global $mainframe;
 	    if(!JRequest::checkToken())
 		{
 		    $this->setRedirect('index.php?option=com_jresearch');

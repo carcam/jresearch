@@ -108,14 +108,28 @@ class JResearchRecava_article extends JResearchPublication{
 	}
 	
 	function getImpactFactor(){
-		if(empty($this->id_journal))
-			return $this->impact_factor;
-		else{
-			require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'journal.php');
-			$journal = JTable::getInstance('Journal', 'JResearch');
-			$journal->load($this->id_journal);
-			return $journal->impact_factor;
-		}	
+            $db = JFactory::getDBO();
+            $result = null;
+            //Look in the history
+            if(isset($this->id_journal)){
+                $query = 'SELECT impact_factor FROM '.$db->nameQuote('#__jresearch_journal_history').' WHERE id_journal = '.$db->Quote($this->id_journal)
+                        .' AND year <= '.$db->Quote($this->year).' ORDER BY year DESC';
+
+                $db->setQuery($query);
+                $result = $db->loadResult();
+                if(empty($result)){
+                    $db->setQuery('SELECT impact_factor FROM #__jresearch_journals WHERE id = '.$db->Quote($this->id_journal));
+
+                    $result = $db->loadResult();
+                    if(empty($result))
+                        $result =  $this->impact_factor;
+                }
+            }else{
+                $result = $this->impact_factor;
+            }
+
+            return $result;
+
 	}
 	
 	function getJournal(){
