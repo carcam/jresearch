@@ -111,8 +111,6 @@ defined('_JEXEC') or die('Restricted access');
 	
 	<?php require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.$this->publication->pubtype.'.php'); ?>
 
-					
-
 	<?php $impact_factor = trim($this->publication->getImpactFactor()); ?>
 	<?php if(!empty($impact_factor)): ?>
 		<tr>		

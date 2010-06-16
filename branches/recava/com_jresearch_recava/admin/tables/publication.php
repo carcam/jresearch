@@ -89,6 +89,7 @@ class JResearchPublication extends JResearchActivity{
 	 * @var string
 	 */
 	public $keywords;
+
 		
 	/**
 	 * Name of the foreign key field in the subclass table.
@@ -115,7 +116,9 @@ class JResearchPublication extends JResearchActivity{
 	*/
 	static $_types;
 	
-	
+
+
+
 
 	/**
 	 * Class constructor. It maps the entity to a Joomla table.
@@ -320,31 +323,31 @@ class JResearchPublication extends JResearchActivity{
 	 * @return True if successful
 	 */
 	public function load($oid = null){		
-		$k = $this->_tbl_key;
-		if(!parent::load($oid))
-			return false;
+            $k = $this->_tbl_key;
+            if(!parent::load($oid))
+                    return false;
         
-        if ($oid === null) {
-           return false;
-        }        
-        
-        $this->$k = $oid;
-        
-        $db =& $this->getDBO();
-        $view = $db->nameQuote('#__jresearch_publication_'.trim($this->pubtype));
-		$this->_loadAuthors($oid);
+            if ($oid === null) {
+               return false;
+            }
 
-        $query = 'SELECT * '
-        . ' FROM '.$view
-        . ' WHERE '.$db->nameQuote($this->_tbl_key).' = '.$db->Quote($oid);        
-        $db->setQuery( $query );
-        
-        if (($result = $db->loadAssoc( ))) {
-            return $this->bind($result);
-        }else{
-            $this->setError( $db->getErrorMsg() );
-            return false;
-        }
+            $this->$k = $oid;
+
+            $db = $this->getDBO();
+            $view = $db->nameQuote('#__jresearch_publication_'.trim($this->pubtype));
+                    $this->_loadAuthors($oid);
+
+            $query = 'SELECT * '
+            . ' FROM '.$view
+            . ' WHERE '.$db->nameQuote($this->_tbl_key).' = '.$db->Quote($oid);
+            $db->setQuery( $query );
+
+            if (($result = $db->loadAssoc( ))) {
+                return $this->bind($result);
+            }else{
+                $this->setError( $db->getErrorMsg() );
+                return false;
+            }
 			
 	}
 	
@@ -649,50 +652,50 @@ class JResearchPublication extends JResearchActivity{
 	 * @return boolean True if success.
 	 */
 	function toggleInternal($cid=null, $value = 0, $user_id = 0){
- 		JArrayHelper::toInteger( $cid );
-        $user_id    = (int) $user_id;
-        $publish    = (int) $value;
-        $k            = $this->_tbl_key;
-        if (count( $cid ) < 1)
-        {
-            if ($this->$k) {
-                $cid = array( $this->$k );
-            } else {
-                $this->setError("No items selected.");
-                return false;
-            }
-        }
-        $cids = $k . '=' . implode( ' OR ' . $k . '=', $cid );
-        $query = 'UPDATE '. $this->_tbl
-        . ' SET internal = ' . (int) $value
-        . ' WHERE ('.$cids.')';
-
-        $checkin = in_array( 'checked_out', array_keys($this->getProperties()) );
-        if ($checkin)
-        {
-            $query .= ' AND (checked_out = 0 OR checked_out = '.(int) $user_id.')';
-        }
-        $this->_db->setQuery( $query );
-        if (!$this->_db->query())
-        {
-            $this->setError($this->_db->getErrorMsg());
-            return false;
-        }
-        if (count( $cid ) == 1 && $checkin)
-        {
-            if ($this->_db->getAffectedRows() == 1) {
-                $this->checkin( $cid[0] );
-                if ($this->$k == $cid[0]) {
-                    $this->internal = $value;
+            JArrayHelper::toInteger( $cid );
+            $user_id    = (int) $user_id;
+            $publish    = (int) $value;
+            $k            = $this->_tbl_key;
+            if (count( $cid ) < 1)
+            {
+                if ($this->$k) {
+                    $cid = array( $this->$k );
+                } else {
+                    $this->setError("No items selected.");
+                    return false;
                 }
             }
-        }
-        $this->setError('');
-        return true;		
+            $cids = $k . '=' . implode( ' OR ' . $k . '=', $cid );
+            $query = 'UPDATE '. $this->_tbl
+            . ' SET internal = ' . (int) $value
+            . ' WHERE ('.$cids.')';
+
+            $checkin = in_array( 'checked_out', array_keys($this->getProperties()) );
+            if ($checkin)
+            {
+                $query .= ' AND (checked_out = 0 OR checked_out = '.(int) $user_id.')';
+            }
+            $this->_db->setQuery( $query );
+            if (!$this->_db->query())
+            {
+                $this->setError($this->_db->getErrorMsg());
+                return false;
+            }
+            if (count( $cid ) == 1 && $checkin)
+            {
+                if ($this->_db->getAffectedRows() == 1) {
+                    $this->checkin( $cid[0] );
+                    if ($this->$k == $cid[0]) {
+                        $this->internal = $value;
+                    }
+                }
+            }
+            $this->setError('');
+            return true;
 	}
 	
 	function getImpactFactor(){
-		return $this->impact_factor;
+            return $this->impact_factor;
 	}
 	
 	function getJournal(){

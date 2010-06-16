@@ -83,6 +83,7 @@ class JHTMLJournalsControl{
 						document.forms['adminForm'].impact_factor.value = '';
 					}else{
 						listControl.style.display = 'none';
+                                                listControl.selectedIndex = 0;
 						inputControl.style.display = 'inline';										
 						switchControl.setAttribute('href', 'javascript:switchTo(\'journalslist\')');
 						switchControl.removeChild(switchControl.firstChild);						
