@@ -333,7 +333,7 @@ class JResearchProject extends JResearchActivity{
 		
 		foreach($this->_cooperations as $cooperation)
 		{
-			$cObject = new JResearchCooperation($db);
+			$cObject = JTable::getInstance('Cooperation', 'JResearch');
 			$cObject->load($cooperation['id_cooperation']);
 			array_push($cObjects, $cObject);
 		}

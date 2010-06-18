@@ -170,10 +170,10 @@ class JResearchViewPublication extends JResearchView
     	$this->assignRef('commentsAllowed', $commentsAllowed);
     	$this->assignRef('showComments', $showComments);
     	$this->assignRef('captcha', $captchaInformation);
-		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
-		$this->assignRef('params', $params);
-		$this->assignRef('format', $format);
-		$this->assignRef('showBibtex', $showBibtex);
+        $this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
+        $this->assignRef('params', $params);
+        $this->assignRef('format', $format);
+        $this->assignRef('showBibtex', $showBibtex);
     	$this->assignRef('showMODS', $showMODS);	
     	$this->assignRef('showRIS', $showRIS);			
 		
