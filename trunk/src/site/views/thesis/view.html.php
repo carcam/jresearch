@@ -75,7 +75,7 @@ class JResearchViewThesis extends JResearchView
 			$thesis->hit();
 		}
 		
-		$doc->setTitle(JText::_('JRESEARCH_THESIS').' - '.$thesis->title);
+        $doc->setTitle(JText::_('JRESEARCH_THESIS').' - '.$thesis->title);
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($thesis->id_research_area);

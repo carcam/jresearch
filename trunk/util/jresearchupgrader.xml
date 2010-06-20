@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<update release="1.2.0">
+<message></message>
+<updater minimumversion="1.1.4" currentversion="1.2.0">http://joomlacode.org/gf/project/jresearch/frs/</updater>
+<fullpackage url="http://localhost/com_jresearch1.2_full_upgrade.tar.gz" filename="com_jresearch1.2_full_upgrade.tar.gz" filesize="4597379" md5="ddadba2652fa406a6ea9e468ede33cef" />
+<patches>
+	<patchpackage version="1.2.0" url="http://joomlacode.org/gf/download/frsrelease/12192/49626/Joomla_1.5.0_to_1.5.17-Stable-Patch_Package.tar.gz" filename="Joomla_1.5.0_to_1.5.17-Stable-Patch_Package.tar.gz" filesize="2662432" md5="aef39f982e94dc1397f2eaf59de3ba0d" />
+</patches>
+</update>
