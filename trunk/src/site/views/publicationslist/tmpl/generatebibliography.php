@@ -61,7 +61,7 @@ function requestBibliographyGeneration(){
 	}
 			
 	bibliographyRequest = new XHR({method: 'get', onSuccess: generateBibliography, onFailure: onBibliographyGenerationFailure});
-	bibliographyRequest.send('index.php?option=com_jresearch&amp;controller=publications&amp;task=ajaxGenerateBibliography&amp;format=text', null);
+	bibliographyRequest.send('index.php?option=com_jresearch&amp;controller=publications&amp;task=ajaxGenerateBibliography&amp;format=raw', null);
 }
 	
 function generateBibliography(response){

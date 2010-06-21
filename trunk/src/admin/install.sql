@@ -402,7 +402,6 @@ INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('booklet');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('conference');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('inbook');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('incollection');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('inproceedings');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('manual');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('mastersthesis');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('misc');
