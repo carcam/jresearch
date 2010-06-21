@@ -67,14 +67,14 @@ class JResearchViewPublication extends JResearchView
       	$id = JRequest::getInt('id');
     	$user = JFactory::getUser();    	    	
     	$commentsAllowed = false;
-   		$showComments = JRequest::getInt('showcomm', 0);
-   		$doc = JFactory::getDocument();
-   		//Verify if the visit is done in the same session
-		$session = JFactory::getSession();
-   		 		
-   		JHTML::_('jresearchhtml.validation');   
-   		$config = array('filePath'=>JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publication'.DS.'captcha');   			
-   		$doc->addScript(JURI::base().'components/com_jresearch/views/publication/comments.js');
+        $showComments = JRequest::getInt('showcomm', 0);
+        $doc = JFactory::getDocument();
+        //Verify if the visit is done in the same session
+        $session = JFactory::getSession();
+
+        JHTML::_('jresearchhtml.validation');
+        $config = array('filePath'=>JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publication'.DS.'captcha');
+        $doc->addScript(JURI::base().'components/com_jresearch/views/publication/comments.js');
    		
     	if(empty($id)){
     		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
@@ -84,84 +84,84 @@ class JResearchViewPublication extends JResearchView
     	$model = $this->getModel();
     	$publication = $model->getItem($id);
     	
-		if(!$publication->internal || !$publication->published){
-			JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));
-			return false;
-		}		    	
-		
-		$this->addPathwayItem(JText::_('New'), 'index.php?option=com_jresearch&view=publication&task=new');
-		
-		//If the publication was visited in the same session, do not increment the hit counter
-		if(!$session->get('visited', false, 'publications'.$id)){
-			$session->set('visited', true, 'publications'.$id);
-			$publication->hit();
-		}
+        if(!$publication->internal || !$publication->published){
+                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));
+                return false;
+        }
+
+        $this->addPathwayItem(JText::_('New'), 'index.php?option=com_jresearch&view=publication&task=new');
+
+        //If the publication was visited in the same session, do not increment the hit counter
+        if(!$session->get('visited', false, 'publications'.$id)){
+                $session->set('visited', true, 'publications'.$id);
+                $publication->hit();
+        }
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($publication->id_research_area);
     	
     	//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
-		if($params->get('publications_allow_comentaries') == 'yes'){
-			$user =& JFactory::getUser();
-		 	$from = $params->get('publications_allow_comentaries_from');	
-			if($from == 'everyone' || (!$user->guest && $from == 'users')){
-				$commentsAllowed = true;
-			}
-			
-			jximport('jxtended.captcha.captcha');
- 		 	$captcha = &JXCaptcha::getInstance('image', $config);
- 		 	if(!$captcha->initialize())
- 		 		JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
- 	
-    		if (!is_array($captchaInformation = $captcha->create())) {
-	 			JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
-	    	}
-	    	
-	    	// Get the comments
-	    	$limit = JRequest::getVar('limit', 5);
-	    	$limitStart = JRequest::getVar('limitstart', 0);
-	    	$comments = $model->getComments($publication->id, $limit, $limitStart);			
-	    	$total = $model->countComments($publication->id);
-	    		    	
-	    	$this->assignRef('comments', $comments);
-	    	$this->assignRef('limit', $limit);
-			$this->assignRef('limitstart', $limitStart);	    	
-			$this->assignRef('total', $total);
-			
-		}
-    	    	
-    	
-    	// Cross referencing
-		$missingFields = $publication->getReferencedFields();
-		if(!empty($missingFields)){
-			$count = 0;
-			$crossrefData = "<tr>";
-			foreach($missingFields as $key=>$value){
-				if($count % 2 == 0 && $count > 0){
-					$crossrefData .= "<tr>";
-				}		
-				$crossrefData .= "<th scope=\"row\">".JResearchText::_($key).": </th><td>".trim($value)."</td>";
-				$count++;	
-				if($count % 2 == 0 && $count > 0){
-					$crossrefData .= "</tr>";
-				}
+        if($params->get('publications_allow_comentaries') == 'yes'){
+                $user =& JFactory::getUser();
+                $from = $params->get('publications_allow_comentaries_from');
+                if($from == 'everyone' || (!$user->guest && $from == 'users')){
+                        $commentsAllowed = true;
+                }
+
+                jximport('jxtended.captcha.captcha');
+                $captcha = &JXCaptcha::getInstance('image', $config);
+                if(!$captcha->initialize())
+                        JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
+
+        if (!is_array($captchaInformation = $captcha->create())) {
+            JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
+        }
+
+        // Get the comments
+        $limit = JRequest::getVar('limit', 5);
+        $limitStart = JRequest::getVar('limitstart', 0);
+        $comments = $model->getComments($publication->id, $limit, $limitStart);
+        $total = $model->countComments($publication->id);
+
+        $this->assignRef('comments', $comments);
+        $this->assignRef('limit', $limit);
+                $this->assignRef('limitstart', $limitStart);
+                $this->assignRef('total', $total);
+
+        }
+
+
+// Cross referencing
+        $missingFields = $publication->getReferencedFields();
+        if(!empty($missingFields)){
+                $count = 0;
+                $crossrefData = "<tr>";
+                foreach($missingFields as $key=>$value){
+                        if($count % 2 == 0 && $count > 0){
+                                $crossrefData .= "<tr>";
+                        }
+                        $crossrefData .= "<th scope=\"row\">".JResearchText::_($key).": </th><td>".trim($value)."</td>";
+                        $count++;
+                        if($count % 2 == 0 && $count > 0){
+                                $crossrefData .= "</tr>";
+                        }
+
+                }
+                if($count % 2 != 0)
+                        $crossrefData .= "<td></td><td></td></tr>";
+
+                $this->assignRef('reference', $crossrefData);
+        }
 		
-			} 
-			if($count % 2 != 0)
-				$crossrefData .= "<td></td><td></td></tr>";
-			
-			$this->assignRef('reference', $crossrefData);	
-		}
-		
-		$showHits = ($params->get('show_hits') == 'yes');
+        $showHits = ($params->get('show_hits') == 'yes');
     	$format = $params->get('staff_format') == 'last_first'?1:0;		
     	$showBibtex = ($params->get('show_export_bibtex') == 'yes');
     	$showMODS = ($params->get('show_export_mods') == 'yes');    		
     	$showRIS = ($params->get('show_export_ris') == 'yes');    	
     	
 		
-		$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
+        $doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
     	$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
@@ -217,13 +217,13 @@ class JResearchViewPublication extends JResearchView
 		$this->addPathwayItem(JText::_('Add'));
 		$pubtype = JRequest::getVar('pubtype');					
 	}else{
-		$publication = JResearchPublication::getById($cid);		
-		$pubtype = $publication->pubtype;
-		$this->addPathwayItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
-		$this->addPathwayItem(JText::_('Edit'));						
-		$publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
-		$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);														
-		$this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);		
+            $publication = JResearchPublication::getById($cid);
+            $pubtype = $publication->pubtype;
+            $this->addPathwayItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
+            $this->addPathwayItem(JText::_('Edit'));
+            $publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
+            $this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
+            $this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);
 	}
 
 	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));

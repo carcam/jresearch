@@ -892,15 +892,18 @@ class JHTMLjresearchhtml
 	 * @return string
 	 */
 	public static function publicationstypeslist($name, $options = '', $value=''){	
-		// Publication type filter
-		$types = JResearchPublication::getPublicationsSubtypes();
-		$typesHTML = array();
-		$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
-		foreach($types as $type){
-			$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
-		}
-		
-		return JHTML::_('select.genericlist', $typesHTML, $name, $options, 'value','text', $value);		
+            // Publication type filter
+            $types = JResearchPublication::getPublicationsSubtypes();
+            $typesHTML = array();
+            $typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
+            foreach($types as $type){
+                $text = 'JRESEARCH_'.strtoupper($type);
+                if($type == 'conference')
+                    $text .= '/'.JText::_('JRESEARCH_INPROCEEDINGS');
+                $typesHTML[] = JHTML::_('select.option', $type, $text);
+            }
+
+            return JHTML::_('select.genericlist', $typesHTML, $name, $options, 'value','text', $value);
 		
 	}
 	

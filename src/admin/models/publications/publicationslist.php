@@ -388,9 +388,10 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$result = $db->loadAssocList();
 		if($result){
 			foreach($result as $r){
-				$pub = JResearchPublication::getSubclassInstance($r['pubtype']);
-				$pub->load($r['id']);
-				$records[] = $pub;
+                            $pub = JTable::getInstance('Publication', 'JResearch');
+                            $pub->pubtype = $r['pubtype'];
+                            $pub->load($r['id']);
+                            $records[] = $pub;
 			}
 		}
 		return $records;

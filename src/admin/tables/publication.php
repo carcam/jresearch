@@ -410,12 +410,12 @@ class JResearchPublication extends JResearchActivity{
 	* @return array
 	*/	
 	public static function getPublicationsSubtypes(){
-		$db = JFactory::getDBO();
-			
-		$query = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');	
-		$db->setQuery($query);
-		
-		return $db->loadResultArray();
+            $db = JFactory::getDBO();
+
+            $query = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');
+            $db->setQuery($query);
+
+            return $db->loadResultArray();
 	}
 	
 	/**
