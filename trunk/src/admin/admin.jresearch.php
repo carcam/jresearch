@@ -21,6 +21,16 @@ defined('_JEXEC') or die('Restricted access');
 // Common needed files
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
 
+// Handle upgrade case
+$mode = JRequest::getVar('mode');
+if($mode == 'upgrader'){
+    // Verify the plugin is installed in the system
+    if(!JPluginHelper::isEnabled('jresearch', 'jresearch_upgrade')){
+        JError::raiseWarning(1, JText::_('JRESEARCH_UPGRADE_PLUGIN_NOT_INSTALLED'));
+        $mainframe->redirect('index.php?option=com_jresearch');
+    }
+}
+
 // Require specific controller. Publications is the default
 $controller = JRequest::getVar('controller', null);
 $task = JRequest::getVar('task');
