@@ -61,11 +61,46 @@ switch($extractor)
 }
 
 //Now time to execute the update scripts
-
 $installation = JPATH_SITE .DS.'installation';
 
+$upgradeRoutine = $installation.DS.'upgrade.sql';
+$fh = @fopen($upgradeRoutine, 'r');
+if($fh !== false){
+    $sqlsentences = fread($fh, filesize($upgradeRoutine));
+    $db = JFactory::getDBO();
+    $db->setQuery($sqlsentences);
+    if(!$db->query()){
+        JError::raiseWarning(1, JText::_('JRESEARCH_SQL_UPGRADE_FAILED').': '.$db->getErrorMsg());
+    }
+
+    fclose($fh);
+}
+
+
+
+$removedFiles = $installation.DS.'deleted.txt';
+$fh = @fopen($removedFiles, 'r');
+if($fh !== false){
+    while ($line = fgets ($fh)) {
+        if ($line !== false){
+            $comp = explode(' ', $line);
+            // Assume directories are empty
+            $item = JPATH_SITE.$comps[1];
+            if($comp[0] == 'D'){
+                if(is_file($item)){
+                    @unlink($item);
+                }elseif(is_dir($item)){
+                   @rmdir($item);
+                }
+            }
+        }
+    }
+    
+    fclose ($fh);
+}
+
 if (is_dir( $installation )) {
-	JFolder::delete($installation);
+    JFolder::delete($installation);
 }
 
 $cached_update = $params->get('cached_update', 0);
@@ -73,14 +108,14 @@ $cached_update = $params->get('cached_update', 0);
 // delete the left overs unless cached update
 if(!$cached_update) 
 {
-	if (is_file( $filename ) ) {
-		JFile::delete($filename);
-	}
-	
-	$upgrade_xml = $tmp_path . DS . 'jupgrader.xml';
-	if ( is_file( $upgrade_xml ) ) {
-		JFile::delete($upgrade_xml);
-	}
+    if (is_file( $filename ) ) {
+            JFile::delete($filename);
+    }
+
+    $upgrade_xml = $tmp_path . DS . 'jupgrader.xml';
+    if ( is_file( $upgrade_xml ) ) {
+            JFile::delete($upgrade_xml);
+    }
 }
 ?>
 
