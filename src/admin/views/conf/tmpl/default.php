@@ -99,6 +99,15 @@ $pane = JPane::getInstance('sliders', array('allowAllClose' => true));
 			</a>
 		</div>
 	</div>
+    	<div>
+		<div class="icon">
+			<a href="index.php?option=com_jresearch&amp;mode=upgrader">
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/versionupgrade.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
+				<span><?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?></span>
+			</a>
+		</div>
+	</div>
+
 </div>	
 <div class="about-panel">
 <?php 
