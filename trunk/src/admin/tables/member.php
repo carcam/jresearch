@@ -203,7 +203,7 @@ class JResearchMember extends JTable{
 	* @return boolean. True if all fields of the object have a valid content.
 	*/	
 	function check(){
-		$name_pattern = '/\w[-_\w\s.]+/';
+		$name_pattern = '/\w[-_\w\s.]*/';
 		$phone_pattern = '/\d[-\d]+/';
 		$email_pattern = '/^(\w[-\w.]*)@([-a-z0-9]+(\.[-a-z0-9]+)*\.(com|edu|infocom|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z]))$/i';
 		
