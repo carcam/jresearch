@@ -9,8 +9,6 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g, ''); };
 function addDatabasesSearchButton(){
 	var citekey = document.getElementById('citekey');
 	if(citekey!= null){
-		var parent = citekey.parentNode;
-		var text = document.createTextNode(' ');
 		newButton = document.createElement('button');
 		newButton.setAttribute('type', 'button');
 		newButton.appendChild(document.createTextNode(document.jresearch_plugins_buttonText));
