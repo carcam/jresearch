@@ -191,38 +191,38 @@ class JResearchMember extends JTable{
 	* @return boolean. True if all fields of the object have a valid content.
 	*/	
 	function check(){
-		$name_pattern = '/\w[-_\w\s.]+/';
-		$phone_pattern = '/\d[-\d]+/';
-		$email_pattern = '/^(\w[-\w.]*)@([-a-z0-9]+(\.[-a-z0-9]+)*\.(com|edu|infocom|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z]))$/i';
-		
-		// Validate first and lastname
-		if(!preg_match($name_pattern, $this->lastname)){
-			$this->setError(JText::_('Lastname can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
-			return false;
-		}
-		
-		if(!preg_match($name_pattern, $this->firstname)){
-			$this->setError(JText::_('First name can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
-			return false;
-		}
-		
-		if($this->phone_or_fax){
-			if(!preg_match($phone_pattern, $this->phone_or_fax)){
-				$this->setError(JText::_('Phone numbers can only contain digits and scores'));
-				return false;
-			}
-				
-		}
-		
-		if($this->email){
-			if(!preg_match($email_pattern, $this->email)){
-				$this->setError(JText::_('Please provide a valid e-mail address'));
-				return false;	
-			}
-				
-		}
-		
-		return true;
+            $name_pattern = '/\w[-_\w\s.]*/';
+            $phone_pattern = '/\d[-\d]+/';
+            $email_pattern = '/^(\w[-\w.]*)@([-a-z0-9]+(\.[-a-z0-9]+)*\.(com|edu|infocom|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z]))$/i';
+
+            // Validate first and lastname
+            if(!preg_match($name_pattern, $this->lastname)){
+                    $this->setError(JText::_('JRESEARCH_PROVIDE_LAST_NAME'));
+                    return false;
+            }
+
+            if(!preg_match($name_pattern, $this->firstname)){
+                    $this->setError(JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_FIRSTNAME'));
+                    return false;
+            }
+
+            if($this->phone_or_fax){
+                    if(!preg_match($phone_pattern, $this->phone_or_fax)){
+                            $this->setError(JText::_('Phone numbers can only contain digits and scores'));
+                            return false;
+                    }
+
+            }
+
+            if($this->email){
+                    if(!preg_match($email_pattern, $this->email)){
+                            $this->setError(JText::_('Please provide a valid e-mail address'));
+                            return false;
+                    }
+
+            }
+
+            return true;
 		
 	}
 	
