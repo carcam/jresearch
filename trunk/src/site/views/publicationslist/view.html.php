@@ -151,7 +151,7 @@ class JResearchViewPublicationsList extends JResearchView
     	//Now time to sort the data for presentation
     	$sortedItems = $this->_sort($publications, $style, $filter_order);
     	    	
-    	$showmore = ($params->get('show_more') == 'yes');
+    	$showmore = ($params->get('show_more', 'yes') == 'yes');
     	$showdigital = ($params->get('show_digital') == 'yes');
     	$layout = JRequest::getString('layout', 'year');
     	$exportAll = ($params->get('show_export_all') == 'yes');
