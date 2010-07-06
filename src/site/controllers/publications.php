@@ -462,7 +462,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$id = JRequest::getInt('id');
 		$post = JRequest::get('post');
 		$type = JRequest::getVar('pubtype');
-		$publication = JResearchPublication::getInstance();
+		$publication = JTable::getInstance('Publication', 'JResearch');
 		$Itemid = JRequest::getVar('Itemid');
 		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';		
 		$publication->bind($post);		
@@ -668,7 +668,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$type = JRequest::getVar('change_type');
 		JRequest::setVar('pubtype', $type, 'POST', true);
 		$post = JRequest::get('post');
-		$publication = JResearchPublication::getSubclassInstance($type);
+                $publication = JTable::getInstance('Publication', 'JResearch');
+                $publication->pubtype = $type;
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
 		$keepOld = JRequest::getVar('keepold', false);
