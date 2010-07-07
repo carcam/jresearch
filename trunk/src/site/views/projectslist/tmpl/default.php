@@ -48,7 +48,7 @@ if(count($this->items) > 0):
 			endif;
 			
 			//Get values and financiers for project
-          	$financiers = implode(', ', $project->getFinanciers());
+                  	$financiers = implode(', ', $project->getFinanciers());
           	
 			$value = str_replace(array(",00",".00"), ",-", $project->finance_value); //Replace ,/.00 with ,-
 			
@@ -68,7 +68,7 @@ if(count($this->items) > 0):
 			?>
 			<div>
 				<h4><?php echo JText::_('JRESEARCH_PROJECT_FUNDING')?></h4>
-				<span><?php echo $financiers ?></span>, <h4><?php echo $project->finance_currency." ".$value?></h4>
+				<span><?php echo $financiers ?></span>, <h4><?php echo $project->finance_currency." ".$value ?></h4>
 			</div>
 			<?php
 			endif;
