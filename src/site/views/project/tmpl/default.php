@@ -190,14 +190,16 @@ JHTML::_('behavior.modal');
 	if($this->project->countFinanciers() > 0):
 	?>
 	<tr>
-		<td><?php echo JText::_('JRESEARCH_FUNDED_BY').': '; ?></td>
+		<td width="20%" class="field"><?php echo JText::_('JRESEARCH_FUNDED_BY').': '; ?></td>
 		<td>
 			<?php 
 			$financiers = $this->project->getFinanciers();
 			echo implode('<br />', $financiers);
-			?>
+                        ?>
 		</td>
-		<td colspan="2"><?php echo $this->project->finance_value.' '.$this->project->finance_currency; ?></td>
+		<td width="20%" class="field"><?php echo JText::_('JRESEARCH_PROJECT_FUNDING').': '; ?></td>
+                <td><?php echo $this->project->finance_value.' '.$this->project->finance_currency; ?>
+</td>
 	</tr>
 	<?php
 	endif;
