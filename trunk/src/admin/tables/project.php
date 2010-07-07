@@ -508,6 +508,13 @@ class JResearchProject extends JResearchActivity{
 		
 		return $result;		
 	}
+
+        public function bind($from, $ignore = array(), $loadAuthors = false){
+            parent::bind($from, $ignore, $loadAuthors);
+            $this->_loadFinanciers($this->id);
+            $this->_loadCooperations($this->id);
+	}
+
 	
 }
 
