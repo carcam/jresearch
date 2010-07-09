@@ -93,8 +93,8 @@ class JResearchProject extends JResearchActivity{
 	 * @param JDatabase $db
 	 */
 	function __construct(&$db){
-		parent::__construct( '#__jresearch_project', 'id', $db );
-		$this->_type = 'project';
+            parent::__construct( '#__jresearch_project', 'id', $db );
+            $this->_type = 'project';
 	}
 	
 	/**
@@ -103,54 +103,54 @@ class JResearchProject extends JResearchActivity{
 	*/	
 	
 	function check(){
-		$date_pattern = '/^\d{4}-\d{2}-\d{2}$/';
-		
-		// Verify the integrity of members
-		if(!parent::checkAuthors())
-			return false;
-			
-		// Validate dates	
-		if(!empty($this->start_date)){
-			if(!preg_match($date_pattern, $this->start_date)){
-				$this->setError(JText::_('Please provide a proposed start date for the project in format YYYY-MM-DD'));
-				return false;
-			}
-		}
+            $date_pattern = '/^\d{4}-\d{2}-\d{2}$/';
 
-		if(!empty($this->end_date)){
-			if(!preg_match($date_pattern, $this->start_date)){
-				$this->setError(JText::_('Please provide a proposed deadline for the project in format YYYY-MM-DD'));
-				return false;
-			}
-		}
-		
-		if((!empty($this->end_date) && $this->end_date != '0000-00-00') && (!empty($this->start_date) && $this->start_date != '0000-00-00')){
-			$startDateObj = new JDate($this->start_date);
-			$endDateObj = new JDate($this->end_date);
-			
-			if($endDateObj->toUnix() < $startDateObj->toUnix()){
-				$this->setError(JText::_('Start date is greater than end date'));
-				return false;
-			}
-		}
-		
-		if(!empty($this->finance_value))
-		{
-			$this->finance_value = round($this->finance_value, 2);
-			
-			if($this->finance_value <= 0.0)
-			{
-				$this->setError(JText::_('Funding must be greater than 0'));
-			}
-		}
-			
-			
-		if(empty($this->title)){
-			$this->setError(JText::_('Provide a title for the project'));
-			return false;
-		}	
-		
-		return true;
+            // Verify the integrity of members
+            if(!parent::checkAuthors())
+                    return false;
+
+            // Validate dates
+            if(!empty($this->start_date)){
+                    if(!preg_match($date_pattern, $this->start_date)){
+                            $this->setError(JText::_('Please provide a proposed start date for the project in format YYYY-MM-DD'));
+                            return false;
+                    }
+            }
+
+            if(!empty($this->end_date)){
+                    if(!preg_match($date_pattern, $this->start_date)){
+                            $this->setError(JText::_('Please provide a proposed deadline for the project in format YYYY-MM-DD'));
+                            return false;
+                    }
+            }
+
+            if((!empty($this->end_date) && $this->end_date != '0000-00-00') && (!empty($this->start_date) && $this->start_date != '0000-00-00')){
+                    $startDateObj = new JDate($this->start_date);
+                    $endDateObj = new JDate($this->end_date);
+
+                    if($endDateObj->toUnix() < $startDateObj->toUnix()){
+                            $this->setError(JText::_('Start date is greater than end date'));
+                            return false;
+                    }
+            }
+
+            if(!empty($this->finance_value))
+            {
+                    $this->finance_value = round($this->finance_value, 2);
+
+                    if($this->finance_value <= 0.0)
+                    {
+                            $this->setError(JText::_('Funding must be greater than 0'));
+                    }
+            }
+
+
+            if(empty($this->title)){
+                    $this->setError(JText::_('Provide a title for the project'));
+                    return false;
+            }
+
+            return true;
 
 	}
 	
@@ -161,11 +161,11 @@ class JResearchProject extends JResearchActivity{
 	 * @return True if successful
 	 */
 	public function load($oid = null){
-		$result = parent::load($oid);
-		$this->_loadAuthors($oid);
-		$this->_loadFinanciers($oid);
-		$this->_loadCooperations($oid);
-		return $result;
+            $result = parent::load($oid);
+            $this->_loadAuthors($oid);
+            $this->_loadFinanciers($oid);
+            $this->_loadCooperations($oid);
+            return $result;
 	}
 	
 	/**
@@ -176,113 +176,113 @@ class JResearchProject extends JResearchActivity{
 	 * @return true if successful
 	 */
 	public function store($updateNulls = false){
-		$isNew = $this->id?false:true;
-		if($isNew){
-			$now = new JDate();
-			$this->created = $now->toMySQL();
-		}		
-		if(!parent::store($updateNulls))
-			return false;
+            $isNew = $this->id?false:true;
+            if($isNew){
+                    $now = new JDate();
+                    $this->created = $now->toMySQL();
+            }
+            if(!parent::store($updateNulls))
+                    return false;
 
-		$db = $this->getDBO();
- 		$j = $this->_tbl_key;		
-			
-		// Delete the information about internal and external references
-		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_internal_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
-		$deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_external_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
-		
-		//Delete information of financiers
-		$deleteFinQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_financier').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
-		$db->setQuery($deleteInternalQuery);
-		if(!$db->query()){
-			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());	
-			return false;
-		}	
+            $db = $this->getDBO();
+            $j = $this->_tbl_key;
 
-		$db->setQuery($deleteExternalQuery);
-		if(!$db->query()){					
-			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
-			return false;
-		}
-		
-		$db->setQuery($deleteFinQuery);
-		if(!$db->query())
-		{
-			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
-			return false;
-		}
-		
-		// Insert members' information
-		$orderField = $db->nameQuote('order');
-		$idPubField = $db->nameQuote('id_project');
-       	$idStaffField = $db->nameQuote('id_staff_member');
-       	$isPrincipalField = $db->nameQuote('is_principal');
-       	
-       	//Internal authors
-		foreach($this->_internalAuthors as $author){
-			$id_staff_member = $author['id_staff_member'];
-			$order = $author['order'];
-			$principal = $db->Quote($author['is_principal'], false);
-			$tableName = $db->nameQuote('#__jresearch_project_internal_author');
-			$insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField,$isPrincipalField) VALUES ($this->id, $id_staff_member,$order,$principal)";
-			$db->setQuery($insertInternalQuery);			
-			if(!$db->query()){
-				$this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
-				return false;
-			}
-		}
-		
-		//External authors
-		$authorField = $db->nameQuote('author_name');
-		foreach($this->_externalAuthors as $author){
-			$order = $db->Quote($author['order'], false);
-			$authorName = $db->Quote($db->getEscaped($author['author_name'], true), false);
-			$principal = $db->Quote($author['is_principal'], false);
-			
-			$tableName = $db->nameQuote('#__jresearch_project_external_author');
-			$insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField, $isPrincipalField) VALUES($this->id, $authorName, $order, $principal)";			
-			$db->setQuery($insertExternalQuery);
-			if(!$db->query()){
-				$this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
-				return false;
-			}
-		}  
+            // Delete the information about internal and external references
+            $deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_internal_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
+            $deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_external_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
+            //Delete information of financiers
+            $deleteFinQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_financier').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
 
-		//Financiers
-		$idFinField = $db->nameQuote('id_financier');
-		$tableName = $db->nameQuote('#__jresearch_project_financier');
-		foreach($this->_financiers as $fin)
-		{
-			$idFin = (int) $fin['id_financier'];
-			$insertFinQuery = 'INSERT INTO '.$tableName.' ('.$idPubField.', '.$idFinField.') VALUES('.$this->id.', '.$idFin.')';
-			
-			$db->setQuery($insertFinQuery);
-			
-			if(!$db->query())
-			{
-				$this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
-				return false;
-			}
-		}
+            $db->setQuery($deleteInternalQuery);
+            if(!$db->query()){
+                    $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+                    return false;
+            }
+
+            $db->setQuery($deleteExternalQuery);
+            if(!$db->query()){
+                    $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+                    return false;
+            }
+
+            $db->setQuery($deleteFinQuery);
+            if(!$db->query())
+            {
+                    $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+                    return false;
+            }
+
+            // Insert members' information
+            $orderField = $db->nameQuote('order');
+            $idPubField = $db->nameQuote('id_project');
+            $idStaffField = $db->nameQuote('id_staff_member');
+            $isPrincipalField = $db->nameQuote('is_principal');
+
+            //Internal authors
+            foreach($this->_internalAuthors as $author){
+                    $id_staff_member = $author['id_staff_member'];
+                    $order = $author['order'];
+                    $principal = $db->Quote($author['is_principal'], false);
+                    $tableName = $db->nameQuote('#__jresearch_project_internal_author');
+                    $insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField,$isPrincipalField) VALUES ($this->id, $id_staff_member,$order,$principal)";
+                    $db->setQuery($insertInternalQuery);
+                    if(!$db->query()){
+                            $this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
+                            return false;
+                    }
+            }
+
+            //External authors
+            $authorField = $db->nameQuote('author_name');
+            foreach($this->_externalAuthors as $author){
+                    $order = $db->Quote($author['order'], false);
+                    $authorName = $db->Quote($db->getEscaped($author['author_name'], true), false);
+                    $principal = $db->Quote($author['is_principal'], false);
+
+                    $tableName = $db->nameQuote('#__jresearch_project_external_author');
+                    $insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField, $isPrincipalField) VALUES($this->id, $authorName, $order, $principal)";
+                    $db->setQuery($insertExternalQuery);
+                    if(!$db->query()){
+                            $this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
+                            return false;
+                    }
+            }
+
+            //Financiers
+            $idFinField = $db->nameQuote('id_financier');
+            $tableName = $db->nameQuote('#__jresearch_project_financier');
+            foreach($this->_financiers as $fin)
+            {
+                $idFin = (int) $fin['id_financier'];
+                $insertFinQuery = 'INSERT INTO '.$tableName.' ('.$idPubField.', '.$idFinField.') VALUES('.$this->id.', '.$idFin.')';
+
+                $db->setQuery($insertFinQuery);
+
+                if(!$db->query())
+                {
+                        $this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
+                        return false;
+                }
+            }
+
+            //Set cooperations
+            $idCoopField = $db->nameQuote('id_cooperation');
+            $tableName = $db->nameQuote('#__jresearch_project_cooperation');
+            foreach($this->_cooperations as $coop)
+            {
+                    $idCoop = intval($coop['id_cooperation']);
+                    $insertQuery = 'INSERT INTO '.$tableName.' ('.$idPubField.', '.$idCoopField.' ) VALUES ('.$this->id.', '.$idCoop.')';
+
+                    $db->setQuery($insertQuery);
+
+                    if(!$db->query())
+                    {
+                            $this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
+                            return false;
+                    }
+            }
 		
-		//Set cooperations
-		$idCoopField = $db->nameQuote('id_cooperation');
-		$tableName = $db->nameQuote('#__jresearch_project_cooperation');
-		foreach($this->_cooperations as $coop)
-		{
-			$idCoop = intval($coop['id_cooperation']);
-			$insertQuery = 'INSERT INTO '.$tableName.' ('.$idPubField.', '.$idCoopField.' ) VALUES ('.$this->id.', '.$idCoop.')';
-			
-			$db->setQuery($insertQuery);
-			
-			if(!$db->query())
-			{
-				$this->setError(get_class( $this ).'::store failed - '.$db->getQuery());
-				return false;
-			}
-		}
-		
-      	return true;
+            return true;
 			
 	}
 
@@ -294,10 +294,10 @@ class JResearchProject extends JResearchActivity{
 	 */
 	public function setFinancier($financier)
 	{
-		if($financier > 0)
-			array_push($this->_financiers, array('id' => $this->id, 'id_financier' => $financier));
+            if($financier > 0)
+                array_push($this->_financiers, array('id' => $this->id, 'id_financier' => $financier));
 		
-		return true;
+            return true;
 	}
 	
 	public function setCooperation($cooperation)
@@ -348,40 +348,40 @@ class JResearchProject extends JResearchActivity{
 	 */
 	public function countFinanciers()
 	{
-		return count($this->_financiers);
+            return count($this->_financiers);
 	}
 	
 	public function countCooperations()
 	{
-		return count($this->_cooperations);
+            return count($this->_cooperations);
 	}
 
 	protected function _load($oid, $table)
 	{
-		$db = &$this->getDBO();
-		
-		$table = $db->nameQuote($table);
-		$idProject = $db->nameQuote('id_project');
-		
-		$qoid = $db->Quote($oid);
+            $db = &$this->getDBO();
+
+            $table = $db->nameQuote($table);
+            $idProject = $db->nameQuote('id_project');
+
+            $qoid = $db->Quote($oid);
 		
 		// Get internal authors
-        $query = "SELECT * FROM $table WHERE $idProject = $qoid";
-		$db->setQuery($query);
+            $query = "SELECT * FROM $table WHERE $idProject = $qoid";
+            $db->setQuery($query);
         
-		return $db->loadAssocList();
+            return $db->loadAssocList();
 	}
 	
 	protected function _loadFinanciers($oid)
 	{
-		$result = $this->_load($oid, '#__jresearch_project_financier');
-        $this->_financiers = (!empty($result)) ? $result : array();
+            $result = $this->_load($oid, '#__jresearch_project_financier');
+            $this->_financiers = (!empty($result)) ? $result : array();
 	}
 	
 	protected function _loadCooperations($oid)
 	{
-		$result = $this->_load($oid, '#__jresearch_project_cooperation');
-		$this->_cooperations = (!empty($result)) ? $result : array();
+            $result = $this->_load($oid, '#__jresearch_project_cooperation');
+            $this->_cooperations = (!empty($result)) ? $result : array();
 	}
 	
 	/**
@@ -400,20 +400,20 @@ class JResearchProject extends JResearchActivity{
 	* to the order number), false otherwise.
 	*/	
 	function setAuthor($member, $order, $internal=false, $isPrincipal=false){
-		$result = parent::setAuthor($member, $order, $internal);
-		
-		if($result){		
-			//Get the last entry in the array and set the principal flag
-			if($internal){
-				$n = count($this->_internalAuthors);
-				$this->_internalAuthors[$n - 1]['is_principal'] = $isPrincipal;
-			}else{
-				$n = count($this->_externalAuthors);
-				$this->_externalAuthors[$n - 1]['is_principal'] = $isPrincipal;			
-			}
-		}
-		
-		return $result;
+            $result = parent::setAuthor($member, $order, $internal);
+
+            if($result){
+                    //Get the last entry in the array and set the principal flag
+                    if($internal){
+                            $n = count($this->_internalAuthors);
+                            $this->_internalAuthors[$n - 1]['is_principal'] = $isPrincipal;
+                    }else{
+                            $n = count($this->_externalAuthors);
+                            $this->_externalAuthors[$n - 1]['is_principal'] = $isPrincipal;
+                    }
+            }
+
+            return $result;
 		
 	}
 	
@@ -425,16 +425,16 @@ class JResearchProject extends JResearchActivity{
 	 *
 	 */
 	function getPrincipalsFlagsArray(){
-		$nAuthors = $this->countAuthors();
-		$result = array();
-		$i = 0;
-		
-		while($i < $nAuthors){
-			$result[] = $this->getPrincipalFlag($i); 
-			$i++;
-		}
-		
-		return $result;		
+            $nAuthors = $this->countAuthors();
+            $result = array();
+            $i = 0;
+
+            while($i < $nAuthors){
+                    $result[] = $this->getPrincipalFlag($i);
+                    $i++;
+            }
+
+            return $result;
 	}
 	
 	/**
@@ -445,24 +445,24 @@ class JResearchProject extends JResearchActivity{
 	 * the members to the project.
 	 */
 	function getPrincipalFlag($index){
-		$n = $this->countAuthors();
-		if($index < 0 || $index >= $n){
-			return null;		
-		}else{
-			// Search in internal authors
-			foreach($this->_internalAuthors as $inauth){
-				if($inauth['order'] == $index)
-					return (boolean)$inauth['is_principal'];
-			}
-			
-			// Then search in external ones
-			foreach($this->_externalAuthors as $extauth){
-				if($extauth['order'] == $index)
-					return (boolean)$extauth['is_principal'];
-			}
-			
-			return null;
-		}		
+            $n = $this->countAuthors();
+            if($index < 0 || $index >= $n){
+                    return null;
+            }else{
+                    // Search in internal authors
+                    foreach($this->_internalAuthors as $inauth){
+                            if($inauth['order'] == $index)
+                                    return (boolean)$inauth['is_principal'];
+                    }
+
+                    // Then search in external ones
+                    foreach($this->_externalAuthors as $extauth){
+                            if($extauth['order'] == $index)
+                                    return (boolean)$extauth['is_principal'];
+                    }
+
+                    return null;
+            }
 	}
 	
 	/**
@@ -472,19 +472,19 @@ class JResearchProject extends JResearchActivity{
 	 * @return array
 	 */
 	function getPrincipalInvestigators(){
-		$result = array();
-		
-		foreach($this->_externalAuthors as $extAuth){
-			if($extAuth['is_principal'])
-				$result[] = $this->getAuthor($extAuth['order']);
-		}
-		
-		foreach($this->_internalAuthors as $intAuth){
-			if($intAuth['is_principal'])
-				$result[] = $this->getAuthor($intAuth['order']);
-		}
-		
-		return $result;
+            $result = array();
+
+            foreach($this->_externalAuthors as $extAuth){
+                    if($extAuth['is_principal'])
+                            $result[] = $this->getAuthor($extAuth['order']);
+            }
+
+            foreach($this->_internalAuthors as $intAuth){
+                    if($intAuth['is_principal'])
+                            $result[] = $this->getAuthor($intAuth['order']);
+            }
+
+            return $result;
 	}
 	
 	/**
@@ -494,28 +494,28 @@ class JResearchProject extends JResearchActivity{
 	 * @return array
 	 */
 	function getNonPrincipalInvestigators(){
-		$result = array();
-		
-		foreach($this->_externalAuthors as $extAuth){
-			if(!$extAuth['is_principal'])
-				$result[] = $this->getAuthor($extAuth['order']);
-		}
-		
-		foreach($this->_internalAuthors as $intAuth){
-			if(!$intAuth['is_principal'])
-				$result[] = $this->getAuthor($intAuth['order']);
-		}
-		
-		return $result;		
+            $result = array();
+
+            foreach($this->_externalAuthors as $extAuth){
+                    if(!$extAuth['is_principal'])
+                            $result[] = $this->getAuthor($extAuth['order']);
+            }
+
+            foreach($this->_internalAuthors as $intAuth){
+                    if(!$intAuth['is_principal'])
+                            $result[] = $this->getAuthor($intAuth['order']);
+            }
+
+            return $result;
 	}
 
-        public function bind($from, $ignore = array(), $loadAuthors = false){
+        public function bind($from, $ignore = array(), $loadAuthors = false, $loadfin = false, $loadcoop = false){
             parent::bind($from, $ignore, $loadAuthors);
-            $this->_loadFinanciers($this->id);
-            $this->_loadCooperations($this->id);
+            if($loadfin)
+                $this->_loadFinanciers($this->id);
+            if($loadcoop)
+                $this->_loadCooperations($this->id);
 	}
-
-	
 }
 
 ?>

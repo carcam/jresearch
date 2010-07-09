@@ -56,7 +56,7 @@ class JResearch
 		$url = self::upload($imageVar, $file, $folder, $availableTypes, $delete);
 		
 		//Create thumbnail if it is enabled and upload was successful
-		if($params->get('thumbnail_enable', 'true') === 'true' && $url)
+		if($params->get('thumbnail_enable', 1) == 1 && $url)
 		{
 			self::_createThumbnail(JPATH_COMPONENT_ADMINISTRATOR.DS.$url, $folder);
 		}
