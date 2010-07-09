@@ -115,70 +115,72 @@ class JResearchStaffController extends JResearchFrontendController
 	* Apply in the edit profile form.
 	*/
 	function save(){
-		global $mainframe;
-	    if(!JRequest::checkToken())
-		{
-		    $this->setRedirect('index.php?option=com_jresearch');
-		    return;
-		}
-		
-		$task = JRequest::getVar('task');
-		
-		$db =& JFactory::getDBO();
-		
-		$params = JComponentHelper::getParams('com_jresearch');
-		$imageWidth = $params->get('member_image_width', _MEMBER_IMAGE_MAX_WIDTH_);
-		$imageHeight = $params->get('member_image_height', _MEMBER_IMAGE_MAX_HEIGHT_);
-		
-		$member = new JResearchMember($db);
+            global $mainframe;            
+            if(!JRequest::checkToken())
+            {
+                $this->setRedirect('index.php?option=com_jresearch');
+                return;
+            }
+            
+            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 
-		// Bind request variables to publication attributes	
-		$post = JRequest::get('post');
-		
-		$member->bind($post);	
-		$member->firstname = trim($member->firstname);
-		$member->lastname = trim($member->lastname);
-		$member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		
-		//Image upload
-		$fileArray = JRequest::getVar('inputfile', null, 'FILES');
-		$delete = JRequest::getVar('delete');
-			
-		JResearch::uploadImage(	$member->url_photo, 	//Image string to save
-								$fileArray, 			//Uploaded File array
-								'assets'.DS.'members'.DS, //Relative path from administrator folder of the component
-								($delete == 'on')?true:false,	//Delete?
-								 $imageWidth, //Max Width
-								 $imageHeight //Max Height
-		);
+            $task = JRequest::getVar('task');
 
-		$itemText = '';
-		if($itemId != null)
-			$itemText = '&Itemid='.$itemId;		
-		if($member->check()){		
-			if($member->store()){
-				$itemId = JRequest::getVar('Itemid');
+            $db =& JFactory::getDBO();
 
-				if($task == 'save')
-					$this->setRedirect('index.php?option=com_jresearch&view=staff'.$itemText, JText::_('The profile was successfully saved.'));
-				else
-					$this->setRedirect('index.php?option=com_jresearch&view=member&task=edit&layout=edit'.$itemText, JText::_('The profile was successfully saved.'));
-				// Trigger event
-				$arguments = array('member', $member->id);
-				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);			
-			}else{
-				$this->setRedirect('index.php?option=com_jresearch&view=member&task=edit&layout=edit'.$itemText, JText::_('The profile could not be saved.').' '.$member->getError());					
-			}
-		}else{
-			JError::raiseWarning(1, $member->getError());
-			$this->setRedirect('index.php?option=com_jresearch&view=member&task=edit&layout=edit'.$itemText);					
-		}
-		// Uncheck element
-		$user =& JFactory::getUser();
-		if(!$member->isCheckedOut($user->get('id'))){
-			if(!$member->checkin())
-				JError::raiseWarning(1, JText::_('The record could not be unlocked.'));		
-		}		
+            $params = JComponentHelper::getParams('com_jresearch');
+            $imageWidth = $params->get('member_image_width', _MEMBER_IMAGE_MAX_WIDTH_);
+            $imageHeight = $params->get('member_image_height', _MEMBER_IMAGE_MAX_HEIGHT_);
+
+            $member = JTable::getInstance('Table', 'JResearchMember');
+
+            // Bind request variables to publication attributes
+            $post = JRequest::get('post');
+
+            $member->bind($post);
+            $member->firstname = trim($member->firstname);
+            $member->lastname = trim($member->lastname);
+            $member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+
+            //Image upload
+            $fileArray = JRequest::getVar('inputfile', null, 'FILES');
+            $delete = JRequest::getVar('delete');
+
+            JResearch::uploadImage(	$member->url_photo, 	//Image string to save
+                                                            $fileArray, 			//Uploaded File array
+                                                            'assets'.DS.'members'.DS, //Relative path from administrator folder of the component
+                                                            ($delete == 'on')?true:false,	//Delete?
+                                                             $imageWidth, //Max Width
+                                                             $imageHeight //Max Height
+            );
+
+            $itemText = '';
+            if($itemId != null)
+                    $itemText = '&Itemid='.$itemId;
+            if($member->check()){
+                    if($member->store()){
+                            $itemId = JRequest::getVar('Itemid');
+
+                            if($task == 'save')
+                                    $this->setRedirect('index.php?option=com_jresearch&view=staff'.$itemText, JText::_('The profile was successfully saved.'));
+                            else
+                                    $this->setRedirect('index.php?option=com_jresearch&view=member&task=edit&layout=edit'.$itemText, JText::_('The profile was successfully saved.'));
+                            // Trigger event
+                            $arguments = array('member', $member->id);
+                            $mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
+                    }else{
+                            $this->setRedirect('index.php?option=com_jresearch&view=member&task=edit&layout=edit'.$itemText, JText::_('The profile could not be saved.').' '.$member->getError());
+                    }
+            }else{
+                    JError::raiseWarning(1, $member->getError());
+                    $this->setRedirect('index.php?option=com_jresearch&view=member&task=edit&layout=edit'.$itemText);
+            }
+            // Uncheck element
+            $user =& JFactory::getUser();
+            if(!$member->isCheckedOut($user->get('id'))){
+                    if(!$member->checkin())
+                            JError::raiseWarning(1, JText::_('The record could not be unlocked.'));
+            }
 	}
 	
 	/**
