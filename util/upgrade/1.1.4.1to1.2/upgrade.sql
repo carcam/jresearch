@@ -71,8 +71,8 @@ ADD `school` varchar(255),
 ADD `institution` varchar(255),
 ADD `day` varchar(2),
 ADD `extra` text,
-ADD `online_source_`type`` enum('website','video','audio','image','blog'),
-ADD `digital_source_`type`` enum('cdrom','film'),
+ADD `online_source_type` enum('website','video','audio','image','blog'),
+ADD `digital_source_type` enum('cdrom','film'),
 ADD `access_date` date;
 
 ALTER TABLE `#__jresearch_research_area` ADD `alias` varchar(255);
@@ -99,9 +99,9 @@ UPDATE `#__jresearch_publication` SET address = (SELECT address FROM `#__jresear
 UPDATE `#__jresearch_publication` SET edition = (SELECT edition FROM `#__jresearch_book` WHERE `#__jresearch_publication`.`id` = `#__jresearch_book`.`id_publication`);
 UPDATE `#__jresearch_publication` SET `month` = (SELECT `month` FROM `#__jresearch_book` WHERE `#__jresearch_publication`.`id` = `#__jresearch_book`.`id_publication`);
 
-UPDATE `#__jresearch_publication` SET howpublished= (SELECT howpublished FROM `#__jresearch_booklet WHERE `#__jresearch_publication`.`id` = `#__jresearch_booklet.`id_publication`);
-UPDATE `#__jresearch_publication` SET address= (SELECT address FROM `#__jresearch_booklet WHERE `#__jresearch_publication`.`id` = `#__jresearch_booklet.`id_publication`);
-UPDATE `#__jresearch_publication` SET `month`= (SELECT `month` FROM `#__jresearch_booklet WHERE `#__jresearch_publication`.`id` = `#__jresearch_booklet.`id_publication`);
+UPDATE `#__jresearch_publication` SET howpublished= (SELECT howpublished FROM `#__jresearch_booklet` WHERE `#__jresearch_publication`.`id` = `#__jresearch_booklet`.`id_publication`);
+UPDATE `#__jresearch_publication` SET address= (SELECT address FROM `#__jresearch_booklet` WHERE `#__jresearch_publication`.`id` = `#__jresearch_booklet`.`id_publication`);
+UPDATE `#__jresearch_publication` SET `month`= (SELECT `month` FROM `#__jresearch_booklet` WHERE `#__jresearch_publication`.`id` = `#__jresearch_booklet`.`id_publication`);
 
 UPDATE `#__jresearch_publication` SET editor= (SELECT editor FROM `#__jresearch_conference` WHERE `#__jresearch_publication`.`id` = `#__jresearch_conference`.`id_publication`);
 UPDATE `#__jresearch_publication` SET volume= (SELECT volume FROM `#__jresearch_conference` WHERE `#__jresearch_publication`.`id` = `#__jresearch_conference`.`id_publication`);
@@ -143,7 +143,7 @@ UPDATE `#__jresearch_publication` SET `month`= (SELECT `month` FROM `#__jresearc
 UPDATE `#__jresearch_publication` SET howpublished= (SELECT howpublished FROM `#__jresearch_misc` WHERE `#__jresearch_publication`.`id` = `#__jresearch_misc`.`id_publication`);
 UPDATE `#__jresearch_publication` SET `month`= (SELECT `month` FROM `#__jresearch_misc` WHERE `#__jresearch_publication`.`id` = `#__jresearch_misc`.`id_publication`);
 
-UPDATE `#__jresearch_publication` SET patent_`number` = (SELECT patent_`number` FROM `#__jresearch_patent` WHERE `#__jresearch_publication`.`id` = `#__jresearch_patent`.`id_publication`);
+UPDATE `#__jresearch_publication` SET patent_number = (SELECT patent_number FROM `#__jresearch_patent` WHERE `#__jresearch_publication`.`id` = `#__jresearch_patent`.`id_publication`);
 UPDATE `#__jresearch_publication` SET filing_date = (SELECT filing_date FROM `#__jresearch_patent` WHERE `#__jresearch_publication`.`id` = `#__jresearch_patent`.`id_publication`);
 UPDATE `#__jresearch_publication` SET issue_date = (SELECT issue_date FROM `#__jresearch_patent` WHERE `#__jresearch_publication`.`id` = `#__jresearch_patent`.`id_publication`);
 UPDATE `#__jresearch_publication` SET claims = (SELECT claims FROM `#__jresearch_patent` WHERE `#__jresearch_publication`.`id` = `#__jresearch_patent`.`id_publication`);
@@ -166,9 +166,9 @@ UPDATE `#__jresearch_publication` SET `month` = (SELECT `month` FROM `#__jresear
 UPDATE `#__jresearch_publication` SET publisher= (SELECT publisher FROM `#__jresearch_proceedings` WHERE `#__jresearch_publication`.`id` = `#__jresearch_proceedings`.`id_publication`);
 UPDATE `#__jresearch_publication` SET organization = (SELECT organization FROM `#__jresearch_proceedings` WHERE `#__jresearch_publication`.`id` = `#__jresearch_proceedings`.`id_publication`);
 
-INSERT INTO `#__jresearch_publication_`type``(`name`) VALUES('online_source');
-INSERT INTO `#__jresearch_publication_`type``(`name`) VALUES('earticle');
-INSERT INTO `#__jresearch_publication_`type``(`name`) VALUES('digital_source');
+INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('online_source');
+INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('earticle');
+INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('digital_source');
 
 DELETE FROM `#__categories` WHERE `section` = 'com_jresearch_cooperations';
 INSERT INTO `#__categories` (`title`, `name`, `alias`, `image`, `section`, `image_position`, `description`, `published`, `checked_out`, `checked_out_time`, `editor`, `ordering`, `access`, `count`, `params`) VALUES
