@@ -72,7 +72,7 @@ function generateUAString($mask=true)
 function getComponentVersion()
 {
 	jimport('joomla.application.helper');
-	$file = JApplicationHelper::parseXMLInstallFile(JPATH_COMPONENT_ADMINISTRATOR . DS . 'jupdateman.xml');
+	$file = JApplicationHelper::parseXMLInstallFile(JPATH_PLUGINS . DS . 'jresearch'.DS.'jresearch_upgrader.xml');
 	if($file) {
 		return $file['version'];
 	}
@@ -85,7 +85,7 @@ function getComponentVersion()
 			$app->enqueueMessage('Fallback component version used!');
 			$warned = true;
 		}
-		return '1.5.1'; // fallback call
+		return '1.0'; // fallback call
 	}
 }
 

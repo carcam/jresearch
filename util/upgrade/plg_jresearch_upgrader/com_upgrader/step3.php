@@ -119,7 +119,7 @@ if(!$cached_update)
 }
 ?>
 
-<p>You have successfully upgraded your Joomla! install! Congratulations!</p>
+<p>You have successfully upgraded your J!Research install! Congratulations!</p>
 
 <?php
 if($cached_update) {

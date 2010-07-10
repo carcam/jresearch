@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>shamantobi@gmail.com</authorEmail>
 	<authorUrl>http://joomla-research.com</authorUrl>
-	<version>1.5</version>
+	<version>1.0</version>
 	<description>Plugin that wraps component Update Manager for Joomla! in order to support automatic J!Research upgrades</description>
 	<files>
 		<filename plugin="jresearch_upgrader">jresearch_upgrader.php</filename>
