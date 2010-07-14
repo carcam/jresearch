@@ -104,7 +104,7 @@ class JResearchPublicationsHelper{
 				return $result;
 			
 			$j = $n - 2;
-			while(self::getBibtexCase($words[$j]) == self::UPPERCASE && $j >= 0){
+			while(j >= 0 && self::getBibtexCase($words[$j]) == self::UPPERCASE){
 				$result['lastname'] = $words[$j].' '.$result['lastname'];
 				$j--;
 			}
