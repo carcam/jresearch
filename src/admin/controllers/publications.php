@@ -236,6 +236,7 @@ class JResearchAdminPublicationsController extends JController
             }else{
                 $importer = &JResearchPublicationImporterFactory::getInstance($format);
                 $parsedPublications = $importer->parseFile($uploadedFile);
+                $n = 0;
                 foreach($parsedPublications as $p){
                     $p->id_research_area = $idResearchArea;
                     if(!$p->store()){
