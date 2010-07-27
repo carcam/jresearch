@@ -23,9 +23,8 @@ CREATE TABLE  `#__jresearch_project_cooperation` (
   PRIMARY KEY (`id_project`,`id_cooperation`)
 );
 
-ALTER TABLE `#__jresearch_cooperations`
-ADD `alias` varchar(255),
-ADD `catid` int(11);
+ALTER TABLE `#__jresearch_cooperations` ADD `alias` varchar(255);
+ALTER TABLE `#__jresearch_cooperations` ADD `catid` int(11);
 
 ALTER TABLE `#__jresearch_facilities` ADD `alias` varchar(255);
 
