@@ -92,62 +92,65 @@ class JResearchModelFacilities extends JResearchModelList
 	*/
 	private function _buildQueryOrderBy()
 	{
-		global $mainframe;
-		$db =& JFactory::getDBO();
-		//Array of allowable order fields
-		$orders = array('name', 'published', 'id_research_area');
-		
-		$filter_order = $mainframe->getUserStateFromRequest('facsfilter_order', 'filter_order', 'id_research_area');
-		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('facsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
-		
-		//Validate order direction
-		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
-			$filter_order_Dir = 'ASC';
-			
-		//if order column is unknown, use the default
-		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('id_research_area');	
-		
-		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
+            global $mainframe;
+            $db = JFactory::getDBO();
+            //Array of allowable order fields
+            $orders = array('name', 'published', 'id_research_area');
+            $Itemid = JRequest::getVar('Itemid');
+
+            $filter_order = $mainframe->getUserStateFromRequest('facsfilter_order'.$Itemid, 'filter_order', 'id_research_area');
+            $filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('facsfilter_order_Dir'.$Itemid, 'filter_order_Dir', 'ASC'));
+
+            //Validate order direction
+            if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
+                    $filter_order_Dir = 'ASC';
+
+            //if order column is unknown, use the default
+            if(!in_array($filter_order, $orders))
+                    $filter_order = $db->nameQuote('id_research_area');
+
+            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
 	}	
 	
 	/**
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere($published = false){
-		global $mainframe;
-		$db = & JFactory::getDBO();
-		$filter_state = $mainframe->getUserStateFromRequest('facsfilter_state', 'filter_state');
-		$filter_search = $mainframe->getUserStateFromRequest('facsfilter_search', 'filter_search');
-		$filter_area = $mainframe->getUserStateFromRequest('facsfilter_area', 'filter_area');
-		
-		// prepare the WHERE clause
-		$where = array();
-		
-		if(!$published)
-		{
-			if($filter_state == 'P')
-				$where[] = $db->nameQuote('published').' = 1 ';
-			elseif($filter_state == 'U')
-				$where[] = $db->nameQuote('published').' = 0 '; 	
-		}
-		else
-			$where[] = $db->nameQuote('published').' = 1 ';		
+            global $mainframe;
+            $db = JFactory::getDBO();
+            $Itemid = JRequest::getVar('Itemid');
 
-		
-		if(($filter_search = trim($filter_search)))
-		{
-			$filter_search = JString::strtolower($filter_search);
-			$filter_search = $db->getEscaped($filter_search);
-			$where[] = 'LOWER('.$db->nameQuote('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
-		}
-		
-		if($filter_area)
-		{
-			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
-		}
-		
-		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
+            $filter_state = $mainframe->getUserStateFromRequest('facsfilter_state'.$Itemid, 'filter_state');
+            $filter_search = $mainframe->getUserStateFromRequest('facsfilter_search'.$Itemid, 'filter_search');
+            $filter_area = $mainframe->getUserStateFromRequest('facsfilter_area'.$Itemid, 'filter_area');
+
+            // prepare the WHERE clause
+            $where = array();
+
+            if(!$published)
+            {
+                    if($filter_state == 'P')
+                            $where[] = $db->nameQuote('published').' = 1 ';
+                    elseif($filter_state == 'U')
+                            $where[] = $db->nameQuote('published').' = 0 ';
+            }
+            else
+                    $where[] = $db->nameQuote('published').' = 1 ';
+
+
+            if(($filter_search = trim($filter_search)))
+            {
+                    $filter_search = JString::strtolower($filter_search);
+                    $filter_search = $db->getEscaped($filter_search);
+                    $where[] = 'LOWER('.$db->nameQuote('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
+            }
+
+            if($filter_area)
+            {
+                    $where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
+            }
+
+            return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			
 	}
 	
@@ -157,10 +160,10 @@ class JResearchModelFacilities extends JResearchModelList
 	* @return string SQL query.
 	*/	
 	protected function _buildRawQuery(){
-		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
-		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
-		return $resultQuery;
+            $db =& JFactory::getDBO();
+            $resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+            $resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
+            return $resultQuery;
 	}
 	
 	/**

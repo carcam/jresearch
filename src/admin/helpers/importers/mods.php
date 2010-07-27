@@ -13,7 +13,7 @@
 */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.'helpers'.DS.'importers'.DS.'importer.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'importers'.DS.'importer.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'importers'.DS.'factory.php');
 
 /**

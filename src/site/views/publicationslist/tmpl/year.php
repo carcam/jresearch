@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 	<h3 class="frontendheader"><?php echo $year; ?></h3>
     <ul>
     
-	<?php 
+	<?php
 	foreach($publications as $pub):
 		$styleObj = JResearchCitationStyleFactory::getInstance($this->style, $pub->pubtype);
 		$publicationText = $styleObj->getReferenceHTMLText($pub, true);
