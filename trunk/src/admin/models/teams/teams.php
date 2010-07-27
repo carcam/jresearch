@@ -124,11 +124,12 @@ class JResearchModelTeams extends JResearchModelList
 	{
 		global $mainframe;
 		$db =& JFactory::getDBO();
+                $Itemid = JRequest::getVar('Itemid');
 		//Array of allowable order fields
 		$orders = array('name', 'published', 'ordering', 'parent');
 		
-		$filter_order = $mainframe->getUserStateFromRequest('teamfilter_order', 'filter_order', 'name');
-		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('teamfilter_order_Dir', 'filter_order_Dir', 'ASC'));
+		$filter_order = $mainframe->getUserStateFromRequest('teamfilter_order'.$Itemid, 'filter_order', 'name');
+		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('teamfilter_order_Dir'.$Itemid, 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -147,8 +148,9 @@ class JResearchModelTeams extends JResearchModelList
 	private function _buildQueryWhere($published = false){
 		global $mainframe, $option;
 		$db = & JFactory::getDBO();
-		$filter_state = $mainframe->getUserStateFromRequest('teamfilter_state', 'filter_state');
-		$filter_search = $mainframe->getUserStateFromRequest('teamfilter_search', 'filter_search');
+                $Itemid = JRequest::getVar('Itemid');
+		$filter_state = $mainframe->getUserStateFromRequest('teamfilter_state'.$Itemid, 'filter_state');
+		$filter_search = $mainframe->getUserStateFromRequest('teamfilter_search'.$Itemid, 'filter_search');
 		
 		// prepare the WHERE clause
 		$where = array();

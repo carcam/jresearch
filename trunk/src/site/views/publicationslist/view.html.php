@@ -32,29 +32,29 @@ class JResearchViewPublicationsList extends JResearchView
         //Add template path explicitly (useful when requesting from the backend)
         $this->addTemplatePath(JPATH_COMPONENT_SITE.DS.'views'.DS.'publicationslist'.DS.'tmpl');  
 
-		switch($layout){
-			// Template for making citations from TinyMCE editor
-			case 'cite':
-				$this->_displayCiteDialog();
-				break;
-			case 'generatebibliography':
-				$this->_displayGenerateBibliographyDialog();
-				break;	
-    		case 'filtered':
-    			$this->_displayTabularList();
-    			break;						
-			default:
-				$this->_displayFrontendList();
-				break;	
-		}
-		
-	    $eArguments = array('publications', $layout);
-		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+        switch($layout){
+                // Template for making citations from TinyMCE editor
+                case 'cite':
+                        $this->_displayCiteDialog();
+                        break;
+                case 'generatebibliography':
+                        $this->_displayGenerateBibliographyDialog();
+                        break;
+            case 'filtered':
+                $this->_displayTabularList();
+                break;
+            default:
+                $this->_displayFrontendList();
+                break;
+        }
+
+        $eArguments = array('publications', $layout);
+
+        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+
+        parent::display($tpl);
+
+        $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
     
 	/**
@@ -78,8 +78,8 @@ class JResearchViewPublicationsList extends JResearchView
 		$field = $params->get('field_for_average');    	
     	
     	if($params->get('show_average') == 'yes'){
-    		$average = $model->getAverage($field);
-    		$this->assignRef('average', $average);
+            $average = $model->getAverage($field);
+            $this->assignRef('average', $average);
     	}
     	
     	
@@ -153,7 +153,7 @@ class JResearchViewPublicationsList extends JResearchView
     	    	
     	$showmore = ($params->get('show_more', 'yes') == 'yes');
     	$showdigital = ($params->get('show_digital') == 'yes');
-    	$layout = JRequest::getString('layout', 'year');
+    	$layout = $params->get('publications_default_sorting', 'year');
     	$exportAll = ($params->get('show_export_all') == 'yes');
     	$showAllFormat = $params->get('show_export_all_format', 'bibtex');
     	$showBibtex = ($params->get('show_export_bibtex') == 'yes');
@@ -200,67 +200,67 @@ class JResearchViewPublicationsList extends JResearchView
     	$this->assignRef('filter', $filter);
     }
     
-	/**
-	 * Performs records grouping before pushing items into layout according to 
-	 * configuration. It assumes records array is sorted by $filter_order criteria. 
-	 *
-	 * @param array $recordsArray Publications array
-	 * @param string $style Citation style that defines sorting rules
-	 * @param string $filter_order 
-	 * @return array If $filter_order is 'year' or 'type' It returns an associative array
-	 * where the key is the label used to group the publications, otherwise it just returns 
-	 * a conventional array of sorted publications.
-	 * 
-	 */
+    /**
+     * Performs records grouping before pushing items into layout according to
+     * configuration. It assumes records array is sorted by $filter_order criteria.
+     *
+     * @param array $recordsArray Publications array
+     * @param string $style Citation style that defines sorting rules
+     * @param string $filter_order
+     * @return array If $filter_order is 'year' or 'type' It returns an associative array
+     * where the key is the label used to group the publications, otherwise it just returns
+     * a conventional array of sorted publications.
+     *
+     */
     private function _sort($recordsArray, $style = 'APA', $filter_order = 'year'){
-		$styleObj = JResearchCitationStyleFactory::getInstance($style);    	
+        $styleObj = JResearchCitationStyleFactory::getInstance($style);
     	$result = array();
     	
     	// Do the grouping
-		switch($filter_order){
-			case 'year':
-				$previousYear = null;
-				$yearHeader = null;
-				foreach($recordsArray as $pub){
-					if($previousYear != $pub->year){
-						if($yearHeader != null)
-							$result[$yearHeader] = $styleObj->sort($result[$yearHeader]);												
-						
-						if($pub->year == '0000' || $pub->year == null )
-							$yearHeader = JText::_('JRESEARCH_NO_YEAR');
-						else
-							$yearHeader = JText::_('JRESEARCH_YEAR').': '.$pub->year;	    	
-						
-						$result[$yearHeader] = array();						 	
-					}
-					$result[$yearHeader][] = $pub;		
-					$previousYear = $pub->year;								
-				}
-				if(isset($result[$yearHeader]))
-					$result[$yearHeader] = $styleObj->sort($result[$yearHeader]);
-	    		break;
-			case 'type':
-				$previousType = null;
-				$header = null;
-				foreach($recordsArray as $pub){					
-					if($previousType != $pub->pubtype){
-						if($header != null)
-							$result[$header] = $styleObj->sort($result[$header]);						
-						
-						$header = JText::_('JRESEARCH_PUBLICATION_TYPE').': '.$pub->pubtype;
-						$result[$header] = array();
-					}
-					$result[$header][] = $pub;
-					$previousType = $pub->pubtype;					
-				}
-				if($result[$header])
-					$result[$header] = $styleObj->sort($result[$header]);								
-				break;				
-			default:
-				$result = $recordsArray;					
-		}
-		
-		return $result;
+        switch($filter_order){
+                case 'year':
+                        $previousYear = null;
+                        $yearHeader = null;
+                        foreach($recordsArray as $pub){
+                                if($previousYear != $pub->year){
+                                        if($yearHeader != null)
+                                                $result[$yearHeader] = $styleObj->sort($result[$yearHeader]);
+
+                                        if($pub->year == '0000' || $pub->year == null )
+                                                $yearHeader = JText::_('JRESEARCH_NO_YEAR');
+                                        else
+                                                $yearHeader = JText::_('JRESEARCH_YEAR').': '.$pub->year;
+
+                                        $result[$yearHeader] = array();
+                                }
+                                $result[$yearHeader][] = $pub;
+                                $previousYear = $pub->year;
+                        }
+                        if(isset($result[$yearHeader]))
+                                $result[$yearHeader] = $styleObj->sort($result[$yearHeader]);
+                break;
+                case 'type':
+                        $previousType = null;
+                        $header = null;
+                        foreach($recordsArray as $pub){
+                                if($previousType != $pub->pubtype){
+                                        if($header != null)
+                                                $result[$header] = $styleObj->sort($result[$header]);
+
+                                        $header = JText::_('JRESEARCH_PUBLICATION_TYPE').': '.$pub->pubtype;
+                                        $result[$header] = array();
+                                }
+                                $result[$header][] = $pub;
+                                $previousType = $pub->pubtype;
+                        }
+                        if($result[$header])
+                                $result[$header] = $styleObj->sort($result[$header]);
+                        break;
+                default:
+                        $result = $recordsArray;
+        }
+
+        return $result;
     }
     
     /**
@@ -275,34 +275,34 @@ class JResearchViewPublicationsList extends JResearchView
     	
     	// Prepare the HTML document
     	$document =& JFactory::getDocument();
-		$document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
-		$document->addScriptDeclaration("window.onDomReady(
-			function(){
-				var searchRequest = new XHR({method: 'get', onSuccess: addSearchResults, onFailure: onSearchFailure});
-				searchRequest.send('index.php?option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);	
-			 }
-		);");				
-		$citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:200px;" ');
-		JHTML::_('behavior.mootools');
-		
-		// Remove button
-		$removeButton = '<button onclick="javascript:removeSelectedRecord()">'.JText::_('JRESEARCH_REMOVE').'</button>';
-		$citeButton = '<button onclick="javascript:makeCitation(\'cite\')">'.JText::_('JRESEARCH_CITE').'</button>';
-		$citeParentheticalButton = '<button onclick="javascript:makeCitation(\'citep\')">'.JText::_('JRESEARCH_CITE_PARENTHETICAL').'</button>';
-		$citeYearButton = '<button onclick="javascript:makeCitation(\'citeyear\')">'.JText::_('JRESEARCH_CITE_YEAR').'</button>';
-		$noCiteButton = '<button onclick="javascript:makeCitation(\'nocite\')">'.JText::_('JRESEARCH_NO_CITE').'</button>';
-		$closeButton = '<button onclick="window.parent.document.getElementById(\'sbox-window\').close()">'.JText::_('JRESEARCH_CLOSE').'</button>';
-		
-		
-		// Put the variables into the template
-		$this->assignRef('citedRecords', $citedRecordsListHTML);
-		$this->assignRef('removeButton', $removeButton);
-		$this->assignRef('citeButton', $citeButton);
-		$this->assignRef('citeParentheticalButton', $citeParentheticalButton);
-		$this->assignRef('closeButton', $closeButton);
-		$this->assignRef('citeYearButton', $citeYearButton);
-		$this->assignRef('noCiteButton', $noCiteButton);
-		$this->assignRef('url', $url);
+        $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
+        $document->addScriptDeclaration("window.onDomReady(
+                function(){
+                        var searchRequest = new XHR({method: 'get', onSuccess: addSearchResults, onFailure: onSearchFailure});
+                        searchRequest.send('index.php?option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
+                 }
+        );");
+        $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:200px;" ');
+        JHTML::_('behavior.mootools');
+
+        // Remove button
+        $removeButton = '<button onclick="javascript:removeSelectedRecord()">'.JText::_('JRESEARCH_REMOVE').'</button>';
+        $citeButton = '<button onclick="javascript:makeCitation(\'cite\')">'.JText::_('JRESEARCH_CITE').'</button>';
+        $citeParentheticalButton = '<button onclick="javascript:makeCitation(\'citep\')">'.JText::_('JRESEARCH_CITE_PARENTHETICAL').'</button>';
+        $citeYearButton = '<button onclick="javascript:makeCitation(\'citeyear\')">'.JText::_('JRESEARCH_CITE_YEAR').'</button>';
+        $noCiteButton = '<button onclick="javascript:makeCitation(\'nocite\')">'.JText::_('JRESEARCH_NO_CITE').'</button>';
+        $closeButton = '<button onclick="window.parent.document.getElementById(\'sbox-window\').close()">'.JText::_('JRESEARCH_CLOSE').'</button>';
+
+
+        // Put the variables into the template
+        $this->assignRef('citedRecords', $citedRecordsListHTML);
+        $this->assignRef('removeButton', $removeButton);
+        $this->assignRef('citeButton', $citeButton);
+        $this->assignRef('citeParentheticalButton', $citeParentheticalButton);
+        $this->assignRef('closeButton', $closeButton);
+        $this->assignRef('citeYearButton', $citeYearButton);
+        $this->assignRef('noCiteButton', $noCiteButton);
+        $this->assignRef('url', $url);
 		
     }
     
@@ -311,33 +311,33 @@ class JResearchViewPublicationsList extends JResearchView
     	$citedRecords = $session->get('citedRecords', array(), 'jresearch') ;
     	$citedRecordsOptionsHTML = array();
     	$document =& JFactory::getDocument();
-		$document->setTitle(JText::_('JRESEARCH_GENERATE_BIBLIOGRAPHY'));
+        $document->setTitle(JText::_('JRESEARCH_GENERATE_BIBLIOGRAPHY'));
     	$model = &$this->getModel('Publication');
-		JHTML::_('behavior.mootools');	
-    	
-		foreach($citedRecords as $pub){
-    		$pubTitle = $pub;
-    		if($model != null){    			
-    			$pubRecord = $model->getItemByCitekey($pub);
-    			if($pubRecord != null)
-    			    	$pubTitle = $pubRecord->title;
-    		}
-			$citedRecordsOptionsHTML[] = JHTML::_('select.option', $pub, $pub.': '.$pubTitle);
-		}
-		$citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:250px;" ');
-		
-		
-		// Remove button
-		$removeButton = '<button onclick="javascript:startSelectedRecordRemoval()">'.JText::_('JRESEARCH_REMOVE').'</button>';
-		$removeAllButton = '<button onclick="javascript:startAllRemoval()">'.JText::_('JRESEARCH_REMOVE_ALL').'</button>';
-		$generateBibButton = '<button onclick="javascript:requestBibliographyGeneration()">'.JText::_('JRESEARCH_GENERATE_BIBLIOGRAPHY').'</button>';
-		$closeButton = '<button onclick="window.parent.document.getElementById(\'sbox-window\').close()">'.JText::_('JRESEARCH_CLOSE').'</button>';
-		
-		$this->assignRef('citedRecordsListHTML', $citedRecordsListHTML);
-		$this->assignRef('removeButton', $removeButton);
-		$this->assignRef('removeAllButton', $removeAllButton);
-		$this->assignRef('closeButton', $closeButton);
-		$this->assignRef('generateBibButton', $generateBibButton);			
+        JHTML::_('behavior.mootools');
+
+        foreach($citedRecords as $pub){
+        $pubTitle = $pub;
+        if($model != null){
+                $pubRecord = $model->getItemByCitekey($pub);
+                if($pubRecord != null)
+                        $pubTitle = $pubRecord->title;
+        }
+                $citedRecordsOptionsHTML[] = JHTML::_('select.option', $pub, $pub.': '.$pubTitle);
+        }
+        $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:250px;" ');
+
+
+        // Remove button
+        $removeButton = '<button onclick="javascript:startSelectedRecordRemoval()">'.JText::_('JRESEARCH_REMOVE').'</button>';
+        $removeAllButton = '<button onclick="javascript:startAllRemoval()">'.JText::_('JRESEARCH_REMOVE_ALL').'</button>';
+        $generateBibButton = '<button onclick="javascript:requestBibliographyGeneration()">'.JText::_('JRESEARCH_GENERATE_BIBLIOGRAPHY').'</button>';
+        $closeButton = '<button onclick="window.parent.document.getElementById(\'sbox-window\').close()">'.JText::_('JRESEARCH_CLOSE').'</button>';
+
+        $this->assignRef('citedRecordsListHTML', $citedRecordsListHTML);
+        $this->assignRef('removeButton', $removeButton);
+        $this->assignRef('removeAllButton', $removeAllButton);
+        $this->assignRef('closeButton', $closeButton);
+        $this->assignRef('generateBibButton', $generateBibButton);
     	
     }
 }
