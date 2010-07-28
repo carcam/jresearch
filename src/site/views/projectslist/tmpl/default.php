@@ -49,6 +49,7 @@ if(count($this->items) > 0):
 			
 			//Get values and financiers for project
                   	$financiers = implode(', ', $project->getFinanciers());
+                        var_dump($financiers);
           	
 			$value = str_replace(array(",00",".00"), ",-", $project->finance_value); //Replace ,/.00 with ,-
 			

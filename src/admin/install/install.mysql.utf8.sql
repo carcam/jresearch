@@ -416,6 +416,8 @@ INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('digital_source');
 
 INSERT INTO `#__jresearch_research_area`(`name`, `alias` ,`description`, `published` ) VALUES('Uncategorized', 'Uncategorized' , '', 1);
 
-DELETE FROM `#__categories` WHERE `section` = 'com_jresearch_cooperations';
-INSERT INTO `#__categories` (`title`, `name`, `alias`, `image`, `section`, `image_position`, `description`, `published`, `checked_out`, `checked_out_time`, `editor`, `ordering`, `access`, `count`, `params`) VALUES
-('Uncategorized', '', 'cooperations-category-uncategorized', '', 'com_jresearch_cooperations', 'left', 'Holds uncategorized cooperations of the component J!Research', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
+DELETE FROM `#__categories` WHERE `extension` = 'com_jresearch';
+INSERT INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `extension`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `modified_user_id`, `modified_time`, `hits`, `language`)
+VALUES
+(NULL, '0', '1', '0', '0', '1', '', 'com_jresearch', 'J!Research', 'com_jresearch', 'J!Research parent content category', 'J!Research parent content category', '1', '0', '0000-00-00 00:00:00', '0', '{}', '', '', '', '42', '0000-00-00 00:00:00', '0', '0000-00-00 00:00:00', '0', '*'),
+(NULL, '0', LAST_INSERT_ID(), '0', '0', '1', '', 'com_jresearch', 'J!Research Cooperations', 'com_jresearch.cooperations', 'J!Research cooperations categories', 'J!Research cooperations categories', '1', '0', '0000-00-00 00:00:00', '0', '{}', '', '', '', '42', '0000-00-00 00:00:00', '0', '0000-00-00 00:00:00', '0', '*');
