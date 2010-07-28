@@ -1,7 +1,0 @@
-<?xml version="1.0" ?>
-<update release="1.2.0">
-<message></message>
-<updater minimumversion="1.1.4" currentversion="1.2.0">http://joomlacode.org/gf/project/jresearch/frs/</updater>
-<fullpackage url="http://localhost/com_jresearch1.2_full_upgrade.tar.gz" filename="com_jresearch1.2_full_upgrade.tar.gz" filesize="4597379" md5="ddadba2652fa406a6ea9e468ede33cef" />
-<patches />
-</update>
