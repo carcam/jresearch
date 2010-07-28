@@ -178,17 +178,18 @@ class JResearchModelProjectsList extends JResearchModelList{
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
 		$orders = array('title', 'published', 'start_date', 'id_research_area', 'finance_value');
-		
-		$filter_order = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order', 'finance_value');
-		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('projectsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
-		
+            $Itemid = JRequest::getVar('Itemid');
+
+            $filter_order = $mainframe->getUserStateFromRequest('projectsfilter_order'.$Itemid, 'filter_order', 'finance_value');
+            $filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('projectsfilter_order_Dir'.$Itemid, 'filter_order_Dir', 'ASC'));
+
 		//Validate order direction
 		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
 			$filter_order_Dir = 'ASC';
 		//if order column is unknown, use the default
 		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('finance_value');	
-		
+                    $filter_order = $db->nameQuote('finance_value');
+
 		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->nameQuote('created').' DESC';
 	}	
 	
@@ -198,60 +199,62 @@ class JResearchModelProjectsList extends JResearchModelList{
 	private function _buildQueryWhere($published = false){
 		global $mainframe;
 		$db = & JFactory::getDBO();
-		$filter_status = $mainframe->getUserStateFromRequest('projectsfilter_status', 'filter_status');
-		$filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
-		$filter_search = $mainframe->getUserStateFromRequest('projectsfilter_search', 'filter_search');
-		$filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');
-		$filter_area = $mainframe->getUserStateFromRequest('projectsfilter_area', 'filter_area');
+            $Itemid = JRequest::getVar('Itemid');
+
+            $filter_status = $mainframe->getUserStateFromRequest('projectsfilter_status'.$Itemid, 'filter_status');
+            $filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state'.$Itemid, 'filter_state');
+            $filter_search = $mainframe->getUserStateFromRequest('projectsfilter_search'.$Itemid, 'filter_search');
+            $filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author'.$Itemid, 'filter_author');
+            $filter_area = $mainframe->getUserStateFromRequest('projectsfilter_area'.$Itemid, 'filter_area');
 		// prepare the WHERE clause
 		$where = array();
-		
+
 		if(!$published){
 			if($filter_state == 'P')
 				$where[] = $db->nameQuote('published').' = 1 ';
 			elseif($filter_state == 'U')
-				$where[] = $db->nameQuote('published').' = 0 '; 	
+                            $where[] = $db->nameQuote('published').' = 0 ';
 		}else
 			$where[] = $db->nameQuote('published').' = 1 ';
-				
+
 		if(!empty($filter_author) && $filter_author != -1){
-			$ids = $this->_getAuthorProjectsIds(trim($filter_author));			
+                    $ids = $this->_getAuthorProjectsIds(trim($filter_author));
 			if(count($ids) > 0)
 				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
 			else
 				$where[] = '0 = 1';
 		}
-		
+
 		//Get id's
 		if(count($this->_ids) > 0)
 		{
 			$orWhere = array();
 			$allProjects = false;	//Boolean variable for checking if all projects will be returned
-			
+
 			foreach($this->_ids as $id)
 			{
 				if($id != 0)
 				{
 					$orWhere[] = $db->nameQuote('id').' = '.$id;
 				}
-				else 
+                            else
 				{
 					//Id 0 indicateds to display all projects
 					$allProjects = true;
 					break;
 				}
 			}
-			
+
 			if(!$allProjects)
 				$where[] = (count($where)) ? ' '.implode(' OR ', $orWhere).' ' : '';
 		}
-					
+
 		if(($filter_search = trim($filter_search))){
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
 			$where[] = 'LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%');
 		}
-		
+
 		if($filter_area)
 		{
 			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
@@ -260,7 +263,7 @@ class JResearchModelProjectsList extends JResearchModelList{
                 if($filter_status){
                     $where[] = $db->nameQuote('status').' = '.$db->Quote($filter_status);
                 }
-		
+
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			
 	}
@@ -292,15 +295,15 @@ class JResearchModelProjectsList extends JResearchModelList{
 		if(is_array($ids))
 		{
 			$this->_ids = array();
-			
+
 			foreach($ids as $id)
 			{
 				$this->_ids[] = (int) $id;
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
 }

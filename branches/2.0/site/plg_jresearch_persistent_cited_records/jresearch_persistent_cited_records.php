@@ -25,8 +25,8 @@ function plgJResearchOnAfterContentSave(&$article, $isNew)
 {
 	global $mainframe;
 	
-	$db = &JFactory::getDBO();	
-	$session =& JSession::getInstance();
+	$db = JFactory::getDBO();	
+	$session = JFactory::getSession();
 	$citedRecords = $session->get('citedRecords', array(), 'jresearch');
 	
 	// Clear the table
