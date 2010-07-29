@@ -2,6 +2,6 @@
 <update release="1.2.0">
 <message></message>
 <updater minimumversion="1.1.4" currentversion="1.2.0">http://joomlacode.org/gf/project/jresearch/frs/</updater>
-<fullpackage url="http://localhost/com_jresearch1.2_full_upgrade.tar.gz" filename="com_jresearch1.2_full_upgrade.tar.gz" filesize="4597379" md5="ddadba2652fa406a6ea9e468ede33cef" />
+<fullpackage url="http://joomlacode.org/gf/download/frsrelease/12677/53910/com_jresearch1.2_full_upgrade.tar.gz" filename="com_jresearch1.2_full_upgrade.tar.gz" filesize="4630989" md5="1759ed40a0e5b70ce049df73ecd8efce" />
 <patches />
 </update>

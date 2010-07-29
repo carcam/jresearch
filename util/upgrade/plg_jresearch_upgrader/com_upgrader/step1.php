@@ -16,7 +16,7 @@ if(defined('JRESEARCH_UPGRADER_SUPPORT')){
 }else
     $version = '1.1.4';
 
-$url = "http://localhost/jresearchupgrader.xml";
+$url = "http://joomlacode.org/gf/download/frsrelease/12678/53911/jresearchupgrader.xml";
 
 $config = JFactory::getConfig();
 $tmp_path = $config->getValue('config.tmp_path');

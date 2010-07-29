@@ -12,7 +12,6 @@ jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
-
 class JResearchModelCooperations extends JResearchModelList
 {
     public function __construct()

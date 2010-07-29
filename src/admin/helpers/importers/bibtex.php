@@ -49,7 +49,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
                                                             if($mapToStaff == 'on'){
                                                                 $member = JTable::getInstance('Member', 'JResearch');
                                                                 //First determine if this author can be mapped to a member in the staff                                                                
-                                                                if($member->bindFromArray($auth)){
+                                                                if($member->bindFromArray(JResearchPublicationsHelper::bibCharsToUtf8FromArray($auth))){
                                                                     $newPub->setAuthor($member->id, $j, true);
                                                                     continue;
                                                                 }
