@@ -211,6 +211,8 @@ class JResearchCharsetsHelper{
 		    "/Ã/",
 		    "/õ/",
 		    "/Õ/",
+                    "/ž/",
+                    "/Ž/",
 		    "/&/" //added because latex thinks & indicates a table, and it occurs often enough in a title
 	    );
 	}
@@ -283,7 +285,9 @@ class JResearchCharsetsHelper{
 		    "{\\~a}",
 		    "{\\~A}",
 		    "{\\~o}",
-		    "{\\~O}",
+                    "{\\~O}",
+		    "\\v{z}",
+                    "\\v{Z}",
 		    "{\&}"
 	    );
 	}
@@ -368,6 +372,8 @@ class JResearchCharsetsHelper{
 		    "/\\\\~(A|{A})/",
 		    "/\\\\~(o|{o})/",
 		    "/\\\\~(O|{O})/",
+                    "/\\\\v(z|{z})/",
+                    '/\\\\v(Z|{Z})/',
 		    "/\\\\&/"
 	    );
 	}
@@ -447,6 +453,8 @@ class JResearchCharsetsHelper{
 		    "Ã",
 		    "õ",
 		    "Õ",
+                    "ž",
+                    "Ž",
 		    "&"
 	    );
 	}
@@ -517,7 +525,9 @@ class JResearchCharsetsHelper{
 			     '\x{E3}',
 			     '\x{C3}',
 			     '\x{F5}',
-			     '\x{D5}'
+			     '\x{D5}',
+                             '\x{C5BE}',
+                             '\x{C5BD}'
 			);
 	}
 	
@@ -586,7 +596,9 @@ class JResearchCharsetsHelper{
 		    "ã",
 		    "Ã",
 		    "õ",
-		    "Õ"
+		    "Õ",
+                    "ž",
+                    "Ž"
 	    );
 	}
 }

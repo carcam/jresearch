@@ -428,12 +428,10 @@ class JResearchPublicationsHelper{
 	 * @param string $title
 	 */
 	public static function formatBibtexTitleForImport($title){
-		$masterPattern = '/\{([-_,:;.\s\d\w]*)\}/';
+		$masterPattern = '/\{([-_,:;.\s\d\w]+)\}/';
 		$replacementPattern = "$1";
-		$matches = array();
 		$result = $title;
-		$result = preg_replace($masterPattern, $replacementPattern, $result, PREG_SET_ORDER);
-				
+                $result = preg_replace($masterPattern, $replacementPattern, $result);				
 		return $result;
 	}
 	
