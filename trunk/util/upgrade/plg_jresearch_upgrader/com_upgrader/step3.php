@@ -5,6 +5,49 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
+
+/**
+ * @param string
+ * @return array
+ */
+function splitSql($sql)
+{
+    $sql = trim($sql);
+    $sql = preg_replace("/\n\#[^\n]*/", '', "\n".$sql);
+    $buffer = array ();
+    $ret = array ();
+    $in_string = false;
+
+    for ($i = 0; $i < strlen($sql) - 1; $i ++) {
+            if ($sql[$i] == ";" && !$in_string)
+            {
+                    $ret[] = substr($sql, 0, $i);
+                    $sql = substr($sql, $i +1);
+                    $i = 0;
+            }
+
+            if ($in_string && ($sql[$i] == $in_string) && $buffer[1] != "\\")
+            {
+                    $in_string = false;
+            }
+            elseif (!$in_string && ($sql[$i] == '"' || $sql[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
+            {
+                    $in_string = $sql[$i];
+            }
+            if (isset ($buffer[1]))
+            {
+                    $buffer[0] = $buffer[1];
+            }
+            $buffer[1] = $sql[$i];
+    }
+
+    if (!empty ($sql))
+    {
+            $ret[] = $sql;
+    }
+    return ($ret);
+}
+
 jimport('joomla.filesystem.file');
 juimport('pasamio.pfactory');
 
@@ -63,17 +106,23 @@ switch($extractor)
 //Now time to execute the update scripts
 $installation = JPATH_SITE .DS.'installation';
 
-$upgradeRoutine = $installation.DS.'upgrade.sql';
-$fh = @fopen($upgradeRoutine, 'r');
-if($fh !== false){
-    $sqlsentences = fread($fh, filesize($upgradeRoutine));
+$upgradeRoutine = file_get_contents($installation.DS.'upgrade.sql');
+if(!$upgradeRoutine){
     $db = JFactory::getDBO();
-    $db->setQuery($sqlsentences);
-    if(!$db->query()){
-        JError::raiseWarning(1, JText::_('JRESEARCH_SQL_UPGRADE_FAILED').': '.$db->getErrorMsg());
+    $queries = splitSql($upgradeRoutine);
+    foreach ($queries as $query)
+    {
+        $query = trim($query);
+        if ($query != '' && $query {0} != '#')
+        {
+            $db->setQuery($query);
+            //echo $query .'<br />';
+            if($db->query()){
+                JError::raiseWarning(1, JText::_('JRESEARCH_SQL_UPGRADE_FAILED').': '.$db->getErrorMsg());
+                break;
+            }
+        }
     }
-
-    fclose($fh);
 }
 
 

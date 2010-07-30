@@ -25,19 +25,21 @@ $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 			<?php if($this->showmore): ?>
 			<span><?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $pub->id); ?></span>
 		<?php endif; ?>
-		<?php if($this->showdigital): ?>
-			<?php if(!empty($url))
-					$link = str_replace('&', '&amp;', $url);
-				  elseif(!empty($attach))
-				  	$link = $attach;
-				  else
-			  		$link = '';	
-				  	
-			 ?>
-			<?php if(!empty($link)): ?>
-				<?php "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			
-			<?php endif; ?>
+                <?php if($this->showdigital): ?>
+		<?php
+			  if(!empty($url)){
+				$link = str_replace('&', '&amp;', $url);
+                                $digitalVersion = JText::_('JRESEARCH_ONLINE_VERSION');
+                          }elseif(!empty($attach)){
+			  	$link = $attach;
+                                $digitalVersion = JText::_('JRESEARCH_FULLTEXT');
+                          }else
+			  	$link = '';
+		 ?>
+		<?php if(!empty($link)): ?>
+			<?php echo "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>
 		<?php endif; ?>
+        	<?php endif; ?>
 		<?php if($this->showBibtex): 
 			echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$pub->id, '[Bibtex]').'</span>';		
 		 endif;?>	

@@ -6,7 +6,7 @@
 
 defined('_JEXEC') or die('Restricted access'); ?>
 <ul>
-<?php $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
+<?php $digitalVersion = ''; ?>
 <?php
 foreach($this->items as $pub): 
 	$styleObj = JResearchCitationStyleFactory::getInstance($this->style, $pub->pubtype);
@@ -20,17 +20,19 @@ foreach($this->items as $pub):
 	<?php endif; ?>
 	<?php if($this->showdigital): ?>
 		<?php
-			 if(!empty($url))
+			  if(!empty($url)){
 				$link = str_replace('&', '&amp;', $url);
-			  elseif(!empty($attach))
+                                $digitalVersion = JText::_('JRESEARCH_ONLINE_VERSION');
+                          }elseif(!empty($attach)){
 			  	$link = $attach;
-			  else
-			  	$link = '';	
+                                $digitalVersion = JText::_('JRESEARCH_FULLTEXT');
+                          }else
+			  	$link = '';
 		 ?>
 		<?php if(!empty($link)): ?>
-			<?php "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			
+			<?php echo "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>
 		<?php endif; ?>
-	<?php endif; ?>	
+	<?php endif; ?>
 	<?php if($this->showBibtex): 
 		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$pub->id, '[Bibtex]').'</span>';		
 	 endif;?>	
