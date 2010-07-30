@@ -164,11 +164,19 @@ defined('_JEXEC') or die('Restricted access');
 	</tr>
 	<?php endif; ?>	
 	
-	<tr><td colspan="4">
-	<?php $url = str_replace('&', '&amp;', trim($this->publication->url)); ?>	
+	<tr><td colspan="4" style="padding-left: 0px;">
+	<?php $url = str_replace('&', '&amp;', trim($this->publication->url));
+              $n = $this->publication->countAttachments();
+        ?>
+        <?php if($n == 1):
+            $attach = $this->publication->getAttachment(0, 'publications');
+	    echo !empty($attach)?'<div><strong>'.JText::_('JRESEARCH_FULLTEXT').':</strong> '.JHTML::_('JResearchhtml.attachment', $attach).'</div>':'';
+            endif;
+         ?>
+
 	<?php if(!empty($url)): ?> 
-		<span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span>
-	<?php endif; ?>
+		<div><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_ONLINE_VERSION')); ?></div>
+        <?php endif ?>
 	<?php if($this->showBibtex): 
 		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$this->publication->id, '[Bibtex]').'</span>';		
 	 endif;?>	

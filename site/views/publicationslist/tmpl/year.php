@@ -9,8 +9,8 @@
 defined('_JEXEC') or die('Restricted access'); 
 
 ?>
-<?php 
-	$digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION');
+<?php
+        $digitalVersion = '';
 	foreach($this->items as $year=>$publications): ?>
 	<h3 class="frontendheader"><?php echo $year; ?></h3>
     <ul>
@@ -29,11 +29,13 @@ defined('_JEXEC') or die('Restricted access');
 	<?php endif; ?>
 	<?php if($this->showdigital): ?>
 		<?php 
-			  if(!empty($url))
+			  if(!empty($url)){
 				$link = str_replace('&', '&amp;', $url);
-			  elseif(!empty($attach))
+                                $digitalVersion = JText::_('JRESEARCH_ONLINE_VERSION');
+                          }elseif(!empty($attach)){
 			  	$link = $attach;
-			  else
+                                $digitalVersion = JText::_('JRESEARCH_FULLTEXT');
+                          }else
 			  	$link = '';				  	
 		 ?>
 		<?php if(!empty($link)): ?>
