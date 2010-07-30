@@ -25,7 +25,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
 $mode = JRequest::getVar('mode');
 if($mode == 'upgrader'){
     // Verify the plugin is installed in the system
-    if(!JPluginHelper::isEnabled('jresearch', 'jresearch_upgrade')){
+    if(!JPluginHelper::isEnabled('jresearch', 'jresearch_upgrader')){
         JError::raiseWarning(1, JText::_('JRESEARCH_UPGRADE_PLUGIN_NOT_INSTALLED'));
         $mainframe->redirect('index.php?option=com_jresearch');
     }

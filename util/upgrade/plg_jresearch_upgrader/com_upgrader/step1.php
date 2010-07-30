@@ -9,14 +9,14 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 echo 'Before proceeding, we <strong>strongly</strong> suggest to make a backup of your database and folders';
 
 // For 1.1, we will assume they are using 1.1.4.4
-if(defined('JRESEARCH_UPGRADER_SUPPORT')){
-    $version = JRESEARCH_VERSION;
+if(defined('_JRESEARCH_UPGRADER_SUPPORT_') || defined('JRESEARCH_UPGRADER_SUPPORT')){
+    $version = _JRESEARCH_VERSION_;
     $versionComps = explode(' ', $version);
     $version = $versionComps[0];
 }else
     $version = '1.1.4';
 
-$url = "http://joomlacode.org/gf/download/frsrelease/12678/53911/jresearchupgrader.xml";
+$url = "http://joomla-research.com/public_html/jresearchupgrader.xml";
 
 $config = JFactory::getConfig();
 $tmp_path = $config->getValue('config.tmp_path');

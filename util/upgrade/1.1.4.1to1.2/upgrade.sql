@@ -173,21 +173,6 @@ DELETE FROM `#__categories` WHERE `section` = 'com_jresearch_cooperations';
 INSERT INTO `#__categories` (`title`, `name`, `alias`, `image`, `section`, `image_position`, `description`, `published`, `checked_out`, `checked_out_time`, `editor`, `ordering`, `access`, `count`, `params`) VALUES
 ('Uncategorized', '', 'cooperations-category-uncategorized', '', 'com_jresearch_cooperations', 'left', 'Holds uncategorized cooperations of the component J!Research', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
 
-DROP TABLE IF EXISTS `#__jresearch_article`;
-DROP TABLE IF EXISTS `#__jresearch_book`;
-DROP TABLE IF EXISTS `#__jresearch_booklet`;
-DROP TABLE IF EXISTS `#__jresearch_conference`;
-DROP TABLE IF EXISTS `#__jresearch_inbook`;
-DROP TABLE IF EXISTS `#__jresearch_incollection`;
-DROP TABLE IF EXISTS `#__jresearch_manual`;
-DROP TABLE IF EXISTS `#__jresearch_mastersthesis`;
-DROP TABLE IF EXISTS `#__jresearch_misc`;
-DROP TABLE IF EXISTS `#__jresearch_patent`;
-DROP TABLE IF EXISTS `#__jresearch_phdthesis`;
-DROP TABLE IF EXISTS `#__jresearch_proceedings`;
-DROP TABLE IF EXISTS `#__jresearch_techreport`;
-DROP TABLE IF EXISTS `#__jresearch_unpublished`;
-
 DROP VIEW IF EXISTS `#__jresearch_publication_article`;
 DROP VIEW IF EXISTS `#__jresearch_publication_book`;
 DROP VIEW IF EXISTS `#__jresearch_publication_booklet`;
@@ -202,3 +187,18 @@ DROP VIEW IF EXISTS `#__jresearch_publication_phdthesis`;
 DROP VIEW IF EXISTS `#__jresearch_publication_proceedings`;
 DROP VIEW IF EXISTS `#__jresearch_publication_techreport`;
 DROP VIEW IF EXISTS `#__jresearch_publication_unpublished`;
+
+DROP TABLE IF EXISTS `#__jresearch_article`;
+DROP TABLE IF EXISTS `#__jresearch_book`;
+DROP TABLE IF EXISTS `#__jresearch_booklet`;
+DROP TABLE IF EXISTS `#__jresearch_conference`;
+DROP TABLE IF EXISTS `#__jresearch_inbook`;
+DROP TABLE IF EXISTS `#__jresearch_incollection`;
+DROP TABLE IF EXISTS `#__jresearch_manual`;
+DROP TABLE IF EXISTS `#__jresearch_mastersthesis`;
+DROP TABLE IF EXISTS `#__jresearch_misc`;
+DROP TABLE IF EXISTS `#__jresearch_patent`;
+DROP TABLE IF EXISTS `#__jresearch_phdthesis`;
+DROP TABLE IF EXISTS `#__jresearch_proceedings`;
+DROP TABLE IF EXISTS `#__jresearch_techreport`;
+DROP TABLE IF EXISTS `#__jresearch_unpublished`;
