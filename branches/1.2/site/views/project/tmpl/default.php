@@ -213,7 +213,7 @@ JHTML::_('behavior.modal');
 		<tr><td class="publicationlabel"><?php echo JText::_('JRESEARCH_FILES').': ' ?></td><td colspan="3"><ul style="list-style:none;">
 		<?php for($i=0; $i<$n; $i++): ?>
 			<?php $attach = $this->project->getAttachment($i, 'projects'); ?>
-			<?php echo !empty($attach)?'<li>'.JHTML::_('JResearchhtml.attachment', $attach).'<li>':''; ?>
+			<?php echo !empty($attach)?'<li>'.JHTML::_('JResearchhtml.attachment', $attach).'</li>':''; ?>
 		<?php endfor; ?>
 		</ul>
 		</td></tr>
