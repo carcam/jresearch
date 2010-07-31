@@ -54,7 +54,7 @@ abstract class JResearchModelList extends JModel{
 	* Class constructor.
 	*/
 	public function __construct(){
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$option = JRequest::getVar('controller');
 		parent::__construct();
 		$this->_items = array();

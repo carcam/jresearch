@@ -21,7 +21,7 @@ class JResearchAdminViewPublication extends JResearchView
 {
 	function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		
  		$layout = $this->getLayout();
  		$arguments = array();
