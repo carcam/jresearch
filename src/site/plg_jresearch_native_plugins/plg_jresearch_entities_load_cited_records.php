@@ -15,6 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+$mainframe = JFactory::getApplication();
 $mainframe->registerEvent('onBeforeEditJResearchEntity', 'plgJResearchOnBeforeEditEntity');
 
 

@@ -23,7 +23,7 @@ class JResearchViewPublication extends JResearchView
 {
     function display($tpl = null)
     {
-    	global $mainframe;
+    	$mainframe = JFactory::getApplication();
     	$id = JRequest::getVar('id', 0);
     	
     	$arguments = array('publication', $id);
@@ -61,7 +61,7 @@ class JResearchViewPublication extends JResearchView
     * Display the information of a publication.
     */
     private function _displayPublication(){
-      	global $mainframe;
+      	$mainframe = JFactory::getApplication();
       	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');      	
     	
       	$id = JRequest::getInt('id');

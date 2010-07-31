@@ -27,9 +27,9 @@ class JHTMLjresearchhtml
 	* is a principal author.
 	*/
 	static function authorsSelector($baseName, $values = null, $allowPrincipals=false, $isPrincipalsArray=null){
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		$doc =& JFactory::getDocument();
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::root();
 		$doc->addScript($url."components/com_jresearch/helpers/html/authorsselector.js");
 		
 		$result = self::_internalAuthor(null, 'sample', true, $allowPrincipals, false);
@@ -204,10 +204,10 @@ class JHTMLjresearchhtml
 	 */
 	
 	public static function autoSuggest($baseName, $values = null, $allowPrincipals=false, $isPrincipalsArray=null){
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		
 		$doc = JFactory::getDocument();
-		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$urlBase = JURI::root();
 		
 		$doc->addScript($urlBase.'components/com_jresearch/js/bsn.AutoSuggest_c_2.0.js');
 		$upImage = $urlBase.'administrator/components/com_jresearch/assets/up_16.png';
@@ -220,35 +220,36 @@ class JHTMLjresearchhtml
 		$noResults = JText::_('JRESEARCH_NO_RESULTS');
 
 		$doc->addScriptDeclaration("
-	        	var options_xml1_$baseName;
-	        	
-			window.onDomReady(function() {
-	                options_xml1_$baseName = {
-	                script:'index.php?option=com_jresearch&controller=staff&task=autoSuggestMembers&format=json&' ,
-	                varname:'key',
-	                json:true,
-	                cache:false,
-	                callback: function (obj) {
-	                    document.getElementById('$baseName').value = obj?obj.id:'';
-	                }
-	            };
-	            as_xml1_$baseName = new AutoSuggest('$textField', options_xml1_$baseName);
-	            as_xml1_$baseName.lbl_projectLeader = '$projectLeader';
-	            as_xml1_$baseName.lbl_delete = '$delete';
-	            as_xml1_$baseName.projectLeaders = '$allowPrincipals';
-	            as_xml1_$baseName.lbl_repeatedAuthors = '$repeatedAuthors';
-	            as_xml1_$baseName.lbl_minAuthorLengthMessage = '$minAuthorLengthMessage';
-	            as_xml1_$baseName.lbl_noresults = '$noResults';
-	            as_xml1_$baseName.lbl_up_image = '$upImage';
-	            as_xml1_$baseName.lbl_down_image = '$downImage';            
-        		});
+                    var options_xml1_$baseName;
+
+                    window.onDomReady(function() {
+                        options_xml1_$baseName = {
+                        script:'index.php?option=com_jresearch&controller=staff&task=autoSuggestMembers&format=json&' ,
+                        varname:'key',
+                        json:true,
+                        cache:false,
+                        callback: function (obj) {
+                            document.getElementById('$baseName').value = obj?obj.id:'';
+                        }
+                     };
+                        as_xml1_$baseName = new AutoSuggest('$textField', options_xml1_$baseName);
+                        as_xml1_$baseName.lbl_projectLeader = '$projectLeader';
+                        as_xml1_$baseName.lbl_delete = '$delete';
+                        as_xml1_$baseName.projectLeaders = '$allowPrincipals';
+                        as_xml1_$baseName.lbl_repeatedAuthors = '$repeatedAuthors';
+                        as_xml1_$baseName.lbl_minAuthorLengthMessage = '$minAuthorLengthMessage';
+                        as_xml1_$baseName.lbl_noresults = '$noResults';
+                        as_xml1_$baseName.lbl_up_image = '$upImage';
+                        as_xml1_$baseName.lbl_down_image = '$downImage';
+
+                    });
 	        	        	            
-            	function appendAuthor(){
-            		if(as_xml1_$baseName){
-            			as_xml1_$baseName.setHighlightedValue();
-					}
-				}");
-		$doc->addStyleSheet($urlBase.'components/com_jresearch/css/autosuggest_inquisitor.css');
+                    function appendAuthor(){
+                        if(as_xml1_$baseName){
+                            as_xml1_$baseName.setHighlightedValue();
+                    }
+                }");
+                $doc->addStyleSheet($urlBase.'components/com_jresearch/css/autosuggest_inquisitor.css');
 		$button = '<input style="margin-left:8px;" type="button" onclick="javascript:appendAuthor();" value="'.JText::_('JRESEARCH_ADD').'" />';
 		$output = "<div class=\"divTdl\"><input type=\"text\" name=\"$textField\" id=\"$textField\" class=\"validate-integrante\" size=\"15\" />$button</div>";
 		
@@ -311,12 +312,12 @@ class JHTMLjresearchhtml
 	* @param $name HTML name of the control which holds the selected users.
 	*/
 	public function staffImporter($name){
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
 
 		$doc = JFactory::getDocument();
-		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::root();
 		$doc->addScript($urlBase.'components/com_jresearch/js/staffimporter.js');
 		
 		$db =& JFactory::getDBO();
@@ -371,14 +372,14 @@ class JHTMLjresearchhtml
 	*/
 	public function staffImporter2($name){
 		static $dependenciesLoad = false;
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');		
 		$doc = JFactory::getDocument();
 		$db = JFactory::getDBO();		
 		
 		if(!$dependenciesLoad){
 			$doc = JFactory::getDocument();
-			$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+			$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::root();
 			$doc->addScript($urlBase.'components/com_jresearch/js/staffimporter2.js');
 			$doc->addStyleDeclaration('th.staffcol{width: 30%;} th.staffspace{width: 20%;} select.propertiesselector{ width: 200px; min-width: 200px;} table.propertiesselector{ text-align: center; width: 60%;  margin-left: auto; margin-right: auto;} a.propertiesselector{ font-size:14px;font-weight:bold;}');
 			$dependenciesLoad = true;			
@@ -436,61 +437,62 @@ class JHTMLjresearchhtml
 	* Renders the DHTML code needed to enable validation in JResearch forms.
 	*/
 	static function validation(){
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'charsets.php');
-		
-		$extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());
-		$doc = JFactory::getDocument();
-		$token = JUtility::getToken();
-		JHTML::_('behavior.formvalidation');		
-		
-		$message = JText::_('JRESEARCH_FORM_NOT_VALID');
-        	$doc->addScriptDeclaration("function validate(f) {
-			if(document.adminForm.task.value != 'cancel'){
-	    		if (document.formvalidator.isValid(f)) {
-					return true; 
-				}else {
-					alert('$message');
-					return false;
-				}
-    		}else
-    			return true;
-		}");
-                $doc->addScriptDeclaration('window.onDomReady(function() {
-			document.formvalidator.setHandler(\'date\', function(value) {
-			regex=/^\d{4}(-\d{2}){2}$/;
-			return regex.test(value); })
-		})');
-    	
-                $doc->addScriptDeclaration('window.onDomReady(function() {
-			document.formvalidator.setHandler(\'url\', function(value) {
-			regex=/^(ftp|http|https|ftps):\/\/([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}|localhost|\d{1,3}(\.\d{1,3}){3})(:\d{2,5})?(([0-9]{1,5})?\/.*)?$/i;
-			return regex.test(value); })
-		})');
-    	
-        	$doc->addScriptDeclaration('window.onDomReady(function() {
-			document.formvalidator.setHandler(\'year\', function(value) {
-			regex=/^([1-9]\d{3}|0)$/i;
-			return regex.test(value); })
-		})');
-    	
+            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'charsets.php');
 
-        	$doc->addScriptDeclaration("window.onDomReady(function() {
-			document.formvalidator.setHandler('keywords', function(value) {
-			regex=/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/i;
-			return regex.test(value); })
-		})");
-    	
-		$doc->addScriptDeclaration("window.onDomReady(function() {
-			document.formvalidator.setHandler('issn', function(value) {
-			regex=/^\d{4}-?\d{4}$/i;
-			return regex.test(value); })
-		})");
-		
-		$doc->addScriptDeclaration("window.onDomReady(function() {
-			document.formvalidator.setHandler('isbn', function(value) {
-			regex=/^(\d{10}|\d{13}|\d{9}x)$/i;
-			return regex.test(value); })
-		})");    	
+            $extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());
+            $doc = JFactory::getDocument();
+            $token = JUtility::getToken();
+            JHTML::_('behavior.formvalidation');
+
+            $message = JText::_('JRESEARCH_FORM_NOT_VALID');
+            $doc->addScriptDeclaration("function validate(f) {
+                    if(document.adminForm.task.value != 'cancel'){
+                            if (document.formvalidator.isValid(f)) {
+                                    return true;
+                            }else{
+                                 alert('$message');
+                                 return false;
+                            }
+                    }else{
+                        return true;
+                    }
+            }");
+            $doc->addScriptDeclaration('window.onDomReady(function() {
+                    document.formvalidator.setHandler(\'date\', function(value) {
+                    regex=/^\d{4}(-\d{2}){2}$/;
+                    return regex.test(value); })
+            });');
+
+            $doc->addScriptDeclaration('window.onDomReady(function() {
+                    document.formvalidator.setHandler(\'url\', function(value) {
+                    regex=/^(ftp|http|https|ftps):\/\/([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}|localhost|\d{1,3}(\.\d{1,3}){3})(:\d{2,5})?(([0-9]{1,5})?\/.*)?$/i;
+                    return regex.test(value); })
+            });');
+
+            $doc->addScriptDeclaration('window.onDomReady(function() {
+                    document.formvalidator.setHandler(\'year\', function(value) {
+                    regex=/^([1-9]\d{3}|0)$/i;
+                    return regex.test(value); })
+            });');
+
+
+            $doc->addScriptDeclaration("window.onDomReady(function() {
+                    document.formvalidator.setHandler('keywords', function(value) {
+                    regex=/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/i;
+                    return regex.test(value); })
+            });");
+
+            $doc->addScriptDeclaration("window.onDomReady(function() {
+                    document.formvalidator.setHandler('issn', function(value) {
+                    regex=/^\d{4}-?\d{4}$/i;
+                    return regex.test(value); })
+            });");
+
+            $doc->addScriptDeclaration("window.onDomReady(function() {
+                    document.formvalidator.setHandler('isbn', function(value) {
+                    regex=/^(\d{10}|\d{13}|\d{9}x)$/i;
+                    return regex.test(value); })
+            });");
 	}
 	
 	/**
@@ -504,9 +506,9 @@ class JHTMLjresearchhtml
 	 * @param array $uploadedFiles List of previously uploaded files.
 	 */
 	public static function fileUpload($name, $filesFolder, $options="", $oneFile=true, $uploadedFiles = array()){
-		global $mainframe;
-		$doc =& JFactory::getDocument();
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$mainframe = JFactory::getApplication();
+		$doc = JFactory::getDocument();
+		$url = JURI::root();
 		$doc->addScript($url."components/com_jresearch/js/fileuploader.js");
 		
 		$k = count($uploadedFiles);
@@ -875,9 +877,8 @@ class JHTMLjresearchhtml
 	 * @return string
 	 */
 	public static function formWarningMessage($name, $message){
-		global $mainframe;
-		
-		$base = $mainframe->isAdmin()?$mainframe->getSiteUrl():JURI::base();
+		$mainframe = JFactory::getApplication();		
+		$base = JURI::root();
 		$image = $base.'administrator/components/com_jresearch/assets/messagebox_warning.png';
 
 		return '<label for="'.$name.'" class="labelform">

@@ -51,9 +51,9 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'plugins.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
 
 //Stylesheet
-global $mainframe;
-$document = &JFactory::getDocument();
-$url = $mainframe->getSiteURL();
+$mainframe = JFactory::getApplication();
+$document = JFactory::getDocument();
+$url = JURI::root();
 $document->addStyleSheet($url.'administrator/components/com_jresearch/css/jresearch_admin_styles.css');
 
 

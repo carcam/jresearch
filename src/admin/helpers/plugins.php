@@ -24,12 +24,12 @@ class JResearchPluginsHelper{
 		$dispatcher = JDispatcher::getInstance();
 		$event = 'onBeforeExecuteJResearchTask';
 		$args = array ();
-		
+		$observers = $dispatcher->get('_observers');
 		/*
 		 * We need to iterate through all of the registered observers and
 		 * trigger the event for each observer that handles the event.
 		 */
-		foreach ($dispatcher->_observers as $observer)
+		foreach ($observers as $observer)
 		{
 			if (is_array($observer)){
 				if ($observer['event'] == $event){

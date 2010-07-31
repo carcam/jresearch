@@ -21,7 +21,7 @@ class JResearchAdminViewPublicationsList extends JResearchView
 {
     function display($tpl = null)
     {
-    	global $mainframe;
+    	$mainframe = JFactory::getApplication();
     	// Invoke the correct function according to the layout
     	$layout = $this->getLayout();
 
@@ -55,8 +55,8 @@ class JResearchAdminViewPublicationsList extends JResearchView
     * publications.
     */
     private function _displayDefaultList(){
-    	global $mainframe, $option;
-    	
+    	$mainframe = JFactory::getApplication();
+        $option = JRequest::getVar('option');
     	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
     	
     	JResearchToolbar::publicationsAdminListToolbar();

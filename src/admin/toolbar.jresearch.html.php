@@ -29,38 +29,37 @@ class JResearchToolbar
 	 */
 	public static function publicationsAdminListToolbar()
 	{
-		global $mainframe;
-    	$doc =& JFactory::getDocument();
-    	$url = $mainframe->getSiteUrl();
-    	
-    	$css = ".icon-32-export{background: url(".$url."administrator/components/com_jresearch/assets/export.png) 100% 0 no-repeat;}";
-		$doc->addStyleDeclaration($css);		
-		$css = ".icon-32-import{background: url(".$url."administrator/components/com_jresearch/assets/import.png) 100% 0 no-repeat;}";
-		$doc->addStyleDeclaration($css);
-	
-	
-		JToolBarHelper::title(JText::_('JRESEARCH_PUBLICATIONS'));
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		
-		JToolBarHelper::divider();	
-		JToolBarHelper::addNewX('add', JText::_('Add'));
-		JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_PUB_CONFIRMATION'),'remove', JText::_('Delete'));
+            $doc = JFactory::getDocument();
+            $url = JURI::root();
 
-		JToolBarHelper::divider();
-		
-		JToolBarHelper::publishList('publish', JText::_('Publish'));
-		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
-		
-		JToolBarHelper::divider();
-		
-		JToolBarHelper::custom('makeinternal', 'publish', '', JText::_('JRESEARCH_TURN_ON_INTERNAL'));
-		JToolBarHelper::custom('makenoninternal', 'unpublish', '', JText::_('JRESEARCH_TURN_OFF_INTERNAL'));		
-		
-		JToolBarHelper::divider();
-		
-		self::importButton();
-		self::exportButton();
-		JToolBarHelper::custom('exportAll', 'export', '', JText::_('JRESEARCH_EXPORT_ALL_PUBLICATIONS'), false);
+            $css = ".icon-32-export{background: url(".$url."administrator/components/com_jresearch/assets/export.png) 100% 0 no-repeat;}";
+            $doc->addStyleDeclaration($css);
+            $css = ".icon-32-import{background: url(".$url."administrator/components/com_jresearch/assets/import.png) 100% 0 no-repeat;}";
+            $doc->addStyleDeclaration($css);
+
+
+            JToolBarHelper::title(JText::_('JRESEARCH_PUBLICATIONS'));
+            self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+
+            JToolBarHelper::divider();
+            JToolBarHelper::addNewX('add', JText::_('Add'));
+            JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_PUB_CONFIRMATION'),'remove', JText::_('Delete'));
+
+            JToolBarHelper::divider();
+
+            JToolBarHelper::publishList('publish', JText::_('Publish'));
+            JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
+
+            JToolBarHelper::divider();
+
+            JToolBarHelper::custom('makeinternal', 'publish', '', JText::_('JRESEARCH_TURN_ON_INTERNAL'));
+            JToolBarHelper::custom('makenoninternal', 'unpublish', '', JText::_('JRESEARCH_TURN_OFF_INTERNAL'));
+
+            JToolBarHelper::divider();
+
+            self::importButton();
+            self::exportButton();
+            JToolBarHelper::custom('exportAll', 'export', '', JText::_('JRESEARCH_EXPORT_ALL_PUBLICATIONS'), false);
 	}
 
 	/**
@@ -201,12 +200,11 @@ class JResearchToolbar
 	* @param $text Text to appear on the button.
 	*/ 	
 	public static function toControlPanel($text){
-		global $mainframe;
-	  	$doc =& JFactory::getDocument();
-    	$url = $mainframe->getSiteUrl();
-		$css = ".icon-32-config{background: url(".$url."administrator/components/com_jresearch/assets/config32.png) 100% 0 no-repeat;}";		
-		$doc->addStyleDeclaration($css);
-		JToolBarHelper::custom('tocontrolPanel', 'config', '', $text, false);		
+            $doc = JFactory::getDocument();
+            $url = JURI::root();
+            $css = ".icon-32-config{background: url(".$url."administrator/components/com_jresearch/assets/config32.png) 100% 0 no-repeat;}";
+            $doc->addStyleDeclaration($css);
+            JToolBarHelper::custom('tocontrolPanel', 'config', '', $text, false);
 	}	
 	
 	/**

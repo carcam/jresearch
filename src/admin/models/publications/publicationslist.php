@@ -185,7 +185,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* Build the ORDER part of a query.
 	*/
 	private function _buildQueryOrderBy(){
-            global $mainframe;
+            $mainframe = JFactory::getApplication();
             $modelKey = JRequest::getVar('modelkey', '');
 
             $db =& JFactory::getDBO();
@@ -212,7 +212,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere($published = false){
-            global $mainframe;
+            $mainframe = JFactory::getApplication();
 
             $db = & JFactory::getDBO();
             $modelKey = JRequest::getVar('modelkey', 'default');
