@@ -40,7 +40,7 @@ $availableControllers = array('publications', 'projects', 'theses', 'staff', 'co
 if($controller == null || !in_array($controller, $availableControllers)){
 	// It is the default controller
 	require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
-	$classname = $prefix.'Controller';
+	$classname = $prefix;
 }else{
 	// That task is the exception
 	if($task == 'tocontrolPanel'){

@@ -22,14 +22,14 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 * Model class for holding a single research area record.
 *
 */
-class JResearchModelResearchArea extends JResearchModelSingleRecord{
+class JResearchAdminModelResearchArea extends JResearchModelSingleRecord{
 
 	/**
 	* Returns the record with the id sent as parameter.
 	* @return 	object
 	*/
 	public function getItem($itemId){
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		
 		$researchArea = new JResearchArea($db);
 		$researchArea->load($itemId);
