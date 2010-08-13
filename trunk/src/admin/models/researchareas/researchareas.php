@@ -19,7 +19,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 * Model class for holding lists of research areas records.
 *
 */
-class JResearchModelResearchAreasList extends JResearchModelList{
+class JResearchModelResearchAreas extends JResearchModelList{
 	
 	/**
 	* Class constructor

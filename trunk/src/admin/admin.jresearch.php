@@ -19,7 +19,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Common needed files
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'includes'.DS.'init.php');
 
 // Handle upgrade case
 $mode = JRequest::getVar('mode');
@@ -46,7 +46,7 @@ if($controller == null || !in_array($controller, $availableControllers)){
 	if($task == 'tocontrolPanel'){
 		// It is the default controller
 		require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
-		$classname = $prefix.'Controller';
+		$classname = $prefix;
 	}else{				
 		require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controllers'.DS.$controller.'.php');
 		$inlineCitingTasks = array('cite', 'citeFromDialog', 'generateBibliography', 'searchByPrefix', 'ajaxRemoveAll', 'ajaxGenerateBibliography', 'removeCitedRecord' ); 
@@ -64,11 +64,11 @@ if($controller == null || !in_array($controller, $availableControllers)){
 		
 	
 		// Make an instance of the controller
-		$classname  = $prefix.ucfirst($controller).'Controller';
+		$classname  = $prefix.ucfirst($controller);
 	}
 }
 
-$controller = new $classname( );
+$controller = JController::getInstance($classname);
 
 $pluginhandledRequest = JResearchPluginsHelper::onBeforeExecuteJResearchTask();
 // Perform the request task if none of the plugins decided to do it
