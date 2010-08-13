@@ -18,7 +18,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 * Model class for holding lists of publication records.
 *
 */
-class JResearchModelPublicationsList extends JResearchModelList{
+class JResearchModelPublications extends JResearchModelList{
 	
 	
 	/**

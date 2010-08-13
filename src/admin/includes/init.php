@@ -27,7 +27,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'includes'.DS.'defines.php');
 //Helpers
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'cite.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'view.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'includes'.DS.'view.php');
 
 //HTML helpers
 JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
@@ -55,6 +55,5 @@ $mainframe = JFactory::getApplication();
 $document = JFactory::getDocument();
 $url = JURI::root();
 $document->addStyleSheet($url.'administrator/components/com_jresearch/css/jresearch_admin_styles.css');
-
 
 ?>
