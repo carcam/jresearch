@@ -15,6 +15,20 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
+function jresearchimport($entity, $space = 'system'){
+    if($space == 'system')
+        jimport($entity);
+    elseif($space == 'jresearch'){
+
+    }elseif($space == 'jresearch.site'){
+
+    }elseif($space == 'jresearch.admin'){
+
+    }else{
+        
+    }
+
+}
 
 /**
  * This file loads common classes and files used by J!Research.

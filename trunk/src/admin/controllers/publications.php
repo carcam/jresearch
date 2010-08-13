@@ -9,7 +9,7 @@
 * of bibliographical references or publications in the backend interface.
 */
 
-jimport('joomla.application.component.controller');
+jresearchimport('joomla.application.component.controller');
 
 /**
 * Publications Backend Controller
@@ -67,7 +67,8 @@ class JResearchAdminPublicationsController extends JController
             $view->setModel($pubModel, true);
             $view->setModel($model);
             $view->setModel($raModel);
-            $view->display($cachable);
+            $view->setLayout('default');
+            $view->display();
 	}
 
 	/**
@@ -76,7 +77,7 @@ class JResearchAdminPublicationsController extends JController
 	* @access public
 	*/
 	function add(){
-            $view = &$this->getView('Publication', 'html', 'JResearchAdminView');
+            $view = $this->getView('Publication', 'html', 'JResearchAdminView');
             $view->setLayout('new');
             $view->display();
 	}
@@ -88,31 +89,31 @@ class JResearchAdminPublicationsController extends JController
 	function edit(){
             $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
             $cid = JRequest::getVar('cid', array());
-            $view = &$this->getView('Publication', 'html', 'JResearchAdminView');
-            $pubModel = &$this->getModel('Publication', 'JResearchModel');
-            $model = &$this->getModel('ResearchAreasList', 'JResearchModel');
+            $view = $this->getView('Publication', 'html', 'JResearchAdminView');
+            $pubModel = $this->getModel('Publication', 'JResearchAdminModel');
+            $model = $this->getModel('ResearchAreas', 'JResearchAdminModel');
 
             if(!empty($cid)){
                     $publication = $pubModel->getItem($cid[0]);
                     if(!empty($publication)){
-                            $user =& JFactory::getUser();
+                            $user = JFactory::getUser();
                             // Verify if it is checked out
                             if($publication->isCheckedOut($user->get('id'))){
-                                    $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+                                $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
                             }else{
-                                    $publication->checkout($user->get('id'));
-                                    $view->setLayout('default');
-                                    $view->setModel($model);
-                                    $view->display();
+                                $publication->checkout($user->get('id'));
+                                $view->setLayout('default');
+                                $view->setModel($model);
+                                $view->display();
                             }
                     }else{
-                            JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-                            $this->setRedirect('index.php?option=com_jresearch&controller=publications');
+                        JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+                        $this->setRedirect('index.php?option=com_jresearch&controller=publications');
                     }
             }else{
-                    $view->setLayout('default');
-                    $view->setModel($model);
-                    $view->display();
+                $view->setLayout('default');
+                $view->setModel($model);
+                $view->display();
             }
 	}
 

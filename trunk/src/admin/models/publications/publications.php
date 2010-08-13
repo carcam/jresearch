@@ -10,7 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-jimport( 'joomla.application.component.model' );
+jresearchimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 
@@ -18,44 +18,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 * Model class for holding lists of publication records.
 *
 */
-class JResearchModelPublications extends JResearchModelList{
-	
-	
-	/**
-	* Class constructor.
-	*/
-	function __construct(){
-		parent::__construct();
-		$this->_tableName = '#__jresearch_publication';
-	}
-	
-	/**
-	* Returns the SQL used to get the data from publications table.
-	* 
-	* @pàram $memberId If non null, it represents the id of a staff member and the method returns
-	* only those items of the member's authoring.
-	* @param $onlyPublished If true, returns only published items.
-	* @param $paginate If true, the method considers pagination user parameters
-	*
-	* @return string
-	*/
-	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
-            $db =& JFactory::getDBO();
-            if($memberId === null){
-                    $resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
-            }else{
-                    $resultQuery = '';
-            }
-            // Deal with pagination issues
-            $resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();
-            if($paginate){
-                    $limit = (int)$this->getState('limit');
-                    if($limit != 0)
-                                    $resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');
-            }
-
-            return $resultQuery;
-	}
+class JResearchAdminModelPublications extends JResearchAdminModelList{
 
 	/**
 	* Returns the ids of the publications where the author has participated. 
@@ -107,54 +70,24 @@ class JResearchModelPublications extends JResearchModelList{
             return $db->loadResultArray();
 	}
 
-	/**
-	* Like method _buildQuery, but it does not consider LIMIT clause.
-	* 
-	* @return string SQL query.
-	*/	
-	protected function _buildRawQuery(){
-            $db =& JFactory::getDBO();
-            $resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
-            $resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
-            return $resultQuery;
-	}
+
+        protected function getListQuery() {
+            // Create a new query object.
+            $db = JFactory::getDBO();
+            $whereClauses = $this->_buildQueryWhere();
+            $orderColumns = $this->_buildQueryOrderBy();
+            $query = $db->getQuery(true);
+
+            $query->select('*');
+            $query->from('#__jresearch_publication');
+            if(!empty($whereClauses))
+                $query->where($whereClauses);
+
+            $query->order($orderColumns);
+            return $query;
+        }
+        
 	
-
-	/**
-	* Returns an array of ALL the items of an entity independently of its published state considering
-	* pagination parameters. 
-	*
-	* @pàram $memberId If non null, it represents the id of a staff member and the method returns
-	* only those items of the member's authoring.
-	* @param $onlyPublished If true, returns only published items.
-	* @param $paginate If true, the method considers pagination user parameters
-	* @param $teamId If not null, the method only return those items authored by members of the 
-	* specified team.
-	* @return 	array
-	*/
-	public function getData($memberId = null, $onlyPublished = false, $paginate = false){	
-            if($memberId !== $this->_memberId || $onlyPublished !== $this->_onlyPublished || $this->_paginate !== $this->_paginate || empty($this->_items)){
-                    $this->_memberId = $memberId;
-                    $this->_onlyPublished = $onlyPublished;
-                    $this->_paginate = $paginate;
-                    $this->_items = array();
-
-                    $db = &JFactory::getDBO();
-                    $query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
-                    $db->setQuery($query);
-                    $result = $db->loadAssocList();
-                    foreach($result as $item){
-                            $pub = JTable::getInstance("Publication", "JResearch");
-                            $pub->bind($item, array(), true);
-                            $this->_items[] = $pub;
-                    }
-
-                    if($paginate)
-                            $this->updatePagination();
-            }
-            return $this->_items;
-
-	}
 	
 	/**
 	 * Gets data by team id
@@ -186,26 +119,30 @@ class JResearchModelPublications extends JResearchModelList{
 	*/
 	private function _buildQueryOrderBy(){
             $mainframe = JFactory::getApplication();
-            $modelKey = JRequest::getVar('modelkey', '');
+            $columns = array();
 
-            $db =& JFactory::getDBO();
+            $db = JFactory::getDBO();
             //Array of allowable order fields
             $orders = array('title', 'published', 'year', 'citekey', 'pubtype', 'id_research_area');
-            $Itemid = JRequest::getVar('Itemid');
 
-            $filter_order = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_order'.$Itemid, 'filter_order', 'title');
-            $filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_order_Dir'.$Itemid, 'filter_order_Dir', 'ASC'));
+            $filter_order = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_order'.$Itemid, 'filter_order', 'title');
+            $filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('com_jresearch.publications.filter_order_Dir'.$Itemid, 'filter_order_Dir', 'ASC'));
 
             //Validate order direction
             if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
                     $filter_order_Dir = 'ASC';
+
             //if order column is unknown, use the default
             if($filter_order == 'type')
-                    $filter_order = $db->nameQuote('pubtype');
+                    $filter_order = 'pubtype';
             elseif($filter_order == 'alphabetical' || !in_array($filter_order, $orders))
                     $filter_order = $db->nameQuote('title');
 
-            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->nameQuote('created').' DESC';
+            $columns[] = $filter_order.' '.$filter_order_Dir;
+            $columns[] = 'created DESC';
+
+            return $columns;
+
 	}	
 	
 	/**
@@ -214,28 +151,22 @@ class JResearchModelPublications extends JResearchModelList{
 	private function _buildQueryWhere($published = false){
             $mainframe = JFactory::getApplication();
 
-            $db = & JFactory::getDBO();
-            $modelKey = JRequest::getVar('modelkey', 'default');
-            $Itemid = JRequest::getVar('Itemid');
+            $db = JFactory::getDBO();
 
-            $filter_state = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_state'.$Itemid, 'filter_state');
-            $filter_year = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_year'.$Itemid, 'filter_year');
-            $filter_search = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_search'.$Itemid, 'filter_search');
-            $filter_pubtype = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_pubtype'.$Itemid, 'filter_pubtype');
-            $filter_area = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_area'.$Itemid, 'filter_area');
-            $filter_author = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_author'.$Itemid, 'filter_author');
-            $filter_team = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_team'.$Itemid, 'filter_team');
+            $filter_state = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_state', 'filter_state');
+            $filter_year = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_year', 'filter_year');
+            $filter_search = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_search', 'filter_search');
+            $filter_pubtype = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_pubtype', 'filter_pubtype');
+            $filter_area = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_area', 'filter_area');
+            $filter_author = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_author', 'filter_author');
+            $filter_team = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_team', 'filter_team');
 
             // prepare the WHERE clause
             $where = array();
-            if(!$published){
-                    if($filter_state == 'P')
-                            $where[] = $db->nameQuote('published').' = 1 ';
-                    elseif($filter_state == 'U')
-                            $where[] = $db->nameQuote('published').' = 0 ';
-            }else
+            if($filter_state == 'P')
                     $where[] = $db->nameQuote('published').' = 1 ';
-
+            elseif($filter_state == 'U')
+                    $where[] = $db->nameQuote('published').' = 0 ';
 
             if($filter_year != null && $filter_year != -1 )
                     $where[] = $db->nameQuote('year').' = '.$db->Quote($filter_year);
@@ -274,12 +205,7 @@ class JResearchModelPublications extends JResearchModelList{
                     }
             }
 
-            if(!$mainframe->isAdmin()){
-                    $where[] = $db->nameQuote('internal').' = '.$db->Quote('1');
-            }
-
-
-            return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
+            return $where;
 			
 	}
 

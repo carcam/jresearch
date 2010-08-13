@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  *
  */
 
-class JResearchViewPublications extends JResearchView
+class JResearchAdminViewPublications extends JResearchView
 {
     function display($tpl = null)
     {
@@ -26,25 +26,18 @@ class JResearchViewPublications extends JResearchView
     	$layout = $this->getLayout();
 
     	switch($layout){
-    		case 'import':
-    			$this->_displayImportForm();	
-    			break;
-    		case 'export':
-    			$this->_displayExportForm();
-    			break;
-    		default:
-    			$this->_displayDefaultList();
-    			break;		
+            case 'import':
+                    $this->_displayImportForm();
+                    break;
+            case 'export':
+                    $this->_displayExportForm();
+                    break;
+            default:
+                    $this->_displayDefaultList();
+                    break;
     	}
     	
-	$eArguments = array('publications');
-	if($layout == 'default')
-	     $mainframe->triggerEvent('onBeforeListJResearchEntities', $eArguments);
-        
         parent::display($tpl);
-        
-        if($layout == 'default')
-        	$mainframe->triggerEvent('onAfterListJResearchEntities', $eArguments);
     }
     
     
@@ -65,19 +58,19 @@ class JResearchViewPublications extends JResearchView
         // Get the default model
     	$model = $this->getModel();
     	$researchAreaModel = $this->getModel('researcharea');
-    	$items = $model->getData(null, null, true);
+    	$items = $model->get('Items');
     	
     	// Ordering variables
     	$lists = array();    	
     	// Get the user state of the order and direction 
-    	$filter_order = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order', 'published');
-    	$filter_order_Dir = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order_Dir',  'ASC');
-        $filter_state = $mainframe->getUserStateFromRequest('publicationsfilter_state', 'filter_state');
-        $filter_year = $mainframe->getUserStateFromRequest('publicationsfilter_year', 'filter_year');
-        $filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');
-        $filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');
-    	$filter_search = $mainframe->getUserStateFromRequest('publicationsfilter_search', 'filter_search');
-        $filter_author = $mainframe->getUserStateFromRequest('publicationsfilter_author', 'filter_author');
+    	$filter_order = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_order', 'filter_order', 'published');
+    	$filter_order_Dir = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_order', 'filter_order_Dir',  'ASC');
+        $filter_state = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_state', 'filter_state');
+        $filter_year = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_year', 'filter_year');
+        $filter_pubtype = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_pubtype', 'filter_pubtype');
+        $filter_area = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_area', 'filter_area');
+    	$filter_search = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_search', 'filter_search');
+        $filter_author = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_author', 'filter_author');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
         $lists['order'] = $filter_order;
@@ -147,7 +140,7 @@ class JResearchViewPublications extends JResearchView
     	
     	// Retrieve the list of research areas
     	foreach($researchAreas as $r){
-    		$researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
+            $researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
     	}    	
     	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'researchAreas', 'class="inputbox" id="researchAreas" size="5"');
     	
@@ -165,18 +158,18 @@ class JResearchViewPublications extends JResearchView
     * Invoked when the user exports a set of bibliographical references.
     */	
     private function _displayExportForm(){
-      JResearchToolbar::importPublicationsToolbar();
-		$session =& JFactory::getSession();
-		$task = JRequest::getVar('task');
-		
-		if($task == 'export'){
-			$cid = JRequest::getVar('cid', null);
-			$exportCompleteDatabase = false;
-			$session->set('markedRecords', $cid, 'jresearch');
-		}elseif($task == 'exportAll'){
-			$exportCompleteDatabase = true;
-			$session->set('markedRecords', 'all', 'jresearch'); 
-		}
+        JResearchToolbar::importPublicationsToolbar();
+        $session = JFactory::getSession();
+        $task = JRequest::getVar('task');
+
+        if($task == 'export'){
+                $cid = JRequest::getVar('cid', null);
+                $exportCompleteDatabase = false;
+                $session->set('markedRecords', $cid, 'jresearch');
+        }elseif($task == 'exportAll'){
+                $exportCompleteDatabase = true;
+                $session->set('markedRecords', 'all', 'jresearch');
+        }
 		      	
       
     	$formatsOptions = array();
@@ -185,8 +178,8 @@ class JResearchViewPublications extends JResearchView
     	$formatsOptions[] = JHTML::_('select.option', 'ris', 'RIS');
     	$formatsHTML = JHTML::_('select.genericlist', $formatsOptions, 'outformat', 'size="1"');
 		
-		$this->assignRef('formatsList', $formatsHTML);		
-		$this->assignRef('exportAll', $exportCompleteDatabase);
+        $this->assignRef('formatsList', $formatsHTML);
+        $this->assignRef('exportAll', $exportCompleteDatabase);
     	
     }
 }

@@ -16,28 +16,28 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * HTML View class for single publication management in JResearch Component backend
  *
  */
-
 class JResearchAdminViewPublication extends JResearchView
 {
-	function display($tpl = null)
+
+    	function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
-		
- 		$layout = $this->getLayout();
- 		$arguments = array();
- 		
- 		switch($layout){
- 			case 'new':
- 				$this->_displayNewPublicationForm();
- 				break;
- 			case 'default':
- 				$this->_displayPublicationForm($arguments); 				
- 				break;	
- 		}
- 		 		
-		parent::display($tpl);
-		if($layout == 'default')
-       		$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);		
+            $mainframe = JFactory::getApplication();
+            $layout = $this->getLayout();
+            $arguments = array();
+
+            switch($layout){
+                    case 'new':
+                            $this->_displayNewPublicationForm();
+                            break;
+                    case 'default':
+                            $this->_displayPublicationForm($arguments);
+                            break;
+            }
+
+            parent::display($tpl);
+
+            if($layout == 'default')
+                $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);
 
 	}
 	
@@ -49,49 +49,14 @@ class JResearchAdminViewPublication extends JResearchView
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 		
 		JResearchToolbar::editPublicationAdminToolbar();
-		JHTML::_('jresearchhtml.validation');		
-		$arguments[] = 'publication';
-		$doc = JFactory::getDocument();
-		
-		$cid = JRequest::getVar('cid');
-		$isNew = !isset($cid);
-		$pubtype = JRequest::getVar('pubtype');
-		$authors = null;  
-		$publication = JResearchPublication::getById($cid[0]);	
-    	
-		if(!$isNew)
-		{			
-			$arguments[] = $publication->id;
-			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
-			$authors = $publication->getAuthors();
-			$publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
-			$this->assignRef('changeType', $publicationTypes);			
-		}
-		else
-		{
-			$arguments[] = null;
-		}
-		
-		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $publication?$publication->id_research_area:null)); 
-		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));		
-		
-		$params = JComponentHelper::getParams('com_jresearch');
-		$authorsControl	= JHTML::_('jresearchhtml.autoSuggest', 'authors', $authors);		
-		
-		if(!empty($publication->files))
-			$uploadedFiles = explode(';', trim($publication->files));
-		else
-			$uploadedFiles = array();	
-		$files = JHTML::_('jresearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="20" maxlength="255" class="validate-url"', true, $uploadedFiles);
-		
+                $form = &$this->get('Form');
+                // get the Data
+                $data = &$this->get('Data');
+                // Bind the Data
+                var_dump($form);
 				
-		$this->assignRef('areasList', $researchAreasHTML);
-		$this->assignRef('publishedRadio', $publishedRadio);
-		$this->assignRef('internalRadio', $internalRadio );
-		$this->assignRef('pubtype', $pubtype);
-		$this->assignRef('authors', $authorsControl);
-		$this->assignRef('files', $files);
+                $this->assignRef('form', $form);
+                $this->assignRef('data', $data);
 	}
 	
 	/**

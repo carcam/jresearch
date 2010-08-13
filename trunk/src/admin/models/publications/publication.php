@@ -10,46 +10,89 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-jimport( 'joomla.application.component.model' );
+jresearchimport('joomla.application.component.modelform');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'comment.php');
 
 /**
 * Model class for holding a single publication record.
 *
 */
-class JResearchModelPublication extends JResearchModelSingleRecord{
+class JResearchModelPublication extends JModelForm{
 
-	/**
-	* Returns the record with the id sent as parameter.
-	* @param int $itemId Numeric id 
-	* @return 	object
-	*/
-	public function getItem($itemId){
-		return JResearchPublication::getById($itemId);
-	}
+/**
+         * @var array data
+         */
+        protected $data = null;
 
-	/**
-	 * Returns the record with the citekey sent as parameter. This method considers
-	 * published items only.
-	 *
-	 * @param string $citekey String citekey
-	 * @return JResearchPublication or null if there is no published item with the citekey provided.
-	 */
-	public function getItemByCitekey($citekey){		
-		if($this->_record == null){
-			$this->_record = JResearchPublication::getByCitekey($citekey);
-		}else{
-			if($this->_record->citekey == $citekey){
-				return $this->_record;	
-			}else{
-				$this->_record = JResearchPublication::getByCitekey($citekey);
-			}
-		}
-		
-		return $this->_record;
-	}
+        /**
+         * Method to get the data.
+         *
+         * @access      public
+         * @return      array of string
+         * @since       1.0
+         */
+        public function &getData()
+        {
+            if (empty($this->data))
+            {
+                    $app = & JFactory::getApplication();
+                    $data = & JRequest::getVar('jform');
+                    if (empty($data))
+                    {
+                            $selected = & JRequest::getVar('cid', 0, '', 'array');
+                            $db = JFactory::getDBO();
+                            $query = $db->getQuery(true);
+                            // Select all fields from the hello table.
+                            $query->select('*');
+                            $query->from('`#__jresearch_publication`');
+                            $query->where('id = ' . (int)$selected[0]);
+                            $db->setQuery((string)$query);
+                            $data = & $db->loadAssoc();
+                    }
+                    if (empty($data))
+                    {
+                            // Check the session for previously entered form data.
+                            $data = $app->getUserState('com_jresearch.edit.publication.data', array());
+                            unset($data['id']);
+                    }
+                    
+                    $app->setUserState('com_jresearch.edit.publication.data', $data);
+                    $this->data = $data;
+            }
+            return $this->data;
+        }
+        /**
+         * Method to get the HelloWorld form.
+         *
+         * @access      public
+         * @return      mixed   JForm object on success, false on failure.
+         * @since       1.0
+         */
+        public function getForm($data = array(), $loadData = true)
+        {
+                $form = $this->loadForm('com_jresearch.publication', 'publication', array('control' => 'jform', 'load_data' => $loadData));
+                return $form;
+        }
+        
+        /**
+         * Method to save a record
+         *
+         * @access      public
+         * @return      boolean True on success
+         */
+        function save()
+        {
+                $data = & $this->getData();
+                // Database processing
+                $row = & $this->getTable();
+                // Bind the form fields to the hello table
+                if (!$row->save($data))
+                {
+                        $this->setError($row->getErrorMsg());
+                        return false;
+                }
+                return true;
+        }
 	
 	/**
 	 * Returns an array of JResearchComment objects.
@@ -59,7 +102,7 @@ class JResearchModelPublication extends JResearchModelSingleRecord{
 	 * @param int $start Start index
 	 */
 	public function getComments($id_publication, $limit=5, $start=0){
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$comments = array();
 		
 		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_publication_comment').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($id_publication)
@@ -68,7 +111,7 @@ class JResearchModelPublication extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadAssocList();		
 		foreach($result as $r){
-			$newComm = new JResearchPublicationComment($db);
+			$newComm = JTable::getInstance('PublicationComment', 'JResearch');
 			$newComm->bind($r);
 			$comments[] = $newComm;
 		}

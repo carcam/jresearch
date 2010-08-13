@@ -10,7 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-jimport( 'joomla.application.component.model' );
+jresearchimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researchArea.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
@@ -19,7 +19,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 * Model class for holding lists of research areas records.
 *
 */
-class JResearchModelResearchAreas extends JResearchModelList{
+class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
 	
 	/**
 	* Class constructor
