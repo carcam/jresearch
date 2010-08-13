@@ -129,11 +129,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	  	<div class="divEspacio" ></div>	        
     </div>
 	    <div class="divTR">
-			<div class="divTd"><label for="file_url_0"><?php echo JText::_('JRESEARCH_FILE').': '; ?></label></div>
-			<div class="divTdl"><?php echo $this->files; ?></div><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_FILES_TOOLTIP')); ?>
-		</div>
+			<div class="divTd"><label for="file_url_0"><?php echo JText::_('JRESEARCH_FILE').': '; ?></label><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_DOCUMENT_SUPPORTED_FORMATS')); ?></div>
+			<div class="divTdl"><?php echo $this->files; ?></div>
 	  	<div class="divEspacio" ></div>		
-</div>
+            </div>
+        </div>
 </fieldset>	
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_AUTHORS'); ?></legend>

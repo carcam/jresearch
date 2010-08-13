@@ -104,13 +104,16 @@ class JHTMLJresearch
 							$pub = JResearchPublication::getById($itemid);
 							
 							$authors = $pub->getAuthors();
+
+                                                        if($pub->created_by == $user->id || $canDo)
+                                                                return true;
 							
 							foreach($authors as $author)
 							{
 								//Return true if I'm able to edit all publications or only mine
 								if(is_a($author, 'JResearchMember'))
 								{
-									if($canDo || ($canDoOwn && ($author->id == $user->id)) || $pub->created_by == $user->id)
+									if($canDo || ($canDoOwn && $author->username == $user->username))
 									{
 										return true;
 									}
