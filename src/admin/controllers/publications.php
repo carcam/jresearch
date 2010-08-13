@@ -414,7 +414,7 @@ class JResearchAdminPublicationsController extends JController
                     $idText = !empty($publication->id) && $task == 'apply'?'&cid[]='.$publication->id:'';
 
                     if($db->getErrorNum() == 1062)
-                            JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+                            JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD').', '.$db->getErrorMsg());
                     else
                             JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());
 
