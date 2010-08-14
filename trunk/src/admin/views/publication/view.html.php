@@ -46,17 +46,16 @@ class JResearchAdminViewPublication extends JResearchView
 	* publications.
 	*/
 	private function _displayPublicationForm(&$arguments){
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
-		
-		JResearchToolbar::editPublicationAdminToolbar();
-                $form = &$this->get('Form');
-                // get the Data
-                $data = &$this->get('Data');
-                // Bind the Data
-                var_dump($form);
-				
-                $this->assignRef('form', $form);
-                $this->assignRef('data', $data);
+            JResearchToolbar::editPublicationAdminToolbar();
+            $form = $this->get('Form');
+            // get the Data
+            $data = &$this->get('Data');
+
+            $pubtype = JRequest::getVar('pubtype', 'article');
+
+            $this->assignRef('form', $form);
+            $this->assignRef('data', $data);
+            $this->assignRef('pubtype', $pubtype);
 	}
 	
 	/**

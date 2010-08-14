@@ -347,6 +347,34 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_facilities` (
   FULLTEXT KEY `description` (`description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
+DROP TABLE IF EXISTS `#__jresearch_publication_researcharea`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_publication_researcharea` (
+  `id_publication` int(11) unsigned NOT NULL,
+  `id_research_area` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id_publication`, `id_research_area`),
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `#__jresearch_project_researcharea`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_project_researcharea` (
+  `id_project` int(11) unsigned NOT NULL,
+  `id_research_area` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id_project`, `id_research_area`),
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `#__jresearch_thesis_researcharea`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_thesis_researcharea` (
+  `id_thesis` int(11) unsigned NOT NULL,
+  `id_research_area` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id_thesis`, `id_research_area`),
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `#__jresearch_member_researcharea`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_member_researcharea` (
+  `id_member` int(11) unsigned NOT NULL,
+  `id_research_area` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id_member`, `id_research_area`),
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('abstract');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('address');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('annote');

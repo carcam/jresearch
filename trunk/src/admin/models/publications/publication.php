@@ -17,7 +17,7 @@ jresearchimport('joomla.application.component.modelform');
 * Model class for holding a single publication record.
 *
 */
-class JResearchModelPublication extends JModelForm{
+class JResearchAdminModelPublication extends JModelForm{
 
 /**
          * @var array data
@@ -70,8 +70,9 @@ class JResearchModelPublication extends JModelForm{
          */
         public function getForm($data = array(), $loadData = true)
         {
-                $form = $this->loadForm('com_jresearch.publication', 'publication', array('control' => 'jform', 'load_data' => $loadData));
-                return $form;
+            $pubtype = JRequest::getVar('pubtype', 'article');
+            $form = $this->loadForm('com_jresearch.'.$pubtype, $pubtype, array('control' => 'jform', 'load_data' => $loadData));
+            return $form;
         }
         
         /**
