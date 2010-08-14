@@ -132,7 +132,6 @@
                         default=""
                         label="JRESEARCH_ABSTRACT"
                  />
-
         </fieldset>
         <fieldset name="extra">
                 <field
@@ -176,6 +175,78 @@
                         default=""
                         label="JRESEARCH_COMMENTS"
                         description="JRESEARCH_TOOLTIP_COMMENTS"
+                />
+        </fieldset>
+        <fieldset name="specific">
+                <field
+                        id="issn"
+                        name="issn"
+                        type="text"
+                        size="20"
+                        maxlength="255"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_ISSN"
+                />
+                <field
+                        id="journal"
+                        name="journal"
+                        type="text"
+                        size="20"
+                        maxlength="255"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_JOURNAL"
+                />
+                <field
+                        id="volume"
+                        name="volume"
+                        type="text"
+                        size="15"
+                        maxlength="255"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_VOLUME"
+                />
+                <field
+                        id="number"
+                        name="number"
+                        type="text"
+                        size="15"
+                        maxlength="20"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_NUMBER"
+                />
+                <field
+                        id="pages"
+                        name="pages"
+                        type="text"
+                        size="10"
+                        maxlength="20"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_PAGES"
+                />
+                <field
+                        id="month"
+                        name="month"
+                        type="text"
+                        size="15"
+                        maxlength="20"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_MONTH"
+                />
+                <field
+                        id="crossref"
+                        name="crossref"
+                        type="text"
+                        size="15"
+                        maxlength="255"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_CROSS_REFERENCE"
                 />
         </fieldset>
 </form>

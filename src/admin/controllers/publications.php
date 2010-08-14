@@ -91,7 +91,6 @@ class JResearchAdminPublicationsController extends JController
             $cid = JRequest::getVar('cid', array());
             $view = $this->getView('Publication', 'html', 'JResearchAdminView');
             $pubModel = $this->getModel('Publication', 'JResearchAdminModel');
-            $model = $this->getModel('ResearchAreas', 'JResearchAdminModel');
 
             if(!empty($cid)){
                     $publication = $pubModel->getItem($cid[0]);
@@ -103,7 +102,7 @@ class JResearchAdminPublicationsController extends JController
                             }else{
                                 $publication->checkout($user->get('id'));
                                 $view->setLayout('default');
-                                $view->setModel($model);
+                                $view->setModel($pubModel, true);
                                 $view->display();
                             }
                     }else{
@@ -112,7 +111,7 @@ class JResearchAdminPublicationsController extends JController
                     }
             }else{
                 $view->setLayout('default');
-                $view->setModel($model);
+                $view->setModel($pubModel, true);
                 $view->display();
             }
 	}

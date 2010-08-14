@@ -40,3 +40,7 @@ DROP TABLE IF EXISTS `#__jresearch_publication_type`;
 DROP TABLE IF EXISTS `#__jresearch_online_source`;
 DROP TABLE IF EXISTS `#__jresearch_digital_source`;
 DROP TABLE IF EXISTS `#__jresearch_earticle`;
+DROP TABLE IF EXISTS `#__jresearch_publication_researcharea`;
+DROP TABLE IF EXISTS `#__jresearch_project_researcharea`;
+DROP TABLE IF EXISTS `#__jresearch_thesis_researcharea`;
+DROP TABLE IF EXISTS `#__jresearch_member_researcharea`;
