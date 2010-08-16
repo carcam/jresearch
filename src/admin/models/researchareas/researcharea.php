@@ -10,35 +10,67 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-jimport( 'joomla.application.component.model' );
-
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researchArea.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
+jresearchimport('joomla.application.component.modelform');
 
 
 /**
 * Model class for holding a single research area record.
 *
 */
-class JResearchAdminModelResearchArea extends JResearchModelSingleRecord{
+class JResearchAdminModelResearchArea extends JModelForm{
 
-	/**
-	* Returns the record with the id sent as parameter.
-	* @return 	object
-	*/
-	public function getItem($itemId){
-		$db = JFactory::getDBO();
-		
-		$researchArea = new JResearchArea($db);
-		$researchArea->load($itemId);
-		if(!empty($researchArea->id))
-			return $researchArea;
-		else
-			return null;	
-	}
-	
+
+
+        /**
+         * Method to get the data.
+         *
+         * @access      public
+         * @return      array of string
+         * @since       1.0
+         */
+        public function &getData()
+        {
+            if (empty($this->data))
+            {
+                    $app = & JFactory::getApplication();
+                    $data = & JRequest::getVar('jform');
+                    if (empty($data))
+                    {
+                            $selected = & JRequest::getVar('cid', 0, '', 'array');
+                            $db = JFactory::getDBO();
+                            $query = $db->getQuery(true);
+                            // Select all fields from the hello table.
+                            $query->select('*');
+                            $query->from('`#__jresearch_research_area`');
+                            $query->where('id = ' . (int)$selected[0]);
+                            $db->setQuery((string)$query);
+                            $data = & $db->loadAssoc();
+                    }
+                    if (empty($data))
+                    {
+                            // Check the session for previously entered form data.
+                            $data = $app->getUserState('com_jresearch.edit.researcharea.data', array());
+                            unset($data['id']);
+                    }
+
+                    $app->setUserState('com_jresearch.edit.researcharea.data', $data);
+                    $this->data = $data;
+            }
+            return $this->data;
+        }
+        /**
+         * Method to get the HelloWorld form.
+         *
+         * @access      public
+         * @return      mixed   JForm object on success, false on failure.
+         * @since       1.0
+         */
+        public function getForm($data = array(), $loadData = true)
+        {
+            $form = $this->loadForm('com_jresearch.researcharea', 'researcharea', array('control' => 'jform', 'load_data' => $loadData));
+            return $form;
+        }
+
 	/**
 	 * Returns the staff members that work in a specific research 
 	 * area.
@@ -221,6 +253,61 @@ class JResearchAdminModelResearchArea extends JResearchModelSingleRecord{
 		}
 		
 		return $facilities;	
+	}
+
+        	/**
+	 * Ordering item
+	*/
+	function orderItem($item, $movement)
+	{
+            $row = JTable::getInstance('Researcharea', 'JResearch');
+            $row->load($item);
+
+            if (!$row->move($movement))
+            {
+                $this->setError($row->getError());
+                return false;
+            }
+
+            return true;
+	}
+
+	/**
+	 * Set ordering
+	*/
+	function setOrder($items)
+	{
+		$total = count($items);
+                $row = JTable::getInstance('Researcharea', 'JResearch');
+
+		$order = JRequest::getVar( 'order', array(), 'post', 'array' );
+		JArrayHelper::toInteger($order);
+
+		// update ordering values
+		for( $i=0; $i < $total; $i++ )
+		{
+			$row->load( $items[$i] );
+
+			$groupings[] = $row->former_member;
+			if ($row->ordering != $order[$i])
+			{
+				$row->ordering = $order[$i];
+				if (!$row->store())
+				{
+					$this->setError($row->getError());
+					return false;
+				}
+			} // if
+		} // for
+
+		// execute updateOrder
+		$groupings = array_unique($groupings);
+		foreach ($groupings as $group)
+		{
+			$row->reorder(' AND published >= 0');
+		}
+
+		return true;
 	}
 }
 ?>

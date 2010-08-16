@@ -53,6 +53,7 @@ class JResearchAdminViewPublications extends JResearchView
     	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
     	
     	JResearchToolbar::publicationsAdminListToolbar();
+        $db = JFactory::getDBO();
     	JHTML::_('behavior.tooltip');
 		
         // Get the default model
@@ -80,9 +81,7 @@ class JResearchAdminViewPublications extends JResearchView
         $lists['search'] = $filter_search;
 		
         // Year filter
-        $db = JFactory::getDBO();
-        $db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
-        $years = $db->loadResultArray();
+        $years = JResearchPublicationsHelper::getYears();
         $yearsHTML = array();
         $yearsHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
         foreach($years as $y)
@@ -91,7 +90,7 @@ class JResearchAdminViewPublications extends JResearchView
         $lists['year'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
 
         // Publication type filter
-        $types = JResearchPublication::getPublicationsSubtypes();
+        $types = JResearchPublicationsHelper::getPublicationsSubtypes();
         $typesHTML = array();
         $typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
         foreach($types as $type){
@@ -100,11 +99,12 @@ class JResearchAdminViewPublications extends JResearchView
         $lists['pubtype'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
 
         // Research Area filter
-        $areas = JResearchArea::getAllItems();
+        $db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_research_area').' ORDER BY '.$db->nameQuote('ordering').' ASC ');
+        $areas = $db->loadAssocList();
         $areasHTML = array();
         $areasHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_RESEARCH_AREA'));
         foreach($areas as $area){
-                $areasHTML[] = JHTML::_('select.option', $area->id, $area->name);
+                $areasHTML[] = JHTML::_('select.option', $area['id'], $area['name']);
         }
         $lists['area'] = JHTML::_('select.genericlist', $areasHTML, 'filter_area', 'class="inputbox" size="1" '.$js, 'value','text', $filter_area);
 

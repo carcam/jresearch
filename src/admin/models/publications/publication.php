@@ -19,7 +19,7 @@ jresearchimport('joomla.application.component.modelform');
 */
 class JResearchAdminModelPublication extends JModelForm{
 
-/**
+        /**
          * @var array data
          */
         protected $data = null;

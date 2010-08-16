@@ -919,6 +919,6 @@ class JHTMLjresearchhtml
 		$result = '<span class="hits"><span>'.$value.'</span><span><label for="'.$name.'">(';
 		$result .= JText::_('Reset').': </label></span><span><input type="checkbox" name="'.$name.'" id="'.$name.'" />)</span></span>';
 		return $result;
-	}
+	}        
 }
 ?>
