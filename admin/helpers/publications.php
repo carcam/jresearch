@@ -350,27 +350,27 @@ class JResearchPublicationsHelper{
 	 * @return string
 	 */
 	public static function formatMonth($month, $abbreviate=false){
-		$pieces = explode('#', $month);
-		$monthsText = implode('|', self::$months);
-		$result = '';		
+            $pieces = explode('#', $month);
+            $monthsText = implode('|', self::$months);
+            $result = '';
 
-		
-		foreach($pieces as $piece){
-			$piece = trim($piece);	
-			if(preg_match("/^($monthsText)$/i", $piece)){
-				if($abbreviate)
-					$content = JText::_('JRESEARCH_ABB_'.strtoupper($piece));
-				else	
-					$content = JText::_('JRESEARCH_'.strtoupper($piece));		
-			}elseif(preg_match('/^[{"](.+)[}"]$/', $piece, $matches)){
-				$content = $matches[1];
-			}else{
-				$content = $piece;
-			}
-			$result .= $content.' ';
-		}	
 
-		return rtrim($result);
+            foreach($pieces as $piece){
+                    $piece = trim($piece);
+                    if(preg_match("/^($monthsText)$/i", $piece)){
+                            if($abbreviate)
+                                    $content = JText::_('JRESEARCH_ABB_'.strtoupper($piece));
+                            else
+                                    $content = JText::_('JRESEARCH_'.strtoupper($piece));
+                    }elseif(preg_match('/^[{"](.+)[}"]$/', $piece, $matches)){
+                            $content = $matches[1];
+                    }else{
+                            $content = $piece;
+                    }
+                    $result .= $content.' ';
+            }
+
+            return rtrim($result);
 	}
 	
 	/**
