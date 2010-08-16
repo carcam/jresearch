@@ -32,15 +32,6 @@ table.edit {
 	
 }
 
-table thead th, table tbody th.title, table tfoot th.title {
-	background-color: rgb(102, 102, 102); 
-	width: 100%;
-	color: white; 
-	text-align: center;
-	font-weight: bold;
-	font-size: 12px;
-}
-
 table tbody th {
 	font-weight: bold;
 	text-align: left;
@@ -275,11 +266,11 @@ div.jresearch-control-panel div{
 }
 
 div.about-panel{
-	width: 45%; 
-	float:right;
+    width: 45%;
+    float:right;
 }
 
 ul.creditslist{
-	list-style-type: none;
-	padding: 0px;
+    list-style-type: none;
+    padding: 0px;
 }

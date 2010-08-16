@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * This class represents a research area.
  *
  */
-class JResearchArea extends JTable{
+class JResearchResearcharea extends JTable{
 	/**
 	 * Database integer id
 	 *
@@ -65,7 +65,13 @@ class JResearchArea extends JTable{
 	 * @var unknown_type
 	 */
 	public $checked_out_time;
-	
+
+
+        /**
+         *
+         * @var int
+         */
+        public $ordering;
 	
 	
 	/**
@@ -75,38 +81,6 @@ class JResearchArea extends JTable{
 	 */
 	function __construct(&$db){
 		parent::__construct('#__jresearch_research_area', 'id', $db);
-	}
-	
-	/**
-	 * Returns an array with all research areas.
-	 *
-	 * @param boolean $onlyPublic If true, only published research areas are retrieved.
-	 * @return array of JResearchArea objects
-	 * 
-	 */
-	public static function getAllItems($onlyPublic = false){
-		$db = &JFactory::getDBO();
-		$areas = array();
-		
-		if($onlyPublic){
-			$where = ' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
-		}else{
-			$where = '';
-		}
-		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_research_area').$where;
-		$db->setQuery($query);
-		
-		$result = $db->loadAssocList();
-		
-		foreach($result as $r){
-			$ra = new JResearchArea($db);
-			$ra->bind($r);
-			$areas[] = $ra;	
-		}
-		
-		
-		return $areas;
 	}
 	
 
@@ -138,7 +112,7 @@ class JResearchArea extends JTable{
 	* @return true if successful
 	*/
 	function publish( $cid=null, $publish=1, $user_id=0 ){
-		$db =& JFactory::getDBO();		
+		$db = JFactory::getDBO();
 		$result = parent::publish($cid, $publish, $user_id);
 		
 		if($result && $publish == 0){
@@ -204,7 +178,7 @@ class JResearchArea extends JTable{
    	}
    	
    	return $booleanResult;
-	}
+    }
 	
 }	
 

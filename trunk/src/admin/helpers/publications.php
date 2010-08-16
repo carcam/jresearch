@@ -490,5 +490,25 @@ class JResearchPublicationsHelper{
                 return $issn;
         }
 
+
+	/**
+	* Returns an array with the supported publications datatypes.
+	*
+	* @return array
+	*/
+	public static function getPublicationsSubtypes(){
+            $db = JFactory::getDBO();
+
+            $query = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');
+            $db->setQuery($query);
+
+            return $db->loadResultArray();
+	}
+
+        public static function getYears(){
+            $db = JFactory::getDBO();
+            $db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
+            return $db->loadResultArray();
+        }
 }
 ?>

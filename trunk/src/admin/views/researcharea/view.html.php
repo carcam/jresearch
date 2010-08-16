@@ -20,19 +20,18 @@ class JResearchAdminViewResearchArea extends JResearchView
 {
     function display($tpl = null)
     {
-    	global $mainframe;
+    	$mainframe = JFactory::getApplication();
       	JResearchToolbar::editResearchAreaAdminToolbar();
     			
-		JHTML::_('jresearchhtml.validation');
+        JHTML::_('jresearchhtml.validation');
         JRequest::setVar( 'hidemainmenu', 1 );
         
     	// Information about the member
     	$cid = JRequest::getVar('cid');
     	$editor =& JFactory::getEditor();
     	$model =& $this->getModel();
-    	$area = $model->getItem($cid[0]);
-    	$arguments = array('researcharea');
-    	
+    	$area =& $model->getData();
+    	$arguments = array('researcharea');    	
     	if($cid)
         	$arguments[] = $area->id; 	
     	else
@@ -42,10 +41,10 @@ class JResearchAdminViewResearchArea extends JResearchView
     	
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
-		$this->assignRef('editor', $editor);    	
+        $this->assignRef('editor', $editor);
     	
-		// Load cited records
-		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+        // Load cited records
+        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 		
        	parent::display($tpl);
 

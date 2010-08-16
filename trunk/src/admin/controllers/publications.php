@@ -58,7 +58,6 @@ class JResearchAdminPublicationsController extends JController
 	 */
 
 	function display($cachable = false){
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
             $view = $this->getView('Publications', 'html', 'JResearchAdminView');
             $pubModel = $this->getModel('Publications', 'JResearchAdminModel');
             $model = $this->getModel('ResearchAreas', 'JResearchAdminModel');
@@ -87,7 +86,6 @@ class JResearchAdminPublicationsController extends JController
 	* the type for a new one.
 	*/	
 	function edit(){
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
             $cid = JRequest::getVar('cid', array());
             $view = $this->getView('Publication', 'html', 'JResearchAdminView');
             $pubModel = $this->getModel('Publication', 'JResearchAdminModel');

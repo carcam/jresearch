@@ -40,12 +40,13 @@
                 />
                 <field
                         id="id_research_area"
-                        name="id_research_area"
-                        type="researcharealist"
-                        size="1"
+                        name="id_research_area[]"
+                        type="researchareaslist"
+                        size="5"
                         class="inputbox"
                         default=""
-                        label="JRESEARCH_RESEARCH_AREA"
+                        label="JRESEARCH_RESEARCH_AREAS"
+                        multiple="true"
                 />
                 <field
                         id="url"
@@ -107,7 +108,7 @@
                 <field
                         id="file_url"
                         name="file_url"
-                        type="jresearchfileuploader"
+                        type="file"
                         rows="5"
                         cols="50"
                         class="inputbox"
@@ -117,8 +118,9 @@
                 <field
                         id="authors"
                         name="authors"
-                        type="jresearchauthorsselector"
+                        type="authorsselector"
                         class="inputbox"
+                        allowPrincipals="true"
                         default=""
                         label="JRESEARCH_AUTHORS"
                 />
