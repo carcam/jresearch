@@ -36,6 +36,31 @@
 			<option value="yes">Yes</option>
 			<option value="no">No</option>
 		</param>
+
+                <param name="publications_allow_comentaries" label="JRESEARCH_CONFIG_ALLOW_COMENTARIES" type="radio" default="no">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                </param>
+                <param name="publications_allow_comentaries_from" label="JRESEARCH_CONFIG_ALLOW_COMENTARIES_FROM" type="radio" default="users">
+                        <option value="everyone">JRESEARCH_EVERYONE</option>
+                        <option value="users">JRESEARCH_AUTHENTICATED</option>
+                </param>
+                <param name="show_bibtex" type="radio" default="yes" label="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND_DESCRIPTION">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                </param>
+                <param name="show_export_bibtex" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_BIBTEX" description="JRESEARCH_PUBLICATION_EXPORT_BIBTEX_DESCRIPTION">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                </param>
+                <param name="show_export_ris" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_RIS" description="JRESEARCH_PUBLICATION_EXPORT_RIS_DESCRIPTION">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                </param>
+                <param name="show_export_mods" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_MODS" description="JRESEARCH_PUBLICATION_EXPORT_MODS_DESCRIPTION">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                </param>
 	
 		<param type="spacer" />
 		<param name="staff_list_arrangement" type="list" default="vertical" label="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT" description="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT_DESCRIPTION">
@@ -50,7 +75,7 @@
 		<param name="member_image_height" default="768" label="JRESEARCH_MEMBER_IMAGE_HEIGHT" type="text" />
 		
 		<param type="spacer" />
-									
+
 		<param name="files_root_path" type="hidden" default="files" />			
 	</params>
 </config>

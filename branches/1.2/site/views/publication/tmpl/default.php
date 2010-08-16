@@ -105,14 +105,14 @@ defined('_JEXEC') or die('Restricted access');
 	<?php $colspan=4; ?>
 	<?php $acceptance = trim($this->publication->journal_acceptance_rate); ?>
 	<?php $impact_factor = trim($this->publication->impact_factor); ?>
-	<?php if(!empty($acceptance) && ($this->params->get('show_journal_acceptance_rate') == 'yes')): ?>
+	<?php if(!empty($acceptance)): ?>
 		<?php $colspan = 2; ?>
 		<th scope="row"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': ' ?></th>		
 		<td><?php echo $acceptance; ?>%</td>
 	<?php else: ?>
 			<td colspan="<?php echo $colspan; ?>"></td>
 	<?php endif; ?>
-	<?php if(!empty($impact_factor) && ($this->params->get('show_journal_impact_factor') == 'yes')): ?>
+	<?php if(!empty($impact_factor)): ?>
 		<?php $colspan -= 2; ?>	
 		<th scope="row"><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></th>		
 		<td><?php echo $impact_factor; ?></td>			
@@ -123,7 +123,7 @@ defined('_JEXEC') or die('Restricted access');
 	</tr>
 		
 	<?php $awards = trim($this->publication->awards); ?>
-	<?php if(!empty($awards) && ($this->params->get('show_awards') == 'yes')): ?>
+	<?php if(!empty($awards)): ?>
 	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_AWARDS').': '; ?></th>
 		<td style="width:85%;" colspan="3"><div style="text-align:justify;"><?php echo $awards; ?></div></td>

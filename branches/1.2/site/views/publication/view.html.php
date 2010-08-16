@@ -132,7 +132,7 @@ class JResearchViewPublication extends JResearchView
         }
 
 
-// Cross referencing
+        // Cross referencing
         $missingFields = $publication->getReferencedFields();
         if(!empty($missingFields)){
                 $count = 0;
@@ -158,11 +158,14 @@ class JResearchViewPublication extends JResearchView
     	$format = $params->get('staff_format') == 'last_first'?1:0;		
     	$showBibtex = ($params->get('show_export_bibtex') == 'yes');
     	$showMODS = ($params->get('show_export_mods') == 'yes');    		
-    	$showRIS = ($params->get('show_export_ris') == 'yes');    	
-    	
-		
+    	$showRIS = ($params->get('show_export_ris') == 'yes');
+
         $doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
-    	// Bind variables for layout
+
+        // Metadata for indexing (compatibility with Google Scholar)
+        $this->_setMetaData($publication);
+
+        // Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
     	$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('showHits', $showHits);
@@ -179,6 +182,61 @@ class JResearchViewPublication extends JResearchView
 		
 		
 		return true;
+
+    }
+
+    private function _setMetaData($publication){
+        $doc = JFactory::getDocument();
+        $doc->setMetaData('citation_title', $publication->title);
+        $authors = $publication->getAuthors();
+        foreach($authors as $auth)
+            $doc->setMetaData('citation_author', (string)$auth);
+
+        if(!empty($publication->journal))
+                $doc->setMetaData('citation_journal_title', $publication->journal);
+        if(!empty($publication->number)){
+            if($publication->pubtype == 'techreport')
+                $doc->setMetaData('citation_technical_report_number', $publication->number);
+            else
+                $doc->setMetaData('citation_issue', $publication->number);
+        }
+
+        if(!empty($publication->institution)){
+            if($publication->pubtype == 'techreport')
+                $doc->setMetaData('citation_technical_report_institution', $publication->institution);
+            else
+                $doc->setMetaData('citation_dissertation_institution', $publication->institution);
+        }
+
+        if(!empty($publication->volume))
+            $doc->setMetaData('citation_volume', $publication->volume);
+        if(!empty($publication->issn))
+            $doc->setMetaData('citation_issn', $publication->issn);
+        if(!empty($publication->isbn))
+            $doc->setMetaData('citation_isbn', $publication->isbn);
+        if(!empty($publication->year)){
+            $doc->setMetaData('citation_date', $publication->year);
+        }
+        
+        if(!empty($publication->created)){
+            $dateObj = new JDate($publication->created);
+            $doc->setMetaData('citation_online_date', $dateObj->toFormat('%Y/%m/%d'));
+        }
+
+       if(!empty($publication->pages)){
+           $pages = preg_split('/--?/', $publication->pages);
+           if(!empty($pages)){
+               $doc->setMetaData('citation_firstpage', $pages[0]);
+               if(isset($pages[1]))
+                   $doc->setMetaData('citation_lastpage', $pages[1]);
+           }
+       }
+
+       $nattach = $publication->countAttachments();
+       if($n > 0){
+           $attach = $publication->getAttachment(0, 'publications');
+           $doc->setMetaData('citation_pdf_url', JHTML::_('JResearchhtml.attachment', $attach));
+       }
 
     }
     

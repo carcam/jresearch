@@ -342,12 +342,12 @@ class JResearchPublication extends JResearchActivity{
 				$parentObject->$prop = $this->$prop;
 		}
  		// Time to insert the attributes
-      	if($this->$j){
-          	$ret = $db->updateObject( $this->_tbl, $parentObject, $this->_tbl_key, $updateNulls );
-      	}else{
-          	$ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
-          	$this->$j = $db->insertid();
-      	}
+            if($this->$j){
+                    $ret = $db->updateObject( $this->_tbl, $parentObject, $this->_tbl_key, $updateNulls );
+            }else{
+                    $ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
+                    $this->$j = $db->insertid();
+            }
       	
 	    if( !$ret ){
 	        $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
@@ -355,51 +355,51 @@ class JResearchPublication extends JResearchActivity{
 	    }				
    
 
-		// Delete the information about internal and external references
-		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);
-		$deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);
-		
-		$db->setQuery($deleteInternalQuery);
-		if(!$db->query()){
-			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
-			return false;
-		}	
-		
-		$db->setQuery($deleteExternalQuery);
-		if(!$db->query()){
-			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
-			return false;
-		}		
-		
-		$orderField = $db->nameQuote('order');
-		$idPubField = $db->nameQuote('id_publication');
-       
-		foreach($this->_internalAuthors as $author){			
-			$id_staff_member = $db->Quote($author['id_staff_member']);
-			$idStaffField = $db->nameQuote('id_staff_member');
-			$order = $db->Quote($author['order']);
-			$tableName = $db->nameQuote('#__jresearch_publication_internal_author');
-			$insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField) VALUES ($this->id, $id_staff_member,$order)";
-			$db->setQuery($insertInternalQuery);			
-			if(!$db->query()){
-				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
-				return false;
-			}
-		}
+            // Delete the information about internal and external references
+            $deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);
+            $deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);
 
-		foreach($this->_externalAuthors as $author){
-			$order = $db->Quote($author['order'], false);
-			$authorName = $db->Quote($db->getEscaped($author['author_name'], true), false);
-			
-			$authorField = $db->nameQuote('author_name');
-			$tableName = $db->nameQuote('#__jresearch_publication_external_author');
-			$insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField) VALUES($this->id, $authorName, $order)";			
-			$db->setQuery($insertExternalQuery);
-			if(!$db->query()){
-				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
-				return false;
-			}
-		}     		
+            $db->setQuery($deleteInternalQuery);
+            if(!$db->query()){
+                    $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+                    return false;
+            }
+
+            $db->setQuery($deleteExternalQuery);
+            if(!$db->query()){
+                    $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+                    return false;
+            }
+
+            $orderField = $db->nameQuote('order');
+            $idPubField = $db->nameQuote('id_publication');
+
+            foreach($this->_internalAuthors as $author){
+                    $id_staff_member = $db->Quote($author['id_staff_member']);
+                    $idStaffField = $db->nameQuote('id_staff_member');
+                    $order = $db->Quote($author['order']);
+                    $tableName = $db->nameQuote('#__jresearch_publication_internal_author');
+                    $insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField) VALUES ($this->id, $id_staff_member,$order)";
+                    $db->setQuery($insertInternalQuery);
+                    if(!$db->query()){
+                            $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+                            return false;
+                    }
+            }
+
+            foreach($this->_externalAuthors as $author){
+                    $order = $db->Quote($author['order'], false);
+                    $authorName = $db->Quote($db->getEscaped($author['author_name'], true), false);
+
+                    $authorField = $db->nameQuote('author_name');
+                    $tableName = $db->nameQuote('#__jresearch_publication_external_author');
+                    $insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField) VALUES($this->id, $authorName, $order)";
+                    $db->setQuery($insertExternalQuery);
+                    if(!$db->query()){
+                            $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+                            return false;
+                    }
+            }
      
 	    return true;
 	}
