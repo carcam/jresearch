@@ -34,6 +34,8 @@ class JResearchAdminModelResearchArea extends JModelForm{
             {
                     $app = & JFactory::getApplication();
                     $data = & JRequest::getVar('jform');
+                    $area = null;
+                    JError::raiseWarning(1, '1: '.var_export($data, true));
                     if (empty($data))
                     {
                             $selected = & JRequest::getVar('cid', 0, '', 'array');
@@ -41,21 +43,33 @@ class JResearchAdminModelResearchArea extends JModelForm{
                             $query = $db->getQuery(true);
                             // Select all fields from the hello table.
                             $query->select('*');
-                            $query->from('`#__jresearch_research_area`');
+                            $query->from('#__jresearch_research_area');
                             $query->where('id = ' . (int)$selected[0]);
                             $db->setQuery((string)$query);
                             $data = & $db->loadAssoc();
+                            JError::raiseWarning(1, '2: '.var_export($data, true));
+                            $area = JTable::getInstance('Researcharea', 'JResearch');
+                            $area->bind($data);
+                            JError::raiseWarning(1, '3: '.var_export($area, true));
+
                     }
+
                     if (empty($data))
                     {
                             // Check the session for previously entered form data.
                             $data = $app->getUserState('com_jresearch.edit.researcharea.data', array());
                             unset($data['id']);
+                            $area->bind($data);
                     }
-
+                    // Store the state as an array of values
                     $app->setUserState('com_jresearch.edit.researcharea.data', $data);
-                    $this->data = $data;
+                    // and return it as an object
+                    if(!empty($area))
+                        $this->data = $area;
+                    else
+                        $this->data = $data;
             }
+            
             return $this->data;
         }
         /**
@@ -69,6 +83,47 @@ class JResearchAdminModelResearchArea extends JModelForm{
         {
             $form = $this->loadForm('com_jresearch.researcharea', 'researcharea', array('control' => 'jform', 'load_data' => $loadData));
             return $form;
+        }
+
+
+        /**
+         * Method to save a record
+         *
+         * @access      public
+         * @return      boolean True on success
+         */
+        function save()
+        {
+                $data = &$this->getData();
+                // Database processing
+                $row = &$this->getTable('Researcharea', 'JResearch');
+                // Bind the form fields to the hello table
+                if (!$row->save($data))
+                {
+                    $this->setError($row->getError());
+                    return false;
+                }
+                return true;
+        }
+
+        /**
+         *
+         */
+        function checkin(){
+            $data = &$this->getData();
+
+            if(!empty($data)){
+                // Database processing
+                $row = &$this->getTable('Researcharea', 'JResearch');
+                $row->bind($data);
+                if (!$row->checkin())
+                {
+                    $this->setError($row->getError());
+                    return false;
+                }
+            }
+
+            return true;
         }
 
 	/**

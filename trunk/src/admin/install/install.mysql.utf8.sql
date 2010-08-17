@@ -199,6 +199,10 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL,
   `ordering` int(11) unsigned NOT NULL default '0',
+  `created` datetime NULL,
+  `created_by` int(10) default NULL,
+  `modified` datetime NULL,
+  `modified_by` int(10) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

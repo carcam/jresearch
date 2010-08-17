@@ -12,7 +12,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jresearchimport( 'joomla.application.component.model' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researchArea.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 
 /**
@@ -20,8 +19,8 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 *
 */
 class JResearchAdminModelResearchAreas extends JResearchAdminModelList{	
-	
 
+        
         protected function getListQuery() {
             // Create a new query object.
             $db = JFactory::getDBO();

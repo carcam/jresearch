@@ -59,13 +59,8 @@ class JResearchAdminPublicationsController extends JController
 
 	function display($cachable = false){
             $view = $this->getView('Publications', 'html', 'JResearchAdminView');
-            $pubModel = $this->getModel('Publications', 'JResearchAdminModel');
-            $model = $this->getModel('ResearchAreas', 'JResearchAdminModel');
-            $raModel = $this->getModel('ResearchArea', 'JResearchAdminModel');
-
-            $view->setModel($pubModel, true);
-            $view->setModel($model);
-            $view->setModel($raModel);
+            $model = $this->getModel('Publications', 'JResearchAdminModel');
+            $view->setModel($model, true);
             $view->setLayout('default');
             $view->display();
 	}

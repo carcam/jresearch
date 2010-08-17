@@ -21,6 +21,9 @@ final class JResearchFilter
 
 class JResearchView extends JView
 {
+
+    protected $_entity;
+
     public function __construct(array $config=array())
     {
         parent::__construct($config);

@@ -1,48 +1,36 @@
 <?php
-/**
- * @package JResearch
- * @subpackage ResearchAreas
- * Default view for adding/editing a single research area
- */
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-// no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<div class="divForm">
-<form name="adminForm" id="adminForm" method="post" class="form-validate" onSubmit="return validate(this);"  >
-<fieldset>
-	<legend>
-		<?php echo JText::_('JRESEARCH_RESEARCH_AREA')?>
-	</legend>
-<div class="divTable">
-<div class="divTR">
-	<div class="divTd"><label for="name"><?php echo JText::_('Name').': '?></label></div>
-	<div class="divTdl">
-		<input name="name" id="name" size="50" maxlength="255" value="<?php echo $this->area?$this->area->name:'' ?>" class="required" />
-		<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'name', JText::_('JRESEARCH_RESEARCH_AREA_PROVIDE_VALID_NAME')); ?>
-	</div>
-    <div class="divEspacio" ></div>										
-</div>		
-<div class="divTR">
-	<div class="divTd"><label for="alias"><?php echo JText::_('Alias').': '?></label></div>
-	<div class="divTdl">
-		<input name="alias" id="alias" class="validate-alias" size="50" maxlength="255" value="<?php echo $this->area?$this->area->alias:'' ?>"  />
-		<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'alias', JText::_('JRESEARCH_PROVIDE_VALID_ALIAS')); ?>
-	</div>
-    <div class="divEspacio" ></div>		
-</div>
-<div class="divTR">
-	<div class="divTd"><label for="published"><?php echo JText::_('Published').': '; ?></label></div>
-	<div class="divTdl"><?php echo $this->publishedRadio; ?></div>
-    <div class="divEspacio" ></div>			
-</div>
-<div class="divTR">
-	<?php echo $this->editor->display( 'description',  isset($this->area)?$this->area->description:'' , '100%', '350', '75', '20' ) ; ?>
-</div>
-</div>
-<input type="hidden" name="id" value="<?php echo $this->area?$this->area->id:'' ?>" />
-<?php echo JHTML::_('jresearchhtml.hiddenfields', 'researchAreas'); ?>	
-<?php echo JHTML::_('behavior.keepalive'); ?>
-<?php echo JHTML::_('form.token'); ?>	
-</fieldset>
+$fields = array('id', 'name', 'alias', 'published');
+
+?>
+<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
+    <div class="width-70">
+        <fieldset class="panelform">
+                <ul class="adminformlist">
+                <?php foreach($fields as $fieldName):  ?>
+                    <?php $field = $this->form->getField($fieldName); ?>
+                    <li>
+                        <?php if (!$field->hidden): ?>
+                                <?php echo $field->label; ?>
+                        <?php endif; ?>
+                        <?php echo $field->input; ?>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            <div class="clr"></div>
+            <div><?php
+            $description = $this->form->getField('description');
+            echo $description->label;
+            ?></div>
+            <div class="clr"></div>
+            <div><?php echo $description->input; ?></div>
+            <div class="clr"></div>
+        </fieldset>
+    </div>
+    <input type="hidden" name="task" value="edit" />
+    <input type="hidden" name="controller" value="researchAreas" />
+    <?php echo JHtml::_('form.token'); ?>
 </form>
-</div>
+<div class="clr"></div>
