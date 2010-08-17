@@ -273,27 +273,9 @@ class JResearchToolbar
 	 *
 	 */
 	public static function editItemAdminToolbar(){
-		$bar = & JToolBar::getInstance('toolbar');
-		$doc = & JFactory::getDocument();
-
-		// Add a back button
-		$bar->appendButton('Link', 'save', JText::_('Save'), 'javascript:msubmitform(\'save\')' );
-		$bar->appendButton('Link', 'apply', JText::_('Apply'), 'javascript:msubmitform(\'apply\')' );
-		$bar->appendButton('Link', 'cancel', JText::_('Cancel'), 'javascript:msubmitform(\'cancel\')' );
-
-		$doc->addScriptDeclaration('function msubmitform(pressbutton){
-			if (pressbutton) {
-				document.adminForm.task.value=pressbutton;
-			}
-			if (typeof document.adminForm.onsubmit == "function") {
-				if(!document.adminForm.onsubmit())
-					return;
-				else
-					document.adminForm.submit();
-			}else
-				document.adminForm.submit();
-		}');
-		
+            JToolBarHelper::save('save');
+            JToolBarHelper::apply('apply');
+            JToolBarHelper::cancel('cancel', JText::_('JToolBar_Close'));
 	}
 
 	/**
@@ -301,7 +283,7 @@ class JResearchToolbar
 	 *
 	 */
 	public static function controlPanelToolbar(){
-		JToolBarHelper::title(JText::_('JRESEARCH_CONTROL_PANEL'));
+            JToolBarHelper::title(JText::_('JRESEARCH_CONTROL_PANEL'));
 	}
 	
 	/**
@@ -309,12 +291,12 @@ class JResearchToolbar
 	*/	
 	public static function cooperationsAdminListToolbar()
 	{
-		JToolBarHelper::title(JText::_('JRESEARCH_COOPERATIONS'));
-		
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		
-		JToolBarHelper::divider();
-		self::adminListToolbar();
+            JToolBarHelper::title(JText::_('JRESEARCH_COOPERATIONS'));
+
+            self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+
+            JToolBarHelper::divider();
+            self::adminListToolbar();
 	}
 	
 	public static function member_positionListToolbar()

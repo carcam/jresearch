@@ -19,13 +19,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class JResearchAdminViewResearchAreas extends JResearchView
 {
+    
+
     function display($tpl = null)
     {
         $mainframe = JFactory::getApplication();
         JResearchToolbar::researchAreasListToolbar();
 
         $model = $this->getModel();
-        $items = $model->get('Items');
+        $items = $model->getItems();
+
+        var_dump($items);
 
         // Filters and pagination
         $lists = array();

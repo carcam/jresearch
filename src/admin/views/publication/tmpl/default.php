@@ -1,21 +1,7 @@
 <?php
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-JHTML::_('behavior.tooltip');
 ?>
-
-<script type="text/javascript">
-	function submitbutton(task)
-	{
-		if (task == 'cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			submitform(task);
-		}
-		else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
-		}
-	}
-</script>
-
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
 
 <form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
@@ -81,7 +67,7 @@ JHTML::_('behavior.tooltip');
         <?php endif; ?>
 
         <?php echo JHtml::_('sliders.end'); ?>
-        <input type="hidden" name="task" value="publication.edit" />
+        <input type="hidden" name="task" value="com_jresearch.edit" />
         <?php echo JHtml::_('form.token'); ?>
     </div>
 </form>

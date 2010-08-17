@@ -18,37 +18,22 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class JResearchAdminViewResearchArea extends JResearchView
 {
+
     function display($tpl = null)
     {
-    	$mainframe = JFactory::getApplication();
       	JResearchToolbar::editResearchAreaAdminToolbar();
-    			
-        JHTML::_('jresearchhtml.validation');
-        JRequest::setVar( 'hidemainmenu', 1 );
+        JHtml::_('jresearchhtml.validation');
         
-    	// Information about the member
-    	$cid = JRequest::getVar('cid');
-    	$editor =& JFactory::getEditor();
-    	$model =& $this->getModel();
-    	$area =& $model->getData();
-    	$arguments = array('researcharea');    	
-    	if($cid)
-        	$arguments[] = $area->id; 	
-    	else
-    		$arguments[] = null;	
-    	
-    	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $area?$area->published:1));
-    	
-    	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
-    	$this->assignRef('publishedRadio', $publishedRadio);
-        $this->assignRef('editor', $editor);
-    	
-        // Load cited records
-        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
-		
-       	parent::display($tpl);
+        $form = $this->get('Form');
+        // get the Data
+        $data = &$this->get('Data');
+        // Bind the Data
+        $form->bind($data);
 
-       	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);
+        $this->assignRef('form', $form);
+        $this->assignRef('data', $data);
+
+        parent::display($tpl);
     }
 }
 
