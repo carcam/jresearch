@@ -18,6 +18,8 @@ jresearchimport( 'joomla.application.component.modellist' );
 */
 class JResearchAdminModelList extends JModelList{
         protected $_context;
+
+        protected $_items;
 	
 	/**
 	* Class constructor.

@@ -9,22 +9,21 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-jimport( 'joomla.application.component.model' );
+jresearchimport( 'joomla.application.component.modelitem' );
 
 
 /**
 * Base class for models that hold a single record.
 *
 */
-abstract class JResearchModelSingleRecord extends JModel{
+abstract class JResearchModelItem extends JModelItem{
 	// If the user sends the same id twice, we just return it.
-	protected $_record;
+	protected $_row;
 
 	/**
 	* Returns the record with the id sent as parameter.
 	* @return 	object
 	*/
-	abstract public function getItem($itemId);
-
+	abstract public function getItem();
 }
 ?>

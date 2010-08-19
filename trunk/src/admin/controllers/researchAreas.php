@@ -46,11 +46,14 @@ class JResearchAdminResearchAreasController extends JController
 	*/	
 	function save(){
              $model = $this->getModel('Researcharea', 'JResearchAdminModel');
+             $app = JFactory::getApplication();
              if ($model->save()){
                 $task = JRequest::getVar('task');
-                if($task == 'save')
+                $area = $model->getItem();
+                if($task == 'save'){
                     $this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
-                elseif($task == 'apply')
+                    $app->setUserState('com_jresearch.edit.researcharea.data', array());
+                }elseif($task == 'apply')
                     $this->setRedirect('index.php?option=com_jresearch&controller=researchAreas&task=edit&cid[]='.$area->id, JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
              }else{
                 $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
@@ -108,11 +111,8 @@ class JResearchAdminResearchAreasController extends JController
 	*/ 
 	function remove(){
             $model = $this->getModel('Researcharea', 'JResearchAdminModel');
-            if(($n = $model->delete()) !== false){
-                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
-            }
-
-            $this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::sprintf('JRESEARCH_AREA_SUCCESSFULLY_DELETED', (int)$n));
+            $n = $model->delete();
+            $this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::sprintf('JRESEARCH_AREA_SUCCESSFULLY_DELETED', $n));
 	}
 
 
@@ -127,8 +127,8 @@ class JResearchAdminResearchAreasController extends JController
             $model = $this->getModel('ResearchArea', 'JResearchAdminModel');
 				
             if($cid){
-                $area =& $model->getData();
-                if(!empty($area)){
+                $area = $model->getItem();
+                if(!empty($area->id)){
                     $user = JFactory::getUser();
                     // Verify if it is checked out
                     if($area->isCheckedOut($user->get('id'))){

@@ -20,6 +20,25 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 */
 class JResearchAdminModelResearchAreas extends JResearchAdminModelList{	
 
+
+        public function getItems(){
+            if(!isset($this->_items)){
+                $items = parent::getItems();
+
+                if($items !== false){
+                    foreach($items as $item){
+                        $area = $this->getTable('Researcharea', 'JResearch');
+                        $area->bind($item);
+                        $this->_items[] = $area;
+                    }
+                }else{
+                    return $items;
+                }
+            }
+
+            return $this->_items;
+        }
+        
         
         protected function getListQuery() {
             // Create a new query object.

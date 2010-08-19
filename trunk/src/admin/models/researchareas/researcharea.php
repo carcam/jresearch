@@ -32,46 +32,36 @@ class JResearchAdminModelResearchArea extends JModelForm{
         {
             if (empty($this->data))
             {
-                    $app = & JFactory::getApplication();
-                    $data = & JRequest::getVar('jform');
-                    $area = null;
-                    JError::raiseWarning(1, '1: '.var_export($data, true));
-                    if (empty($data))
-                    {
-                            $selected = & JRequest::getVar('cid', 0, '', 'array');
-                            $db = JFactory::getDBO();
-                            $query = $db->getQuery(true);
-                            // Select all fields from the hello table.
-                            $query->select('*');
-                            $query->from('#__jresearch_research_area');
-                            $query->where('id = ' . (int)$selected[0]);
-                            $db->setQuery((string)$query);
-                            $data = & $db->loadAssoc();
-                            JError::raiseWarning(1, '2: '.var_export($data, true));
-                            $area = JTable::getInstance('Researcharea', 'JResearch');
-                            $area->bind($data);
-                            JError::raiseWarning(1, '3: '.var_export($area, true));
+                $app = & JFactory::getApplication();
+                $data = & JRequest::getVar('jform');
+                if (empty($data))
+                {
+                    // For new items
+                    $selected = & JRequest::getVar('cid', 0, '', 'array');
+                    $db = JFactory::getDBO();
+                    $query = $db->getQuery(true);
+                    $query->select('*');
+                    $query->from('#__jresearch_research_area');
+                    $query->where('id = ' . (int)$selected[0]);
+                    $db->setQuery((string)$query);
+                    $data = & $db->loadAssoc();
+                }
 
-                    }
+                if (empty($data))
+                {
+                    // Check the session for previously entered form data.
+                    $data = $app->getUserState('com_jresearch.edit.researcharea.data', array());
+                    unset($data['id']);
+                }
 
-                    if (empty($data))
-                    {
-                            // Check the session for previously entered form data.
-                            $data = $app->getUserState('com_jresearch.edit.researcharea.data', array());
-                            unset($data['id']);
-                            $area->bind($data);
-                    }
-                    // Store the state as an array of values
-                    $app->setUserState('com_jresearch.edit.researcharea.data', $data);
-                    // and return it as an object
-                    if(!empty($area))
-                        $this->data = $area;
-                    else
-                        $this->data = $data;
+                // Store the state as an array of values
+                $app->setUserState('com_jresearch.edit.researcharea.data', $data);
+                $this->data = $data;
             }
-            
+
             return $this->data;
         }
+
         /**
          * Method to get the HelloWorld form.
          *
@@ -94,21 +84,51 @@ class JResearchAdminModelResearchArea extends JModelForm{
          */
         function save()
         {
+                $app = JFactory::getApplication();
+                
                 $data = &$this->getData();
-                // Database processing
-                $row = &$this->getTable('Researcharea', 'JResearch');
+
+                $row = $this->getTable('Researcharea', 'JResearch');
+
                 // Bind the form fields to the hello table
                 if (!$row->save($data))
                 {
                     $this->setError($row->getError());
                     return false;
                 }
+
+                $app->setUserState('com_jresearch.edit.researcharea.data', $data);
+
                 return true;
         }
 
-        /**
-         *
-         */
+        function publish(){
+           $selected = & JRequest::getVar('cid', 0, '', 'array');
+           $area = JTable::getInstance('Researcharea', 'JResearch');
+           return $area->publish($selected, 1);
+        }
+
+        function unpublish(){
+           $selected = & JRequest::getVar('cid', 0, '', 'array');
+           $area = JTable::getInstance('Researcharea', 'JResearch');
+           return $area->publish($selected, 0);
+
+        }
+
+        function delete(){
+           $n = 0;
+           $selected = & JRequest::getVar('cid', 0, '', 'array');
+           $area = JTable::getInstance('Researcharea', 'JResearch');
+           foreach($selected as $id){
+                if(!$area->delete($id)){
+                    JError::raiseWarning(1, JText::sprintf('JRESEARCH_AREA_NOT_DELETED', $id));
+                }else{
+                    $n++;
+                }
+           }
+           return $n;
+        }
+
         function checkin(){
             $data = &$this->getData();
 
@@ -126,192 +146,20 @@ class JResearchAdminModelResearchArea extends JModelForm{
             return true;
         }
 
-	/**
-	 * Returns the staff members that work in a specific research 
-	 * area.
-	 * 
-	 * @param int $id_area Research area id
-	 *
-	 */
-	public function getStaffMembers($id_area){
-		$members = array();
-		$db =& JFactory::getDBO();
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').'WHERE '.$db->nameQuote('published').' = 1'
-				 .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($id_area).' ORDER BY '.$db->nameQuote('ordering').' ASC';
+        /**
+         * Returns the model data store in the user state as a table
+         * object
+         */
+        public function getItem(){
+            $row = $this->getTable('Researcharea', 'JResearch');
+            $data =& $this->getData();
+            $row->bind($data);
+            return $row;
+        }
+        
 
-		$db->setQuery($query);
-		$result = $db->loadAssocList();
-
-		foreach($result as $r){
-			$newMember = JTable::getInstance('Member', 'JResearch');
-			$newMember->bind($r);
-			$members[] = $newMember;
-		}
-		
-		return $members;
-		
-	}
-	
-	
-	/**
-	 * Returns an array with the n latest publications associated to the
-	 * research area.
-	 *
-	 * @param int $areaId
-	 * @param int $n
-	 * @return array Array of JResearchPublicationObjects
-	 */
-	function getLatestPublications($areaId, $n = 0){
-		$db =& JFactory::getDBO();
-		$latestPub = array();
-		
-		$idd = $db->nameQuote('id');
-		$query = "SELECT $idd FROM ".$db->nameQuote('#__jresearch_publication').' WHERE '.$db->nameQuote('published').' = 1 AND '.$db->nameQuote('internal').' = 1'
-				 .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY year DESC, created DESC';
-
-		if($n > 0){
-			$query .= ' LIMIT 0, '.$n;
-		}
-		
-		$db->setQuery($query);
-		$result = $db->loadResultArray();
-		foreach($result as $id){
-			$publication =& JResearchPublication::getById($id);
-			$latestPub[] = $publication;
-		}
-		
-		return $latestPub;
-				 
-	}
-	
-	
-	/**
-	 * Returns the number of publications where the member has participated.
-	 * 
-	 * @param int $memberId
-	 */
-	function countPublications($areaId){
-		$db =& JFactory::getDBO();
-		
-		$query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_publication').' WHERE '.$db->nameQuote('published').' =  1 AND '.$db->nameQuote('internal').' = 1'
-				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId);		
-		$db->setQuery($query);		
-		return (int)$db->loadResult();
-	}
-
-	/**
-	 * Returns an array with the n latest projects in which the member has collaborated.
-	 * @param int $areaId
-	 * @param int $n
-	 */
-	function getLatestProjects($areaId, $n = 0){
-		$db =& JFactory::getDBO();
-		$latestProj = array();
-		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_project').' WHERE '.$db->nameQuote('published').' = 1'
-				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, created DESC';
-
-		if($n > 0){
-			$query .= ' LIMIT 0, '.$n;
-		}
-				 				 
-		$db->setQuery($query);
-		$result = $db->loadAssocList();
-		foreach($result as $r){
-			$project = new JResearchProject($db);
-			$project->bind($r);
-			$latestProj[] = $project;
-		}
-		
-		return $latestProj;
-		
-		
-	}
-	
-		
-	/**
-	 * Returns the number of projects the member has participated.
-	 * @param int $areaId
-	 */
-	function countProjects($areaId){
-		$db =& JFactory::getDBO();
-		
-		$query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_project').' WHERE '.$db->nameQuote('published').' =  1'
-				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId);		
-		$db->setQuery($query);		
-		return (int)$db->loadResult();
-		
-	}
-	
-	/**
-	 * Returns an array with the n latest theses in which the member has collaborated.
-	 * @param int $memberId
-	 * @param int $n
-	 */
-	function getLatestTheses($areaId, $n = 0){
-		$db =& JFactory::getDBO();
-		$latestThes = array();
-		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_thesis').' WHERE '.$db->nameQuote('published').' = 1'
-				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, created DESC';
-
-		if($n > 0){
-			$query .= ' LIMIT 0, '.$n;
-		}
-				 				 
-		$db->setQuery($query);
-		$result = $db->loadAssocList();
-		foreach($result as $r){
-			$thesis = new JResearchThesis($db);
-			$thesis->bind($r);
-			$latestThes[] = $thesis;
-		}
-		
-		return $latestThes;				
-	}
-	
-
-		
-	/**
-	 * Returns the number of degree theses the member has participated.
-	 * @param int $areaId
-	 */
-	function countTheses($areaId){
-		$db =& JFactory::getDBO();
-		
-		$query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_thesis').' WHERE '.$db->nameQuote('published').' =  1'
-				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId);		
-		$db->setQuery($query);		
-		return (int)$db->loadResult();
-		
-	}
-
-	
-	public function getFacilities($areaId, $n=0)
-	{
-		$db =& JFactory::getDBO();
-		$facilities = array();
-		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_facilities').' WHERE '.$db->nameQuote('published').' = 1'
-				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY name DESC';
-
-		if($n > 0){
-			$query .= ' LIMIT 0, '.$n;
-		}
-				 				 
-		$db->setQuery($query);
-		$result = $db->loadAssocList();
-		foreach($result as $r){
-			$item = new JResearchFacility($db);
-			$item->bind($r);
-			$facilities[] = $item;
-		}
-		
-		return $facilities;	
-	}
-
-        	/**
-	 * Ordering item
+        /**
+	* Ordering item
 	*/
 	function orderItem($item, $movement)
 	{

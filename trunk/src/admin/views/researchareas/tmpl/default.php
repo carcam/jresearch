@@ -27,12 +27,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th style="width: 1%;">#</th>
 			<th style="width: 1%;" class="center"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th style="width: 58%;" class="title"><?php echo JHTML::_('grid.sort',  'Name', 'name', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 58%;" class="title"><?php echo JHTML::_('grid.sort',  'Name', 'name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
 			<th style="width: 10%;">
 				<?php echo JHTML::_('grid.sort', 'Ordering', 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 				<?php echo JHTML::_('grid.order', $this->items ); ?>
 			</th>
-			<th style="width: 30%;"><?php echo JHTML::_('grid.sort',   'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 30%;"><?php echo JHTML::_('grid.sort',   'Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
 
 		</tr>
 		</thead>

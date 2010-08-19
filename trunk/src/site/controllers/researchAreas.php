@@ -28,11 +28,11 @@ class JResearchResearchAreasController extends JResearchFrontendController
 		
 		// When the wants to see more information about a research area.
 		$this->registerTask('show', 'show');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'researchareaslist');
+		$this->addModelPath(JPATH_COMPONENT.DS.'models'.DS.'researchareas');
+		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'researcharea');
 		
-		$this->addPathwayItem(JText::_('JRESEARCH_RESEARCH_AREAS'), 'index.php?option=com_jresearch&view=researchareaslist');
+		$this->addPathwayItem(JText::_('JRESEARCH_RESEARCH_AREAS'), 'index.php?option=com_jresearch&view=researchareas');
 	}
 
 	/**
@@ -42,24 +42,11 @@ class JResearchResearchAreasController extends JResearchFrontendController
 	 */
 
 	function display(){
-		global $mainframe;				
-		
-		//Set variables for model
-		$limitstart = JRequest::getVar('limitstart', null);		
-		if($limitstart === null)
-			JRequest::setVar('limitstart', 0);
-		
-		//Get and use configuration
-    	$params = $mainframe->getPageParameters('com_jresearch');
-		$limit = $params->get('area_entries_per_page');				
-		JRequest::setVar('limit', $limit);
-				
-		// Set the view and the model
-		$model =& $this->getModel('ResearchAreasList', 'JResearchModel');
-		$view =& $this->getView('ResearchAreasList', 'html', 'JResearchView');
-		$view->setModel($model, true);
-		$view->display();
-		
+            // Set the view and the model
+            $model = $this->getModel('Researchareas', 'JResearchModel');
+            $view = $this->getView('Researchareas', 'html', 'JResearchView');
+            $view->setModel($model, true);
+            $view->display();		
 	}
 
 
@@ -68,11 +55,10 @@ class JResearchResearchAreasController extends JResearchFrontendController
 	* @access public
 	*/
 	function show(){
-		$model =& $this->getModel('ResearchArea', 'JResearchModel');
-		$view =& $this->getView('ResearchArea', 'html', 'JResearchView');
-		$view->setModel($model, true);
-		$view->display();				
-
+            $model = $this->getModel('ResearchArea', 'JResearchModel');
+            $view = $this->getView('ResearchArea', 'html', 'JResearchView');
+            $view->setModel($model, true);
+            $view->display();
 	}
 }
 ?>

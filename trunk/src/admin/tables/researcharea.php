@@ -153,7 +153,7 @@ class JResearchResearcharea extends JTable{
         * @return true if successful otherwise returns and error message
         */
        function delete($oid=null){
-            $db =& JFactory::getDBO();
+            $db = JFactory::getDBO();
             $booleanResult = parent::delete($oid);
 
             if($booleanResult){
@@ -186,7 +186,24 @@ class JResearchResearcharea extends JTable{
         
 
         public function store($updateNulls = false){
-            $result = parent::store();
+            jresearchimport('joomla.utilities.date');
+            $dateObj = new JDate();
+            $user = JFactory::getDBO();
+
+            if(isset($this->id)){
+                $created = JRequest::getVar('created', $dateObj->toMySQL());
+                $this->created = $created;
+                $author = JRequest::getVar('created_by', $user->id);
+                $this->created_by = $author;
+            }
+            
+            $this->modified = $dateObj->toMySQL();
+            $this->modified_by = $author;
+            if(empty($this->alias))
+                $this->alias = JFilterOutput::stringURLSafe($this->name);
+
+            $result = parent::store($updateNulls);
+            
             // If the item is unpublished, unpublished all its children
             if($this->published == 0 && !empty($this->id)){
                 $this->_unpublishChildren($this->id);

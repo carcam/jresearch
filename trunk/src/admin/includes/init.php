@@ -14,22 +14,6 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
-function jresearchimport($entity, $space = 'system'){
-    if($space == 'system')
-        jimport($entity);
-    elseif($space == 'jresearch'){
-
-    }elseif($space == 'jresearch.site'){
-
-    }elseif($space == 'jresearch.admin'){
-
-    }else{
-        
-    }
-
-}
-
 /**
  * This file loads common classes and files used by J!Research.
  * 
@@ -37,6 +21,7 @@ function jresearchimport($entity, $space = 'system'){
 
 // Common needed files		
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'includes'.DS.'defines.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'includes'.DS.'import.php');
 
 //Helpers
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'cite.php');
@@ -49,9 +34,6 @@ JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 
 //Citation factory
 require_once(JPATH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
-
-//Tables
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
 
 //Needed plugins
 require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');

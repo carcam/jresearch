@@ -21,11 +21,11 @@ defined('_JEXEC') or die('Restricted access');
 global $mainframe;
 
 // Common needed files
-require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'init.php');
+require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'init.php');
 require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
 
 //Set ACL
-setACL();
+//setACL();
 
 $controller = JRequest::getVar('controller', null);
 // Verify if view parameter is set (usually for frontend requests and map to a controller
@@ -54,8 +54,7 @@ if(!JRequest::getVar('Itemid'))
 }
 
 // Make an instance of the controller
-$classname  = 'JResearch'.ucfirst($controller).'Controller';
-$controller = new $classname( );
+$controller = JController::getInstance('JResearch'.ucfirst($controller));
 
 $pluginhandledRequest = JResearchPluginsHelper::onBeforeExecuteJResearchTask();
 // Perform the request task if none of the plugins decided to do it
