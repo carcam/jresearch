@@ -20,7 +20,7 @@ if(count($this->items) > 0):
 			<?php $itemId = JRequest::getVar('Itemid'); ?>
 			<h3 class="contentheading"><?php echo $thesis->title; ?></h3>
 			<div>&nbsp;</div>			
-			<div><h4><?php echo JText::_('JRESEARCH_RESEARCH_AREA')?></h4>
+			<div><strong><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '; ?></strong>
 			
 				<?php if($researchArea->id > 1): ?>
 					<span><?php echo JHTML::_('jresearch.link', $researchArea->name, 'researcharea', 'show', $researchArea->id); ?></span>
