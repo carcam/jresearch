@@ -26,7 +26,7 @@ if(count($this->items) > 0):
 			if($this->params->get('show_researcharea') == 1):
 			?>		
 			<div>
-				<h4><?php echo JText::_('JRESEARCH_RESEARCH_AREA')?></h4>
+				<div><strong><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '; ?></strong>
 				<?php if($researchArea->id > 1): ?>
 					<span><a href="index.php?option=com_jresearch&amp;view=researcharea&amp;id=<?php echo $researchArea->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $researchArea->name;  ?></a></span>
 				<?php else: ?>
