@@ -49,6 +49,7 @@ class JResearchViewThesesList extends JResearchView
     	
       	$doc = JFactory::getDocument();
       	$params = $this->getParams();
+      	$Itemid = JRequest::getVar('Itemid');
       	
     	//Get the model
     	$model =& $this->getModel();
@@ -56,18 +57,23 @@ class JResearchViewThesesList extends JResearchView
 
         $filterByArea = $params->get('theses_filterby_researcharea', '0');
         if($filterByArea == '1'){
-            JRequest::setVar('filter_area', $params->get('theses_filter_area', '1'));
+            JRequest::setVar('filter_area', $params->get('theses_area_filter', '1'));
+        }else{
+            $mainframe->setUserState('thesesfilter_area'.$Itemid, null);
         }
 
         $filterByDegree = $params->get('theses_filterby_degree', '0');
-        if($filterByArea == '1'){
-            JRequest::setVar('filter_degree', $params->get('theses_filter_degree', 'bachelor'));
+        if($filterByDegree == '1'){
+            JRequest::setVar('filter_degree', $params->get('theses_degree_filter', 'bachelor'));
+        }else{
+            $mainframe->setUserState('thesesfilter_degree'.$Itemid, null);
         }
-
 
         $filterByStatus = $params->get('theses_filterby_status', '0');
         if($filterByStatus == '1'){
             JRequest::setVar('filter_status', $params->get('theses_status_filter', 'not_started'));
+        }else{
+            $mainframe->setUserState('thesesfilter_status'.$Itemid, null);
         }
 
         $defaultSorting = $params->get('theses_default_sorting', 'start_date');
@@ -82,7 +88,7 @@ class JResearchViewThesesList extends JResearchView
     	$this->assignRef('params', $params);
     	$this->assignRef('items', $theses);
     	$this->assignRef('areaModel', $areaModel);
-    	$this->assignRef('page', $model->getPagination());	
+    	$this->assignRef('page', $model->getPagination());		
     }
 }
 

@@ -215,7 +215,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		foreach($result as $r){
-			$item = new JResearchFacility($db);
+			$item = JTable::getInstance('Facility', 'JResearch');
 			$item->bind($r);
 			$facilities[] = $item;
 		}
