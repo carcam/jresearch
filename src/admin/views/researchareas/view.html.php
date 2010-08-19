@@ -29,8 +29,6 @@ class JResearchAdminViewResearchAreas extends JResearchView
         $model = $this->getModel();
         $items = $model->getItems();
 
-        var_dump($items);
-
         // Filters and pagination
         $lists = array();
         $filter_order = $mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_order', 'filter_order', 'ordering');

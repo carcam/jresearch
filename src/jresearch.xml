@@ -58,6 +58,7 @@
 		<folder>plg_jresearch_persistent_cited_records</folder>
 		<folder>plg_jresearch_native_plugins</folder>
 		<folder>views</folder>
+		<folder>models</folder>
 	</files>
 	<languages folder="languages/site">
 		<language tag="en-GB">en-GB.com_jresearch.ini</language>

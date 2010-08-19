@@ -13,7 +13,7 @@ jimport('joomla.html.pane');
 <div id="cpanel">
 	<div class="icon-wrapper">
 		<div class="icon">
-			<a class="modal" rel="{handler: 'iframe', size: {x: 750, y: 500}}" href="index.php?option=com_config&amp;controller=component&amp;component=com_jresearch&amp;path=">
+			<a class="modal" rel="{handler: 'iframe', size: {x: 750, y: 500}}" href="index.php?option=com_config&amp;tmpl=component&amp;component=com_jresearch&amp;view=component&amp;path=">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/config.png" alt="<?php echo JText::_('JRESEARCH_CONFIGURATION'); ?>" />
 				<span><?php echo JText::_('JRESEARCH_CONFIGURATION'); ?></span>
 			</a>

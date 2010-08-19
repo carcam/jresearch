@@ -16,7 +16,8 @@ jresearchimport( 'joomla.application.component.modellist' );
 * Base class for models that hold lists of records.
 *
 */
-class JResearchAdminModelList extends JModelList{
+class JResearchModelList extends JModelList{
+
         protected $_context;
 
         protected $_items;
@@ -41,10 +42,13 @@ class JResearchAdminModelList extends JModelList{
          */
         protected function populateState() {
             // Initialize variables.
-            $app = JFactory::getApplication('administrator');
+            $app = JFactory::getApplication('site');
+            $params = $app->getParams();
+            $controller = JRequest::getCmd('controller');
+
             // Load the list state.
             $this->setState('list.start', $app->getUserStateFromRequest($this->_context . '.list.start', 'limitstart', 0, 'int'));
-            $this->setState('list.limit', $app->getUserStateFromRequest($this->_context . '.list.limit', 'limit', $app->getCfg('list_limit', 25), 'int'));
+            $this->setState('list.limit', $params->get($controller.'_list_limit', 25));
         }
 }
 ?>

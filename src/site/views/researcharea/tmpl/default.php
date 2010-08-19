@@ -7,6 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
+
 <h2 class="componentheading"><?php echo $this->area->name; ?></h2>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h3>
 <?php echo $this->description;  ?>

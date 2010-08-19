@@ -1,24 +1,22 @@
 <?php
+
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage	ResearchAreas
+* @subpackage           Frontend.ResearchAreas
 * @copyright		Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
-jresearchimport( 'joomla.application.component.model' );
-
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
+require_once(JPATH_COMPONENT_SITE.DS.'models'.DS.'modellist.php');
 
 /**
 * Model class for holding lists of research areas records.
 *
 */
-class JResearchAdminModelResearchAreas extends JResearchAdminModelList{	
+class JResearchModelResearchAreas extends JResearchModelList{
 
 
         public function getItems(){
@@ -38,8 +36,8 @@ class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
 
             return $this->_items;
         }
-        
-        
+
+
         protected function getListQuery() {
             // Create a new query object.
             $db = JFactory::getDBO();
@@ -55,19 +53,20 @@ class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
             $query->order($orderColumns);
             return $query;
         }
-	
-	
+
+
 	/**
 	* Build the ORDER part of a query.
 	*/
 	private function _buildQueryOrderBy(){
             //Array of allowable order fields
-            $mainframe = JFactory::getApplication();
-            $orders = array('name', 'published', 'ordering');
+            $mainframe = JFactory::getApplication('site');
+            $params = $mainframe->getParams();
             $columns = array();
 
-            $filter_order = $mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_order', 'filter_order', 'ordering');
-            $filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_order_Dir', 'filter_order_Dir', 'ASC'));
+            // Read those from configuration
+            $filter_order = $params->get('researchareas_default_sorting', 'ordering');
+            $filter_order_Dir = $params->get('researchareas_order', 'ASC');
 
             //Validate order direction
             if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -76,32 +75,22 @@ class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
             $columns[] = $filter_order.' '.$filter_order_Dir;
 
             return $columns;
-	}	
-	
-		/**
+	}
+
+        /**
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere(){
             $db = JFactory::getDBO();
             $mainframe = JFactory::getApplication();
-            $filter_state = $mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_state', 'filter_state');
-            $filter_search = $mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_search', 'filter_search');
 
             // prepare the WHERE clause
             $where = array();
+            $where[] = $db->nameQuote('published').' = 1 ';
+            $where[] = $db->nameQuote('id').' > 1 ';
 
-            if($filter_state == 'P')
-                    $where[] = $db->nameQuote('published').' = 1 ';
-            elseif($filter_state == 'U')
-                    $where[] = $db->nameQuote('published').' = 0 ';
-
-            if(($filter_search = trim($filter_search))){
-                    $filter_search = JString::strtolower($filter_search);
-                    $filter_search = $db->getEscaped($filter_search);
-                    $where[] = 'LOWER('.$db->nameQuote('name').') LIKE '.$db->Quote('%'.$filter_search.'%');
-            }
-
-            return $where;			
+            return $where;
 	}
 }
 ?>
+

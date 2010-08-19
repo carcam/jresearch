@@ -19,32 +19,29 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * JResearch Component frontend
  *
  */
-class JResearchViewResearchAreasList extends JResearchView
+class JResearchViewResearchareas extends JResearchView
 {
     public function display($tpl = null)
     {
-        global $mainframe;
-        
     	$doc = JFactory::getDocument();
-    	$layout = &$this->getLayout();
-    	
-    	// Require css and styles
-        $model =& $this->getModel();
-        $areas = $model->getData(null, true, true);
+    	$mainframe = JFactory::getApplication('site');
+
+        // Require css and styles
+        $model = $this->getModel();
+        $items = $model->getItems();
+        $params = $mainframe->getParams();
         
-        $doc->setTitle(JText::_('JRESEARCH_RESEARCH_AREAS'));
-        
-		$this->assignRef('items', $areas);
-		$this->assignRef('page', $model->getPagination());
-       	
-		$eArguments = array('researchareas', $layout);
+        $this->assignRef('items', $items);
+        $this->assignRef('page', $model->getPagination());
+        $this->assignRef('params', &$params);
+
+        $eArguments = array('researchareas', $this->getLayout());
 		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
 		
-		parent::display($tpl);
+        parent::display($tpl);
 		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+        $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
 }
-
 ?>
