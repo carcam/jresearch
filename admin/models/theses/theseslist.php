@@ -206,7 +206,8 @@ class JResearchModelThesesList extends JResearchModelList{
             $filter_search = $mainframe->getUserStateFromRequest('thesesfilter_search'.$Itemid, 'filter_search');
             $filter_author = $mainframe->getUserStateFromRequest('thesesfilter_author'.$Itemid, 'filter_author');
             $filter_degree = $mainframe->getUserStateFromRequest('thesesfilter_degree'.$Itemid, 'filter_degree');
-
+            $filter_area = $mainframe->getUserStateFromRequest('thesesfilter_area'.$Itemid, 'filter_area');
+            
             // prepare the WHERE clause
             $where = array();
 
@@ -240,6 +241,11 @@ class JResearchModelThesesList extends JResearchModelList{
             if(!empty($filter_status)){
                 $where[] = $db->nameQuote('status').' = '.$db->Quote($filter_status);
             }
+            
+            if(!empty($filter_area)){
+                $where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
+            }
+            
 
             return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			

@@ -40,10 +40,11 @@
 			</param>
                         <param name="projects_filterby_researcharea" type="radio" label="JRESEARCH_FILTER_RESEARCHAREA" default="0">
 				<option value="0">No</option>
-				<option value="1">Yes</option>
+				<option value="1">Yes</option>				
 			</param>
-                        <param type="sql" name="projects_filter_area" label="JRESEARCH_RESEARCH_AREA"
-			description="JRESEARCH_RESEARCH_AREA" query="SELECT id as value, alias as projects_filter_area FROM #__jresearch_research_area WHERE published = 1" />
+                        <param type="sql" name="projects_area_filter" label="JRESEARCH_RESEARCH_AREA"
+			description="JRESEARCH_RESEARCH_AREA" query="SELECT id as value, alias as projects_area_filter FROM #__jresearch_research_area WHERE published = 1" />
+			
 		</params>
 	</state>
 </metadata>

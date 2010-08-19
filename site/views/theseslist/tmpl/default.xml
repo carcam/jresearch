@@ -29,6 +29,9 @@
 				<option value="0">No</option>
 				<option value="1">Yes</option>
 			</param>
+                        <param type="sql" name="theses_area_filter" label="JRESEARCH_RESEARCH_AREA"
+			description="JRESEARCH_RESEARCH_AREA" query="SELECT id as value, alias as theses_area_filter FROM #__jresearch_research_area WHERE published = 1" />
+			
                         <param name="theses_filterby_degree" type="radio" label="JRESEARCH_FILTER_DEGREE" default="0">
 				<option value="0">No</option>
 				<option value="1">Yes</option>
@@ -38,8 +41,6 @@
 				<option value="master">JRESEARCH_MASTER</option>
 				<option value="phd">JRESEARCH_PHD</option>
 			</param>
-                        <param type="sql" name="theses_filter_area" label="JRESEARCH_RESEARCH_AREA"
-			description="JRESEARCH_RESEARCH_AREA" query="SELECT id as value, alias as theses_filter_area FROM #__jresearch_research_area WHERE published = 1" />
 		</params>
 	</state>
 </metadata>
