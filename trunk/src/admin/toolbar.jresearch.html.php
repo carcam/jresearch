@@ -66,20 +66,21 @@ class JResearchToolbar
 	* Prints the toolbar menu for staff administration list.
 	*/	
 	public static function staffAdminListToolbar(){
-		JToolBarHelper::title(JText::_('JRESEARCH_STAFF'));
-		
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		JToolBarHelper::divider();
-		
-		JToolBarHelper::addNewX('add', JText::_('Add'));
-		JToolBarHelper::editListX('edit', JText::_('Edit'));
-		JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_MEMBER_CONFIRMATION'),'remove', JText::_('Delete'));		
+            JToolBarHelper::title(JText::_('JRESEARCH_STAFF'));
 
-		JToolBarHelper::divider();
-		
-		
-		JToolBarHelper::publishList('publish', JText::_('Publish'));
-		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
+            self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+            JToolBarHelper::divider();
+
+            JToolBarHelper::addNewX('add', JText::_('Add'));
+            self::importButton();
+            JToolBarHelper::editListX('edit', JText::_('Edit'));
+            JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_MEMBER_CONFIRMATION'),'remove', JText::_('Delete'));
+
+            JToolBarHelper::divider();
+
+
+            JToolBarHelper::publishList('publish', JText::_('Publish'));
+            JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
 
 	}
 
@@ -87,19 +88,18 @@ class JResearchToolbar
 	* Prints the toolbar menu for research areas administration list.
 	*/	
 	public static function researchAreasListToolbar(){
-		JToolBarHelper::title(JText::_('JRESEARCH_RESEARCH_AREA'));
-		
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		JToolBarHelper::divider();
-		JToolBarHelper::addNewX('add', JText::_('Add'));
-		JToolBarHelper::editListX('edit', JText::_('Edit'));
-		JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_RESEARCH_AREA_CONFIRMATION'),'remove', JText::_('Delete'));		
+            JToolBarHelper::title(JText::_('JRESEARCH_RESEARCH_AREA'));
 
-		JToolBarHelper::divider();		
-		
-		JToolBarHelper::publishList('publish', JText::_('Publish'));
-		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
+            self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+            JToolBarHelper::divider();
+            JToolBarHelper::addNewX('add', JText::_('Add'));
+            JToolBarHelper::editListX('edit', JText::_('Edit'));
+            JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_RESEARCH_AREA_CONFIRMATION'),'remove', JText::_('Delete'));
 
+            JToolBarHelper::divider();
+
+            JToolBarHelper::publishList('publish', JText::_('Publish'));
+            JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
 	}
 	
 	/**
@@ -107,10 +107,10 @@ class JResearchToolbar
 	* users table.
 	*/
 	public static function addMemberToolBar(){
-		JToolBarHelper::title(JText::_('JRESEARCH_IMPORT_STAFF'));
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		JToolBarHelper::back(JText::_('Back'));
-		JToolBarHelper::save('import', JText::_('Save'));
+            JToolBarHelper::title(JText::_('JRESEARCH_IMPORT_STAFF'));
+            self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+            JToolBarHelper::back(JText::_('Back'));
+            JToolBarHelper::save('doimport', JText::_('Save'));
 	}
 
 	/**
@@ -118,64 +118,73 @@ class JResearchToolbar
 	* thesis or research area.
 	*/	
 	public static function editPublicationAdminToolbar(){
-		$cid = JRequest::getVar('cid');
-		$pubtype = JRequest::getVar('pubtype');
-		if(isset($cid))
-			$title = JText::_('JRESEARCH_EDIT_PUBLICATION');
-		else
-			$title = JText::_('JRESEARCH_NEW_PUBLICATION');	
+            $cid = JRequest::getVar('cid');
+            $pubtype = JRequest::getVar('pubtype');
+            if(isset($cid))
+                    $title = JText::_('JRESEARCH_EDIT_PUBLICATION');
+            else
+                    $title = JText::_('JRESEARCH_NEW_PUBLICATION');
 
-		$title .= " ($pubtype)";
-		JToolBarHelper::title($title);
-		self::editItemAdminToolbar();
+            $title .= " ($pubtype)";
+            JToolBarHelper::title($title);
+            self::editItemAdminToolbar();
 	}
 	
 	/**
 	* Toolbar printed when editing a staff member profile.
 	*/
 	public static function editMemberAdminToolbar(){		
-		JToolBarHelper::title(JText::_('JRESEARCH_EDIT_MEMBER_PROFILE'));
-		self::editItemAdminToolbar();
+            JToolBarHelper::title(JText::_('JRESEARCH_EDIT_MEMBER_PROFILE'));
+            self::editItemAdminToolbar();
 	}
 	
 	/**
 	* Toolbar printed when listing JResearch projects admin list.
 	*/
 	public static function projectsListToolbar(){
-		JToolBarHelper::title(JText::_('JRESEARCH_PROJECTS'));
-		
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		JToolBarHelper::divider();
-		JToolBarHelper::addNewX('add', JText::_('Add'));
-		JToolBarHelper::editListX('edit', JText::_('Edit'));
-		JToolBarHelper::deleteList(JText::_('Are you sure you want to delete the selected items?'),'remove', JText::_('Delete'));		
+            JToolBarHelper::title(JText::_('JRESEARCH_PROJECTS'));
 
-		JToolBarHelper::divider();		
-		
-		JToolBarHelper::publishList('publish', JText::_('Publish'));
-		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
+            self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+            JToolBarHelper::divider();
+            JToolBarHelper::addNewX('add', JText::_('Add'));
+            JToolBarHelper::editListX('edit', JText::_('Edit'));
+            JToolBarHelper::deleteList(JText::_('Are you sure you want to delete the selected items?'),'remove', JText::_('Delete'));
+
+            JToolBarHelper::divider();
+
+            JToolBarHelper::publishList('publish', JText::_('Publish'));
+            JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
 	}
 	
 	public static function mdmListToolbar(){
-		JToolBarHelper::title(JText::_('JRESEARCH_MDM'));
-		
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		JToolBarHelper::divider();
-		JToolBarHelper::addNewX('add', JText::_('Add'));
-		JToolBarHelper::editListX('edit', JText::_('Edit'));
-		JToolBarHelper::deleteList(JText::_('Are you sure you want to delete the selected items?'),'remove', JText::_('Delete'));		
+            JToolBarHelper::title(JText::_('JRESEARCH_MDM'));
 
-		JToolBarHelper::divider();		
-		
-		JToolBarHelper::publishList('publish', JText::_('Publish'));
-		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
+            self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+            JToolBarHelper::divider();
+            JToolBarHelper::addNewX('add', JText::_('Add'));
+            JToolBarHelper::editListX('edit', JText::_('Edit'));
+            JToolBarHelper::deleteList(JText::_('Are you sure you want to delete the selected items?'),'remove', JText::_('Delete'));
+
+            JToolBarHelper::divider();
+
+            JToolBarHelper::publishList('publish', JText::_('Publish'));
+            JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
 	}
 	
 	/**
 	 * Prints an 'Export' button
 	 */
 	public static function exportButton(){
-		JToolBarHelper::custom('export', 'export', '', JText::_('Export'), false);		
+            static $cssLoaded = false;
+            if($cssLoaded){
+                $doc = JFactory::getDocument();
+                $url = JURI::root();
+                $css = ".icon-32-import{background: url(".$url."administrator/components/com_jresearch/assets/import.png) 100% 0 no-repeat;}";
+                $doc->addStyleDeclaration($css);
+                $cssLoaded = true;
+            }
+
+            JToolBarHelper::custom('export', 'export', '', JText::_('Export'), false);
 	}
 	
 	/**
@@ -183,7 +192,17 @@ class JResearchToolbar
 	 *
 	 */
 	public static function importButton(){
-		JToolBarHelper::custom('import', 'import', '', JText::_('Import'), false);		
+            static $cssLoaded = false;
+
+            if(!$cssLoaded){
+                $doc = JFactory::getDocument();
+                $url = JURI::root();
+                $css = ".icon-32-import{background: url(".$url."administrator/components/com_jresearch/assets/import.png) 100% 0 no-repeat;}";
+                $doc->addStyleDeclaration($css);
+                $cssLoaded = true;
+            }
+
+            JToolBarHelper::custom('import', 'import', '', JText::_('Import'), false);
 	}
 	
 	/**

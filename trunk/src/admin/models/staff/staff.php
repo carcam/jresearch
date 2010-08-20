@@ -26,7 +26,7 @@ class JResearchAdminModelStaff extends JResearchAdminModelList{
                 if($items !== false){
                     foreach($items as $item){
                         $member = $this->getTable('Member', 'JResearch');
-                        $area->bind($item);
+                        $member->bind($item);
                         $this->_items[] = $member;
                     }
                 }else{
@@ -117,17 +117,17 @@ class JResearchAdminModelStaff extends JResearchAdminModelList{
 	*/
 	function orderItem($item, $movement)
 	{
-		$db =& JFactory::getDBO();
-		$row = new JResearchMember($db);
-		$row->load($item);
-		
-		if (!$row->move($movement))
-		{
-			$this->setError($row->getError());
-			return false;
-		}
+            $db = JFactory::getDBO();
+            $row = JTable::getInstance('Member', 'JResearch');
+            $row->load($item);
 
-		return true;
+            if (!$row->move($movement))
+            {
+                    $this->setError($row->getError());
+                    return false;
+            }
+
+            return true;
 	}
 	
 	/**
@@ -135,38 +135,38 @@ class JResearchAdminModelStaff extends JResearchAdminModelList{
 	*/
 	function setOrder($items)
 	{
-		$db 		=& JFactory::getDBO();
-		$total		= count($items);
-		$row		= new JResearchMember($db);
+            $db 		= JFactory::getDBO();
+            $total		= count($items);
+            $row		= JTable::getInstance('Member', 'JResearch');
 
-		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
-		JArrayHelper::toInteger($order);
+            $order		= JRequest::getVar( 'order', array(), 'post', 'array' );
+            JArrayHelper::toInteger($order);
 
-		// update ordering values
-		for( $i=0; $i < $total; $i++ )
-		{
-			$row->load( $items[$i] );
-			
-			$groupings[] = $row->former_member;
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-				if (!$row->store())
-				{
-					$this->setError($row->getError());
-					return false;
-				}
-			} // if
-		} // for
+            // update ordering values
+            for( $i=0; $i < $total; $i++ )
+            {
+                    $row->load( $items[$i] );
 
-		// execute updateOrder
-		$groupings = array_unique($groupings);
-		foreach ($groupings as $group)
-		{
-			$row->reorder('former_member = '.(int) $group.' AND published >=0');
-		}
+                    $groupings[] = $row->former_member;
+                    if ($row->ordering != $order[$i])
+                    {
+                            $row->ordering = $order[$i];
+                            if (!$row->store())
+                            {
+                                    $this->setError($row->getError());
+                                    return false;
+                            }
+                    } // if
+            } // for
 
-		return true;
+            // execute updateOrder
+            $groupings = array_unique($groupings);
+            foreach ($groupings as $group)
+            {
+                    $row->reorder('former_member = '.(int) $group.' AND published >=0');
+            }
+
+            return true;
 	}
 }
 ?>

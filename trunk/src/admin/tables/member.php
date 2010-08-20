@@ -14,9 +14,6 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
-
 /**
  * This class represents a staff member.
  *
@@ -161,23 +158,23 @@ class JResearchMember extends JTable{
 	* are imported into the object. Used for impòrting members from Joomla tables.
 	*/	
 	function bindFromUser($username){
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
-		
-		$db =& JFactory::getDBO();
-		$query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('username').' = '.$db->Quote($username);
-		$db->setQuery($query);
-		
-		$result = $db->loadAssoc();
-		$this->username = $result['username'];
-		$this->email = $result['email'];
-		$arrayName = JResearchPublicationsHelper::getAuthorComponents($result['name']);
-                if(isset($arrayName['firstname'])){
-                    $this->firstname = trim($arrayName['firstname']);
-                    $this->firstname .= (isset($arrayName['jr'])?' '.$arrayName['jr']:'');
-                }
-                
-		$this->lastname = (isset($arrayName['von'])?$arrayName['von'].' ':'');
-                $this->lastname .= $arrayName['lastname'];
+            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+
+            $db =& JFactory::getDBO();
+            $query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('username').' = '.$db->Quote($username);
+            $db->setQuery($query);
+
+            $result = $db->loadAssoc();
+            $this->username = $result['username'];
+            $this->email = $result['email'];
+            $arrayName = JResearchPublicationsHelper::getAuthorComponents($result['name']);
+            if(isset($arrayName['firstname'])){
+                $this->firstname = trim($arrayName['firstname']);
+                $this->firstname .= (isset($arrayName['jr'])?' '.$arrayName['jr']:'');
+            }
+
+            $this->lastname = (isset($arrayName['von'])?$arrayName['von'].' ':'');
+            $this->lastname .= $arrayName['lastname'];
 			
 	}
 
@@ -188,14 +185,14 @@ class JResearchMember extends JTable{
 	 */
 	function bindFromUsername($username)
 	{
-		$db =& JFactory::getDBO();
-		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('username').' = '.$db->quote($username);
-		$db->setQuery($query);
-		
-		$result = $db->loadAssoc();
-		
-		$this->bind($result);
+            $db =& JFactory::getDBO();
+
+            $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('username').' = '.$db->quote($username);
+            $db->setQuery($query);
+
+            $result = $db->loadAssoc();
+
+            $this->bind($result);
 	}
 	
 	/**
@@ -203,39 +200,38 @@ class JResearchMember extends JTable{
 	* @return boolean. True if all fields of the object have a valid content.
 	*/	
 	function check(){
-		$name_pattern = '/\w[-_\w\s.]*/';
-		$phone_pattern = '/\d[-\d]+/';
-		$email_pattern = '/^(\w[-\w.]*)@([-a-z0-9]+(\.[-a-z0-9]+)*\.(com|edu|infocom|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z]))$/i';
-		
-		// Validate first and lastname
-		if(!preg_match($name_pattern, $this->lastname)){
-			$this->setError(JText::_('Lastname can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
-			return false;
-		}
-		
-		if(!preg_match($name_pattern, $this->firstname)){
-			$this->setError(JText::_('First name can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
-			return false;
-		}
-		
-		if($this->phone_or_fax){
-			if(!preg_match($phone_pattern, $this->phone_or_fax)){
-				$this->setError(JText::_('Phone numbers can only contain digits and scores'));
-				return false;
-			}
-				
-		}
-		
-		if($this->email){
-			if(!preg_match($email_pattern, $this->email)){
-				$this->setError(JText::_('Please provide a valid e-mail address'));
-				return false;	
-			}
-				
-		}
-		
-		return true;
-		
+            $name_pattern = '/\w[-_\w\s.]*/';
+            $phone_pattern = '/\d[-\d]+/';
+            $email_pattern = '/^(\w[-\w.]*)@([-a-z0-9]+(\.[-a-z0-9]+)*\.(com|edu|infocom|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z]))$/i';
+
+            // Validate first and lastname
+            if(!preg_match($name_pattern, $this->lastname)){
+                    $this->setError(JText::_('Lastname can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
+                    return false;
+            }
+
+            if(!preg_match($name_pattern, $this->firstname)){
+                    $this->setError(JText::_('First name can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
+                    return false;
+            }
+
+            if($this->phone_or_fax){
+                    if(!preg_match($phone_pattern, $this->phone_or_fax)){
+                            $this->setError(JText::_('Phone numbers can only contain digits and scores'));
+                            return false;
+                    }
+
+            }
+
+            if($this->email){
+                    if(!preg_match($email_pattern, $this->email)){
+                            $this->setError(JText::_('Please provide a valid e-mail address'));
+                            return false;
+                    }
+
+            }
+
+            return true;		
 	}
 	
 	/**

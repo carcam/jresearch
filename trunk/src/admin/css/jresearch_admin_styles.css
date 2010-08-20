@@ -274,3 +274,10 @@ ul.creditslist{
     list-style-type: none;
     padding: 0px;
 }
+
+div.staffcontrol{
+    text-align:center;
+    width:100%;
+    margin-left:auto;
+    margin-right:auto;
+}

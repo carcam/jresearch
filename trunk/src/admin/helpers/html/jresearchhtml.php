@@ -371,65 +371,65 @@ class JHTMLjresearchhtml
 	* @param $name HTML name of the control which holds the selected users.
 	*/
 	public function staffImporter2($name){
-		static $dependenciesLoad = false;
-		$mainframe = JFactory::getApplication();
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');		
-		$doc = JFactory::getDocument();
-		$db = JFactory::getDBO();		
-		
-		if(!$dependenciesLoad){
-			$doc = JFactory::getDocument();
-			$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::root();
-			$doc->addScript($urlBase.'components/com_jresearch/js/staffimporter2.js');
-			$doc->addStyleDeclaration('th.staffcol{width: 30%;} th.staffspace{width: 20%;} select.propertiesselector{ width: 200px; min-width: 200px;} table.propertiesselector{ text-align: center; width: 60%;  margin-left: auto; margin-right: auto;} a.propertiesselector{ font-size:14px;font-weight:bold;}');
-			$dependenciesLoad = true;			
-		}
+            static $dependenciesLoaded = false;
+            $mainframe = JFactory::getApplication();
+            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+            $doc = JFactory::getDocument();
+            $db = JFactory::getDBO();
 
-		//Get J!Research members
-		$fields = $db->nameQuote('username').', '.$db->nameQuote('lastname').', '.$db->nameQuote('firstname');
-		$db->setQuery('SELECT '.$fields.' FROM '.$db->nameQuote('#__jresearch_member'));
-		$members = $db->loadAssocList();
+            if(!$dependenciesLoaded){
+                $doc = JFactory::getDocument();
+                $urlBase = JURI::root();
+                $doc->addScript($urlBase.'components/com_jresearch/js/staffimporter2.js');
+                $doc->addStyleDeclaration('th.staffcol{width: 30%;} th.staffspace{width: 20%;} select.propertiesselector{ width: 200px; min-width: 200px;} table.propertiesselector{ text-align: center; width: 60%;  margin-left: auto; margin-right: auto;} a.propertiesselector{ font-size:14px;font-weight:bold;}');
+                $dependenciesLoaded = true;
+            }
 
-		//Now get Joomla! users that are not members
-		$usernames = array();
-		foreach($members as $m)
-			$usernames[] = $m['username'];	
-		$query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('block').' = '.$db->Quote('0');		
-		$db->setQuery($query);
-		$users = $db->loadAssocList();			
-		$joomlaUsers = array();		
-		foreach($users as $u){
-			if(!in_array($u['username'], $usernames))
-				$joomlaUsers[] = $u;
-		}
-		
-		$not_in_staff = JText::_('JRESEARCH_MEMBERS_NOT_IN_STAFF');
-		$new_staff_members = JText::_('JRESEARCH_NEW_STAFF_MEMBERS');
-		
-		$output = '<table class="propertiesselector"><thead><tr><th class="staffcol">'.$not_in_staff.'</th><th class="staffspace"></th><th class="staffcol">'.$new_staff_members.'</th><th class="staffspace"></th></tr></thead><tbody><tr><td>';
-		$output .= '<select multiple="multiple" name="users" id="users" size="15" class="inputbox staffimporter">';
+            //Get J!Research members
+            $fields = $db->nameQuote('username').', '.$db->nameQuote('lastname').', '.$db->nameQuote('firstname');
+            $db->setQuery('SELECT '.$fields.' FROM '.$db->nameQuote('#__jresearch_member'));
+            $members = $db->loadAssocList();
 
-		foreach($joomlaUsers as $user){
-                    $userid = $user['username'];
-                    $nameComponents = JResearchPublicationsHelper::getAuthorComponents($user['name']);
-                    $lastname = (isset($nameComponents['von'])? $nameComponents['von'].' ' : '').$nameComponents['lastname'];
-                    $firstname = isset($nameComponents['firstname'])?$nameComponents['firstname']:'';
-                    $firstname .= isset($nameComponents['jr'])?$nameComponents['jr']:'';
-                    $output .= "<option id=\"$userid\" value=\"$userid\">$lastname, $firstname</option>";
-		}
-		
-		$output .= '</select></td>';
-		$output .= '<td align="center">';
-		$output .= '<a class="propertiesselector" href="javascript:moveAllFrom(\'users\', \''.$name.'\', true);">'.JText::_('All').'&gt;&gt;'.'</a><br /><br />';
-		$output .= '<a class="propertiesselector" href="javascript:moveFrom(\'users\', \''.$name.'\', true);">&gt;&gt;</a><br /><br />';
-		$output .= '<a class="propertiesselector" href="javascript:moveAllFrom(\''.$name.'\', \'users\', false);">'.'&lt;&lt;'.JText::_('All').'</a><br /><br />';		
-		$output .= '<a class="propertiesselector" href="javascript:moveFrom(\''.$name.'\', \'users\', false);">&lt;&lt;</a></td>';
-		$output .= '<td><select multiple="multiple" size="15" class="inputbox propertiesselector" name="'.$name.'" id="'.$name.'">';
-		$output .= '</select></td>';
-		$output .= '<td style="text-align:left;"><a class="propertiesselector" href="javascript:goUp(\''.$name.'\')">'.JText::_('JRESEARCH_GO_UP').'</a><br /><a class="propertiesselector" href="javascript:goDown(\''.$name.'\')">'.JText::_('JRESEARCH_GO_DOWN').'</a></td></tr></tbody></table>';
-		$output .= '<input type="hidden" name="staffCount" id="staffCount" value="0" />';				
-		
-		return $output;
+            //Now get Joomla! users that are not members
+            $usernames = array();
+            foreach($members as $m)
+                    $usernames[] = $m['username'];
+            $query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('block').' = '.$db->Quote('0');
+            $db->setQuery($query);
+            $users = $db->loadAssocList();
+            $joomlaUsers = array();
+            foreach($users as $u){
+                    if(!in_array($u['username'], $usernames))
+                            $joomlaUsers[] = $u;
+            }
+
+            $not_in_staff = JText::_('JRESEARCH_MEMBERS_NOT_IN_STAFF');
+            $new_staff_members = JText::_('JRESEARCH_NEW_STAFF_MEMBERS');
+
+            $output = '<table class="propertiesselector"><thead><tr><th class="staffcol">'.$not_in_staff.'</th><th class="staffspace"></th><th class="staffcol">'.$new_staff_members.'</th><th class="staffspace"></th></tr></thead><tbody><tr><td>';
+            $output .= '<select multiple="multiple" name="users" id="users" size="15" class="inputbox staffimporter">';
+
+            foreach($joomlaUsers as $user){
+                $userid = $user['username'];
+                $nameComponents = JResearchPublicationsHelper::getAuthorComponents($user['name']);
+                $lastname = (isset($nameComponents['von'])? $nameComponents['von'].' ' : '').$nameComponents['lastname'];
+                $firstname = isset($nameComponents['firstname'])?$nameComponents['firstname']:'';
+                $firstname .= isset($nameComponents['jr'])?$nameComponents['jr']:'';
+                $output .= "<option id=\"$userid\" value=\"$userid\">$lastname, $firstname</option>";
+            }
+
+            $output .= '</select></td>';
+            $output .= '<td align="center">';
+            $output .= '<a class="propertiesselector" href="javascript:moveAllFrom(\'users\', \''.$name.'\', true);">'.JText::_('All').'&gt;&gt;'.'</a><br /><br />';
+            $output .= '<a class="propertiesselector" href="javascript:moveFrom(\'users\', \''.$name.'\', true);">&gt;&gt;</a><br /><br />';
+            $output .= '<a class="propertiesselector" href="javascript:moveAllFrom(\''.$name.'\', \'users\', false);">'.'&lt;&lt;'.JText::_('All').'</a><br /><br />';
+            $output .= '<a class="propertiesselector" href="javascript:moveFrom(\''.$name.'\', \'users\', false);">&lt;&lt;</a></td>';
+            $output .= '<td><select multiple="multiple" size="15" class="inputbox propertiesselector" name="'.$name.'" id="'.$name.'">';
+            $output .= '</select></td>';
+            $output .= '<td style="text-align:left;"><a class="propertiesselector" href="javascript:goUp(\''.$name.'\')">'.JText::_('JRESEARCH_GO_UP').'</a><br /><a class="propertiesselector" href="javascript:goDown(\''.$name.'\')">'.JText::_('JRESEARCH_GO_DOWN').'</a></td></tr></tbody></table>';
+            $output .= '<input type="hidden" name="staffCount" id="staffCount" value="0" />';
+
+            return $output;
 		
 	}	
 	
