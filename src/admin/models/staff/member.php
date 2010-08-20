@@ -10,35 +10,149 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-jimport( 'joomla.application.component.model' );
-
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
-
+jimport( 'joomla.application.component.modelform' );
 
 /**
 * Model class for holding a single member record.
 *
 */
-class JResearchModelMember extends JResearchModelSingleRecord{
+class JResearchAdminModelMember extends JModelForm{
 
-	/**
-	* Returns the record with the id sent as parameter.
-	* @return 	object
-	*/
-	public function getItem($itemId){
-		$db =& JFactory::getDBO();
-		
-		$member = new JResearchMember($db);
-		$result = $member->load($itemId);
-		
-		if($result)
-			return $member;
-		else
-			return null;	
-	}
+        /**
+         * Method to get the data.
+         *
+         * @access      public
+         * @return      array of string
+         * @since       1.0
+         */
+        public function &getData()
+        {
+            if (empty($this->data))
+            {
+                $app = & JFactory::getApplication();
+                $data = & JRequest::getVar('jform');
+                if (empty($data))
+                {
+                    // For new items
+                    $selected = & JRequest::getVar('cid', 0, '', 'array');
+                    $db = JFactory::getDBO();
+                    $query = $db->getQuery(true);
+                    $query->select('*');
+                    $query->from('#__jresearch_member');
+                    $query->where('id = ' . (int)$selected[0]);
+                    $db->setQuery((string)$query);
+                    $data = & $db->loadAssoc();
+                }
+
+                if (empty($data))
+                {
+                    // Check the session for previously entered form data.
+                    $data = $app->getUserState('com_jresearch.edit.member.data', array());
+                    unset($data['id']);
+                }
+
+                // Store the state as an array of values
+                $app->setUserState('com_jresearch.edit.member.data', $data);
+                $this->data = $data;
+            }
+
+            return $this->data;
+        }
+
+        /**
+         * Method to get the HelloWorld form.
+         *
+         * @access      public
+         * @return      mixed   JForm object on success, false on failure.
+         * @since       1.0
+         */
+        public function getForm($data = array(), $loadData = true)
+        {
+            $form = $this->loadForm('com_jresearch.member', 'member', array('control' => 'jform', 'load_data' => $loadData));
+            return $form;
+        }
+
+
+        /**
+         * Method to save a record
+         *
+         * @access      public
+         * @return      boolean True on success
+         */
+        function save()
+        {
+            $app = JFactory::getApplication();
+
+            $data = &$this->getData();
+
+            $row = $this->getTable('Member', 'JResearch');
+
+            // Bind the form fields to the hello table
+            if (!$row->save($data))
+            {
+                $this->setError($row->getError());
+                return false;
+            }
+
+            $app->setUserState('com_jresearch.edit.member.data', $data);
+
+            return true;
+        }
+
+
+        function publish(){
+           $selected = & JRequest::getVar('cid', 0, '', 'array');
+           $area = JTable::getInstance('Member', 'JResearch');
+           return $area->publish($selected, 1);
+        }
+
+        function unpublish(){
+           $selected = & JRequest::getVar('cid', 0, '', 'array');
+           $area = JTable::getInstance('Member', 'JResearch');
+           return $area->publish($selected, 0);
+        }
+
+        function delete(){
+           $n = 0;
+           $selected = & JRequest::getVar('cid', 0, '', 'array');
+           $area = JTable::getInstance('Member', 'JResearch');
+           foreach($selected as $id){
+                if(!$area->delete($id)){
+                    JError::raiseWarning(1, JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id));
+                }else{
+                    $n++;
+                }
+           }
+           return $n;
+        }
+
+        function checkin(){
+            $data = &$this->getData();
+
+            if(!empty($data)){
+                // Database processing
+                $row = &$this->getTable('Member', 'JResearch');
+                $row->bind($data);
+                if (!$row->checkin())
+                {
+                    $this->setError($row->getError());
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /**
+         * Returns the model data store in the user state as a table
+         * object
+         */
+        public function getItem(){
+            $row = $this->getTable('Member', 'JResearch');
+            $data =& $this->getData();
+            $row->bind($data);
+            return $row;
+        }
 	
 	/**
 	 * Returns the record with the username specified
@@ -47,14 +161,14 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 	 * @return JResearchMember Member with the username specified.
 	 */
 	public function getByUsername($username){
-		$db =& JFactory::getDBO();
-		$query = "SELECT * FROM ".$db->nameQuote('#__jresearch_member')." WHERE ".$db->nameQuote('username').' = '.$db->Quote($username);
-		$db->setQuery($query);
-		$results = $db->loadAssoc();		
-		
-		$member = new JResearchMember($db);
-		$member->bind($results);
-		return $member;
+            $db = JFactory::getDBO();
+            $query = "SELECT * FROM ".$db->nameQuote('#__jresearch_member')." WHERE ".$db->nameQuote('username').' = '.$db->Quote($username);
+            $db->setQuery($query);
+            $results = $db->loadAssoc();
+
+            $member = JTable::getInstance('Member', 'JResearch');
+            $member->bind($results);
+            return $member;
 	}
 		
 	/**

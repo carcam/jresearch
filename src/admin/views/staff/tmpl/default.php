@@ -56,7 +56,7 @@ defined('_JEXEC') or die('Restricted access');
 					$k = $i % 2;
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
-					$researchArea = $this->areaModel->getItem($this->items[$i]->id_research_area);
+//					$researchArea = $this->items[i]->getResearchAreas();
 			?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
@@ -71,8 +71,8 @@ defined('_JEXEC') or die('Restricted access');
 						<input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>
 					<td class="center"><?php echo $this->items[$i]->getPosition(); ?></td>
-					<td class="center"><?php echo $researchArea->name; ?></td>
-					<td class="center"><a href="maito:<?php echo $this->items[$i]->email; ?>"><?php echo $this->items[$i]->email ?></a></td>
+					<td class="center"><?php //echo $researchArea->name; ?></td>
+					<td class="center"><a href="mailto:<?php echo $this->items[$i]->email; ?>"><?php echo $this->items[$i]->email ?></a></td>
 				</tr>
 			<?php
 			endfor;
