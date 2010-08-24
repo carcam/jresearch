@@ -73,7 +73,7 @@ class JResearchChicagoConferenceCitationStyle extends JResearchChicagoCitationSt
 			$text .= '. '.$in.' '.($html?'<i>'.$booktitle.'</i>':$booktitle);			
 		
 		if(!empty($editorsText)){
-			$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');
+			$ed = JText::_('JRESEARCH_APA_ED_LOWER');
 			$text .= ', '.$ed.'. '.$editorsText;
 		}	
 		

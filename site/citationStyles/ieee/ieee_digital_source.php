@@ -46,7 +46,7 @@ class JResearchIEEEDigital_sourceCitationStyle extends JResearchIEEECitationStyl
 			$header = $title;	
 
 		
-		switch($publication->source_type){
+		switch($publication->digital_source_type){
 			case 'cdrom':
 				$type = JText::_('JRESEARCH_CDROM');
 				break;

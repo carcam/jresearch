@@ -36,13 +36,13 @@ class JResearchAPABookletCitationStyle extends JResearchAPACitationStyle{
 
 		$howpublished = trim($publication->howpublished);
 		if(!empty($howpublished))
-			$header .= '. '.$howpublished;
+			$header .= ' '.$howpublished.'.';
 
 		$note = trim($publication->note);
 		if(!empty($note))
-			$header .= '. '.$note;		
-			
-		return $header.'.';	
+			$header .= ' '.$note.'.';		
+
+		return $header;	
 	}
 	
 	

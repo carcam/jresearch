@@ -61,7 +61,7 @@ class JResearchVancouverInbookCitationStyle extends JResearchVancouverCitationSt
 			$text .= ' '.$title;					
 		}
 		
-		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER').'.';		
+		$ed = JText::_('JRESEARCH_APA_ED_LOWER').'.';		
 		$edition = trim($publication->edition); 
 		if(!empty($edition)){
 			$edition = "$edition $ed";

@@ -52,7 +52,7 @@ class JResearchChicagoDigital_sourceCitationStyle extends JResearchChicagoCitati
 			$text .= '. '.$title;
 		
 
-		switch($publication->source_type){
+		switch($publication->digital_source_type){
 			case 'cdrom':
 				$type = JText::_('JRESEARCH_CDROM');
 				break;
@@ -60,7 +60,8 @@ class JResearchChicagoDigital_sourceCitationStyle extends JResearchChicagoCitati
 				$type = JText::_('JRESEARCH_FILM');
 				break;					
 		}
-		$text .= '. '.$type;
+      if(!empty($type))
+         $text .= '. '.$type;
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))

@@ -62,7 +62,7 @@ class JResearchAPAOnline_sourceCitationStyle extends JResearchAPACitationStyle{
 		if(!$usedTitle)
 			$text .= '. '.$title;
 				
-		switch($publication->source_type){
+		switch($publication->online_source_type){
 			case 'image':
 				$type = JText::_('JRESEARCH_PICTURE');
 				break;
@@ -80,16 +80,20 @@ class JResearchAPAOnline_sourceCitationStyle extends JResearchAPACitationStyle{
 			$text .= ' ['.$type.']';
 		
 		$access_date = trim($publication->access_date);
+		
 		$url = trim($publication->url);
-		if($html)
+		if(($html)&&(!empty($url)))
 			$url = "<a href=\"$url\">$url</a>";
 			
 		if(!empty($access_date) && $access_date != '0000-00-00')			
 			$retrievedText = JText::sprintf('JRESEARCH_RETRIEVED_WITH_ACCESS_DATE', date('F d, Y', strtotime($access_date)), $url);
-		else
-			$retrievedText = JText::sprintf('JRESEARCH_RETRIEVED_WITHOUT_ACCESS_DATE', $url);
-
-		$text .= '. '.$retrievedText;
+		else{
+         if(!empty($url))
+         	$retrievedText = JText::sprintf('JRESEARCH_RETRIEVED_WITHOUT_ACCESS_DATE', $url);
+     	}
+     	
+      if(!empty($retrievedText))
+			$text .= '. '.$retrievedText;
 			
 		return $text.'.';
 	}

@@ -35,9 +35,9 @@ class JResearchAPAMiscCitationStyle extends JResearchAPACitationStyle{
 
 		$howpublished = trim($publication->howpublished);
 		if(!empty($howpublished))
-			$header .= ' '.$howpublished;
+			$header .= ' '.$howpublished.'.';
 			
-		return $header.'.';	
+		return $header;	
 	}
 	
 }
