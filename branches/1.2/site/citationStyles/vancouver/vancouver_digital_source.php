@@ -45,7 +45,7 @@ class JResearchVancouverDigital_sourceCitationStyle extends JResearchVancouverCi
 		else
 			$text .= $title;
 
-		switch($publication->source_type){
+		switch($publication->digital_source_type){
 			case 'cdrom':
 				$type = JText::_('JRESEARCH_CDROM');
 				break;
@@ -53,7 +53,8 @@ class JResearchVancouverDigital_sourceCitationStyle extends JResearchVancouverCi
 				$type = JText::_('JRESEARCH_FILM');	
 				break;
 		}
-		$text .= ' ['.$type.']';	
+      if(!empty($type))
+			$text .= ' ['.$type.']';
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))

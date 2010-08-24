@@ -47,7 +47,7 @@ class JResearchIEEEBookCitationStyle extends JResearchIEEECitationStyle{
 			$authorsText = $this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks);
 		}
 		
-		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');
+		$ed = JText::_('JRESEARCH_APA_ED_LOWER');
 		
 		$title = trim($publication->title);	
 		$title = $html?"<i>$title</i>":$title;

@@ -53,7 +53,7 @@ class JResearchCSEDigital_sourceCitationStyle extends JResearchCSECitationStyle{
 		$title = trim($publication->title);	
 		$text .= '. '.$title;
 		
-		switch($publication->source_type){
+		switch($publication->online_source_type){
 			case 'cdrom':
 				$type = JText::_('JRESEARCH_CDROM');
 				break;
@@ -61,7 +61,8 @@ class JResearchCSEDigital_sourceCitationStyle extends JResearchCSECitationStyle{
 				$type = JText::_('JRESEARCH_FILM');
 				break;	
 		}
-		$text .= ' ['.$type.']';
+      if(!empty($type))
+         $text .= ' ['.$type.']';
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))

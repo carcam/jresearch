@@ -59,7 +59,7 @@ class JResearchIEEEOnline_sourceCitationStyle extends JResearchIEEECitationStyle
 			$header .= ' '.$date;
 		}
 		
-		switch($publication->source_type){
+		switch($publication->online_source_type){
 			case 'image':
 				$type = JText::_('JRESEARCH_IMAGE');
 				break;

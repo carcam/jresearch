@@ -65,12 +65,12 @@ class JResearchMLAOnline_sourceCitationStyle extends JResearchMLACitationStyle{
 			$text .= '. '.$date;
 		}
 		
-		switch($publication->source_type){
+		switch($publication->online_source_type){
 			case 'image':
-				$type = JText::_('JRESEARCH_ONLINE_IMAGE');
+				$type = JText::_('JRESEARCH_IMAGE');
 				break;
 			case 'video':
-				$type = JText::_('JRESEARCH_ONLINE_VIDEOCLIP');
+				$type = JText::_('JRESEARCH_VIDEO');
 				break;
 			case 'website':
 				$type = '';

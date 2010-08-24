@@ -49,7 +49,7 @@ class JResearchMLADigital_sourceCitationStyle extends JResearchMLACitationStyle{
 
 		$text .= $header;					
 
-		$type = trim($publication->source_type);
+		$type = trim($publication->digital_source_type);
 		switch($type){
 			case 'cdrom':
 				$type = JText::_('JRESEARCH_CDROM');
@@ -58,7 +58,8 @@ class JResearchMLADigital_sourceCitationStyle extends JResearchMLACitationStyle{
 				$type = JText::_('JRESEARCH_FILM');
 				break;		
 		}
-		$text .= '. '.$type;
+      if(!empty($type))
+         $text .= '. '.$type;
 		
 		$address = $this->_getAddressText($publication);
 		if(!empty($address))

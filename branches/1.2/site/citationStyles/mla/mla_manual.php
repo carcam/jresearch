@@ -45,7 +45,7 @@ class JResearchMLAManualCitationStyle extends JResearchMLACitationStyle{
 			$text .= $authorsText.'. '.$title;
 		}
 		
-		$ed = JText::_('JRESEARCH_APA_EDITOR_LOWER');
+		$ed = JText::_('JRESEARCH_APA_ED_LOWER');
 		$edition = trim($publication->edition);
 		if(!empty($edition))
 			$text .= '. '.$edition.' '.$ed;

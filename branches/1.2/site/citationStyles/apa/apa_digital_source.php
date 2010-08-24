@@ -61,7 +61,7 @@ class JResearchAPADigital_sourceCitationStyle extends JResearchAPACitationStyle{
 		if(!$usedTitle)
 			$text .= '. '.$title;
 				
-		switch($publication->source_type){
+		switch($publication->digital_source_type){
 			case 'cdrom':
 				$type = JText::_('JRESEARCH_CD');
 				break;
