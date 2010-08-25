@@ -425,14 +425,14 @@ class plgSearchJResearch extends JPlugin{
 		}
 	
 		$section = $db->Quote($section, false);
-		$query = "SELECT t.title AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, SUBSTRING_INDEX(t.description, '<hr id=\"system-readmore\" />', 1) AS text FROM #__jresearch_thesis t INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
+		$query = "SELECT t.id as id, t.title AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, SUBSTRING_INDEX(t.description, '<hr id=\"system-readmore\" />', 1) AS text FROM #__jresearch_thesis t INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
 		$results = $db->setQuery( $query, 0, $this->limit );
 		$results = $db->loadObjectList();
 		
 		
 		if(isset($results)){
 			foreach($results as $key => $item){
-				$results[$key]->href = "#";
+				$results[$key]->href = "index.php?option=com_jresearch&amp;view=thesis&amp;task=show&amp;id=".$results[$key]->id;
 			}
 		}
 		// We just reduce the limit
