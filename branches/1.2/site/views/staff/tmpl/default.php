@@ -17,7 +17,9 @@ $itemId = JRequest::getVar('Itemid');
 	<thead>
 		<tr>
 			<th><?php echo JText::_('JRESEARCH_NAME'); ?></th>
+		<?php if($this->params->get('member_show_email') == 'yes'): ?>
 			<th><?php echo JText::_('JRESEARCH_EMAIL'); ?></th>	
+		<?php endif; ?>
 			<th><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
 			<th><?php echo JText::_('JRESEARCH_POSITION'); ?></th>												
 		</tr>
@@ -36,7 +38,9 @@ $itemId = JRequest::getVar('Itemid');
 	    ?>
 		<tr>
 			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a></td>
-			<td><?php echo JHTML::_('email.cloak', $member->email); ?></td>
+			<?php if($this->params->get('member_show_email') == 'yes'): ?>
+				<td><?php echo JHTML::_('email.cloak', $member->email); ?></td>
+			<?php endif; ?>	
 			<td>
 				<?php if($researchArea->id > 1):?>
 					<?php echo JHTML::_('jresearch.link', $researchArea->name, 'researcharea', 'show', $researchArea->id); ?>
