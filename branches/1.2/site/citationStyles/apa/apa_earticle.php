@@ -71,7 +71,7 @@ class JResearchAPAEarticleCitationStyle extends JResearchAPACitationStyle{
 		$access_date = trim($publication->access_date);
 		$url = trim($publication->url);
 		if(($html)&&(!empty($url)))
-			$url = "<a href=\"$url\">$url</a>";
+                    $url = "<a href=\"$url\">$url</a>";
 
 		$doi = trim($publication->doi);
 		if(empty($doi)){	

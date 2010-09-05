@@ -72,7 +72,7 @@ defined('_JEXEC') or die('Restricted access');
 					</td>
 					<td class="center"><?php echo $this->items[$i]->getPosition(); ?></td>
 					<td class="center"><?php echo $researchArea->name; ?></td>
-					<td class="center"><a href="maito:<?php echo $this->items[$i]->email; ?>"><?php echo $this->items[$i]->email ?></a></td>
+					<td class="center"><a href="mailto:<?php echo $this->items[$i]->email; ?>"><?php echo $this->items[$i]->email ?></a></td>
 				</tr>
 			<?php
 			endfor;

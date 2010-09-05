@@ -32,16 +32,16 @@ class JResearchAdminViewThesis extends JResearchView
     	$editor =& JFactory::getEditor();
     	$model =& $this->getModel();
     	$thesis = $model->getItem($cid[0]);
-    	$directors = null;
+        $directors = null;
     	$students = null;
     	$arguments = array('thesis');
     	
     	if($cid){
-        	$arguments[] = $thesis->id;
-    	  	$directors = $thesis->getDirectors();
-    	  	$students = $thesis->getStudents();
+            $arguments[] = $thesis->id;
+            $directors = $thesis->getDirectors();
+            $students = $thesis->getStudents();
     	}else{
-    		$arguments[] = null;
+            $arguments[] = null;
     	}
 
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $thesis?$thesis->published:1));

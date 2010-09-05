@@ -75,7 +75,7 @@ class JResearchViewPublicationsList extends JResearchView
     	$items = $model->getData(null, true, true);
     	$page = $model->getPagination();
     	$params = $mainframe->getParams('com_jresearch'); 
-		$field = $params->get('field_for_average');    	
+        $field = $params->get('field_for_average');
     	
     	if($params->get('show_average') == 'yes'){
             $average = $model->getAverage($field);
@@ -149,7 +149,7 @@ class JResearchViewPublicationsList extends JResearchView
     	$style = $params->get('citationStyle', 'APA');
     	
     	//Now time to sort the data for presentation
-    	$sortedItems = $this->_sort($publications, $style, $filter_order);
+    	$sortedItems = $this->_sort($publications, $style, $filter_order, ($params->get('publications_sort_as_citation_style') == 'yes'));
     	    	
     	$showmore = ($params->get('show_more', 'yes') == 'yes');
     	$showdigital = ($params->get('show_digital') == 'yes');
@@ -207,12 +207,13 @@ class JResearchViewPublicationsList extends JResearchView
      * @param array $recordsArray Publications array
      * @param string $style Citation style that defines sorting rules
      * @param string $filter_order
+     * @param boolean $citation_style_order Apply citation style rules when sorting
      * @return array If $filter_order is 'year' or 'type' It returns an associative array
      * where the key is the label used to group the publications, otherwise it just returns
      * a conventional array of sorted publications.
      *
      */
-    private function _sort($recordsArray, $style = 'APA', $filter_order = 'year'){
+    private function _sort($recordsArray, $style = 'APA', $filter_order = 'year', $citation_style_order = true){
         $styleObj = JResearchCitationStyleFactory::getInstance($style);
     	$result = array();
     	
@@ -223,7 +224,7 @@ class JResearchViewPublicationsList extends JResearchView
                         $yearHeader = null;
                         foreach($recordsArray as $pub){
                                 if($previousYear != $pub->year){
-                                        if($yearHeader != null)
+                                        if($yearHeader != null && $citation_style_order)
                                                 $result[$yearHeader] = $styleObj->sort($result[$yearHeader]);
 
                                         if($pub->year == '0000' || $pub->year == null )
@@ -236,15 +237,15 @@ class JResearchViewPublicationsList extends JResearchView
                                 $result[$yearHeader][] = $pub;
                                 $previousYear = $pub->year;
                         }
-                        if(isset($result[$yearHeader]))
-                                $result[$yearHeader] = $styleObj->sort($result[$yearHeader]);
+                        if(isset($result[$yearHeader]) && $citation_style_order)
+                            $result[$yearHeader] = $styleObj->sort($result[$yearHeader]);
                 break;
                 case 'type':
                         $previousType = null;
                         $header = null;
                         foreach($recordsArray as $pub){
                                 if($previousType != $pub->pubtype){
-                                        if($header != null)
+                                        if($header != null && $citation_style_order)
                                                 $result[$header] = $styleObj->sort($result[$header]);
 
                                         $header = JText::_('JRESEARCH_PUBLICATION_TYPE').': '.$pub->pubtype;
@@ -253,8 +254,8 @@ class JResearchViewPublicationsList extends JResearchView
                                 $result[$header][] = $pub;
                                 $previousType = $pub->pubtype;
                         }
-                        if($result[$header])
-                                $result[$header] = $styleObj->sort($result[$header]);
+                        if($result[$header] && $citation_style_order)
+                            $result[$header] = $styleObj->sort($result[$header]);
                         break;
                 default:
                         $result = $recordsArray;

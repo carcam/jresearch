@@ -128,6 +128,30 @@ class JResearchArea extends JTable{
 		return true;
 
 	}
+
+        /**
+         * Overwrite for JTable::store method
+         *
+         * @param boolean $updateNulls
+         */
+        function store($updateNulls){
+            $result = parent::store($updateNulls);
+
+            if($result && $this->published == 0){
+                $cid = $this->id;
+                $db = JFactory::getDbo();
+                $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
+                $db->query();
+                $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
+                $db->query();
+                $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
+                $db->query();
+                $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
+                $db->query();
+            }
+
+            return $result;
+        }
 	
 	/**
 	* Publish/Unpublish method.
@@ -138,34 +162,47 @@ class JResearchArea extends JTable{
 	* @return true if successful
 	*/
 	function publish( $cid=null, $publish=1, $user_id=0 ){
-		$db =& JFactory::getDBO();		
-		$result = parent::publish($cid, $publish, $user_id);
-		
-		if($result && $publish == 0){
-			if(!is_array($cid)){
-				$db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
-				$db->query();
-				$db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
-				$db->query();	
-				$db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
-				$db->query();			
-				$db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));	
-				$db->query();
-			}else{
-				foreach($cid as $id){
-					$db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
-					$db->query();
-					$db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
-					$db->query();	
-					$db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
-					$db->query();			
-					$db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));	
-					$db->query();
-				}
-			}
-		}
-		
-		return $result;
+            $db = JFactory::getDBO();
+            
+            // Just to prevent uncategorized area for being unpublished
+            if($publish == 0){
+                if(is_array($cid)){
+                    $index = array_search('1', $cid);
+                    unset($cid[$index]);
+                    if(empty($cid))
+                        return false;
+                }elseif($cid == '1'){
+                    return false;
+                }
+            }
+
+            $result = parent::publish($cid, $publish, $user_id);
+
+            if($result && $publish == 0){
+                    if(!is_array($cid)){
+                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
+                            $db->query();
+                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
+                            $db->query();
+                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
+                            $db->query();
+                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
+                            $db->query();
+                    }else{
+                            foreach($cid as $id){
+                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
+                                    $db->query();
+                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
+                                    $db->query();
+                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
+                                    $db->query();
+                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
+                                    $db->query();
+                            }
+                    }
+            }
+
+            return $result;
 	}
 	
 	/**
@@ -204,7 +241,7 @@ class JResearchArea extends JTable{
    	}
    	
    	return $booleanResult;
-	}
+    }
 	
 }	
 

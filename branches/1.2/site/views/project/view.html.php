@@ -24,7 +24,7 @@ class JResearchViewProject extends JResearchView
 {
     function display($tpl = null)
     {
-	    global $mainframe;
+        global $mainframe;
     	$arguments = array('project');    	
     	$result = true;
         $layout = $this->getLayout();
@@ -57,17 +57,17 @@ class JResearchViewProject extends JResearchView
 	$doc =& JFactory::getDocument();
 	$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
 
-		if(empty($id)){
-			JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-			return false;
-		}
+        if(empty($id)){
+            JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+            return false;
+        }
     	//Get the model
     	$model =& $this->getModel();
     	$project = $model->getItem($id);
     	
     	if(empty($project) || !$project->published){
-    		JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-    		return false;
+            JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+            return false;
     	}
     	
     	$this->addPathwayItem($project->alias, 'index.php?option=com_jresearch&view=project&id='.$project->id);

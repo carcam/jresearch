@@ -10,7 +10,7 @@
 */
 
 jimport('joomla.application.component.controller');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+
 /**
  * Staff Backend Controller
  * @package		JResearch
@@ -52,13 +52,11 @@ class JResearchAdminStaffController extends JController
 	 */
 
 	function display(){
-		$view = &$this->getView('Staff', 'html', 'JResearchAdminView');
-		$model = &$this->getModel('Staff', 'JResearchModel');
-		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
-		$view->setLayout('default');
-		$view->display();
+            $view = $this->getView('Staff', 'html', 'JResearchAdminView');
+            $model = $this->getModel('Staff', 'JResearchModel');
+            $view->setModel($model, true);
+            $view->setLayout('default');
+            $view->display();
 	}
 
 	/**

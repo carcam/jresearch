@@ -187,6 +187,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	private function _buildQueryOrderBy(){
             global $mainframe;
             $modelKey = JRequest::getVar('modelkey', '');
+            $extra_order = '';
 
             $db =& JFactory::getDBO();
             //Array of allowable order fields
@@ -201,11 +202,13 @@ class JResearchModelPublicationsList extends JResearchModelList{
                     $filter_order_Dir = 'ASC';
             //if order column is unknown, use the default
             if($filter_order == 'type')
-                    $filter_order = $db->nameQuote('pubtype');
-            elseif($filter_order == 'alphabetical' || !in_array($filter_order, $orders))
-                    $filter_order = $db->nameQuote('title');
+                $filter_order = $db->nameQuote('pubtype');
+            elseif($filter_order == 'year'){
+                $extra_order = "STR_TO_DATE(month, '%M')";
+            }elseif($filter_order == 'alphabetical' || !in_array($filter_order, $orders))
+                $filter_order = $db->nameQuote('title');
 
-            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->nameQuote('created').' DESC';
+            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.(!empty($extra_order) ? ', '.$extra_order.' '.$filter_order_Dir : '').', '.$db->nameQuote('created').' DESC';
 	}	
 	
 	/**

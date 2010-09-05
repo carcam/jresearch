@@ -213,6 +213,12 @@ class JResearchCharsetsHelper{
 		    "/Õ/",
                     "/ž/",
                     "/Ž/",
+                    "/Ř/",
+                    "/ř/",
+                    "/Č/",
+                    "/č/",
+                    "/Š/",
+                    "/š/",
 		    "/&/" //added because latex thinks & indicates a table, and it occurs often enough in a title
 	    );
 	}
@@ -286,8 +292,14 @@ class JResearchCharsetsHelper{
 		    "{\\~A}",
 		    "{\\~o}",
                     "{\\~O}",
-		    "\\v{z}",
-                    "\\v{Z}",
+		    "{\\vz}",
+                    "{\\vZ}",
+                    "{\\vR}",
+                    "{\\vr}",
+                    "{\\vC}",
+                    "{\\vc}",
+                    "{\\vS}",
+                    "{\\vs}",
 		    "{\&}"
 	    );
 	}
@@ -301,6 +313,7 @@ class JResearchCharsetsHelper{
 	function getBibtexCharsArray()
 	{
 	    return array(
+                    "/{\\\([aeiou])}/i",
 		    "/{(\\\`([aeiou]|{[aeiou]}))}/i",//remove the outside braces...
 		    "/{(\\\'([aeiou]|{[aeiou]}))}/i",
 		    "/{(\\\\\^([aeiou]|{[aeiou]}))}/i",
@@ -372,8 +385,15 @@ class JResearchCharsetsHelper{
 		    "/\\\\~(A|{A})/",
 		    "/\\\\~(o|{o})/",
 		    "/\\\\~(O|{O})/",
-                    "/\\\\v(z|{z})/",
-                    '/\\\\v(Z|{Z})/',
+                    "/{(\\\v\s?([zrcs]|{[zrcs]}))}/i", //remove the outside braces...
+                    "/\\\\v\s?(z|{z})/",
+                    "/\\\\v\s?(Z|{Z})/",
+                    "/\\\\v\s?(R|{R})/",
+                    "/\\\\v\s?(r|{r})/",
+                    "/\\\\v\s?(C|{C})/",
+                    "/\\\\v\s?(c|{c})/",
+                    "/\\\\v\s?(S|{S})/",
+                    "/\\\\v\s?(s|{s})/",
 		    "/\\\\&/"
 	    );
 	}
@@ -382,8 +402,9 @@ class JResearchCharsetsHelper{
 	function getBibtexCharsReplaceArray()
 	{
 	    return array(
+                    "$1",
 		    "$1",
-		    "$1",
+                    "$1",
 		    "$1",
 		    "$1",
 		    "$1",
@@ -453,8 +474,15 @@ class JResearchCharsetsHelper{
 		    "Ã",
 		    "õ",
 		    "Õ",
+                    "$1",
                     "ž",
                     "Ž",
+                    "Ř",
+                    "ř",
+                    "Č",
+                    "č",
+                    "Š",
+                    "š",
 		    "&"
 	    );
 	}
@@ -527,7 +555,13 @@ class JResearchCharsetsHelper{
 			     '\x{F5}',
 			     '\x{D5}',
                              '\x{C5BE}',
-                             '\x{C5BD}'
+                             '\x{C5BD}',
+                             '\x{C598}',
+                             '\x{C599}',
+                             '\x{C48C}',
+                             '\x{C48D}',
+                             '\x{C5A0}',
+                             '\x{C5A1}'
 			);
 	}
 	
@@ -598,7 +632,14 @@ class JResearchCharsetsHelper{
 		    "õ",
 		    "Õ",
                     "ž",
-                    "Ž"
+                    "Ž",
+                    "Ř",
+                    "ř",
+                    "Č",
+                    "č",
+                    "Š",
+                    "š"
+
 	    );
 	}
 }

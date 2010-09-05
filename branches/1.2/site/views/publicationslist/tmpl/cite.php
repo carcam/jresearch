@@ -22,9 +22,9 @@ function startPublicationSearch(key){
 	var searchRequest;
 	var criteria = 'all';
 	if(key == ''){
-		tbody = getResultsTable();
-		clean(tbody);
-		return;
+            key = '%%';
+            tbody = getResultsTable();
+            clean(tbody);
 	}
 	
 	if(document.getElementById('allRadio').checked)

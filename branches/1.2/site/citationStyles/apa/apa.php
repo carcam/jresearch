@@ -460,7 +460,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 		ksort($authorsArray);		
 		foreach($authorsArray as &$arr){			
 			ksort($arr);
-			foreach($arr as $yearArray)
+			foreach($arr as $yearArray){
 				$letter = 'a';
 				$n = count($yearArray);
 				foreach($yearArray as $pub){
@@ -470,6 +470,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
 					}
 					$result[] = $pub;
 				}
+                        }
 		}
 		
 		return $result;

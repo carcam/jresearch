@@ -7,21 +7,22 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-?>
-<?php $Itemid = JRequest::getVar('Itemid'); 
-	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
-	  
-	//BibTex show in frontend; Pablo Moncada
-	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');		
-	$document = JFactory::getDocument(); 
-	$id = JRequest::getInt('id');
-	$format = "bibtex";		
-	$model = &$this->getModel('Publication', 'JResearchModel');		
-	$publication = $model->getItem($id);		
-	$exporter =& JResearchPublicationExporterFactory::getInstance($format);		
-	$output2 = $exporter->parse($publication);				
-	//End Pablo Moncada
-	  	
+$Itemid = JRequest::getVar('Itemid'); 
+$ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
+
+//BibTex show in frontend; Pablo Moncada
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');		
+$document = JFactory::getDocument(); 
+$id = JRequest::getInt('id');
+$format = "bibtex";		
+$model = &$this->getModel('Publication', 'JResearchModel');		
+$publication = $model->getItem($id);		
+$exporter =& JResearchPublicationExporterFactory::getInstance($format);		
+$output2 = $exporter->parse($publication);				
+//End Pablo Moncada
+$nativeTypes = JResearchPublication::getPublicationsSubtypes('native');
+$extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
+
 ?>
 <div style="float: right;"><?php echo JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
 <h2 class="componentheading"><?php echo $this->publication->title; ?></h2>
@@ -98,8 +99,17 @@ defined('_JEXEC') or die('Restricted access');
 		<td colspan="2"></td>		
 	</tr>	
 	<?php endif; ?>
-	
-	<?php require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.$this->publication->pubtype.'.php') ?>
+        <?php    
+        if(in_array($this->pubtype, $nativeTypes)){
+            require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.$this->publication->pubtype.'.php');
+        }else{
+            global $mainframe;
+            if(in_array($this->pubtype, $extendedTypes))
+                $mainframe->triggerEvent('onJResearchPublicationType');
+        }
+        ?>
+
+	<?php  ?>
 	<tr>		
 	
 	<?php $colspan=4; ?>

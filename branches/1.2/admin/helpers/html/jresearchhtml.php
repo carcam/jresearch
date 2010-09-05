@@ -672,13 +672,13 @@ class JHTMLjresearchhtml
 	 */
 	public static function statuslist(array $attributes=array())
 	{
-		//Status options
-    	$statusOptions = array();
-    	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
-    	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
-    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('Finished'));
-    	
-    	return self::htmllist($statusOptions, $attributes);
+            //Status options
+            $statusOptions = array();
+            $statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
+            $statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
+            $statusOptions[] = JHTML::_('select.option', 'finished', JText::_('Finished'));
+
+            return self::htmllist($statusOptions, $attributes);
 	}
 	
 	/**
@@ -688,15 +688,15 @@ class JHTMLjresearchhtml
 	 * @return string
 	 */
 	public static function onlineresourcelist(array $attributes = array()){
-		//Status options
-    	$resourcesOptions = array();
-    	$resourcesOptions[] = JHTML::_('select.option', 'website', JText::_('JRESEARCH_WEBSITE'));
-    	$resourcesOptions[] = JHTML::_('select.option', 'video', JText::_('JRESEARCH_VIDEO'));
-    	$resourcesOptions[] = JHTML::_('select.option', 'audio', JText::_('JRESEARCH_AUDIO'));
-    	$resourcesOptions[] = JHTML::_('select.option', 'image', JText::_('JRESEARCH_IMAGE'));
-    	$resourcesOptions[] = JHTML::_('select.option', 'image', JText::_('JRESEARCH_BLOG'));    	
-    	
-    	return self::htmllist($resourcesOptions, $attributes);		
+            //Status options
+            $resourcesOptions = array();
+            $resourcesOptions[] = JHTML::_('select.option', 'website', JText::_('JRESEARCH_WEBSITE'));
+            $resourcesOptions[] = JHTML::_('select.option', 'video', JText::_('JRESEARCH_VIDEO'));
+            $resourcesOptions[] = JHTML::_('select.option', 'audio', JText::_('JRESEARCH_AUDIO'));
+            $resourcesOptions[] = JHTML::_('select.option', 'image', JText::_('JRESEARCH_IMAGE'));
+            $resourcesOptions[] = JHTML::_('select.option', 'blog', JText::_('JRESEARCH_BLOG'));
+
+            return self::htmllist($resourcesOptions, $attributes);
 	}
 	
 	/**
@@ -706,12 +706,12 @@ class JHTMLjresearchhtml
 	 * @return string
 	 */
 	public static function digitalresourcelist(array $attributes = array()){
-		//Status options
-    	$resourcesOptions = array();
-    	$resourcesOptions[] = JHTML::_('select.option', 'cdrom', JText::_('JRESEARCH_CDROM'));
-    	$resourcesOptions[] = JHTML::_('select.option', 'film', JText::_('JRESEARCH_FILM'));
-    	
-    	return self::htmllist($resourcesOptions, $attributes);		
+            //Status options
+            $resourcesOptions = array();
+            $resourcesOptions[] = JHTML::_('select.option', 'cdrom', JText::_('JRESEARCH_CDROM'));
+            $resourcesOptions[] = JHTML::_('select.option', 'film', JText::_('JRESEARCH_FILM'));
+
+            return self::htmllist($resourcesOptions, $attributes);
 	}
 	
 		
@@ -721,12 +721,12 @@ class JHTMLjresearchhtml
 	 */
 	public static function degreelist(array $attributes=array())
 	{
-		$degreeOptions = array();
-    	$degreeOptions[] = JHTML::_('select.option', 'bachelor', JText::_('JRESEARCH_BACHELOR'));
-    	$degreeOptions[] = JHTML::_('select.option', 'master', JText::_('JRESEARCH_MASTER'));
-    	$degreeOptions[] = JHTML::_('select.option', 'phd', JText::_('JRESEARCH_PHD'));
-    	
-    	return self::htmllist($degreeOptions, $attributes);
+            $degreeOptions = array();
+            $degreeOptions[] = JHTML::_('select.option', 'bachelor', JText::_('JRESEARCH_BACHELOR'));
+            $degreeOptions[] = JHTML::_('select.option', 'master', JText::_('JRESEARCH_MASTER'));
+            $degreeOptions[] = JHTML::_('select.option', 'phd', JText::_('JRESEARCH_PHD'));
+
+            return self::htmllist($degreeOptions, $attributes);
 	}
 	
 	/**
@@ -734,21 +734,21 @@ class JHTMLjresearchhtml
 	 */
 	public static function currencylist(array $attributes=array())
 	{
-		include_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
+            include_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
 		
-		//Currency options
-    	$currencyOptions = array();
+            //Currency options
+            $currencyOptions = array();
 
- 		$currencyOptions[] = JHTML::_('select.option', Currency::AUD, Currency::AUD);
- 		$currencyOptions[] = JHTML::_('select.option', Currency::CAD, Currency::CAD);
- 		$currencyOptions[] = JHTML::_('select.option', Currency::CHF, Currency::CHF);
-    	$currencyOptions[] = JHTML::_('select.option', Currency::EUR, Currency::EUR);
-    	$currencyOptions[] = JHTML::_('select.option', Currency::GBP, Currency::GBP);
-    	$currencyOptions[] = JHTML::_('select.option', Currency::JPY, Currency::JPY);
-    	$currencyOptions[] = JHTML::_('select.option', Currency::SEK, Currency::SEK);
-    	$currencyOptions[] = JHTML::_('select.option', Currency::USD, Currency::USD);
+            $currencyOptions[] = JHTML::_('select.option', Currency::AUD, Currency::AUD);
+            $currencyOptions[] = JHTML::_('select.option', Currency::CAD, Currency::CAD);
+            $currencyOptions[] = JHTML::_('select.option', Currency::CHF, Currency::CHF);
+            $currencyOptions[] = JHTML::_('select.option', Currency::EUR, Currency::EUR);
+            $currencyOptions[] = JHTML::_('select.option', Currency::GBP, Currency::GBP);
+            $currencyOptions[] = JHTML::_('select.option', Currency::JPY, Currency::JPY);
+            $currencyOptions[] = JHTML::_('select.option', Currency::SEK, Currency::SEK);
+            $currencyOptions[] = JHTML::_('select.option', Currency::USD, Currency::USD);
     	
-    	return self::htmllist($currencyOptions, $attributes);
+            return self::htmllist($currencyOptions, $attributes);
 	}
 	
 	public static function teamshierarchy(array $list, array $attributes=array())

@@ -77,14 +77,14 @@ class JResearchViewPublication extends JResearchView
         $doc->addScript(JURI::base().'components/com_jresearch/views/publication/comments.js');
    		
     	if(empty($id)){
-    		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		return false;
+            JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+            return false;
     	}
     	//Get the model
     	$model = $this->getModel();
     	$publication = $model->getItem($id);
     	
-        if(!$publication->internal || !$publication->published){
+        if(empty($publication) || !$publication->internal || !$publication->published){
                 JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));
                 return false;
         }

@@ -5,7 +5,12 @@
  * Default view for adding/editing a single publication
  */
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+
+$nativeTypes = JResearchPublication::getPublicationsSubtypes('native');
+$extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
+
+?>
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
 <div class="divForm">
 <form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
@@ -150,7 +155,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_SPECIFIC'); ?></legend>	
 	<div class="divTable">
-		<?php include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.$this->pubtype.'.php'); ?>
+            <?php if(in_array($this->pubtype, $nativeTypes)){
+                include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.$this->pubtype.'.php');
+            }else{
+                global $mainframe;
+                if(in_array($this->pubtype, $extendedTypes))
+                    $mainframe->triggerEvent('onJResearchPublicationType');
+            }
+            ?>
 	</div>
 </fieldset>
 <fieldset>

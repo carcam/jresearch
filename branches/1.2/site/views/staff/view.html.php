@@ -74,6 +74,22 @@ class JResearchViewStaff extends JResearchView
       	
       	$doc = JFactory::getDocument();
       	$params = $mainframe->getPageParameters('com_jresearch');
+        if($params->get('staff_only_former') == 'yes'){
+            JRequest::serVar('filter_former', 1);
+        }
+
+        switch($params->get('staff_filter')){
+            case 'only_current':
+                JRequest::setVar('filter_former', 1);
+                break;
+            case 'only_former':
+                JRequest::setVar('filter_former', -1);
+                break;
+            default:
+                JRequest::setVar('filter_former', 0);
+                break;
+        }
+
       	
       	$members =  $model->getData(null, true, true);   
     	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));
