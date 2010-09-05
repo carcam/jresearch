@@ -72,58 +72,58 @@ class JResearchAdminViewPublicationsList extends JResearchView
     	// Get the user state of the order and direction 
     	$filter_order = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order', 'published');
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order_Dir',  'ASC');
-		$filter_state = $mainframe->getUserStateFromRequest('publicationsfilter_state', 'filter_state');
-		$filter_year = $mainframe->getUserStateFromRequest('publicationsfilter_year', 'filter_year');
-		$filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');
-		$filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');		
+        $filter_state = $mainframe->getUserStateFromRequest('publicationsfilter_state', 'filter_state');
+        $filter_year = $mainframe->getUserStateFromRequest('publicationsfilter_year', 'filter_year');
+        $filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');
+        $filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');
     	$filter_search = $mainframe->getUserStateFromRequest('publicationsfilter_search', 'filter_search');
-		$filter_author = $mainframe->getUserStateFromRequest('publicationsfilter_author', 'filter_author');
+        $filter_author = $mainframe->getUserStateFromRequest('publicationsfilter_author', 'filter_author');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
-		$lists['order'] = $filter_order;
-		// State filter
-		$lists['state'] = JHTML::_('grid.state', $filter_state);
-		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
-		$lists['search'] = $filter_search;
-		
-		// Year filter
-		$db = JFactory::getDBO();
-		$db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
-		$years = $db->loadResultArray();
-		$yearsHTML = array();
-		$yearsHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
-		foreach($years as $y)
-			$yearsHTML[] = JHTML::_('select.option', $y, $y);
-			
-		$lists['year'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
+        $lists['order'] = $filter_order;
+        // State filter
+        $lists['state'] = JHTML::_('grid.state', $filter_state);
+        $js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
+        $lists['search'] = $filter_search;
 
-		// Publication type filter
-		$types = JResearchPublication::getPublicationsSubtypes();
-		$typesHTML = array();
-		$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
-		foreach($types as $type){
-			$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
-		}
-		$lists['pubtype'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
-		
-		// Research Area filter
-		$areas = JResearchArea::getAllItems();
-		$areasHTML = array();
-		$areasHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_RESEARCH_AREA'));
-		foreach($areas as $area){
-			$areasHTML[] = JHTML::_('select.option', $area->id, $area->name); 
-		}
-		$lists['area'] = JHTML::_('select.genericlist', $areasHTML, 'filter_area', 'class="inputbox" size="1" '.$js, 'value','text', $filter_area);
-		
-		$this->assignRef('lists', $lists);
+        // Year filter
+        $db = JFactory::getDBO();
+        $db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
+        $years = $db->loadResultArray();
+        $yearsHTML = array();
+        $yearsHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
+        foreach($years as $y)
+                $yearsHTML[] = JHTML::_('select.option', $y, $y);
 
-		$authors = $model->getAllAuthors();
-		$authorsHTML = array();
-		$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
-		foreach($authors as $auth){
-			$authorsHTML[] = JHTML::_('select.option', $auth['id'], $auth['name']); 
-		}
-		$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);
+        $lists['year'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
+
+        // Publication type filter
+        $types = JResearchPublication::getPublicationsSubtypes();
+        $typesHTML = array();
+        $typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
+        foreach($types as $type){
+                $typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
+        }
+        $lists['pubtype'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
+
+        // Research Area filter
+        $areas = JResearchArea::getAllItems();
+        $areasHTML = array();
+        $areasHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_RESEARCH_AREA'));
+        foreach($areas as $area){
+                $areasHTML[] = JHTML::_('select.option', $area->id, $area->name);
+        }
+        $lists['area'] = JHTML::_('select.genericlist', $areasHTML, 'filter_area', 'class="inputbox" size="1" '.$js, 'value','text', $filter_area);
+
+        $this->assignRef('lists', $lists);
+
+        $authors = $model->getAllAuthors();
+        $authorsHTML = array();
+        $authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));
+        foreach($authors as $auth){
+                $authorsHTML[] = JHTML::_('select.option', $auth['id'], $auth['name']);
+        }
+        $lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);
 
 	
     	$this->assignRef('items', $items);
@@ -165,18 +165,18 @@ class JResearchAdminViewPublicationsList extends JResearchView
     * Invoked when the user exports a set of bibliographical references.
     */	
     private function _displayExportForm(){
-      JResearchToolbar::importPublicationsToolbar();
-		$session =& JFactory::getSession();
-		$task = JRequest::getVar('task');
-		
-		if($task == 'export'){
-			$cid = JRequest::getVar('cid', null);
-			$exportCompleteDatabase = false;
-			$session->set('markedRecords', $cid, 'jresearch');
-		}elseif($task == 'exportAll'){
-			$exportCompleteDatabase = true;
-			$session->set('markedRecords', 'all', 'jresearch'); 
-		}
+        JResearchToolbar::importPublicationsToolbar();
+        $session =& JFactory::getSession();
+        $task = JRequest::getVar('task');
+
+        if($task == 'export'){
+                $cid = JRequest::getVar('cid', null);
+                $exportCompleteDatabase = false;
+                $session->set('markedRecords', $cid, 'jresearch');
+        }elseif($task == 'exportAll'){
+                $exportCompleteDatabase = true;
+                $session->set('markedRecords', 'all', 'jresearch');
+        }
 		      	
       
     	$formatsOptions = array();
@@ -185,8 +185,8 @@ class JResearchAdminViewPublicationsList extends JResearchView
     	$formatsOptions[] = JHTML::_('select.option', 'ris', 'RIS');
     	$formatsHTML = JHTML::_('select.genericlist', $formatsOptions, 'outformat', 'size="1"');
 		
-		$this->assignRef('formatsList', $formatsHTML);		
-		$this->assignRef('exportAll', $exportCompleteDatabase);
+        $this->assignRef('formatsList', $formatsHTML);
+        $this->assignRef('exportAll', $exportCompleteDatabase);
     	
     }
 }

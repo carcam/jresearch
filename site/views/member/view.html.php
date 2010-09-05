@@ -59,7 +59,7 @@ class JResearchViewMember extends JResearchView
     	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
     	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
       	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
-		JHTML::_('jresearchhtml.validation');
+        JHTML::_('jresearchhtml.validation');
     	JResearchToolbar::editMemberAdminToolbar();		
 		    	
     	$user =& JFactory::getUser();
@@ -70,27 +70,27 @@ class JResearchViewMember extends JResearchView
     
     	// Modify it, so administrators may edit the item.
     	if(empty($member->username)){
-    		JError::raiseWarning(1, JText::_('JRESEARCH_PROFILE_USER_NOT_AUTHORIZED'));
-    		return false;
+            JError::raiseWarning(1, JText::_('JRESEARCH_PROFILE_USER_NOT_AUTHORIZED'));
+            return false;
     	}
     	
     	if($member->isCheckedOut($user->get('id'))){
-			JError::raiseWarning(1, JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-			return false;
-		}
+            JError::raiseWarning(1, JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+            return false;
+        }
 		
-		$this->addPathwayItem($member, 'index.php?option=com_jresearch&view=member&id='.$member->id);
-		$this->addPathwayItem(JText::_('Edit'));
-		
-		$arguments[] = $member->id;
-		
-		$member->checkout($user->get('id'));		
-    	
-		$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'selected' => $member->id_research_area));
-    	
-		//Published options  			
-		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'selected' => $member->published));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $member->id_research_area)); 
+        $this->addPathwayItem($member, 'index.php?option=com_jresearch&view=member&id='.$member->id);
+        $this->addPathwayItem(JText::_('Edit'));
+
+        $arguments[] = $member->id;
+
+        $member->checkout($user->get('id'));
+
+        $researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'selected' => $member->id_research_area));
+
+        //Published options
+        $publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'selected' => $member->published));
+        $researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $member->id_research_area));
     	$orderOptions = array();
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, CONCAT_WS(\' \', firstname, lastname) AS text FROM #__jresearch_member ORDER by former_member,ordering ASC');
     	$orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , ($member)?$member->ordering:0);    	
@@ -104,13 +104,13 @@ class JResearchViewMember extends JResearchView
     	$this->assignRef('member', $member, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('publishedRadio', $publishedRadio);
-		$this->assignRef('editor', $editor);    	
-		$this->assignRef('orderList', $orderList);
+        $this->assignRef('editor', $editor);
+        $this->assignRef('orderList', $orderList);
     	$this->assignRef('positionList', $positionList);		
     	
-		// Load cited records
-		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments); 	
-		return true;
+        // Load cited records
+        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+        return true;
     }
     
     /**
@@ -130,9 +130,9 @@ class JResearchViewMember extends JResearchView
         $doc = JFactory::getDocument();
 
     	if(empty($id)){
-    		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		$arguments[] = null;
-    		return false;
+            JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+            $arguments[] = null;
+            return false;
     	}
     
     	//Get the model
@@ -140,10 +140,10 @@ class JResearchViewMember extends JResearchView
     	$member =  $model->getItem($id);
     	$teams  =  $model->getTeams($id);
     	
-    	if(!$member->published){
-    		JError::raiseWarning(1, JText::_('JRESEARCH_MEMBER_NOT_FOUND'));
-    		$arguments[] = null;
-    		return false;
+    	if(empty($member) || !$member->published){
+            JError::raiseWarning(1, JText::_('JRESEARCH_MEMBER_NOT_FOUND'));
+            $arguments[] = null;
+            return false;
     	}
     	
     	$this->addPathwayItem($member, 'index.php?option=com_jresearch&view=member&id='.$member->id);
@@ -156,42 +156,42 @@ class JResearchViewMember extends JResearchView
     	$params = $mainframe->getPageParameters('com_jresearch');
     	
     	if($params->get('staff_show_publications', 'yes') == 'yes'){
-    		if($publications_view_all == 0){
-    			$latestPublications = $params->get('staff_number_last_publications', 5);
-    			$publications = $model->getLatestPublications($member->id, $latestPublications);
-    		}else{
-    			$publications = $model->getLatestPublications($member->id);
-    		}
-    		$this->assignRef('publications', $publications);
-    		$this->assignRef('npublications', $model->countPublications($member->id));    		    		
+            if($publications_view_all == 0){
+                    $latestPublications = $params->get('staff_number_last_publications', 5);
+                    $publications = $model->getLatestPublications($member->id, $latestPublications);
+            }else{
+                    $publications = $model->getLatestPublications($member->id);
+            }
+            $this->assignRef('publications', $publications);
+            $this->assignRef('npublications', $model->countPublications($member->id));
     	}
     	
     	if($params->get('staff_show_projects', 'yes') == 'yes'){
-    		if($projects_view_all == 0){
-	    		$latestProjects = $params->get('staff_number_last_projects', 5);
-    			$projects = $model->getLatestProjects($member->id, $latestProjects);
-    		}else{
-    			$projects = $model->getLatestProjects($member->id);
-    		}
-    		$this->assignRef('projects', $projects);
-    		$this->assignRef('nprojects', $model->countProjects($member->id));    		    		
+            if($projects_view_all == 0){
+                    $latestProjects = $params->get('staff_number_last_projects', 5);
+                    $projects = $model->getLatestProjects($member->id, $latestProjects);
+            }else{
+                    $projects = $model->getLatestProjects($member->id);
+            }
+            $this->assignRef('projects', $projects);
+            $this->assignRef('nprojects', $model->countProjects($member->id));
     	}
     	
     	if($params->get('staff_show_theses', 'yes') == 'yes'){
-    		if($theses_view_all == 0){
-	    		$latestTheses = $params->get('staff_number_last_theses', 5);
-    			$theses = $model->getLatestTheses($member->id, $latestTheses);
-    		}else{
-    			$theses = $member->getLatestTheses($member->id);
-    		}
-    		$this->assignRef('theses', $theses);
-    		$this->assignRef('ntheses', $model->countTheses($member->id));
+            if($theses_view_all == 0){
+                    $latestTheses = $params->get('staff_number_last_theses', 5);
+                    $theses = $model->getLatestTheses($member->id, $latestTheses);
+            }else{
+                    $theses = $member->getLatestTheses($member->id);
+            }
+            $this->assignRef('theses', $theses);
+            $this->assignRef('ntheses', $model->countTheses($member->id));
     	}
     	
     	$applyStyle = ($params->get('publications_apply_style') == 'yes');
     	$configuredCitationStyle = $params->get('citationStyle', 'APA');
     	if($applyStyle){
-    		// Require publications lang package
+            // Require publications lang package
             $lang = JFactory::getLanguage();
             $lang->load('com_jresearch.publications');
     	}    	

@@ -41,11 +41,11 @@ class JResearchViewFacility extends JResearchView
 		
         if($result)
         {
-	        $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+            $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 			
-	       	parent::display($tpl);
+            parent::display($tpl);
 	       	
-	       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+            $mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
         }
     }
     
@@ -55,28 +55,28 @@ class JResearchViewFacility extends JResearchView
     private function _displayFacility(&$arguments)
     {
     	$id = JRequest::getInt('id');
-   		$doc =& JFactory::getDocument();
+        $doc =& JFactory::getDocument();
 
-   		if(empty($id))
-   		{
-    		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		$arguments[] = null;
-    		return false;
+        if(empty($id))
+        {
+            JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+            $arguments[] = null;
+            return false;
     	}
     	
     	//Get the model
     	$model =& $this->getModel();
     	$fac = $model->getItem($id);
     	
-		if(!$fac->published)
-		{
-			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-			$arguments[] = null;
-			return false;
-		}
-		
-		$this->addPathwayItem($fac->alias, 'index.php?option=com_jresearch&view=facility&id='.$id);
-		$arguments[] = $id;	    	
+        if(empty($fac) || !$fac->published)
+        {
+                JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+                $arguments[] = null;
+                return false;
+        }
+
+        $this->addPathwayItem($fac->alias, 'index.php?option=com_jresearch&view=facility&id='.$id);
+        $arguments[] = $id;
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($fac->id_research_area);

@@ -47,33 +47,33 @@ class JResearchViewThesis extends JResearchView
       	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
       	      	
     	$id = JRequest::getInt('id');
-   		$doc =& JFactory::getDocument();
-   		$session = JFactory::getSession();
-   		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
-   		$degreeArray = array('bachelor'=>JText::_('JRESEARCH_BACHELOR'), 'master'=>JText::_('JRESEARCH_MASTER'), 'phd'=>JText::_('JRESEARCH_PHD'));
+        $doc =& JFactory::getDocument();
+        $session = JFactory::getSession();
+        $statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
+        $degreeArray = array('bachelor'=>JText::_('JRESEARCH_BACHELOR'), 'master'=>JText::_('JRESEARCH_MASTER'), 'phd'=>JText::_('JRESEARCH_PHD'));
 
-   		if(empty($id)){
-    		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		return;
+        if(empty($id)){
+            JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+            return;
     	}
     	//Get the model
     	$model =& $this->getModel();
     	$thesis = $model->getItem($id);
     	
-		if(!$thesis->published){
-			JError::raiseWarning(1, JText::_('JRESEARCH_THESIS_NOT_FOUND'));
-			return;
-		}
+        if(empty($thesis) || !$thesis->published){
+            JError::raiseWarning(1, JText::_('JRESEARCH_THESIS_NOT_FOUND'));
+            return;
+        }
 
-		$this->addPathwayItem($thesis->alias, 'index.php?option=com_jresearch&view=thesis&id='.$thesis->id);
-		
-		$arguments[] = $id;
-		
-		//If the thesis was visited in the same session, do not increment the hit counter
-		if(!$session->get('visited', false, 'theses'.$id)){
-			$session->set('visited', true, 'theses'.$id);
-			$thesis->hit();
-		}
+        $this->addPathwayItem($thesis->alias, 'index.php?option=com_jresearch&view=thesis&id='.$thesis->id);
+
+        $arguments[] = $id;
+
+        //If the thesis was visited in the same session, do not increment the hit counter
+        if(!$session->get('visited', false, 'theses'.$id)){
+            $session->set('visited', true, 'theses'.$id);
+            $thesis->hit();
+        }
 		
         $doc->setTitle(JText::_('JRESEARCH_THESIS').' - '.$thesis->title);
 		

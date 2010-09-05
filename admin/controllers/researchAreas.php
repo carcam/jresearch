@@ -70,7 +70,11 @@ class JResearchAdminResearchAreasController extends JController
 		}else{
 			$area->alias = JResearch::alias($area->alias);			
 		}
-		
+
+                //Make sure uncategorized category is not unpublished
+                if($area->id == 1)
+                    $area->published = 1;
+
 		// Validate and save
 		if($area->check()){		
 			if($area->store(true)){
