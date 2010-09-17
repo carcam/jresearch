@@ -17,7 +17,6 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-
 // Common needed files
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
 

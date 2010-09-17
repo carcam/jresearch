@@ -26,35 +26,20 @@ class JResearchViewPublication extends JResearchView
     	global $mainframe;
     	$id = JRequest::getVar('id', 0);
     	
-    	$arguments = array('publication', $id);
-    	
         $layout = $this->getLayout();
-        $result = true;
-
+ 
         switch($layout){
-        	case 'default':
-        		$result = $this->_displayPublication();
-        		
-        		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
-        		break;
-        	case 'new':
-        		$result = $this->_displayNewPublicationForm();
-        		
-        		$mainframe->triggerEvent('onBeforeNewJResearchPublication', $arguments);
-        		break;
-        	case 'edit':
-        		$result = $this->_editPublication();
-        		
-        		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
-        		break;
+            case 'default':
+                $this->_displayPublication();
+                break;
+            case 'new':
+                $this->_displayNewPublicationForm();
+                break;
+            case 'edit':
+                $this->_editPublication();
+                break;
         }
         
-    	if($result)
-		{
-       		parent::display($tpl);
-       	
-       		$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
-		}
     }
     
     /**
@@ -78,23 +63,23 @@ class JResearchViewPublication extends JResearchView
    		
     	if(empty($id)){
             JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-            return false;
+            return;
     	}
     	//Get the model
     	$model = $this->getModel();
     	$publication = $model->getItem($id);
     	
         if(empty($publication) || !$publication->internal || !$publication->published){
-                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));
-                return false;
+            JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));
+            return;
         }
 
         $this->addPathwayItem(JText::_('New'), 'index.php?option=com_jresearch&view=publication&task=new');
 
         //If the publication was visited in the same session, do not increment the hit counter
         if(!$session->get('visited', false, 'publications'.$id)){
-                $session->set('visited', true, 'publications'.$id);
-                $publication->hit();
+            $session->set('visited', true, 'publications'.$id);
+            $publication->hit();
         }
 		
     	$areaModel = &$this->getModel('researcharea');
@@ -103,34 +88,33 @@ class JResearchViewPublication extends JResearchView
     	//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
         if($params->get('publications_allow_comentaries') == 'yes'){
-                $user =& JFactory::getUser();
-                $from = $params->get('publications_allow_comentaries_from');
-                if($from == 'everyone' || (!$user->guest && $from == 'users')){
-                        $commentsAllowed = true;
-                }
+            $user =& JFactory::getUser();
+            $from = $params->get('publications_allow_comentaries_from');
+            if($from == 'everyone' || (!$user->guest && $from == 'users')){
+                    $commentsAllowed = true;
+            }
 
-                jximport('jxtended.captcha.captcha');
-                $captcha = &JXCaptcha::getInstance('image', $config);
-                if(!$captcha->initialize())
-                        JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
+            jximport('jxtended.captcha.captcha');
+            $captcha = &JXCaptcha::getInstance('image', $config);
+            if(!$captcha->initialize())
+                    JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
 
-        if (!is_array($captchaInformation = $captcha->create())) {
-            JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
+            if (!is_array($captchaInformation = $captcha->create())) {
+                JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
+            }
+
+            // Get the comments
+            $limit = JRequest::getVar('limit', 5);
+            $limitStart = JRequest::getVar('limitstart', 0);
+            $comments = $model->getComments($publication->id, $limit, $limitStart);
+            $total = $model->countComments($publication->id);
+
+            $this->assignRef('comments', $comments);
+            $this->assignRef('limit', $limit);
+            $this->assignRef('limitstart', $limitStart);
+            $this->assignRef('total', $total);
+
         }
-
-        // Get the comments
-        $limit = JRequest::getVar('limit', 5);
-        $limitStart = JRequest::getVar('limitstart', 0);
-        $comments = $model->getComments($publication->id, $limit, $limitStart);
-        $total = $model->countComments($publication->id);
-
-        $this->assignRef('comments', $comments);
-        $this->assignRef('limit', $limit);
-                $this->assignRef('limitstart', $limitStart);
-                $this->assignRef('total', $total);
-
-        }
-
 
         // Cross referencing
         $missingFields = $publication->getReferencedFields();
@@ -164,6 +148,8 @@ class JResearchViewPublication extends JResearchView
 
         // Metadata for indexing (compatibility with Google Scholar)
         $this->_setMetaData($publication);
+        $arguments = array('publication', $publication);
+        $mainframe->triggerEvent('onPrepareJResearchContent', $arguments);
 
         // Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
@@ -180,9 +166,8 @@ class JResearchViewPublication extends JResearchView
     	$this->assignRef('showMODS', $showMODS);	
     	$this->assignRef('showRIS', $showRIS);			
 		
-		
-		return true;
-
+        parent::display($tpl);
+        $mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);
     }
 
     private function _setMetaData($publication){

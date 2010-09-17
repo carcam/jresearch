@@ -24,7 +24,7 @@ class JResearchAdminViewFinancier extends JResearchView
     	
       	JResearchToolbar::editFinancierAdminToolbar();
       	
-		JHTML::_('jresearchhtml.validation');
+        JHTML::_('jresearchhtml.validation');
         JRequest::setVar( 'hidemainmenu', 1 );
         
     	// Information about the member
@@ -34,18 +34,17 @@ class JResearchAdminViewFinancier extends JResearchView
     	$arguments = array('financier');
     	
     	if($cid)
-        	$arguments[] = $fin->id;
+            $arguments[] = $fin;
     	else
-    		$arguments[] = null; 		
+            $arguments[] = null;
     	
     	//HTML List for published selection
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $fin?$fin->published:1));
-    	
+        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+
     	$this->assignRef('financier', $fin, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio); 	
-    	
-		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
-		
+    			
        	parent::display($tpl);
 
        	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);

@@ -25,33 +25,25 @@ class JResearchViewProject extends JResearchView
     function display($tpl = null)
     {
         global $mainframe;
-    	$arguments = array('project');    	
     	$result = true;
         $layout = $this->getLayout();
 
         switch($layout){
-        	case 'default':
-        	default:
-        		$result = $this->_displayProject($arguments);
-        		break;
+            case 'default':
+            default:
+                $this->_displayProject();
+                break;
         }
-	
-        if($result)
-        {
- 	    	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
-		
-	       	parent::display($tpl);
-	       	
-	       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
-        }
+
     }
     
     /**
     * Display the information of a project.
     */
-    private function _displayProject(array &$arguments){
+    private function _displayProject(){
       	global $mainframe;
       	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+        $arguments = array('project');
       	
     	$id = JRequest::getInt('id');
 	$doc =& JFactory::getDocument();
@@ -59,7 +51,7 @@ class JResearchViewProject extends JResearchView
 
         if(empty($id)){
             JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-            return false;
+            return;
         }
     	//Get the model
     	$model =& $this->getModel();
@@ -67,11 +59,11 @@ class JResearchViewProject extends JResearchView
     	
     	if(empty($project) || !$project->published){
             JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-            return false;
+            return;
     	}
     	
     	$this->addPathwayItem($project->alias, 'index.php?option=com_jresearch&view=project&id='.$project->id);
-    	$arguments[] = $id;
+    	$arguments[] = $project;
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($project->id_research_area);
@@ -81,7 +73,9 @@ class JResearchViewProject extends JResearchView
     	$format = $params->get('staff_format') == 'last_first'?1:0;
         
     	$doc->setTitle(JText::_('JRESEARCH_PROJECT').' - '.$project->title);
-    	// Bind variables for layout
+        $mainframe->triggerEvent('onPrepareJResearchContent', $arguments);
+
+        // Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
     	$this->assignRef('project', $project, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('statusArray', $statusArray);
@@ -92,7 +86,8 @@ class JResearchViewProject extends JResearchView
         $this->assignRef('showHits', $params->get('show_hits'));
         $this->assignRef('format', $format);
     	
-    	return true;    	
+        parent::display($tpl);
+        $mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);
 
     }
 }

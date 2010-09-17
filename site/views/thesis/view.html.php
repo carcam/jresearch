@@ -22,27 +22,19 @@ class JResearchViewThesis extends JResearchView
 {
     function display($tpl = null)
     {
-    	global $mainframe;
-    	$arguments = array('thesis');
-    	
+    	global $mainframe;    	
         $layout = &$this->getLayout();
         switch($layout){
-        	case 'default':
-        		$this->_displayThesis($arguments);
-        		break;
-        }
-	
-        $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
-		
-    	parent::display($tpl);
-    	
-    	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+            case 'default':
+                $this->_displayThesis();
+                break;
+        }			
     }
     
     /**
     * Display the information of a thesis.
     */
-    private function _displayThesis(&$arguments){
+    private function _displayThesis(){
       	global $mainframe;
       	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
       	      	
@@ -67,7 +59,6 @@ class JResearchViewThesis extends JResearchView
 
         $this->addPathwayItem($thesis->alias, 'index.php?option=com_jresearch&view=thesis&id='.$thesis->id);
 
-        $arguments[] = $id;
 
         //If the thesis was visited in the same session, do not increment the hit counter
         if(!$session->get('visited', false, 'theses'.$id)){
@@ -80,13 +71,15 @@ class JResearchViewThesis extends JResearchView
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($thesis->id_research_area);
     	$params = $mainframe->getPageParameters('com_jresearch');    	
-		$showHits = ($params->get('show_hits') == 'yes');
+        $showHits = ($params->get('show_hits') == 'yes');
     	$format = $params->get('staff_format') == 'last_first'?1:0;
     	$description = str_replace('<hr id="system-readmore" />', '', trim($thesis->description));
-		
-    	// Bind variables for layout
+        $arguments = array('thesis', $thesis);
+        $mainframe->triggerEvent('onPrepareJResearchContent', $arguments);
+
+        // Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));    	
-    	$this->assignRef('showHits', $showHits);     	
+    	$this->assignRef('showHits', $showHits);
     	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('statusArray', $statusArray);
     	$this->assignRef('degreeArray', $degreeArray);
@@ -94,6 +87,8 @@ class JResearchViewThesis extends JResearchView
     	$this->assignRef('format', $format);
     	$this->assignRef('description', $description);
 
+        parent::display($tpl);
+        $mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);
     }
 }
 

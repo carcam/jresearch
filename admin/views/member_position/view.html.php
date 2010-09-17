@@ -24,7 +24,7 @@ class JResearchAdminViewMember_position extends JResearchView
     	global $mainframe;
       	JResearchToolbar::editMember_positionAdminToolbar();
       	
-		JHTML::_('jresearchhtml.validation');   	
+        JHTML::_('jresearchhtml.validation');
     	JRequest::setVar( 'hidemainmenu', 1 );
     	
     	// Information about the member
@@ -36,17 +36,17 @@ class JResearchAdminViewMember_position extends JResearchView
     	$arguments = array('member_position');
     	
     	if($cid)
-    		$arguments[] = $position->id;
+    		$arguments[] = &$position;
     	else 
     		$arguments[] = null;
 
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $position?$position->published:1));
-		
+
+        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+
     	$this->assignRef('item', $position, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
- 
-       	$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
-		
+ 		
        	parent::display($tpl);
        	
        	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);

@@ -155,12 +155,17 @@ $extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_SPECIFIC'); ?></legend>	
 	<div class="divTable">
-            <?php if(in_array($this->pubtype, $nativeTypes)){
+
+            <?php
+            if(in_array($this->pubtype, $nativeTypes)){
                 include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.$this->pubtype.'.php');
             }else{
                 global $mainframe;
-                if(in_array($this->pubtype, $extendedTypes))
-                    $mainframe->triggerEvent('onJResearchPublicationType');
+                if(in_array($this->pubtype, $extendedTypes)){
+                    $function_name = 'plg'.ucfirst($this->pubtype).'PublicationType';
+                    if(function_exists($function_name))
+                        $function_name($this->publication);
+                }
             }
             ?>
 	</div>

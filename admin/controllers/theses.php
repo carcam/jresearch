@@ -25,21 +25,21 @@ class JResearchAdminThesesController extends JController
  	 * @return void
  	 */
 	function __construct(){
-		parent::__construct();
-		
-		$lang = JFactory::getLanguage();
-		$lang->load('com_jresearch.theses');
-		
-		// Tasks for edition of theses when the user is authenticated
-		$this->registerTask('add', 'edit');
-		$this->registerTask('edit', 'edit');
-		$this->registerTask('publish', 'publish');
-		$this->registerTask('unpublish', 'unpublish');
-		$this->registerTask('remove', 'remove');
-		$this->registerTask('save', 'save');
-		$this->registerTask('apply', 'save');
-		$this->registerTask('cancel', 'cancel');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'theses');
+            parent::__construct();
+
+            $lang = JFactory::getLanguage();
+            $lang->load('com_jresearch.theses');
+
+            // Tasks for edition of theses when the user is authenticated
+            $this->registerTask('add', 'edit');
+            $this->registerTask('edit', 'edit');
+            $this->registerTask('publish', 'publish');
+            $this->registerTask('unpublish', 'unpublish');
+            $this->registerTask('remove', 'remove');
+            $this->registerTask('save', 'save');
+            $this->registerTask('apply', 'save');
+            $this->registerTask('cancel', 'cancel');
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'theses');
 		
 	}
 
@@ -50,15 +50,15 @@ class JResearchAdminThesesController extends JController
 	 */
 
 	function display(){
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'theseslist');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$view = &$this->getView('ThesesList', 'html', 'JResearchAdminView');
-		$model = &$this->getModel('ThesesList', 'JResearchModel');
-		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
-		$view->display();
-		
+            JResearchUnlockerHelper::unlockItems('thesis');
+            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'theseslist');
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            $view = &$this->getView('ThesesList', 'html', 'JResearchAdminView');
+            $model = &$this->getModel('ThesesList', 'JResearchModel');
+            $areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
+            $view->setModel($model, true);
+            $view->setModel($areaModel);
+            $view->display();
 	}
 
 	/**
@@ -153,7 +153,7 @@ class JResearchAdminThesesController extends JController
 	 *
 	 */
 	function save(){
-		global $mainframe;
+            global $mainframe;
 	    if(!JRequest::checkToken())
 		{
 		    $this->setRedirect('index.php?option=com_jresearch');
@@ -246,47 +246,48 @@ class JResearchAdminThesesController extends JController
 			$thesis->created_by = $user->get('id');
 
 		$reset = JRequest::getVar('resethits', true);
-	    if($reset == 'on'){
-	    	$thesis->hits = 0;
-	    }			
+                if($reset == 'on'){
+                    $thesis->hits = 0;
+                }
 	    
-			//Generate an alias if needed
+                //Generate an alias if needed
 		$alias = trim(JRequest::getVar('alias'));
 		if(empty($alias)){
-			$thesis->alias = JResearch::alias($thesis->title);
+                    $thesis->alias = JResearch::alias($thesis->title);
 		}else{
-			$thesis->alias = JResearch::alias($thesis->alias);			
+                    $thesis->alias = JResearch::alias($thesis->alias);
 		}
 		
 		// Time to store information in the database
 		if($thesis->check()){
-			if($thesis->store(true)){
-				$task = JRequest::getVar('task');
-				if($task == 'save')
-					$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('The thesis was successfully saved.'));
-				elseif($task == 'apply') 
-					$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit&cid[]='.$thesis->id, JText::_('JRESEARCH_THESIS_SUCCESSFULLY_SAVED'));					
-										
-				// Trigger event
-				$arguments = array('thesis', $thesis->id);
-				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);	
-				
-			}else{
-				if($db->getErrorNum() == 1062)				
-					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
-				else
-					JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$db->getErrorMsg());				
-				
-				$idText = !empty($thesis->id) && $task == 'apply'?'&cid[]='.$thesis->id:'';
-				$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit'.$idText);					
-			}
+                    $mainframe->triggerEvent('onBeforeSaveJResearchEntity', array('thesis', $thesis));
+                    if($thesis->store(true)){
+                            $task = JRequest::getVar('task');
+                            if($task == 'save')
+                                    $this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('The thesis was successfully saved.'));
+                            elseif($task == 'apply')
+                                    $this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit&cid[]='.$thesis->id, JText::_('JRESEARCH_THESIS_SUCCESSFULLY_SAVED'));
+
+                            // Trigger event
+                            $arguments = array('thesis', $thesis->id);
+                            $mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
+
+                    }else{
+                            if($db->getErrorNum() == 1062)
+                                    JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+                            else
+                                    JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$db->getErrorMsg());
+
+                            $idText = !empty($thesis->id) && $task == 'apply'?'&cid[]='.$thesis->id:'';
+                            $this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit'.$idText);
+                    }
 		}else{
-			$idText = !empty($thesis->id)?'&cid[]='.$thesis->id:'';			
-			
-			for($i=0; $i<count($thesis->getErrors()); $i++)
-				JError::raiseWarning(1, $thesis->getError($i));
-			
-			$this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit'.$idText);					
+                    $idText = !empty($thesis->id)?'&cid[]='.$thesis->id:'';
+
+                    for($i=0; $i<count($thesis->getErrors()); $i++)
+                        JError::raiseWarning(1, $thesis->getError($i));
+
+                    $this->setRedirect('index.php?option=com_jresearch&controller=theses&task=edit'.$idText);
 		}
 
 		if(!empty($thesis->id)){

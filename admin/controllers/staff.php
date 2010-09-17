@@ -23,25 +23,25 @@ class JResearchAdminStaffController extends JController
  	 * @return void
  	 */
 	function __construct(){
-		parent::__construct();
-		
-		$lang = JFactory::getLanguage();
-		$lang->load('com_jresearch.staff');
-		
-		// Task for edition of profile
-		$this->registerTask('add', 'add');
-		$this->registerTask('import', 'import');
-		$this->registerTask('edit', 'edit');
-		$this->registerTask('publish', 'publish');
-		$this->registerTask('unpublish', 'unpublish');
-		$this->registerTask('remove', 'remove');
-		$this->registerTask('apply', 'save');
-		$this->registerTask('save', 'save');
-		$this->registerTask('cancel', 'cancel');
-		$this->registerTask('autoSuggestMembers', 'autoSuggestMembers');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'staff');
+            parent::__construct();
+
+            $lang = JFactory::getLanguage();
+            $lang->load('com_jresearch.staff');
+
+            // Task for edition of profile
+            $this->registerTask('add', 'add');
+            $this->registerTask('import', 'import');
+            $this->registerTask('edit', 'edit');
+            $this->registerTask('publish', 'publish');
+            $this->registerTask('unpublish', 'unpublish');
+            $this->registerTask('remove', 'remove');
+            $this->registerTask('apply', 'save');
+            $this->registerTask('save', 'save');
+            $this->registerTask('cancel', 'cancel');
+            $this->registerTask('autoSuggestMembers', 'autoSuggestMembers');
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'staff');
 		
 	}
 
@@ -52,6 +52,7 @@ class JResearchAdminStaffController extends JController
 	 */
 
 	function display(){
+            JResearchUnlockerHelper::unlockItems('member');
             $view = $this->getView('Staff', 'html', 'JResearchAdminView');
             $model = $this->getModel('Staff', 'JResearchModel');
             $view->setModel($model, true);
@@ -65,10 +66,9 @@ class JResearchAdminStaffController extends JController
 	* table.
 	*/	
 	function add(){
-		$view = &$this->getView('Staff', 'html', 'JResearchAdminView');
-		$view->setLayout('add');
-		$view->display();
-
+            $view = &$this->getView('Staff', 'html', 'JResearchAdminView');
+            $view->setLayout('add');
+            $view->display();
 	}
 
 	/**
@@ -77,34 +77,32 @@ class JResearchAdminStaffController extends JController
 	* @access public
 	*/
 	function edit(){
-		$cid = JRequest::getVar('cid');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$user = JFactory::getUser();
+            $cid = JRequest::getVar('cid');
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            $user = JFactory::getUser();
 
-		$view = &$this->getView('Member', 'html', 'JResearchAdminView');	
-		$researchAreaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
-		$model = &$this->getModel('Member', 'JResearchModel');		
-		$view->setLayout('default');
-		
-		if($cid){
-			$member = $model->getItem($cid[0]);
-			
-			if(!empty($member)){
-				if($member->isCheckedOut($user->get('id'))){
-					$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-				}else{	
-					$member->checkout($user->get('id'));
-					$view->setModel($model, true);
-					$view->setModel($researchAreaModel);
-					$view->display();
-				}
-			}else{
-				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-				$this->setRedirect('index.php?option=com_jresearch&controller=staff');				
-			}
-		}
+            $view = &$this->getView('Member', 'html', 'JResearchAdminView');
+            $researchAreaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
+            $model = &$this->getModel('Member', 'JResearchModel');
+            $view->setLayout('default');
 
+            if($cid){
+                    $member = $model->getItem($cid[0]);
 
+                    if(!empty($member)){
+                            if($member->isCheckedOut($user->get('id'))){
+                                    $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+                            }else{
+                                    $member->checkout($user->get('id'));
+                                    $view->setModel($model, true);
+                                    $view->setModel($researchAreaModel);
+                                    $view->display();
+                            }
+                    }else{
+                            JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+                            $this->setRedirect('index.php?option=com_jresearch&controller=staff');
+                    }
+            }
 	}
 	
 	/**
@@ -112,14 +110,13 @@ class JResearchAdminStaffController extends JController
 	* @access	public
 	*/ 
 	function publish(){
-		// Array of ids
-		$db =& JFactory::getDBO();
-		$cid = JRequest::getVar('cid');
-		
-		$member = new JResearchMember($db);
-		$member->publish($cid, 1);
-		$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
+            // Array of ids
+            $db =& JFactory::getDBO();
+            $cid = JRequest::getVar('cid');
 
+            $member = new JResearchMember($db);
+            $member->publish($cid, 1);
+            $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 	}
 
 	/**
@@ -127,33 +124,33 @@ class JResearchAdminStaffController extends JController
 	* @access	public
 	*/ 
 	function unpublish(){
-			// Array of ids
-		$db =& JFactory::getDBO();
-		$cid = JRequest::getVar('cid');
-		
-		$member = new JResearchMember($db);
-		$member->publish($cid, 0);
-		$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
-	}
+            // Array of ids
+            $db =& JFactory::getDBO();
+            $cid = JRequest::getVar('cid');
+
+            $member = new JResearchMember($db);
+            $member->publish($cid, 0);
+            $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
+        }
 
 	/**
 	* Invoked when an administrator has decided to remove one or more items
 	* @access	public
 	*/ 
 	function remove(){
-		$db =& JFactory::getDBO();
-		$cid = JRequest::getVar('cid');
-		$n = 0;
-		
-		$member = new JResearchMember($db);
-		foreach($cid as $id){
-			if(!$member->delete($id)){
-				JError::raiseWarning(1, JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id));
-			}else{
-				$n++;
-			}
-		}
-		$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', $n));
+            $db =& JFactory::getDBO();
+            $cid = JRequest::getVar('cid');
+            $n = 0;
+
+            $member = new JResearchMember($db);
+            foreach($cid as $id){
+                    if(!$member->delete($id)){
+                            JError::raiseWarning(1, JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id));
+                    }else{
+                            $n++;
+                    }
+            }
+            $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', $n));
 	}
 	
 	/**
@@ -161,23 +158,23 @@ class JResearchAdminStaffController extends JController
 	* importing members from Joomla users table.
 	*/
 	function import(){
-		// Get the maximum index for members 
-		$n = JRequest::getInt('staffCount');
-		$count = 0;
-		
-		for($i=0; $i<= $n; $i++){
-			$username = JRequest::getVar('member'.$i);
-			if($username !== null){
-				$newMember = JTable::getInstance('Member', 'JResearch');
-				$newMember->ordering = (int)$newMember->getNextOrder();
-				$newMember->bindFromUser($username);
-				if($newMember->store())
-					$count++;
-				else
-					JError::raiseWarning(1, JText::sprintf('JRESEARCH_USER_IMPORTED_FAILED', $username));	
-			}
-		}
-		$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::sprintf('JRESEARCH_USER_IMPORTED_SUCCESSFULLY', $count));
+            // Get the maximum index for members
+            $n = JRequest::getInt('staffCount');
+            $count = 0;
+
+            for($i=0; $i<= $n; $i++){
+                    $username = JRequest::getVar('member'.$i);
+                    if($username !== null){
+                            $newMember = JTable::getInstance('Member', 'JResearch');
+                            $newMember->ordering = (int)$newMember->getNextOrder();
+                            $newMember->bindFromUser($username);
+                            if($newMember->store())
+                                    $count++;
+                            else
+                                    JError::raiseWarning(1, JText::sprintf('JRESEARCH_USER_IMPORTED_FAILED', $username));
+                    }
+            }
+            $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::sprintf('JRESEARCH_USER_IMPORTED_SUCCESSFULLY', $count));
 	}
 	
 	/**
@@ -185,75 +182,75 @@ class JResearchAdminStaffController extends JController
 	* Apply in the edit profile form.
 	*/
 	function save(){
-		global $mainframe;
-	    if(!JRequest::checkToken())
-		{
-		    $this->setRedirect('index.php?option=com_jresearch');
-		    return;
-		}
-		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
-		
-		$db =& JFactory::getDBO();
-		
-		$params = JComponentHelper::getParams('com_jresearch');
-		$imageWidth = $params->get('member_image_width', _MEMBER_IMAGE_MAX_WIDTH_);
-		$imageHeight = $params->get('member_image_height', _MEMBER_IMAGE_MAX_HEIGHT_);
-		
-		$member = new JResearchMember($db);
+            global $mainframe;
+            if(!JRequest::checkToken())
+            {
+                $this->setRedirect('index.php?option=com_jresearch');
+                return;
+            }
 
-		// Bind request variables to publication attributes	
-		$post = JRequest::get('post');
+            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 
-		$member->bind($post);	
-		$member->firstname = trim($member->firstname);
-		$member->lastname = trim($member->lastname);
-		
-		$member->former_member = (int) JRequest::getVar('former_member', '0', 'post', 'string');
-		$member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		
-		//Upload photo
-		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
-		$delete = JRequest::getVar('delete');
-		
-		JResearch::uploadImage(	$member->url_photo, 	//Image string to save
-								$fileArr, 			//Uploaded File array
-								'assets'.DS.'members'.DS, //Relative path from administrator folder of the component
-								($delete == 'on')?true:false,	//Delete?
-								 $imageWidth, //Max Width
-								 $imageHeight //Max Height
-		);
-		
-			if($member->check()){		
-			if($member->store()){
-				$task = JRequest::getVar('task');
-				if($task == 'save' )
-					$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_MEMBER_SUCCESSFULLY_SAVED'));
-				elseif($task == 'apply') 
-					$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id, JText::_('JRESEARCH_MEMBER_SUCCESSFULLY_SAVED'));				
-				
-				// Trigger event
-				$arguments = array('member', $member->id);
-				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
-			
-			}else{
-				$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id, JText::_('JRESEARCH_SAVE_FAILED').' '.$member->getError());					
-			}
-		}else{
-			for($i=0; $i<count($member->getErrors()); $i++)
-				JError::raiseWarning(1, $member->getError($i));
-			$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id);					
-		}
-		
-		//Reordering other members
-		$member->reorder();
-		if(!empty($member->id)){
-			$user =& JFactory::getUser();
-			if(!$member->isCheckedOut($user->get('id'))){
-				if(!$member->checkin())
-					JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));			
-			}
-		}
+            $db =& JFactory::getDBO();
+
+            $params = JComponentHelper::getParams('com_jresearch');
+            $imageWidth = $params->get('member_image_width', _MEMBER_IMAGE_MAX_WIDTH_);
+            $imageHeight = $params->get('member_image_height', _MEMBER_IMAGE_MAX_HEIGHT_);
+
+            $member = new JResearchMember($db);
+
+            // Bind request variables to publication attributes
+            $post = JRequest::get('post');
+
+            $member->bind($post);
+            $member->firstname = trim($member->firstname);
+            $member->lastname = trim($member->lastname);
+
+            $member->former_member = (int) JRequest::getVar('former_member', '0', 'post', 'string');
+            $member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+
+            //Upload photo
+            $fileArr = JRequest::getVar('inputfile', null, 'FILES');
+            $delete = JRequest::getVar('delete');
+
+            JResearch::uploadImage(	$member->url_photo, 	//Image string to save
+                                                            $fileArr, 			//Uploaded File array
+                                                            'assets'.DS.'members'.DS, //Relative path from administrator folder of the component
+                                                            ($delete == 'on')?true:false,	//Delete?
+                                                             $imageWidth, //Max Width
+                                                             $imageHeight //Max Height
+            );
+
+            if($member->check()){
+                $mainframe->triggerEvent('onBeforeSaveJResearchEntity', array('member', $member));
+                if($member->store()){
+                        $task = JRequest::getVar('task');
+                        if($task == 'save' )
+                                $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_MEMBER_SUCCESSFULLY_SAVED'));
+                        elseif($task == 'apply')
+                                $this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id, JText::_('JRESEARCH_MEMBER_SUCCESSFULLY_SAVED'));
+
+                        // Trigger event
+                        $arguments = array('member', $member->id);
+                        $mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
+                }else{
+                        $this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id, JText::_('JRESEARCH_SAVE_FAILED').' '.$member->getError());
+                }
+            }else{
+                    for($i=0; $i<count($member->getErrors()); $i++)
+                            JError::raiseWarning(1, $member->getError($i));
+                    $this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id);
+            }
+
+            //Reordering other members
+            $member->reorder();
+            if(!empty($member->id)){
+                    $user =& JFactory::getUser();
+                    if(!$member->isCheckedOut($user->get('id'))){
+                            if(!$member->checkin())
+                                    JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+                    }
+            }
 	}
 	
 	/**
@@ -262,17 +259,17 @@ class JResearchAdminStaffController extends JController
 	 *
 	 */
 	function cancel(){
-		$id = JRequest::getInt('id');
-		$model = &$this->getModel('Member', 'JResearchModel');		
-		
-		if($id != null){
-			$member = $model->getItem($id);			
-			if(!$member->checkin()){
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
-			}
-		}
-		
-		$this->setRedirect('index.php?option=com_jresearch&controller=staff');
+            $id = JRequest::getInt('id');
+            $model = &$this->getModel('Member', 'JResearchModel');
+
+            if($id != null){
+                    $member = $model->getItem($id);
+                    if(!$member->checkin()){
+                            JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+                    }
+            }
+
+            $this->setRedirect('index.php?option=com_jresearch&controller=staff');
 	}
 
 	/**

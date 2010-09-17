@@ -130,12 +130,23 @@ class JResearchPublication extends JResearchActivity{
 	 * @param JDatabase $db
 	 */
 	public function __construct(){
-		$db = JFactory::getDBO();
-		parent::__construct( '#__jresearch_publication', 'id', $db );		
-		$this->year = 0;
-		$this->_type = 'publication';
-		
+            $db = JFactory::getDBO();
+            parent::__construct( '#__jresearch_publication', 'id', $db );
+            $this->year = 0;
+            $this->_type = 'publication';
+            // Add custom properties
+            $this->_addCustomFields();
 	}
+
+        /**
+         * Adds to the object those fields defined in external plugins (jresearch-pubtype)
+         */
+        private function _addCustomFields(){
+            $extraFields = JResearchPluginsHelper::getPubTypeColumns();
+            foreach($extraFields as $field){
+                $this->$field = 0;
+            }
+        }
 	
 	/**
 	* Parse the publication into an associative array considering just the public 
@@ -143,14 +154,23 @@ class JResearchPublication extends JResearchActivity{
 	* @return array
 	*/
 	public function __toArray(){
-		$properties = get_class_vars(get_class($this));
-		$resultProperties = array();
-		foreach($properties as $k=>$v){
-			if($k{0} != '_')
-				$resultProperties[$k] = $v;
-		}
-		
-		return $resultProperties;
+            $db = JFactory::getDBO();
+            $properties = get_class_vars(get_class($this));
+            $resultProperties = array();
+            foreach($properties as $k=>$v){
+                if($k{0} != '_')
+                    $resultProperties[$k] = $v;
+            }
+
+            $extraProperties = JResearchPluginsHelper::getPubTypeColumns();
+            foreach($extraProperties as $property){
+                $db->setQuery('SELECT '.$db->nameQuote($property).' FROM '.$db->nameQuote('#__jresearch_publication').' WHERE id = '.$db->Quote($this->id));
+                $result = $db->loadResult();
+                $resultProperties[$property]= $fieldResult;
+            }
+                
+
+            return $resultProperties;
 	}
 	
 	/**
@@ -159,13 +179,14 @@ class JResearchPublication extends JResearchActivity{
 	 * @return array
 	 */
 	protected function _getClassAttributes(){
-		$properties = get_class_vars("JResearchPublication");
-		$result = array();
-		foreach($properties as $k=>$v){
-			if($k{0} != '_')
-				$result[] = $k;
-		}
-		return $result;
+            $properties = get_class_vars("JResearchPublication");
+            $result = array();
+            foreach($properties as $k=>$v){
+                if($k{0} != '_')
+                    $result[] = $k;
+            }
+            $extra = JResearchPluginsHelper::getPubTypeColumns();
+            return array_merge($result, $extra);
 	}
 		
 	/**
@@ -228,31 +249,31 @@ class JResearchPublication extends JResearchActivity{
 	 * @return True if successful
 	 */
 	public function load($oid = null){		
-		$k = $this->_tbl_key;
-		if(!parent::load($oid))
-			return false;
-        
-        if ($oid === null) {
-           return false;
-        }        
-        
-        $this->$k = $oid;
-        
-        $db =& $this->getDBO();
-        $table = $db->nameQuote($this->_tbl);
-		$this->_loadAuthors();
+            $k = $this->_tbl_key;
+            if(!parent::load($oid))
+                return false;
 
-        $query = 'SELECT * '
-        . ' FROM '.$db->nameQuote($this->_tbl)
-        . ' WHERE '.$db->nameQuote($this->_tbl_key).' = '.$db->Quote($oid);        
-        $db->setQuery($query);
+            if ($oid === null) {
+               return false;
+            }
         
-        if (($result = $db->loadAssoc( ))) {
-            return $this->bind($result);
-        }else{
-            $this->setError( $db->getErrorMsg() );
-            return false;
-        }
+            $this->$k = $oid;
+
+            $db =& $this->getDBO();
+            $table = $db->nameQuote($this->_tbl);
+                    $this->_loadAuthors();
+
+            $query = 'SELECT * '
+            . ' FROM '.$db->nameQuote($this->_tbl)
+            . ' WHERE '.$db->nameQuote($this->_tbl_key).' = '.$db->Quote($oid);
+            $db->setQuery($query);
+
+            if (($result = $db->loadAssoc( ))) {
+                return $this->bind($result);
+            }else{
+                $this->setError( $db->getErrorMsg() );
+                return false;
+            }
 			
 	}
 	
@@ -264,55 +285,55 @@ class JResearchPublication extends JResearchActivity{
 	* @return boolean
 	*/
 	public function check(){
-		$withoutErrors = true;		
-		
-		// Verify authors integrity
-		if(!parent::checkAuthors())
-			return false;
-		
-			
-		if(empty($this->citekey)){
-			$this->citekey = trim($this->citekey);
-			$this->setError(JText::_('JRESEARCH_PROVIDE_CITEKEY'));
-			$withoutErrors = false;
-		}	
-		
-		// Verify if title is not empty
-		if(empty($this->title)){
-			$this->title = trim($this->title);			
-			$this->setError(JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'));
-			$withoutErrors = false;
-		}
-		// Verify year
-		if(!empty($this->year)){
-			$this->year = trim($this->year);			
-			if(!preg_match('/^[1-9]\d{3}$/',$this->year)){
-				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); 
-				$withoutErrors = false;
-			}
-					
-		}
-		
-		if(!empty($this->keywords)){
-			$this->doi = trim($this->doi);
-			require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'charsets.php');		
-			$extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());	
-					
-			if(!preg_match("/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/", $this->keywords)){
-				$this->setError(JText::_('Error in the keywords field. They must be provided as several words separated by commas'));
-				$withoutErrors = false;
-			}
-		}
-		
-		if(!empty($this->journal_acceptance_rate)){
-			$this->journal_acceptance_rate = trim($this->journal_acceptance_rate);			
-			if(!is_numeric($this->journal_acceptance_rate)){
-				$this->setError(JText::_('Journal acceptance rate must be a number'));
-				$withoutErrors = false;
-			}
-		}
+            $withoutErrors = true;
 
-		return $withoutErrors;
+            // Verify authors integrity
+            if(!parent::checkAuthors())
+                    return false;
+
+
+            if(empty($this->citekey)){
+                    $this->citekey = trim($this->citekey);
+                    $this->setError(JText::_('JRESEARCH_PROVIDE_CITEKEY'));
+                    $withoutErrors = false;
+            }
+
+            // Verify if title is not empty
+            if(empty($this->title)){
+                    $this->title = trim($this->title);
+                    $this->setError(JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'));
+                    $withoutErrors = false;
+            }
+            // Verify year
+            if(!empty($this->year)){
+                    $this->year = trim($this->year);
+                    if(!preg_match('/^[1-9]\d{3}$/',$this->year)){
+                            $this->setError(JText::_('JRESEARCH_PROVIDE_VALID_YEAR'));
+                            $withoutErrors = false;
+                    }
+
+            }
+
+            if(!empty($this->keywords)){
+                    $this->doi = trim($this->doi);
+                    require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'charsets.php');
+                    $extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());
+
+                    if(!preg_match("/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/", $this->keywords)){
+                            $this->setError(JText::_('Error in the keywords field. They must be provided as several words separated by commas'));
+                            $withoutErrors = false;
+                    }
+            }
+
+            if(!empty($this->journal_acceptance_rate)){
+                    $this->journal_acceptance_rate = trim($this->journal_acceptance_rate);
+                    if(!is_numeric($this->journal_acceptance_rate)){
+                            $this->setError(JText::_('Journal acceptance rate must be a number'));
+                            $withoutErrors = false;
+                    }
+            }
+
+            return $withoutErrors;
 	}
 	
 	/**
@@ -323,36 +344,35 @@ class JResearchPublication extends JResearchActivity{
 	 * @return true if successful
 	 */
 	public function store($updateNulls = false){				
-		$db = $this->getDBO();
-		// Time to insert the information of the publication per se			
- 		$j = $this->_tbl_key;		
+            $db = $this->getDBO();
+            // Time to insert the information of the publication per se
+            $j = $this->_tbl_key;
 
-		$isNew = $this->$j?false:true;
-		if($isNew){
-			$now = new JDate();
-			$this->created = $now->toMySQL();
-		}
+            $isNew = $this->$j?false:true;
+            if($isNew){
+                    $now = new JDate();
+                    $this->created = $now->toMySQL();
+            }
 
-		$parentProperties = $this->_getClassAttributes();		
-
-		$parentObject = (object)array();
-		$parentObject->$j = $this->$j;
-		foreach($parentProperties as $prop){
-			 if($this->$prop !== null)
-				$parentObject->$prop = $this->$prop;
-		}
- 		// Time to insert the attributes
+            $parentProperties = $this->_getClassAttributes();
+            $parentObject = (object)array();
+            $parentObject->$j = $this->$j;
+            foreach($parentProperties as $prop){
+                     if($this->$prop !== null)
+                            $parentObject->$prop = $this->$prop;
+            }
+            // Time to insert the attributes
             if($this->$j){
                     $ret = $db->updateObject( $this->_tbl, $parentObject, $this->_tbl_key, $updateNulls );
             }else{
                     $ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
                     $this->$j = $db->insertid();
             }
-      	
-	    if( !$ret ){
-	        $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
-	        return false;
-	    }				
+
+            if( !$ret ){
+                $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+                return false;
+            }
    
 
             // Delete the information about internal and external references
@@ -420,7 +440,7 @@ class JResearchPublication extends JResearchActivity{
                 $query1 = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');
                 $db->setQuery($query1);
                 $result1 = $db->loadResultArray();
-                $query2 = 'SELECT '.$db->nameQuote('element').' FROM '.$db->nameQuote('#__plugins').' WHERE folder = '.$db->Quote('jresearch-pubtypes');
+                $query2 = 'SELECT '.$db->nameQuote('element').' FROM '.$db->nameQuote('#__plugins').' WHERE folder = '.$db->Quote('jresearch-pubtypes').' AND '.$db->nameQuote('published').' = 1';
                 $db->setQuery($query2);
                 $result2 = $db->loadResultArray();
             }elseif($mode == 'native'){
@@ -428,7 +448,7 @@ class JResearchPublication extends JResearchActivity{
                 $db->setQuery($query1);
                 $result1 = $db->loadResultArray();                
             }elseif($mode == 'extended'){
-                $query2 = 'SELECT '.$db->nameQuote('element').' FROM '.$db->nameQuote('#__plugins').' WHERE folder = '.$db->Quote('jresearch-pubtypes');
+                $query2 = 'SELECT '.$db->nameQuote('element').' FROM '.$db->nameQuote('#__plugins').' WHERE folder = '.$db->Quote('jresearch-pubtypes').' AND '.$db->nameQuote('published').' = 1';
                 $db->setQuery($query2);
                 $result2 = $db->loadResultArray();                
             }

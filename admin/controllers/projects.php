@@ -24,20 +24,20 @@ class JResearchAdminProjectsController extends JController
  	 * @return void
  	 */
 	function __construct(){
-		parent::__construct();
-		
-		$lang = JFactory::getLanguage();
-		$lang->load('com_jresearch.projects');
-		
-		$this->registerTask('add', 'edit');
-		$this->registerTask('edit', 'edit');
-		$this->registerTask('publish', 'publish');
-		$this->registerTask('unpublish', 'unpublish');
-		$this->registerTask('remove', 'remove');
-		$this->registerTask('save', 'save');
-		$this->registerTask('apply', 'save');
-		$this->registerTask('cancel', 'cancel');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
+            parent::__construct();
+
+            $lang = JFactory::getLanguage();
+            $lang->load('com_jresearch.projects');
+
+            $this->registerTask('add', 'edit');
+            $this->registerTask('edit', 'edit');
+            $this->registerTask('publish', 'publish');
+            $this->registerTask('unpublish', 'unpublish');
+            $this->registerTask('remove', 'remove');
+            $this->registerTask('save', 'save');
+            $this->registerTask('apply', 'save');
+            $this->registerTask('cancel', 'cancel');
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
 	}
 
 	/**
@@ -47,15 +47,15 @@ class JResearchAdminProjectsController extends JController
 	 */
 
 	function display(){
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'projectslist');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$view = &$this->getView('ProjectsList', 'html', 'JResearchAdminView');
-		$model = &$this->getModel('ProjectsList', 'JResearchModel');
-		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
-		$view->display();
-
+            JResearchUnlockerHelper::unlockItems('project');
+            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'projectslist');
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            $view = &$this->getView('ProjectsList', 'html', 'JResearchAdminView');
+            $model = &$this->getModel('ProjectsList', 'JResearchModel');
+            $areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
+            $view->setModel($model, true);
+            $view->setModel($areaModel);
+            $view->display();
 	}
 
 	/**
@@ -288,6 +288,7 @@ class JResearchAdminProjectsController extends JController
             // Validate and save
             $task = JRequest::getVar('task');
             if($project->check()){
+                    $mainframe->triggerEvent('onBeforeSaveJResearchEntity', array('project', $project));
                     if($project->store()){
                             if($task == 'save')
                                     $this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_PROJECT_SUCCESSFULLY_SAVED'));

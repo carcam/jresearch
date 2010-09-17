@@ -33,13 +33,13 @@ class JResearchViewPublicationsList extends JResearchView
         $this->addTemplatePath(JPATH_COMPONENT_SITE.DS.'views'.DS.'publicationslist'.DS.'tmpl');  
 
         switch($layout){
-                // Template for making citations from TinyMCE editor
-                case 'cite':
-                        $this->_displayCiteDialog();
-                        break;
-                case 'generatebibliography':
-                        $this->_displayGenerateBibliographyDialog();
-                        break;
+            // Template for making citations from TinyMCE editor
+            case 'cite':
+                $this->_displayCiteDialog();
+                break;
+            case 'generatebibliography':
+                $this->_displayGenerateBibliographyDialog();
+                break;
             case 'filtered':
                 $this->_displayTabularList();
                 break;
@@ -112,8 +112,8 @@ class JResearchViewPublicationsList extends JResearchView
     	
     	if($filter_pubtype != '0')
     	{
-    		//Only in this case, force the model (ignore the filters)
-    		JRequest::setVar('filter_pubtype', $filter_pubtype);
+            //Only in this case, force the model (ignore the filters)
+            JRequest::setVar('filter_pubtype', $filter_pubtype);
     	}
     	
     	$user = JFactory::getUser();
@@ -124,22 +124,22 @@ class JResearchViewPublicationsList extends JResearchView
     	
     	if($filter_show == "my")
     	{
-    		//Only in this case, force the model (ignore the filters)	    	
-    		$member = JTable::getInstance('Member', 'JResearch');
-    		$member->bindFromUsername($user->username);
-    		$id_member = $member->id;    	
-   		    JRequest::setVar('filter_author', $id_member); 			
+            //Only in this case, force the model (ignore the filters)
+            $member = JTable::getInstance('Member', 'JResearch');
+            $member->bindFromUsername($user->username);
+            $id_member = $member->id;
+                JRequest::setVar('filter_author', $id_member);
     	}
     	
     	$document =& JFactory::getDocument();    	
     	//$document->setTitle('Publications');
     	$feed = 'index.php?option=com_jresearch&amp;view=publicationslist&amp;format=feed';
-		$rss = array(
-			'type' => 'application/rss+xml',
-			'title' => JText::_('Publications RSS Feed')
-		);
-		$document->addHeadLink(JRoute::_($feed.'&type=rss'), 'alternate', 'rel', $rss);
-    	
+        $rss = array(
+                'type' => 'application/rss+xml',
+                'title' => JText::_('Publications RSS Feed')
+        );
+        $document->addHeadLink(JRoute::_($feed.'&type=rss'), 'alternate', 'rel', $rss);
+
     	$model = $this->getModel();
     	$publications = $model->getData(null, true, true);
     	
@@ -150,7 +150,6 @@ class JResearchViewPublicationsList extends JResearchView
     	
     	//Now time to sort the data for presentation
     	$sortedItems = $this->_sort($publications, $style, $filter_order, ($params->get('publications_sort_as_citation_style') == 'yes'));
-    	    	
     	$showmore = ($params->get('show_more', 'yes') == 'yes');
     	$showdigital = ($params->get('show_digital') == 'yes');
     	$layout = $params->get('publications_default_sorting', 'year');
@@ -163,7 +162,7 @@ class JResearchViewPublicationsList extends JResearchView
     	$this->_setFilter();
     	
     	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
-    	    	
+
     	// Bind variables used in layout
     	$this->assignRef('items', $sortedItems);
     	$this->assignRef('page', $model->getPagination());

@@ -26,24 +26,24 @@ class JResearchAdminTeamsController extends JController
  	 */
 	function __construct()
 	{
-		parent::__construct();
-		
-		$lang = JFactory::getLanguage();
-		$lang->load('com_jresearch.teams');
-		
-		// Task for edition of profile
-		$this->registerTask('add', 'edit');
-		$this->registerTask('edit', 'edit');
-		$this->registerTask('publish', 'publish');
-		$this->registerTask('unpublish', 'unpublish');
-		$this->registerTask('remove', 'remove');
-		$this->registerTask('apply', 'save');
-		$this->registerTask('save', 'save');
-		$this->registerTask('cancel', 'cancel');
-		
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'teams');
+            parent::__construct();
+
+            $lang = JFactory::getLanguage();
+            $lang->load('com_jresearch.teams');
+
+            // Task for edition of profile
+            $this->registerTask('add', 'edit');
+            $this->registerTask('edit', 'edit');
+            $this->registerTask('publish', 'publish');
+            $this->registerTask('unpublish', 'unpublish');
+            $this->registerTask('remove', 'remove');
+            $this->registerTask('apply', 'save');
+            $this->registerTask('save', 'save');
+            $this->registerTask('cancel', 'cancel');
+
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
+            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'teams');
 	}
 	
 	/**
@@ -53,13 +53,14 @@ class JResearchAdminTeamsController extends JController
 	 */
 	function display()
 	{
-		$view = &$this->getView('Teams', 'html', 'JResearchAdminView');
-		$model = &$this->getModel('Teams', 'JResearchModel');
-		
-		$view->setModel($model, true);
-		
-		$view->setLayout('default');
-		$view->display();
+            JResearchUnlockerHelper::unlockItems('team');
+            $view = &$this->getView('Teams', 'html', 'JResearchAdminView');
+            $model = &$this->getModel('Teams', 'JResearchModel');
+
+            $view->setModel($model, true);
+
+            $view->setLayout('default');
+            $view->display();
 	}
 
 	/**
@@ -195,6 +196,7 @@ class JResearchAdminTeamsController extends JController
 			// Validate and save
 		if($team->check())
 		{
+                        $mainframe->triggerEvent('onBeforeSaveJResearchEntity', array('team', $team));
 			if($team->store())
 			{
 				$task = JRequest::getVar('task');

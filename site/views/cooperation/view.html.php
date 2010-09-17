@@ -16,7 +16,6 @@ class JResearchViewCooperation extends JResearchView
 	function display($tpl = null)
 	{	
             global $mainframe;
-            $arguments = array('cooperation');
             $params = $this->getParams();
 
             $id = JRequest::getInt('id');
@@ -38,31 +37,30 @@ class JResearchViewCooperation extends JResearchView
             }
 
             $this->addPathwayItem($item->alias, 'index.php?option=com_jresearch&view=cooperation&id='.$item->id);
-            $arguments[] = $id;
 
             $editor =& JFactory::getEditor();
             switch($layout)
             {
                 case "edit":
-                        $this->_editCooperation($item);
-                        break;
+                    $this->_editCooperation($item);
+                    break;
                 default:
-                        break;
+                    break;
             }
 
             $doc->setTitle(JText::_('JRESEARCH_COOPERATION').' - '.$item->name);
             $description = explode('<hr id="system-readmore" />', $item->description);
+
+            $arguments = array('cooperation', $item);
+            $mainframe->triggerEvent('onPrepareJResearchContent', $arguments);
 
             $this->assignRef('coop', $item, JResearchFilter::OBJECT_XHTML_SAFE);
             $this->assignRef('description', $description);
             $this->assignRef('editor', $editor);
             $this->assignRef('params', $params);
 
-            $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
-		
             parent::display($tpl);
-
-            $mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+            $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 	}
 	
 	private function _editCooperation(&$coop)

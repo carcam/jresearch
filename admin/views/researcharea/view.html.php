@@ -23,7 +23,7 @@ class JResearchAdminViewResearchArea extends JResearchView
     	global $mainframe;
       	JResearchToolbar::editResearchAreaAdminToolbar();
     			
-		JHTML::_('jresearchhtml.validation');
+        JHTML::_('jresearchhtml.validation');
         JRequest::setVar( 'hidemainmenu', 1 );
         
     	// Information about the member
@@ -34,19 +34,18 @@ class JResearchAdminViewResearchArea extends JResearchView
     	$arguments = array('researcharea');
     	
     	if($cid)
-        	$arguments[] = $area->id; 	
+            $arguments[] = $area;
     	else
-    		$arguments[] = null;	
+            $arguments[] = null;
     	
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $area?$area->published:1));
+        // Load cited records
+        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
     	
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
-		$this->assignRef('editor', $editor);    	
-    	
-		// Load cited records
-		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
-		
+        $this->assignRef('editor', $editor);
+    			
        	parent::display($tpl);
 
        	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);

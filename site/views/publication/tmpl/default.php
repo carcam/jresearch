@@ -99,17 +99,21 @@ $extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
 		<td colspan="2"></td>		
 	</tr>	
 	<?php endif; ?>
-        <?php    
-        if(in_array($this->pubtype, $nativeTypes)){
-            require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.$this->publication->pubtype.'.php');
+        <?php
+         if(in_array($this->pubtype, $nativeTypes)){
+            require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.$this->pubtype.'.php');
         }else{
             global $mainframe;
-            if(in_array($this->pubtype, $extendedTypes))
-                $mainframe->triggerEvent('onJResearchPublicationType');
+            if(in_array($this->publication->pubtype, $extendedTypes)){
+                dump($this->publication->pubtype);
+                $function_name = 'plg'.ucfirst($this->publication->pubtype).'PublicationType';
+                dump($extendedTypes, 'Extended types');
+                if(function_exists($function_name))
+                    $function_name($this->publication);
+            }
         }
         ?>
 
-	<?php  ?>
 	<tr>		
 	
 	<?php $colspan=4; ?>

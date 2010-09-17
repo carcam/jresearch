@@ -30,7 +30,7 @@ class JResearchViewFacility extends JResearchView
         switch($layout)
         {
         	case 'default':
-        		$result = $this->_displayFacility($arguments);
+        		$result = $this->_displayFacility(&$arguments);
         		break;
         	default:
         		$arguments[] = null;
@@ -41,11 +41,8 @@ class JResearchViewFacility extends JResearchView
 		
         if($result)
         {
-            $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
-			
-            parent::display($tpl);
-	       	
-            $mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+            parent::display($tpl);            
+            $mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);
         }
     }
     
@@ -70,13 +67,13 @@ class JResearchViewFacility extends JResearchView
     	
         if(empty($fac) || !$fac->published)
         {
-                JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-                $arguments[] = null;
-                return false;
+            JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+            $arguments[] = null;
+            return false;
         }
 
         $this->addPathwayItem($fac->alias, 'index.php?option=com_jresearch&view=facility&id='.$id);
-        $arguments[] = $id;
+        $arguments[] = $fac;
 		
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($fac->id_research_area);
@@ -85,6 +82,7 @@ class JResearchViewFacility extends JResearchView
     	$doc->setTitle(JText::_('JRESEARCH_FACILITY').' - '.$area->name.' - '.$fac->name);
     			
     	// Bind variables for layout
+        $mainframe->triggerEvent('onPrepareJResearchContent', $arguments);
     	$this->assignRef('fac', $fac, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('area', $area);
     	$this->assignRef('description', $description);

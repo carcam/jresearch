@@ -25,23 +25,23 @@ class JResearchAdminFacilitiesController extends JController
  	 */
 	function __construct()
 	{
-		parent::__construct();
+            parent::__construct();
 
-		$lang = JFactory::getLanguage();
-		$lang->load('com_jresearch.facilities');
-		
-		$this->registerDefaultTask('display');
-		$this->registerTask('add', 'edit');
-		$this->registerTask('edit', 'edit');
-		$this->registerTask('publish', 'publish');
-		$this->registerTask('unpublish', 'unpublish');
-		$this->registerTask('remove', 'remove');
-		$this->registerTask('save', 'save');
-		$this->registerTask('apply', 'save');
-		$this->registerTask('cancel', 'cancel');
+            $lang = JFactory::getLanguage();
+            $lang->load('com_jresearch.facilities');
 
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'facilities');
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'facilities');
+            $this->registerDefaultTask('display');
+            $this->registerTask('add', 'edit');
+            $this->registerTask('edit', 'edit');
+            $this->registerTask('publish', 'publish');
+            $this->registerTask('unpublish', 'unpublish');
+            $this->registerTask('remove', 'remove');
+            $this->registerTask('save', 'save');
+            $this->registerTask('apply', 'save');
+            $this->registerTask('cancel', 'cancel');
+
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'facilities');
+            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'facilities');
 	}
 
 	/**
@@ -51,15 +51,16 @@ class JResearchAdminFacilitiesController extends JController
 	 */
 	function display()
 	{
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            JResearchUnlockerHelper::unlockItems('facilities');
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
 
-		$view = &$this->getView('Facilities', 'html', 'JResearchAdminView');
-		$model = &$this->getModel('Facilities', 'JResearchModel');
-		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
-		
-		$view->setModel($model,true);
-		$view->setModel($areaModel);
-		$view->display();
+            $view = &$this->getView('Facilities', 'html', 'JResearchAdminView');
+            $model = &$this->getModel('Facilities', 'JResearchModel');
+            $areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
+
+            $view->setModel($model,true);
+            $view->setModel($areaModel);
+            $view->display();
 	}
 
 
@@ -155,7 +156,7 @@ class JResearchAdminFacilitiesController extends JController
 	{
 		global $mainframe;
 		
-	    if(!JRequest::checkToken())
+                if(!JRequest::checkToken())
 		{
 		    $this->setRedirect('index.php?option=com_jresearch');
 		    return;
@@ -200,6 +201,7 @@ class JResearchAdminFacilitiesController extends JController
 		$task = JRequest::getVar('task');		
 		if($fac->check())
 		{
+                        $mainframe->triggerEvent('onBeforeSaveJResearchEntity', array('facility', $fac));
 			if($fac->store())
 			{
 
