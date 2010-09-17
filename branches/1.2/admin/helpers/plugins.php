@@ -79,7 +79,77 @@ class JResearchPluginsHelper{
 			}
 		}	
 		return false;
-	} 
+	}
+
+        /**
+         * Returns an array with all new columns defined in customized plugins
+         * @return array
+         */
+        public static function getPubTypeColumns(){
+            $folder = JPATH_PLUGINS.DS.'jresearch-pubtypes';
+            $extraColumns = array();
+            if(JFolder::exists($folder)){
+                $plgs = JResearchPublication::getPublicationsSubtypes('extended') ;
+                foreach($plgs as $plg){
+                    $longPath = $folder.DS.$plg.'.php';
+                    if(JFile::exists($longPath)){
+                        require_once($longPath);
+                        $functionName = 'plg'.ucfirst($plg).'onRequireFields';
+                        if(function_exists($functionName)){
+                            $plfields = $functionName();
+                            $extraColumns = array_merge($extraColumns, $plfields);
+                        }
+                    }
+                }
+            }
+
+            return $extraColumns;
+        }
+
+        /**
+         * Scans for uninstalled publication types plugins and proceed to install
+         * them.
+         */
+
+        public static function verifyPublicationPluginsInstallation(){
+            //Scan all plugins of type jresearch-type
+            global $mainframe;
+            jimport('joomla.filesystem.file');
+            jimport('joomla.filesystem.folder');
+            $folder = JPATH_PLUGINS.DS.'jresearch-pubtypes';
+            if(JFolder::exists($folder)){
+                $plgs = JResearchPublication::getPublicationsSubtypes('extended') ;
+                foreach($plgs as $plg){
+                    $pluginFile = $folder.DS.$plg.'.php';
+                    if(JFile::exists($pluginFile))
+                        require_once($pluginFile);
+
+                    $file = $folder.DS.$plg.'.flag';
+                    $content = trim(JFile::read($file));
+                    if(empty($content)){
+                        // Time to install the plugin
+                        $functionName = 'plg'.ucfirst($plg).'PublicationTypeInstall';
+                        $functionName();
+                        // Mark it as installed
+                        JFile::write($file, '1');
+                    }
+                }
+            }
+        }
+
+        /**
+         * Imports all plugins marked as type jresearch
+         */
+        public static function requireJResearchPlugins(){
+            $db = JFactory::getDBO();
+            $db->setQuery('SELECT element FROM '.$db->nameQuote('#__plugins').' WHERE folder = '.$db->Quote('jresearch').' AND published = 1');
+            $result = $db->loadResultArray();
+            foreach($result as $plugin){
+                $pluginFile = JPATH_PLUGINS.DS.'jresearch'.DS.$plugin.DS.'.php';
+                if(file_exists($pluginFile))
+                    require_once($pluginFile);
+            }
+        }
 }
 
 ?>

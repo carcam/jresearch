@@ -15,25 +15,25 @@ class JResearchViewCooperations extends JResearchView
 	 **/
 	function display($tpl = null)
 	{
-		global $mainframe;
-		
-		$layout = &$this->getLayout();
-		
-		switch($layout)
-		{
-		    case 'default':
-		    default:
-		        $this->_defaultList();
-		        break;
-		}
-			
-		$eArguments = array('cooperations', $layout);
-		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+            global $mainframe;
+
+            $layout = &$this->getLayout();
+
+            switch($layout)
+            {
+                case 'default':
+                default:
+                    $this->_defaultList();
+                    break;
+            }
+
+            $eArguments = array('cooperations', $layout);
+
+            $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+
+            parent::display($tpl);
+
+            $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
 	}
 	
 	private function _defaultList()

@@ -11,8 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<label for="isbn"><?php echo JText::_('JRESEARCH_ISBN').': '?></label>
 	</div>
 	<div class="divTdl">
-		<input type="text" name="isbn" id="isbn" size="20" maxlength="32" class="validate-isbn" value="<?php echo isset($this->publication)?$this->publication->isbn:''; ?>" />
-		<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'isbn', JText::_('JRESEARCH_PROVIDE_VALID_ISBN')); ?>				
+            <input type="text" name="isbn" id="isbn" size="20" maxlength="32" value="<?php echo isset($this->publication)?$this->publication->isbn:''; ?>" />
 	</div>
 	<div class="divEspacio" ></div>	
 </div>

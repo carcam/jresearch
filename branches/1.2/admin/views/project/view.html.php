@@ -42,7 +42,7 @@ class JResearchAdminViewProject extends JResearchView
     	
     	if($cid){
             $projectFins = $project->getFinanciers();
-            $arguments[] = $project->id;
+            $arguments[] = $project;
             $members = $project->getAuthors();
             $principalFlags = $project->getPrincipalsFlagsArray();
     	}else{
@@ -69,11 +69,13 @@ class JResearchAdminViewProject extends JResearchView
 
         $params = JComponentHelper::getParams('com_jresearch');
         if(!empty($project->files))
-                $uploadedFiles = explode(';', trim($project->files));
+            $uploadedFiles = explode(';', trim($project->files));
         else
-                $uploadedFiles = array();
+            $uploadedFiles = array();
         $files = JHTML::_('jresearchhtml.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'projects','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
-		
+
+        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+
     	$this->assignRef('project', $project, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('areasList', $researchAreasHTML);
@@ -86,9 +88,6 @@ class JResearchAdminViewProject extends JResearchView
         $this->assignRef('files', $files);
         $this->assignRef('params', $params);
     	
-        // Load cited records
-        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
-
        	parent::display($tpl);
        	
        	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);

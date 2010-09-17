@@ -37,7 +37,7 @@ class JResearchAdminViewThesis extends JResearchView
     	$arguments = array('thesis');
     	
     	if($cid){
-            $arguments[] = $thesis->id;
+            $arguments[] = $thesis;
             $directors = $thesis->getDirectors();
             $students = $thesis->getStudents();
     	}else{
@@ -54,11 +54,13 @@ class JResearchAdminViewThesis extends JResearchView
 
         $params = JComponentHelper::getParams('com_jresearch');
         if(!empty($thesis->files))
-                $uploadedFiles = explode(';', trim($thesis->files));
+            $uploadedFiles = explode(';', trim($thesis->files));
         else
-                $uploadedFiles = array();
+            $uploadedFiles = array();
         $files = JHTML::_('jresearchhtml.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'theses','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
 		
+        // Load cited records
+        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 
     	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
@@ -69,9 +71,6 @@ class JResearchAdminViewThesis extends JResearchView
         $this->assignRef('status', $statusHTML);
         $this->assignRef('degree', $degreeHTML);
         $this->assignRef('files', $files);
-
-        // Load cited records
-        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 		
        	parent::display($tpl);
        	

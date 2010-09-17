@@ -28,44 +28,50 @@ class JResearchPublicationsController extends JResearchFrontendController
  	 * @return void
  	 */
 	function __construct(){
-		parent::__construct();
-		
-		//Load additionally language files
-		$lang = JFactory::getLanguage();
-		$lang->load('com_jresearch.publications');
-		
-		// Tasks for edition of publications when the user is authenticated
-		$this->registerTask('new', 'add');
-		$this->registerTask('add', 'edit');
-		$this->registerTask('edit', 'edit');
-		$this->registerTask('admin', 'administer');
-		// When the user sees the profile of a single publication
-		$this->registerTask('show', 'show');
-		$this->registerTask('cite', 'cite');
-		$this->registerTask('citeFromDialog', 'citeFromDialog');
-		$this->registerTask('generateBibliography', 'generateBibliography');
-		$this->registerTask('removeCitedRecord', 'removeCitedRecord');
-		$this->registerTask('searchByPrefix', 'searchByPrefix');
-		$this->registerTask('ajaxGenerateBibliography', 'ajaxGenerateBibliography');
-		$this->registerTask('ajaxRemoveAll', 'ajaxRemoveAll');
-		$this->registerTask('saveComment', 'saveComment');
-		$this->registerTask('apply', 'save');
-		$this->registerTask('save', 'save');
-		$this->registerTask('cancel', 'cancel');
-		$this->registerTask('filtered', 'filtered');
-		$this->registerTask('changeType', 'changeType');
-		$this->registerTask('export', 'export');
-		$this->registerTask('exportAll', 'exportAll');
-		$this->registerTask('executeImport', 'executeImport');
-				
-		// Add models paths
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publicationslist');
-		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publication');
+            parent::__construct();
 
-		$this->addPathwayItem(JText::_('JRESEARCH_PUBLICATIONS'), 'index.php?option=com_jresearch&view=publicationslist');
-	}
+            //Load additionally language files
+            $lang = JFactory::getLanguage();
+            $lang->load('com_jresearch.publications');
+
+            // Tasks for edition of publications when the user is authenticated
+            $this->registerTask('new', 'add');
+            $this->registerTask('add', 'edit');
+            $this->registerTask('edit', 'edit');
+            $this->registerTask('admin', 'administer');
+            // When the user sees the profile of a single publication
+            $this->registerTask('show', 'show');
+            $this->registerTask('cite', 'cite');
+            $this->registerTask('citeFromDialog', 'citeFromDialog');
+            $this->registerTask('generateBibliography', 'generateBibliography');
+            $this->registerTask('removeCitedRecord', 'removeCitedRecord');
+            $this->registerTask('searchByPrefix', 'searchByPrefix');
+            $this->registerTask('ajaxGenerateBibliography', 'ajaxGenerateBibliography');
+            $this->registerTask('ajaxRemoveAll', 'ajaxRemoveAll');
+            $this->registerTask('saveComment', 'saveComment');
+            $this->registerTask('apply', 'save');
+            $this->registerTask('save', 'save');
+            $this->registerTask('cancel', 'cancel');
+            $this->registerTask('filtered', 'filtered');
+            $this->registerTask('changeType', 'changeType');
+            $this->registerTask('export', 'export');
+            $this->registerTask('exportAll', 'exportAll');
+            $this->registerTask('executeImport', 'executeImport');
+
+            // Add models paths
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            $this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publicationslist');
+            $this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publication');
+
+            $this->addPathwayItem(JText::_('JRESEARCH_PUBLICATIONS'), 'index.php?option=com_jresearch&view=publicationslist');
+            JResearchPluginsHelper::verifyPublicationPluginsInstallation();
+    	}
+
+        /**
+         * Scans for uninstalled publication types plugins and proceed to install
+         * them.
+         */
 
 	/**
 	 * Default method, it shows the list of publications in a "ready to publish" style
@@ -502,66 +508,68 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$check = $publication->check();		
 		// Validate publication
 		if(!$check){
-			for($i=0; $i<count($publication->getErrors()); $i++)
-				JError::raiseWarning(1, $publication->getError($i));
-							
-			if($publication->id)			
-				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&id='.$publication->id);
-			else
-				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);	
-		}else{
-			//Time to set the authors
-			$maxAuthors = JRequest::getInt('nauthorsfield');
-			$k = 0;
-	
-			for($j=0; $j<=$maxAuthors; $j++){
-				$value = JRequest::getVar("authorsfield".$j);
-				if(!empty($value)){
-					if(is_numeric($value)){
-						// In that case, we are talking about a staff member
-						$publication->setAuthor($value, $k, true); 
-					}else{
-						// For external authors 
-						$publication->setAuthor($value, $k);
-					}
-					
-					$k++;
-				}			
-			}
-		
-			// Set the id of the author if the item is new
-			if(empty($publication->id))
-				$publication->created_by = $user->get('id');
-			
-			// Now, save the record
-			$task = JRequest::getVar('task');
-			$modelkey = JRequest::getVar('modelkey');
-			$modeltext = $modelkey == 'tabular'?'&task=filtered':'';			
-			if($publication->store(true)){			
-				$idText = !empty($publication->id)?'&id='.$publication->id:'';
-				
-				if($task == 'apply'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$ItemidText.($modelkey?'&modelkey='.$modelkey:''), JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
-				}elseif($task == 'save'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText.$modeltext, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
-				}
-								
-			}else{
-				$idText = !empty($publication->id)?'&id='.$publication->id:'';
-				$taskText = '&task='.(!empty($publication->id)?'edit':'add');
-				
-				if($db->getErrorNum() == 1062)				
-					JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
-				else
-					JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());						
-				
-				if($task == 'apply'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$taskText.$idText.'&pubtype='.$publication->pubtype.$ItemidText.($modelkey?'&modelkey='.$modelkey:''));
-				}elseif($task == 'save'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText.$modeltext);	
-				}
+                    for($i=0; $i<count($publication->getErrors()); $i++)
+                        JError::raiseWarning(1, $publication->getError($i));
 
-			}	
+                    if($publication->id)
+                        $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&id='.$publication->id);
+                    else
+                        $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);
+		}else{
+                    //Time to set the authors
+                    $maxAuthors = JRequest::getInt('nauthorsfield');
+                    $k = 0;
+
+                    for($j=0; $j<=$maxAuthors; $j++){
+                            $value = JRequest::getVar("authorsfield".$j);
+                            if(!empty($value)){
+                                    if(is_numeric($value)){
+                                            // In that case, we are talking about a staff member
+                                            $publication->setAuthor($value, $k, true);
+                                    }else{
+                                            // For external authors
+                                            $publication->setAuthor($value, $k);
+                                    }
+
+                                    $k++;
+                            }
+                    }
+
+                    // Set the id of the author if the item is new
+                    if(empty($publication->id))
+                        $publication->created_by = $user->get('id');
+
+                    // Now, save the record
+                    $task = JRequest::getVar('task');
+                    $modelkey = JRequest::getVar('modelkey');
+                    $modeltext = $modelkey == 'tabular'?'&task=filtered':'';
+                    $mainframe->triggerEvent('onBeforeSaveJResearchEntity', array('publication', $publication));
+                    if($publication->store(true)){
+                        $idText = !empty($publication->id)?'&id='.$publication->id:'';
+
+                        if($task == 'apply'){
+                                $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$ItemidText.($modelkey?'&modelkey='.$modelkey:''), JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
+                        }elseif($task == 'save'){
+                                $this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText.$modeltext, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
+                        }
+                        // Trigger event
+                        $arguments = array('publication', $publication->id);
+                        $mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
+                    }else{
+                        $idText = !empty($publication->id)?'&id='.$publication->id:'';
+                        $taskText = '&task='.(!empty($publication->id)?'edit':'add');
+
+                        if($db->getErrorNum() == 1062)
+                            JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+                        else
+                            JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());
+
+                        if($task == 'apply'){
+                            $this->setRedirect('index.php?option=com_jresearch&controller=publications'.$taskText.$idText.'&pubtype='.$publication->pubtype.$ItemidText.($modelkey?'&modelkey='.$modelkey:''));
+                        }elseif($task == 'save'){
+                            $this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText.$modeltext);
+                        }
+                    }
 		}
 		
 		$user =& JFactory::getUser();

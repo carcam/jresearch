@@ -48,43 +48,42 @@ class JResearchAdminViewTeam extends JResearchView
     	$selectedMemberOptions = array();
     	
     	if($cid){
-    		if(empty($team)){
-    			JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-    			return;
-    		}
-    		
-    		$arguments[] = $team->id;
-    		
-			//Leader and members list
-    		$leaderList = JHTML::_('select.genericlist', $memberOptions ,'id_leader', 'class="inputbox" size="1"' ,'value', 'text' , $team->id_leader);    		
-			$selectedMembers = $team->getMembers();
-			foreach($selectedMembers as $member)
-			{
-				$selectedMemberOptions[] = $member;
-			}			
-	    	$memberList = JHTML::_('select.genericlist', $memberOptions ,'members[]', 'class="inputbox" multiple="multiple" size="5"' ,'value', 'text' ,$selectedMemberOptions);
+            if(empty($team)){
+                JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+                return;
+            }
+
+            $arguments[] = $team;
+
+            //Leader and members list
+            $leaderList = JHTML::_('select.genericlist', $memberOptions ,'id_leader', 'class="inputbox" size="1"' ,'value', 'text' , $team->id_leader);
+            $selectedMembers = $team->getMembers();
+            foreach($selectedMembers as $member)
+            {
+                    $selectedMemberOptions[] = $member;
+            }
+            $memberList = JHTML::_('select.genericlist', $memberOptions ,'members[]', 'class="inputbox" multiple="multiple" size="5"' ,'value', 'text' ,$selectedMemberOptions);
 
     	}else{
-    		$arguments[] = null;		
-			//Leader and members list
-    		$leaderList = JHTML::_('select.genericlist', $memberOptions ,'id_leader', 'class="inputbox" size="1"');    		
-	    	$memberList = JHTML::_('select.genericlist', $memberOptions ,'members[]', 'class="inputbox" multiple="multiple" size="5"');    		
+            $arguments[] = null;
+                    //Leader and members list
+            $leaderList = JHTML::_('select.genericlist', $memberOptions ,'id_leader', 'class="inputbox" size="1"');
+            $memberList = JHTML::_('select.genericlist', $memberOptions ,'members[]', 'class="inputbox" multiple="multiple" size="5"');
     	}
     	
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $team?$team->published:1));
     	
-		$editor =& JFactory::getEditor();    	
-		
-    	$this->assignRef('team', $team, JResearchFilter::OBJECT_XHTML_SAFE);
+        $editor =& JFactory::getEditor();
+        
+        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+
+        $this->assignRef('team', $team, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('leaderList', $leaderList);
     	$this->assignRef('memberList', $memberList);
-		$this->assignRef('editor', $editor);  
-		$this->assignRef('hierarchy', $hierarchy);  	
-    	
-		// Load cited records
-		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
-		
+        $this->assignRef('editor', $editor);
+        $this->assignRef('hierarchy', $hierarchy);
+
        	parent::display($tpl);
        	
        	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);

@@ -49,6 +49,7 @@ class JResearchAdminPublicationsController extends JController
             $this->registerTask('toggle_internal', 'toggle_internal');
             $this->registerTask('changeType', 'changeType');
             $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+            JResearchPluginsHelper::verifyPublicationPluginsInstallation();
 	}
 
 	/**
@@ -58,6 +59,7 @@ class JResearchAdminPublicationsController extends JController
 	 */
 
 	function display(){
+            JResearchUnlockerHelper::unlockItems('publication');
             $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
             $view = &$this->getView('PublicationsList', 'html', 'JResearchAdminView');
             $pubModel = &$this->getModel('PublicationsList', 'JResearchModel');
@@ -331,8 +333,8 @@ class JResearchAdminPublicationsController extends JController
             $delete = JRequest::getVar('delete_url_0', false);
 	    if($delete === 'on'){	    	
 	    	if($previousFile != null){
-		    	@unlink($filetoremove);
-		    	$publication->files = '';
+                    @unlink($filetoremove);
+                    $publication->files = '';
 	    	}
 	    }
 	    
@@ -397,6 +399,7 @@ class JResearchAdminPublicationsController extends JController
 
                 // Now, save the record
                 $task = JRequest::getVar('task');
+                $mainframe->triggerEvent('onBeforeSaveJResearchEntity', array('publication', $publication));
                 if($publication->store(true)){
 
                         if($task == 'apply'){
@@ -408,8 +411,6 @@ class JResearchAdminPublicationsController extends JController
                         // Trigger event
                         $arguments = array('publication', $publication->id);
                         $mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
-
-
                 }else{
                     $idText = !empty($publication->id) && $task == 'apply'?'&cid[]='.$publication->id:'';
 

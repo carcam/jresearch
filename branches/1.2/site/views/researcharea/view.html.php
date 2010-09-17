@@ -48,8 +48,6 @@ class JResearchViewResearchArea extends JResearchView
 
         $this->addPathwayItem($area->alias, 'index.php?option=com_jresearch&view=researcharea&id='.$area->id);
 
-        $arguments[] = $id;
-
         $latestPublications = $params->get('area_number_last_publications', 5);
 
         if($publications_view_all == 0)
@@ -87,11 +85,12 @@ class JResearchViewResearchArea extends JResearchView
             $lang->load('com_jresearch.publications');
     	}
     		    	
-    	$doc->setTitle(JText::_('JRESEARCH_RESEARCH_AREA').' - '.$area->name);	
+    	$doc->setTitle(JText::_('JRESEARCH_RESEARCH_AREA').' - '.$area->name);
+        $arguments = array('researcharea', $area);
+        $mainframe->triggerEvent('onPrepareJResearchContent', $arguments);
     		
     	$this->assignRef('theses', $theses);
     	$this->assignRef('ntheses', $model->countTheses($area->id));    	
-
     	$this->assignRef('facilities', $facilities);
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
@@ -102,12 +101,9 @@ class JResearchViewResearchArea extends JResearchView
         $this->assignRef('applyStyle', $applyStyle);        
     	$this->assignRef('style', $configuredCitationStyle);
     	$this->assignRef('format', $format); 
-        
-        $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
-		
+        		
        	parent::display($tpl);
-       	
-       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+        $mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);
     }
 }
 

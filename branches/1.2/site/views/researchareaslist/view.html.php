@@ -34,16 +34,16 @@ class JResearchViewResearchAreasList extends JResearchView
         
         $doc->setTitle(JText::_('JRESEARCH_RESEARCH_AREAS'));
         
-		$this->assignRef('items', $areas);
-		$this->assignRef('page', $model->getPagination());
-       	
-		$eArguments = array('researchareas', $layout);
-		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+        $this->assignRef('items', $areas);
+        $this->assignRef('page', $model->getPagination());
+
+        $eArguments = array('researchareas', $layout);
+
+        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+
+        parent::display($tpl);
+
+        $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
 }
 

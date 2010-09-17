@@ -23,15 +23,16 @@ $mainframe->registerEvent('onBeforeEditJResearchEntity', 'plgJResearchOnBeforeEd
  *
  * @param string $entityType The type of records. JResearch entities include projects (project),
  * publications (publication), theses (thesis), staff members (member) and research areas (researcharea).
- * @param int $recordId The id of the record.
+ * @param object $record.
  */
 
-function plgJResearchOnBeforeEditEntity($entityType, $recordId){
+function plgJResearchOnBeforeEditEntity($entityType, $record){
 	global $mainframe;
 	$db =& JFactory::getDBO();
 	$session =& JFactory::getSession();
 	
-	if($recordId != null){
+	if($record != null){
+                $recordId = $record->id;
 		$query = 'SELECT '.$db->nameQuote('citekey').' FROM '.$db->nameQuote('#__jresearch_cited_records')
 				.' WHERE '.$db->nameQuote('id_record').'='.$db->Quote($recordId).' AND '.$db->nameQuote('record_type').'='.$db->Quote($entityType);
 		

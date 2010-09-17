@@ -17,23 +17,23 @@ class JResearchAdminFinanciersController extends JController
 {
 	function __construct($config = array())
 	{
-		parent::__construct ($config);
-		
-		$lang = JFactory::getLanguage();
-		$lang->load('com_jresearch.financiers');
-		
-		$this->registerDefaultTask('display');
-		$this->registerTask('add', 'edit');
-		$this->registerTask('edit', 'edit');
-		$this->registerTask('publish', 'publish');
-		$this->registerTask('unpublish', 'unpublish');
-		$this->registerTask('remove', 'remove');
-		$this->registerTask('save', 'save');
-		$this->registerTask('apply', 'save');
-		$this->registerTask('cancel', 'cancel');
+            parent::__construct ($config);
 
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers');
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'financiers');
+            $lang = JFactory::getLanguage();
+            $lang->load('com_jresearch.financiers');
+
+            $this->registerDefaultTask('display');
+            $this->registerTask('add', 'edit');
+            $this->registerTask('edit', 'edit');
+            $this->registerTask('publish', 'publish');
+            $this->registerTask('unpublish', 'unpublish');
+            $this->registerTask('remove', 'remove');
+            $this->registerTask('save', 'save');
+            $this->registerTask('apply', 'save');
+            $this->registerTask('cancel', 'cancel');
+
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers');
+            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'financiers');
 	}
 	
 	/**
@@ -43,11 +43,12 @@ class JResearchAdminFinanciersController extends JController
 	 */
 	function display()
 	{
-		$view = &$this->getView('Financiers', 'html', 'JResearchAdminView');
-		$model = &$this->getModel('Financiers', 'JResearchModel');
-		
-		$view->setModel($model,true);
-		$view->display();
+            JResearchUnlockerHelper::unlockItems('financier');
+            $view = &$this->getView('Financiers', 'html', 'JResearchAdminView');
+            $model = &$this->getModel('Financiers', 'JResearchModel');
+
+            $view->setModel($model,true);
+            $view->display();
 	}
 
 	function edit()
@@ -136,7 +137,7 @@ class JResearchAdminFinanciersController extends JController
 
 	function save()
 	{
-		global $mainframe;
+            global $mainframe;
 	    if(!JRequest::checkToken())
 		{
 		    $this->setRedirect('index.php?option=com_jresearch');
@@ -157,9 +158,9 @@ class JResearchAdminFinanciersController extends JController
 		$task = JRequest::getVar('task');		
 		if($fin->check())
 		{
+                        $mainframe->triggerEvent('onBeforeSaveJResearchEntity', array('financier', $financier));
 			if($fin->store())
 			{
-
 				//Specific redirect for specific task
 				if($task == 'save')
 					$this->setRedirect('index.php?option=com_jresearch&controller=financiers', JText::_('The financier was successfully saved.'));

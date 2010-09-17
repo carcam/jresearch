@@ -11,8 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <div class="divTR">
 	<div class="divTd"><label for="isbn"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></label></div>
 	<div class="divTdl divTdl2">		
-		<input type="text" name="isbn" id="isbn" size="15" maxlength="32" class="validate-isbn" value="<?php echo isset($this->publication)?$this->publication->isbn:''; ?>" />
-		<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'isbn', JText::_('JRESEARCH_PROVIDE_VALID_ISBN')); ?>						
+            <input type="text" name="isbn" id="isbn" size="15" maxlength="32" value="<?php echo isset($this->publication)?$this->publication->isbn:''; ?>" />
 	</div>
 	<div class="divTd"><label for="month"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></label></div>
 	<div class="divTdl"><input type="text" name="month" id="number" size="15" maxlength="20" value="<?php echo isset($this->publication)?$this->publication->month:'' ?>" /></div>

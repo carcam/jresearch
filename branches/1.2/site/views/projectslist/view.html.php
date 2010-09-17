@@ -32,12 +32,12 @@ class JResearchViewProjectsList extends JResearchView
         }
 	
         $eArguments = array('projects', $layout);
-		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+
+        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+
+        parent::display($tpl);
+
+        $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
     
     /**

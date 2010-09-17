@@ -38,11 +38,11 @@ class JResearchViewFacilities extends JResearchView
 	
         $eArguments = array('facilities', $layout);
 		
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+
+        parent::display($tpl);
+
+        $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
     
     /**

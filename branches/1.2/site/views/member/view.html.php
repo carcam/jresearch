@@ -27,25 +27,16 @@ class JResearchViewMember extends JResearchView
     	
         $layout = $this->getLayout();
         $arguments = array('member');
-        $params = $this->getParams();
         
         switch($layout){
-        	case 'edit':
-        		$value = $this->_displayEditProfile($arguments);
-        		break;
-        	default:
-        		$value = $this->_displayProfile($arguments);
-        		break;
+            case 'edit':
+                $value = $this->_displayEditProfile($arguments, $tpl);
+                break;
+            default:
+                $value = $this->_displayProfile($arguments, $tpl);
+                break;
         }
         
-        $this->assignRef('params', $params);
-	
-        if($value)
-        {
-	        parent::display($tpl);
-	        
-	        $mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
-        }
     }
     
     /**
@@ -53,7 +44,7 @@ class JResearchViewMember extends JResearchView
      * profile.
      *
      */
-    private function _displayEditProfile(array &$arguments){
+    private function _displayEditProfile(array &$arguments, $tpl){
     	global $mainframe;
     	
     	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
@@ -67,22 +58,23 @@ class JResearchViewMember extends JResearchView
     	$member = $model->getByUsername($user->username);
     	$areaModel = $this->getModel('ResearchArea');
     	$doc = JFactory::getDocument();
+        $params = $this->getParams();
     
     	// Modify it, so administrators may edit the item.
     	if(empty($member->username)){
             JError::raiseWarning(1, JText::_('JRESEARCH_PROFILE_USER_NOT_AUTHORIZED'));
-            return false;
+            return;
     	}
     	
     	if($member->isCheckedOut($user->get('id'))){
             JError::raiseWarning(1, JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-            return false;
+            return;
         }
 		
         $this->addPathwayItem($member, 'index.php?option=com_jresearch&view=member&id='.$member->id);
         $this->addPathwayItem(JText::_('Edit'));
 
-        $arguments[] = $member->id;
+        $arguments[] = $member;
 
         $member->checkout($user->get('id'));
 
@@ -101,16 +93,21 @@ class JResearchViewMember extends JResearchView
     	
     	$doc->setTitle(JText::_('JRESEARCH_MEMBER').' - '.$member->__toString());
 
+        // Load cited records
+        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+
     	$this->assignRef('member', $member, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('areasList', $researchAreasHTML);
     	$this->assignRef('publishedRadio', $publishedRadio);
         $this->assignRef('editor', $editor);
         $this->assignRef('orderList', $orderList);
     	$this->assignRef('positionList', $positionList);		
-    	
-        // Load cited records
-        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
-        return true;
+        $this->assignRef('params', $params);
+
+        parent::display($tpl);
+
+        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);
+
     }
     
     /**
@@ -119,7 +116,7 @@ class JResearchViewMember extends JResearchView
     * @return boolean True if the information of the member was correctly bind to
     * the template file.
     */
-    private function _displayProfile(array &$arguments){
+    private function _displayProfile(array &$arguments, $tpl){
       	global $mainframe;
       	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
       	
@@ -132,7 +129,7 @@ class JResearchViewMember extends JResearchView
     	if(empty($id)){
             JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
             $arguments[] = null;
-            return false;
+            return;
     	}
     
     	//Get the model
@@ -143,11 +140,11 @@ class JResearchViewMember extends JResearchView
     	if(empty($member) || !$member->published){
             JError::raiseWarning(1, JText::_('JRESEARCH_MEMBER_NOT_FOUND'));
             $arguments[] = null;
-            return false;
+            return;
     	}
     	
     	$this->addPathwayItem($member, 'index.php?option=com_jresearch&view=member&id='.$member->id);
-    	$arguments[] = $id;
+    	$arguments[] = $member;
     	
     	$areaModel = &$this->getModel('researcharea');
     	$area = $areaModel->getItem($member->id_research_area);
@@ -201,6 +198,7 @@ class JResearchViewMember extends JResearchView
         $doc->setTitle($member->__toString());
 
         // Bind variables for layout
+        $mainframe->triggerEvent('onPrepareJResearchContent', $arguments);
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
     	$this->assignRef('theses_view_all', $theses_view_all);
@@ -213,9 +211,8 @@ class JResearchViewMember extends JResearchView
     	$this->assignRef('description', $description);
     	$this->assignRef('teams', $teams, JResearchFilter::ARRAY_OBJECT_XHTML_SAFE);
     	
-    	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
-    	
-    	return true;
+        parent::display($tpl);
+        $mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);
     }
 }
 

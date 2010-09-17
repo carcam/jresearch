@@ -28,6 +28,8 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'includes'.DS.'defines.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'cite.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'view.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'unlocker.php');
+
 
 //HTML helpers
 JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
@@ -46,6 +48,9 @@ require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jres
 // Plugin management
 JPluginHelper::importPlugin('jresearch');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'plugins.php');
+
+//Time to import all plugins of type jresearch
+JResearchPluginsHelper::requireJResearchPlugins();
 
 //Toolbar
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');

@@ -18,13 +18,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class JResearchAdminViewCooperation extends JResearchView
 {
-	function display($tpl = null)
-	{
+    function display($tpl = null)
+    {
     	global $mainframe;
     	
     	JResearchToolbar::editCooperationAdminToolbar();
     	
-		JHTML::_('jresearchhtml.validation');
+        JHTML::_('jresearchhtml.validation');
     	JRequest::setVar( 'hidemainmenu', 1 );
 
     	$params = JComponentHelper::getParams('com_jresearch');
@@ -33,9 +33,9 @@ class JResearchAdminViewCooperation extends JResearchView
     	$cid = JRequest::getVar('cid');
     	$model =& $this->getModel();
     	$coop = $model->getItem($cid[0]);
-    	$arguments = array('cooperation', $coop?$coop->id:null);
+    	$arguments = array('cooperation', $coop?$coop:null);
     	
-		$publishedList = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $coop?$coop->published:1));
+        $publishedList = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $coop?$coop->published:1));
 
     	$orderOptions = array();
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations WHERE catid='.($coop?$coop->catid:0).' ORDER by ordering ASC');
@@ -43,17 +43,17 @@ class JResearchAdminViewCooperation extends JResearchView
     	
     	$categoryList = JHTML::_('list.category', 'catid', 'com_jresearch_cooperations', $coop?$coop->catid:null);
     	
-		$editor =& JFactory::getEditor();
+        $editor =& JFactory::getEditor();
     	
     	$this->assignRef('coop', $coop, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('categoryList', $categoryList);
     	$this->assignRef('publishedList', $publishedList);
     	$this->assignRef('orderList', $orderList);
-		$this->assignRef('editor', $editor);   
-		$this->assignRef('params', $params); 	
-    	
-		// Load cited records
-		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
+        $this->assignRef('editor', $editor);
+        $this->assignRef('params', $params);
+
+        // Load cited records
+        $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 		
        	parent::display($tpl);
        	

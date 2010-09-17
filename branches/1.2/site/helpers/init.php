@@ -46,12 +46,13 @@ require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jres
 
 // Verify if Jxtended is available as a plugin in the system.
 if(!function_exists('jximport'))
-	require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'jxtended.php');
+    require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'jxtended.php');
 
 
 // Plugin management
 JPluginHelper::importPlugin('jresearch');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'plugins.php');
+JResearchPluginsHelper::requireJResearchPlugins();
 
 //Require media and styles
 $document = JFactory::getDocument();

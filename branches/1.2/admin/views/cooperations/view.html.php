@@ -27,9 +27,9 @@ class JResearchAdminViewCooperations extends JResearchView
         
         switch($layout)
         {
-        		case 'default':
-        			$this->_displayDefaultList();
-        			break;
+            case 'default':
+                $this->_displayDefaultList();
+                break;
         }
 	
         $eArguments = array('cooperations');
@@ -63,17 +63,17 @@ class JResearchAdminViewCooperations extends JResearchView
     	$filter_category = $mainframe->getUserStateFromRequest('coopsfilter_category', 'filter_category');
         
     	$lists['order_Dir'] = $filter_order_Dir;
-		$lists['order'] = $filter_order;
-		
-		//Ordering allowed ?
-		$ordering = ($lists['order'] == 'ordering');
-		
-		// State filter
-		$lists['state'] = JHTML::_('grid.state', $filter_state);
-		$lists['search'] = $filter_search;
-		
-		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit();"';
-		$lists['category'] = JHTML::_('list.category', 'filter_category', 'com_jresearch_cooperations', $filter_category, $js);
+        $lists['order'] = $filter_order;
+
+        //Ordering allowed ?
+        $ordering = ($lists['order'] == 'ordering');
+
+        // State filter
+        $lists['state'] = JHTML::_('grid.state', $filter_state);
+        $lists['search'] = $filter_search;
+
+        $js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit();"';
+        $lists['category'] = JHTML::_('list.category', 'filter_category', 'com_jresearch_cooperations', $filter_category, $js);
     	
     	$this->assignRef('items', $coops);
     	$this->assignRef('lists', $lists);

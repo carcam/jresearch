@@ -25,23 +25,23 @@ class JResearchAdminMember_positionsController extends JController
  	 */
 	function __construct()
 	{
-		parent::__construct();
+            parent::__construct();
 
-		$lang = JFactory::getLanguage();
-		$lang->load('com_jresearch.member_positions');
-		
-		$this->registerDefaultTask('display');
-		$this->registerTask('add', 'edit');
-		$this->registerTask('edit', 'edit');
-		$this->registerTask('publish', 'publish');
-		$this->registerTask('unpublish', 'unpublish');
-		$this->registerTask('remove', 'remove');
-		$this->registerTask('save', 'save');
-		$this->registerTask('apply', 'save');
-		$this->registerTask('cancel', 'cancel');
+            $lang = JFactory::getLanguage();
+            $lang->load('com_jresearch.member_positions');
 
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'member_position');
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'member_positions');
+            $this->registerDefaultTask('display');
+            $this->registerTask('add', 'edit');
+            $this->registerTask('edit', 'edit');
+            $this->registerTask('publish', 'publish');
+            $this->registerTask('unpublish', 'unpublish');
+            $this->registerTask('remove', 'remove');
+            $this->registerTask('save', 'save');
+            $this->registerTask('apply', 'save');
+            $this->registerTask('cancel', 'cancel');
+
+            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'member_position');
+            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'member_positions');
 	}
 
 	/**
@@ -51,11 +51,12 @@ class JResearchAdminMember_positionsController extends JController
 	 */
 	function display()
 	{
-		$view = &$this->getView('Member_positionList', 'html', 'JResearchAdminView');
-		$model = &$this->getModel('Member_positionList', 'JResearchModel');
-		
-		$view->setModel($model,true);
-		$view->display();
+            JResearchUnlockerHelper::unlockItems('member_position');
+            $view = &$this->getView('Member_positionList', 'html', 'JResearchAdminView');
+            $model = &$this->getModel('Member_positionList', 'JResearchModel');
+
+            $view->setModel($model,true);
+            $view->display();
 	}
 
 	function edit()
@@ -145,64 +146,65 @@ class JResearchAdminMember_positionsController extends JController
 
 	function save()
 	{
-		global $mainframe;
+            global $mainframe;
 	    if(!JRequest::checkToken())
-		{
-		    $this->setRedirect('index.php?option=com_jresearch');
-		    return;
-		}
-		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
-		
-		$db =& JFactory::getDBO();
+            {
+                $this->setRedirect('index.php?option=com_jresearch');
+                return;
+            }
 
-		$position = new JResearchMember_position($db);
+            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 
-		// Bind request variables
-		$post = JRequest::get('post');
+            $db =& JFactory::getDBO();
 
-		$position->bind($post);
-	
-		// Validate and save
-		if($position->check())
-		{
-			if($position->store())
-			{
-				$task = JRequest::getVar('task');
+            $position = new JResearchMember_position($db);
 
-				//Specific redirect for specific task
-				if($task == 'save')
-					$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('The position was successfully saved.'));
-				elseif($task == 'apply')
-					$this->setRedirect('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$position->id, JText::_('The position was successfully saved.'));
+            // Bind request variables
+            $post = JRequest::get('post');
 
-				// Trigger event
-				$arguments = array('position', $position->id);
-				$mainframe->triggerEvent('onAfterSaveMember_positionEntity', $arguments);
+            $position->bind($post);
 
-			}
-			else
-			{
-				JError::raiseWarning(1, $position->getError());
-				$this->setRedirect('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$position->id, JText::_('JRESEARCH_SAVE_FAILED'));
-			}
-		}
-		else
-		{
-			JError::raiseWarning(1, $position->getError());
-			$this->setRedirect('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$position->id);
-		}
+            // Validate and save
+            if($position->check())
+            {
+                    $mainframe->triggerEvent('onBeforeSaveJResearchEntity', array('position', &$position));
+                    if($position->store())
+                    {
+                            $task = JRequest::getVar('task');
 
-		//Reordering ordering of other cooperations
-		$position->reorder();
-		
-		//Unlock record
-		$user =& JFactory::getUser();
-		if(!$position->isCheckedOut($user->get('id')))
-		{
-			if(!$position->checkin())
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
-		}
+                            //Specific redirect for specific task
+                            if($task == 'save')
+                                    $this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('The position was successfully saved.'));
+                            elseif($task == 'apply')
+                                    $this->setRedirect('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$position->id, JText::_('The position was successfully saved.'));
+
+                            // Trigger event
+                            $arguments = array('position', $position->id);
+                            $mainframe->triggerEvent('onAfterSaveMember_positionEntity', $arguments);
+
+                    }
+                    else
+                    {
+                            JError::raiseWarning(1, $position->getError());
+                            $this->setRedirect('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$position->id, JText::_('JRESEARCH_SAVE_FAILED'));
+                    }
+            }
+            else
+            {
+                    JError::raiseWarning(1, $position->getError());
+                    $this->setRedirect('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$position->id);
+            }
+
+            //Reordering ordering of other cooperations
+            $position->reorder();
+
+            //Unlock record
+            $user =& JFactory::getUser();
+            if(!$position->isCheckedOut($user->get('id')))
+            {
+                    if(!$position->checkin())
+                            JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+            }
 	}
 
 	function cancel()
