@@ -82,15 +82,19 @@ class JResearchModelProjectsList extends JResearchModelList{
 		$teamValue = $db->Quote($teamId);
 		$id_team = $db->nameQuote('id_team');
 		$id_member = $db->nameQuote('id_member');
+		$team_table = $db->nameQuote('#__jresearch_team');
+		$proj_table = $db->nameQuote('#__jresearch_project');
 		
-		$query = "SELECT DISTINCT $id_project FROM $internal_author, $team_member WHERE $team_member.$id_team = $teamValue "
-				 ." AND $internal_author.$id_staff_member = $team_member.$id_member";
+		$query = "SELECT DISTINCT $id_project FROM $internal_author, $team_member, $proj_table WHERE $team_member.$id_team = $teamValue "
+				 ." AND $internal_author.$id_staff_member = $team_member.$id_member AND $proj_table.id = $internal_author.$id_project AND $proj_table.published = 1"
+				 ." UNION (SELECT DISTINCT $id_project FROM $internal_author pia, $team_table t, $proj_table p WHERE t.id = $teamValue AND "
+		         	 ."pia.$id_staff_member = t.id_leader AND p.id = pia.$id_project AND p.published = 1)";
 				 
 		if($count > 0)
 		{
-			$query .= " LIMIT 0,$count";
+			$query .= " LIMIT 0, $count";
 		}
-		
+				
 		$db->setQuery($query);
 		return $db->loadResultArray();
 	}
@@ -121,7 +125,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 			$this->_items = array();
 			foreach($rows as $row){
 				$proj = JTable::getInstance('Project', 'JResearch');
-				$proj->bind($row, array(), true, true, true);
+				$proj->bind($row, array(), true);
 				$this->_items[] = $proj;
 			}
 			if($paginate)
@@ -147,12 +151,11 @@ class JResearchModelProjectsList extends JResearchModelList{
 		if(!empty($team))
 		{
 			$ids = $this->_getTeamProjectIds($team->id, intval($count));
-			
 			foreach($ids as $id)
 			{
-				$project = new JResearchProject($db);
-				if($project->load($id))
-					$projects[] = $project;
+				$project = JTable::getInstance('Project', 'JResearch');
+				$project->load($id);
+				$projects[] = $project;
 			}
 		}
 		
@@ -164,10 +167,10 @@ class JResearchModelProjectsList extends JResearchModelList{
 	* @return array
 	*/
 	function getAllAuthors(){
-            $db = JFactory::getDBO();
-            $query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_project_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
-            $db->setQuery($query);
-            return $db->loadAssocList();
+		$db = JFactory::getDBO();
+		$query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_project_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
+		$db->setQuery($query);
+		return $db->loadAssocList();
 	}
 	
 	/**
@@ -274,14 +277,14 @@ class JResearchModelProjectsList extends JResearchModelList{
 	* of the center or not.
 	*/
 	private function _getAuthorProjectsIds($author){
-            $db = JFactory::getDBO();
-            if(is_numeric($author)){
-                    $query = 'SELECT '.$db->nameQuote('id_project').' FROM '.$db->nameQuote('#__jresearch_project_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
-            }else{
-                    $query = 'SELECT '.$db->nameQuote('id_project').' FROM '.$db->nameQuote('#__jresearch_project_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
-            }
-            $db->setQuery($query);
-            return $db->loadResultArray();
+		$db = JFactory::getDBO();
+		if(is_numeric($author)){
+			$query = 'SELECT '.$db->nameQuote('id_project').' FROM '.$db->nameQuote('#__jresearch_project_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
+		}else{
+			$query = 'SELECT '.$db->nameQuote('id_project').' FROM '.$db->nameQuote('#__jresearch_project_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
+		}
+		$db->setQuery($query);
+		return $db->loadResultArray();
 	}
 
 	/**
@@ -292,19 +295,19 @@ class JResearchModelProjectsList extends JResearchModelList{
 	 */
 	public function setIds($ids)
 	{
-            if(is_array($ids))
-            {
-                    $this->_ids = array();
-
-                    foreach($ids as $id)
-                    {
-                            $this->_ids[] = (int) $id;
-                    }
-
-                    return true;
-            }
-
-            return false;
+		if(is_array($ids))
+		{
+			$this->_ids = array();
+			
+			foreach($ids as $id)
+			{
+				$this->_ids[] = (int) $id;
+			}
+			
+			return true;
+		}
+		
+		return false;
 	}
 }
 ?>

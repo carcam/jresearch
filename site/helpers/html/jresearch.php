@@ -113,23 +113,22 @@ class JHTMLJresearch
 								//Return true if I'm able to edit all publications or only mine
 								if(is_a($author, 'JResearchMember'))
 								{
-									if($canDo || ($canDoOwn && $author->username == $user->username))
+									if($canDoOwn && $author->username == $user->username)
 									{
 										return true;
 									}
 									
 									//Check teams of author 
-									//If user is member of one team of the author, 
-									//he will get authorized
+									//If user is a team leader, he can edit all publications from the team
 									$teams = $author->getTeams();
 									
 									foreach($teams as $team)
 									{
-										//If user is member of one team, he is authorized to do the task
-										if($team->isMember($user->id))
-										{
-											return true;
-										}
+                                                                            $leader = $team->getLeader();
+                                                                            if($team->isMember($user->id) && $leader->username == $user->username)
+                                                                            {
+                                                                                    return true;
+                                                                            }
 									}
 								}
 							}
