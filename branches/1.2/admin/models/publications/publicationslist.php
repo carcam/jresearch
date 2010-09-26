@@ -40,21 +40,21 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* @return string
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
-            $db =& JFactory::getDBO();
-            if($memberId === null){
-                    $resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
-            }else{
-                    $resultQuery = '';
-            }
-            // Deal with pagination issues
-            $resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();
-            if($paginate){
-                    $limit = (int)$this->getState('limit');
-                    if($limit != 0)
-                                    $resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');
-            }
-
-            return $resultQuery;
+		$db =& JFactory::getDBO();		
+		if($memberId === null){	
+			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName); 	
+		}else{
+			$resultQuery = '';
+		}
+		// Deal with pagination issues
+		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();		
+		if($paginate){
+			$limit = (int)$this->getState('limit');
+			if($limit != 0)
+					$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');					
+		}
+		
+		return $resultQuery;
 	}
 
 	/**
@@ -63,19 +63,19 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* of the center or not.
 	*/
 	private function _getAuthorPublicationIds($author){
-            $db = JFactory::getDBO();
-            if(is_numeric($author)){
-                    $query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
-            }else{
-                    $query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
-            }
-            $db->setQuery($query);
-
-            $result = $db->loadResultArray();
-
-            //@todo Add id_author comparison
-
-            return $result;
+		$db = JFactory::getDBO();
+		if(is_numeric($author)){
+			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
+		}else{
+			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
+		}
+		$db->setQuery($query);
+		
+		$result = $db->loadResultArray();
+		
+		//@todo Add id_author comparison
+		
+		return $result;
 	}
 	
 	/**
@@ -85,26 +85,30 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	 * @return array
 	 */
 	private function _getTeamPublicationIds($teamId, $count=0){
-            $db = JFactory::getDBO();
-
-            $id_staff_member = $db->nameQuote('id_staff_member');
-            $team_member = $db->nameQuote('#__jresearch_team_member');
-            $id_publication = $db->nameQuote('id_publication');
-            $pub_internal_author = $db->nameQuote('#__jresearch_publication_internal_author');
-            $teamValue = $db->Quote($teamId);
-            $id_team = $db->nameQuote('id_team');
-            $id_member = $db->nameQuote('id_member');
-
-            $query = "SELECT DISTINCT $id_publication FROM $pub_internal_author, $team_member WHERE $team_member.$id_team = $teamValue "
-                             ." AND $pub_internal_author.$id_staff_member = $team_member.$id_member";
-
-            if($count > 0)
-            {
-                $query .= " LIMIT 0,$count";
-            }
-
-            $db->setQuery($query);
-            return $db->loadResultArray();
+		$db = JFactory::getDBO();
+		
+		$id_staff_member = $db->nameQuote('id_staff_member');
+		$team_member = $db->nameQuote('#__jresearch_team_member');
+		$id_publication = $db->nameQuote('id_publication');
+		$pub_internal_author = $db->nameQuote('#__jresearch_publication_internal_author');
+		$teamValue = $db->Quote($teamId);
+		$id_team = $db->nameQuote('id_team');
+		$id_member = $db->nameQuote('id_member');
+		$team_table = $db->nameQuote('#__jresearch_team');
+		$pub_table = $db->nameQuote('#__jresearch_publication');
+		
+		$query = "SELECT DISTINCT $id_publication FROM $pub_internal_author, $team_member, $pub_table WHERE $team_member.$id_team = $teamValue "
+				 ." AND $pub_internal_author.$id_staff_member = $team_member.$id_member AND $pub_table.id = $pub_internal_author.$id_publication AND $pub_table.internal = 1 AND $pub_table.published = 1"
+				 ." UNION (SELECT DISTINCT $id_publication FROM $pub_internal_author pia, $team_table t, $pub_table p WHERE t.id = $teamValue AND "
+		         	 ."pia.$id_staff_member = t.id_leader AND p.id = pia.$id_publication AND p.published = 1 AND p.internal = 1)";
+		if($count > 0)
+		{
+			$query .= " LIMIT 0, $count";
+		}
+		
+		$db->setQuery($query);
+		// Now take publications from the leader
+		return $db->loadResultArray();
 	}
 
 	/**
@@ -113,10 +117,10 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* @return string SQL query.
 	*/	
 	protected function _buildRawQuery(){
-            $db =& JFactory::getDBO();
-            $resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
-            $resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
-            return $resultQuery;
+		$db =& JFactory::getDBO();
+		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();		
+		return $resultQuery;
 	}
 	
 
@@ -132,27 +136,28 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* specified team.
 	* @return 	array
 	*/
-	public function getData($memberId = null, $onlyPublished = false, $paginate = false){	
-            if($memberId !== $this->_memberId || $onlyPublished !== $this->_onlyPublished || $this->_paginate !== $this->_paginate || empty($this->_items)){
-                    $this->_memberId = $memberId;
-                    $this->_onlyPublished = $onlyPublished;
-                    $this->_paginate = $paginate;
-                    $this->_items = array();
-
-                    $db = &JFactory::getDBO();
-                    $query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
-                    $db->setQuery($query);
-                    $result = $db->loadAssocList();
-                    foreach($result as $item){
-                            $pub = JTable::getInstance("Publication", "JResearch");
-                            $pub->bind($item, array(), true);
-                            $this->_items[] = $pub;
-                    }
-
-                    if($paginate)
-                            $this->updatePagination();
-            }
-            return $this->_items;
+	public function getData($memberId = null, $onlyPublished = false, $paginate = false){
+	
+		if($memberId !== $this->_memberId || $onlyPublished !== $this->_onlyPublished || $this->_paginate !== $this->_paginate || empty($this->_items)){
+			$this->_memberId = $memberId;
+			$this->_onlyPublished = $onlyPublished;
+			$this->_paginate = $paginate;					
+			$this->_items = array();
+			
+			$db = &JFactory::getDBO();
+			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
+			$db->setQuery($query);
+			$result = $db->loadAssocList();
+			foreach($result as $item){
+				$pub = JTable::getInstance("Publication", "JResearch");
+				$pub->bind($item, array(), true);
+				$this->_items[] = $pub;
+			}
+			
+			if($paginate)
+				$this->updatePagination();
+		}	
+		return $this->_items;
 
 	}
 	
@@ -164,21 +169,20 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	 */
 	public function getDataByTeamId($teamId, $count=0)
 	{
-            $model = JModel::getInstance('Team', 'JResearchModel');
-            $team = $model->getItem($teamId);
-            $pubs = array();
-
-            if(!empty($team))
-            {
-                    $ids = $this->_getTeamPublicationIds($team->id, intval($count));
-
-                    foreach($ids as $id)
-                    {
-                            $pubs[] = JResearchPublication::getById($id);
-                    }
-            }
-
-            return $pubs;
+		$model = JModel::getInstance('Team', 'JResearchModel');
+		$team = $model->getItem($teamId);
+		$pubs = array();
+		
+		if(!empty($team))
+		{
+			$ids = $this->_getTeamPublicationIds($team->id, intval($count));
+			foreach($ids as $id)
+			{
+				$pubs[] = JResearchPublication::getById($id);
+			}
+		}
+		
+		return $pubs;
 	}
 	
 	/**
@@ -187,7 +191,6 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	private function _buildQueryOrderBy(){
             global $mainframe;
             $modelKey = JRequest::getVar('modelkey', '');
-            $extra_order = '';
 
             $db =& JFactory::getDBO();
             //Array of allowable order fields
@@ -202,20 +205,18 @@ class JResearchModelPublicationsList extends JResearchModelList{
                     $filter_order_Dir = 'ASC';
             //if order column is unknown, use the default
             if($filter_order == 'type')
-                $filter_order = $db->nameQuote('pubtype');
-            elseif($filter_order == 'year'){
-                $extra_order = "STR_TO_DATE(month, '%M')";
-            }elseif($filter_order == 'alphabetical' || !in_array($filter_order, $orders))
-                $filter_order = $db->nameQuote('title');
+                    $filter_order = $db->nameQuote('pubtype');
+            elseif($filter_order == 'alphabetical' || !in_array($filter_order, $orders))
+                    $filter_order = $db->nameQuote('title');
 
-            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.(!empty($extra_order) ? ', '.$extra_order.' '.$filter_order_Dir : '').', '.$db->nameQuote('created').' DESC';
+            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->nameQuote('created').' DESC';
 	}	
 	
 	/**
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere($published = false){
-            global $mainframe;
+             global $mainframe;
 
             $db = & JFactory::getDBO();
             $modelKey = JRequest::getVar('modelkey', 'default');
@@ -283,7 +284,6 @@ class JResearchModelPublicationsList extends JResearchModelList{
 
 
             return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
-			
 	}
 
 	/**
@@ -291,23 +291,23 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* @return array
 	*/
 	function getAllAuthors(){
-            $db = JFactory::getDBO();
-            $query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_publication_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
-            $db->setQuery($query);
-            $result =  $db->loadAssocList();
-            $mdresult = array();
-            $name = array();
-            // First, bring them to the form lastname, firstname.
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
-            foreach($result as $key => $author){
-                    $components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
-                    $value = (isset($components['von'])?$components['von'].' ':'').$components['lastname'].(isset($components['firstname'])?', '.$components['firstname']:'').(isset($components['jr'])?' '.$components['jr']:'');
-                    $mdresult[] = array('id'=>$author['id'], 'name'=>$value);
-                    $name[$key] = $value;
-
-            }
-            array_multisort($name, SORT_ASC, $mdresult);
-            return $mdresult;
+		$db = JFactory::getDBO();
+		$query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_publication_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
+		$db->setQuery($query);
+		$result =  $db->loadAssocList();
+		$mdresult = array();
+		$name = array();
+		// First, bring them to the form lastname, firstname.
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+		foreach($result as $key => $author){
+			$components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
+			$value = (isset($components['von'])?$components['von'].' ':'').$components['lastname'].(isset($components['firstname'])?', '.$components['firstname']:'').(isset($components['jr'])?' '.$components['jr']:'');
+			$mdresult[] = array('id'=>$author['id'], 'name'=>$value);
+			$name[$key] = $value;
+			
+		}
+		array_multisort($name, SORT_ASC, $mdresult);
+		return $mdresult;
 	}
 
 	/**
@@ -319,86 +319,86 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	 * @return array Array of public records that match the search
 	 */
 	public function getItemsByPrefix($prefix, $criteria, $limitstart = 0, $limit = 10){		
-            $db = JFactory::getDBO();
-            $records = array();
-            $finalQuery = null;
+		$db = JFactory::getDBO();
+		$records = array();
+		$finalQuery = null;
+		
+		if($prefix == '')
+			return $records;
 
-            if($prefix == '')
-                    return $records;
+		$newprefix = $db->Quote( '%'.$db->getEscaped( strtolower($prefix), true ).'%', false );
+		$prefixscp = $db->Quote(strtolower($prefix), false); 
+		$publicationTable = $db->nameQuote('#__jresearch_publication');
+		$staffTable = $db->nameQuote('#__jresearch_member');
+		$internalAuthorsTable = $db->nameQuote('#__jresearch_publication_internal_author');
+		$externalAuthorsTable = $db->nameQuote('#__jresearch_publication_external_author');
+		$p = $db->nameQuote('p');
+		$em = $db->nameQuote('em');
+		$im = $db->nameQuote('im');
+		$m = $db->nameQuote('m');
+		$id_publication = $db->nameQuote('id_publication');
+		$id = $db->nameQuote('id');
+		$firstname = $db->nameQuote('firstname');
+		$lastname = $db->nameQuote('lastname');
+		$id_staff_member = $db->nameQuote('id_staff_member');
+		$pubtype = $db->nameQuote('pubtype');
+		$authorname = $db->nameQuote('author_name');
+		$pu = $db->nameQuote('published');
 
-            $newprefix = $db->Quote( '%'.$db->getEscaped( strtolower($prefix), true ).'%', false );
-            $prefixscp = $db->Quote(strtolower($prefix), false);
-            $publicationTable = $db->nameQuote('#__jresearch_publication');
-            $staffTable = $db->nameQuote('#__jresearch_member');
-            $internalAuthorsTable = $db->nameQuote('#__jresearch_publication_internal_author');
-            $externalAuthorsTable = $db->nameQuote('#__jresearch_publication_external_author');
-            $p = $db->nameQuote('p');
-            $em = $db->nameQuote('em');
-            $im = $db->nameQuote('im');
-            $m = $db->nameQuote('m');
-            $id_publication = $db->nameQuote('id_publication');
-            $id = $db->nameQuote('id');
-            $firstname = $db->nameQuote('firstname');
-            $lastname = $db->nameQuote('lastname');
-            $id_staff_member = $db->nameQuote('id_staff_member');
-            $pubtype = $db->nameQuote('pubtype');
-            $authorname = $db->nameQuote('author_name');
-            $pu = $db->nameQuote('published');
-
-            $whereKeywords = " LOCATE($prefixscp, LOWER(".$db->nameQuote('keywords').")) > 0";
-            $whereTitle = " LOWER(".$db->nameQuote('title').") LIKE $newprefix";
-            $whereYear = " ".$db->nameQuote('year')." = $prefixscp";
-            $whereCitekey = " LOWER(".$db->nameQuote('citekey').") LIKE $newprefix";
-            $published = $db->nameQuote('published').' = '.$db->Quote(1);
+		$whereKeywords = " LOCATE($prefixscp, LOWER(".$db->nameQuote('keywords').")) > 0";
+		$whereTitle = " LOWER(".$db->nameQuote('title').") LIKE $newprefix";
+		$whereYear = " ".$db->nameQuote('year')." = $prefixscp";
+		$whereCitekey = " LOWER(".$db->nameQuote('citekey').") LIKE $newprefix";
+		$published = $db->nameQuote('published').' = '.$db->Quote(1);
 
 
-            switch($criteria){
-                    case 'all': case 'authors':
-                            break;
-                    case 'keywords':
-                            $query = "SELECT $id, $pubtype FROM $publicationTable WHERE".$whereKeywords." AND ".$published;
-                            break;
-                    case 'title':
-                            $query = "SELECT $id, $pubtype FROM $publicationTable WHERE ".$whereTitle." AND ".$published;
-                            break;
-                    case 'year':
-                            $query = "SELECT $id, $pubtype FROM $publicationTable WHERE".$whereYear." AND ".$published;
-                            break;
-                    case 'citekey':
-                            $query = "SELECT $id, $pubtype FROM $publicationTable WHERE".$whereCitekey." AND ".$published;
-                            break;
-            }
-
-            // If %% is sent, so ignore criteria, just return all available items
-            if($prefix != '%%'){
-                    if($criteria == 'authors'){
-                            $finalQuery = "SELECT DISTINCT $p.$id, $p.$pubtype  FROM $publicationTable $p, $externalAuthorsTable em"
-                            ." WHERE $published AND $em.$id_publication = $p.$id AND LOWER($em.$authorname) LIKE $newprefix"
-                            ." UNION SELECT $p.$id, $p.$pubtype FROM $publicationTable $p, $internalAuthorsTable $im, $staffTable $m"
-                            ." WHERE $p.$id = $im.$id_publication AND $p.$pu = 1 AND $im.$id_staff_member = $m.$id"
-                            ." AND (LOWER($m.$firstname) LIKE $newprefix OR LOWER($m.$lastname) LIKE $newprefix) ";
-                    }else if($criteria == 'all'){
-                            $finalQuery = "SELECT id, pubtype FROM $publicationTable WHERE (".$whereCitekey." OR ".$whereKeywords." OR ".$whereYear." OR ".$whereTitle.") AND $published";
-                    }else{
-                            $finalQuery = $query;
-                    }
-            }else{
-                    $finalQuery = 'SELECT '.$db->nameQuote('id').', '.$db->nameQuote('pubtype').' FROM '.$publicationTable.' WHERE '.$db->nameQuote('published').' = '.$db->Quote(1);
-            }
-
-            $finalQuery .= " LIMIT $limitstart, $limit";
-
-            $db->setQuery($finalQuery);
-            $result = $db->loadAssocList();
-            if($result){
-                    foreach($result as $r){
-                        $pub = JTable::getInstance('Publication', 'JResearch');
-                        $pub->pubtype = $r['pubtype'];
-                        $pub->load($r['id']);
-                        $records[] = $pub;
-                    }
-            }
-            return $records;
+		switch($criteria){
+			case 'all': case 'authors':
+				break;
+			case 'keywords':
+				$query = "SELECT $id, $pubtype FROM $publicationTable WHERE".$whereKeywords." AND ".$published;
+				break;
+			case 'title':
+				$query = "SELECT $id, $pubtype FROM $publicationTable WHERE ".$whereTitle." AND ".$published;
+				break;
+			case 'year':
+				$query = "SELECT $id, $pubtype FROM $publicationTable WHERE".$whereYear." AND ".$published;
+				break;
+			case 'citekey':
+				$query = "SELECT $id, $pubtype FROM $publicationTable WHERE".$whereCitekey." AND ".$published;
+				break;			
+		}
+		
+		// If %% is sent, so ignore criteria, just return all available items
+		if($prefix != '%%'){
+			if($criteria == 'authors'){
+				$finalQuery = "SELECT DISTINCT $p.$id, $p.$pubtype  FROM $publicationTable $p, $externalAuthorsTable em"
+				." WHERE $published AND $em.$id_publication = $p.$id AND LOWER($em.$authorname) LIKE $newprefix"
+				." UNION SELECT $p.$id, $p.$pubtype FROM $publicationTable $p, $internalAuthorsTable $im, $staffTable $m"
+				." WHERE $p.$id = $im.$id_publication AND $p.$pu = 1 AND $im.$id_staff_member = $m.$id"
+				." AND (LOWER($m.$firstname) LIKE $newprefix OR LOWER($m.$lastname) LIKE $newprefix) ";
+			}else if($criteria == 'all'){
+				$finalQuery = "SELECT id, pubtype FROM $publicationTable WHERE (".$whereCitekey." OR ".$whereKeywords." OR ".$whereYear." OR ".$whereTitle.") AND $published";
+			}else{
+				$finalQuery = $query;
+			}
+		}else{
+			$finalQuery = 'SELECT '.$db->nameQuote('id').', '.$db->nameQuote('pubtype').' FROM '.$publicationTable.' WHERE '.$db->nameQuote('published').' = '.$db->Quote(1); 
+		}
+		
+		$finalQuery .= " LIMIT $limitstart, $limit";
+		
+		$db->setQuery($finalQuery);
+		$result = $db->loadAssocList();
+		if($result){
+			foreach($result as $r){
+                            $pub = JTable::getInstance('Publication', 'JResearch');
+                            $pub->pubtype = $r['pubtype'];
+                            $pub->load($r['id']);
+                            $records[] = $pub;
+			}
+		}
+		return $records;
 	}
 	
 	/**
@@ -415,30 +415,30 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	 * @param float Calculated average. null if there is no data to analyze.
 	 */
 	public function getAverage($fieldname, $ignoreZeros=true){
-            $result = 0.0;
-            $n = 0;
-            if(empty($this->_items))
-                    return null;
-
-            foreach($this->_items as $item){
-                    if(isset($item->$fieldname)){
-                            $value = (float)trim($item->$fieldname);
-                            if($value === 0.0){
-                                    if(!$ignoreZeros){
-                                            $result += $value;
-                                            $n++;
-                                    }
-                            }else{
-                                    $result += $value;
-                                    $n++;
-                            }
-                    }
-            }
-
-            if($n == 0)
-                    return null;
-
-            return $result / $n;
+		$result = 0.0;
+		$n = 0;
+		if(empty($this->_items))
+			return null;
+			
+		foreach($this->_items as $item){
+			if(isset($item->$fieldname)){
+				$value = (float)trim($item->$fieldname);				
+				if($value === 0.0){
+					if(!$ignoreZeros){
+						$result += $value;
+						$n++;
+					}
+				}else{
+					$result += $value;
+					$n++;
+				}
+			}
+		}
+		
+		if($n == 0)
+			return null;
+			
+		return $result / $n;
 	}
 }
 ?>

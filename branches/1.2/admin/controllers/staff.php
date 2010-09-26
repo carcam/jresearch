@@ -55,7 +55,9 @@ class JResearchAdminStaffController extends JController
             JResearchUnlockerHelper::unlockItems('member');
             $view = $this->getView('Staff', 'html', 'JResearchAdminView');
             $model = $this->getModel('Staff', 'JResearchModel');
+            $areamodel = $this->getModel('Researcharea', 'JResearchModel');
             $view->setModel($model, true);
+            $view->setModel($areamodel);
             $view->setLayout('default');
             $view->display();
 	}
@@ -165,13 +167,13 @@ class JResearchAdminStaffController extends JController
             for($i=0; $i<= $n; $i++){
                     $username = JRequest::getVar('member'.$i);
                     if($username !== null){
-                            $newMember = JTable::getInstance('Member', 'JResearch');
-                            $newMember->ordering = (int)$newMember->getNextOrder();
-                            $newMember->bindFromUser($username);
-                            if($newMember->store())
-                                    $count++;
-                            else
-                                    JError::raiseWarning(1, JText::sprintf('JRESEARCH_USER_IMPORTED_FAILED', $username));
+                        $newMember = JTable::getInstance('Member', 'JResearch');
+                        $newMember->bindFromUser($username);
+                        $newMember->ordering = (int)$newMember->getNextOrder();
+                        if($newMember->store())
+                                $count++;
+                        else
+                                JError::raiseWarning(1, JText::sprintf('JRESEARCH_USER_IMPORTED_FAILED', $username));
                     }
             }
             $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::sprintf('JRESEARCH_USER_IMPORTED_SUCCESSFULLY', $count));
@@ -372,9 +374,9 @@ class JResearchAdminStaffController extends JController
 	 *
 	 */
 	function autoSuggestMembers(){
-		$key = JRequest::getVar('key');
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-		echo JHTML::_('jresearchhtml.jsonMembers', $key);
+            $key = JRequest::getVar('key');
+            JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+            echo JHTML::_('jresearchhtml.jsonMembers', $key);
 	}
 	
 }

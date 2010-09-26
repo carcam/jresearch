@@ -51,8 +51,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 		$query = "SELECT * FROM ".$db->nameQuote('#__jresearch_member')." WHERE ".$db->nameQuote('username').' = '.$db->Quote($username);
 		$db->setQuery($query);
 		$results = $db->loadAssoc();		
-		
-		$member = new JResearchMember($db);
+		$member = JTable::getInstance('Member', 'JResearch');
 		$member->bind($results);
 		return $member;
 	}
@@ -95,9 +94,11 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 	 * @param int $memberId
 	 */
 	function countPublications($memberId){
-		$db =& JFactory::getDBO();
-		
-		$query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($memberId);
+		$db = JFactory::getDBO();
+		$internal_author = $db->nameQuote('#__jresearch_publication_internal_author');
+		$publications = $db->nameQuote('#__jresearch_publication');				
+		$memberValue = $db->Quote($memberId);
+		$query = "SELECT COUNT(*) FROM $internal_author pia, $publications p WHERE pia.id_publication = p.id AND p.published = 1 AND p.internal = 1 AND pia.id_staff_member = $memberValue";
 		$db->setQuery($query);		
 		return (int)$db->loadResult();
 	}
@@ -138,9 +139,11 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 	 * @param int $memberId
 	 */
 	function countProjects($memberId){
-		$db =& JFactory::getDBO();
-		
-		$query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_project_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($memberId);
+		$db = JFactory::getDBO();
+		$internal_author = $db->nameQuote('#__jresearch_project_internal_author');
+		$projects = $db->nameQuote('#__jresearch_project');				
+		$memberValue = $db->Quote($memberId);
+		$query = "SELECT COUNT(*) FROM $internal_author pia, $projects p WHERE pia.id_project = p.id AND p.published = 1 AND pia.id_staff_member = $memberValue";
 		$db->setQuery($query);		
 		return (int)$db->loadResult();
 	}
@@ -180,10 +183,12 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 	 * @param int $memberId
 	 */
 	function countTheses($memberId){
-		$db =& JFactory::getDBO();
-		
-		$query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_thesis_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($memberId);
-		$db->setQuery($query);
+		$db = JFactory::getDBO();
+		$internal_author = $db->nameQuote('#__jresearch_thesis_internal_author');
+		$theses = $db->nameQuote('#__jresearch_thesis');				
+		$memberValue = $db->Quote($memberId);
+		$query = "SELECT COUNT(*) FROM $internal_author pia, $theses p WHERE pia.id_thesis = p.id AND p.published = 1 AND pia.id_staff_member = $memberValue";
+		$db->setQuery($query);		
 		return (int)$db->loadResult();
 	}
 	

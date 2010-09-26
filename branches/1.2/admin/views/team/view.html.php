@@ -23,7 +23,7 @@ class JResearchAdminViewTeam extends JResearchView
     	global $mainframe;      	
     	JResearchToolbar::editTeamAdminToolbar();
       			
-		JHTML::_('jresearchhtml.validation');
+        JHTML::_('jresearchhtml.validation');
     	JRequest::setVar( 'hidemainmenu', 1 );
     	$arguments = array('team');
 
@@ -42,7 +42,7 @@ class JResearchAdminViewTeam extends JResearchView
     	
     	foreach($members as $member)
     	{
-    		$memberOptions[] = JHTML::_('select.option', $member->id, $member->firstname.' '.$member->lastname);
+            $memberOptions[] = JHTML::_('select.option', $member->id, $member->firstname.' '.$member->lastname);
     	}
     	
     	$selectedMemberOptions = array();
@@ -60,7 +60,7 @@ class JResearchAdminViewTeam extends JResearchView
             $selectedMembers = $team->getMembers();
             foreach($selectedMembers as $member)
             {
-                    $selectedMemberOptions[] = $member;
+                    $selectedMemberOptions[] = $member['id_member'];
             }
             $memberList = JHTML::_('select.genericlist', $memberOptions ,'members[]', 'class="inputbox" multiple="multiple" size="5"' ,'value', 'text' ,$selectedMemberOptions);
 

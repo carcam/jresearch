@@ -7,6 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
+$Itemid = JRequest::getVar('Itemid', 0);
 ?>
 <h2 class="componentheading">
 	<?php echo JText::_('JRESEARCH_TEAM');?>
@@ -19,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
 		<tr>
 			<th><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</th>
 			<td>
-				<?php echo JHTML::_('jresearch.link', $this->leader, 'member', 'show', $this->leader->id); ?>
+				<?php echo $this->leader->published? JHTML::_('jresearch.link', $this->leader, 'member', 'show', $this->leader->id) : $this->leader->__toString(); ?>
 			</td>
 		</tr>
 		<?php 
@@ -90,6 +91,11 @@ defined('_JEXEC') or die('Restricted access');
 		?>
 	</tbody>
 </table>
+<?php 
+$pub_view_all = JRequest::getVar('publications_view_all', 0);
+$pro_view_all = JRequest::getVar('projects_view_all', 0);
+$the_view_all = JRequest::getVar('theses_view_all', 0);
+?>
 <?php if(!empty($this->projects)): ?>
 <div>&nbsp;&nbsp;</div>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h3>
@@ -98,7 +104,18 @@ defined('_JEXEC') or die('Restricted access');
 	<li><?php echo JHTML::_('jresearch.link', $project->title, 'project', 'show', $project->id); ?></li>
 <?php endforeach; ?>
 </ul>
+<?php 
+$text = '';
+if($pro_view_all == 0 && $this->max_projects > count($this->projects))
+	$text = '['.JText::_('JRESEARCH_VIEW_ALL').']';
+elseif($pro_view_all == 1 && $this->max_projects > $this->npro)
+	$text = '['.JText::_('JRESEARCH_VIEW_LESS').']';
+
+if(!empty($text))
+	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.$pub_view_all.'&amp;projects_view_all='.(!$pro_view_all).'&amp;theses_view_all='.$the_view_all.'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
+?>
 <?php endif; ?>
+
 <?php if(!empty($this->publications)): ?>
 <div>&nbsp;&nbsp;</div>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h3>
@@ -107,16 +124,37 @@ defined('_JEXEC') or die('Restricted access');
 	<li><?php echo JHTML::_('jresearch.link', $publication->title, 'publication', 'show', $publication->id); ?></li>
 <?php endforeach; ?>
 </ul>
+<?php 
+$text = '';
+if($pub_view_all == 0 && $this->max_publications > count($this->publications))
+	$text = '['.JText::_('JRESEARCH_VIEW_ALL').']';
+elseif($pub_view_all == 1 && $this->max_publications > $this->npubs)
+	$text = '['.JText::_('JRESEARCH_VIEW_LESS').']';
+
+if(!empty($text))
+	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.(!($pub_view_all)).'&amp;projects_view_all='.$pro_view_all.'&amp;theses_view_all='.$the_view_all.'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
+?>
 <?php endif; ?>
 <?php if(!empty($this->theses)): ?>
-<div>&nbsp;&nbsp;</div>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h3>
 <ul>
 <?php foreach($this->theses as $thesis): ?>
 	<li><?php echo JHTML::_('jresearch.link', $thesis->title, 'thesis', 'show', $thesis->id); ?></li>
 <?php endforeach; ?>
 </ul>
+<?php 
+$text = '';
+if($the_view_all == 0 && $this->max_theses > count($this->theses))
+	$text = '['.JText::_('JRESEARCH_VIEW_ALL').']';
+elseif($the_view_all == 1 && $this->max_theses > $this->nthes)
+	$text = '['.JText::_('JRESEARCH_VIEW_LESS').']';
+
+if(!empty($text))
+	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.$pub_view_all.'&amp;projects_view_all='.$pro_view_all.'&amp;theses_view_all='.(!$the_view_all).'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
+
+?>
 <?php endif; ?>
+<div>&nbsp;&nbsp;</div>
 <div>
 	<a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a>
 </div>
