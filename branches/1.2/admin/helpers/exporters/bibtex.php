@@ -87,6 +87,11 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 				$output	= '@'.$this->_mapNonStandardType($type).'{'.$citekey.','."\n";
 						
 			$authors = $publication->getAuthors();
+			foreach($i = 0; $i < count($authors); $i++){
+				if(isobject($authors[$i])) 
+					$authors[$i] = $authors[$i]->__toString();
+			}
+
 			$authorsText = implode(" and ", JResearchPublicationsHelper::utf8ToBibCharsFromArray($authors));
 			$output .= "author = \"$authorsText\",\n";
 			$properties = $this->_getSupportedFields();
