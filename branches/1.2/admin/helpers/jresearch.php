@@ -88,7 +88,7 @@ class JResearch
 					return basename($newName);
 				}
 			}else{
-				JError::raiseWarning(1, JText::sprintf('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED', basename($newName)));
+				JError::raiseWarning(1, JText::sprintf('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED', basename($file['name']).' ('. $file['type']. ')'));
 			}
 		}
 		
