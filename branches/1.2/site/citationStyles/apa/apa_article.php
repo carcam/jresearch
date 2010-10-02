@@ -35,7 +35,7 @@ class JResearchAPAArticleCitationStyle extends JResearchAPACitationStyle{
 	protected function getReference(JResearchPublication $publication, $html=false, $authorLinks=false){		
 		$this->lastAuthorSeparator = $html?'&amp;':'&';		
 		$text = '';
-		$header = parent::getReference($publication, false, $authorLinks);
+		$header = parent::getReference($publication, $html, $authorLinks);
 	
 		$numberText = trim($publication->number);
 		if(!empty($numberText))
