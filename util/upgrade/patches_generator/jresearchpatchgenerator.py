@@ -36,12 +36,12 @@ def patchgenerator():
 	os.system(command1)
 	print "Exporting the modified files.. this might take some time..."
 	#export command
-	command2 = 'java -jar svnexportdiff.jar export diff ' + oldPath + ' ' + newPath + ' ./output'
+	command2 = 'java -jar svnexportdiff.jar export diff ' + oldPath + ' ' + newPath + ' ./output/'
 	print command2
 	os.system(command2)
 	#zip command	
 	print "Packaging the files...."
-	command3 = 'java -jar svnexportdiff.jar zip ./output'
+	command3 = 'java -jar svnexportdiff.jar zip ./output/'
 	print command3
 	os.system(command3)
 	print "Update patch successfully generated :)"
