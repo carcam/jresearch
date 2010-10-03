@@ -80,7 +80,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		
 		$idd = $db->nameQuote('id');
 		$query = "SELECT $idd FROM ".$db->nameQuote('#__jresearch_publication').' WHERE '.$db->nameQuote('published').' = 1 AND '.$db->nameQuote('internal').' = 1'
-				 .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY year DESC, created DESC';
+				 .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY year DESC, STR_TO_DATE(month, \'%M\') DESC ,created DESC';
 
 		if($n > 0){
 			$query .= ' LIMIT 0, '.$n;
@@ -122,7 +122,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$latestProj = array();
 		
 		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_project').' WHERE '.$db->nameQuote('published').' = 1'
-				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, created DESC';
+				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, end_date DESC, created DESC';
 
 		if($n > 0){
 			$query .= ' LIMIT 0, '.$n;
@@ -166,7 +166,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$latestThes = array();
 		
 		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_thesis').' WHERE '.$db->nameQuote('published').' = 1'
-				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, created DESC';
+				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, end_date DESC, created DESC';
 
 		if($n > 0){
 			$query .= ' LIMIT 0, '.$n;

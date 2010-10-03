@@ -105,9 +105,7 @@ $extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
         }else{
             global $mainframe;
             if(in_array($this->publication->pubtype, $extendedTypes)){
-                dump($this->publication->pubtype);
                 $function_name = 'plg'.ucfirst($this->publication->pubtype).'PublicationType';
-                dump($extendedTypes, 'Extended types');
                 if(function_exists($function_name))
                     $function_name($this->publication);
             }
@@ -120,11 +118,9 @@ $extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
 	<?php $acceptance = trim($this->publication->journal_acceptance_rate); ?>
 	<?php $impact_factor = trim($this->publication->impact_factor); ?>
 	<?php if(!empty($acceptance)): ?>
-		<?php $colspan = 2; ?>
+		<?php $colspan -= 2; ?>
 		<th scope="row"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': ' ?></th>		
 		<td><?php echo $acceptance; ?>%</td>
-	<?php else: ?>
-			<td colspan="<?php echo $colspan; ?>"></td>
 	<?php endif; ?>
 	<?php if(!empty($impact_factor)): ?>
 		<?php $colspan -= 2; ?>	

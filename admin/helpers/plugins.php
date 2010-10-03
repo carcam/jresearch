@@ -8,6 +8,9 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
 /**
  * Helper function for J!Research plugins related functionalities.
  *
@@ -114,8 +117,6 @@ class JResearchPluginsHelper{
         public static function verifyPublicationPluginsInstallation(){
             //Scan all plugins of type jresearch-type
             global $mainframe;
-            jimport('joomla.filesystem.file');
-            jimport('joomla.filesystem.folder');
             $folder = JPATH_PLUGINS.DS.'jresearch-pubtypes';
             if(JFolder::exists($folder)){
                 $plgs = JResearchPublication::getPublicationsSubtypes('extended') ;
