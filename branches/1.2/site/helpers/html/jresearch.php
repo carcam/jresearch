@@ -105,7 +105,7 @@ class JHTMLJresearch
 							
 							$authors = $pub->getAuthors();
 
-                                                        if($pub->created_by == $user->id || $canDo)
+                                                        if($canDo || $pub->created_by == $user->id)
                                                                 return true;
 							
 							foreach($authors as $author)
