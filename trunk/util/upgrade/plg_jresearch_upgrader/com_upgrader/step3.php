@@ -107,24 +107,27 @@ switch($extractor)
 $installation = JPATH_SITE .DS.'installation';
 
 $upgradeRoutine = file_get_contents($installation.DS.'upgrade.sql');
-if(!$upgradeRoutine){
-    $db = JFactory::getDBO();
-    $queries = splitSql($upgradeRoutine);
-    foreach ($queries as $query)
-    {
-        $query = trim($query);
-        if ($query != '' && $query {0} != '#')
-        {
-            $db->setQuery($query);
-            //echo $query .'<br />';
-            if($db->query()){
-                JError::raiseWarning(1, JText::_('JRESEARCH_SQL_UPGRADE_FAILED').': '.$db->getErrorMsg());
-                break;
-            }
-        }
-    }
+if(file_exists($installation.DS.'upgrade.sql')){
+	$upgradeRoutine = file_get_contents($installation.DS.'upgrade.sql');
+	if($upgradeRoutine){
+	    $db = JFactory::getDBO();
+	    $queries = splitSql($upgradeRoutine);
+	    dump($queries);	
+	    foreach ($queries as $query)
+	    {
+		$query = trim($query);
+		if ($query != '' && $query {0} != '#')
+		{
+	 	    $db->setQuery($query);
+		    JError::raiseNotice(1, 'Executing this query: '.$query);		
+		    if(!$db->query()){
+		        JError::raiseWarning(1, JText::_('JRESEARCH_SQL_UPGRADE_FAILED').': '.$db->getErrorMsg());
+		        break;
+		    }
+		}
+	    }
+	}
 }
-
 
 
 $removedFiles = $installation.DS.'deleted.txt';
