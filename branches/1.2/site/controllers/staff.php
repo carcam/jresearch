@@ -132,7 +132,7 @@ class JResearchStaffController extends JResearchFrontendController
             $imageWidth = $params->get('member_image_width', _MEMBER_IMAGE_MAX_WIDTH_);
             $imageHeight = $params->get('member_image_height', _MEMBER_IMAGE_MAX_HEIGHT_);
 
-            $member = JTable::getInstance('Table', 'JResearchMember');
+            $member = JTable::getInstance('Member', 'JResearch');
 
             // Bind request variables to publication attributes
             $post = JRequest::get('post');

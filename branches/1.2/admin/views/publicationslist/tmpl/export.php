@@ -8,7 +8,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <h1><?php echo $this->exportAll? JText::_('JRESEARCH_EXPORT_ALL_PUBLICATIONS'): JText::_('JRESEARCH_EXPORT_SELECTED_RECORDS'); ?></h1>
-<form name="adminForm" id="adminForm" action="./" method="post">
+<form name="adminForm" id="adminForm" action="index.php" method="post">
 <table class="adminform">
 	<tbody>
 	<tr>

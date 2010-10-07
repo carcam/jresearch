@@ -6,7 +6,7 @@
  */
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<form name="adminForm" id="adminForm" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
+<form name="adminForm" id="adminForm" action="index.php" method="post" class="form-validate" onsubmit="return validate(this);">
 <table class="edit" cellpadding="5" cellspacing="5">
 <tbody>
 	<tr>
