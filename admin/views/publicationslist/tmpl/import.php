@@ -8,7 +8,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
 ?>
-<form name="adminForm" id="adminForm" enctype="multipart/form-data" method="post">
+<form name="adminForm" id="adminForm" enctype="multipart/form-data" method="post" action="index.php">
 <table class="adminform">
 	<tbody>
 	<tr>

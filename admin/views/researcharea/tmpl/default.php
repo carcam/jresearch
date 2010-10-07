@@ -8,7 +8,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="divForm">
-<form name="adminForm" id="adminForm" method="post" class="form-validate" onSubmit="return validate(this);"  >
+    <form name="adminForm" action="index.php" id="adminForm" method="post" class="form-validate" onSubmit="return validate(this);"  >
 <fieldset>
 	<legend>
 		<?php echo JText::_('JRESEARCH_RESEARCH_AREA')?>

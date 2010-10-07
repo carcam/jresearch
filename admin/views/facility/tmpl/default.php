@@ -7,7 +7,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="divForm">
-<form name="adminForm" id="adminForm" action="./" method="post" enctype="multipart/form-data" class="form-validate" onsubmit="return validate(this);">
+<form name="adminForm" id="adminForm" action="index.php" method="post" enctype="multipart/form-data" class="form-validate" onsubmit="return validate(this);">
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_REQUIRED')?></legend>
 	<div class="divTable">

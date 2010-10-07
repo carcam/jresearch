@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.modal');
 ?>
 <div class="divForm">
-<form name="adminForm" id="adminForm" action="./" method="post" enctype="multipart/form-data" class="form-validate" onsubmit="return validate(this);">
+<form name="adminForm" id="adminForm" action="index.php" method="post" enctype="multipart/form-data" class="form-validate" onsubmit="return validate(this);">
 <fieldset>
 <legend><?php echo JText::_('JRESEARCH_COOPERATION'); ?></legend>
 <div class="divTable">
