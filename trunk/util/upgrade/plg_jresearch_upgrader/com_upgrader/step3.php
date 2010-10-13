@@ -106,7 +106,6 @@ switch($extractor)
 //Now time to execute the update scripts
 $installation = JPATH_SITE .DS.'installation';
 
-$upgradeRoutine = file_get_contents($installation.DS.'upgrade.sql');
 if(file_exists($installation.DS.'upgrade.sql')){
 	$upgradeRoutine = file_get_contents($installation.DS.'upgrade.sql');
 	if($upgradeRoutine){
