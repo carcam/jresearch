@@ -110,6 +110,20 @@ class JResearchConference extends JResearchPublication{
 	public $crossref;
 	
 	/**
+	 * The acceptance rate of the journal where the publication was accepted.
+	 *
+	 * @var float
+	 */
+	public $journal_acceptance_rate;	
+	
+	/**
+	 * The impact factor of the publication
+	 *
+	 * @var float
+	 */
+	public $impact_factor;
+	
+	/**
 	 * Class constructor.  It maps the entity to Joomla tables.
 	 *
 	 * @param JDatabase $db

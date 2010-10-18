@@ -38,7 +38,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_YEAR'), 'year', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_CITEKEY'), 'citekey', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_TYPE'), 'pubtype', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 5%;"><?php echo JText::_('Hits'); ?></th>
 			<th style="width: 10%;"><?php echo JText::_('JRESEARCH_EXPORT'); ?></th>
 		</tr>
@@ -81,7 +80,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td class="center"><?php echo $this->items[$i]->year; ?></td>
 					<td class="center"><?php echo $this->items[$i]->citekey; ?></td>
 					<td class="center"><?php echo JText::_('JRESEARCH_'.strtoupper($this->items[$i]->pubtype)); ?></td>
-					<td class="center"><?php echo $researchArea->name ;?></td>
 					<td class="center"><?php echo $this->items[$i]->hits; ?></td>
 					<td class="center"><?php echo implode(' , ', $exportLinks); ?></td>
 				</tr>

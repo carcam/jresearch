@@ -391,7 +391,8 @@ class JResearchAdminPublicationsController extends JController
 						$publication->setAuthor($value, $k, true); 
 					}else{
 						// For external authors 
-						$publication->setAuthor($value, $k);
+						$email = JRequest::getVar('authorsfieldemail'.$k);
+						$publication->setAuthor($value, $k, false, $email);
 					}
 					
 					$k++;
@@ -567,7 +568,8 @@ class JResearchAdminPublicationsController extends JController
 						$publication->setAuthor($value, $k, true); 
 					}else{
 						// For external authors 
-						$publication->setAuthor($value, $k);
+						$email = JRequest::getVar('authorsfieldemail'.$j);
+						$publication->setAuthor($value, $k, false, $email);
 					}
 					
 					$k++;

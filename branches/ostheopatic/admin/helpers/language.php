@@ -9,7 +9,7 @@
 */
 
 /**
- * Helper class for functions related to language functionalities.
+ * Helper class for functions related to country functionalities.
  */
 
 class JResearchLanguageHelper{
@@ -22,18 +22,17 @@ class JResearchLanguageHelper{
 	static function getLanguages(){
 		$db = JFactory::getDBO();
 		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_language');
+		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_language').' ORDER BY name';
 		$db->setQuery($query);
 		return $db->loadAssocList();
 	}
 	
 	/**
 	 * Returns the information about a single language
-	 * @param string $key The column by which the query is performed. 
-	 * @param string $value
+	 * @param int $id The country integer ID. 
 	 * @return $value
 	 */
-	static function getLanguage($key = 'id', $value = ''){
+	static function getLanguage($key, $value){
 		$db = JFactory::getDBO();
 		
 		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_language').' WHERE '.$db->nameQuote($key).' = '.$db->Quote($value);

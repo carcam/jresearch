@@ -109,7 +109,7 @@ abstract class JResearchModelList extends JModel{
 		$db->setQuery($this->_buildRawQuery());
 			
 		//prepare the pagination values
-		$total = count($db->loadAssocList());
+		$total = count($db->loadResult());
 		$limitstart = $this->getState('limitstart');
 		$limit = $this->getState('limit');
 		if($total <= $limitstart)
