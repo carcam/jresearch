@@ -113,10 +113,8 @@ class JResearchAdminStaffController extends JController
 	*/ 
 	function publish(){
             // Array of ids
-            $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
-
-            $member = new JResearchMember($db);
+	    $member = JTable::getInstance('Member', 'JResearch');	    	
             $member->publish($cid, 1);
             $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 	}
@@ -127,10 +125,9 @@ class JResearchAdminStaffController extends JController
 	*/ 
 	function unpublish(){
             // Array of ids
-            $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
 
-            $member = new JResearchMember($db);
+	    $member = JTable::getInstance('Member', 'JResearch');
             $member->publish($cid, 0);
             $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
         }
@@ -140,11 +137,10 @@ class JResearchAdminStaffController extends JController
 	* @access	public
 	*/ 
 	function remove(){
-            $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
             $n = 0;
 
-            $member = new JResearchMember($db);
+	    $member = JTable::getInstance('Member', 'JResearch');
             foreach($cid as $id){
                     if(!$member->delete($id)){
                             JError::raiseWarning(1, JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id));
