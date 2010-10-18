@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<joomfish type="contentelement">
+	<name>J!Research Member position</name>
+	<author>Luis Galárraga</author>
+	<version>0.1</version>
+	<description>Definition for the member position entity in J!Research</description>
+	<reference type="content">
+		<table name="jresearch_member_position">
+			<field type="referenceid" name="id" translate="0">ID</field>
+			<field type="titletext" name="position" translate="1">Position</field>
+		</table>
+	</reference>
+	<translationfilters>
+		<published>published</published>
+	</translationfilters>
+</joomfish>
