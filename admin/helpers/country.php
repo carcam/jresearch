@@ -9,36 +9,36 @@
 */
 
 /**
- * Helper class for functions related to country functionalities.
+ * Helper class for functions related to language functionalities.
  */
 
-class JResearchLanguageHelper{
+class JResearchCountryHelper{
 	
 	/**
 	 * Returns an associative array with all information about languages
 	 * supported by J!Research
 	 * @return array
 	 */
-	static function getLanguages(){
+	static function getCountries(){
 		$db = JFactory::getDBO();
 		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_language').' ORDER BY name';
+		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_country').' ORDER BY name ASC';
 		$db->setQuery($query);
 		return $db->loadAssocList();
 	}
 	
 	/**
 	 * Returns the information about a single language
-	 * @param int $id The country integer ID. 
+	 * @param string $key The column by which the query is performed. 
+	 * @param string $value
 	 * @return $value
 	 */
-	static function getLanguage($key, $value){
+	static function getCountry($value){
 		$db = JFactory::getDBO();
 		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_language').' WHERE '.$db->nameQuote($key).' = '.$db->Quote($value);
+		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_country').' WHERE '.$db->nameQuote('id').' = '.$db->Quote($value);
 		$db->setQuery($query);
-		return $db->loadAssoc();
-		
+		return $db->loadAssoc();		
 	}
 }
 

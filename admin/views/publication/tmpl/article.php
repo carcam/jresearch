@@ -31,6 +31,23 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div class="divEspacio" ></div>	
 </div>
 <div class="divTR">
+	<div class="divTd">
+	<label for="journal_acceptance_rate"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': '?></label>
+	</div>
+	<div class="divTdl divTdl2">
+		<input value="<?php echo isset($this->publication)?$this->publication->journal_acceptance_rate:'' ?>" size="10" name="journal_acceptance_rate" id="journal_acceptance_rate" maxlength="5" class="validate-numeric" />
+		<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'journal_acceptance_rate', JText::_('JRESEARCH_PROVIDE_VALID_NUMBER')); ?>			
+	</div>
+	<div class="divTd">
+	<label for="impact_factor"><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></label>
+	</div>
+	<div class="divTdl">	
+		<input value="<?php echo isset($this->publication)?$this->publication->impact_factor:'' ?>" size="10" name="impact_factor" id="impact_factor" maxlength="8" class="validate-numeric" />
+		<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'impact_factor', JText::_('JRESEARCH_PROVIDE_VALID_NUMBER')); ?>				
+		</div>
+     <div class="divEspacio" ></div>		
+	</div>
+<div class="divTR">
 	<div class="divTd"><label for="crossref"><?php echo JText::_('JRESEARCH_CROSS_REFERENCE').': ' ?></label></div>
 	<div class="divTdl"><input type="text" name="crossref" id="crossref" size="15" maxlength="255" value="<?php echo isset($this->publication)?$this->publication->crossref:''; ?>" /></div>
 </div>

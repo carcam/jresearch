@@ -46,14 +46,6 @@ $pane = JPane::getInstance('sliders', array('allowAllClose' => true));
 	</div>
 	<div>
 		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=institutes">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/institutes.png" alt="<?php echo JText::_('JRESEARCH_COOPERATIONS'); ?>" />					
-				<span><?php echo JText::_('JRESEARCH_INSTITUTES'); ?></span>
-			</a>
-		</div>
-	</div>
-	<div>
-		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=projects">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/projects.png" alt="<?php echo JText::_('JRESEARCH_PROJECTS'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_PROJECTS'); ?></span>

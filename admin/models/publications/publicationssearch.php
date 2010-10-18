@@ -53,6 +53,16 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		
 		return $resultQuery;
 	}
+	
+	/**
+	 * Returns the number of items retrieved by the search
+	 * Enter description here ...
+	 */
+	public function getResultsCount(){
+		$db = JFactory::getDBO();		
+		$db->setQuery($this->_buildRawQuery());
+		return $db->loadResult();
+	}
 
 	
 
@@ -62,8 +72,8 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	* @return string SQL query.
 	*/	
 	protected function _buildRawQuery(){
-		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		$db = JFactory::getDBO();
+		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();		
 		return $resultQuery;
 	}
@@ -79,6 +89,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$db = JFactory::getDBO();
 		$query = $this->_buildQuery();
 		$db->setQuery($query);
+		var_dump($db->getQuery());
 		$ids = $db->loadResultArray();
 		foreach($ids as $id){
 			$pub = JResearchPublication::getById($id);
@@ -158,12 +169,11 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		}else{
 			$where[] = $whereKeyClause[$keyfield0];			
 		}
-		
-		
-		
+				
 		// prepare the WHERE clause
 		$where[] = $db->nameQuote('published').' = '.$db->Quote(1);
 		$where[] = $db->nameQuote('internal').' = '.$db->Quote(1);
+		$where[] = $db->nameQuote('source').' = '.$db->Quote('ORW');
 			
 		// operators
 		$op1 = $mainframe->getUserStateFromRequest('publicationssearchop1', 'op1');	
@@ -320,7 +330,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		if(is_numeric($author)){
 			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
 		}else{
-			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
+			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote('%'.$db->getEscaped($author, true).'%', false);
 		}
 		$db->setQuery($query);
 		

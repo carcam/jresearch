@@ -186,7 +186,7 @@ class JResearchActivity extends JTable{
 	* @return true If the author could be correctly added (order is >= 0 and there is not any other author associated
 	* to the order number), false otherwise.
 	*/	
-	function setAuthor($member, $order, $internal=false){
+	function setAuthor($member, $order, $internal = false, $email = null){
 		$newEntry = array();
 		
 		if($order < 0)
@@ -204,6 +204,7 @@ class JResearchActivity extends JTable{
 			$this->_internalAuthors[] = $newEntry;
 		}else{
 			$newEntry['author_name'] = $member;  
+			$newEntry['author_email'] = $email;
 			$this->_externalAuthors[] = $newEntry;
 		}
 		
@@ -214,17 +215,17 @@ class JResearchActivity extends JTable{
 	 * Returns the complete list of authors (internal and externals) suitably ordered. 
 	 * Internal authors are displayed in format [lastname, firstname].
 	 * External authors are taken as they appear in the database.
-	 *
+	 * @param boolean $externals_as_arrays If true, external authors are retrieved as arrays otherwise as strings
 	 * @return array Array of mixed elements. Internal authors are instances of JResearchMember.
 	 * External ones are strings.
 	 */
-	public function getAuthors(){
+	public function getAuthors($externals_as_arrays = false){
 		$nAuthors = $this->countAuthors();
 		$result = array();
 		$i = 0;
 		
 		while($i < $nAuthors){
-			$auth = $this->getAuthor($i);
+			$auth = $this->getAuthor($i, $externals_as_arrays);
 			if($auth !== null){
 				$result[] = $auth;
 			}
@@ -239,11 +240,12 @@ class JResearchActivity extends JTable{
 	 * in which authors are displayed is important.
 	 * 
 	 * @param int $index Must be equal or greater than 0 and less than the number of authors.
+	 * @param boolean $externals_as_arrays If true, external authors are retrieved as arrays otherwise as strings
 	 * @return mixed string with the name of the author when external.
 	 * JResearchMember instance when the author is internal.
 	 * null when the index does not make sense (e.g the publication has 3 authors and $index=4 or $index<0)
 	 */
-	public function getAuthor($index){
+	public function getAuthor($index, $externals_as_arrays = false){
 		$n = $this->countAuthors();
 		if($index < 0 || $index >= $n){
 			return null;		
@@ -252,7 +254,7 @@ class JResearchActivity extends JTable{
 			if(isset($internalAuthors[$index]))
 				return $internalAuthors[$index];
 			else{
-				$externalAuthors = $this->getExternalAuthors();
+				$externalAuthors = $this->getExternalAuthors($externals_as_arrays);
 				if(isset($externalAuthors[$index]))
 					return $externalAuthors[$index];
 
@@ -286,10 +288,13 @@ class JResearchActivity extends JTable{
 	 * External authors are not part of the center's staff so they are represented as strings
 	 * @return array Associative array, where the order is the key and the author's name, the value.
 	 */
-	public function getExternalAuthors(){
+	public function getExternalAuthors($externals_as_arrays = false){
 		$result = array();
 		foreach($this->_externalAuthors as $author){
-			$result[$author['order']] = $author['author_name'];
+			if($externals_as_arrays)
+				$result[$author['order']] = $author;
+			else	
+				$result[$author['order']] = $author['author_name'];
 		}
 		return $result;
 	}

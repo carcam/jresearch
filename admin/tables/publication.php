@@ -40,21 +40,6 @@ class JResearchPublication extends JResearchActivity{
 	*/
 	public $internal;
 	
-	
-	/**
-	 * The acceptance rate of the journal where the publication was accepted.
-	 *
-	 * @var float
-	 */
-	public $journal_acceptance_rate;	
-	
-	/**
-	 * The impact factor of the publication
-	 *
-	 * @var float
-	 */
-	public $impact_factor;
-	
 	/**
 	 * @var string
 	 */
@@ -155,7 +140,7 @@ class JResearchPublication extends JResearchActivity{
 	/**
 	 * @var string
 	 */
-	public $country;
+	public $id_country;
 	
 	/**
 	 * 
@@ -165,9 +150,28 @@ class JResearchPublication extends JResearchActivity{
 	
 	/**
 	 * The abstract in the l
-	 * @var unknown_type
+	 * @var string
 	 */
 	public $original_abstract;	
+	
+	/**
+	 * Number of pages
+	 * @var int
+	 */
+	public $npages;
+	
+	/**
+	 * Number of images in the publication
+	 * @var int
+	 */
+	public $nimages;
+	
+	/**
+	 * Source
+	 * @var string
+	 */
+	public $source;
+	
 	
 	/**
 	 * Name of the foreign key field in the subclass table.
@@ -590,8 +594,8 @@ class JResearchPublication extends JResearchActivity{
       	$row = $db->loadAssoc();
 	    $next_id = $row['Auto_increment'] ;
 		if(empty($this->citekey)){
-			$this->citekey = $next_id;
-			$parentObject->citekey = $next_id;			
+			$this->citekey = $next_id + 1;
+			$parentObject->citekey = $next_id + 1;			
 		}
 		
  		// Time to insert the attributes
@@ -656,7 +660,7 @@ class JResearchPublication extends JResearchActivity{
 			$idStaffField = $db->nameQuote('id_staff_member');
 			$order = $author['order'];
 			$tableName = $db->nameQuote('#__jresearch_publication_internal_author');
-			$insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField) VALUES ($this->id, $id_staff_member,$order)";
+			$insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField,$emailField) VALUES ($this->id, $id_staff_member,$order)";
 			$db->setQuery($insertInternalQuery);			
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -667,10 +671,11 @@ class JResearchPublication extends JResearchActivity{
 		foreach($this->_externalAuthors as $author){
 			$order = $db->Quote($author['order'], false);
 			$authorName = $db->Quote($db->getEscaped($author['author_name'], true), false);
-			
+			$emailField = $db->nameQuote('author_email');
+			$email = $db->Quote($author['author_email']);						
 			$authorField = $db->nameQuote('author_name');
 			$tableName = $db->nameQuote('#__jresearch_publication_external_author');
-			$insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField) VALUES($this->id, $authorName, $order)";			
+			$insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField, $emailField) VALUES($this->id, $authorName, $order, $email)";			
 			$db->setQuery($insertExternalQuery);
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -678,7 +683,7 @@ class JResearchPublication extends JResearchActivity{
 			}
 		}     		
      
-      return true;
+      	return true;
 	}
 	
 	/**
@@ -869,6 +874,19 @@ class JResearchPublication extends JResearchActivity{
 			$abstracts[$this->id_language] = $this->original_abstract;	
 			
 		return $abstracts;	
+	}
+	
+	/**
+	 * 
+	 * @return unknown_type
+	 */
+	public function getCountry(){
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'country.php');
+		$result = JResearchCountryHelper::getCountry($this->id_country);
+		if($result != null)
+			return $result['name'];
+		else
+			return null;	
 	}
 }
 ?>

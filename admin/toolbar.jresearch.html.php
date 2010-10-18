@@ -319,19 +319,6 @@ class JResearchToolbar
 		self::adminListToolbar();
 	}
 	
-	/**
-	* Prints the toolbar menu for institutions
-	*/	
-	public static function institutesAdminListToolbar()
-	{
-		JToolBarHelper::title(JText::_('JRESEARCH_INSTITUTES'));
-		
-		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-		
-		JToolBarHelper::divider();
-		self::adminListToolbar();
-	}
-	
 	public static function member_positionListToolbar()
 	{
 		JToolBarHelper::title(JText::_('JRESEARCH_MEMBER_POSITIONS'));
@@ -349,19 +336,6 @@ class JResearchToolbar
 			$title = JText::_('JRESEARCH_EDIT_COOPERATION');
 		else
 			$title = JText::_('JRESEARCH_NEW_COOPERATION');	
-		
-		JToolBarHelper::title($title);
-		
-		self::editItemAdminToolbar();
-	}
-	
-	public static function editInstituteAdminToolbar()
-	{
-		$cid = JRequest::getVar('cid');
-		if($cid)
-			$title = JText::_('JRESEARCH_EDIT_INSTITUTE');
-		else
-			$title = JText::_('JRESEARCH_NEW_INSTITUTE');	
 		
 		JToolBarHelper::title($title);
 		

@@ -212,7 +212,10 @@ class JHTMLjresearchhtml
 		$doc->addScript($urlBase.'components/com_jresearch/js/bsn.AutoSuggest_c_2.0.js');
 		$upImage = $urlBase.'administrator/components/com_jresearch/assets/up_16.png';
 		$downImage = $urlBase.'administrator/components/com_jresearch/assets/down_16.png';		
+		$emailWarningImage = $urlBase.'administrator/components/com_jresearch/assets/messagebox_warning.png';
+		$emailWarningMessage = JText::_('JRESEARCH_PROVIDE_EMAIL');
 		$textField = $baseName.'field';
+		$emailLabel = JText::_('Email');
 		$projectLeader = JText::_('JRESEARCH_PROJECT_LEADER');
 		$delete = JText::_('Delete');
 		$repeatedAuthors = JText::_('JRESEARCH_AUTHOR_ADDED_BEFORE');
@@ -240,7 +243,10 @@ class JHTMLjresearchhtml
 	            as_xml1_$baseName.lbl_minAuthorLengthMessage = '$minAuthorLengthMessage';
 	            as_xml1_$baseName.lbl_noresults = '$noResults';
 	            as_xml1_$baseName.lbl_up_image = '$upImage';
-	            as_xml1_$baseName.lbl_down_image = '$downImage';            
+	            as_xml1_$baseName.lbl_down_image = '$downImage';
+	            as_xml1_$baseName.lbl_email_warning_image = '$emailWarningImage';	                        
+	            as_xml1_$baseName.lbl_email_warning_message = '$emailWarningMessage';
+	            as_xml1_$baseName.lbl_email = '$emailLabel';	            
         		});
 	        	        	            
             	function appendAuthor(){
@@ -262,10 +268,13 @@ class JHTMLjresearchhtml
 			$j = 0;
 			foreach($values as $author){
 				$output .= "<li id=\"li".$textField.$j."\">";
-				$authorText = $author instanceof JResearchMember?$author->__toString():$author;
-				$authorValue = $author instanceof JResearchMember?$author->id:$author;
+				$authorText = $author instanceof JResearchMember?$author->__toString():$author['author_name'];
+				$authorValue = $author instanceof JResearchMember?$author->id:$author['author_name'];
+				$authorEmail = $author instanceof JResearchMember?$author->email:$author['author_email'];				
 				$output .= "<span id=\"span$textField$j\" style=\"padding: 2px;\">$authorText</span>";
 				$output .= "<input type=\"hidden\" id=\"$textField".$j."\" name=\"$textField".$j."\" value=\"$authorValue\" />";
+				$output .= ', <strong>'.JText::_('Email').'</strong>'.": <input type=\"text\" class=\"validate-email\" id=\"$textField"."email".$j."\" name=\"$textField"."email".$j."\" value=\"$authorEmail\" size=\"10\" maxlength=\"60\" style=\"margin-left:3px;\" />";
+				$output .= JHTML::_('jresearchhtml.formWarningMessage', $textField.'email'.$j, JText::_('JRESEARCH_PROVIDE_EMAIL'));				
 				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:removeAuthor('li$textField$j')\">$delete</a></span>";
 				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveUp('li$textField$j')\"><img style=\"width:16px;height:16px\" src=\"$upImage\" alt=\"\" /></a></span>";
 				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveDown('li$textField$j')\"><img style=\"width:16px;height:16px\" src=\"$downImage\" alt=\"\" /></a></span>";				
@@ -969,5 +978,47 @@ class JHTMLjresearchhtml
     	return self::htmllist($orderOptions, $attributes);		
 	}
 	
+	/**
+	 * Returns the HTML needed to render language select list.
+	 * @param string $name Control name
+	 * @param string $options Extra HTML options
+	 * @param string $value Selected value in the list
+	 * @return string
+	 */
+	public static function countrieslist($name, $options, $value=17){
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'country.php');
+		
+		$countries = JResearchCountryHelper::getCountries();
+		$countriesHtmlOptions = array();
+		$countriesHtmlOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_COUNTRIES'));
+		
+		foreach($countries as $country){
+			$countriesHtmlOptions[] = JHTML::_('select.option', $country['id'], $country['name']);
+		}
+		
+		return JHTML::_('select.genericlist', $countriesHtmlOptions, $name, $options, 'value','text', $value);	
+	}
+	
+	public static function thesestypeslist(array $attributes = array()){
+		//Status options
+    	$orderOptions = array();
+    	$orderOptions[] = JHTML::_('select.option', 'bsc', JText::_('JRESEARCH_BSCTHESIS'));
+    	$orderOptions[] = JHTML::_('select.option', 'phd', JText::_('JRESEARCH_PHDTHESIS'));
+    	$orderOptions[] = JHTML::_('select.option', 'masters', JText::_('JRESEARCH_MASTERSTHESIS'));
+    	$orderOptions[] = JHTML::_('select.option', 'diploma', JText::_('JRESEARCH_DIPLOMATHESIS'));
+     	
+    	return self::htmllist($orderOptions, $attributes);		
+		
+	}
+	
+	public static function publicationsourceslist(array $attributes = array()){
+		//Status options
+    	$orderOptions = array();
+    	$orderOptions[] = JHTML::_('select.option', 'ORW', JText::_('JRESEARCH_ORW'));
+    	$orderOptions[] = JHTML::_('select.option', 'WSO', JText::_('JRESEARCH_WSO'));
+     	
+    	return self::htmllist($orderOptions, $attributes);		
+		
+	}
 }
 ?>

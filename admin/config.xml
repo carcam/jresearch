@@ -19,7 +19,7 @@
 			<option value="Chicago">Chicago (Author-Date system)</option>
 			<option value="Vancouver">Vancouver</option>
 		</param>
-		<param name="enable_export_frontend" type="radio" default="no" label="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT">
+		<param name="enable_export_frontend" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT">
 			<option value="yes">Yes</option>
 			<option value="no">No</option>			
 		</param>
