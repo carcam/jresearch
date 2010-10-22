@@ -22,18 +22,18 @@ $itemId = JRequest::getVar('Itemid');
 			<th><?php echo JText::_('JRESEARCH_EMAIL'); ?></th>
                         <?php $nCols++; ?>
 		<?php endif; ?>
-                <?php if($this->params->get('staff_show_research_area') == 'yes'): ?>
+       	<?php if($this->params->get('staff_show_research_area') == 'yes'): ?>
 			<th><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
                         <?php $nCols++; ?>
-                <?php endif; ?>
-                <?php if($this->params->get('staff_show_position') == 'yes'): ?>
+        <?php endif; ?>
+        <?php if($this->params->get('staff_show_position') == 'yes'): ?>
 			<th><?php echo JText::_('JRESEARCH_POSITION'); ?></th>
                         <?php $nCols++; ?>
-                <?php endif; ?>
-                <?php if($this->params->get('staff_show_phone_or_fax') == 'yes'): ?>
+        <?php endif; ?>
+        <?php if($this->params->get('staff_show_phone_or_fax') == 'yes'): ?>
 			<th><?php echo JText::_('JRESEARCH_PHONE_OR_FAX'); ?></th>
                         <?php $nCols++; ?>
-                <?php endif; ?>
+         <?php endif; ?>
 		</tr>
 	</thead>
 	<tfoot align="center">
@@ -44,7 +44,6 @@ $itemId = JRequest::getVar('Itemid');
     ?>
 	<tbody>
 	    <?php
-	    if(count($this->items) > 0):
 	    foreach($this->items as $member): 
 		    $researchArea = $this->areaModel->getItem($member->id_research_area);
 	    ?>
@@ -53,30 +52,26 @@ $itemId = JRequest::getVar('Itemid');
 			<?php if($this->params->get('member_show_email') == 'yes'): ?>
 				<td><?php echo JHTML::_('email.cloak', $member->email); ?></td>
 			<?php endif; ?>	
+            <?php if($this->params->get('staff_show_research_area') == 'yes'): ?>
 			<td>
-                        <?php if($this->params->get('staff_show_research_area') == 'yes'): ?>
+			
 				<?php if($researchArea->id > 1):?>
 					<?php echo JHTML::_('jresearch.link', $researchArea->name, 'researcharea', 'show', $researchArea->id); ?>
 				<?php else: ?>
-					<?php echo $researchArea->name; ?>				
+					<?php echo $researchArea->name; ?>							
 				<?php endif; ?>
-                        <?php endif; ?>
-			</td>
-                        <?php if($this->params->get('staff_show_position') == 'yes'): ?>
-                            <td><?php echo empty($member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$member->getPosition(); ?></td>
-                         <?php endif; ?>
-                        <?php if($this->params->get('staff_show_phone_or_fax') == 'yes'): ?>
-                            <td><?php echo $member->phone_or_fax; ?></td>
-                        <?php endif; ?>
+			</td>				
+             <?php endif; ?>
+			
+              <?php if($this->params->get('staff_show_position') == 'yes'): ?>
+                    <td><?php echo empty($member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$member->getPosition(); ?></td>
+               <?php endif; ?>
+               <?php if($this->params->get('staff_show_phone_or_fax') == 'yes'): ?>
+                     <td><?php echo $member->phone_or_fax; ?></td>
+                <?php endif; ?>
 		</tr>
         <?php
-        endforeach;
-        
-        else:
-        ?>
-        <tr><td colspan="4"></td></tr>
-        <?php
-        endif;
+        endforeach;        
         ?>
 	</tbody>
 </table>

@@ -41,11 +41,13 @@ JHTML::_('behavior.modal');
   <?php 
   endif;
   ?>
+  <?php if($this->area->id_research_area > 1): ?>
   <tr>
   	<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
   	<td><?php echo $this->area->name; ?></td>
 	<td style="width:50%;" colspan="2"></td>
   </tr>
+  <?php endif; ?>
   <tr>
   	<?php if(empty($this->member->phone_or_fax)): ?>
   	<td style="width:50%;" colspan="2"></td>
