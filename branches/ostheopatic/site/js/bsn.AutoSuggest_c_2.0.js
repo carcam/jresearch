@@ -586,6 +586,7 @@ _bsn.AutoSuggest.prototype.setHighlightedValue = function ()
 
 _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	var checkSpan = null;
+	var emailSpan = null;
 	var aSpan;
 	var aDelete;
 	var content;
@@ -622,8 +623,34 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	
 	if(isInternal)
 		nameSpan.appendChild(content);
-	else
-		nameSpan.appendChild(document.createTextNode(content));		
+	else{
+		nameSpan.appendChild(document.createTextNode(content));
+		emailSpan = document.createElement('span');
+		emailSpan.style.padding = '2px';		
+		emailSpan.appendChild(document.createTextNode(', '));
+		emailStrong = document.createElement('strong');
+		emailStrong.appendChild(document.createTextNode(this.lbl_email+': '));
+		inputEmail = document.createElement('input')
+		inputEmail.setAttribute('type', 'text');
+		inputEmail.setAttribute('class', 'validate-email');
+		inputEmail.setAttribute('classname', 'validate-email');
+		inputEmail.setAttribute('id', this.fld.name+'email'+i);
+		inputEmail.setAttribute('name', this.fld.name+'email'+i);
+		emailLabel = document.createElement('label');
+		emailLabel.setAttribute('class', 'labelform');
+		emailLabel.setAttribute('classname', 'labelform');
+		emailLabel.setAttribute('for', 'email');
+		imgEmail = document.createElement('img');
+		imgEmail.setAttribute('width', '20');
+		imgEmail.setAttribute('height', '20');
+		imgEmail.setAttribute('src', this.lbl_email_warning_image);
+		imgEmail.setAttribute('title', this.lbl_email_warning_message);
+		imgEmail.setAttribute('style', 'vertical-align: middle;');
+		imgEmail.setAttribute('alt', '!!!');
+		emailSpan.appendChild(emailStrong);
+		emailSpan.appendChild(inputEmail);		
+	}
+	
 	nameSpan.style.padding = '2px';
 	
 	aSpan = document.createElement('span');
@@ -632,6 +659,7 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	aDelete.setAttribute('href', 'javascript:removeAuthor(\'li'+this.fld.name+nResults+'\')');	
 	aDelete.appendChild(document.createTextNode(this.lbl_delete));
 	aSpan.appendChild(aDelete);
+	
 	
 	upDownSpan = document.createElement('span');
 	upDownSpan.style.padding = '2px';
@@ -687,6 +715,8 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	this.fldnresults.setAttribute('value', nResults);
 	
 	newLi.appendChild(nameSpan);		
+	
+	if(emailSpan != null) newLi.appendChild(emailSpan);
 	newLi.appendChild(aSpan);
 	newLi.appendChild(upDownSpan);	
 	newLi.appendChild(hiddenInput);

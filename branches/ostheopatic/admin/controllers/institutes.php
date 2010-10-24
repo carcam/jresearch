@@ -161,8 +161,8 @@ class JResearchAdminInstitutesController extends JController
 		$post = JRequest::get('post');
 
 		$institute->bind($post);
-		$institute->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$institute->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$institute->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		$institute->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 
 		//Generate an alias if needed
 		$institute = trim(JRequest::getVar('alias'));

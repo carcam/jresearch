@@ -208,7 +208,7 @@ class JResearchAdminThesesController extends JController
 		// Bind request variables to publication attributes	
 		$thesis->bind($post);
 		$thesis->title = trim($thesis->title);
-		$thesis->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$thesis->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 		//Time to set the authors
 		$count = 0;
 		$maxStudents = JRequest::getInt('nstudentsfield');

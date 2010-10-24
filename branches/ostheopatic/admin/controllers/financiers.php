@@ -151,7 +151,7 @@ class JResearchAdminFinanciersController extends JController
 		$post = JRequest::get('post');
 
 		$fin->bind($post);
-		$fin->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$fin->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWHTML);
 
 		// Validate and save
 		$task = JRequest::getVar('task');		

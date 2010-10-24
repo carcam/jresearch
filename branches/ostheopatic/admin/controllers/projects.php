@@ -218,7 +218,7 @@ class JResearchAdminProjectsController extends JController
 		// Bind request variables to publication attributes			
 		$project->bind($post);
 		$project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
-		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 		
 		//Upload photo
 		$fileArr = JRequest::getVar('inputfile', null, 'FILES');

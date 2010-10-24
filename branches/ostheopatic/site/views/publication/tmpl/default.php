@@ -7,7 +7,29 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
+
 ?>
+<style type="text/css">
+	div#second_language{
+		display:none;
+	}
+</style>
+<script type="text/javascript">
+	function showOriginalAbstract(){
+		secondLanguage = document.getElementById('second_language');
+		secondLanguage.style.display = 'block';
+		aShow = document.getElementById('ashow');
+		aShow.style.display = 'none';
+	}
+
+	function hideOriginalAbstract(){
+		secondLanguage = document.getElementById('second_language');
+		secondLanguage.style.display = 'none';
+		aShow = document.getElementById('ashow');
+		aShow.style.display = 'block';		
+	}
+</script>
 <?php $Itemid = JRequest::getVar('Itemid'); 
 	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  	
@@ -16,39 +38,38 @@ defined('_JEXEC') or die('Restricted access');
 <h1 class="componentheading"><?php echo $this->publication->title; ?></h1>
 <table class="frontendsingleitem">
 <tbody>
-	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
-		<td><?php if($this->area->id > 1): ?>
-			<?php echo JHTML::_('jresearch.link', $this->area->name, 'researcharea', 'show', $this->area->id)?>
-		<?php else: ?>
-			<?php echo $this->area->name; ?>	
-		<?php endif; ?>	
-		</td>
-		<?php $year = $this->publication->year; ?>
-		<?php if($year != null && $year != '0000' && !empty($year)): ?>
-		<th scope="row"><?php echo JText::_('JRESEARCH_YEAR').': ' ?></th>
-		<td><?php echo $this->publication->year; ?></td>
-		<?php else: ?>
-		<td colspan="2"></td>
-		<?php endif; ?>
-	</tr>
-	<tr>
+	<?php $original_title = $this->publication->original_title; ?>
+	<?php if(!empty($this->publication->original_title)): ?>		
+		<tr>		
+			<th scope="row"><?php echo JText::_('JRESEARCH_ORIGINAL_TITLE').': ' ?></th>
+			<td colspan="3"><?php echo $this->publication->original_title; ?></td>
+		</tr>	
+	<?php endif; ?>
 	<?php $colspan = 4; ?>
 	<?php $month = trim($this->publication->month);  
 		  $day = trim($this->publication->day);
 	?>
-	<?php if(!empty($month)): ?>
-		<?php if(empty($day)): ?>
-			<?php $colspan -= 2; ?>
-			<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>		
-			<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
+	<?php $year = $this->publication->year; ?>
+	<?php if($year != null && $year != '0000' && !empty($year)): ?>
+		<tr>
+		<th scope="row"><?php echo JText::_('JRESEARCH_YEAR').': ' ?></th>
+		<td><?php echo $this->publication->year; ?></td>
+		<?php $colspan-= 2; ?>
+		<?php if(!empty($month)): ?>
+			<?php if(empty($day)): ?>
+				<?php $colspan -= 2; ?>
+				<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>		
+				<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
+			<?php else: ?>
+				<th scope="row"><?php echo JText::_('JRESEARCH_DATE').': ' ?></th>		
+				<td><?php echo JResearchPublicationsHelper::formatMonth($month).', '.$day; ?></td>		
+			<?php endif; ?>
 		<?php else: ?>
-			<th scope="row"><?php echo JText::_('JRESEARCH_DATE').': ' ?></th>		
-			<td><?php echo JResearchPublicationsHelper::formatMonth($month).', '.$day; ?></td>		
+			<td colspan="<?php echo $colspan; ?>"></td>	
 		<?php endif; ?>
+		</tr>
 	<?php endif; ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
-	</tr>
+	
 	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
 		<td><?php echo JResearchText::_($this->publication->pubtype); ?></td>
@@ -60,15 +81,15 @@ defined('_JEXEC') or die('Restricted access');
 		<td colspan="2"></td>
 		<?php endif; ?>
 	</tr>
-	<?php $authors = $this->publication->getAuthors(); ?>
+	<?php $authors = $this->publication->getAuthors(true); ?>
 	<?php if(!empty($authors)): ?>
 	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_AUTHORS').': ' ?></th>
 		
 		<?php if($this->staff_list_arrangement == 'horizontal'): ?>
-		<td style="width:85%;" colspan="3">
+		<td colspan="3">
 				<?php $n = count($authors); 
-					  $i = 0; ?>
+					  $i = 0;  ?>
 				<?php foreach($authors as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
@@ -77,13 +98,18 @@ defined('_JEXEC') or die('Restricted access');
 								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 							<?php endif; ?>	
 						<?php else: ?>
-								<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?><?php echo $i == $n - 1?'':';' ?>
+								<?php if(!empty($auth['author_email'])): ?>
+									<a href="mailto:<?php echo $auth['author_email']; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth['author_name'], $this->format); ?></a>
+								<?php else: ?>
+									<?php echo JResearchPublicationsHelper::formatAuthor($auth['author_name'], $this->format); ?>								
+								<?php endif; ?>
+								<?php echo $i == $n - 1?'':';' ?>
 						<?php endif; ?>
 						<?php $i++; ?>
 				<?php endforeach; ?>
 		</td>		
 		<?php else: ?>
-		<td>
+		<td colspan="3">
 			<ul>
 				<?php foreach($authors as $auth): ?>
 					<li style="list-style:none;">
@@ -93,18 +119,25 @@ defined('_JEXEC') or die('Restricted access');
 							<?php else: ?>
 								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
 							<?php endif; ?>	
-						<?php else: ?>
-								<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?>
+						<?php else: ?>						
+								<?php echo JResearchPublicationsHelper::formatAuthor($auth['author_name'], $this->format); ?>
+								<?php if(!empty($auth['author_email'])): ?>
+									(<a href="mailto:<?php echo $auth['author_email']; ?>"><?php echo $auth['author_email']; ?></a>)
+								<?php endif; ?>	
 						<?php endif; ?>
 					</li>
 				<?php endforeach; ?>
 			</ul>
 		</td>
 		<?php endif; ?>
-		<td colspan="2"></td>		
 	</tr>	
-	<?php endif; ?>
-	
+	<?php endif; ?>	
+	<tr>
+		<th scope="row"><?php echo JText::_('JRESEARCH_SOURCE').': ' ?></th>
+		<td><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->source)); ?></td>
+		<th scope="row"><?php echo JText::_('JRESEARCH_COUNTRY').': '; ?></th>
+		<td><?php echo $this->publication->getCountry(); ?></td>
+	</tr>
 	<?php require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.$this->publication->pubtype.'.php') ?>
 	<tr>		
 	
@@ -127,6 +160,24 @@ defined('_JEXEC') or die('Restricted access');
 		<td colspan="<?php echo $colspan; ?>"></td>
 	<?php endif; ?>
 	</tr>
+	<?php if(!empty($this->publication->npages) || !empty($this->publication->nimages)): ?>
+	<tr>
+		<?php $colspan = 4; ?>
+		<?php if(!empty($this->publication->npages)): ?>
+			<th scope="row"><?php echo JText::_('JRESEARCH_NPAGES').': ' ?></th>
+			<td><?php echo $this->publication->npages; ?></td>
+			<?php $colspan -= 2; ?>
+		<?php endif; ?>	
+		<?php if(!empty($this->publication->nimages)): ?>
+			<th scope="row"><?php echo JText::_('JRESEARCH_NIMAGES').': '; ?></th>
+			<td><?php echo $this->publication->nimages; ?></td>
+			<?php $colspan -= 2; ?>
+		<?php endif; ?>
+		<?php if($colspan > 0): ?>
+			<td colspan="<?php echo $colspan; ?>" />
+		<?php endif; ?>
+	</tr>
+	<?php endif; ?>
 		
 	<?php $awards = trim($this->publication->awards); ?>
 	<?php if(!empty($awards) && ($this->params->get('show_awards') == 'yes')): ?>
@@ -144,13 +195,46 @@ defined('_JEXEC') or die('Restricted access');
 	</tr>
 	<?php endif; ?>	
 	
-	<?php $abstract = trim($this->publication->abstract); ?>
-	<?php if(!empty($abstract)): ?>
+
+	<?php $abstracts = $this->publication->getAbstracts(); 
+	?>
+	<?php if(!empty($abstracts)): ?>
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_ABSTRACT').': '; ?></th>
-		<td style="width:85%;" colspan="3"><div style="text-align:justify;"><?php echo $abstract; ?></div></td>	
+		<th scope="row"><?php echo JText::_('JRESEARCH_ABSTRACT').': '; ?></th>	
+	</tr>
+	<tr>
+		<td style="width:100%;" colspan="4">
+		<div>
+			<?php if(count($this->abstracts) > 1): ?>
+				<?php if(isset($this->abstracts[4])): ?>
+					<div><strong><i><?php echo JText::_('JRESEARCH_ENGLISH_VERSION'); ?></i></strong></div>
+					<div  style="text-align:justify;"><?php echo $this->abstracts[4]; //English ?></div>
+				<?php endif; ?>				
+				<div style="height:20px;"></div>
+				<div id="second_language">
+					<?php $secondLang = JResearchLanguageHelper::getLanguage('id', $this->publication->id_language); ?>
+					<div><strong><i><?php echo JText::_('JRESEARCH_ORIGINAL_ABSTRACT').' ('.$secondLang['name'].')'; ?></i></strong></div>
+					<div  style="text-align:justify;"><?php echo $this->abstracts[$this->publication->id_language]; ?></div>
+					<div style="height:20px;"></div>					
+					<div><a id="ahide" href="javascript:hideOriginalAbstract();"><?php echo JText::_('JRESEARCH_HIDE_ORIGINAL_ABSTRACT'); ?></a></div>			
+				</div>
+				<div><a id="ashow" href="javascript:showOriginalAbstract();"><?php echo JText::_('JRESEARCH_SHOW_ORIGINAL_ABSTRACT'); ?></a></div>
+			<?php else: ?>
+				<div style="text-align:justify;">
+					<?php if(isset($this->abstracts[4])): ?>
+						<?php echo $this->abstracts[4]; ?>					
+					<?php elseif(isset($this->abstracts[$this->publication->id_language])): ?>
+						<?php echo $this->abstracts[$this->publication->id_language]; ?>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>	
+		</div>
+		<div style="height:20px;"></div>		
+		</td>	
 	</tr>
 	<?php endif; ?>	
+	
+	
 	<?php $comments = trim($this->publication->comments); ?>	
 	<?php if(!empty($comments)): ?>
 	<tr>

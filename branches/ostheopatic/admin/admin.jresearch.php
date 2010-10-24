@@ -23,6 +23,17 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
 
+// Handle upgrade case
+$mode = JRequest::getVar('mode');
+if($mode == 'upgrader'){
+    // Verify the plugin is installed in the system
+    if(!JPluginHelper::isEnabled('jresearch', 'jresearch_upgrader')){
+        JError::raiseWarning(1, JText::_('JRESEARCH_UPGRADE_PLUGIN_NOT_INSTALLED'));
+        $mainframe->redirect('index.php?option=com_jresearch');
+    }
+}
+
+
 $document = &JFactory::getDocument();
 //Require administrator template
 $url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
@@ -32,8 +43,9 @@ $document->addStyleSheet($url.'administrator/components/com_jresearch/css/jresea
 $controller = JRequest::getVar('controller', null);
 $task = JRequest::getVar('task');
 $prefix = 'JResearchAdmin';
+$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas', 'financiers', 'member_positions');
 
-if($controller == null){
+if($controller == null || !in_array($controller, $availableControllers)){
 	// It is the default controller
 	require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
 	$classname = $prefix.'Controller';

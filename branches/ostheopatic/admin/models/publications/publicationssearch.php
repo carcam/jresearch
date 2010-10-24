@@ -40,17 +40,17 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	* @return string
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false){		
-		$db =& JFactory::getDBO();		
+		$db = JFactory::getDBO();		
+		$secondTable = $db->nameQuote('#__jresearch_publication_external_author');
 		if($memberId === null){	
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName).', '.$secondTable; 	
 		}else{
 			$resultQuery = '';
 		}
 		// Deal with pagination issues
 		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();		
 		$limit = (int)$this->getState('limit');
-		$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');					
-		
+		$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');
 		return $resultQuery;
 	}
 	
@@ -73,8 +73,9 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	*/	
 	protected function _buildRawQuery(){
 		$db = JFactory::getDBO();
-		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
-		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();		
+		$secondTable = $db->nameQuote('#__jresearch_publication_external_author');
+		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName).', '.$secondTable.' '; 	
+		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished);
 		return $resultQuery;
 	}
 	
@@ -89,7 +90,6 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$db = JFactory::getDBO();
 		$query = $this->_buildQuery();
 		$db->setQuery($query);
-		var_dump($db->getQuery());
 		$ids = $db->loadResultArray();
 		foreach($ids as $id){
 			$pub = JResearchPublication::getById($id);
@@ -106,7 +106,9 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	*/
 	private function _buildQueryOrderBy(){		
 		global $mainframe;
-		$output = '';
+		$db = JFactory::getDBO();
+		$output = '';		
+		$secondTable = $db->nameQuote('#__jresearch_publication_external_author');		
 		$first_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by1', 'order_by1', 'date_descending');
 		$second_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by2', 'order_by2', 'title');		
 		
@@ -117,7 +119,14 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			case 'date_ascending':
 				$first_clause = 'year ASC, month ASC, day ASC';
 				break;
-			case 'title': default:
+			case 'author_name_ascending':
+				$first_clause = "$secondTable.author_name ASC";
+				break;
+			case 'author_name_descending':
+				$first_clause = "$secondTable.author_name DESC";				
+				break;
+			case 'title': 				
+				default:
 				$first_clause = 'title ASC';				
 				break;	
 					
@@ -130,6 +139,12 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			case 'date_ascending':
 				$second_clause = 'year ASC, month ASC, day ASC';
 				break;
+			case 'author_name_ascending':
+				$first_clause = "$secondTable.author_name ASC";
+				break;
+			case 'author_name_descending':
+				$first_clause = "$secondTable.author_name DESC";				
+				break;				
 			case 'title': default:
 				$second_clause = 'title ASC';				
 				break;	
@@ -144,9 +159,13 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere(){
-		global $mainframe;
-		
+		global $mainframe;		
 		$db = JFactory::getDBO();
+
+		$secondTable = $db->nameQuote('#__jresearch_publication_external_author');		
+		$firstTable = $db->nameQuote($this->_tableName);
+		$where = array();
+		$where[] = "$firstTable.id = $secondTable.id_publication";
 		//Obtention of search key		
 		$key = $mainframe->getUserStateFromRequest('publicationssearchkey', 'key');
 		$keyfield0 = $mainframe->getUserStateFromRequest('publicationssearchkeyfield0', 'keyfield0', 'all');

@@ -256,7 +256,7 @@ class JHTMLjresearchhtml
 				}");
 		$doc->addStyleSheet($urlBase.'components/com_jresearch/css/autosuggest_inquisitor.css');
 		$button = '<input style="margin-left:8px;" type="button" onclick="javascript:appendAuthor();" value="'.JText::_('Add').'" />';
-		$output = "<div class=\"divTdl\"><input type=\"text\" name=\"$textField\" id=\"$textField\" class=\"validate-integrante\" size=\"15\" />$button</div>";
+		$output = "<div class=\"divTdl\"><input type=\"text\" name=\"$textField\" id=\"$textField\" class=\"validate-integrante\" size=\"25\" />$button</div>";
 		
 		// Here we verify if there are authors
 		$output .= "<input type=\"hidden\" id=\"$baseName\" value=\"\" />";
@@ -973,8 +973,9 @@ class JHTMLjresearchhtml
     	$orderOptions[] = JHTML::_('select.option', 'date_descending', JText::_('JRESEARCH_DATE_DESCENDING'));
     	$orderOptions[] = JHTML::_('select.option', 'date_ascending', JText::_('JRESEARCH_DATE_ASCENDING'));
     	$orderOptions[] = JHTML::_('select.option', 'title', JText::_('JRESEARCH_TITLE'));
-//    	$orderOptions[] = JHTML::_('select.option', 'author_name', JText::_('JRESEARCH_AUTHOR_NAME'));    	
-     	
+    	$orderOptions[] = JHTML::_('select.option', 'author_name_ascending', JText::_('JRESEARCH_AUTHOR_NAME_ASC'));    	
+    	$orderOptions[] = JHTML::_('select.option', 'author_name_descending', JText::_('JRESEARCH_AUTHOR_NAME_DESC'));    	
+    	     	
     	return self::htmllist($orderOptions, $attributes);		
 	}
 	

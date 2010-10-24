@@ -161,8 +161,8 @@ class JResearchAdminCooperationsController extends JController
 		$post = JRequest::get('post');
 
 		$coop->bind($post);
-		$coop->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$coop->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$coop->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		$coop->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 
 		//Generate an alias if needed
 		$coop = trim(JRequest::getVar('alias'));

@@ -1,4 +1,4 @@
-<form method="post" action="index.php?option=com_jresearch&amp;controller=publications&amp;task=search" name="adminForm">
+<form method="post" action="index.php?option=com_jresearch&amp;controller=publications&amp;task=startsearch" name="adminForm">
 <?php global $mainframe; ?>
 <fieldset><legend><?php echo JText::_('JRESEARCH_SEARCH_FOR');?></legend>
 <div class="divTR">

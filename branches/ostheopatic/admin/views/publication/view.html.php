@@ -74,7 +74,7 @@ class JResearchAdminViewPublication extends JResearchView
 		
 		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));
 		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));		
-		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->recommended:1));
+		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->recommended:0));
 		$statusRadio = JHTML::_('jresearchhtml.publicationstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->status:'in_progress'));
 		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', !$isNew?$publication->id_language:0);
 		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', !$isNew?$publication->id_country:0);		

@@ -68,7 +68,7 @@ class JResearchViewPublication extends JResearchView
     	$user = JFactory::getUser();    	    	
     	$commentsAllowed = false;
    		$showComments = JRequest::getInt('showcomm', 0);
-   		$doc =& JFactory::getDocument();
+   		$doc = JFactory::getDocument();
    		//Verify if the visit is done in the same session
 		$session = JFactory::getSession();
    		 		
@@ -81,7 +81,7 @@ class JResearchViewPublication extends JResearchView
     		return false;
     	}
     	//Get the model
-    	$model =& $this->getModel();
+    	$model = $this->getModel();
     	$publication = $model->getItem($id);
     	
 		if(!$publication->internal || !$publication->published){
@@ -97,7 +97,7 @@ class JResearchViewPublication extends JResearchView
 			$publication->hit();
 		}
 		
-    	$areaModel = &$this->getModel('researcharea');
+    	$areaModel = $this->getModel('researcharea');
     	$area = $areaModel->getItem($publication->id_research_area);
     	
     	//Get and use configuration
@@ -160,10 +160,12 @@ class JResearchViewPublication extends JResearchView
     	$showMODS = ($params->get('show_export_mods') == 'yes');    		
     	$showRIS = ($params->get('show_export_ris') == 'yes');    	
     	
-		
+    	$abstracts = $publication->getAbstracts();
+    			
 		$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
     	// Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
+    	$this->assignRef('abstracts', $abstracts);
     	$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('showHits', $showHits);
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
@@ -176,10 +178,8 @@ class JResearchViewPublication extends JResearchView
 		$this->assignRef('showBibtex', $showBibtex);
     	$this->assignRef('showMODS', $showMODS);	
     	$this->assignRef('showRIS', $showRIS);			
-		
-		
+				
 		return true;
-
     }
     
     private function _editPublication()
@@ -187,7 +187,7 @@ class JResearchViewPublication extends JResearchView
     	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 		JHTML::_('jresearchhtml.validation');		
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$cid = JRequest::getVar('id', 0);
 		
 		$this->assignRef('id', $cid);
@@ -234,13 +234,14 @@ class JResearchViewPublication extends JResearchView
 		}
 
 		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));
-   	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => !$isNew?$publication->id_research_area:null)); 
 		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));			
-		$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , !$isNew?$publication->getAuthors():array());
+		$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , !$isNew?$publication->getAuthors(true):array());
 						
-		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->recommended:1));
-		$statusRadio = JHTML::_('jresearchhtml.publicationstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->status:'in_progress'));
-		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', $publication?$publication->id_language:0);
+		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->recommended:0));
+		$statusRadio = JHTML::_('jresearchhtml.publicationstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->status:'in_progress'));
+		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', !$isNew?$publication->id_language:0);
+		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', !$isNew?$publication->id_country:0);
+		$sourcesList = JHTML::_('jresearchhtml.publicationsourceslist', array('name' => 'source', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->source:'ORW'));		
 		
 		$params = $this->getParams();
 		if(!empty($publication->files))
@@ -250,19 +251,18 @@ class JResearchViewPublication extends JResearchView
 		$files = JHTML::_('JResearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
 		
 		$this->assignRef('statusRadio', $statusRadio);
+		$this->assignRef('sourcesList', $sourcesList);		
 		$this->assignRef('recommendedRadio', $recommendedRadio);
 		$this->assignRef('languageList', $languageList);
+		$this->assignRef('countriesList', $countriesList);		
 		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
 		$this->assignRef('pubtype', $pubtype);
-		$this->assignRef('areasList', $researchAreasHTML);
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('authors', $authorsControl);
 		$this->assignRef('files', $files);
 		
 		return true;
-		
-		
     }
     
 	/**
@@ -278,7 +278,7 @@ class JResearchViewPublication extends JResearchView
 		foreach($subtypes as $type){
 			// Inproceedings is the same as conference 
 			if($type != 'inproceedings')
-				$typesOptions[] = JHTML::_('select.option', $type, $type.': '.JText::_('JRESEARCH_'.strtoupper($type)));			
+				$typesOptions[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));			
 		}
 		
 		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		

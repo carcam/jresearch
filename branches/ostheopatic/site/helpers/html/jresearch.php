@@ -33,12 +33,12 @@ class JHTMLJresearch
 
 		$modelKey = JRequest::getVar('modelkey');
 		$modelKeyText = !empty($modelKey)?'&modelkey='.$modelKey:'';
-		
+				
 		if(in_array($controller, $availableController))
 		{
 			$authorized = JHTMLJResearch::authorize($task, $controller, $itemid, $userid);
 
-			if($authorized)
+			if($authorized) //Changes by Pablo Moncada
 			{
 				switch($controller)
 				{
@@ -104,29 +104,31 @@ class JHTMLJresearch
 							$pub = JResearchPublication::getById($itemid);
 							
 							$authors = $pub->getAuthors();
+
+                            if($canDo || $pub->created_by == $user->id)
+                                 return true;
 							
 							foreach($authors as $author)
 							{
 								//Return true if I'm able to edit all publications or only mine
 								if(is_a($author, 'JResearchMember'))
 								{
-									if($canDo || ($canDoOwn && ($author->id == $user->id)) || $pub->created_by == $user->id)
+									if($canDoOwn && $author->username == $user->username)
 									{
 										return true;
 									}
 									
 									//Check teams of author 
-									//If user is member of one team of the author, 
-									//he will get authorized
+									//If user is a team leader, he can edit all publications from the team
 									$teams = $author->getTeams();
 									
 									foreach($teams as $team)
 									{
-										//If user is member of one team, he is authorized to do the task
-										if($team->isMember($user->id))
-										{
-											return true;
-										}
+                                          $leader = $team->getLeader();
+                                          if($team->isMember($user->id) && $leader->username == $user->username)
+                                          {
+                                          		return true;
+                                          }
 									}
 								}
 							}
@@ -143,6 +145,7 @@ class JHTMLJresearch
 		}
 		
 		return false;
+		
 	}
 	
 	/**
