@@ -362,6 +362,8 @@ class JResearchAdminPublicationsController extends JController
 	    }
 		
 		$check = $publication->check();
+		$publication->abstract = JRequest::getVar('abstract', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		$publication->original_abstract = JRequest::getVar('original_abstract', '', 'post', 'string', JREQUEST_ALLOWHTML);
 		
 		//Generate an alias if needed
 		$alias = trim(JRequest::getVar('alias'));

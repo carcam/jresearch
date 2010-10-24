@@ -214,7 +214,7 @@ class JResearchAdminStaffController extends JController
 		$member->lastname = trim($member->lastname);
 		
 		$member->former_member = (int) JRequest::getVar('former_member', '0', 'post', 'string');
-		$member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 		
 		//Upload photo
 		$fileArr = JRequest::getVar('inputfile', null, 'FILES');

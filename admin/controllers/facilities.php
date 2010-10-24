@@ -175,8 +175,8 @@ class JResearchAdminFacilitiesController extends JController
 		$post = JRequest::get('post');
 
 		$fac->bind($post);
-		$fac->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$fac->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$fac->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		$fac->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 		
 		//Generate an alias if needed
 		$alias = trim(JRequest::getVar('alias'));

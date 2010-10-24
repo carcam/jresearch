@@ -54,8 +54,8 @@ class JResearchViewProject extends JResearchView
       	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
       	
     	$id = JRequest::getInt('id');
-	$doc =& JFactory::getDocument();
-	$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
+		$doc = JFactory::getDocument();
+		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
 
 		if(empty($id)){
 			JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));

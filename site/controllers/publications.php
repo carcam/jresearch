@@ -57,6 +57,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$this->registerTask('export', 'export');
 		$this->registerTask('exportAll', 'exportAll');
 		// Add for osteopathic adaptation
+		$this->registerTask('startsearch', 'startsearch');
 		$this->registerTask('search', 'search');
 		$this->registerTask('advancedSearch', 'advancedSearch');
 				
@@ -498,7 +499,10 @@ class JResearchPublicationsController extends JResearchFrontendController
 	  	if(empty($alias)){
  	  	 	$publication->alias = JResearch::alias($publication->title);
 		}
-	   		
+		
+		$publication->abstract = JRequest::getVar('abstract', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		$publication->original_abstract = JRequest::getVar('original_abstract', '', 'post', 'string', JREQUEST_ALLOWHTML);
+			
 		$check = $publication->check();		
 		// Validate publication
 		if(!$check){
@@ -522,7 +526,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 						$publication->setAuthor($value, $k, true); 
 					}else{
 						// For external authors 
-						$publication->setAuthor($value, $k);
+						$email = JRequest::getVar('authorsfieldemail'.$j);
+						$publication->setAuthor($value, $k, false, $email);
 					}
 					
 					$k++;
@@ -881,6 +886,114 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$view->display();
 	}
 	
+	function startsearch(){
+		$url = 'index.php?option=com_jresearch&view=publicationssearch&task=search';
+		// Time to construct the URL
+		$limitstart = JRequest::getInt('limitstart', 0);
+		$url .= '&limitstart='.$limitstart;
+		
+		$key = JRequest::getVar('key', '');
+		if(!empty($key))
+			$url .= '&key='.$key;
+		
+		$key1 = JRequest::getVar('key1', '');
+		if(!empty($key1))
+			$url .= '&key1='.$key1;
+
+		$key2 = JRequest::getVar('key2', '');
+		if(!empty($key2))
+			$url .= '&key2='.$key2;
+
+		$key3 = JRequest::getVar('key3', '');
+		if(!empty($key3))
+			$url .= '&key3='.$key3;
+			
+		$keyfield0 = JRequest::getVar('keyfield0', 'all');			
+		if(!empty($key))	
+			$url .= '&keyfield0='.$keyfield0;
+			
+		$keyfield1 = JRequest::getVar('keyfield1', 'all');			
+		if(!empty($key1))	
+			$url .= '&keyfield1='.$keyfield1;
+			
+		$keyfield2 = JRequest::getVar('keyfield2', 'all');			
+		if(!empty($key2))	
+			$url .= '&keyfield2='.$keyfield2;
+			
+		$keyfield3 = JRequest::getVar('keyfield3', 'all');			
+		if(!empty($key3))	
+			$url .= '&keyfield3='.$keyfield3;
+
+
+		$op1 = JRequest::getVar('op1', 'and');
+		if(!empty($key1))
+			$url .= '&op1='.$op1;
+			
+		$op2 = JRequest::getVar('op2', 'and');
+		if(!empty($key2))
+			$url .= '&op2='.$op2;
+
+		$op3 = JRequest::getVar('op3', 'and');
+		if(!empty($key3))
+			$url .= '&op3='.$op3;
+			
+		$with_abstract = JRequest::getVar('with_abstract', 'off');
+		$url .= '&with_abstract='.$with_abstract;
+					
+		$pubtype = JRequest::getVar('pubtype', '0');
+		$url .= '&pubtype='.$pubtype;
+
+		$language =	JRequest::getVar('language', '0');
+		$url .= '&language='.$language;
+
+		$status = JRequest::getVar('status', '0');
+		$url .= '&status='.$status;
+			
+		$from_year = JRequest::getVar('from_year', '');
+		if(!empty($from_year))
+			$url .= '&from_year='.$from_year;																			
+
+		$from_month = JRequest::getVar('from_month', '');
+		if(!empty($from_month))
+			$url .= '&from_month='.$from_month;																			
+
+		$from_day = JRequest::getVar('from_day', '');
+		if(!empty($from_day))
+			$url .= '&from_day='.$from_day;																			
+
+		$to_year = JRequest::getVar('to_year', '');
+		if(!empty($to_year))
+			$url .= '&to_year='.$to_year;																			
+		
+		$to_month = JRequest::getVar('to_month', '');
+		if(!empty($to_month))
+			$url .= '&to_month='.$to_month;																			
+						
+		$to_day = JRequest::getVar('to_day', '');
+		if(!empty($to_day))
+			$url .= '&to_day='.$to_day;
+		
+		$date_field = JRequest::getVar('date_field', 'publication_date');
+		$url .= '&date_field='.$date_field;
+			
+		$order_by1 = JRequest::getVar('order_by1', '');
+		if(!empty($order_by1))
+			$url .= '&order_by1='.$order_by1;																			
+			
+		$order_by2 = JRequest::getVar('order_by2', '');
+		if(!empty($order_by2))
+			$url .= '&order_by2='.$order_by2;																			
+
+		$recommended = JRequest::getVar('recommended', '');
+		if(!empty($recommended))
+			$url .= '&recommended='.$recommended;																			
+			
+		$newSearch = JRequest::getVar('newSearch', 0);
+		$url .= '&newSearch='.$newSearch;	
+			
+		$this->setRedirect($url);
+	}
+	
 	/**
 	 * Invoked to render advanced search form for publications
 	 */
@@ -899,8 +1012,6 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 * @return unknown_type
 	 */
 	private function _resetUserState(){
-		global $mainframe;
-		
 		JRequest::setVar('key', '');
 		JRequest::setVar('keyfield0', 'all');
 		JRequest::setVar('keyfield1', 'all');

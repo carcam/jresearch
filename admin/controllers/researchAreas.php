@@ -61,7 +61,7 @@ class JResearchAdminResearchAreasController extends JController
 		
 		$area->bind($post);			
 		$area->name = trim($area->name);
-		$area->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$area->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 		
 			//Generate an alias if needed
 		$alias = trim(JRequest::getVar('alias'));

@@ -166,8 +166,8 @@ class JResearchAdminTeamsController extends JController
 		$post = JRequest::get('post');
 
 		$team->bind($post);
-		$team->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$team->description = JRequest::getVar('description','','post', 'string', JREQUEST_ALLOWRAW);
+		$team->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		$team->description = JRequest::getVar('description','','post', 'string', JREQUEST_ALLOWHTML);
 		
 		//Generate an alias if needed
 		$alias = trim(JRequest::getVar('alias'));
