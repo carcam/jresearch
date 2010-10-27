@@ -11,7 +11,6 @@
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'team.php');
 
 /**
  * Team Backend Controller
@@ -110,7 +109,7 @@ class JResearchAdminTeamsController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$team = new JResearchTeam($db);
+		$team = JTable::getInstance('Team', 'JResearch');
 		$team->publish($cid, 1);
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=teams', JText::_('The items were successfully published'));
@@ -122,7 +121,7 @@ class JResearchAdminTeamsController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$team = new JResearchTeam($db);
+		$team = JTable::getInstance('Team', 'JResearch');
 		$team->publish($cid, 0);
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=teams', JText::_('The items were successfully unpublished'));
@@ -134,7 +133,7 @@ class JResearchAdminTeamsController extends JController
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 
-		$team = new JResearchTeam($db);
+		$team = JTable::getInstance('Team', 'JResearch');
 
 		foreach($cid as $id)
 		{
@@ -161,14 +160,14 @@ class JResearchAdminTeamsController extends JController
 		}
 		
 		$db =& JFactory::getDBO();
-		$team = new JResearchTeam($db);
+		$team = JTable::getInstance('Team', 'JResearch');
 
 		// Bind request variables
 		$post = JRequest::get('post');
 
 		$team->bind($post);
-		$team->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$team->description = JRequest::getVar('description','','post', 'string', JREQUEST_ALLOWRAW);
+		$team->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		$team->description = JRequest::getVar('description','','post', 'string', JREQUEST_ALLOWHTML);
 		
 		//Generate an alias if needed
 		$alias = trim(JRequest::getVar('alias'));

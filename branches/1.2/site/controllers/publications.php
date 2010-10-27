@@ -85,7 +85,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		global $mainframe;
 		
 		//Get and use configuration
-        	$params = $mainframe->getPageParameters('com_jresearch');
+        $params = $mainframe->getPageParameters('com_jresearch');
 		$format = JRequest::getVar('format', 'html');	
 		
 		// Sort parameters
@@ -645,7 +645,7 @@ class JResearchPublicationsController extends JResearchFrontendController
             $db =& JFactory::getDBO();
             $cid = JRequest::getVar('id');
             $n = 0;
-            $publication = new JResearchPublication($db);
+            $publication = JTable::getInstance('Publication', 'JResearch');
 
             $modelkey = JRequest::getVar('modelkey');
             if(!empty($modelkey) && $modelkey == 'tabular')

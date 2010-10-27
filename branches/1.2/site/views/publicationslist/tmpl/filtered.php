@@ -8,6 +8,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+$nCols = 4;
 ?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publicationslist&amp;layout=filtered&amp;task=filtered&amp;modelkey=tabular">
@@ -28,18 +29,19 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
 			<th style="text-align:center;width:10%;"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
 			<?php if($this->showScore): ?>
 			<th style="text-align:center;width:10%;"><?php echo $this->punctuationField == 'journal_acceptance_rate'?JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'):JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR'); ?></th>
+			<?php $nCols++; ?>
 			<?php endif; ?>
 			<?php $user = JFactory::getUser(); 
 				  if(!$user->guest): ?>
 						<th style="width:2%;"></th>
-			<?php endif; ?>			
+				 <?php $nCols++; ?>
+				  <?php endif; ?>			
 		</tr>
 		</thead>
 		
 		<tfoot>
 			<tr>
-				<td colspan="6">
-					<div>&nbsp;</div>
+				<td colspan="<?php echo $nCols; ?>">
 					<div style="text-align:center;"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>
 				</td>
 			</tr>
@@ -54,7 +56,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
 			$outIndex = JRequest::getInt('limitstart', 0) + 1;
 			for($i=0; $i<$n; $i++){
 	          		$authors = $this->items[$i]->getAuthors();
-    	      			$text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->format);
+    	      		$text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->format);
 		?>
 				<tr class="<?php $k = i%2; echo "row$k"; ?>">
 					<td><?php echo $outIndex; ?></td>
@@ -70,11 +72,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
 				</tr>
 				<?php $outIndex++; ?>
 			<?php
-			}
-			else:
-			?>
-			<tr><td colspan="5">&nbsp;</td></tr>
-			<?php 
+			}			
 			endif;
 			?>
 		</tbody>

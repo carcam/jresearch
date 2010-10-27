@@ -11,8 +11,6 @@
 
 jimport('joomla.application.component.controller');
 
-
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 /**
  * Theses Backend Controller
  * @package		JResearch
@@ -108,7 +106,7 @@ class JResearchAdminThesesController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$thesis = new JResearchThesis($db);
+		$thesis = JTable::getInstance('Thesis', 'JResearch');
 		$thesis->publish($cid, 1);
 		$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));		
 	}
@@ -122,7 +120,7 @@ class JResearchAdminThesesController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$thesis = new JResearchThesis($db);
+		$thesis = JTable::getInstance('Thesis', 'JResearch');
 		$thesis->publish($cid, 0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
 		
@@ -137,7 +135,7 @@ class JResearchAdminThesesController extends JController
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 		
-		$thesis = new JResearchThesis($db);
+		$thesis = JTable::getInstance('Thesis', 'JResearch');
 		foreach($cid as $id){
 			if(!$thesis->delete($id)){
 				JError::raiseWarning(1, JText::sprintf('JRESEARCH_THESIS_NOT_DELETED', $id));
@@ -163,7 +161,7 @@ class JResearchAdminThesesController extends JController
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 				
 		$db = JFactory::getDBO();
-		$thesis = new JResearchThesis($db);
+		$thesis = JTable::getInstance('Thesis', 'JResearch');
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
 		$post = JRequest::get('post');		
@@ -205,7 +203,7 @@ class JResearchAdminThesesController extends JController
 		// Bind request variables to publication attributes	
 		$thesis->bind($post);
 		$thesis->title = trim($thesis->title);
-		$thesis->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$thesis->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 		//Time to set the authors
 		$count = 0;
 		$maxStudents = JRequest::getInt('nstudentsfield');

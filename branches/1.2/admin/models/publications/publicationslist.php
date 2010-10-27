@@ -193,8 +193,9 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	private function _buildQueryOrderBy(){
             global $mainframe;
             $modelKey = JRequest::getVar('modelkey', '');
+            $monthSort = '';
 
-            $db =& JFactory::getDBO();
+            $db = JFactory::getDBO();
             //Array of allowable order fields
             $orders = array('title', 'published', 'year', 'citekey', 'pubtype', 'id_research_area');
             $Itemid = JRequest::getVar('Itemid');
@@ -209,9 +210,11 @@ class JResearchModelPublicationsList extends JResearchModelList{
             if($filter_order == 'type')
                     $filter_order = $db->nameQuote('pubtype');
             elseif($filter_order == 'alphabetical' || !in_array($filter_order, $orders))
-                    $filter_order = $db->nameQuote('title');
-
-            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->nameQuote('created').' DESC';
+                   	$filter_order = $db->nameQuote('title');
+			elseif($filter_order == 'year')
+				$monthSort .= ', STR_TO_DATE(month, \'%M\' ) '.$filter_order_Dir;
+                                                           
+            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.$monthSort.', '.$db->nameQuote('created').' DESC';
 	}	
 	
 	/**

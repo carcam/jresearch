@@ -11,7 +11,6 @@
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'financier.php');
 
 class JResearchAdminFinanciersController extends JController
 {
@@ -91,10 +90,9 @@ class JResearchAdminFinanciersController extends JController
 	function publish()
 	{
 		// Array of ids
-		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$fin = new JResearchFinancier($db);
+		$fin = JTable::getInstance('Financier', 'JResearch');
 		$fin->publish($cid, 1);
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=financiers', JText::_('The items were successfully published'));
@@ -103,10 +101,9 @@ class JResearchAdminFinanciersController extends JController
 	function unpublish()
 	{
 		// Array of ids
-		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$fin = new JResearchFinancier($db);
+		$fin = JTable::getInstance('Financier', 'JResearch');
 		$fin->publish($cid, 0);
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=financiers', JText::_('The items were successfully unpublished'));
@@ -114,11 +111,10 @@ class JResearchAdminFinanciersController extends JController
 
 	function remove()
 	{
-		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 
-		$fin = new JResearchFinancier($db);
+		$fin = JTable::getInstance('Financier', 'JResearch');
 
 		foreach($cid as $id)
 		{
@@ -146,13 +142,13 @@ class JResearchAdminFinanciersController extends JController
 		
 		$db =& JFactory::getDBO();
 
-		$fin = new JResearchFinancier($db);
+		$fin = JTable::getInstance('Financier', 'JResearch');
 
 		// Bind request variables
 		$post = JRequest::get('post');
 
 		$fin->bind($post);
-		$fin->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$fin->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWHTML);
 
 		// Validate and save
 		$task = JRequest::getVar('task');		

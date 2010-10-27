@@ -46,10 +46,10 @@
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
 			</param>
-                        <param name="publications_sort_as_citation_style" label="JRESEARCH_SORT_AS_CITATION_STYLE" description="JRESEARCH_SORT_AS_CITATION_STYLE_DESCRIPTION" type="radio" default="yes">
-                        	<option value="yes">Yes</option>
+            <param name="publications_sort_as_citation_style" label="JRESEARCH_SORT_AS_CITATION_STYLE" description="JRESEARCH_SORT_AS_CITATION_STYLE_DESCRIPTION" type="radio" default="no">
+                <option value="yes">Yes</option>
 				<option value="no">No</option>
-                        </param>
+            </param>
 			<param name="publications_items_in_feed" default="10" label="JRESEARCH_CONFIG_ITEMS_IN_RSS_FEED" type="text" />
 					
 			<param name="show_more" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_MORE" description="JRESEARCH_PUBLICATIONS_SHOW_MORE_DESCRIPTION">
