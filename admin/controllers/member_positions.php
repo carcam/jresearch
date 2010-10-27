@@ -9,7 +9,6 @@
 * of cooperations in the backend interface.
 */
 jimport('joomla.application.component.controller');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member_position.php');
 
 /**
 * JResearch Member positions Backend Controller
@@ -100,10 +99,9 @@ class JResearchAdminMember_positionsController extends JController
 	function publish()
 	{
 		// Array of ids
-		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$coop = new JResearchMember_position($db);
+		$coop = JTable::getInstance('Member_position', 'JResearch');
 		$coop->publish($cid, 1);
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('The items were successfully published'));
@@ -112,10 +110,9 @@ class JResearchAdminMember_positionsController extends JController
 	function unpublish()
 	{
 		// Array of ids
-		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$position = new JResearchMember_position($db);
+		$position = JTable::getInstance('Member_position', 'JResearch');
 		$position->publish($cid, 0);
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('The items were successfully unpublished'));
@@ -123,11 +120,10 @@ class JResearchAdminMember_positionsController extends JController
 
 	function remove()
 	{
-		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 
-		$position = new JResearchMember_position($db);
+		$position = JTable::getInstance('Member_position', 'JResearch');
 
 		foreach($cid as $id)
 		{
@@ -157,7 +153,7 @@ class JResearchAdminMember_positionsController extends JController
 
             $db =& JFactory::getDBO();
 
-            $position = new JResearchMember_position($db);
+            $position = JTable::getInstance('Member_position', 'JResearch');
 
             // Bind request variables
             $post = JRequest::get('post');

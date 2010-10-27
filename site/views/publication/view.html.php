@@ -166,7 +166,7 @@ class JResearchViewPublication extends JResearchView
     	$this->assignRef('showMODS', $showMODS);	
     	$this->assignRef('showRIS', $showRIS);			
 		
-        parent::display($tpl);
+        parent::display();
         $mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);
     }
 
@@ -222,74 +222,74 @@ class JResearchViewPublication extends JResearchView
            $attach = $publication->getAttachment(0, 'publications');
            $doc->setMetaData('citation_pdf_url', JHTML::_('JResearchhtml.attachment', $attach));
        }
-
+       
     }
     
     private function _editPublication()
     {
     	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
-	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
-	JHTML::_('jresearchhtml.validation');		
-	$user = JFactory::getUser();
-	$cid = JRequest::getVar('id', 0);	
-	$this->assignRef('id', $cid);
-	$doc = JFactory::getDocument();
-	$isNew = ($cid == 0); 
-	$doc->addScriptDeclaration('
-		function msubmitform(pressbutton){
-			if (pressbutton) {
-				document.adminForm.task.value=pressbutton;
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+		JHTML::_('jresearchhtml.validation');		
+		$user = JFactory::getUser();
+		$cid = JRequest::getVar('id', 0);	
+		$this->assignRef('id', $cid);
+		$doc = JFactory::getDocument();
+		$isNew = ($cid == 0); 
+		$doc->addScriptDeclaration('
+			function msubmitform(pressbutton){
+				if (pressbutton) {
+					document.adminForm.task.value=pressbutton;
+				}
+				if (typeof document.adminForm.onsubmit == "function") {
+					if(!document.adminForm.onsubmit())
+					{
+						return;
+					}
+					else
+					{
+						document.adminForm.submit();
+					}
 			}
-			if (typeof document.adminForm.onsubmit == "function") {
-				if(!document.adminForm.onsubmit())
-				{
-					return;
-				}
-				else
-				{
-					document.adminForm.submit();
-				}
-		}
-		else
-		{
-			document.adminForm.submit();
-		}
-	}');
+			else
+			{
+				document.adminForm.submit();
+			}
+		}');
 			
-	if($isNew){
-		$this->addPathwayItem(JText::_('Add'));
-		$pubtype = JRequest::getVar('pubtype');					
-	}else{
-            $publication = JResearchPublication::getById($cid);
-            $pubtype = $publication->pubtype;
-            $this->addPathwayItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
-            $this->addPathwayItem(JText::_('Edit'));
-            $publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
-            $this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
-            $this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);
-	}
+		if($isNew){
+			$this->addPathwayItem(JText::_('Add'));
+			$pubtype = JRequest::getVar('pubtype');					
+		}else{
+	            $publication = JResearchPublication::getById($cid);
+	            $pubtype = $publication->pubtype;
+	            $this->addPathwayItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
+	            $this->addPathwayItem(JText::_('Edit'));
+	            $publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
+	            $this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
+	            $this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);
+		}
+	
+		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));
+	 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => !$isNew?$publication->id_research_area:null)); 
+		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));			
+		$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , !$isNew?$publication->getAuthors():array());
+							
+		$params = $this->getParams();
+		if(!empty($publication->files))
+			$uploadedFiles = explode(';', trim($publication->files));
+		else
+			$uploadedFiles = array();	
+		$files = JHTML::_('JResearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
+		
+		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
+		$this->assignRef('pubtype', $pubtype);
+		$this->assignRef('areasList', $researchAreasHTML);
+		$this->assignRef('publishedRadio', $publishedRadio);
+		$this->assignRef('internalRadio', $internalRadio );
+		$this->assignRef('authors', $authorsControl);
+		$this->assignRef('files', $files);
+        parent::display();
 
-	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));
- 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => !$isNew?$publication->id_research_area:null)); 
-	$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));			
-	$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , !$isNew?$publication->getAuthors():array());
-						
-	$params = $this->getParams();
-	if(!empty($publication->files))
-		$uploadedFiles = explode(';', trim($publication->files));
-	else
-		$uploadedFiles = array();	
-	$files = JHTML::_('JResearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
-	
-	$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
-	$this->assignRef('pubtype', $pubtype);
-	$this->assignRef('areasList', $researchAreasHTML);
-	$this->assignRef('publishedRadio', $publishedRadio);
-	$this->assignRef('internalRadio', $internalRadio );
-	$this->assignRef('authors', $authorsControl);
-	$this->assignRef('files', $files);
-	
-	return true;
     }
     
 	/**
@@ -311,7 +311,7 @@ class JResearchViewPublication extends JResearchView
 		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
 		
 		$this->assignRef('types', $typesList);
-		return true;
+        parent::display();
 	}
 }
 

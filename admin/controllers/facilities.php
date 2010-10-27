@@ -10,7 +10,6 @@
 */
 
 jimport('joomla.application.component.controller');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'facility.php');
 
 /**
 * JResearch Facilities Backend Controller
@@ -111,7 +110,7 @@ class JResearchAdminFacilitiesController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$fac = new JResearchFacility($db);
+		$fac = JTable::getInstance('Facility', 'JResearch');
 		$fac->publish($cid, 1);
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=facilities', JText::_('The items were successfully published'));
@@ -120,10 +119,9 @@ class JResearchAdminFacilitiesController extends JController
 	function unpublish()
 	{
 		// Array of ids
-		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$fac = new JResearchCooperation($db);
+		$fac = JTable::getInstance('Facility', 'JResearch');
 		$fac->publish($cid, 0);
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=facilities', JText::_('The items were successfully unpublished'));
@@ -135,7 +133,7 @@ class JResearchAdminFacilitiesController extends JController
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 
-		$fac = new JResearchFacility($db);
+		$fac = JTable::getInstance('Facility', 'JResearch');
 
 		foreach($cid as $id)
 		{
@@ -170,14 +168,14 @@ class JResearchAdminFacilitiesController extends JController
 		$imageWidth = $params->get('facility_image_width', _FACILITY_IMAGE_MAX_WIDTH_);
 		$imageHeight = $params->get('facility_image_height', _FACILITY_IMAGE_MAX_HEIGHT_);
 		
-		$fac = new JResearchFacility($db);
+		$fac = JTable::getInstance('Facility', 'JResearch');
 
 		// Bind request variables
 		$post = JRequest::get('post');
 
 		$fac->bind($post);
-		$fac->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$fac->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$fac->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		$fac->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 		
 		//Generate an alias if needed
 		$alias = trim(JRequest::getVar('alias'));

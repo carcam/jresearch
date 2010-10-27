@@ -112,11 +112,11 @@ class JResearchAdminStaffController extends JController
 	* @access	public
 	*/ 
 	function publish(){
-            // Array of ids
-            $cid = JRequest::getVar('cid');
-	    $member = JTable::getInstance('Member', 'JResearch');	    	
-            $member->publish($cid, 1);
-            $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
+         // Array of ids
+        $cid = JRequest::getVar('cid');
+    	$member = JTable::getInstance('Member', 'JResearch');	    	
+        $member->publish($cid, 1);
+        $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 	}
 
 	/**
@@ -124,13 +124,12 @@ class JResearchAdminStaffController extends JController
 	* @access	public
 	*/ 
 	function unpublish(){
-            // Array of ids
-            $cid = JRequest::getVar('cid');
-
+        // Array of ids
+        $cid = JRequest::getVar('cid');
 	    $member = JTable::getInstance('Member', 'JResearch');
-            $member->publish($cid, 0);
-            $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
-        }
+        $member->publish($cid, 0);
+        $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
+    }
 
 	/**
 	* Invoked when an administrator has decided to remove one or more items
@@ -205,7 +204,7 @@ class JResearchAdminStaffController extends JController
             $member->lastname = trim($member->lastname);
 
             $member->former_member = (int) JRequest::getVar('former_member', '0', 'post', 'string');
-            $member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+            $member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 
             //Upload photo
             $fileArr = JRequest::getVar('inputfile', null, 'FILES');

@@ -10,7 +10,6 @@
 */
 
 jimport('joomla.application.component.controller');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researchArea.php');
 
 /**
  * Research Areas Backend Controller
@@ -53,14 +52,14 @@ class JResearchAdminResearchAreasController extends JController
             }
 
             $db =& JFactory::getDBO();
-            $area = new JResearchArea($db);
+            $area = JTable::getInstance('Area', 'JResearch');
 
             // Bind request variables to publication attributes
             $post = JRequest::get('post');
 
             $area->bind($post);
             $area->name = trim($area->name);
-            $area->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+            $area->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 
                     //Generate an alias if needed
             $alias = trim(JRequest::getVar('alias'));
@@ -138,7 +137,7 @@ class JResearchAdminResearchAreasController extends JController
             $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
 
-            $area = new JResearchArea($db);
+            $area = JTable::getInstance('Area', 'JResearch');
             $area->publish($cid, 1);
             $this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 	}
@@ -152,7 +151,7 @@ class JResearchAdminResearchAreasController extends JController
             $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
 
-            $area = new JResearchArea($db);
+            $area = JTable::getInstance('Area', 'JResearch');
             $area->publish($cid, 0);
             $this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::_('JRESEARCH_AREAS_UNPUBLISHED_SUCCESSFULLY'));
 	}
@@ -166,7 +165,7 @@ class JResearchAdminResearchAreasController extends JController
             $cid = JRequest::getVar('cid');
             $n = 0;
 
-            $area = new JResearchArea($db);
+            $area = JTable::getInstance('Area', 'JResearch');
             foreach($cid as $id){
                     if(!$area->delete($id)){
                             JError::raiseWarning(1, JText::sprintf('JRESEARCH_AREA_NOT_DELETED', $id));

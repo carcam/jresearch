@@ -10,7 +10,6 @@
 */
 
 jimport('joomla.application.component.controller');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
 
 /**
 * JResearch Cooperations Backend Controller
@@ -95,10 +94,9 @@ class JResearchAdminCooperationsController extends JController
 	function publish()
 	{
             // Array of ids
-            $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
 
-            $coop = new JResearchCooperation($db);
+            $coop = JTable::getInstance('Cooperation', 'JResearch');
             $coop->publish($cid, 1);
 
             $this->setRedirect('index.php?option=com_jresearch&controller=cooperations', JText::_('The items were successfully published'));
@@ -107,10 +105,9 @@ class JResearchAdminCooperationsController extends JController
 	function unpublish()
 	{
             // Array of ids
-            $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
 
-            $coop = new JResearchCooperation($db);
+            $coop = JTable::getInstance('Cooperation', 'JResearch');
             $coop->publish($cid, 0);
 
             $this->setRedirect('index.php?option=com_jresearch&controller=cooperations', JText::_('The items were successfully unpublished'));
@@ -118,11 +115,10 @@ class JResearchAdminCooperationsController extends JController
 
 	function remove()
 	{
-            $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
             $n = 0;
 
-            $coop = new JResearchCooperation($db);
+            $coop = JTable::getInstance('Cooperation', 'JResearch');
 
             foreach($cid as $id)
             {
@@ -141,7 +137,7 @@ class JResearchAdminCooperationsController extends JController
 
 	function save()
 	{
-            global $mainframe;
+        global $mainframe;
 	    if(!JRequest::checkToken())
             {
                 $this->setRedirect('index.php?option=com_jresearch');
@@ -150,20 +146,20 @@ class JResearchAdminCooperationsController extends JController
 
             require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 
-            $db =& JFactory::getDBO();
+            $db = JFactory::getDBO();
 
             $params = JComponentHelper::getParams('com_jresearch');
             $imageWidth = $params->get('cooperation_image_width', _COOPERATION_IMAGE_MAX_WIDTH_);
             $imageHeight = $params->get('cooperation_image_height', _COOPERATION_IMAGE_MAX_HEIGHT_);
 
-            $coop = new JResearchCooperation($db);
+            $coop = JTable::getInstance('Cooperation', 'JResearch');
 
             // Bind request variables
             $post = JRequest::get('post');
 
             $coop->bind($post);
-            $coop->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWRAW);
-            $coop->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+            $coop->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWHTML);
+            $coop->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 
             //Generate an alias if needed
             $alias = trim(JRequest::getVar('alias'));

@@ -127,7 +127,7 @@ class JResearchAdminPublicationsController extends JController
             $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
 
-            $publication = new JResearchPublication($db);
+            $publication = JTable::getInstance('Publication', 'JResearch');
             $publication->publish($cid, 1);
             $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));				
 	}
@@ -141,7 +141,7 @@ class JResearchAdminPublicationsController extends JController
             $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
 
-            $publication = new JResearchPublication($db);
+            $publication = JTable::getInstance('Publication', 'JResearch');
             $publication->publish($cid, 0);
             $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
 	}
@@ -154,7 +154,7 @@ class JResearchAdminPublicationsController extends JController
             $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
             $n = 0;
-            $publication = new JResearchPublication($db);
+            $publication = JTable::getInstance('Publication', 'JResearch');
             foreach($cid as $id){
                     if(!$publication->delete($id))
                             JError::raiseWarning(1, JText::sprintf('JRESEARCH_PUBLICATION_NOT_DELETED', $id));
@@ -462,7 +462,7 @@ class JResearchAdminPublicationsController extends JController
 		$task = JRequest::getVar('task');		
 		$db = JFactory::getDBO();
 		
-		$publication = new JResearchPublication($db);
+		$publication = JTable::getInstance('Publication', 'JResearch');
 		$publication->toggleInternal($cid, $task == 'makeinternal'?1:0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));		
 	}	

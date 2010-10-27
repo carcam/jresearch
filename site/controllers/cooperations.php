@@ -12,7 +12,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
 
 /**
  * JResearch Cooperations Component Controller
@@ -126,7 +125,7 @@ class JResearchCooperationsController extends JResearchFrontendController
 		$imageWidth = $params->get('cooperation_image_width', _COOPERATION_IMAGE_MAX_WIDTH_);
 		$imageHeight = $params->get('cooperation_image_height', _COOPERATION_IMAGE_MAX_HEIGHT_);
 		
-		$coop = new JResearchCooperation($db);
+		$coop = JTable::getInstance('Cooperation', 'JResearch');
 
 		// Bind request variables
 		$post = JRequest::get('post');

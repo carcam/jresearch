@@ -56,7 +56,7 @@ class JResearchStaffController extends JResearchFrontendController
             //Layout
             $layout = JRequest::getVar('layout','default');
 		
-		//Get and use configuration
+			//Get and use configuration
             $params = $mainframe->getPageParameters('com_jresearch');
             $limit = $params->get('staff_entries_per_page');
             JRequest::setVar('limit', $limit);
@@ -178,7 +178,7 @@ class JResearchStaffController extends JResearchFrontendController
             // Uncheck element
             $user =& JFactory::getUser();
             if(!$member->isCheckedOut($user->get('id'))){
-                    if(!$member->checkin())
+                   if(!$member->checkin())
                             JError::raiseWarning(1, JText::_('The record could not be unlocked.'));
             }
 	}

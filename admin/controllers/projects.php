@@ -10,7 +10,6 @@
 */
 
 jimport('joomla.application.component.controller');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
 
 /**
 * Projects Backend Controller
@@ -110,10 +109,9 @@ class JResearchAdminProjectsController extends JController
 	*/ 
 	function publish(){
 		// Array of ids
-		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$project = new JResearchProject($db);
+		$project = JTable::getInstance('Project', 'JResearch');
 		$project->publish($cid, 1);
 		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 		
@@ -125,10 +123,9 @@ class JResearchAdminProjectsController extends JController
 	*/ 
 	function unpublish(){
 		// Array of ids
-		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 				
-		$project = new JResearchProject($db);
+		$project = JTable::getInstance('Project', 'JResearch');
 		$project->publish($cid, 0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));		
 		
@@ -139,11 +136,10 @@ class JResearchAdminProjectsController extends JController
 	* @access	public
 	*/ 
 	function remove(){
-		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 		
-		$project = new JResearchProject($db);
+		$project = JTable::getInstance('Project', 'JResearch');
 		foreach($cid as $id){
 			if(!$project->delete($id)){
 				JError::raiseWarning(1, JText::sprintf('JRESEARCH_PROJECT_NOT_DELETED', $id));
@@ -218,7 +214,7 @@ class JResearchAdminProjectsController extends JController
             // Bind request variables to publication attributes
             $project->bind($post);
             $project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
-            $project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+            $project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
 
             //Upload photo
             $fileArr = JRequest::getVar('inputfile', null, 'FILES');
