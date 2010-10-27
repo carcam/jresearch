@@ -31,7 +31,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 	public function getItem($itemId){
 		$db =& JFactory::getDBO();
 		
-		$researchArea = new JResearchArea($db);
+		$researchArea = JTable::getInstance('Researcharea', 'JResearch');
 		$researchArea->load($itemId);
 		if(!empty($researchArea->id))
 			return $researchArea;
