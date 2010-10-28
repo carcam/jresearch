@@ -41,29 +41,39 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 					$newPub = JTable::getInstance('Publication', 'JResearch');
 					if($newPub != null){
 						$j = -1;
-                                                $type = strtolower($type);
+                        $type = strtolower($type);
 						$newPub->pubtype = ($type == 'inproceedings') ? 'conference' : $type;
 						if(!empty($data['author'])){
-                                                        foreach($data['author'] as $auth){
-                                                            $j++;
-                                                            if($mapToStaff == 'on'){
-                                                                $member = JTable::getInstance('Member', 'JResearch');
-                                                                //First determine if this author can be mapped to a member in the staff                                                                
-                                                                if($member->bindFromArray(JResearchPublicationsHelper::bibCharsToUtf8FromArray($auth))){
-                                                                    $newPub->setAuthor($member->id, $j, true);
-                                                                    continue;
-                                                                }
-                                                            }
-                                                            if(empty($auth['von']))
-                                                                $authorName = $auth['first'].' '.$auth['last'];
-                                                            elseif(!empty($auth['jr']))
-                                                                $authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
-                                                            else
-                                                                $authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
+                             foreach($data['author'] as $auth){
+                                   $j++;
+                                   if($mapToStaff == 'on'){
+                                        $member = JTable::getInstance('Member', 'JResearch');
+                                        // We have to sanitize the array first
+										$auth = JResearchPublicationsHelper::bibCharsToUtf8FromArray($auth);                                        
+                                        foreach($auth as $key=>$value)
+                                        	$auth[$key] = JResearchPublicationsHelper::formatBibtexTitleForImport($value);
+                                        
+                                        //First determine if this author can be mapped to a member in the staff                                                                
+                                        if($member->bindFromArray($auth)){
+                                            $newPub->setAuthor($member->id, $j, true);
+                                            continue;
+                                        }
+                                    }
+                                    
+                                    if(empty($auth['von']))
+                                        $authorName = $auth['first'].' '.$auth['last'];
+                                    elseif(!empty($auth['jr']))
+                                        $authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
+                                    else
+                                        $authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
 
-                                                            $authorName = JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName);
-                                                            $authorName = JResearchPublicationsHelper::formatBibtexTitleForImport($authorName);
-                                                            $newPub->setAuthor($authorName, $j);
+                                     // We do not need to sanitize the info again!   
+                                     if($mapToStaff != 'on'){
+	                                    $authorName = JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName);
+    	                                $authorName = JResearchPublicationsHelper::formatBibtexTitleForImport($authorName);
+                                     }
+
+    	                             $newPub->setAuthor($authorName, $j);
 							}
 						}
 						// Normalize the data, bibtex entities are not stored in database
