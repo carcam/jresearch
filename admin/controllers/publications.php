@@ -305,7 +305,7 @@ class JResearchAdminPublicationsController extends JController
 	*/	
 	function save(){		
             global $mainframe;
-	    if(!JRequest::checkToken())
+		    if(!JRequest::checkToken())
             {
                 $this->setRedirect('index.php?option=com_jresearch');
                 return;
@@ -323,36 +323,36 @@ class JResearchAdminPublicationsController extends JController
             $user = JFactory::getUser();
             $id = JRequest::getInt('id');
 	   
-	    $publication->bind($post);
-	    $countUrl = JRequest::getInt('count_url', 0);
-	    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
+		    $publication->bind($post);
+		    $countUrl = JRequest::getInt('count_url', 0);
+		    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
             $previousFile = JRequest::getVar('old_url_0', null);
             $filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$previousFile;
 		
             //Verify if the user wants to remove old files
             $delete = JRequest::getVar('delete_url_0', false);
-	    if($delete === 'on'){	    	
-	    	if($previousFile != null){
+	    	if($delete === 'on'){	    	
+	    		if($previousFile != null){
                     @unlink($filetoremove);
                     $publication->files = '';
+	    		}
 	    	}
-	    }
 	    
-		// Upload new file	    
+			// Upload new file	    
             if(!empty($file['name'])){
-	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');			
-	    	if($previousFile != null){
+		    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');			
+	    		if($previousFile != null){
                     //Remove previous file if it has not been removed yet
                     if(file_exists($filetoremove))
                         @unlink($filetoremove);
-	    	}
+	    		}
 
-	    }	    
+	    	}	    
 	    
-	    $reset = JRequest::getVar('resethits', false);
-	    if($reset == 'on'){
-	    	$publication->hits = 0;
-	    }
+		    $reset = JRequest::getVar('resethits', false);
+		    if($reset == 'on'){
+	    		$publication->hits = 0;
+	    	}
 		
             $check = $publication->check();
 
