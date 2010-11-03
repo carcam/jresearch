@@ -22,7 +22,7 @@ function addDatabasesSearchButton(){
 
 function queryDatabase(){
 	// Disable the button
-	citekey = document.getElementById('citekey');
+	citekey = document.forms['adminForm'].citekey;
 	if(citekey){
 		key = citekey.value;	
 		key = key.trim();
@@ -54,9 +54,9 @@ function mapPublicationToForm(response, responsexml){
 	}
 	
 	// Now check if the result is not a fault
-	faults = responsexml.getElementsByTagName('fault');
+	var faults = responsexml.getElementsByTagName('fault');
 	if(faults.length > 0){
-		strings = responsexml.getElementsByTagName('string');
+		var strings = responsexml.getElementsByTagName('string');
 		if(strings.length > 0){
 			alert(strings[0].firstChild.nodeValue);
 		}
@@ -64,45 +64,32 @@ function mapPublicationToForm(response, responsexml){
 	}
 	
 	//Time to map the information
-	members = responsexml.getElementsByTagName('member');
-	for(i=0; i<members.length; i++){
+	var members = responsexml.getElementsByTagName('member');
+	var i;
+	for(i = 0; i < members.length; i++){
 		// Map result to fields
-		namesArray = members[i].getElementsByTagName('name');
-		valuesArray = members[i].getElementsByTagName('value');
-		name = namesArray[0].firstChild.nodeValue;
+		var namesArray = members[i].getElementsByTagName('name');
+		var valuesArray = members[i].getElementsByTagName('value');
+		var name = namesArray[0].firstChild.nodeValue;
 		if(name == 'authors'){
-			maxauthorsControl = document.getElementById('maxauthors');
+			var maxauthorsControl = document.forms['adminForm'].nauthorsfield;
 			// Clear existing authors. The first author control is never removed.
-			if(maxauthorsControl && deleteControl){
+			if(maxauthorsControl){
 				maxauthorsValue = parseInt(maxauthorsControl.getAttribute('value'));
-				for(k = 1; k<= maxauthorsValue; k++)
-					deleteControl('authors'+k);
+				for(k = 0; k <= maxauthorsValue - 1; k++)
+					removeAuthor('liauthorsfield'+k);
 				maxauthorsControl.setAttribute('value', 0);	
 			}
+
 			// Add the new authors
-			stringsArray = valuesArray[0].getElementsByTagName('string');
-			for(j=0; j<stringsArray.length; j++){
-				authorName = stringsArray[j].firstChild.nodeValue;
-				if(j == 0){
-					//Update the first author field
-					authors0 = document.getElementById('authors0');
-					if(authors0)
-						authors0.setAttribute('value', authorName);
-				}else{
-					// The other ones are added. We take the invocation from the "Add" link
-					addAuthors = document.getElementById('addauthors');
-					if(addAuthors){
-						href = addAuthors.getAttribute('href');
-						hrefArray = href.split(':');
-						callableText = hrefArray[1];
-						// That is the same as addControl	
-						eval(callableText);
-						// Once the control has been added, we update its value
-						newControl = document.getElementById('authors'+j);
-						newControl.setAttribute('value', authorName);
-					}
-					
-				}
+			var authorsfield = document.forms['adminForm'].authorsfield;
+			var stringsArray = valuesArray[0].getElementsByTagName('string');			
+			var j;
+			for(j = 0; j < stringsArray.length; j++){
+				var authorName = stringsArray[j].firstChild.nodeValue;		
+				authorsfield.value = authorName;
+				appendAuthor();
+				authorsfield.value = '';
 			}
 		}else{
 			stringsArray = valuesArray[0].getElementsByTagName('string');
@@ -112,7 +99,7 @@ function mapPublicationToForm(response, responsexml){
 				if(inputName){
 					//For month, we make a conversion
 					if(name == 'month'){
-						months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dic'];
+						months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 						if(value)
 							inputName.setAttribute('value', months[parseInt(value) - 1]);
 					}else{
