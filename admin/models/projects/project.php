@@ -14,7 +14,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
 
 /**
 * Model class for holding a single project record.
@@ -28,15 +27,11 @@ class JResearchModelProject extends JResearchModelSingleRecord{
 	* @return 	object
 	*/
 	public function getItem($itemId){
-		$db = JFactory::getDBO();
-		
-		$project = new JResearchProject($db);
-		$result = $project->load($itemId);
-		
-		if($result)
-			return $project;
-		else
-			return null;	
+            $project = JTable::getInstance('Project','JResearch');
+            if($project->load($itemId) === false)
+                return null;
+            else
+                return $project;
 	}
 
 }

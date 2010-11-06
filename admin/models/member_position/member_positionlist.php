@@ -43,7 +43,7 @@ class JResearchModelMember_positionList extends JResearchModelList
 		$db =& JFactory::getDBO();		
 		if($memberId === null)
 		{		
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName); 	
 		}
 		else
 		{
@@ -63,11 +63,11 @@ class JResearchModelMember_positionList extends JResearchModelList
 	}
 	
 	/**
-	 * @see JResearchModelList::_buildRawQuery()
+	 * @see JResearchModelList::_countTotalItems()
 	 *
 	 * @return string
 	 */
-	protected function _buildRawQuery()
+	protected function _countTotalItems()
 	{
 		$db =& JFactory::getDBO();
 		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
@@ -96,12 +96,12 @@ class JResearchModelMember_positionList extends JResearchModelList
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 	
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$rows = $db->loadAssocList();
 			$this->_items = array();			
-			foreach($ids as $id)
+			foreach($rows as $row)
 			{
-				$position = new JResearchMember_position($db);
-				$position->load($id);
+				$position = JTable::getInstance('Member_position', 'JResearch');
+				$position->bind($row);
 				$this->_items[] = $position;
 			}
 			if($paginate)
@@ -116,7 +116,7 @@ class JResearchModelMember_positionList extends JResearchModelList
 		global $mainframe;
 		
 		$filter_state = $mainframe->getUserStateFromRequest('member_positionfilter_state', 'filter_state');
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		
 		$where = array();
 		

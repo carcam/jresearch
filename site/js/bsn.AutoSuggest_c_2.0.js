@@ -592,8 +592,10 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	var content;
 	var newLi;
 	var upDownSpan;
+	var i;
+	var content;
 	
-	newLi = document.createElement('li');
+	var newLi = document.createElement('li');
 	if(isInternal)
 		content = document.createTextNode(this.aSuggestions[ this.iHighlighted-1 ].value);			
 	else{
@@ -605,7 +607,7 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 		
 	}
 	
-	nResults = parseInt(this.fldnresults.value);		
+	var nResults = parseInt(this.fldnresults.value);		
 	// Time to verify it is not repeated
 	for(i = 0; i <= nResults; i++){
 		var author = document.getElementById(this.fld.name+i);
@@ -634,8 +636,8 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 		inputEmail.setAttribute('type', 'text');
 		inputEmail.setAttribute('class', 'validate-email');
 		inputEmail.setAttribute('classname', 'validate-email');
-		inputEmail.setAttribute('id', this.fld.name+'email'+i);
-		inputEmail.setAttribute('name', this.fld.name+'email'+i);
+		inputEmail.setAttribute('id', this.fld.name+'email'+nResults);
+		inputEmail.setAttribute('name', this.fld.name+'email'+nResults);
 		emailLabel = document.createElement('label');
 		emailLabel.setAttribute('class', 'labelform');
 		emailLabel.setAttribute('classname', 'labelform');

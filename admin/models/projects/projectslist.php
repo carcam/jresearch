@@ -43,7 +43,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
 		if($memberId === null){		
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName); 	
 		}else{
 			$resultQuery = '';
 		}
@@ -64,7 +64,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
+	protected function _countTotalItems(){
 		$db = JFactory::getDBO();
 		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
@@ -117,15 +117,15 @@ class JResearchModelProjectsList extends JResearchModelList{
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 	
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
-			$this->_items = array();			
-			foreach($ids as $id){
-				$proj = new JResearchProject($db);
-				$proj->load($id);
+			$rows = $db->loadAssocList();
+			$this->_items = array();
+			foreach($rows as $row){
+				$proj = JTable::getInstance('Project', 'JResearch');
+				$proj->bind($row, array(), true);
 				$this->_items[] = $proj;
 			}
 			if($paginate)
-				$this->updatePagination();
+				$this->updatePagination();			
 		}			
 		return $this->_items;
 

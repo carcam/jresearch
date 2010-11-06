@@ -11,7 +11,6 @@
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'institute.php');
 
 class JResearchModelInstitute extends JResearchModelSingleRecord
 {
@@ -21,9 +20,7 @@ class JResearchModelInstitute extends JResearchModelSingleRecord
 	*/
 	public function getItem($itemId)
 	{
-		$db =& JFactory::getDBO();
-		
-		$coop = new JResearchInstitute($db);
+		$coop = JTable::getInstance('Institute', 'JResearch');
 		$result = $coop->load($itemId);
 		
 		if($result)

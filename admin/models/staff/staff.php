@@ -13,7 +13,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 
 /**
 * Model class for holding lists of members records.
@@ -42,15 +41,15 @@ class JResearchModelStaff extends JResearchModelList{
 			$this->_paginate = $paginate;					
 			$this->_items = array();
 			
-			$db = &JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 	
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$rows = $db->loadAssocList();
 			$this->_items = array();
-			foreach($ids as $id){				
-				$member = new JResearchMember($db);
-				$member->load($id);
+			foreach($rows as $row){				
+				$member = JTable::getInstance('Member', 'JResearch');
+				$member->bind($row);
 				$this->_items[] = $member;
 			}
 			
@@ -73,7 +72,7 @@ class JResearchModelStaff extends JResearchModelList{
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+		$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
 		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy(); 	
 		
 		// Deal with pagination issues
@@ -91,68 +90,70 @@ class JResearchModelStaff extends JResearchModelList{
 	* Build the ORDER part of a query.
 	*/
 	private function _buildQueryOrderBy(){
-		global $mainframe;
-		$db =& JFactory::getDBO();
-		//Array of allowable order fields
-		$orders = array('lastname', 'published', 'id_research_area', 'ordering');
-		
-		$filter_order = $mainframe->getUserStateFromRequest('stafffilter_order', 'filter_order', 'ordering');
-		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('stafffilter_order_Dir', 'filter_order_Dir', 'ASC'));
-		
-		//Validate order direction
-		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
-			$filter_order_Dir = 'ASC';
-			
-		//if order column is unknown, use the default
-		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('lastname');	
-		
-		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', former_member ASC' ;
+            global $mainframe;
+            $db =& JFactory::getDBO();
+            $Itemid = JRequest::getVar('Itemid');
+            //Array of allowable order fields
+            $orders = array('lastname', 'published', 'id_research_area', 'ordering');
+
+            $filter_order = $mainframe->getUserStateFromRequest('stafffilter_order'.$Itemid, 'filter_order', 'ordering');
+            $filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('stafffilter_order_Dir'.$Itemid, 'filter_order_Dir', 'ASC'));
+
+            //Validate order direction
+            if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
+                    $filter_order_Dir = 'ASC';
+
+            //if order column is unknown, use the default
+            if(!in_array($filter_order, $orders))
+                    $filter_order = $db->nameQuote('lastname');
+
+            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', former_member ASC' ;
 	}	
 	
 		/**
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere($published = false){
-		global $mainframe, $option;
-		$db = & JFactory::getDBO();
-		$filter_state = $mainframe->getUserStateFromRequest('stafffilter_state', 'filter_state');
-		$filter_search = $mainframe->getUserStateFromRequest('stafffilter_search', 'filter_search');
-		$filter_former = $mainframe->getUserStateFromRequest('stafffilter_former', 'filter_former');
-		$filter_area = $mainframe->getUserStateFromRequest('stafffilter_area', 'filter_area');
-		
-		// prepare the WHERE clause
-		$where = array();
-		
-		if(!$published){
-			if($filter_state == 'P')
-				$where[] = $db->nameQuote('published').' = 1 ';
-			elseif($filter_state == 'U')
-				$where[] = $db->nameQuote('published').' = 0 '; 	
-		}else
-			$where[] = $db->nameQuote('published').' = 1 ';		
+            global $mainframe, $option;
+            $db = & JFactory::getDBO();
+            $Itemid = JRequest::getVar('Itemid');
+            $filter_state = $mainframe->getUserStateFromRequest('stafffilter_state'.$Itemid, 'filter_state');
+            $filter_search = $mainframe->getUserStateFromRequest('stafffilter_search'.$Itemid, 'filter_search');
+            $filter_former = $mainframe->getUserStateFromRequest('stafffilter_former'.$Itemid, 'filter_former');
+            $filter_area = $mainframe->getUserStateFromRequest('stafffilter_area'.$Itemid, 'filter_area');
 
-		//Added former member for where clause
-		if($filter_former != 0)
-		{
-			if($filter_former > 0)
-				$where[] = $db->nameQuote('former_member').' = 1 ';
-			elseif($filter_former < 0)
-				$where[] = $db->nameQuote('former_member').' = 0 ';
-		}
-		
-		if($filter_area)
-		{
-			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
-		}
-			
-		if(($filter_search = trim($filter_search))){
-			$filter_search = JString::strtolower($filter_search);
-			$filter_search = $db->getEscaped($filter_search);
-			$where[] = 'LOWER('.$db->nameQuote('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
-		}
-		
-		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
+            // prepare the WHERE clause
+            $where = array();
+
+            if(!$published){
+                    if($filter_state == 'P')
+                            $where[] = $db->nameQuote('published').' = 1 ';
+                    elseif($filter_state == 'U')
+                            $where[] = $db->nameQuote('published').' = 0 ';
+            }else
+                    $where[] = $db->nameQuote('published').' = 1 ';
+
+            //Added former member for where clause
+            if($filter_former != 0)
+            {
+                    if($filter_former > 0)
+                            $where[] = $db->nameQuote('former_member').' = 1 ';
+                    elseif($filter_former < 0)
+                            $where[] = $db->nameQuote('former_member').' = 0 ';
+            }
+
+            if($filter_area)
+            {
+                    $where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
+            }
+
+            if(($filter_search = trim($filter_search))){
+                    $filter_search = JString::strtolower($filter_search);
+                    $filter_search = $db->getEscaped($filter_search);
+                    $where[] = 'LOWER('.$db->nameQuote('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
+            }
+
+            return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			
 	}
 	
@@ -161,7 +162,7 @@ class JResearchModelStaff extends JResearchModelList{
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
+	protected function _countTotalItems(){
 		$db =& JFactory::getDBO();
 		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
@@ -174,7 +175,7 @@ class JResearchModelStaff extends JResearchModelList{
 	function orderItem($item, $movement)
 	{
 		$db =& JFactory::getDBO();
-		$row = new JResearchMember($db);
+		$row = JTable::getInstance('Member', 'JResearch');
 		$row->load($item);
 		
 		if (!$row->move($movement))
@@ -193,7 +194,7 @@ class JResearchModelStaff extends JResearchModelList{
 	{
 		$db 		=& JFactory::getDBO();
 		$total		= count($items);
-		$row		= new JResearchMember($db);
+		$row		= JTable::getInstance('Member', 'JResearch');
 
 		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($order);

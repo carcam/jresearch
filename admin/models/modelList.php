@@ -83,7 +83,7 @@ abstract class JResearchModelList extends JModel{
 	* 
 	* @return string SQL query.
 	*/		
-	abstract protected function _buildRawQuery();	
+	abstract protected function _countTotalItems();	
 
 	/**
 	* Returns the SQL used to get the data from publications table.
@@ -104,11 +104,9 @@ abstract class JResearchModelList extends JModel{
 	*/
 	protected function updatePagination(){
 		jimport('joomla.html.pagination');
-		$db =& JFactory::getDBO();
-		
-		$db->setQuery($this->_buildRawQuery());
-			
 		//prepare the pagination values
+		$db = JFactory::getDBO();
+		$db->setQuery($this->_countTotalItems());
 		$total = $db->loadResult();
 		$limitstart = $this->getState('limitstart');
 		$limit = $this->getState('limit');

@@ -13,10 +13,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researchArea.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
-
 
 /**
 * Model class for holding a single research area record.
@@ -31,7 +27,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 	public function getItem($itemId){
 		$db =& JFactory::getDBO();
 		
-		$researchArea = new JResearchArea($db);
+		$researchArea = JTable::getInstance('Researcharea', 'JResearch');
 		$researchArea->load($itemId);
 		if(!empty($researchArea->id))
 			return $researchArea;
@@ -56,7 +52,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$result = $db->loadAssocList();
 
 		foreach($result as $r){
-			$newMember = new JResearchMember($db);
+			$newMember = JTable::getInstance('Member', 'JResearch');
 			$newMember->bind($r);
 			$members[] = $newMember;
 		}
@@ -80,7 +76,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		
 		$idd = $db->nameQuote('id');
 		$query = "SELECT $idd FROM ".$db->nameQuote('#__jresearch_publication').' WHERE '.$db->nameQuote('published').' = 1 AND '.$db->nameQuote('internal').' = 1'
-				 .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY year DESC, created DESC';
+				 .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY year DESC, STR_TO_DATE(month, \'%M\') DESC ,created DESC';
 
 		if($n > 0){
 			$query .= ' LIMIT 0, '.$n;
@@ -122,7 +118,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$latestProj = array();
 		
 		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_project').' WHERE '.$db->nameQuote('published').' = 1'
-				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, created DESC';
+				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, end_date DESC, created DESC';
 
 		if($n > 0){
 			$query .= ' LIMIT 0, '.$n;
@@ -131,7 +127,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		foreach($result as $r){
-			$project = new JResearchProject($db);
+			$project = JTable::getInstance('Project', 'JResearch');
 			$project->bind($r);
 			$latestProj[] = $project;
 		}
@@ -166,7 +162,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$latestThes = array();
 		
 		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_thesis').' WHERE '.$db->nameQuote('published').' = 1'
-				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, created DESC';
+				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, end_date DESC, created DESC';
 
 		if($n > 0){
 			$query .= ' LIMIT 0, '.$n;
@@ -175,7 +171,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		foreach($result as $r){
-			$thesis = new JResearchThesis($db);
+			$thesis = JTable::getInstance('Thesis', 'JResearch');
 			$thesis->bind($r);
 			$latestThes[] = $thesis;
 		}
@@ -215,7 +211,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		foreach($result as $r){
-			$item = new JResearchFacility($db);
+			$item = JTable::getInstance('Facility', 'JResearch');
 			$item->bind($r);
 			$facilities[] = $item;
 		}

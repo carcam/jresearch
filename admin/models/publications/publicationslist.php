@@ -40,9 +40,9 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* @return string
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
-		$db =& JFactory::getDBO();		
+		$db = JFactory::getDBO();		
 		if($memberId === null){	
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName); 	
 		}else{
 			$resultQuery = '';
 		}
@@ -112,7 +112,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
+	protected function _countTotalItems(){
 		$db = JFactory::getDBO();
 		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();		
@@ -132,8 +132,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* specified team.
 	* @return 	array
 	*/
-	public function getData($memberId = null, $onlyPublished = false, $paginate = false){
-	
+	public function getData($memberId = null, $onlyPublished = false, $paginate = false){	
 		if($memberId !== $this->_memberId || $onlyPublished !== $this->_onlyPublished || $this->_paginate !== $this->_paginate || empty($this->_items)){
 			$this->_memberId = $memberId;
 			$this->_onlyPublished = $onlyPublished;
@@ -143,13 +142,16 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$db = &JFactory::getDBO();
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
-			foreach($ids as $id){
-				$pub = JResearchPublication::getById($id);
+			$result = $db->loadAssocList();
+			foreach($result as $item){
+				$pub = JTable::getInstance("Publication", "JResearch");
+				$pub->bind($item, array(), true);
 				$this->_items[] = $pub;
 			}
+			
 			if($paginate)
 				$this->updatePagination();
+			
 		}	
 		return $this->_items;
 
