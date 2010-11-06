@@ -139,14 +139,19 @@ class JResearchActivity extends JTable{
 		$this->_internalAuthorsObjects = null;
 	 	
 	}
+	
+	public function bind($from, $ignore = array(), $loadAuthors = false){
+		parent::bind($from, $ignore);
+		if($loadAuthors)
+			$this->_loadAuthors($this->id);
+	}
 	 
 	/**
 	 * Loads the information about internal and external authors.
 	 *
 	 */
 	protected function _loadAuthors($oid){
-		$db = &$this->getDBO();
-		
+		$db = $this->getDBO();
 		$internalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_internal_author');
 		$idActivity = $db->nameQuote('id_'.$this->_type);
 		$qoid = $db->Quote($oid);
@@ -168,7 +173,7 @@ class JResearchActivity extends JTable{
         	$this->_externalAuthors = $result;
         }else{
         	$this->_externalAuthors = array();	
-        }        		
+        }        
 	}
 	
 

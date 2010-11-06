@@ -325,7 +325,7 @@ class JResearchAdminPublicationsController extends JController
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');
 		$type = JRequest::getVar('pubtype');
-		$publication = JResearchPublication::getSubclassInstance($type);
+		$publication = JTable::getInstance('Publication', 'JResearch');
 		$params = JComponentHelper::getParams('com_jresearch');
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
@@ -383,9 +383,8 @@ class JResearchAdminPublicationsController extends JController
 		}else{
 			//Time to set the authors
 			$maxAuthors = JRequest::getInt('nauthorsfield');
-			$k = 0;
-	
-			for($j=0; $j<=$maxAuthors; $j++){
+			$k = 0;				
+			for($j = 0; $j<=$maxAuthors; $j++){
 				$value = JRequest::getVar("authorsfield".$j);
 				if(!empty($value)){
 					if(is_numeric($value)){
@@ -507,7 +506,7 @@ class JResearchAdminPublicationsController extends JController
 		$type = JRequest::getVar('change_type');
 		JRequest::setVar('pubtype', $type, 'POST', true);
 		$post = JRequest::get('post');
-		$publication = JResearchPublication::getSubclassInstance($type);
+		$publication = JTable::getInstance('Publication', 'JResearch');
 		$user = JFactory::getUser();
 		$id = JRequest::getInt('id');
 		$keepOld = JRequest::getVar('keepold', false);

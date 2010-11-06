@@ -50,7 +50,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		// Deal with pagination issues
 		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();		
 		$limit = (int)$this->getState('limit');
-		$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');
+		$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$limit;
 		return $resultQuery;
 	}
 	
@@ -60,7 +60,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	 */
 	public function getResultsCount(){
 		$db = JFactory::getDBO();		
-		$db->setQuery($this->_buildRawQuery());
+		$db->setQuery($this->_countTotalItems());
 		return $db->loadResult();
 	}
 
@@ -71,7 +71,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
+	protected function _countTotalItems(){
 		$db = JFactory::getDBO();
 		$secondTable = $db->nameQuote('#__jresearch_publication_external_author');
 		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName).', '.$secondTable.' '; 	
@@ -297,8 +297,8 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$from_year = $mainframe->getUserStateFromRequest('publicationssearchfrom_year', 'from_year');
 		$from_month = $mainframe->getUserStateFromRequest('publicationssearchfrom_month', 'from_month');
 		$from_day = $mainframe->getUserStateFromRequest('publicationssearchfrom_day', 'from_day');
-		$to_year = $mainframe->getUserStateFromRequest('publicationssearchfrom_year', 'to_year');
-		$to_month = $mainframe->getUserStateFromRequest('publicationssearchfrom_month', 'to_month');		
+		$to_year = $mainframe->getUserStateFromRequest('publicationssearchto_year', 'to_year');
+		$to_month = $mainframe->getUserStateFromRequest('publicationssearchto_month', 'to_month');		
 		$to_day = $mainframe->getUserStateFromRequest('publicationssearchto_day', 'to_day');
 		$date_field = $mainframe->getUserStateFromRequest('publicationssearchdatefield', 'date_field');
 		
@@ -312,7 +312,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			}
 			$fromDate = new JDate(mktime(0,0,0, $from_month, $from_day, $from_year));
 			if($date_field == 'publication_date')
-				$where[] = " CONVERT(CONCAT_WS('-', '$from_year', $from_month', '$from_day'), DATE) <= ".$fromDate.toMySQL();	
+				$where[] = " '$from_year-$from_month-$from_day' <= CONVERT(CONCAT_WS('-', year, month, day), DATE)";	
 			else
 				$where[] = " created >= ".$db->Quote($fromDate->toMySQL());		
 		}
@@ -326,7 +326,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			}
 			$toDate = new JDate(mktime(0,0,0,$to_month, $to_day, $to_year));
 			if($date_field == 'publication_date')
-				$where[] = " CONVERT(CONCAT_WS('-', '$to_year', $to_month', '$to_day'), DATE) >= ".$toDate.toMySQL();
+				$where[] = "'$to_year-$to_month-$to_day' >= CONVERT(CONCAT_WS('-', year, month, day), DATE)";
 			else
 				$where[] = " created <= ".$db->Quote($toDate->toMySQL());		
 		}		

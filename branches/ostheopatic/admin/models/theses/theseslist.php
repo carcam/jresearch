@@ -12,7 +12,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 
 
@@ -43,7 +42,7 @@ class JResearchModelThesesList extends JResearchModelList{
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
 		if($memberId === null){		
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
 		}else{
 			$resultQuery = '';
 		}
@@ -65,7 +64,7 @@ class JResearchModelThesesList extends JResearchModelList{
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
+	protected function _countTotalItems(){
 		$db =& JFactory::getDBO();
 		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
@@ -83,17 +82,24 @@ class JResearchModelThesesList extends JResearchModelList{
 		$teamValue = $db->Quote($teamId);
 		$id_team = $db->nameQuote('id_team');
 		$id_member = $db->nameQuote('id_member');
+		$thes_table = $db->nameQuote('#__jresearch_thesis');
+		$team_table = $db->nameQuote('#__jresearch_team');
+		$start_date = $db->nameQuote('start_date');
+		$end_date = $db->nameQuote('end_date');
+
 		
-		$query = "SELECT DISTINCT $id_thesis FROM $internal_author, $team_member WHERE $team_member.$id_team = $teamValue "
-				 ." AND $internal_author.$id_staff_member = $team_member.$id_member";
+		$query = "SELECT $id_thesis FROM (SELECT DISTINCT $id_thesis, $start_date, $end_date FROM $internal_author, $team_member, $thes_table WHERE $team_member.$id_team = $teamValue "
+				 ." AND $internal_author.$id_staff_member = $team_member.$id_member AND $thes_table.id = $internal_author.$id_thesis AND $thes_table.published = 1"
+				 ." UNION (SELECT DISTINCT $id_thesis, $start_date, $end_date FROM $internal_author pia, $team_table t, $thes_table th WHERE t.id = $teamValue AND "
+		         	 ."pia.$id_staff_member = t.id_leader AND th.id = pia.$id_thesis AND th.published = 1) ORDER BY $start_date DESC, $end_date DESC";
 		
 		if($count > 0)
 		{
-			$query .= " LIMIT 0,$count";
-		}
-				 
+			$query .= " LIMIT 0, $count) R1";
+		}		 
 		$db->setQuery($query);
-		return $db->loadResultArray();
+		$result = $db->loadResultArray();
+		return $result;
 	}
 	
 	/**
@@ -127,16 +133,16 @@ class JResearchModelThesesList extends JResearchModelList{
 			$this->_paginate = $paginate;					
 			$this->_items = array();
 			
-			$db = &JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 	
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$rows = $db->loadAssocList();
 			$this->_items = array();
-			foreach($ids as $id){
-				$thesis = new JResearchThesis($db);
-				$thesis->load($id);
-				$this->_items[] = $thesis;
+			foreach($rows as $row){
+                $thesis = JTable::getInstance('Thesis', 'JResearch');
+                $thesis->bind($row, array(), true);
+                $this->_items[] = $thesis;
 			}
 			if($paginate)
 				$this->updatePagination();
@@ -164,7 +170,7 @@ class JResearchModelThesesList extends JResearchModelList{
 			
 			foreach($ids as $id)
 			{
-				$thesis = new JResearchThesis($db);
+				$thesis = JTable::getInstance('Thesis', 'JResearch');
 				$thesis->load($id);
 				$theses[] = $thesis;
 			}
@@ -178,9 +184,9 @@ class JResearchModelThesesList extends JResearchModelList{
 	*/
 	private function _buildQueryOrderBy(){
 		global $mainframe;
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('title', 'published', 'id_research_area');
+		$orders = array('title', 'published', 'id_research_area', 'start_date', 'degree');
 		
 		$filter_order = $mainframe->getUserStateFromRequest('thesesfilter_order', 'filter_order', 'title');
 		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('thesesfilter_order_Dir', 'filter_order_Dir', 'ASC'));
@@ -199,11 +205,15 @@ class JResearchModelThesesList extends JResearchModelList{
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere($published = false){
-		global $mainframe;
-		$db = & JFactory::getDBO();
-		$filter_state = $mainframe->getUserStateFromRequest('thesesfilter_state', 'filter_state');
-		$filter_search = $mainframe->getUserStateFromRequest('thesesfilter_search', 'filter_search');
-		$filter_author = $mainframe->getUserStateFromRequest('thesesfilter_author', 'filter_author');
+        global $mainframe;
+        $db = JFactory::getDBO();
+        $Itemid = JRequest::getVar('Itemid');
+        $filter_state = $mainframe->getUserStateFromRequest('thesesfilter_state'.$Itemid, 'filter_state');
+        $filter_status = $mainframe->getUserStateFromRequest('thesesfilter_status'.$Itemid, 'filter_status');
+        $filter_search = $mainframe->getUserStateFromRequest('thesesfilter_search'.$Itemid, 'filter_search');
+        $filter_author = $mainframe->getUserStateFromRequest('thesesfilter_author'.$Itemid, 'filter_author');
+        $filter_degree = $mainframe->getUserStateFromRequest('thesesfilter_degree'.$Itemid, 'filter_degree');
+		$filter_area = $mainframe->getUserStateFromRequest('thesesfilter_area'.$Itemid, 'filter_area');
 		
 		// prepare the WHERE clause
 		$where = array();
@@ -230,6 +240,18 @@ class JResearchModelThesesList extends JResearchModelList{
 			$filter_search = $db->getEscaped($filter_search);
 			$where[] = 'LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%');
 		}
+
+        if(!empty($filter_degree)){
+                    $where[] = $db->nameQuote('degree').' = '.$db->Quote($filter_degree);
+        }
+
+                if(!empty($filter_status)){
+                    $where[] = $db->nameQuote('status').' = '.$db->Quote($filter_status);
+                }
+                
+                if(!empty($filter_area)){
+                    $where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);	
+                }
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
 			

@@ -54,7 +54,7 @@ class JResearchAdminResearchAreasController extends JController
 		}
 		
 		$db =& JFactory::getDBO();
-		$area = new JResearchArea($db);
+		$area = JTable::getInstance('Researcharea', 'JResearch');
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');		
@@ -131,7 +131,7 @@ class JResearchAdminResearchAreasController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 				
-		$area = new JResearchArea($db);
+		$area = JTable::getInstance('Researcharea', 'JResearch');
 		$area->publish($cid, 1);
 		$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
 	}
@@ -145,7 +145,7 @@ class JResearchAdminResearchAreasController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 		
-		$area = new JResearchArea($db);
+		$area = JTable::getInstance('Researcharea', 'JResearch');
 		$area->publish($cid, 0);
 		$this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::_('JRESEARCH_AREAS_UNPUBLISHED_SUCCESSFULLY'));
 	}
@@ -159,7 +159,7 @@ class JResearchAdminResearchAreasController extends JController
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 		
-		$area = new JResearchArea($db);
+		$area = JTable::getInstance('Researcharea', 'JResearch');
 		foreach($cid as $id){
 			if(!$area->delete($id)){
 				JError::raiseWarning(1, JText::sprintf('JRESEARCH_AREA_NOT_DELETED', $id));

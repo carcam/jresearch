@@ -107,7 +107,7 @@ class JResearchAdminViewPublicationsList extends JResearchView
 		$lists['pubtype'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
 		
 		// Research Area filter
-		$areas = JResearchArea::getAllItems();
+		$areas = JResearchResearcharea::getAllItems();
 		$areasHTML = array();
 		$areasHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_RESEARCH_AREA'));
 		foreach($areas as $area){

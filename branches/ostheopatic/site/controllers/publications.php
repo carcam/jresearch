@@ -465,7 +465,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$id = JRequest::getInt('id');
 		$post = JRequest::get('post');
 		$type = JRequest::getVar('pubtype');
-		$publication = JResearchPublication::getSubclassInstance($type);
+		$publication = JTable::getInstance('Publication', 'JResearch');
 		$Itemid = JRequest::getVar('Itemid');
 		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';		
 		$publication->bind($post);		
@@ -543,8 +543,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 			$modelkey = JRequest::getVar('modelkey');
 			$modeltext = $modelkey == 'tabular'?'&task=filtered':'';			
 			if($publication->store(true)){			
-				$idText = !empty($publication->id)?'&id='.$publication->id:'';
-				
+				$idText = !empty($publication->id)?'&id='.$publication->id:'';				
 				if($task == 'apply'){
 					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$ItemidText.($modelkey?'&modelkey='.$modelkey:''), JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
 				}elseif($task == 'save'){
@@ -890,8 +889,11 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$url = 'index.php?option=com_jresearch&view=publicationssearch&task=search';
 		// Time to construct the URL
 		$limitstart = JRequest::getInt('limitstart', 0);
-		$url .= '&limitstart='.$limitstart;
+		$limit = JRequest::getInt('limit', 20);
 		
+		$url .= '&limitstart='.$limitstart;
+		$url .= '&limit='.$limit;
+
 		$key = JRequest::getVar('key', '');
 		if(!empty($key))
 			$url .= '&key='.$key;
@@ -1014,6 +1016,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 	private function _resetUserState(){
 		JRequest::setVar('key', '');
 		JRequest::setVar('keyfield0', 'all');
+		JRequest::setVar('limit', '20');
+		JRequest::setVar('limitstart', '0');		
 		JRequest::setVar('keyfield1', 'all');
 		JRequest::setVar('keyfield2', 'all');
 		JRequest::setVar('keyfield3', 'all');						

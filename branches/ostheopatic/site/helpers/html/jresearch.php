@@ -10,9 +10,6 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
-
 class JHTMLJresearch
 {
 	/**
@@ -93,7 +90,7 @@ class JHTMLJresearch
 			//I'm able to do specific task?
 			if($canDo || $canDoOwn)
 			{
-				$member = new JResearchMember($db);
+				$member = JTable::getInstance('Member', 'JResearch');
 				$member->bindFromUsername($user->username);
 				
 				switch($controller)
@@ -105,8 +102,8 @@ class JHTMLJresearch
 							
 							$authors = $pub->getAuthors();
 
-                            if($canDo || $pub->created_by == $user->id)
-                                 return true;
+                                                        if($canDo || $pub->created_by == $user->id)
+                                                                return true;
 							
 							foreach($authors as $author)
 							{
@@ -124,11 +121,11 @@ class JHTMLJresearch
 									
 									foreach($teams as $team)
 									{
-                                          $leader = $team->getLeader();
-                                          if($team->isMember($user->id) && $leader->username == $user->username)
-                                          {
-                                          		return true;
-                                          }
+                                                                            $leader = $team->getLeader();
+                                                                            if($team->isMember($user->id) && $leader->username == $user->username)
+                                                                            {
+                                                                                    return true;
+                                                                            }
 									}
 								}
 							}

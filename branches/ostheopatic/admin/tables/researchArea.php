@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * This class represents a research area.
  *
  */
-class JResearchArea extends JTable{
+class JResearchResearcharea extends JTable{
 	/**
 	 * Database integer id
 	 *
@@ -100,7 +100,7 @@ class JResearchArea extends JTable{
 		$result = $db->loadAssocList();
 		
 		foreach($result as $r){
-			$ra = new JResearchArea($db);
+			$ra = JTable::getInstance('Researcharea', 'JResearch');
 			$ra->bind($r);
 			$areas[] = $ra;	
 		}

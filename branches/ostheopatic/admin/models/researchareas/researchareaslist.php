@@ -12,7 +12,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researchArea.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 
 /**
@@ -46,12 +45,12 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 			
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$rows = $db->loadAssocList();
 
 			$this->_items = array();
-			foreach($ids as $id){				
-				$area = new JResearchArea($db);
-				$area->load($id);
+			foreach($rows as $row){				
+				$area = JTable::getInstance('Researcharea', 'JResearch');
+				$area->bind($row);
 				$this->_items[] = $area;
 			}
 			
@@ -76,7 +75,7 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false){
 		$db =& JFactory::getDBO();		
 		if($memberId === null)
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName); 	
 		
 		// Deal with pagination issues
 		if($paginate){
@@ -96,7 +95,7 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 	*/
 	private function _buildQueryOrderBy(){
 		global $mainframe;
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		//Array of allowable order fields
 		$orders = array('name', 'published');
 		
@@ -119,7 +118,7 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 	*/
 	private function _buildQueryWhere($published = false){
 		global $mainframe, $option;
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$filter_state = $mainframe->getUserStateFromRequest('researchAreasfilter_state', 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('researchAreasfilter_search', 'filter_search');
 
@@ -150,8 +149,8 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
-		$db =& JFactory::getDBO();
+	protected function _countTotalItems(){
+		$db = JFactory::getDBO();
 		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;

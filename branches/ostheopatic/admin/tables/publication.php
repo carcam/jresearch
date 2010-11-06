@@ -46,6 +46,21 @@ class JResearchPublication extends JResearchActivity{
 	public $awards;	
 	
 	/**
+	 * The acceptance rate of the journal where the publication was accepted.
+	 *
+	 * @var float
+	 */
+	public $journal_acceptance_rate;	
+	
+	/**
+	 * The impact factor of the publication
+	 *
+	 * @var float
+	 */
+	public $impact_factor;
+	
+	
+	/**
 	 * Year of publication.
 	 *
 	 * @var int
@@ -94,23 +109,40 @@ class JResearchPublication extends JResearchActivity{
 	 */
 	public $cover;
 	
-	/**
-	 * Digital Object identifier
-	 * @var string
-	 */
-	public $doi;
-	
-	/**
-	 * Month of publication
-	 * @var string
-	 */
-	public $month;
-	
-	/**
-	 * Day of publication
-	 * @var string
-	 */
+	public $doi;	
+	public $issn;
+    public $isbn;
+    public $volume;
+	public $number;
+	public $pages;
+	public $month;	    
+	public $crossref;
+	public $journal;
+	public $publisher;
+	public $editor;
+	public $series;
+	public $address;		
+	public $edition;
+	public $howpublished;
+	public $booktitle;
+	public $organization;
+	public $chapter;
+	public $type;
+	public $key;	
+	public $patent_number;
+	public $filing_date;
+	public $issue_date;	
+	public $claims;
+	public $drawings_dir;
+	public $country;
+	public $office;
+	public $school;
+	public $institution;
 	public $day;
+	public $access_date;
+	public $extra;
+	public $online_source_type;
+	public $digital_source_type;
 	
 	/**
 	 * Language ID in which the publication is written.
@@ -245,38 +277,20 @@ class JResearchPublication extends JResearchActivity{
 	}
 	
 	/**
-	 * Returns an array with the names of the public attributes that form part
-	 * of the class but do not belong to JResearchPublication.
-	 *
-	 * @return unknown
+	 * Returns an array with the names of the attributes that compound
+	 * the class JResearchPublication.
+	 * @return array
 	 */
-	protected function _getSubclassAttributes(){
-		if($_derivedVariablesArray == null){
-			$baseProperties = $this->_getParentAttributes();
-			$className = get_class($this);
-			$subclassProperties = get_class_vars($className);
-	
-			$_derivedVariablesArray = array();
-			foreach($subclassProperties as $p=>$v ){
-				if($p{0} != '_'){
-					if(!in_array($p, $baseProperties))
-						$_derivedVariablesArray[] = $p;
-				}
-			} 
-		}
-		
-		return $_derivedVariablesArray;
+	protected function _getClassAttributes(){
+         $properties = get_class_vars("JResearchPublication");
+         $result = array();
+         foreach($properties as $k=>$v){
+             if($k{0} != '_')
+                 $result[] = $k;
+         }
+		 return $result;
 	}
-
 	
-	/**
-	* Sets the name of the derived table associated to the 
-	* instance.
-	*
-	*/
-	protected function setDerivedTable($tableName){
-		$this->_derivedTable = $tableName;
-	}
 	
 	/**
 	 * Returns the publication with the citekey provided. The citekey is
@@ -288,20 +302,21 @@ class JResearchPublication extends JResearchActivity{
 
 	public static function getByCitekey($citekey){
 		$result = null;
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$citekeyName = $db->nameQuote('citekey');
 		$citekeyQ = $db->Quote($citekey, false);
-		$query = "SELECT ".$db->nameQuote('pubtype')." FROM ".$db->nameQuote('#__jresearch_publication')." WHERE $citekeyName = $citekeyQ";
+		$query = "SELECT * FROM ".$db->nameQuote('#__jresearch_publication')." WHERE $citekeyName = $citekeyQ";
 		$db->setQuery($query);
-		$pub = $db->loadResult();
-		if($pub){
-			$result = JResearchPublication::getSubclassInstance($pub);
-			$result->loadByCitekey($pub, $citekey);	
-			return $result;
+		$result = $db->loadAssoc();
+		$publication = new JResearchPublication();
+
+		if(!empty($result)){
+			$publication->bind($result);
+			$publication->_loadAuthors($publication->id);
+			return $publication;
 		}else{
 			return null;
 		}
-
 	}
 	
 	/**
@@ -313,61 +328,55 @@ class JResearchPublication extends JResearchActivity{
 	 */
 	public static function getById($id){
 		$result = null;
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$idQ = $db->Quote($id, false);
-		$query = "SELECT ".$db->nameQuote('pubtype')." FROM ".$db->nameQuote('#__jresearch_publication')." WHERE id = $idQ";
+		$query = "SELECT * FROM ".$db->nameQuote('#__jresearch_publication')." WHERE id = $idQ";
 		$db->setQuery($query);
-		$pub = $db->loadResult();
-		if($pub){
-			$result = JResearchPublication::getSubclassInstance($pub);
-			$result->load($id);	
-			return $result;
+		$result = $db->loadAssoc();
+		$publication = JTable::getInstance('Publication', 'JResearch');
+
+		if(!empty($result)){
+			$publication->bind($result, array(), true);
+			return $publication;
 		}else{
 			return null;
 		}
 	}
 	
-	/**
-	 * Returns the name of the table associated to the subclass the
-	 * instance belongs to.
-	 *
-	 * @return string
-	 */
-	protected function _getDerivedTable(){
-		return $this->_derivedTable;
-	}
-	
-	
-	
-	/**
+		/**
 	 * Loads a row from the database and binds the fields to the object properties.
-	 * @param string $citekey Label or key that identifies the record and is used
-	 * during citation.
+	 *
+	 * @param int $oid
 	 * @return True if successful
 	 */
-	public function loadByCitekey($pubtype, $citekey){
-		if($citekey === null || $citekey === '')
-		    return false;
-		
-		$this->reset();
-		$this->citekey = $citekey;
-		$db =& $this->getDBO();
-		$view = $db->nameQuote('#__jresearch_publication_'.$pubtype);
-		
-		$query = "SELECT * "
-		. " FROM $view "
-		. " WHERE citekey = ".$db->Quote($citekey);
-		$db->setQuery( $query );
-		if (($result = $db->loadAssoc())) {
-		    $rs = $this->bind($result);
-		    $this->_loadAuthors($this->id);
-		    return $rs;
-		}else{
-		    $this->setError( $db->getErrorMsg() );
-		    return false;
-		}
-	}
+	public function load($oid = null){		
+        $k = $this->_tbl_key;
+        if(!parent::load($oid))
+            return false;
 
+        if ($oid === null) {
+            return false;
+        }
+        
+        $this->$k = $oid;
+
+        $db =& $this->getDBO();
+        $table = $db->nameQuote($this->_tbl);
+        $this->_loadAuthors($oid);
+
+        $query = 'SELECT * '
+        . ' FROM '.$db->nameQuote($this->_tbl)
+        . ' WHERE '.$db->nameQuote($this->_tbl_key).' = '.$db->Quote($oid);
+        $db->setQuery($query);
+
+        if (($result = $db->loadAssoc( ))) {
+            return $this->bind($result);
+        }else{
+            $this->setError( $db->getErrorMsg() );
+            return false;
+        }
+	}
+	
 
 	/**
 	* Removes a publication from the database. 
@@ -391,156 +400,33 @@ class JResearchPublication extends JResearchActivity{
 		return $result;
 	}
 	
-	
-	
-	
-	/**
-	 * Loads a row from the database and binds the fields to the object properties.
-	 *
-	 * @param int $oid
-	 * @return True if successful
-	 */
-	public function load($oid = null){		
-		$k = $this->_tbl_key;
-		if(!parent::load($oid))
-			return false;
-        
-        if ($oid === null) {
-           return false;
-        }        
-        
-        $this->$k = $oid;
-        
-        $db =& $this->getDBO();
-        $view = $db->nameQuote('#__jresearch_publication_'.trim($this->pubtype));
-		$this->_loadAuthors($oid);
-
-        $query = 'SELECT * '
-        . ' FROM '.$view
-        . ' WHERE '.$db->nameQuote($this->_tbl_key).' = '.$db->Quote($oid);        
-        $db->setQuery( $query );
-        
-        if (($result = $db->loadAssoc( ))) {
-            return $this->bind($result);
-        }else{
-            $this->setError( $db->getErrorMsg() );
-            return false;
-        }
-			
-	}
-	
-	
 	/**
 	* Verify if the publication is ready to be saved in the database. To get the
 	* cause of a failed check, method getError must be invoked. 
 	* @return boolean
 	*/
 	public function check(){
-		$db =& JFactory::getDBO();
-		$withoutErrors = true;		
-		
-		// Verify authors integrity
-		if(!parent::checkAuthors())
-			return false;
-		
-		// Verify if title is not empty
-		if(empty($this->title)){
-			$this->title = trim($this->title);			
-			$this->setError(JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'));
-			$withoutErrors = false;
-		}
-		// Verify year
-		if(!empty($this->year)){
-			$this->year = trim($this->year);			
-			if(!preg_match('/^[1-9]\d{3}$/',$this->year)){
-				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); 
-				$withoutErrors = false;
-			}
-					
-		}
-		
-		if(!empty($this->issn)){
-			$this->issn = trim($this->issn);
-			if(!preg_match("/^\d{4}-?\d{4}$/", $this->issn)){				
-				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_ISSN'));
-				$withoutErrors = false;
-			}else{
-				//Validate last digit control
-				$text = $this->issn;
-				$k = 0;
-				$acum = 0;
-				$j = 8;
-				while($j>= 2){
-					if(is_numeric($text{$k})){
-						$acum += $j * (int)$text{$k};
-						$j--;
-					}
-					$k++;										
-				}
-				$controlDigit = 11 - ($acum % 11);
-				if((int)($text{$k}) !== $controlDigit){
-					$this->setError(JText::_('JRESEARCH_ISSN_CONTROL_DIGIT_FAILED').' '.$controlDigit);
-				}
-			}
-		}
-		
-		if(!empty($this->isbn)){
-			$this->isbn = trim($this->isbn);			
-			if(!preg_match("/^(\d{10}|\d{13}|\d{9}x)$/i", $this->isbn)){
-				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_ISBN'));
-				$withoutErrors = false;
-			}else{
-				//Validate last digit control
-				$text = $this->isbn;
-				$acum = 0;				
-				if(strlen($text) == 10){
-					$k = 0;
-					$j = 10;
-					while($j>= 2){
-						$acum += $j * (int)$text{$k};
-						$j--;
-						$k++;										
-					}
-					$controlDigit = 11 - ($acum % 11);
-					
-					if($controlDigit == 10){						
-						$controlDigit = 'X';	
-						if($controlDigit == strtoupper($text{$k})){
-							$this->setError(JText::_('JRESEARCH_ISBN_CONTROL_DIGIT_FAILED'));
-						}
-						
-					}else{
-						if((int)($text{$k}) !== $controlDigit){
-							$this->setError(JText::_('JRESEARCH_ISBN_CONTROL_DIGIT_FAILED'));
-						}						
-					}
-				}else{
-					for($j=0; $j<strlen($text); $j++){
-						$acum += ((int)$text{$j}) * ($j % 2 == 0?1:3); 
-					}
-					
-					$controlDigit = 10 - ($acum % 10);
-					if($controlDigit == 10)
-						$controlDigit = 0;
-					
-					if((int)($text{$j}) !== $controlDigit){
-						$this->setError(JText::_('JRESEARCH_ISBN_CONTROL_DIGIT_FAILED').$acum.' '.$controlDigit);
-					}						
-					
-				}
-				
-			}
-		}
-		
-		if(!empty($this->doi)){
-			$this->doi = trim($this->doi);			
-			if(!preg_match("/^\d+\.\d+\/\d+$/", $this->doi)){
-				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_DOI'));
-				$withoutErrors = false;
-			}
-		}
-		
-		
+        $withoutErrors = true;
+        // Verify authors integrity
+        if(!parent::checkAuthors())
+           return false;
+
+        // Verify if title is not empty
+        if(empty($this->title)){
+           $this->title = trim($this->title);
+           $this->setError(JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'));
+           $withoutErrors = false;
+        }
+        // Verify year
+        if(!empty($this->year)){
+           $this->year = trim($this->year);
+           if(!preg_match('/^[1-9]\d{3}$/',$this->year)){
+                $this->setError(JText::_('JRESEARCH_PROVIDE_VALID_YEAR'));
+                $withoutErrors = false;
+           }
+
+        }
+
 		if(!empty($this->keywords)){
 			$this->doi = trim($this->doi);			
 			require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'language.php');
@@ -550,16 +436,16 @@ class JResearchPublication extends JResearchActivity{
 				$withoutErrors = false;
 			}
 		}
-		
-		if(!empty($this->journal_acceptance_rate)){
-			$this->journal_acceptance_rate = trim($this->journal_acceptance_rate);			
-			if(!is_numeric($this->journal_acceptance_rate)){
-				$this->setError(JText::_('Journal acceptance rate must be a number'));
-				$withoutErrors = false;
-			}
-		}
 
-		return $withoutErrors;
+        if(!empty($this->journal_acceptance_rate)){
+             $this->journal_acceptance_rate = trim($this->journal_acceptance_rate);
+             if(!is_numeric($this->journal_acceptance_rate)){
+                $this->setError(JText::_('Journal acceptance rate must be a number'));
+                $withoutErrors = false;
+             }
+        }
+
+        return $withoutErrors;		
 	}
 	
 	/**
@@ -580,8 +466,7 @@ class JResearchPublication extends JResearchActivity{
 			$this->created = $now->toMySQL();
 		}
 
-		$parentProperties = $this->_getParentAttributes();		
-
+        $parentProperties = $this->_getClassAttributes();	
 		$parentObject = (object)array();
 		$parentObject->$j = $this->$j;
 		foreach($parentProperties as $prop){
@@ -627,31 +512,7 @@ class JResearchPublication extends JResearchActivity{
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 			return false;
 		}
-		
-		
-
-		// We construct an object with the derived properties only
- 		$derivedProperties = $this->_getSubclassAttributes();
- 		// If it is a JResearchPublication object, just return 
- 		if(!empty($derivedProperties)){
-	 		$derivedObject = (object)array();
-	 		$d = $this->_d_tbl_key;
-	 		$derivedObject->$d = $parentObject->$j;
-	 		foreach($derivedProperties as $prop){
-			 	$derivedObject->$prop = $this->$prop;
-	 		}
-	 		
-	 		$derivedObject->$d = $this->$j; 		
-	
-	 		// Time to insert the derived attributes
-	  	  if(!$isNew){
-	          $db->updateObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key, $updateNulls );
-	      }else{
-	          $db->insertObject( $this->_derivedTable, $derivedObject, $this->_d_tbl_key );
-	      }
-	      	      
-      	}
-		
+				
 		$orderField = $db->nameQuote('order');
 		$idPubField = $db->nameQuote('id_publication');
        
@@ -660,7 +521,7 @@ class JResearchPublication extends JResearchActivity{
 			$idStaffField = $db->nameQuote('id_staff_member');
 			$order = $author['order'];
 			$tableName = $db->nameQuote('#__jresearch_publication_internal_author');
-			$insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField,$emailField) VALUES ($this->id, $id_staff_member,$order)";
+			$insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField) VALUES ($this->id, $id_staff_member,$order)";
 			$db->setQuery($insertInternalQuery);			
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());

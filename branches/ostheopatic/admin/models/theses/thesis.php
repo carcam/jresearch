@@ -13,7 +13,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 
 
 /**
@@ -27,9 +26,7 @@ class JResearchModelThesis extends JResearchModelSingleRecord{
 	* @return 	object
 	*/
 	public function getItem($itemId){
-		$db =& JFactory::getDBO();
-
-		$thesis = new JResearchThesis($db);
+		$thesis = JTable::getInstance('Thesis', 'JResearch');
 		$result = $thesis->load($itemId);
 		
 		if($result)
