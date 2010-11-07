@@ -26,12 +26,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th style="width: 1%;">#</th>
 			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th style="width: 50%; text-align: center;"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_INSTITUTE'), 'name', @$this->lists['order_Dir'], @$this->lists['order'] );?></th>
+			<th style="width: 40%; text-align: center;"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_INSTITUTE'), 'name', @$this->lists['order_Dir'], @$this->lists['order'] );?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort','Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
-			<th>
+			<th style="width: 1%;" nowrap="nowrap">
+				<?php echo JHTML::_('grid.sort', 'Order by', 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHTML::_('grid.order', $this->items ); ?>
+			</th>
+			<th style="width: 20%;" nowrap="nowrap">
 				<?php echo JText::_('JRESEARCH_INSTITUTE_URL'); ?>
 			</th>
-			<th>
+			<th style="width: 20%;" nowrap="nowrap">
 				<?php echo JText::_('JRESEARCH_INSTITUTE_EMAIL'); ?>
 			</th>
 			<th>
@@ -67,6 +71,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						</a>
 					</td>
 					<td class="center"><?php echo $published; ?></td>
+					<td class="order" nowrap="nowrap">
+						<span><?php echo $this->page->orderUpIcon( $i, $this->items[$i]->ordering > 1, 'orderup', 'Move Up', $this->ordering); ?></span>
+						<span><?php echo $this->page->orderDownIcon( $i, $n, $this->items[$i]->ordering < ($this->items[$i]->getNextOrder()-1), 'orderdown', 'Move Down', $this->ordering ); ?></span>
+						<?php $disabled = $this->ordering ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
+					</td>					
 					<td class="center"><?php echo $this->items[$i]->url; ?></td>
 					<td class="center"><?php echo $this->items[$i]->email; ?></td>
 					<td class="center"><?php echo $this->items[$i]->phone; ?></td>

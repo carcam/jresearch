@@ -36,12 +36,22 @@ class JResearchInstitute extends JTable
   	/**
 	 * @var string
 	 */
-  	public $logo_url;
+  	public $institute_logo;
   	
   	/**
 	 * @var string
 	 */
-  	public $street;
+  	public $street;  	
+  	public $id_country;  	
+  	public $woho_member;
+  	public $hide;
+    public $woho;
+    public $street2;
+  	public $state_province;  	
+  	public $link_2_paper;
+  	public $name_english;  	
+    public $name2;  	
+    public $contact_p;  	    
   	/**
 	 * @var string
 	 */
@@ -72,7 +82,7 @@ class JResearchInstitute extends JTable
   	/**
 	 * @var bool
 	 */
-  	public $fore_member;
+  	public $fore_member; 	
 
   	/**
 	 * @var string
@@ -84,21 +94,26 @@ class JResearchInstitute extends JTable
 	 * @var bool
 	 */
   	public $published;
+  	
+  	public $ordering;
 
     /**
      * Constructor
      *
      * @param object Database connector object
      */
-    function JResearchInstitute(&$db)
-    {
-        parent::__construct('#__jresearch_institutes', 'id', $db);
+    function __construct(&$db){
+        parent::__construct('#__jresearch_institute', 'id', $db);
     }
     
-    function check()
-    {
+    
+    function check(){
     	$url_pattern = '!^((mailto\:|(news|(ht|f)tp(s?))\://){1}\S+)$!';
-    	//$url_pattern = "!^((ht|f)tp(s?)\:\/\/|~/|/)?([\w]+:\w+@)?([a-zA-Z]{1}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?((/?\w+/)+|/?)(\w+\.[\w]{3,4})?((\?\w+=\w+)?(&\w+=\w+)*)?$!";
+    	if(empty($this->name)){
+			$this->setError(JText::_('Please provide a name for the institute'));
+        	return false;    		
+    	}
+    		
     	
         if(!empty($this->url))
         {
@@ -116,5 +131,18 @@ class JResearchInstitute extends JTable
         	
         return true;
     }
+    
+	/**
+	 * Returns the name of the country of the publication
+	 * @return string
+	 */
+	public function getCountry(){
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'country.php');
+		$result = JResearchCountryHelper::getCountry($this->id_country);
+		if($result != null)
+			return $result['name'];
+		else
+			return null;	
+	}
 }
 ?>

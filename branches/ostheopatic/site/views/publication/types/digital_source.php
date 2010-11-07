@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<?php $colspan = 4; ?>
 	<?php $source_type = trim($this->publication->source_type);  ?>
-	<?php if(!empty($source_type)): ?>
+	<?php if(!empty($source_type) && $source_type != 'none'): ?>
 	<?php $colspan -= 2; ?>
 	<th scope="row"><?php echo JText::_('JRESEARCH_SOURCE_TYPE').': ' ?></th>		
 	<td><?php echo JText::_('JRESEARCH_'.strtoupper($source_type)); ?></td>

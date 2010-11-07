@@ -437,6 +437,27 @@ class JResearchToolbar
 		JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
 	}
 	
+	public static function institutesAdminListToolbar(){
+		JToolBarHelper::title(JText::_('JRESEARCH_INSTITUTES'));
+		
+		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+		JToolBarHelper::divider();
+		self::adminListToolbar();		
+	}
+	
+	public static function editInstituteAdminToolbar()
+	{
+		$cid = JRequest::getVar('cid');
+		if($cid)
+			$title = JText::_('JRESEARCH_EDIT_INSTITUTE');
+		else
+			$title = JText::_('JRESEARCH_NEW_INSTITUTE');	
+		
+		JToolBarHelper::title($title);
+		
+		self::editItemAdminToolbar();
+	}
+	
 	/**
 	 * Toolbar shown when visiting help page in backend interface.
 	 *
@@ -444,5 +465,6 @@ class JResearchToolbar
 	public static function helpToolbar(){
 		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
 	}
+	
 }
 ?>

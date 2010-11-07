@@ -20,7 +20,7 @@ if(count($this->items) > 0):
 	
 	foreach($this->items as $institute):
 	?>
-		<li class="liinstitute" style="background: none; clear: both; margin-bottom: 10px;">
+		<li class="liinstitute">
 			<?php 
 			if($institute->image_url):
 				$url = JResearch::getUrlByRelative($institute->image_url);
@@ -29,7 +29,7 @@ if(count($this->items) > 0):
 			<?php 
 			endif;
 			?>
-			<div style="width: 85%; margin-left: auto; margin-right: auto;">
+			<div style="width: 95%; margin-left: auto; margin-right: auto;">
 				<?php
 				$contentArray = explode('<hr id="system-readmore" />', $institute->comment);
 				?>

@@ -249,3 +249,13 @@ div.divTdl2{
 	
 }
 
+ul#jresearch-institute-list{
+}
+
+li.liinstitute{
+	padding-left: 0px;
+	list-style-type: none;
+	background: none; 
+	clear: both;
+	margin-bottom: 8px;
+}

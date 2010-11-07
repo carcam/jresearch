@@ -18,6 +18,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+define('_INSTITUTE_IMAGE_MAX_WIDTH_', 1024);
+define('_INSTITUTE_IMAGE_MAX_HEIGHT_', 768);
 // Common needed files
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
@@ -43,7 +45,7 @@ $document->addStyleSheet($url.'administrator/components/com_jresearch/css/jresea
 $controller = JRequest::getVar('controller', null);
 $task = JRequest::getVar('task');
 $prefix = 'JResearchAdmin';
-$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas', 'financiers', 'member_positions');
+$availableControllers = array('publications', 'projects', 'theses', 'staff', 'teams', 'facilities', 'researchAreas', 'financiers', 'member_positions', 'institutes');
 
 if($controller == null || !in_array($controller, $availableControllers)){
 	// It is the default controller

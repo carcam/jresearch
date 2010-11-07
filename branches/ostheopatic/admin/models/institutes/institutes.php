@@ -17,7 +17,7 @@ class JResearchModelInstitutes extends JResearchModelList
     public function __construct()
     {
 		parent::__construct();
-		$this->_tableName = '#__jresearch_institutes';
+		$this->_tableName = '#__jresearch_institute';
 	}	
 	
 	/**
@@ -47,9 +47,9 @@ class JResearchModelInstitutes extends JResearchModelList
 			
 			foreach($rows as $row)
 			{				
-				$coop = JTable::getInstance('Institute', 'JResearch');
-				$coop->load($row);
-				$this->_items[] = $coop;
+				$ins = JTable::getInstance('Institute', 'JResearch');
+				$ins->bind($row);
+				$this->_items[] = $ins;
 			}
 			
 			if($paginate)
@@ -93,11 +93,11 @@ class JResearchModelInstitutes extends JResearchModelList
 	private function _buildQueryOrderBy()
 	{
 		global $mainframe;
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('name', 'published');
+		$orders = array('name', 'published', 'ordering');
 		
-		$filter_order = $mainframe->getUserStateFromRequest('institutesfilter_order', 'filter_order', 'name');
+		$filter_order = $mainframe->getUserStateFromRequest('institutesfilter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('institutesfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
@@ -155,6 +155,55 @@ class JResearchModelInstitutes extends JResearchModelList
 		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
+	}
+	
+	/**
+	 * Ordering item
+	*/
+	function orderItem($item, $movement)
+	{
+		$db =& JFactory::getDBO();
+		$row = JTable::getInstance('Institute', 'JResearch');
+		$row->load($item);
+		
+		if (!$row->move($movement))
+		{
+			$this->setError($row->getError());
+			return false;
+		}
+
+		return true;
+	}
+	
+	/**
+	 * Set ordering
+	*/
+	function setOrder($items)
+	{
+		$db 		=& JFactory::getDBO();
+		$total		= count($items);
+		$row		= JTable::getInstance('Institute', 'JResearch');
+
+		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
+		JArrayHelper::toInteger($order);
+
+		// update ordering values
+		for( $i=0; $i < $total; $i++ )
+		{
+			$row->load( $items[$i] );
+			
+			if ($row->ordering != $order[$i])
+			{
+				$row->ordering = $order[$i];
+				if (!$row->store())
+				{
+					$this->setError($row->getError());
+					return false;
+				}
+			} // if
+		} // for
+
+		return true;
 	}
 }
 ?>

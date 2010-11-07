@@ -10,7 +10,6 @@
 */
 
 jimport('joomla.application.component.controller');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'institute.php');
 
 /**
 * JResearch Institutes Backend Controller
@@ -97,7 +96,7 @@ class JResearchAdminInstitutesController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$institute = new JResearchInstitute($db);
+		$institute = JTable::getInstance('Institute', 'JResearch');
 		$institute->publish($cid, 1);
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=institutes', JText::_('The items were successfully published'));
@@ -109,7 +108,7 @@ class JResearchAdminInstitutesController extends JController
 		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
 
-		$institute = new JResearchInstitute($db);
+		$institute = JTable::getInstance('Institute', 'JResearch');
 		$institute->publish($cid, 0);
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=institutes', JText::_('The items were successfully unpublished'));
@@ -121,13 +120,13 @@ class JResearchAdminInstitutesController extends JController
 		$cid = JRequest::getVar('cid');
 		$n = 0;
 
-		$institute = new JResearchInstitute($db);
+		$institute = JTable::getInstance('Institute', 'JResearch');
 
 		foreach($cid as $id)
 		{
 			if(!$institute->delete($id))
 			{
-				JError::raiseWarning(1, JText::sprintf('Cooperation with id %d could not be deleted', $id));
+				JError::raiseWarning(1, JText::sprintf('Institute with id %d could not be deleted', $id));
 			}
 			else
 			{
@@ -149,32 +148,38 @@ class JResearchAdminInstitutesController extends JController
 		
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
 		
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		
 		$params = JComponentHelper::getParams('com_jresearch');
 		$imageWidth = $params->get('institute_image_width', _INSTITUTE_IMAGE_MAX_WIDTH_);
 		$imageHeight = $params->get('institute_image_height', _INSTITUTE_IMAGE_MAX_HEIGHT_);
 
-		$institute = new JResearchInstitute($db);
+		$institute = JTable::getInstance('Institute', 'JResearch');
 
 		// Bind request variables
 		$post = JRequest::get('post');
 
 		$institute->bind($post);
 		$institute->name = JRequest::getVar('name', '', 'post', 'string', JREQUEST_ALLOWHTML);
-		$institute->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		$institute->comment = JRequest::getVar('comment', '', 'post', 'string', JREQUEST_ALLOWHTML);
 
 		//Generate an alias if needed
-		$institute = trim(JRequest::getVar('alias'));
-		if(empty($institute)){
+		$alias = trim(JRequest::getVar('alias'));
+		if(empty($alias)){
 			$institute->alias = JResearch::alias($institute->name);
 		}
+		
+/*		$recognized = JRequest::getVar('recognized', null);		
+		$institute->recognized = ($recognized == 'on');
+		
+		$fore_member = JRequest::getVar('fore_member', null);
+		$institute->fore_member = ($fore_member == 'on'); */
 		
 		//Upload photo
 		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
 		$del = JRequest::getVar('delete');
 		
-		JResearch::uploadImage(	$institute->image_url, 	//Image string to save
+		JResearch::uploadImage(&$institute->institute_logo, 	//Image string to save
 								$fileArr, 			//Uploaded File array
 								'assets'.DS.'institutes'.DS, //Relative path from administrator folder of the component
 								($del == 'on')?true:false,	//Delete?
@@ -190,14 +195,13 @@ class JResearchAdminInstitutesController extends JController
 			{
 				//Specific redirect for specific task
 				if($task == 'save')
-					$this->setRedirect('index.php?option=com_jresearch&controller=institutes', JText::_('The cooperation was successfully saved.'));
+					$this->setRedirect('index.php?option=com_jresearch&controller=institutes', JText::_('The institute was successfully saved.'));
 				elseif($task == 'apply')
-					$this->setRedirect('index.php?option=com_jresearch&controller=institutes&task=edit&cid[]='.$institute->id, JText::_('The cooperation was successfully saved.'));
+					$this->setRedirect('index.php?option=com_jresearch&controller=institutes&task=edit&cid[]='.$institute->id, JText::_('The institute was successfully saved.'));
 
 				// Trigger event
-				$arguments = array('cooperation', $institute->id);
+				$arguments = array('institute', $institute->id);
 				$mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
-
 			}
 			else
 			{
@@ -215,13 +219,10 @@ class JResearchAdminInstitutesController extends JController
 				
 			$this->setRedirect('index.php?option=com_jresearch&controller=institutes&task=edit'.$idText);
 		}
-
-		//Reordering ordering of other Institutes
-		$institute->reorder();
 		
 		//Unlock record
 		if(!empty($institute->id)){
-			$user =& JFactory::getUser();
+			$user = JFactory::getUser();
 			if(!$institute->isCheckedOut($user->get('id')))
 			{
 				if(!$institute->checkin())
@@ -247,5 +248,100 @@ class JResearchAdminInstitutesController extends JController
 
 		$this->setRedirect('index.php?option=com_jresearch&controller=institutes');
 	}
+	
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function orderup()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
+		if (isset($cid[0]) && $cid[0])
+		{
+			$id = $cid[0];
+		}
+		else
+		{
+			$this->setRedirect( 'index.php?option=com_jresearch&controller=institutes', JText::_('No Items Selected') );
+			return false;
+		}
+
+		$model =& $this->getModel('Institutes', 'JResearchModel');
+		
+		if ($model->orderItem($id, -1))
+		{
+			$msg = JText::_( 'Institutes Item Moved Up' );
+		}
+		else
+		{
+			$msg = $model->getError();
+		}
+		
+		$this->setRedirect( 'index.php?option=com_jresearch&controller=institutes', $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function orderdown()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
+		if (isset($cid[0]) && $cid[0])
+		{
+			$id = $cid[0];
+		}
+		else
+		{
+			$this->setRedirect( 'index.php?option=com_jresearch&controller=institutes', JText::_('No Items Selected') );
+			return false;
+		}
+
+		$model =& $this->getModel('Institutes', 'JResearchModel');
+		if ($model->orderItem($id, 1))
+		{
+			$msg = JText::_( 'Institute Item Moved Up' );
+		}
+		else
+		{
+			$msg = $model->getError();
+		}
+		
+		$this->setRedirect( 'index.php?option=com_jresearch&controller=institutes', $msg );
+	}
+
+	/**
+	* Save the item(s) to the menu selected
+	*/
+	function saveorder()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
+		$model =& $this->getModel('Institutes', 'JResearchModel');
+		
+		if ($model->setOrder($cid))
+		{
+			$msg = JText::_( 'New ordering saved' );
+		}
+		else
+		{
+			$msg = $model->getError();
+		}
+		
+		$this->setRedirect( 'index.php?option=com_jresearch&controller=institutes', $msg );
+	}
+	
 }
 ?>

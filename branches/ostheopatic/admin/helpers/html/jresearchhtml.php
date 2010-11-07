@@ -659,9 +659,11 @@ class JHTMLjresearchhtml
 	public static function digitalresourcelist(array $attributes = array()){
 		//Status options
     	$resourcesOptions = array();
+		$resourcesOptions[] = JHTML::_('select.option', '0', JText::_('None'));    	
     	$resourcesOptions[] = JHTML::_('select.option', 'cdrom', JText::_('JRESEARCH_CDROM'));
     	$resourcesOptions[] = JHTML::_('select.option', 'film', JText::_('JRESEARCH_FILM'));
-    	
+    	$resourcesOptions[] = JHTML::_('select.option', 'file', JText::_('JRESEARCH_FILE'));    	
+
     	return self::htmllist($resourcesOptions, $attributes);		
 	}
 	
@@ -977,6 +979,20 @@ class JHTMLjresearchhtml
     	$orderOptions[] = JHTML::_('select.option', 'author_name_descending', JText::_('JRESEARCH_AUTHOR_NAME_DESC'));    	
     	     	
     	return self::htmllist($orderOptions, $attributes);		
+	}
+	
+	public static function instituteslist($name, $options, $value = 0){
+		$db = JFactory::getDBO();
+		
+		$db->setQuery('SELECT id, name FROM #__jresearch_institute WHERE published = 1');
+		$institutesHtmlOptions = array();
+		$institutesHtmlOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_INSTITUTES'));
+		$institutes = $db->loadAssocList();	
+		foreach($institutes as $ins){
+			$institutesHtmlOptions[] = JHTML::_('select.option', $ins['id'], $ins['name']);
+		}
+		
+		return JHTML::_('select.genericlist', $institutesHtmlOptions, $name, $options, 'value','text', $value);		
 	}
 	
 	/**

@@ -36,9 +36,6 @@ class JResearchAdminViewInstitute extends JResearchView
     	$arguments = array('institute', $institute?$institute->id:null);
     	
 		$publishedList = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $institute?$institute->published:1));
-
-    	$orderOptions = array();
-    	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations WHERE catid='.($institute?$institute->catid:0).' ORDER by ordering ASC');
     	
 		$editor =& JFactory::getEditor();
     	

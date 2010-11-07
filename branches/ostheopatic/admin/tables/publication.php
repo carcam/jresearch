@@ -738,8 +738,8 @@ class JResearchPublication extends JResearchActivity{
 	}
 	
 	/**
-	 * 
-	 * @return unknown_type
+	 * Returns the name of the country of the publication
+	 * @return string
 	 */
 	public function getCountry(){
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'country.php');
