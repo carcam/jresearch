@@ -107,6 +107,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	        </div>
 		  <div class="divEspacio" ></div>		        
 		</div> 
+        <div class="divTR"> 		
+	        <div class="divTd">
+	            <label for="id_institute"><?php echo JText::_('JRESEARCH_INSTITUTE').': '?></label>
+	        </div>
+	        <div class="divTdl">
+	        <?php echo $this->institutesList; ?>
+	        </div>
+		  <div class="divEspacio" ></div>		        
+		</div> 		
 	</div>
 </fieldset>
 <fieldset>

@@ -3,6 +3,40 @@
 -- Author: Luis Galarraga
 -- Date: 27-05-2008 00:14:00
 
+CREATE TABLE IF NOT EXISTS `#__jresearch_institute` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(256) DEFAULT NULL,
+  `alias` varchar(256) DEFAULT NULL, 
+  `published` tinyint(4) NOT NULL default '1', 
+  `contact_p` varchar(80) DEFAULT NULL,
+  `street` varchar(256) DEFAULT NULL,
+  `place` varchar(50) DEFAULT NULL,
+  `zip` varchar(8) DEFAULT NULL,
+  `id_country` int(11) DEFAULT NULL,
+  `phone` varchar(40) DEFAULT NULL,
+  `fax` varchar(40) DEFAULT NULL,
+  `email` varchar(256) DEFAULT NULL,
+  `url` varchar(256) DEFAULT NULL,
+  `institute_logo` varchar(256) DEFAULT NULL,
+  `comment` text,
+  `woho_member` smallint(6) DEFAULT NULL,
+  `hide` smallint(6) DEFAULT NULL,
+  `woho` varchar(1) DEFAULT NULL,
+  `street2` varchar(256) DEFAULT NULL,
+  `state_province` varchar(50) DEFAULT NULL,
+  `link_2_paper` varchar(1) DEFAULT NULL,
+  `name_english` varchar(256) DEFAULT NULL,
+  `name2` varchar(256) DEFAULT NULL,  
+  `recognized` BOOL DEFAULT NULL,
+  `fore_member` BOOL DEFAULT NULL,
+  `checked_out` tinyint(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `created_by` int(10) DEFAULT NULL,
+  `ordering` int(11) unsigned NOT NULL default '0',
+   PRIMARY KEY  (`id`),
+   UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `#__jresearch_citing_style`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_citing_style` (
@@ -24,19 +58,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_financier` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-
-
-DROP TABLE IF EXISTS `#__jresearch_pthesis`;
-CREATE TABLE IF NOT EXISTS `#__jresearch_pthesis` (
-  `id_publication` int(10) unsigned NOT NULL,
-  `school` varchar(255) NOT NULL,
-  `type` ENUM('phd', 'masters', 'diploma', 'bsc') default 'bsc',
-  `address` varchar(255) default NULL,
-  PRIMARY KEY  (`id_publication`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
 
 
 DROP TABLE IF EXISTS `#__jresearch_project`;
@@ -144,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `pages` varchar(20) default NULL,
   `crossref` varchar(255) default NULL,
   `isbn` varchar(32) default NULL,	
-  `publisher` varchar(60) NOT NULL,
+  `publisher` varchar(255) NOT NULL,
   `editor` varchar(255) NOT NULL,
   `volume` varchar(30) default NULL,
   `series` varchar(255) default NULL,
@@ -164,12 +185,12 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `country` varchar(60) DEFAULT NULL,
   `office` varchar(255) DEFAULT NULL,
   `school` varchar(255) NOT NULL,
-  `institution` varchar(255) NOT NULL,
+  `id_institute` int(11) NULL,
   `day` varchar(2) default NULL,
   `extra` text default NULL,
   `online_source_type` enum('website', 'video', 'audio', 'image', 'blog') NOT NULL default 'website',
-  `digital_source_type` enum('cdrom', 'film') NOT NULL default 'cdrom',
-  `access_date` date default NULL,  
+  `digital_source_type` enum('none', 'cdrom', 'film', 'file') NOT NULL default 'none',
+  `access_date` date default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `citekey` (`citekey`),
   INDEX `year` (`year`),

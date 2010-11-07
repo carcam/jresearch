@@ -25,3 +25,4 @@ DROP TABLE IF EXISTS `#__jresearch_cited_records`;
 DROP TABLE IF EXISTS `#__jresearch_publication_type`;
 DROP TABLE IF EXISTS `#__jresearch_country`;
 DROP TABLE IF EXISTS `#__jresearch_language`;
+DROP TABLE IF EXISTS `#__jresearch_institute`;

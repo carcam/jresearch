@@ -78,6 +78,7 @@ class JResearchAdminViewPublication extends JResearchView
 		$statusRadio = JHTML::_('jresearchhtml.publicationstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->status:'in_progress'));
 		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', !$isNew?$publication->id_language:0);
 		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', !$isNew?$publication->id_country:0);		
+		$institutesList = JHTML::_('jresearchhtml.instituteslist', 'id_institute', $publication? $publication->id_institute:0);		
 		$sourcesList = JHTML::_('jresearchhtml.publicationsourceslist', array('name' => 'source', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->source:'ORW'));
 		$params = JComponentHelper::getParams('com_jresearch');
 		$authorsControl	= JHTML::_('jresearchhtml.autoSuggest', 'authors', $authors);		
@@ -91,7 +92,8 @@ class JResearchAdminViewPublication extends JResearchView
 		
 		$this->assignRef('statusRadio', $statusRadio);
 		$this->assignRef('sourcesList', $sourcesList);
-		$this->assignRef('countriesList', $countriesList);		
+		$this->assignRef('countriesList', $countriesList);
+		$this->assignRef('institutesList', $institutesList);		
 		$this->assignRef('recommendedRadio', $recommendedRadio);
 		$this->assignRef('languageList', $languageList);	
 		$this->assignRef('publishedRadio', $publishedRadio);

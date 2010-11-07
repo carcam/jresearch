@@ -22,14 +22,6 @@ $pane = JPane::getInstance('sliders', array('allowAllClose' => true));
 	</div>
 	<div>
 		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=cooperations">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/cooperations.png" alt="<?php echo JText::_('JRESEARCH_COOPERATIONS'); ?>" />					
-				<span><?php echo JText::_('JRESEARCH_COOPERATIONS'); ?></span>
-			</a>
-		</div>
-	</div>
-	<div>
-		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=facilities">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/facilities.png" alt="<?php echo JText::_('JRESEARCH_FACILITIES'); ?>" />					
 				<span><?php echo JText::_('JRESEARCH_FACILITIES'); ?></span>
@@ -91,6 +83,14 @@ $pane = JPane::getInstance('sliders', array('allowAllClose' => true));
 			</a>
 		</div>
 	</div>
+	<div>
+		<div class="icon">
+			<a href="index.php?option=com_jresearch&amp;controller=institutes">
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/institutions.png" alt="<?php echo JText::_('JRESEARCH_INSTITUTES'); ?>" />					
+				<span><?php echo JText::_('JRESEARCH_INSTITUTES'); ?></span>
+			</a>
+		</div>
+	</div>	
 	<div>
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;task=help">

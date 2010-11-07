@@ -14,7 +14,8 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JResearch
 {	
-	/**
+	
+/**
 	 * Uploads one image file
 	 * 
 	 * @param string $imageVar
@@ -54,9 +55,9 @@ class JResearch
 		
 		//Upload image and get relative url
 		$url = self::upload($imageVar, $file, $folder, $availableTypes, $delete);
-		
+			
 		//Create thumbnail if it is enabled and upload was successful
-		if($params->get('thumbnail_enable', 'true') === 'true' && $url)
+		if($params->get('thumbnail_enable', 1) == 1 && $url)
 		{
 			self::_createThumbnail(JPATH_COMPONENT_ADMINISTRATOR.DS.$url, $folder);
 		}
@@ -88,7 +89,7 @@ class JResearch
 					return basename($newName);
 				}
 			}else{
-				JError::raiseWarning(1, JText::sprintf('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED', basename($newName)));
+				JError::raiseWarning(1, JText::sprintf('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED', basename($file['name']).' ('. $file['type']. ')'));
 			}
 		}
 		
@@ -110,12 +111,11 @@ class JResearch
 		}
 		
 		$uploadedFile = $file['tmp_name'];
-		
 		if($uploadedFile != null)
-		{		
+		{
+            $newName = JPATH_COMPONENT_ADMINISTRATOR.DS.JPath::clean($folder).DS.$file['name'];
 			if(array_key_exists($file['type'], $types))
 			{
-				$newName = JPATH_COMPONENT_ADMINISTRATOR.DS.JPath::clean($folder).DS.$file['name'];
 				$base = basename($newName);
 				
 				if(!move_uploaded_file($uploadedFile, $newName))
@@ -126,6 +126,7 @@ class JResearch
 				{
 					$path = JString::str_ireplace(DS,'/',$folder).$base;
 					$fileVar = $path;
+					JError::raiseWarning(1, $fileVar);				
 				}
 			}
 			else 

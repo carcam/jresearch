@@ -65,6 +65,7 @@
 		<language tag="en-GB">en-GB.com_jresearch.cooperations.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.facilities.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.financiers.ini</language>
+		<language tag="en-GB">en-GB.com_jresearch.institutes.ini</language>		
 		<language tag="en-GB">en-GB.com_jresearch.projects.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.publications.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.researchareas.ini</language>
@@ -75,13 +76,13 @@
 	<administration>
 		<menu img="../administrator/components/com_jresearch/assets/jresearch_logomini.png">J!Research</menu>
 		<submenu>
-			<menu controller="cooperations" img="../administrator/components/com_jresearch/assets/cooperations_mini.png">JRESEARCH_COOPERATIONS</menu>
 			<menu link="option=com_categories&amp;section=com_jresearch_cooperations">JRESEARCH_COOPERATION_CATEGORIES</menu>
 			<menu controller="facilities" img="../administrator/components/com_jresearch/assets/facilities_mini.png">JRESEARCH_FACILITIES</menu>
 			<menu controller="financiers" img="../administrator/components/com_jresearch/assets/financier_mini.png">JRESEARCH_FINANCIERS</menu>
 			<menu controller="member_positions">JRESEARCH_MEMBER_POSITIONS</menu>
 			<menu controller="projects" img="../administrator/components/com_jresearch/assets/projects_mini.png">JRESEARCH_PROJECTS</menu>
 			<menu controller="publications" img="../administrator/components/com_jresearch/assets/publications_mini.png">JRESEARCH_PUBLICATIONS</menu>
+			<menu controller="institutes" img="../administrator/components/com_jresearch/assets/institutions_mini.png">JRESEARCH_INSTITUTES</menu>			
 			<menu controller="researchAreas" img="../administrator/components/com_jresearch/assets/jresearch_logomini.png">JRESEARCH_RESEARCH_AREAS</menu>
 			<menu controller="staff" img="../administrator/components/com_jresearch/assets/staff_mini.png">JRESEARCH_STAFF</menu>
 			<menu controller="theses" img="../administrator/components/com_jresearch/assets/theses_mini.png">JRESEARCH_THESES</menu>

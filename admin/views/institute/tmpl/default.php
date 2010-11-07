@@ -18,7 +18,7 @@ JHTML::_('behavior.modal');
 		<div class="divTR">
 			<div class="divTd"><label for="name"><?php echo JText::_('JRESEARCH_INSTITUTE_NAME').': '?></label></div>
 			<div class="divTdl">
-				<input name="name" id="name" size="50" maxlength="100" class="required" value="<?php echo ($this->institute)?$this->institute->name:'' ?>" />
+				<input name="name" id="name" size="50" maxlength="256" class="required" value="<?php echo ($this->institute)?$this->institute->name:'' ?>" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'name', JText::_('JRESEARCH_PROVIDE_VALID_NAME')); ?>			
 			</div>
 			<div class="divEspacio" ></div>		
@@ -26,11 +26,25 @@ JHTML::_('behavior.modal');
 		<div class="divTR">
 			<div class="divTd"><label for="alias"><?php echo JText::_('Alias').': '?></label></div>
 			<div class="divTdl">
-				<input name="alias" id="alias" size="50" maxlength="255" class="validate-alias" value="<?php echo ($this->institute)?$this->institute->alias:'' ?>" />
+				<input name="alias" id="alias" size="50" maxlength="255" class="validate-alias" value="<?php echo ($this->institute)?$this->institute->name2:'' ?>" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'alias', JText::_('JRESEARCH_PROVIDE_VALID_ALIAS')); ?>			
 			</div>
 			<div class="divEspacio" ></div>		
 		</div>	
+		<div class="divTR">
+			<div class="divTd"><label for="name2"><?php echo JText::_('JRESEARCH_INSTITUTE_NAME2').': '?></label></div>
+			<div class="divTdl">
+				<input name="name2" id="name2" size="50" maxlength="255" value="<?php echo ($this->institute)?$this->institute->name2:'' ?>" />
+			</div>
+			<div class="divEspacio" ></div>		
+		</div>
+		<div class="divTR">
+			<div class="divTd"><label for="name_english"><?php echo JText::_('JRESEARCH_INSTITUTE_NAME_ENGLISH').': '?></label></div>
+			<div class="divTdl">
+				<input name="name_english" id="name_english" size="50" maxlength="255" value="<?php echo ($this->institute)?$this->institute->name_english:'' ?>" />
+			</div>
+			<div class="divEspacio" ></div>		
+		</div>		
 		<div class="divTR">
 			<div class="divTd"><label for="url"><?php echo JText::_('JRESEARCH_INSTITUTE_URL').': '; ?></label></div>
 			<div class="divTdl">
@@ -44,16 +58,6 @@ JHTML::_('behavior.modal');
 			<div class="divTdl divTdl2"><?php echo $this->publishedList; ?></div>
 		    <div class="divEspacio" ></div>		
 		</div>
-		<div class="divTR">
-			<div class="divTd"><label for="recognized"><?php echo JText::_('JRESEARCH_INSTITUTE_RECOGNIZED').': '; ?></label></div>
-			<div class="divTdl divTdl2"><input name="recognized" id="recognized" type="checkbox" <?php echo (($this->institute && $this->institute->recognized)?"checked=\"checked\"":""); ?>/></div>
-		    <div class="divEspacio" ></div>		
-		</div>
-		<div class="divTR">
-			<div class="divTd"><label for="fore_member"><?php echo JText::_('JRESEARCH_INSTITUTE_FOREMEMBER').': '; ?></label></div>
-			<div class="divTdl divTdl2"><input name="fore_member" id="fore_member" type="checkbox" <?php echo (($this->institute && $this->institute->fore_member)?"checked=\"checked\"":""); ?>/></div>
-		    <div class="divEspacio" ></div>		
-		</div>
 	</fieldset>
 	<fieldset>
 		<legend><?php echo JText::_('JRESEARCH_ADDITIONAL'); ?></legend>
@@ -65,9 +69,16 @@ JHTML::_('behavior.modal');
 			<div class="divEspacio" ></div>		
 		</div>
 		<div class="divTR">
+			<div class="divTd"><label for="street"><?php echo JText::_('JRESEARCH_INSTITUTE_STREET_2').': '?></label></div>
+			<div class="divTdl">
+				<input name="street2" id="street2" size="50" maxlength="255" value="<?php echo ($this->institute)?$this->institute->street2:'' ?>" />		
+			</div>
+			<div class="divEspacio" ></div>		
+		</div>		
+		<div class="divTR">
 			<div class="divTd"><label for="zip"><?php echo JText::_('JRESEARCH_INSTITUTE_ZIP').': '?></label></div>
 			<div class="divTdl">
-				<input name="zip" id="zip" size="20" maxlength="20" value="<?php echo ($this->institute)?$this->institute->zip:'' ?>" />
+				<input name="zip" id="zip" size="20" maxlength="8" value="<?php echo ($this->institute)?$this->institute->zip:'' ?>" />
 			</div>
 			<div class="divEspacio" ></div>		
 		</div>
@@ -78,6 +89,19 @@ JHTML::_('behavior.modal');
 			</div>
 			<div class="divEspacio" ></div>		
 		</div>
+		<div class="divTR">
+			<div class="divTd"><label for="state_province"><?php echo JText::_('JRESEARCH_INSTITUTE_STATE_OR_PROVINCE').': '; ?></label></div>
+			<div class="divTdl divTdl2"><input name="state_province" id="state_province" size="20" maxlength="20" value="<?php echo ($this->state_province)?$this->institute->state_province:'' ?>" /></div>
+		    <div class="divEspacio" ></div>		
+		</div>
+		
+		<div class="divTR">
+			<div class="divTd"><label for="id_country"><?php echo JText::_('JRESEARCH_COUNTRY').': '?></label></div>
+			<div class="divTdl">			
+				<?php echo JHTML::_('jresearchhtml.countrieslist', 'id_country', isset($this->institute)?$institute->id_country:0);	?>		
+			</div>
+			<div class="divEspacio" ></div>		
+		</div>		
 		<div class="divTR">
 			<div class="divTd"><label for="phone"><?php echo JText::_('JRESEARCH_INSTITUTE_PHONE').': '?></label></div>
 			<div class="divTdl">
@@ -93,6 +117,13 @@ JHTML::_('behavior.modal');
 			<div class="divEspacio" ></div>		
 		</div>
 		<div class="divTR">
+			<div class="divTd"><label for="url"><?php echo JText::_('JRESEARCH_INSTITUTE_CONTACT').': '; ?></label></div>
+			<div class="divTdl">
+				<input name="contact_p" id="contact_p" size="30" maxlength="80"  value="<?php echo ($this->institute)?$this->institute->contact_p:''; ?>" />
+			</div>
+			<div class="divEspacio" ></div>		
+		</div>		
+		<div class="divTR">
 			<div class="divTd"><label for="email"><?php echo JText::_('JRESEARCH_INSTITUTE_EMAIL').': '?></label></div>
 			<div class="divTdl">
 				<input name="email" id="email" size="50" maxlength="255" value="<?php echo ($this->institute)?$this->institute->email:'' ?>" />
@@ -100,20 +131,20 @@ JHTML::_('behavior.modal');
 			<div class="divEspacio" ></div>		
 		</div>
 		<div class="divTR">
-			<div class="divTd"><label for="file"><?php echo JText::_('Photo').': ' ?></label></div>
+			<div class="divTd"><label for="file"><?php echo JText::_('Logo').': ' ?></label></div>
 			<div class="divTdl">
 				<input class="inputbox" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', _INSTITUTE_IMAGE_MAX_WIDTH_, _INSTITUTE_IMAGE_MAX_HEIGHT_)); ?>		
 			</div>
 			<div class="divTdl">
 				<?php
-				if($this->institute && $this->institute->logo_url):
-					$url = JResearch::getUrlByRelative($this->institute->logo_url);
-					$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->institute->logo_url):$url;
+				if($this->institute && $this->institute->institute_logo):
+					$url = JResearch::getUrlByRelative($this->institute->institute_logo);
+					$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->institute->institute_logo):$url;
 				?>
 				<a href="<?php echo $url?>" class="modal">
 					<img src="<?php echo $thumb;?>" alt="<?php echo JText::_('Photo'); ?>" class="modal" />
 				</a>
-				<input type="hidden" name="logo_url" id="logo_url" value="<?php echo $this->institute->logo_url;?>" />
+				<input type="hidden" name="logo_url" id="logo_url" value="<?php echo $this->institute->institute_logo;?>" />
 				<label for="delete"><?php echo JText::_('JRESEARCH_DELETE_CURRENT_PHOTO'); ?></label><input type="checkbox" name="delete" id="delete" />		
 				<?php endif; ?>
 			</div>

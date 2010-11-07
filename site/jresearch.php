@@ -32,7 +32,7 @@ $controller = JRequest::getVar('controller', null);
 if($controller === null){
 	$controller = __mapViewToController();
 }else{
-	$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas');
+	$availableControllers = array('publications', 'projects', 'theses', 'staff', 'teams', 'facilities', 'researchAreas', 'institutes');
 	if(!in_array($controller, $availableControllers))
 		$controller = 'researchAreas';
 }
@@ -103,9 +103,12 @@ function __mapViewToController(){
 		case 'facilities': case 'facility':
 			$value = 'facilities';
 			break;
-		case 'teams': case 'team';
+		case 'teams': case 'team':
 			$value = 'teams';
 			break;
+		case 'institutes': case 'institute':
+			$value = 'institutes';
+			break;	
 		default:
 			$value = 'researchAreas';			
 			break;
