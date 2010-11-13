@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
+<install type="module" version="1.5.0">
+	<name>J!Research Papers</name>
+	<creationDate>November 2010</creationDate>
+	<author>Luis Galárraga and Florian Prinz</author>
+	<authorEmail>shamantobi@gmail.com, prinz.florian@chello.at</authorEmail>
+	<authorUrl>http://joomla-research.com</authorUrl>
+	<copyright>(c) Copyright by Luis Galárraga, Florian Prinz and J!Research Team</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.0</version>
+	<description>Module for listing newest and most viewed papers</description>
+	<files>
+		<filename module="mod_jresearch_papers">mod_jresearch_papers.php</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+        <language tag="en-GB">en-GB.mod_jresearch_papers.ini</language>
+	</languages>
+	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="limit" type="text" default="5" label="Limit outcome" description="Limits outcoming objects" />
+		<param name="listtype" type="list" default="newest" label="Listing type" description="Select outcoming listing type">
+			<option value="newest">Newest papers</option>
+			<option value="most_viewed">Most viewed papers</option>
+		</param>
+	</params>
+</install>
