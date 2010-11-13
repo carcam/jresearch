@@ -32,7 +32,7 @@ class modJResearchPapersHelper
 		foreach($result as $item){
 			$pub = JTable::getInstance("Publication", "JResearch");
 			$pub->bind($item, array(), true);
-			$papers = $pub;
+			$papers[] = $pub;
 		}
 		
 		return $papers;
@@ -49,7 +49,7 @@ class modJResearchPapersHelper
 		foreach($result as $item){
 			$pub = JTable::getInstance("Publication", "JResearch");
 			$pub->bind($item, array(), true);
-			$papers = $pub;
+			$papers[] = $pub;
 		}
 		
 		return $papers;
