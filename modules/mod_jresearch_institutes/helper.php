@@ -13,45 +13,28 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
-class modJResearchPapersHelper
+class modJResearchInstitutesHelper
 {
 	/**
 	 * Gets cooperations from database
 	 *
 	 * @return array
 	 */
-	function getNewestPapers($limit=5)
+	function getHitparade($limit=5)
 	{
-		$papers = array();
+		$institutes = array();
 		$limit = intval($limit,10);
 		$db = &JFactory::getDBO();
-		$query = "SELECT * FROM #__jresearch_publication WHERE published = 1 ORDER by created DESC LIMIT 0,$limit";
+		$query = "SELECT i.*, COUNT(i.id) AS count FROM #__jresearch_institute AS i LEFT JOIN #__jresearch_publication AS p ON (p.id_institute = i.id AND p.published = 1) GROUP by i.id ORDER by count DESC LIMIT 0,$limit";
 		
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		foreach($result as $item){
-			$pub = JTable::getInstance("Publication", "JResearch");
+			$pub = JTable::getInstance("Institute", "JResearch");
 			$pub->bind($item, array(), true);
-			$papers[] = $pub;
+			$institutes[] = array("i" => $pub, "count" => $item['count']);
 		}
 		
-		return $papers;
-	}
-	
-	function getMostViewed($limit=5)
-	{
-		$papers = array();
-		$db = &JFactory::getDBO();
-		$query = "SELECT * FROM #__jresearch_publication WHERE published = 1 ORDER by hits DESC LIMIT 0,$limit";
-		
-		$db->setQuery($query);
-		$result = $db->loadAssocList();
-		foreach($result as $item){
-			$pub = JTable::getInstance("Publication", "JResearch");
-			$pub->bind($item, array(), true);
-			$papers[] = $pub;
-		}
-		
-		return $papers;
+		return $institutes;
 	}
 }
