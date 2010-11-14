@@ -168,13 +168,7 @@ class JResearchAdminInstitutesController extends JController
 		if(empty($alias)){
 			$institute->alias = JResearch::alias($institute->name);
 		}
-		
-/*		$recognized = JRequest::getVar('recognized', null);		
-		$institute->recognized = ($recognized == 'on');
-		
-		$fore_member = JRequest::getVar('fore_member', null);
-		$institute->fore_member = ($fore_member == 'on'); */
-		
+				
 		//Upload photo
 		$fileArr = JRequest::getVar('inputfile', null, 'FILES');
 		$del = JRequest::getVar('delete');
@@ -193,6 +187,7 @@ class JResearchAdminInstitutesController extends JController
 		{
 			if($institute->store())
 			{
+				$db = JFactory::getDBO();
 				//Specific redirect for specific task
 				if($task == 'save')
 					$this->setRedirect('index.php?option=com_jresearch&controller=institutes', JText::_('The institute was successfully saved.'));

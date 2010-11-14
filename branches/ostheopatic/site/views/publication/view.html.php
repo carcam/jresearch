@@ -228,9 +228,7 @@ class JResearchViewPublication extends JResearchView
 			$this->addPathwayItem(JText::_('Edit'));					
 			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);	
 			$publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
-			$this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);						
-			
-		
+			$this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);
 		}
 
 		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));
@@ -240,7 +238,8 @@ class JResearchViewPublication extends JResearchView
 		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->recommended:0));
 		$statusRadio = JHTML::_('jresearchhtml.publicationstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->status:'in_progress'));
 		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', !$isNew?$publication->id_language:0);
-		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', !$isNew?$publication->id_country:0);
+		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', 'class="inputbox"', !$isNew?$publication->id_country:0);
+		$institutesList = JHTML::_('jresearchhtml.instituteslist', 'id_institute', 'class="inputbox"', isset($publication)? $publication->id_institute:0);		
 		$sourcesList = JHTML::_('jresearchhtml.publicationsourceslist', array('name' => 'source', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->source:'ORW'));		
 		
 		$params = $this->getParams();
@@ -251,6 +250,7 @@ class JResearchViewPublication extends JResearchView
 		$files = JHTML::_('JResearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
 		
 		$this->assignRef('statusRadio', $statusRadio);
+		$this->assignRef('institutesList', $institutesList);		
 		$this->assignRef('sourcesList', $sourcesList);		
 		$this->assignRef('recommendedRadio', $recommendedRadio);
 		$this->assignRef('languageList', $languageList);

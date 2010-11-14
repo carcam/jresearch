@@ -547,7 +547,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 				if($task == 'apply'){
 					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$ItemidText.($modelkey?'&modelkey='.$modelkey:''), JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
 				}elseif($task == 'save'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText.$modeltext, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=show&id='.$publication->id.$ItemidText.$modeltext, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
 				}
 								
 			}else{
@@ -584,11 +584,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$id = JRequest::getInt('id');
 		$model = &$this->getModel('Publication', 'JResearchModel');
 		$Itemid = JRequest::getVar('Itemid');
-		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';
-		$modelkey = JRequest::getVar('modelkey');
-		if(!empty($modelkey) && $modelkey == 'tabular')
-			$viewText = '&task=filtered&layout=filtered';
-		
+		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';		
 		
 		if($id != null){
 			$publication = $model->getItem($id);
@@ -597,7 +593,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 			}
 		}
 		
-		$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText.$viewText);
+		$this->setRedirect('index.php?option=com_jresearch&view=publication&layout=new&task=new'.$ItemidText);
 	}
 	
 

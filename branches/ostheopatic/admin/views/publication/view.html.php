@@ -77,8 +77,8 @@ class JResearchAdminViewPublication extends JResearchView
 		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->recommended:0));
 		$statusRadio = JHTML::_('jresearchhtml.publicationstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->status:'in_progress'));
 		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', !$isNew?$publication->id_language:0);
-		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', !$isNew?$publication->id_country:0);		
-		$institutesList = JHTML::_('jresearchhtml.instituteslist', 'id_institute', $publication? $publication->id_institute:0);		
+		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', 'class="inputbox"', !$isNew?$publication->id_country:0);		
+		$institutesList = JHTML::_('jresearchhtml.instituteslist', 'id_institute', 'class="inputbox"', isset($publication)?$publication->id_institute:0);		
 		$sourcesList = JHTML::_('jresearchhtml.publicationsourceslist', array('name' => 'source', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->source:'ORW'));
 		$params = JComponentHelper::getParams('com_jresearch');
 		$authorsControl	= JHTML::_('jresearchhtml.autoSuggest', 'authors', $authors);		

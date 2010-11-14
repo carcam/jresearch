@@ -21,14 +21,6 @@ if(count($this->items) > 0):
 	foreach($this->items as $institute):
 	?>
 		<li class="liinstitute">
-			<?php 
-			if($institute->image_url):
-				$url = JResearch::getUrlByRelative($institute->image_url);
-			?>
-				<img src="<?php echo $url;?>" title="<?php echo JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $institute->name))?>" alt="<?php echo JFilterOutput::ampReplace(JText::sprintf('JRESEARCH_COOPERATION_IMAGE_OF', $institute->name))?>" style="float: left; margin-right: 10px;" />
-			<?php 
-			endif;
-			?>
 			<div style="width: 95%; margin-left: auto; margin-right: auto;">
 				<?php
 				$contentArray = explode('<hr id="system-readmore" />', $institute->comment);
@@ -36,14 +28,32 @@ if(count($this->items) > 0):
 				<h2 class="contentheading">
 					<?php echo JFilterOutput::ampReplace($institute->name)?>
 				</h2>
-				<p>
+				<?php if(!empty($institute->street)): ?>
 					<em><?php echo $institute->street; ?></em><br />
-					<em><?php echo $institute->zip; ?></em> <em><?php echo $institute->place; ?></em>
-				</p>
+				<?php endif; ?>
+				<?php if(!empty($institute->street2)): ?>		
+					<em><?php echo $institute->street2; ?></em><br />
+				<?php endif; ?>
+				<?php if(!empty($institute->zip)): ?>
+					<em><?php echo $institute->zip; ?></em>
+				<?php endif; ?>
+				<?php if(!empty($institute->place)): ?>
+				 	<em><?php echo $institute->place; ?></em>
+				 <?php endif;?>	
+				 <br />
+				<?php if(!empty($institute->state_province)): ?>
+					<em><?php echo $institute->state_province; ?></em>
+				<?php endif; ?>
+				<?php $country = $institute->getCountry(); ?>
+				<?php if(!empty($country)): ?>
+					<em><?php echo !empty($institute->state_province)?', ':''; ?><?php echo $country; ?></em>
+				<?php endif; ?>		
 				<p>
-					<a href="<?php echo $institute->url?>">
-						<?php echo substr($institute->url, 0, 256)."..."; ?>
-					</a>
+					<?php if(!empty($institute->url)):
+							$ampReplacedUrl = JFilterOutput::ampReplace($institute->url);
+					?>
+					<strong><?php echo JText::_('JRESEARCH_INSTITUTE_URL');?>:</strong> <a href="<?php echo $ampReplacedUrl;?>"><?php echo $ampReplacedUrl;?></a>
+					<?php endif; ?>
 				</p>
 				<?php 
 				if(!empty($contentArray[0])):

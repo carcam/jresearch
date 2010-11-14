@@ -81,6 +81,15 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		<td colspan="2"></td>
 		<?php endif; ?>
 	</tr>
+	<?php $institute = $this->publication->getInstitute(); 
+		 if(!empty($institute)):
+	?>	
+		<tr>				
+			<th scope="row"><?php echo JText::_('JRESEARCH_INSTITUTE').': ' ?></th>
+			<td><a href="index.php?option=com_jresearch&amp;view=institute&amp;task=show&amp;id=<?php echo $institute->id ?><?php echo $ItemidText; ?>"><?php echo $institute->name; ?></a></td>
+			<td colspan="2"></td>
+		</tr>
+	<?php endif; ?>
 	<?php $authors = $this->publication->getAuthors(true); ?>
 	<?php if(!empty($authors)): ?>
 	<tr>
