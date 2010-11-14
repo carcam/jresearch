@@ -88,7 +88,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			if($n <= 0):
 			?>
 			<tr>
-				<td colspan="8"></td>
+				<td colspan="9"></td>
 			</tr>
 			<?php 
 			endif;

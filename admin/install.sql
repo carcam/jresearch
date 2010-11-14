@@ -34,8 +34,17 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_institute` (
   `created` datetime DEFAULT NULL,
   `created_by` int(10) DEFAULT NULL,
   `ordering` int(11) unsigned NOT NULL default '0',
-   PRIMARY KEY  (`id`),
-   UNIQUE KEY `name` (`name`)
+   PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+--
+-- Table structure for table `journal`
+--
+
+CREATE TABLE IF NOT EXISTS `#__jresearch_journal` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(256) DEFAULT NULL,
+  PRIMARY KEY  (`id`)  
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `#__jresearch_citing_style`;
@@ -126,6 +135,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `alias` varchar(255) NOT NULL,
   `comments` text,
   `journal_acceptance_rate` float unsigned default NULL,
+  `id_journal` int(10) unsigned NOT NULL default '0',  
   `impact_factor` float unsigned default NULL,
   `pubtype` varchar(20) NOT NULL default 'book',
   `awards` text,

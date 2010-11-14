@@ -1002,7 +1002,7 @@ class JHTMLjresearchhtml
 	 * @param string $value Selected value in the list
 	 * @return string
 	 */
-	public static function countrieslist($name, $options, $value=17){
+	public static function countrieslist($name, $options, $value=0){
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'country.php');
 		
 		$countries = JResearchCountryHelper::getCountries();

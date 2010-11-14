@@ -143,6 +143,7 @@ class JResearchPublication extends JResearchActivity{
 	public $extra;
 	public $online_source_type;
 	public $digital_source_type;
+	public $id_institute;
 	
 	/**
 	 * Language ID in which the publication is written.
@@ -748,6 +749,18 @@ class JResearchPublication extends JResearchActivity{
 			return $result['name'];
 		else
 			return null;	
+	}
+	
+	/**
+	 * 
+	 * Returns the institute
+	 */
+	public function getInstitute(){
+		$institute = JTable::getInstance('Institute', 'JResearch');	
+		if($institute != null){
+			$institute->load($this->id_institute);
+		}
+		return $institute;
 	}
 }
 ?>

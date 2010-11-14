@@ -1,4 +1,4 @@
-<form method="post" action="index.php?option=com_jresearch&amp;controller=publications&amp;task=startsearch" name="adminForm">
+<form method="post" action="index.php?option=com_jresearch&amp;view=publicationssearch&amp;task=startsearch" name="adminForm">
 <?php global $mainframe; ?>
 <fieldset><legend><?php echo JText::_('JRESEARCH_SEARCH_FOR');?></legend>
 <div class="divTR">
@@ -73,7 +73,7 @@
 		<div class="divEspacio"></div>		
 	</div>
 </fieldset>
-<?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications', 'search'); ?>
+<?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications', 'startsearch'); ?>
 <div style="text-align:center;"><input name="submit" type="submit" value="<?php echo JText::_('Go');?>"></div>
 <input type="hidden" name="limit" value="20" />
 <input type="hidden" name="limitstart" value="0" />
