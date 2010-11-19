@@ -2,9 +2,19 @@
 	<h2><?php echo JText::_('JRESEARCH_PAPERS'); ?></h2>
 	<?php
 	foreach($papers as $paper):
+		$listitem = $paper->title;
+		
+		switch($type)
+		{
+			case "most_viewed":
+				$listitem .= " (".$paper->hits.")";
+				break;
+			default:
+				break;
+		}
 	?>
 	<ul class="listing">
-		<li><?php echo $paper->title.(($type == "most_viewed")?(" (".$paper->hits.")"):""); ?></li>
+		<li><?php echo $listitem; ?></li>
 	</ul>
 	<?php 
 	endforeach;
