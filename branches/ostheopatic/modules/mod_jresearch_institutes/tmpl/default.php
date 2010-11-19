@@ -2,9 +2,10 @@
 	<h2><?php echo JText::_('JRESEARCH_INSTITUTES'); ?></h2>
 	<?php
 	foreach($institutes as $institute):
+		$listitem = $institute['i']->name." (".$institute['count'].")";
 	?>
 	<ul class="listing">
-		<li><?php echo $institute['i']->name." (".$institute['count'].")"; ?></li>
+		<li><?php echo $listitem; ?></li>
 	</ul>
 	<?php 
 	endforeach;
