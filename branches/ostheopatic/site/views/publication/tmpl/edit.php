@@ -11,7 +11,7 @@ if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this-
 	</div>
 	<div style="clear: both;">&nbsp;</div>
 	<?php
-	include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.'default.php');
+	include_once(JPATH_COMPONENT_SITE.DS.'views'.DS.'publication'.DS.'tmpl'.DS.'form.php');
 else:
 ?>
 	<div style="text-align:center; clear: both;"><?php echo JText::_('JRESEARCH_ACCESS_NOT_ALLOWED')?></div>

@@ -70,7 +70,7 @@ class JResearch
 	 * documents.
 	 *
 	 * @param array $fileArray Array with the information about the uploaded file, provided by the server
-	 * @param string $path Path within J!Research administrator space, where the file will be located.
+	 * @param string $path Path within Joomla! space, where the file will be located.
 	 * @return string The basename of the uploaded file or null if there is a problem during the upload or a non-supported format file
 	 * has been provided.
 	 */
@@ -81,7 +81,7 @@ class JResearch
 		'application/vnd.oasis.opendocument.text'=>'odt', 'text/plain'=>'txt');
 		if($uploadedFile != null){
 			if(isset($availableTypes[$file['type']])){
-				$newName = JPATH_COMPONENT_ADMINISTRATOR.DS.$path.DS.basename($file['name']);
+				$newName = JPATH_SITE.DS.$path.DS.basename($file['name']);
 				if(!move_uploaded_file($uploadedFile, $newName)){
 					JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED', basename($newName)));
 				}else{

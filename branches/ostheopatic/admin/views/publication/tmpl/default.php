@@ -54,7 +54,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	    </div>	
 		<div class="divTR">
 	        <div class="divTd">
-	            <label for="year"><?php echo JText::_('JRESEARCH_YEAR').'/'.JText::_('JRESEARCH_MONTH').': '?></label>
+	            <label for="year"><?php echo JText::_('JRESEARCH_PUBLICATION_DATE').': '; ?></label>
 	        </div>
 	        <div class="divTdl divTdl2">
 				<input maxlength="4" size="4" name="year" id="year" value="<?php echo isset($this->publication)?$this->publication->year:'' ?>" class="validate-year" />
@@ -139,7 +139,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	    </div>
 		<div class="divTR">
 	    	<div class="divTd">
-	            <label for="url"><?php echo JText::_('URL').': '?></label>
+	            <label for="url"><?php echo JText::_('JRESEARCH_LINK_PDF').': '?></label>
 	        </div>
 	        <div class="divTdl">
 				<input name="url" id="url" size="50" maxlength="255" class="validate-url" value="<?php echo isset($this->publication)?$this->publication->url:'' ?>" />
