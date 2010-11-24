@@ -743,6 +743,9 @@ class JResearchPublication extends JResearchActivity{
 	 * @return string
 	 */
 	public function getCountry(){
+		if($this->id_country == 0)
+			return null;
+		
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'country.php');
 		$result = JResearchCountryHelper::getCountry($this->id_country);
 		if($result != null)
@@ -754,13 +757,29 @@ class JResearchPublication extends JResearchActivity{
 	/**
 	 * 
 	 * Returns the institute
+	 * @return JResearchInstitute
+	 * 
 	 */
 	public function getInstitute(){
-		$institute = JTable::getInstance('Institute', 'JResearch');	
+		if($this->id_institute == 0)
+			return null;
+
+		$institute = JTable::getInstance('Institute', 'JResearch');			
 		if($institute != null){
 			$institute->load($this->id_institute);
 		}
 		return $institute;
+	}
+	
+	/**
+	 * 
+	 * Returns the publication's original language
+	 * @return string
+	 */
+	public function getLanguage(){
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
+		$lang = JResearchLanguageHelper::getLanguage('id', $this->id_language);
+		return $lang['name'];
 	}
 }
 ?>

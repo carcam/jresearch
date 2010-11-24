@@ -50,25 +50,32 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		  $day = trim($this->publication->day);
 	?>
 	<?php $year = $this->publication->year; ?>
+	<tr>	
 	<?php if($year != null && $year != '0000' && !empty($year)): ?>
-		<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_YEAR').': ' ?></th>
-		<td><?php echo $this->publication->year; ?></td>
+		<th scope="row"><?php echo JText::_('JRESEARCH_PUBLICATION_DATE').': ' ?></th>
+		<td><?php echo $this->publication->year; ?>
 		<?php $colspan-= 2; ?>
 		<?php if(!empty($month)): ?>
 			<?php if(empty($day)): ?>
-				<?php $colspan -= 2; ?>
-				<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>		
-				<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
+				<?php echo ' '.JResearchPublicationsHelper::formatMonth($month); ?>
 			<?php else: ?>
-				<th scope="row"><?php echo JText::_('JRESEARCH_DATE').': ' ?></th>		
-				<td><?php echo JResearchPublicationsHelper::formatMonth($month).', '.$day; ?></td>		
+				<?php echo ' '.JResearchPublicationsHelper::formatMonth($month).', '.$day; ?>		
 			<?php endif; ?>
-		<?php else: ?>
-			<td colspan="<?php echo $colspan; ?>"></td>	
 		<?php endif; ?>
-		</tr>
+		</td>
 	<?php endif; ?>
+	<th scope="row"><?php echo JText::_('JRESEARCH_ENTRY_DATE').': ' ?></th>	
+	<td>
+	<?php $createDate = strtotime($this->publication->created);  
+		  $colspan -= 2;
+		  echo date('Y F, d', $createDate);
+	?>
+	</td>
+	<?php if($colspan > 0): ?>	
+		<td colspan="<?php echo $colspan; ?>"></td>	
+	<?php endif; ?>	
+	</tr>
+
 	
 	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
@@ -81,15 +88,22 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		<td colspan="2"></td>
 		<?php endif; ?>
 	</tr>
-	<?php $institute = $this->publication->getInstitute(); 
+	<tr>
+		<?php $institute = $this->publication->getInstitute();
+		$colspan = 2; 
 		 if(!empty($institute)):
-	?>	
-		<tr>				
+		 	$colspan = 0;
+		?>					
 			<th scope="row"><?php echo JText::_('JRESEARCH_INSTITUTE').': ' ?></th>
 			<td><a href="index.php?option=com_jresearch&amp;view=institute&amp;task=show&amp;id=<?php echo $institute->id ?><?php echo $ItemidText; ?>"><?php echo $institute->name; ?></a></td>
+		<?php endif; ?>	
+			<th scope="row"><?php echo JText::_('JRESEARCH_RECOMMENDED').': '; ?></th>
+			<td><?php echo $this->publication->recommended? JText::_('JRESEARCH_YES') : JText::_('JRESEARCH_NO'); ?></td>
+		<?php if($colspan > 0): ?>		
 			<td colspan="2"></td>
-		</tr>
-	<?php endif; ?>
+		<?php endif; ?>
+	</tr>
+
 	<?php $authors = $this->publication->getAuthors(true); ?>
 	<?php if(!empty($authors)): ?>
 	<tr>
@@ -141,11 +155,18 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		<?php endif; ?>
 	</tr>	
 	<?php endif; ?>	
+
 	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_SOURCE').': ' ?></th>
 		<td><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->source)); ?></td>
+		<th scope="row"><?php echo JText::_('JRESEARCH_STATUS').': '; ?></th>
+		<td><?php echo $this->publication->status; ?></td>
+	</tr>	
+	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_COUNTRY').': '; ?></th>
 		<td><?php echo $this->publication->getCountry(); ?></td>
+		<th scope="row"><?php echo JText::_('JRESEARCH_LANGUAGE').': '; ?></th>
+		<td><?php echo $this->publication->getLanguage(); ?></td>	
 	</tr>
 	<?php require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.$this->publication->pubtype.'.php') ?>
 	<tr>		
@@ -187,7 +208,32 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		<?php endif; ?>
 	</tr>
 	<?php endif; ?>
-		
+	<?php $url = str_replace('&', '&amp;', trim($this->publication->url)); ?>	
+	<?php if(!empty($url)): ?> 	
+	<tr>
+		<th scope="row"><?php echo JText::_('JRESEARCH_DIGITAL_VERSION').': '; ?></th>
+		<td colspan="3"><?php echo JHTML::_('link', $url, $url); ?></td>
+	</tr>
+	<?php endif; ?>
+	<tr>
+	<td colspan="4">
+	<?php if($this->showBibtex): 
+		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$this->publication->id, '[Bibtex]').'</span>';		
+	 endif;?>	
+	<?php if($this->showRIS): 
+		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=ris&amp;id='.$this->publication->id, '[RIS]').'</span>';		
+	 endif;?>
+	 <?php if($this->showMODS): 
+		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id='.$this->publication->id, '[MODS]').'</span>';		
+	 endif;?>				
+	 <?php $n = $this->publication->countAttachments();
+      		if($n == 1):
+            	$attach = $this->publication->getAttachment(0, 'publications');
+		    	echo !empty($attach)? '<span>'.JHTML::_('JResearchhtml.attachment', $attach).'</span>' : '';
+            endif;
+      ?>	 	
+	</td>
+	</tr>		
 	<?php $awards = trim($this->publication->awards); ?>
 	<?php if(!empty($awards) && ($this->params->get('show_awards') == 'yes')): ?>
 	<tr>
@@ -251,23 +297,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		<td style="width:85%;" colspan="3"><div style="text-align:justify;"><?php echo $comments; ?></div></td>	
 	</tr>
 	<?php endif; ?>	
-	
-	<tr><td colspan="4">
-	<?php $url = str_replace('&', '&amp;', trim($this->publication->url)); ?>	
-	<?php if(!empty($url)): ?> 
-		<span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_DIGITAL_VERSION')); ?></span>
-	<?php endif; ?>
-	<?php if($this->showBibtex): 
-		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$this->publication->id, '[Bibtex]').'</span>';		
-	 endif;?>	
-	<?php if($this->showRIS): 
-		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=ris&amp;id='.$this->publication->id, '[RIS]').'</span>';		
-	 endif;?>
-	 <?php if($this->showMODS): 
-		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id='.$this->publication->id, '[MODS]').'</span>';		
-	 endif;?>				
-	</td></tr>			
-	
+
 </tbody>
 </table>
 <?php if($this->commentsAllowed): ?>

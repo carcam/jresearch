@@ -305,6 +305,14 @@ function com_install(){
 				JError::raiseWarning(1, JText::sprintf('Execution permissions could not be added to file %s. Please do it manually', $f));
 	}
 	
+	//RECAVA customization
+	$filesFolder = JPATH_ROOT.DS.'paperpdf';
+	if(!file_exists($filesFolder)){
+		if(!mkdir($filesFolder, 744)){
+			JError::raiseWarning(1, JText::sprintf('The directory % could not be created. Please do it manually. JResearch will use it to store your publication uploads'));
+		}
+	}
+	
 	return true;
 }
 
