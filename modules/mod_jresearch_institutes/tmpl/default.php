@@ -1,11 +1,20 @@
+<?php 
+$itemId = JRequest::getVar('Itemid');
+?>
 <div id="mod_jresearch_institutes">
 	<h2><?php echo JText::_('JRESEARCH_INSTITUTES'); ?></h2>
 	<?php
 	foreach($institutes as $institute):
-		$listitem = $institute['i']->name." (".$institute['count'].")";
+		$i = $institute['i'];
+		$count = $institute['count'];
+		$listitem = $i->name." (".$count.")";
 	?>
 	<ul class="listing">
-		<li><?php echo $listitem; ?></li>
+		<li>
+			<a href="./?option=com_jresearch&amp;view=institute&amp;task=show&amp;id=<?php echo $i->id?>&amp;Itemid=<?php echo $itemId;?>" title="<?php echo $i->title; ?>">
+				<?php echo $listitem; ?>
+			</a>
+		</li>
 	</ul>
 	<?php 
 	endforeach;
