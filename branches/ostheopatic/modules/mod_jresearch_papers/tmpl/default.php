@@ -1,3 +1,6 @@
+<?php 
+$itemId = JRequest::getVar('Itemid');
+?>
 <div id="mod_jresearch_papers">
 	<h2><?php echo JText::_('JRESEARCH_PAPERS'); ?></h2>
 	<?php
@@ -14,7 +17,11 @@
 		}
 	?>
 	<ul class="listing">
-		<li><?php echo $listitem; ?></li>
+		<li>
+			<a href="./?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $paper->id?>&amp;Itemid=<?php echo $itemId;?>" title="<?php echo $paper->title; ?>">
+				<?php echo $listitem; ?>
+			</a>
+		</li>
 	</ul>
 	<?php 
 	endforeach;
