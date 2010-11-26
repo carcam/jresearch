@@ -99,13 +99,14 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$team_table = $db->nameQuote('#__jresearch_team');
 		$pub_table = $db->nameQuote('#__jresearch_publication');
 		
-		$query = "SELECT $id_publication FROM (SELECT DISTINCT $id_publication, $year, $month FROM $pub_internal_author, $team_member, $pub_table WHERE $team_member.$id_team = $teamValue "
+				$query = "SELECT $id_publication FROM (SELECT DISTINCT $id_publication, $year, $month FROM $pub_internal_author, $team_member, $pub_table WHERE $team_member.$id_team = $teamValue "
 				 ." AND $pub_internal_author.$id_staff_member = $team_member.$id_member AND $pub_table.id = $pub_internal_author.$id_publication AND $pub_table.internal = 1 AND $pub_table.published = 1"
 				 ." UNION (SELECT DISTINCT $id_publication, $year, $month FROM $pub_internal_author pia, $team_table t, $pub_table p WHERE t.id = $teamValue AND "
-		         	 ."pia.$id_staff_member = t.id_leader AND p.id = pia.$id_publication AND p.published = 1 AND p.internal = 1) ORDER BY $year DESC, STR_TO_DATE($month, '%M')";
+		         	 ."pia.$id_staff_member = t.id_leader AND p.id = pia.$id_publication AND p.published = 1 AND p.internal = 1)) R1 ORDER BY $year DESC, STR_TO_DATE($month, '%M')";
+
 		if($count > 0)
 		{
-			$query .= " LIMIT 0, $count) R1";
+			$query .= " LIMIT 0, $count";
 		}
 		
 		$db->setQuery($query);
@@ -118,9 +119,9 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
+	protected function _buildCountQuery(){
 		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();		
 		return $resultQuery;
 	}

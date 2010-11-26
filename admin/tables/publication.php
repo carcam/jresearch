@@ -55,6 +55,7 @@ class JResearchPublication extends JResearchActivity{
 	 * @var string
 	 */
 	public $awards;		
+
 	public $year;
 
 	/**
@@ -83,8 +84,8 @@ class JResearchPublication extends JResearchActivity{
 	 */
 	public $doi;	
 	public $issn;
-        public $isbn;
-        public $volume;
+    public $isbn;
+    public $volume;
 	public $number;
 	public $pages;
 	public $month;	    

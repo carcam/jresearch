@@ -12,7 +12,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researchArea.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 
 /**
@@ -46,12 +45,12 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 			
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$rows = $db->loadAssocList();
 
 			$this->_items = array();
-			foreach($ids as $id){				
+			foreach($rows as $row){				
 				$area = JTable::getInstance('Researcharea', 'JResearch');
-				$area->load($id);
+				$area->bind($row);
 				$this->_items[] = $area;
 			}
 			
@@ -76,7 +75,7 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false){
 		$db =& JFactory::getDBO();		
 		if($memberId === null)
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName); 	
 		
 		// Deal with pagination issues
 		if($paginate){
@@ -150,9 +149,9 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
+	protected function _buildCountQuery(){
 		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
 	}

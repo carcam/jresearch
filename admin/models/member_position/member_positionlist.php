@@ -11,7 +11,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
 jimport( 'joomla.application.component.model' );
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member_position.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 
 /**
@@ -43,7 +42,7 @@ class JResearchModelMember_positionList extends JResearchModelList
 		$db =& JFactory::getDBO();		
 		if($memberId === null)
 		{		
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName); 	
 		}
 		else
 		{
@@ -63,14 +62,14 @@ class JResearchModelMember_positionList extends JResearchModelList
 	}
 	
 	/**
-	 * @see JResearchModelList::_buildRawQuery()
+	 * @see JResearchModelList::_buildCountQuery()
 	 *
 	 * @return string
 	 */
-	protected function _buildRawQuery()
+	protected function _buildCountQuery()
 	{
 		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
 	}
@@ -96,12 +95,12 @@ class JResearchModelMember_positionList extends JResearchModelList
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 	
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$rows = $db->loadAssocList();
 			$this->_items = array();			
-			foreach($ids as $id)
+			foreach($rows as $row)
 			{
-				$position = new JResearchMember_position($db);
-				$position->load($id);
+				$position = JTable::getInstance('Member_position', 'JResearch');
+				$position->bind($row, array());
 				$this->_items[] = $position;
 			}
 			if($paginate)

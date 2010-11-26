@@ -13,7 +13,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
 
 /**
 * Model class for holding lists of members records.
@@ -46,11 +45,11 @@ class JResearchModelStaff extends JResearchModelList{
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 	
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$rows = $db->loadAssocList();
 			$this->_items = array();
-			foreach($ids as $id){				
-				$member = new JResearchMember($db);
-				$member->load($id);
+			foreach($rows as $row){				
+				$member = JTable::getInstance('Member', 'JResearch');
+				$member->bind($row);
 				$this->_items[] = $member;
 			}
 			
@@ -73,7 +72,7 @@ class JResearchModelStaff extends JResearchModelList{
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+		$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
 		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy(); 	
 		
 		// Deal with pagination issues
@@ -163,9 +162,9 @@ class JResearchModelStaff extends JResearchModelList{
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
+	protected function _buildCountQuery(){
 		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
 	}
@@ -176,7 +175,7 @@ class JResearchModelStaff extends JResearchModelList{
 	function orderItem($item, $movement)
 	{
 		$db =& JFactory::getDBO();
-		$row = new JResearchMember($db);
+		$row = JTable::getInstance('Member', 'JResearch');
 		$row->load($item);
 		
 		if (!$row->move($movement))
@@ -195,7 +194,7 @@ class JResearchModelStaff extends JResearchModelList{
 	{
 		$db 		=& JFactory::getDBO();
 		$total		= count($items);
-		$row		= new JResearchMember($db);
+		$row		= JTable::getInstance('Member', 'JResearch');
 
 		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($order);

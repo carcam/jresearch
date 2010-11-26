@@ -113,7 +113,7 @@ class JResearch
 		
 		if($uploadedFile != null)
 		{
-                        $newName = JPATH_COMPONENT_ADMINISTRATOR.DS.JPath::clean($folder).DS.$file['name'];
+            $newName = JPATH_COMPONENT_ADMINISTRATOR.DS.JPath::clean($folder).DS.$file['name'];
 			if(array_key_exists($file['type'], $types))
 			{
 				$base = basename($newName);

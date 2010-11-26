@@ -174,8 +174,9 @@ class JResearchViewPublication extends JResearchView
         $doc = JFactory::getDocument();
         $doc->setMetaData('citation_title', $publication->title);
         $authors = $publication->getAuthors();
-        foreach($authors as $auth)
-            $doc->setMetaData('citation_author', (string)$auth);
+        foreach($authors as $auth){
+        	$doc->addCustomTag('<meta name="citation_author" content="'.$auth.'">');
+        }
 
         if(!empty($publication->journal))
                 $doc->setMetaData('citation_journal_title', $publication->journal);

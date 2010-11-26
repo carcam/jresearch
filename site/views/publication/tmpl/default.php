@@ -100,8 +100,8 @@ $extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
 	</tr>	
 	<?php endif; ?>
         <?php
-         if(in_array($this->pubtype, $nativeTypes)){
-            require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.$this->pubtype.'.php');
+         if(in_array($this->publication->pubtype, $nativeTypes)){
+            require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.$this->publication->pubtype.'.php');
         }else{
             global $mainframe;
             if(in_array($this->publication->pubtype, $extendedTypes)){

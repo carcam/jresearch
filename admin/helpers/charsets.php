@@ -299,7 +299,7 @@ class JResearchCharsetsHelper{
                     "{\\vC}",
                     "{\\vc}",
                     "{\\vS}",
-                    "{\\vs}",
+            "{\\vs}",
 		    "{\&}"
 	    );
 	}

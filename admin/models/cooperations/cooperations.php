@@ -11,7 +11,6 @@
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
 
 class JResearchModelCooperations extends JResearchModelList
 {
@@ -43,13 +42,13 @@ class JResearchModelCooperations extends JResearchModelList
                 $query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 
                 $db->setQuery($query);
-                $ids = $db->loadResultArray();
+                $rows = $db->loadAssocList();
                 $this->_items = array();
 
-                foreach($ids as $id)
+                foreach($rows as $row)
                 {
-                        $coop = new JResearchCooperation($db);
-                        $coop->load($id);
+                        $coop = JTable::getInstance('Cooperation', 'JResearch');
+                        $coop->bind($row);
                         $this->_items[] = $coop;
                 }
 
@@ -87,7 +86,7 @@ class JResearchModelCooperations extends JResearchModelList
     protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false)
     {
         $db =& JFactory::getDBO();
-        $resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+        $resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
 
         $resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();
 
@@ -172,9 +171,9 @@ class JResearchModelCooperations extends JResearchModelList
     *
     * @return string SQL query.
     */
-    protected function _buildRawQuery(){
+    protected function _buildCountQuery(){
         $db =& JFactory::getDBO();
-        $resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+        $resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName);
         $resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
         return $resultQuery;
     }
@@ -185,7 +184,7 @@ class JResearchModelCooperations extends JResearchModelList
     function orderItem($item, $movement)
     {
         $db =& JFactory::getDBO();
-        $row = new JResearchCooperation($db);
+        $row = JTable::getInstance('Cooperation', 'JResearch');
         $row->load($item);
 
         if (!$row->move($movement))
@@ -204,7 +203,7 @@ class JResearchModelCooperations extends JResearchModelList
     {
         $db 		=& JFactory::getDBO();
         $total		= count($items);
-        $row		= new JResearchCooperation($db);
+        $row		= JTable::getInstance('Cooperation', 'JResearch');
 
         $order		= JRequest::getVar( 'order', array(), 'post', 'array' );
         JArrayHelper::toInteger($order);

@@ -12,7 +12,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'team.php');
 
 /**
 * Model class for holding a single team record.
@@ -28,7 +27,7 @@ class JResearchModelTeam extends JResearchModelSingleRecord
 	{
 		$db =& JFactory::getDBO();
 		
-		$team = new JResearchTeam($db);
+		$team = JTable::getInstance('Team', 'JResearch');
 		$result = $team->load($itemId);
 		
 		return ($result) ? $team : null;
@@ -44,7 +43,7 @@ class JResearchModelTeam extends JResearchModelSingleRecord
 		
 		foreach($members as $member)
 		{
-			$memberObject = new JResearchMember($db);
+			$memberObject = JTable::getInstance('Member', 'JResearch');
 			$memberObject->load($member['id_member']);
 			$memberObjects[] = $memberObject;
 		}

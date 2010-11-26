@@ -81,7 +81,7 @@ class JResearchResearcharea extends JTable{
 	 * Returns an array with all research areas.
 	 *
 	 * @param boolean $onlyPublic If true, only published research areas are retrieved.
-	 * @return array of JResearchArea objects
+	 * @return array of JResearchResearcharea objects
 	 * 
 	 */
 	public static function getAllItems($onlyPublic = false){
