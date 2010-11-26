@@ -12,7 +12,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
 
 
@@ -41,7 +40,7 @@ class JResearchModelThesesList extends JResearchModelList{
 	* @return string
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
-		$db =& JFactory::getDBO();		
+		$db = JFactory::getDBO();		
 		if($memberId === null){		
 			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
 		}else{
@@ -65,7 +64,7 @@ class JResearchModelThesesList extends JResearchModelList{
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
+	protected function _buildCountQuery(){
 		$db =& JFactory::getDBO();
 		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
@@ -141,9 +140,9 @@ class JResearchModelThesesList extends JResearchModelList{
 			$rows = $db->loadAssocList();
 			$this->_items = array();
 			foreach($rows as $row){
-                            $thesis = JTable::getInstance('Thesis', 'JResearch');
-                            $thesis->bind($row, array(), true);
-                            $this->_items[] = $thesis;
+                $thesis = JTable::getInstance('Thesis', 'JResearch');
+                $thesis->bind($row, array(), true);
+                $this->_items[] = $thesis;
 			}
 			if($paginate)
 				$this->updatePagination();
@@ -171,7 +170,7 @@ class JResearchModelThesesList extends JResearchModelList{
 			
 			foreach($ids as $id)
 			{
-				$thesis = new JResearchThesis($db);
+				$thesis = JTable::getInstance('Thesis', 'JResearch');
 				$thesis->load($id);
 				$theses[] = $thesis;
 			}

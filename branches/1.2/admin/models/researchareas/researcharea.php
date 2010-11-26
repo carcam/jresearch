@@ -13,10 +13,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researchArea.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
-
 
 /**
 * Model class for holding a single research area record.
@@ -131,7 +127,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		foreach($result as $r){
-			$project = new JResearchProject($db);
+			$project = JTable::getInstance('Project', 'JResearch');
 			$project->bind($r);
 			$latestProj[] = $project;
 		}
@@ -175,7 +171,7 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		foreach($result as $r){
-			$thesis = new JResearchThesis($db);
+			$thesis = JTable::getInstance('Thesis', 'JResearch');
 			$thesis->bind($r);
 			$latestThes[] = $thesis;
 		}

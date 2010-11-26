@@ -13,7 +13,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.model');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'team.php');
 
 /**
 * Model class for holding lists of teams records.
@@ -47,12 +46,12 @@ class JResearchModelTeams extends JResearchModelList
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 	
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$rows = $db->loadAssocList();
 			
-			foreach($ids as $id)
+			foreach($rows as $row)
 			{				
-				$team = new JResearchTeam($db);
-				$team->load($id);
+				$team = JTable::getInstance('Team', 'JResearch');
+				$team->bind($row);
 				$this->_items[] = $team;
 			}
 			
@@ -101,8 +100,8 @@ class JResearchModelTeams extends JResearchModelList
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false )
 	{		
-		$db =& JFactory::getDBO();		
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+		$db = JFactory::getDBO();		
+		$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
 		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy(); 	
 		
 		// Deal with pagination issues
@@ -123,8 +122,8 @@ class JResearchModelTeams extends JResearchModelList
 	private function _buildQueryOrderBy()
 	{
 		global $mainframe;
-		$db =& JFactory::getDBO();
-                $Itemid = JRequest::getVar('Itemid');
+		$db = JFactory::getDBO();
+        $Itemid = JRequest::getVar('Itemid');
 		//Array of allowable order fields
 		$orders = array('name', 'published', 'ordering', 'parent');
 		
@@ -147,8 +146,8 @@ class JResearchModelTeams extends JResearchModelList
 	*/
 	private function _buildQueryWhere($published = false){
 		global $mainframe, $option;
-		$db = & JFactory::getDBO();
-                $Itemid = JRequest::getVar('Itemid');
+		$db = JFactory::getDBO();
+        $Itemid = JRequest::getVar('Itemid');
 		$filter_state = $mainframe->getUserStateFromRequest('teamfilter_state'.$Itemid, 'filter_state');
 		$filter_search = $mainframe->getUserStateFromRequest('teamfilter_search'.$Itemid, 'filter_search');
 		
@@ -179,68 +178,11 @@ class JResearchModelTeams extends JResearchModelList
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
-		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+	protected function _buildCountQuery(){
+		$db = JFactory::getDBO();
+		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
 	}
-	
-//	/**
-//	 * Ordering item
-//	*/
-//	function orderItem($item, $movement)
-//	{
-//		$db =& JFactory::getDBO();
-//		$row = new JResearchMember($db);
-//		$row->load($item);
-//		
-//		if (!$row->move($movement))
-//		{
-//			$this->setError($row->getError());
-//			return false;
-//		}
-//
-//		return true;
-//	}
-//	
-//	/**
-//	 * Set ordering
-//	*/
-//	function setOrder($items)
-//	{
-//		$db 		=& JFactory::getDBO();
-//		$total		= count($items);
-//		$row		= new JResearchMember($db);
-//
-//		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
-//		JArrayHelper::toInteger($order);
-//
-//		// update ordering values
-//		for( $i=0; $i < $total; $i++ )
-//		{
-//			$row->load( $items[$i] );
-//			
-//			$groupings[] = $row->former_member;
-//			if ($row->ordering != $order[$i])
-//			{
-//				$row->ordering = $order[$i];
-//				if (!$row->store())
-//				{
-//					$this->setError($row->getError());
-//					return false;
-//				}
-//			} // if
-//		} // for
-//
-//		// execute updateOrder
-//		$groupings = array_unique($groupings);
-//		foreach ($groupings as $group)
-//		{
-//			$row->reorder('former_member = '.(int) $group.' AND published >=0');
-//		}
-//
-//		return true;
-//	}
 }
 ?>

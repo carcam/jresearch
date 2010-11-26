@@ -93,8 +93,8 @@ class JResearchProject extends JResearchActivity{
 	 * @param JDatabase $db
 	 */
 	function __construct(&$db){
-            parent::__construct( '#__jresearch_project', 'id', $db );
-            $this->_type = 'project';
+        parent::__construct( '#__jresearch_project', 'id', $db );
+        $this->_type = 'project';
 	}
 	
 	/**
@@ -103,38 +103,28 @@ class JResearchProject extends JResearchActivity{
 	*/	
 	
 	function check(){
-            $date_pattern = '/^\d{4}-\d{2}-\d{2}$/';
+        $date_pattern = '/^\d{4}-\d{2}-\d{2}$/';
 
             // Verify the integrity of members
-            if(!parent::checkAuthors())
-                    return false;
+        if(!parent::checkAuthors())
+        	return false;
 
             // Validate dates
-            if(!empty($this->start_date)){
-                    if(!preg_match($date_pattern, $this->start_date)){
-                            $this->setError(JText::_('Please provide a proposed start date for the project in format YYYY-MM-DD'));
-                            return false;
-                    }
+        if(!empty($this->start_date)){
+           if(!preg_match($date_pattern, $this->start_date)){
+        	   $this->setError(JText::_('Please provide a proposed start date for the project in format YYYY-MM-DD'));
+               return false;
+           }
+        }
+
+        if(!empty($this->end_date)){
+        	if(!preg_match($date_pattern, $this->start_date)){
+            	$this->setError(JText::_('Please provide a proposed deadline for the project in format YYYY-MM-DD'));
+                return false;
             }
+        }
 
-            if(!empty($this->end_date)){
-                    if(!preg_match($date_pattern, $this->start_date)){
-                            $this->setError(JText::_('Please provide a proposed deadline for the project in format YYYY-MM-DD'));
-                            return false;
-                    }
-            }
-
-            if((!empty($this->end_date) && $this->end_date != '0000-00-00') && (!empty($this->start_date) && $this->start_date != '0000-00-00')){
-                    $startDateObj = new JDate($this->start_date);
-                    $endDateObj = new JDate($this->end_date);
-
-                    if($endDateObj->toUnix() < $startDateObj->toUnix()){
-                            $this->setError(JText::_('Start date is greater than end date'));
-                            return false;
-                    }
-            }
-
-            if(!empty($this->finance_value))
+        if(!empty($this->finance_value))
             {
                     $this->finance_value = round($this->finance_value, 2);
 
@@ -145,12 +135,12 @@ class JResearchProject extends JResearchActivity{
             }
 
 
-            if(empty($this->title)){
-                    $this->setError(JText::_('Provide a title for the project'));
-                    return false;
-            }
+        if(empty($this->title)){
+           $this->setError(JText::_('Provide a title for the project'));
+           return false;
+        }
 
-            return true;
+        return true;
 
 	}
 	

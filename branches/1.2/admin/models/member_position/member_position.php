@@ -14,7 +14,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member_position.php');
 
 class JResearchModelMember_position extends JResearchModelSingleRecord 
 {
@@ -28,7 +27,7 @@ class JResearchModelMember_position extends JResearchModelSingleRecord
 	{
 		$db = JFactory::getDBO();
 		
-		$position = new JResearchMember_position($db);
+		$position = JTable::getInstance('Member_position', 'JResearch');
 		$result = $position->load($itemId);
 		
 		return ($result) ? $position : null;	

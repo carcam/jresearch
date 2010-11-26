@@ -13,10 +13,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
-
 
 /**
 * Model class for holding a single member record.
@@ -31,7 +27,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 	public function getItem($itemId){
 		$db =& JFactory::getDBO();
 		
-		$member = new JResearchMember($db);
+		$member = JTable::getInstance('Member', 'JResearch');
 		$result = $member->load($itemId);
 		
 		if($result)
@@ -123,7 +119,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 
 		$result = $db->loadResultArray();
 		foreach($result as $id){
-			$project = new JResearchProject($db);
+			$project = JTable::getInstance('Project', 'JResearch');
 			$project->load($id);
 			$latestProj[] = $project;
 		}
@@ -168,7 +164,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 		$db->setQuery($query);
 		$result = $db->loadResultArray();
 		foreach($result as $id){
-			$thesis = new JResearchThesis($db);
+			$thesis = JTable::getInstance('Thesis', 'JResearch');
 			$thesis->load($id);
 			$latestThes[] = $thesis;
 		}

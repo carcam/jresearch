@@ -586,10 +586,10 @@ class JHTMLjresearchhtml
 	 */
 	public static function memberpositions(array $attributes=array(), array $additional=array())
 	{
-		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'member_position'.DS.'member_positionlist.php');
-		
-		$model = new JResearchModelMember_positionList();
-		$positions = $model->getData(null,true);
+		$db = JFactory::getDBO();
+
+		$db->setQuery('SELECT * FROM #__jresearch_member_position WHERE published = 1');
+		$positions = $db->loadAssocList();
 		
 		//Additional elements
 		$positionOptions = array();
@@ -602,7 +602,7 @@ class JHTMLjresearchhtml
 		//Add research areas
 		foreach($positions as $position)
 		{
-			$positionOptions[] = JHTML::_('select.option', $position->id, $position->position);
+			$positionOptions[] = JHTML::_('select.option', $position['id'], $position['position']);
 		}
 		
 		return self::htmllist($positionOptions, $attributes);

@@ -107,18 +107,7 @@ class JResearchThesis extends JResearchActivity{
 				$this->setError(JText::_('Please provide a proposed deadline for the thesis in format YYYY-MM-DD'));
 				return false;
 			}
-		}
-		
-		if(!empty($this->end_date) && !empty($this->start_date)){
-			$startDateObj = new JDate($this->start_date);
-			$endDateObj = new JDate($this->end_date);
-			
-			if($endDateObj->toUnix() < $startDateObj->toUnix()){
-				$this->setError(JText::_('Start date is greater than end date'));
-				return false;
-			}
-		}	
-			
+		}			
 			
 		if(empty($this->title)){
 			$this->setError(JText::_('Provide a title for the project'));

@@ -150,32 +150,32 @@ class JResearchActivity extends JTable{
 	 *
 	 */
 	protected function _loadAuthors(){
-            $db = $this->getDBO();
+        $db = $this->getDBO();
 
-            $internalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_internal_author');
-            $idActivity = $db->nameQuote('id_'.$this->_type);
-            $qoid = $db->Quote($this->id);
-            $externalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_external_author');
-		
+        $internalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_internal_author');
+        $idActivity = $db->nameQuote('id_'.$this->_type);
+        $qoid = $db->Quote($this->id);
+        $externalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_external_author');
+	
 		// Get internal authors
-            $internalAuthorsQuery = "SELECT * FROM $internalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
-                    $db->setQuery($internalAuthorsQuery);
-            if(($result = $db->loadAssocList())){
-                    $this->_internalAuthors = $result;
-            }else{
-                    $this->_internalAuthors = array();
-            }
-
-            // Get external authors
-            $externalAuthorsQuery = "SELECT * FROM $externalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
-                $db->setQuery($externalAuthorsQuery);
-            if(($result = $db->loadAssocList())){
-                    $this->_externalAuthors = $result;
-            }else{
-                    $this->_externalAuthors = array();
-            }
-
+        $internalAuthorsQuery = "SELECT * FROM $internalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
+                $db->setQuery($internalAuthorsQuery);
+        if(($result = $db->loadAssocList())){
+                $this->_internalAuthors = $result;
+        }else{
+                $this->_internalAuthors = array();
         }
+
+        // Get external authors
+        $externalAuthorsQuery = "SELECT * FROM $externalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
+            $db->setQuery($externalAuthorsQuery);
+        if(($result = $db->loadAssocList())){
+                $this->_externalAuthors = $result;
+        }else{
+                $this->_externalAuthors = array();
+        }
+
+    }
 	
 
 	/**

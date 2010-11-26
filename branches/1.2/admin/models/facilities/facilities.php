@@ -10,7 +10,6 @@
 jimport( 'joomla.application.component.model' );
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'facility.php');
 
 class JResearchModelFacilities extends JResearchModelList
 {
@@ -42,13 +41,13 @@ class JResearchModelFacilities extends JResearchModelList
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$rows = $db->loadAssocList();
 			$this->_items = array();
 			
-			foreach($ids as $id)
+			foreach($rows as $row)
 			{				
-				$fac = new JResearchFacility($db);
-				$fac->load($id);
+				$fac = JTable::getInstance('Facility', 'JResearch');
+				$fac->bind($row);
 				$this->_items[] = $fac;
 			}
 			
@@ -71,7 +70,7 @@ class JResearchModelFacilities extends JResearchModelList
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false)
 	{		
 		$db =& JFactory::getDBO();		
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+		$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
 
 		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();
 		
@@ -159,9 +158,9 @@ class JResearchModelFacilities extends JResearchModelList
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
+	protected function _buildCountQuery(){
             $db =& JFactory::getDBO();
-            $resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+            $resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName);
             $resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
             return $resultQuery;
 	}
@@ -172,7 +171,7 @@ class JResearchModelFacilities extends JResearchModelList
 	function orderItem($item, $movement)
 	{
 		$db =& JFactory::getDBO();
-		$row = new JResearchFacility($db);
+		$row = JTable::getInstance('Facility', 'JResearch');
 		$row->load($item);
 		
 		if (!$row->move( $movement, ' AND id_research_area = '.(int) $row->id_research_area ))
@@ -191,7 +190,7 @@ class JResearchModelFacilities extends JResearchModelList
 	{
 		$db =& JFactory::getDBO();
 		$total		= count($items);
-		$row		= new JResearchFacility($db);
+		$row		= JTable::getInstance('Facility', 'JResearch');
 
 		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($order);

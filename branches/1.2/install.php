@@ -53,7 +53,7 @@ function com_install(){
 				JFile::delete($srcFolder.DS.$file);
 		}
 		
-		JError::raiseWarning(1, JText::_('JoomFish content elements can\'t be installed. JoomFish not installed or MySQL version < 5.0.1'));
+		JError::raiseNotice(1, JText::_('JoomFish content elements couldn\'t be installed because JoomFish is probably not installed. Install them manually whenever multilingual support is required.'));
 	}
 
 	//Remove folder from component

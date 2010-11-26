@@ -58,6 +58,7 @@ class JResearchAdminViewPublicationsList extends JResearchView
     	global $mainframe, $option;
     	
     	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+    	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researcharea.php');
     	
     	JResearchToolbar::publicationsAdminListToolbar();
     	JHTML::_('behavior.tooltip');
@@ -107,7 +108,7 @@ class JResearchAdminViewPublicationsList extends JResearchView
         $lists['pubtype'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
 
         // Research Area filter
-        $areas = JResearchArea::getAllItems();
+        $areas = JResearchResearcharea::getAllItems();
         $areasHTML = array();
         $areasHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_RESEARCH_AREA'));
         foreach($areas as $area){
