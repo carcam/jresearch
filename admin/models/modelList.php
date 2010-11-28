@@ -106,8 +106,7 @@ abstract class JResearchModelList extends JModel{
 		jimport('joomla.html.pagination');
 		//prepare the pagination values
 		$db = JFactory::getDBO();
-		$db->setQuery($this->getCountQuery());
-		$total = $db->loadResult();
+		$total = $this->getTotalCount();
 		$limitstart = $this->getState('limitstart');
 		$limit = $this->getState('limit');
 		if($total <= $limitstart)
@@ -131,7 +130,7 @@ abstract class JResearchModelList extends JModel{
 	 * Returns the total number of items matching the model query
 	 * @return int
 	 */
-	public function getCountQuery(){
+	public function getTotalCount(){
 		$db = JFactory::getDBO();
 		$db->setQuery($this->_buildCountQuery());
 		return (int)$db->loadResult();
