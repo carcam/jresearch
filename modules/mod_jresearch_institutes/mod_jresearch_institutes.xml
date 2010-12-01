@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
 <install type="module" version="1.5.0">
-	<name>J!Research Institutions</name>
+	<name>J!Research Institutes</name>
 	<creationDate>November 2010</creationDate>
 	<author>Luis Galárraga and Florian Prinz</author>
 	<authorEmail>shamantobi@gmail.com, prinz.florian@chello.at</authorEmail>
@@ -9,8 +9,9 @@
 	<copyright>(c) Copyright by Luis Galárraga, Florian Prinz and J!Research Team</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<version>1.0</version>
-	<description>Module for listing newest and most viewed papers</description>
+	<description>Module for listing institutes</description>
 	<files>
+		<filename>helper.php</filename>
 		<filename module="mod_jresearch_institutes">mod_jresearch_institutes.php</filename>
 		<filename>index.html</filename>
 		<folder>tmpl</folder>

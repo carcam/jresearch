@@ -19,6 +19,8 @@ if(!JComponentHelper::isEnabled('com_jresearch', true))
 	JError::raiseError(0, JText::_('JRESEARCH_NOT_INSTALLED_OR_ENABLED'));
 }
 
+JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch'.DS.'tables');
+
 $dirname = dirname(__FILE__);
 $limit = $params->get('limit', 5);
 
