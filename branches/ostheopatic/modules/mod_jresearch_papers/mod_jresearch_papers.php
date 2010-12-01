@@ -13,7 +13,6 @@
 
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
-global $params;
 
 if(!JComponentHelper::isEnabled('com_jresearch', true))
 {
