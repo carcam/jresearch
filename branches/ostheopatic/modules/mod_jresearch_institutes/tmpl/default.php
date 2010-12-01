@@ -2,7 +2,6 @@
 $itemId = JRequest::getVar('Itemid');
 ?>
 <div id="mod_jresearch_institutes">
-	<h2><?php echo JText::_('JRESEARCH_INSTITUTES'); ?></h2>
 	<?php
 	foreach($institutes as $institute):
 		$i = $institute['i'];
