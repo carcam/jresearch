@@ -12,6 +12,7 @@
 	<description>Module for listing newest and most viewed papers</description>
 	<files>
 		<filename module="mod_jresearch_papers">mod_jresearch_papers.php</filename>
+		<filename>helper.php</filename>
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
