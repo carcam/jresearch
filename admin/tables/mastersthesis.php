@@ -13,7 +13,7 @@
 */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'publication.php');
 
 /**
  * This class holds the information about a masther degree thesis

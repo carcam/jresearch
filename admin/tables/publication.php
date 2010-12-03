@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.utilities.date');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'activity.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'activity.php');
 
 /**
  * This class defines the base for all types of publications managed by JResearch.
