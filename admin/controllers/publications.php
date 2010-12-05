@@ -198,6 +198,7 @@ class JResearchAdminPublicationsController extends JController
             require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');
             $document =& JFactory::getDocument();
 
+
             $id = JRequest::getInt('id');
             $format = JRequest::getVar('format');
             $model = &$this->getModel('Publication', 'JResearchModel');
@@ -286,6 +287,7 @@ class JResearchAdminPublicationsController extends JController
                 $document =& JFactory::getDocument();
                 $document->setMimeEncoding($exporter->getMimeEncoding());
                 $session->clear('markedRecords', 'jresearch');
+
 
                 if($format == 'bibtex')
                         $ext = 'bib';
@@ -414,13 +416,35 @@ class JResearchAdminPublicationsController extends JController
                 }else{
                     $idText = !empty($publication->id) && $task == 'apply'?'&cid[]='.$publication->id:'';
 
-                    if($db->getErrorNum() == 1062)
-                            JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
-                    else
-                            JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());
+                    if($db->getErrorNum() == 1062){
+                        //modify the citekey and the title only when we have duplicate data.
+                        $publication->citekey = $publication->citekey."_1";
+                        $publication->title = $publication->title."_1";   
+                        if($publication->store(true)){
+                                if($task == 'apply'){
+                                        $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED_WITH_WARNINGS'));
+                                }elseif($task == 'save'){
+                                        $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED_WITH_WARNINGS'));
+                                }
 
-                    $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype);
-                }
+                                // Trigger event
+                                $arguments = array('publication', $publication->id);
+                                $mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
+                        }
+                        else{
+                            if($db->getErrorNum() == 1062)
+                                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+                            else
+                                JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$db->getErrorMsg());
+
+                            $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype);
+                    
+                        } 
+                    }else {
+                        JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$db->getErrorMsg());
+                        $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype);
+                    }
+               }
             }
 
             if(!empty($publication->id)){
