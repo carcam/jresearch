@@ -559,9 +559,29 @@ class JResearchPublicationsController extends JResearchFrontendController
                         $idText = !empty($publication->id)?'&id='.$publication->id:'';
                         $taskText = '&task='.(!empty($publication->id)?'edit':'add');
 
-                        if($db->getErrorNum() == 1062)
-                            JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
-                        else
+                        if($db->getErrorNum() == 1062){
+                            //modify the citekey and the title only when we have duplicate data.
+                            $publication->citekey = $publication->citekey."_1";
+                            $publication->title = $publication->title."_1";   
+                            if($publication->store(true)){
+                                    $idText = !empty($publication->id)?'&id='.$publication->id:'';
+                                    
+                                    if($task == 'apply'){
+                                            $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$ItemidText.($modelkey?'&modelkey='.$modelkey:''), JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED_WITH_WARNINGS'));
+                                    }elseif($task == 'save'){
+                                            $this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText.$modeltext, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED_WITH_WARNINGS'));
+                                    }
+
+                                    // Trigger event
+                                    $arguments = array('publication', $publication->id);
+                                    $mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
+                            }else {
+                                if($db->getErrorNum() == 1062)
+                                    JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD'));
+                                else
+                                    JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());
+                            }
+                        }else
                             JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());
 
                         if($task == 'apply'){
