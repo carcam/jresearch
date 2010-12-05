@@ -120,7 +120,7 @@ class JResearchToolbar
 	*/	
 	public static function editPublicationAdminToolbar(){
 		$cid = JRequest::getVar('cid');
-		$pubtype = JRequest::getVar('pubtype');
+		$pubtype = JRequest::getVar('osteotype');
 		if(isset($cid))
 			$title = JText::_('JRESEARCH_EDIT_PUBLICATION');
 		else

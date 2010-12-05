@@ -87,7 +87,12 @@ class JResearchViewPublication extends JResearchView
 		if(!$publication->internal || !$publication->published){
 			JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));
 			return false;
-		}		    	
+		}
+
+		if($publication->source == 'WSO' && $user->guest){
+			JError::raiseWarning(1, JText::_('ACCESS_NOT_ALLOWED'));
+			return false;
+		}
 		
 		$this->addPathwayItem(JText::_('New'), 'index.php?option=com_jresearch&view=publication&task=new');
 		
@@ -216,18 +221,18 @@ class JResearchViewPublication extends JResearchView
 				
 		if($isNew)
 		{    		
-			$pubtype = JRequest::getVar('pubtype');	
+			$osteotype = JRequest::getVar('osteotype');	
 			$this->addPathwayItem(JText::_('Add'));	
 		}
 		else 
 		{
 			$publication = JResearchPublication::getById($cid);
-			$pubtype = $publication->pubtype;
+			$osteotype = $publication->osteotype;
 			
 			$this->addPathwayItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
 			$this->addPathwayItem(JText::_('Edit'));					
 			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);	
-			$publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
+			$publicationTypes = JHTML::_('jresearchhtml.publicationsosteopathictypeslist', 'change_type');
 			$this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);
 		}
 
@@ -236,7 +241,7 @@ class JResearchViewPublication extends JResearchView
 		$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , !$isNew?$publication->getAuthors(true):array());
 						
 		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->recommended:0));
-		$statusRadio = JHTML::_('jresearchhtml.publicationstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->status:'in_progress'));
+		$statusRadio = JHTML::_('jresearchhtml.publicationsstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->status:'in_progress'));
 		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', !$isNew?$publication->id_language:0);
 		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', 'class="inputbox"', !$isNew?$publication->id_country:0);
 		$institutesList = JHTML::_('jresearchhtml.instituteslist', 'id_institute', 'class="inputbox"', isset($publication)? $publication->id_institute:0);		
@@ -256,7 +261,7 @@ class JResearchViewPublication extends JResearchView
 		$this->assignRef('languageList', $languageList);
 		$this->assignRef('countriesList', $countriesList);		
 		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
-		$this->assignRef('pubtype', $pubtype);
+		$this->assignRef('osteotype', $osteotype);
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('authors', $authorsControl);
@@ -272,16 +277,14 @@ class JResearchViewPublication extends JResearchView
 	private function _displayNewPublicationForm(){
 		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
 		JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
-		$subtypes = JResearchPublication::getPublicationsSubtypes();
+		$subtypes = JResearchPublication::getPublicationsOsteopathicSubtypes();
 		$typesOptions = array();
 		
 		foreach($subtypes as $type){
-			// Inproceedings is the same as conference 
-			if($type != 'inproceedings')
-				$typesOptions[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));			
+			$typesOptions[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));			
 		}
 		
-		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
+		$typesList = JHTML::_('select.genericlist', $typesOptions, 'osteotype', 'size="1"');		
 		
 		$this->assignRef('types', $typesList);
 		return true;

@@ -79,7 +79,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 	
 	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
-		<td><?php echo JResearchText::_($this->publication->pubtype); ?></td>
+		<td><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->osteotype)); ?></td>
 		<?php $keywords = trim($this->publication->keywords); ?>
 		<?php if(!empty($keywords)): ?>		
 		<th scope="row"><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></th>		
@@ -160,7 +160,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		<th scope="row"><?php echo JText::_('JRESEARCH_SOURCE').': ' ?></th>
 		<td><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->source)); ?></td>
 		<th scope="row"><?php echo JText::_('JRESEARCH_STATUS').': '; ?></th>
-		<td><?php echo $this->publication->status; ?></td>
+		<td><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->status)); ?></td>
 	</tr>	
 	<tr>
 		<th scope="row"><?php echo JText::_('JRESEARCH_COUNTRY').': '; ?></th>

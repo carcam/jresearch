@@ -137,7 +137,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `journal_acceptance_rate` float unsigned default NULL,
   `id_journal` int(10) unsigned NOT NULL default '0',  
   `impact_factor` float unsigned default NULL,
-  `pubtype` varchar(20) NOT NULL default 'book',
+  `pubtype` varchar(20) NOT NULL default 'article',
+  `osteotype` varchar(30) NOT NULL default 'generic',
   `awards` text,
   `url` varchar(255) default NULL,
   `cover` varchar(255) default NULL,
@@ -158,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `hits` int(10) default 0,
   `id_language` int(10) default NULL,
   `id_country` int(10) default NULL,
-  `status` enum('in_progress','finished','protocol') NOT NULL default 'in_progress',
+  `status` enum('in_progress','finished','protocol','rejected','for_reevaluation') NOT NULL default 'in_progress',
   `recommended` BOOL default false,
   `month` varchar(20) default NULL,
   `original_title` varchar(255) default NULL,
@@ -753,6 +754,39 @@ INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('unpublished');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('online_source');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('earticle');
 INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('digital_source');
+
+DROP TABLE IF EXISTS `#__jresearch_publication_osteopathic_type`;
+CREATE TABLE `#__jresearch_publication_osteopathic_type` (
+	`name` VARCHAR( 30 ) NOT NULL,
+	PRIMARY KEY (`name`)
+) ENGINE = MYISAM DEFAULT CHARSET=utf8; 
+
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('journal');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('abstract');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('audiovisual_material');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('book_chapter');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('book_whole');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('case');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('catalog');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('datafile');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('electronic_citation');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('generic');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('journal_full');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('journal_article');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('newspaper');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('pamphlet');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('report');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('serial');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('osteo_thesis');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('unpublished_work');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('clinical_trial');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('undergraduate_project');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('postgraduate_project');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('rejected_undergraduate_project');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('in_press');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('review');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('metaanalysis');
+INSERT INTO `#__jresearch_publication_osteopathic_type`(`name`) VALUES('randomized_controlled_trial');
 
 INSERT INTO `#__jresearch_research_area`(`name`, `description`, `published` ) VALUES('Osteopathy', '', 1);
 
