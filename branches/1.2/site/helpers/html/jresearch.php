@@ -44,7 +44,7 @@ class JHTMLJresearch
 				{
 					case 'publications':
 						$task = ($task == 'add')?'new':$task;
-						return '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="Edit publication">'
+						return '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="'.($task == "new" ? "Add publication" : ( $task == "remove" ? "Remove publication" : "Edit publication")).'">'
 						.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
 						.'</a>';
 						break;
