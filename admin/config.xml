@@ -71,6 +71,7 @@
 			<option value="last_first">JRESEARCH_LASTNAME_FIRSTNAME</option>
 			<option value="first_last">JRESEARCH_FIRSTNAME_LASTNAME</option>			
 		</param>				
+        <param name="abstract_rows" default="5" label="JRESEARCH_ABSTRACT_ROWS" type="text" />
 		<param name="member_image_width" default="1024" label="JRESEARCH_MEMBER_IMAGE_WIDTH" type="text" />
 		<param name="member_image_height" default="768" label="JRESEARCH_MEMBER_IMAGE_HEIGHT" type="text" />
 		

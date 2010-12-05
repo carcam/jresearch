@@ -9,6 +9,9 @@ defined('_JEXEC') or die('Restricted access');
 
 $nativeTypes = JResearchPublication::getPublicationsSubtypes('native');
 $extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
+$params = &JComponentHelper::getParams( 'com_jresearch' );
+$abstract_rows = $params->get('abstract_rows');
+
 
 ?>
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
@@ -129,7 +132,7 @@ $extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
             <label for="note"><?php echo JText::_('JRESEARCH_ABSTRACT').': ' ?></label>
         </div>
         <div class="divTdl">
-			<textarea name="abstract" id="abstract" cols="50" rows="4" ><?php echo isset($this->publication)?$this->publication->abstract:'' ?></textarea>
+			<textarea name="abstract" id="abstract" cols="50" rows="<?php echo $abstract_rows?>" ><?php echo isset($this->publication)?$this->publication->abstract:'' ?></textarea>
         </div>	    
 	  	<div class="divEspacio" ></div>	        
     </div>
