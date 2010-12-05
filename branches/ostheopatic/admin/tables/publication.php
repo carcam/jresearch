@@ -144,6 +144,7 @@ class JResearchPublication extends JResearchActivity{
 	public $online_source_type;
 	public $digital_source_type;
 	public $id_institute;
+	public $osteotype;
 	
 	/**
 	 * Language ID in which the publication is written.
@@ -230,7 +231,6 @@ class JResearchPublication extends JResearchActivity{
 	* Associative array with supported records types and their printable names.
 	*/
 	static $_types;
-	
 	
 
 	/**
@@ -596,6 +596,20 @@ class JResearchPublication extends JResearchActivity{
 	}
 	
 	/**
+	* Returns an array with the supported publications datatypes. 
+	* 
+	* @return array
+	*/	
+	public static function getPublicationsOsteopathicSubtypes(){
+		$db = &JFactory::getDBO();
+			
+		$query = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_osteopathic_type');	
+		$db->setQuery($query);
+		
+		return $db->loadResultArray();
+	}
+	
+	/**
 	 * Returns an array of book's editors.
 	 *
 	 */
@@ -738,6 +752,26 @@ class JResearchPublication extends JResearchActivity{
 		return $abstracts;	
 	}
 	
+		/**
+	 * Returns the complete URL of the attachment with index $i
+	 *
+	 * @param int $i
+	 * @param string $controller 
+	 */
+	public function getAttachment($i, $controller){
+		if(!empty($this->files)){
+			$filesArr = explode(';', trim($this->files));
+			if(!empty($filesArr[$i])){
+				$params = JComponentHelper::getParams('com_jresearch'); 
+				return  JURI::base().str_replace(DS, '/', $params->get('files_root_path', 'paper_pdf')).DS.$filesArr[$i];
+			}else
+				return null;
+		}else
+			return null;
+		
+	}
+	
+	
 	/**
 	 * Returns the name of the country of the publication
 	 * @return string
@@ -780,6 +814,99 @@ class JResearchPublication extends JResearchActivity{
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		$lang = JResearchLanguageHelper::getLanguage('id', $this->id_language);
 		return $lang['name'];
+	}
+	
+	/**
+	 * Maps an osteopathic publication type to J!Research bibtex types. Unknown types are
+	 * mapped to misc
+	 * @param string $osteoType
+	 */
+	public static function osteoToJReseachType($osteoType){
+		switch($osteoType){
+			case 'journal': //Journal
+				$pubtype = 'proceedings';
+				break;
+			case 'abstract': //Abstract
+				$pubtype = 'article';
+				break;	
+			case 'audiovisual_material': //Audiovisual material
+				$pubtype = 'digital_source';
+				$digital_source_type = 'film';
+				break;
+			case 'book_chapter': //Book chapter
+				$pubtype = 'inbook';
+				break;
+			case 'book_whole': //Book whole
+				$pubtype = 'book';
+				break;
+			case 'case': //Case
+				$pubtype = 'book';
+				break;			
+			case 'catalog': //Catalog
+				$pubtype = 'misc';
+				break;
+			case 'datafile': //Data file
+				$pubtype = 'digital_source';
+				$digital_source_type = 'file';
+				break;
+			case 'electronic_citation': //Electronic citation
+				$pubtype = 'online_source';
+				$online_source_type = 'website';
+				break;	
+			case 'generic': //Generic
+				$pubtype = 'misc';	
+				break;
+			case 'in_press': //In press
+				$pubtype = 'misc';
+				break;
+			case 'journal_full': //Journal full
+				$pubtype = 'proceedings';
+				break;
+			case 'article': //Journal Article
+				$pubtype = 'article';	
+				break;
+			case 'newspaper': //Newspaper
+				$pubtype = 'misc';
+				break;	
+			case 'pamphlet': //Pamphlet
+				$pubtype = 'misc';
+				break;
+			case 'report':	//Report	
+				$pubtype = 'misc';
+				break;	
+			case 'serial': //Serial
+				$pubtype = 'misc';
+				break;
+			case 'osteo_thesis': //Thesis
+				$pubtype = 'pthesis';
+				break;
+			case 'unpublished_work': //Unpublished work
+				$pubtype = 'unpublished';
+				break;
+			case 'clinical_trial': //Clinical trial
+				$pubtype = 'misc';
+				break;
+			case 'randomized_controlled_trial': //Randomized Controlled Trial
+				$pubtype = 'misc';
+				break;
+			case 'undergraduate_project': //Undergraduate Project
+				$pubtype = 'misc';
+				break;
+			case 'postgraduate_project': //Postgraduate Project
+				$pubtype = 'misc';
+				break;
+			case 'rejected_undergraduate_project': // Rejected Undergraduate Project
+				$pubtype = 'unpublished';
+				break;	
+			case 'review':	case 'metaanalysis':	//Review and Meta-Analysis
+				$pubtype = 'misc';
+				break;		
+			default:
+				$pubtype = 'misc';
+				break;	
+		}
+		
+		return $pubtype;
 	}
 }
 ?>

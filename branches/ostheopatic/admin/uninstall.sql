@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS `#__jresearch_thesis_external_author`;
 DROP TABLE IF EXISTS `#__jresearch_thesis_internal_author`;
 DROP TABLE IF EXISTS `#__jresearch_cited_records`;
 DROP TABLE IF EXISTS `#__jresearch_publication_type`;
+DROP TABLE IF EXISTS `#__jresearch_publication_osteopathic_type`;
 DROP TABLE IF EXISTS `#__jresearch_country`;
 DROP TABLE IF EXISTS `#__jresearch_language`;
 DROP TABLE IF EXISTS `#__jresearch_institute`;

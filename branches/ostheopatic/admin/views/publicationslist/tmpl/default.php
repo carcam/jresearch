@@ -20,8 +20,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<?php echo $this->lists['authors'] ?>
 					<?php echo $this->lists['year']; ?>
 					<?php echo $this->lists['state'];?>
-					<?php echo $this->lists['pubtype']; ?>
+					<?php echo $this->lists['osteotype']; ?>
 					<?php echo $this->lists['area']; ?>
+					<?php echo $this->lists['status']; ?>
 				</td>
 			</tr>
 		</tbody>
@@ -37,8 +38,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 22%;"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
 			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_YEAR'), 'year', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_CITEKEY'), 'citekey', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_TYPE'), 'pubtype', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 5%;"><?php echo JText::_('Hits'); ?></th>
+			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_TYPE'), 'osteotype', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 5%;"><?php echo JText::_('JRESEARCH_PUBLICATION_STATUS'); ?></th>
 			<th style="width: 10%;"><?php echo JText::_('JRESEARCH_EXPORT'); ?></th>
 		</tr>
 		</thead>
@@ -79,8 +80,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td class="center"><?php echo $text; ?></td>
 					<td class="center"><?php echo $this->items[$i]->year; ?></td>
 					<td class="center"><?php echo $this->items[$i]->citekey; ?></td>
-					<td class="center"><?php echo JText::_('JRESEARCH_'.strtoupper($this->items[$i]->pubtype)); ?></td>
-					<td class="center"><?php echo $this->items[$i]->hits; ?></td>
+					<td class="center"><?php echo JText::_('JRESEARCH_'.strtoupper($this->items[$i]->osteotype)); ?></td>
+					<td class="center"><?php echo JText::_('JRESEARCH_'.strtoupper($this->items[$i]->status)); ?></td>
 					<td class="center"><?php echo implode(' , ', $exportLinks); ?></td>
 				</tr>
 			<?php

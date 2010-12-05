@@ -74,10 +74,11 @@ class JResearchAdminViewPublicationsList extends JResearchView
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('publicationsfilter_order', 'filter_order_Dir',  'ASC');
 		$filter_state = $mainframe->getUserStateFromRequest('publicationsfilter_state', 'filter_state');
 		$filter_year = $mainframe->getUserStateFromRequest('publicationsfilter_year', 'filter_year');
-		$filter_pubtype = $mainframe->getUserStateFromRequest('publicationsfilter_pubtype', 'filter_pubtype');
+		$filter_osteotype = $mainframe->getUserStateFromRequest('publicationsfilter_osteotype', 'filter_osteotype');
 		$filter_area = $mainframe->getUserStateFromRequest('publicationsfilter_area', 'filter_area');		
     	$filter_search = $mainframe->getUserStateFromRequest('publicationsfilter_search', 'filter_search');
 		$filter_author = $mainframe->getUserStateFromRequest('publicationsfilter_author', 'filter_author');
+		$filter_status = $mainframe->getUserStateFromRequest('publicationsfilter_status', 'filter_status');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
@@ -95,17 +96,26 @@ class JResearchAdminViewPublicationsList extends JResearchView
 		foreach($years as $y)
 			$yearsHTML[] = JHTML::_('select.option', $y, $y);
 			
-		$lists['year'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
-
+		$lists['year'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);		
+		
 		// Publication type filter
-		$types = JResearchPublication::getPublicationsSubtypes();
+		$types = JResearchPublication::getPublicationsOsteopathicSubtypes();
 		$typesHTML = array();
 		$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
 		foreach($types as $type){
 			$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
 		}
-		$lists['pubtype'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
-		
+		$lists['osteotype'] = JHTML::_('select.genericlist', $typesHTML, 'filter_osteotype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_osteotype);
+
+		$statusOptions = array();
+    	$statusOptions[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_PUBLICATION_STATUS'));		
+    	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
+    	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
+    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));
+    	$statusOptions[] = JHTML::_('select.option', 'rejected', JText::_('JRESEARCH_REJECTED'));
+     	$statusOptions[] = JHTML::_('select.option', 'for_reevaluation', JText::_('JRESEARCH_FOR_REEVALUATION'));   	    	
+		$lists['status'] = JHTML::_('select.genericlist', $statusOptions, 'filter_status', 'class="inputbox" size="1" '.$js, 'value','text', $filter_status);
+     			
 		// Research Area filter
 		$areas = JResearchResearcharea::getAllItems();
 		$areasHTML = array();

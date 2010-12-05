@@ -191,7 +191,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('title', 'published', 'year', 'citekey', 'pubtype', 'id_research_area');
+		$orders = array('title', 'published', 'year', 'citekey', 'pubtype', 'id_research_area', 'osteotype');
 		
 		$filter_order = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_order', 'filter_order', 'title');
 		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
@@ -218,12 +218,14 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		$modelKey = JRequest::getVar('modelkey', '');
 				
 		$filter_state = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_state', 'filter_state');
+		$filter_status = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_status', 'filter_status');		
 		$filter_year = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_year', 'filter_year');
 		$filter_search = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_search', 'filter_search');
 		$filter_pubtype = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_pubtype', 'filter_pubtype');
 		$filter_area = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_area', 'filter_area');
 		$filter_author = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_author', 'filter_author');
 		$filter_team = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_team', 'filter_team');
+		$filter_osteotype = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_osteotype', 'filter_osteotype');		
 
 		// prepare the WHERE clause
 		$where = array();
@@ -236,9 +238,12 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$where[] = $db->nameQuote('published').' = 1 ';
 		
 			
+		if($filter_status != null && $filter_status != -1 )
+			$where[] = $db->nameQuote('status').' = '.$db->Quote($filter_status);
+		
 		if($filter_year != null && $filter_year != -1 )
 			$where[] = $db->nameQuote('year').' = '.$db->Quote($filter_year);
-		
+			
 					
 		if(($filter_search = trim($filter_search))){
 			$filter_search = JString::strtolower($filter_search);
@@ -249,6 +254,11 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		if($filter_pubtype){
 			$where[] = $db->nameQuote('pubtype').' = '.$db->Quote($filter_pubtype);
 		}
+		
+		if($filter_osteotype){
+			$where[] = $db->nameQuote('osteotype').' = '.$db->Quote($filter_osteotype);
+		}
+		
 		
 		if($filter_area){
 			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);

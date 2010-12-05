@@ -42,6 +42,6 @@
 		
 		<param type="spacer" />
 						
-		<param name="files_root_path" type="hidden" default="files" />			
+		<param name="files_root_path" type="hidden" default="paper_pdf" />			
 	</params>
 </config>

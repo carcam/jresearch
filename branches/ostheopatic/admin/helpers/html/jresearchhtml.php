@@ -627,8 +627,23 @@ class JHTMLjresearchhtml
     	$statusOptions = array();
     	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
     	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
-    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('Finished'));
+    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));
     	
+    	return self::htmllist($statusOptions, $attributes);
+	}
+	
+	/**
+	 * Renders a HTML generic select list with status options for publications
+	 */
+	public static function publicationsstatuslist(array $attributes=array())
+	{
+		//Status options
+    	$statusOptions = array();
+    	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
+    	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
+    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));
+    	$statusOptions[] = JHTML::_('select.option', 'rejected', JText::_('JRESEARCH_REJECTED'));
+     	$statusOptions[] = JHTML::_('select.option', 'for_reevaluation', JText::_('JRESEARCH_FOR_REEVALUATION'));   	    	
     	return self::htmllist($statusOptions, $attributes);
 	}
 	
@@ -855,6 +870,23 @@ class JHTMLjresearchhtml
 		
 		return JHTML::_('select.genericlist', $typesHTML, $name, $options, 'value','text', $value);		
 		
+	}
+	
+	/**
+	 * Renders an HTML list with all publication subtypes
+	 * @param $name Control name.
+	 * @return string
+	 */
+	public static function publicationsosteopathictypeslist($name, $options = '', $value=''){	
+		// Publication type filter
+		$types = JResearchPublication::getPublicationsOsteopathicSubtypes();
+		$typesHTML = array();
+		$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
+		foreach($types as $type){
+			$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
+		}
+		
+		return JHTML::_('select.genericlist', $typesHTML, $name, $options, 'value','text', $value);
 	}
 	
 	/**

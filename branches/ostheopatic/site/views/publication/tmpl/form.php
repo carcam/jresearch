@@ -6,7 +6,6 @@
  */
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
 <div class="divForm">
 <form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
 <?php if(isset($this->publication)): ?>

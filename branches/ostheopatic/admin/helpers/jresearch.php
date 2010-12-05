@@ -95,7 +95,7 @@ class JResearch
 		
 		return null;
 	}
-	
+		
 	/**
 	 * Uploads ONE file to specific folder (relative path from component administrator folder)
 	 */

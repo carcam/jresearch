@@ -55,16 +55,17 @@ class JResearchAdminViewPublication extends JResearchView
 		
 		$cid = JRequest::getVar('cid');
 		$isNew = !isset($cid);
-		$pubtype = JRequest::getVar('pubtype');
+		$osteotype = JRequest::getVar('osteotype');
 		$authors = null;  
 		$publication = JResearchPublication::getById($cid[0]);	
     	
 		if(!$isNew)
 		{			
 			$arguments[] = $publication->id;
+			$osteotype = $publication->osteotype;
 			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
 			$authors = $publication->getAuthors(true);
-			$publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
+			$publicationTypes = JHTML::_('jresearchhtml.publicationsosteopathictypeslist', 'change_type');
 			$this->assignRef('changeType', $publicationTypes);			
 		}
 		else
@@ -75,7 +76,7 @@ class JResearchAdminViewPublication extends JResearchView
 		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));
 		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));		
 		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->recommended:0));
-		$statusRadio = JHTML::_('jresearchhtml.publicationstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->status:'in_progress'));
+		$statusRadio = JHTML::_('jresearchhtml.publicationsstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->status:'in_progress'));
 		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', !$isNew?$publication->id_language:0);
 		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', 'class="inputbox"', !$isNew?$publication->id_country:0);		
 		$institutesList = JHTML::_('jresearchhtml.instituteslist', 'id_institute', 'class="inputbox"', isset($publication)?$publication->id_institute:0);		
@@ -98,7 +99,7 @@ class JResearchAdminViewPublication extends JResearchView
 		$this->assignRef('languageList', $languageList);	
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
-		$this->assignRef('pubtype', $pubtype);
+		$this->assignRef('osteotype', $osteotype);
 		$this->assignRef('authors', $authorsControl);
 		$this->assignRef('files', $files);
 	}
@@ -108,17 +109,16 @@ class JResearchAdminViewPublication extends JResearchView
 	* for a new publication.
 	*/
 	private function _displayNewPublicationForm(){
-	   JResearchToolbar::importPublicationsToolbar();
-		$subtypes = JResearchPublication::getPublicationsSubtypes();
+	    JResearchToolbar::importPublicationsToolbar();
+		$subtypes = JResearchPublication::getPublicationsOsteopathicSubtypes();
 		$typesOptions = array();
 		
 		foreach($subtypes as $type){
 			// Inproceedings is the same as conference 
-			if($type != 'inproceedings')
-				$typesOptions[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));			
+			$typesOptions[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));			
 		}
 		
-		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
+		$typesList = JHTML::_('select.genericlist', $typesOptions, 'osteotype', 'size="1"');		
 		
 		$this->assignRef('types', $typesList);
 		

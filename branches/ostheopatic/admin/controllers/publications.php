@@ -324,7 +324,6 @@ class JResearchAdminPublicationsController extends JController
 
 		// Bind request variables to publication attributes	
 		$post = JRequest::get('post');
-		$type = JRequest::getVar('pubtype');
 		$publication = JTable::getInstance('Publication', 'JResearch');
 		$params = JComponentHelper::getParams('com_jresearch');
 		$user = JFactory::getUser();
@@ -334,7 +333,7 @@ class JResearchAdminPublicationsController extends JController
 	    $countUrl = JRequest::getInt('count_url', 0);
 	    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
 		$previousFile = JRequest::getVar('old_url_0', null);
-		$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$previousFile;	    
+		$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'paper_pdf').DS.$previousFile;   
 		
 		//Verify if the user wants to remove old files
 		$delete = JRequest::getVar('delete_url_0', false);		
@@ -347,7 +346,7 @@ class JResearchAdminPublicationsController extends JController
 	    
 		// Upload new file	    
 		if(!empty($file['name'])){	
-	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');			
+	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'paper_pdf'));			
 	    	if($previousFile != null){
 		    	//Remove previous file if it has not been removed yet    	
 			    if(file_exists($filetoremove))
@@ -504,7 +503,8 @@ class JResearchAdminPublicationsController extends JController
 		
 		$db = JFactory::getDBO();
 		$type = JRequest::getVar('change_type');
-		JRequest::setVar('pubtype', $type, 'POST', true);
+		JRequest::setVar('osteotype', $type, 'POST', true);
+		JRequest::setVar('pubtype', JResearchPublication::osteoToJReseachType($type), 'POST', true);
 		$post = JRequest::get('post');
 		$publication = JTable::getInstance('Publication', 'JResearch');
 		$user = JFactory::getUser();
@@ -524,7 +524,7 @@ class JResearchAdminPublicationsController extends JController
 		$delete = JRequest::getVar('delete_url_0');
 	    if($delete === 'on'){
 	    	if(!empty($publication->files)){
-		    	$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
+		    	$filetoremove = JPATH_SITE.DS.$params->get('files_root_path', 'paper_pdf').DS.$publication->files;
 		    	@unlink($filetoremove);
 		    	$publication->files = '';
 		    	$oldPublication->files = '';
@@ -538,7 +538,7 @@ class JResearchAdminPublicationsController extends JController
 	    $countUrl = JRequest::getInt('count_url', 0);
 	    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
 	    if(!empty($file['name'])){	    	
-	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');
+	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'paper_pdf'));
 	    }
 	    
 	    $reset = JRequest::getVar('resethits', false);
@@ -589,8 +589,8 @@ class JResearchAdminPublicationsController extends JController
 		    	
 				// Duplicate files if they have not been removed
 				if(!empty($oldPublication->files)){
-					$source = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$oldPublication->files;				
-					$dest = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.'old_'.$oldPublication->files;					
+					$source = JPATH_SITE.DS.$params->get('files_root_path', 'paper_pdf').DS.$oldPublication->files;				
+					$dest = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'paper_pdf').DS.'old_'.$oldPublication->files;					
 					if(!@copy($source, $dest))
 						JError::raiseWarning(1, JText::_('JRESEARCH_FILE_NOT_BACKUP'));
 					$oldPublication->files = 'old_'.$oldPublication->files;
@@ -625,6 +625,5 @@ class JResearchAdminPublicationsController extends JController
 			}	
 		}
 	}	
-
 }
 ?>

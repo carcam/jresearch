@@ -6,7 +6,7 @@
  */
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
+<div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->osteotype)); ?></h3></div>
 <div class="divForm">
 <form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
 <?php if(isset($this->publication)): ?>
@@ -182,7 +182,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_SPECIFIC'); ?></legend>	
 	<div class="divTable">
-		<?php include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.$this->pubtype.'.php'); ?>
+		<?php include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.(JResearchPublication::osteoToJReseachType($this->osteotype)).'.php'); ?>
 	</div>
 </fieldset>
 <fieldset>
@@ -285,7 +285,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
     </div>
 </fieldset>
 
-<input type="hidden" name="pubtype" id="pubtype" value="<?php echo $this->pubtype; ?>" />
+<input type="hidden" name="pubtype" id="pubtype" value="<?php echo JResearchPublication::osteoToJReseachType($this->osteotype); ?>" />
+<input type="hidden" name="osteotype" id="osteotype" value="<?php echo $this->osteotype; ?>" />
 <input type="hidden" name="id" value="<?php echo isset($this->publication)?$this->publication->id:'' ?>" />
 <?php if(JRequest::getVar('modelkey')): ?>
 	<input type="hidden" name="modelkey" value="<?php echo JRequest::getVar('modelkey'); ?>" />
