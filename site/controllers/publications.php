@@ -734,8 +734,9 @@ class JResearchPublicationsController extends JResearchFrontendController
 						// In that case, we are talking about a staff member
 						$publication->setAuthor($value, $k, true); 
 					}else{
-						// For external authors 
-						$publication->setAuthor($value, $k);
+						// For external authors 	
+						$email = JRequest::getVar('authorsfieldemail'.$j);						
+						$publication->setAuthor($value, $k, false, $email);
 					}
 					
 					$k++;
