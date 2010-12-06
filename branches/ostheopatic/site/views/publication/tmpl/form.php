@@ -163,17 +163,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</div>		
 		<div class="divTR">
 			<div class="divTd">
-				<label for="status"><?php echo JText::_('JRESEARCH_PUBLICATION_STATUS').': ';?></label>
-			</div>
-			<div class="divTdl divTdl2">
-				<?php echo $this->statusRadio; ?>				
-			</div>
-			<div class="divTd">
 				<label for="recommended"><?php echo JText::_('JRESEARCH_RECOMMENDED').': ';?></label>
 			</div>
-			<div class="divTdl">
+			<div class="divTdl divTdl2">
 				<?php echo $this->recommendedRadio; ?>				
-			</div>			
+			</div>
+			<div class="divTd">
+				<label for="status"><?php echo JText::_('JRESEARCH_PUBLICATION_STATUS').': ';?></label>
+			</div>
+			<div class="divTdl">
+				<?php echo $this->statusRadio; ?>				
+			</div>
 	  		<div class="divEspacio" ></div>			
 		</div>
      </div>
@@ -181,7 +181,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="internal" id="internal" value="<?php echo isset($this->publication)? $this->publication->internal : 1; ?>" />
 <input type="hidden" name="published" id="published" value="<?php echo isset($this->publication)? $this->publication->published : 1; ?>" />	
 <input type="hidden" name="citekey" id="citekey" value="<?php echo isset($this->publication)?$this->publication->citekey:'' ?>" />								
-<input type="hidden" name="pubtype" id="pubtype" value="<?php echo $this->pubtype; ?>" />
+<input type="hidden" name="pubtype" id="pubtype" value="<?php echo JResearchPublication::osteoToJReseachType($this->osteotype); ?>" />
 <input type="hidden" name="id" value="<?php echo isset($this->publication)?$this->publication->id:'' ?>" />
 <?php if(JRequest::getVar('modelkey')): ?>
 	<input type="hidden" name="modelkey" value="<?php echo JRequest::getVar('modelkey'); ?>" />

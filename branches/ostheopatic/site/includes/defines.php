@@ -14,8 +14,8 @@ define('_MEMBER_IMAGE_MAX_HEIGHT_', 768);
 define('_JRESEARCH_VERSION_', '1.2.0');
 define('_JRESEARCH_BIBUTILS_VERSION_', '3.41');
 
-define('JRESEARCH_COMPONENT_ADMIN', JPATH_ADMINISTRATOR.DS.'components'.DS.'jresearch');
-define('JRESEARCH_COMPONENT_SITE', JPATH_SITE.DS.'components'.DS.'jresearch');
+define('JRESEARCH_COMPONENT_ADMIN', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch');
+define('JRESEARCH_COMPONENT_SITE', JPATH_SITE.DS.'components'.DS.'com_jresearch');
 
 if (!defined('PHP_EOL'))
 {

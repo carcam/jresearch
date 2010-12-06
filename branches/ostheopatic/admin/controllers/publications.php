@@ -559,20 +559,18 @@ class JResearchAdminPublicationsController extends JController
 		}else{
 			//Time to set the authors
 			$maxAuthors = JRequest::getInt('nauthorsfield');
-			$k = 0;
-	
-			for($j=0; $j<=$maxAuthors; $j++){
+			$k = 0;	
+			for($j = 0; $j <= $maxAuthors; $j++){
 				$value = JRequest::getVar("authorsfield".$j);
 				if(!empty($value)){
 					if(is_numeric($value)){
 						// In that case, we are talking about a staff member
 						$publication->setAuthor($value, $k, true); 
 					}else{
-						// For external authors 
-						$email = JRequest::getVar('authorsfieldemail'.$j);
+						// For external authors 	
+						$email = JRequest::getVar('authorsfieldemail'.$j);						
 						$publication->setAuthor($value, $k, false, $email);
-					}
-					
+					}					
 					$k++;
 				}			
 			}

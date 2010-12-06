@@ -90,7 +90,7 @@ class JResearchViewPublication extends JResearchView
 		}
 
 		if($publication->source == 'WSO' && $user->guest){
-			JError::raiseWarning(1, JText::_('ACCESS_NOT_ALLOWED'));
+			JError::raiseWarning(1, JText::_('Access not allowed'));
 			return false;
 		}
 		
