@@ -9,6 +9,40 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.html.pane');
 $pane = JPane::getInstance('sliders', array('allowAllClose' => true));
+
+function juimport_new($path)
+{
+	// attempt to load the path locally but...
+	// unfortunately 1.5 doesn't check the file exists before including it so we mask it
+	$res = JLoader::import( $path, JPATH_PLUGINS.DS.'jresearch'.DS.'com_upgrader'.DS.'libraries' );
+	if(!$res) {
+		// fall back when it doesn't work
+		return jimport($path);
+	}
+	return $res;
+}
+
+function downloadFile_new($url,$target)
+{
+	juimport_new('pasamio.downloader.downloader');
+	$downloader =& Downloader::getInstance();
+	$error_object = new stdClass();
+
+	$params = JComponentHelper::getParams('com_jupdateman');
+	$adapter = null;
+	switch($params->get('download_method', 0))
+	{
+		case JUPDATEMAN_DLMETHOD_FOPEN:
+		default:
+			$adapter = $downloader->getAdapter('fopen');
+			break;
+		case JUPDATEMAN_DLMETHOD_CURL:
+			$adapter = $downloader->getAdapter('curl');
+			break;
+	}
+	
+	return $adapter->downloadFile_new($url, $target, $params);
+}
 ?>
 <div style="width:100%;">
 <div id="cpanel" class="jresearch-control-panel">
@@ -101,10 +135,82 @@ $pane = JPane::getInstance('sliders', array('allowAllClose' => true));
 	</div>
     	<div>
 		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;mode=upgrader">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/versionupgrade.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?></span>
-			</a>
+              <?php 
+                // E:\xampp\htdocs\jresearch121\plugins\jresearch\com_upgrader\jupdateman.class.php
+                if(defined('_JRESEARCH_UPGRADER_SUPPORT_') || defined('JRESEARCH_UPGRADER_SUPPORT')){
+                    $version = _JRESEARCH_VERSION_;
+                    $versionComps = explode(' ', $version);
+                    $version = $versionComps[0];
+                }else
+                    $version = '1.1.4';   
+                    
+                $url = "http://joomla-research.com/public_html/jresearchupgrader.xml";
+
+                $config = JFactory::getConfig();
+                $tmp_path = $config->getValue('config.tmp_path');
+                $plugin = JPluginHelper::getPlugin('jresearch', 'jresearch_upgrader');
+                $params = new JParameter($plugin->params);
+
+                $target = $tmp_path . DS . 'jresearchupgrader.xml';
+
+                $cached_update = $params->get('cached_update', 0);
+                
+                // if($cached_update) {
+                    // if(!file_exists($target)) {
+                        // HTML_jupgrader::showError( 'Missing update file. Please <a href="'. $url .'" target="_blank">download the update definition file</a> and put it into your temporary directory as "jupgrader.xml".<br />Target Path: '. $target);
+                        // return false;
+                    // }
+                // } else {
+                    // $result = downloadFile_new($url,$target);
+                    // if(is_object( $result )) {
+                        // HTML_jupgrader::showError( 'Download Failed: '. $result->message . '('. $result->number . ')' );
+                        // return false;
+                    // }
+                // }
+
+                if(!file_exists($target)) {
+                    HTML_jupgrader::showError( 'Update file does not exist: '. $target );
+                }
+                
+                
+                // Yay! file downloaded! Processing time :(
+                $xmlDoc = new JSimpleXML();
+
+                if (!$xmlDoc->loadFile( $target )) {
+                    HTML_jupgrader::showError( 'Parsing XML Document Failed!' );
+                    return false;
+                }
+
+                //$root = &$xmlDoc->documentElement;
+                $root = &$xmlDoc->document;
+
+                if ($root->name() != 'update') {
+                    HTML_jupgrader::showError( 'Parsing XML Document Failed: Not an update definition file!' );
+                    return false;
+                }
+
+                $rootattributes = $root->attributes();
+                $latest = $rootattributes['release'];
+                
+                if($latest == $version){
+            //    echo ' The currect version is : '.$latest.' final '.$version;           
+                ?>
+                <a href="index.php?option=com_jresearch">
+                    <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/no_update.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_FINAL_VERSION'); ?>" />
+                    <span><?php echo JText::_('JRESEARCH_UPGRADE_FINAL_VERSION'); ?></span>
+                </a>
+                <?php
+                }
+                else {
+                
+                ?>
+                <a href="index.php?option=com_jresearch&amp;mode=upgrader">
+                    <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/update_please.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
+                    <span><?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?></span>
+                </a>
+                <?php
+                }
+                ?>
 		</div>
 	</div>
 
