@@ -18,7 +18,7 @@ if(!JComponentHelper::isEnabled('com_jresearch', true))
 {
 	JError::raiseError(0, JText::_('JRESEARCH_NOT_INSTALLED_OR_ENABLED'));
 }
-
+require_once JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'defines.php';
 JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch'.DS.'tables');
 
 $dirname = dirname(__FILE__);
