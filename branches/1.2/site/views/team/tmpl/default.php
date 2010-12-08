@@ -28,7 +28,7 @@ $Itemid = JRequest::getVar('Itemid', 0);
 		?>
 		<tr>
 			<th><?php echo JText::_('Position').': ' ?></th>
-			<td><?php echo $this->leader->position; ?></td>
+			<td><?php echo $this->leader->getPosition(); ?></td>
 		</tr>
 		<?php 
 		endif;
