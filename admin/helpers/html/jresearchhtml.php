@@ -639,7 +639,7 @@ class JHTMLjresearchhtml
 	{
 		//Status options
     	$statusOptions = array();
-    	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
+    	$statusOptions[] = JHTML::_('select.option', 'protocol', JText::_('JRESEARCH_PROTOCOL'));
     	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
     	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));
     	$statusOptions[] = JHTML::_('select.option', 'rejected', JText::_('JRESEARCH_REJECTED'));
@@ -939,9 +939,11 @@ class JHTMLjresearchhtml
 		//Status options
     	$statusOptions = array();
     	$statusOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_STATUS'));
-    	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
+    	$statusOptions[] = JHTML::_('select.option', 'protocol', JText::_('JRESEARCH_PROTOCOL'));
     	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
     	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));
+    	$statusOptions[] = JHTML::_('select.option', 'rejected', JText::_('JRESEARCH_REJECTED'));
+    	$statusOptions[] = JHTML::_('select.option', 'for_reevaluation', JText::_('JRESEARCH_FOR_REEVALUATION'));
     	
     	return self::htmllist($statusOptions, $attributes);
 	}
@@ -957,7 +959,7 @@ class JHTMLjresearchhtml
     	$fieldsOptions[] = JHTML::_('select.option', 'all', JText::_('JRESEARCH_ALL_FIELDS'));
     	$fieldsOptions[] = JHTML::_('select.option', 'abstract_word', JText::_('JRESEARCH_ABSTRACT_WORD'));
     	$fieldsOptions[] = JHTML::_('select.option', 'heading_word', JText::_('JRESEARCH_HEADING_WORD'));
-//    	$fieldsOptions[] = JHTML::_('select.option', 'institution_name', JText::_('JRESEARCH_INSTITUTION_NAME'));    	
+    	$fieldsOptions[] = JHTML::_('select.option', 'institute_name', JText::_('JRESEARCH_INSTITUTION_NAME'));    	
 		$fieldsOptions[] = JHTML::_('select.option', 'author_name', JText::_('JRESEARCH_AUTHOR_NAME'));    	
     	$fieldsOptions[] = JHTML::_('select.option', 'keywords', JText::_('JRESEARCH_KEYWORDS'));    	    	
     	$fieldsOptions[] = JHTML::_('select.option', 'title_word', JText::_('JRESEARCH_TITLE_WORD'));    	    	
@@ -1016,7 +1018,7 @@ class JHTMLjresearchhtml
 	public static function instituteslist($name, $options, $value = 0){
 		$db = JFactory::getDBO();
 		
-		$db->setQuery('SELECT id, alias FROM #__jresearch_institute WHERE published = 1');
+		$db->setQuery('SELECT id, alias FROM #__jresearch_institute WHERE published = 1 ORDER BY alias');
 		$institutesHtmlOptions = array();
 		$institutesHtmlOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_INSTITUTES'));
 		$institutes = $db->loadAssocList();	

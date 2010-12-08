@@ -89,7 +89,7 @@ class JResearchViewPublication extends JResearchView
 			return false;
 		}
 
-		if($publication->source == 'WSO' && $user->guest){
+		if(($publication->source == 'WSO' || $publication->status == 'in_progress') && $user->guest){
 			JError::raiseWarning(1, JText::_('Access not allowed'));
 			return false;
 		}

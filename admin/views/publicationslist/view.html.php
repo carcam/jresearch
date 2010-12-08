@@ -109,7 +109,7 @@ class JResearchAdminViewPublicationsList extends JResearchView
 
 		$statusOptions = array();
     	$statusOptions[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_PUBLICATION_STATUS'));		
-    	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
+    	$statusOptions[] = JHTML::_('select.option', 'protocol', JText::_('JRESEARCH_PROTOCOL'));
     	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
     	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));
     	$statusOptions[] = JHTML::_('select.option', 'rejected', JText::_('JRESEARCH_REJECTED'));

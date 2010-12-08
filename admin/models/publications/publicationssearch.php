@@ -182,12 +182,19 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			$whereKeyClause['author_name'] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
 		else
 			$whereKeyClause['author_name'] = '0 = 1';	
+
+		$idsInstitutes = $this->_getInstitutePublicationIds($key);
+		if(!empty($idsInstitutes))
+			$whereKeyClause['institute_name'] = $db->nameQuote('id').' IN ('.implode(',', $idsInstitutes).')';
+		else
+			$whereKeyClause['institute_name'] = '0 = 1';
 			
 		if($keyfield0 == 'all'){
 			$where[] = '('.implode(' OR ', $whereKeyClause).')';
 		}else{
 			$where[] = $whereKeyClause[$keyfield0];			
 		}
+		
 				
 		// prepare the WHERE clause
 		$where[] = $db->nameQuote('published').' = '.$db->Quote(1);
@@ -217,6 +224,13 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			$whereKeyClause1['abstract_word'] = "LOWER(abstract) LIKE $escapedKey1";
 			$whereKeyClause1['heading_word'] = "LOWER(headings) LIKE $escapedKey1";
 			$whereKeyClause1['keywords'] = "LOCATE($quotedKey1, LOWER(keywords)) > 0";
+			
+			$idsInstitutes1 = $this->_getInstitutePublicationIds($key1);
+			if(!empty($idsInstitutes1))
+				$whereKeyClause1['institute_name'] = $db->nameQuote('id').' IN ('.implode(',', $idsInstitutes1).')';
+			else
+				$whereKeyClause['institute_name'] = '0 = 1';	
+
 			$ids1 = $this->_getAuthorPublicationIds(trim($key1));			
 
 			if(count($ids1) > 0)
@@ -224,7 +238,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			else
 				$whereKeyClause1['author_name'] = '0 = 1';	
 				
-			$op1 = ($op1 == 'not')? 'and '.$op1:$op1;	
+			$op1 = ($op1 == 'not')? 'AND NOT':$op1;	
 			if($keyfield1 == 'all'){
 				$whereAdditionals .= ' '.$op1.' ('.implode(' OR ', $whereKeyClause1).')';
 			}else{
@@ -240,13 +254,21 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			$whereKeyClause2['abstract_word'] = "LOWER(abstract) LIKE $escapedKey2";
 			$whereKeyClause2['keywords'] = "LOCATE($quotedKey2, LOWER(keywords)) > 0";
 			$whereKeyClause2['heading_word'] = "LOWER(headings) LIKE $escapedKey2";			
-			$ids2 = $this->_getAuthorPublicationIds(trim($key2));			
+			
+			$idsInstitutes2 = $this->_getInstitutePublicationIds($key2);
+			if(!empty($idsInstitutes2))
+				$whereKeyClause1['institute_name'] = $db->nameQuote('id').' IN ('.implode(',', $idsInstitutes2).')';
+			else
+				$whereKeyClause['institute_name'] = '0 = 1';	
+			
+			
+			$ids2 = $this->_getAuthorPublicationIds(trim($key2));					
 			if(count($ids2) > 0)
 				$whereKeyClause2['author_name'] = $db->nameQuote('id').' IN ('.implode(',', $ids2).')';
 			else
 				$whereKeyClause2['author_name'] = '0 = 1';			
 			
-			$op2 = ($op2 == 'not')? 'and '.$op2:$op2;				
+			$op2 = ($op2 == 'not')? 'AND NOT':$op2;				
 			if($keyfield2 == 'all'){
 				$whereAdditionals .= ' '.$op2.' ('.implode(' OR ', $whereKeyClause2).')';
 			}else{
@@ -263,8 +285,15 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			$whereKeyClause3['abstract_word'] = "LOWER(abstract) LIKE $escapedKey3";
 			$whereKeyClause3['keywords'] = "LOCATE($quotedKey3, LOWER(keywords)) > 0";
 			$whereKeyClause3['heading_word'] = "LOWER(headings) LIKE $escapedKey3";			
+
+			$idsInstitutes3 = $this->_getInstitutePublicationIds($key3);
+			if(!empty($idsInstitutes3))
+				$whereKeyClause1['institute_name'] = $db->nameQuote('id').' IN ('.implode(',', $idsInstitutes3).')';
+			else
+				$whereKeyClause['institute_name'] = '0 = 1';	
 			
-			$op3 = ($op3 == 'not')? 'and '.$op3:$op3;			
+			
+			$op3 = ($op3 == 'not')? 'AND NOT':$op3;			
 			if($keyfield3 == 'all'){
 				$whereAdditionals .= ' '.$op3.' ('.implode(' OR ', $whereKeyClause3).')';
 			}else{
@@ -337,6 +366,20 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where).' '.$whereAdditionals : '';
 			
+	}
+	
+	/**
+	 * Returns the ids of the institutes whose names are similar to the key
+	 * @param string $key
+	 */
+	private function _getInstitutePublicationIds($key){
+		$db = JFactory::getDBO();
+		$query = 'SELECT DISTINCT p.id FROM '.$db->nameQuote('#__jresearch_publication').' p, '.$db->nameQuote('#__jresearch_institute').' i WHERE '.
+		'p.id_institute = i.id AND LOWER(i.name) LIKE '.$db->Quote( '%'.$db->getEscaped( strtolower($key), true ).'%', false ).' OR LOWER(i.name2) LIKE '.$db->Quote( '%'.$db->getEscaped( strtolower($key), true ).'%', false );
+		$db->setQuery($query);
+		$result = $db->loadResultArray();
+				
+		return $result;				
 	}
 	
 	/**

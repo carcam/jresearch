@@ -136,9 +136,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</div>							
 			<div class="divEspacio" ></div>					
 	    </div>
+	    <div class="divTR">
+			<div class="divTd"><label for="file_url_0"><?php echo JText::_('PDF').': '; ?></label></div>
+			<div class="divTdl"><?php echo $this->files; ?><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_FILES_TOOLTIP')); ?></div>
+	  		<div class="divEspacio" ></div>		
+		</div>
+	    
 		<div class="divTR">
 	    	<div class="divTd">
-	            <label for="url"><?php echo JText::_('JRESEARCH_LINK_PDF').': '?></label>
+	            <label for="url"><?php echo JText::_('JRESEARCH_AVAILABLE_AT').': '?></label>
 	        </div>
 	        <div class="divTdl">
 				<input name="url" id="url" size="50" maxlength="255" class="validate-url" value="<?php echo isset($this->publication)?$this->publication->url:'' ?>" />
@@ -178,6 +184,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</div>
      </div>
 </fieldset>
+<div class="buttonsfooter">
+	<div>
+	<button type="button" onclick="javascript:msubmitform('apply');"><?php echo JText::_('Apply'); ?></button>
+	<button type="button" onclick="javascript:msubmitform('save')"><?php echo JText::_('Save') ?></button>
+	<button type="button" onclick="javascript:msubmitform('cancel')"><?php echo JText::_('Cancel'); ?></button>
+	</div>
+</div>
+
 <input type="hidden" name="internal" id="internal" value="<?php echo isset($this->publication)? $this->publication->internal : 1; ?>" />
 <input type="hidden" name="published" id="published" value="<?php echo isset($this->publication)? $this->publication->published : 1; ?>" />	
 <input type="hidden" name="citekey" id="citekey" value="<?php echo isset($this->publication)?$this->publication->citekey:'' ?>" />								

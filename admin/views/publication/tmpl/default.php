@@ -139,7 +139,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	    </div>
 		<div class="divTR">
 	    	<div class="divTd">
-	            <label for="url"><?php echo JText::_('JRESEARCH_LINK_PDF').': '?></label>
+	            <label for="url"><?php echo JText::_('JRESEARCH_AVAILABLE_AT').': '?></label>
 	        </div>
 	        <div class="divTdl">
 				<input name="url" id="url" size="50" maxlength="255" class="validate-url" value="<?php echo isset($this->publication)?$this->publication->url:'' ?>" />
@@ -200,7 +200,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
         <div class="divEspacio" ></div>				
 	</div>
 	<div class="divTR">
-		<div class="divTd"><label for="file_url_0"><?php echo JText::_('JRESEARCH_FILE').': '; ?></label></div>
+		<div class="divTd"><label for="file_url_0"><?php echo JText::_('PDF').': '; ?></label></div>
 		<div class="divTdl"><?php echo $this->files; ?><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_PUBLICATION_FILES_TOOLTIP')); ?></div>
 	  	<div class="divEspacio" ></div>		
 	</div>
