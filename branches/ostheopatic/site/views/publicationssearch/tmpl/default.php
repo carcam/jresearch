@@ -40,21 +40,18 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'publications.php');
 	foreach($this->items as $pub): ?>
     <ul style="list-style:none;padding-left:0px;">
     <li>
+    	<div><strong><?php echo JText::_('JRESEARCH_TITLE').': '; ?></strong>
+    	<?php if($pub->status == 'in_progress'): ?>
+	    	<span><?php echo $pub->title; ?></span>	    	
+		<?php else: ?>
+	    	<span><?php echo JHTML::_('jresearch.link', $pub->title, 'publication', 'show', $pub->id); ?></span>	
+		<?php endif; ?>
+    	</div>    
     	<div><strong><?php echo JText::_('JRESEARCH_AUTHORS').': '?></strong>
     	<?php 
     		$authors = $pub->getAuthors();
     	    echo JResearchPublicationsHelper::formatAuthorsArray($authors, 1);
     	?>
-    	</div>
-    	<div><strong><?php echo JText::_('JRESEARCH_TITLE').': '; ?></strong>
-    	<span><?php echo JHTML::_('jresearch.link', $pub->title, 'publication', 'show', $pub->id); ?></span>
-    	</div>
-    	<div>
-    		<?php $pub->status = trim($pub->status); ?>
-    		<?php if(!empty($pub->status)): ?>
-	    		<strong><?php echo JText::_('JRESEARCH_STATUS').': '; ?></strong>    		
-    			<?php echo JText::_('JRESEARCH_'.strtoupper($pub->status)); ?>
-    		<?php endif; ?>
     	</div>
     	<div>		
     	<?php 

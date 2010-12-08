@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php $type = trim($this->publication->type); ?>
 	<?php if(!empty($type)): ?>
 	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
+	<th scope="row"><?php echo JText::_('JRESEARCH_DEGREE').': ' ?></th>
 	<td><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->type).'THESIS'); ?></td>
 	<?php else: ?>
 	<?php if($colspan > 0): ?>

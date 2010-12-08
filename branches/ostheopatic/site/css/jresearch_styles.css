@@ -259,3 +259,25 @@ li.liinstitute{
 	clear: both;
 	margin-bottom: 8px;
 }
+
+span.original_title_lbl{
+	margin-right: 12px;
+	font-weight: bold;
+}
+
+span.original_title{
+	
+}
+
+div.buttonsfooter{
+	width: 50%;
+	margin-top: 10px;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+}
+
+div.buttonsfooter div{
+	margin: 0 auto;
+	text-align: center !important;
+}

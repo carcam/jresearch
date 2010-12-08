@@ -7,6 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+define('ENGLISH_ABSTRACT_ID', 4);
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 
 ?>
@@ -14,6 +15,15 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 	div#second_language{
 		display:none;
 	}
+	
+	h4{
+		font-size: 13px;
+	}
+	
+	h5{
+		font-size: 12px;
+	}
+	
 </style>
 <script type="text/javascript">
 	function showOriginalAbstract(){
@@ -38,72 +48,6 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 <h1 class="componentheading"><?php echo $this->publication->title; ?></h1>
 <table class="frontendsingleitem">
 <tbody>
-	<?php $original_title = $this->publication->original_title; ?>
-	<?php if(!empty($this->publication->original_title)): ?>		
-		<tr>		
-			<th scope="row"><?php echo JText::_('JRESEARCH_ORIGINAL_TITLE').': ' ?></th>
-			<td colspan="3"><?php echo $this->publication->original_title; ?></td>
-		</tr>	
-	<?php endif; ?>
-	<?php $colspan = 4; ?>
-	<?php $month = trim($this->publication->month);  
-		  $day = trim($this->publication->day);
-	?>
-	<?php $year = $this->publication->year; ?>
-	<tr>	
-	<?php if($year != null && $year != '0000' && !empty($year)): ?>
-		<th scope="row"><?php echo JText::_('JRESEARCH_PUBLICATION_DATE').': ' ?></th>
-		<td><?php echo $this->publication->year; ?>
-		<?php $colspan-= 2; ?>
-		<?php if(!empty($month)): ?>
-			<?php if(empty($day)): ?>
-				<?php echo ' '.JResearchPublicationsHelper::formatMonth($month); ?>
-			<?php else: ?>
-				<?php echo ' '.JResearchPublicationsHelper::formatMonth($month).', '.$day; ?>		
-			<?php endif; ?>
-		<?php endif; ?>
-		</td>
-	<?php endif; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ENTRY_DATE').': ' ?></th>	
-	<td>
-	<?php $createDate = strtotime($this->publication->created);  
-		  $colspan -= 2;
-		  echo date('Y F, d', $createDate);
-	?>
-	</td>
-	<?php if($colspan > 0): ?>	
-		<td colspan="<?php echo $colspan; ?>"></td>	
-	<?php endif; ?>	
-	</tr>
-
-	
-	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
-		<td><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->osteotype)); ?></td>
-		<?php $keywords = trim($this->publication->keywords); ?>
-		<?php if(!empty($keywords)): ?>		
-		<th scope="row"><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></th>		
-		<td><?php echo $this->publication->keywords; ?></td>
-		<?php else: ?>
-		<td colspan="2"></td>
-		<?php endif; ?>
-	</tr>
-	<tr>
-		<?php $institute = $this->publication->getInstitute();
-		$colspan = 2; 
-		 if(!empty($institute)):
-		 	$colspan = 0;
-		?>					
-			<th scope="row"><?php echo JText::_('JRESEARCH_INSTITUTE').': ' ?></th>
-			<td><a href="index.php?option=com_jresearch&amp;view=institute&amp;task=show&amp;id=<?php echo $institute->id ?><?php echo $ItemidText; ?>"><?php echo $institute->name; ?></a></td>
-		<?php endif; ?>	
-			<th scope="row"><?php echo JText::_('JRESEARCH_RECOMMENDED').': '; ?></th>
-			<td><?php echo $this->publication->recommended? JText::_('JRESEARCH_YES') : JText::_('JRESEARCH_NO'); ?></td>
-		<?php if($colspan > 0): ?>		
-			<td colspan="2"></td>
-		<?php endif; ?>
-	</tr>
-
 	<?php $authors = $this->publication->getAuthors(true); ?>
 	<?php if(!empty($authors)): ?>
 	<tr>
@@ -133,9 +77,9 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		</td>		
 		<?php else: ?>
 		<td colspan="3">
-			<ul>
+			<ul style="list-style-type:none;">
 				<?php foreach($authors as $auth): ?>
-					<li style="list-style:none;">
+					<li>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
 								<?php echo JHTML::_('jresearch.link', JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format), 'member', 'show', $auth->id)?>
@@ -155,19 +99,84 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		<?php endif; ?>
 	</tr>	
 	<?php endif; ?>	
-
+	
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_SOURCE').': ' ?></th>
-		<td><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->source)); ?></td>
-		<th scope="row"><?php echo JText::_('JRESEARCH_STATUS').': '; ?></th>
-		<td><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->status)); ?></td>
+		<?php $keywords = trim($this->publication->keywords); ?>
+		<?php if(!empty($keywords)): ?>		
+		<th scope="row"><?php echo JText::_('JRESEARCH_KEYWORDS').': ' ?></th>		
+		<td colspan="3"><?php echo $this->publication->keywords; ?></td>
+		<?php endif; ?>
+	</tr>
+	<tr>
+		<th scope="row"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
+		<td colspan="3"><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->osteotype)); ?></td>
+	</tr>
+	<tr>
+		<?php $institute = $this->publication->getInstitute();
+		$colspan = 2; 
+		 if(!empty($institute)):
+		 	$colspan = 0;
+		?>					
+			<th scope="row"><?php echo JText::_('JRESEARCH_INSTITUTE').': ' ?></th>
+			<td colspan="3"><a href="index.php?option=com_jresearch&amp;view=institute&amp;task=show&amp;id=<?php echo $institute->id ?><?php echo $ItemidText; ?>"><?php echo $institute->name; ?></a></td>
+		<?php endif; ?>	
+	</tr>
+	<?php $colspan = 4; ?>
+	<?php $month = trim($this->publication->month);  
+		  $day = trim($this->publication->day);
+	?>
+	<?php $year = $this->publication->year; ?>
+	<tr>	
+	<?php if($year != null && $year != '0000' && !empty($year)): ?>
+		<th scope="row"><?php echo JText::_('JRESEARCH_PUBLICATION_DATE').': ' ?></th>
+		<td><?php echo $this->publication->year; ?>
+		<?php $colspan-= 2; ?>
+		<?php if(!empty($month)): ?>
+			<?php if(empty($day)): ?>
+				<?php echo ' '.JResearchPublicationsHelper::formatMonth($month); ?>
+			<?php else: ?>
+				<?php echo ' '.JResearchPublicationsHelper::formatMonth($month).', '.$day; ?>		
+			<?php endif; ?>
+		<?php endif; ?>
+		</td>
+	<?php endif; ?>
+	<th scope="row"><?php echo JText::_('JRESEARCH_ENTRY_DATE').': ' ?></th>	
+	<td>
+	<?php $createDate = strtotime($this->publication->created);  
+		  $colspan -= 2;
+		  echo date('Y F, d', $createDate);
+	?>
+	</td>
+	<?php if($colspan > 0): ?>	
+		<td colspan="<?php echo $colspan; ?>"></td>	
+	<?php endif; ?>	
 	</tr>	
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_COUNTRY').': '; ?></th>
-		<td><?php echo $this->publication->getCountry(); ?></td>
-		<th scope="row"><?php echo JText::_('JRESEARCH_LANGUAGE').': '; ?></th>
-		<td><?php echo $this->publication->getLanguage(); ?></td>	
+		<th scope="row"><?php echo JText::_('JRESEARCH_STATUS').': '; ?></th>
+		<td><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->status)); ?></td>
+		<th scope="row"><?php echo JText::_('JRESEARCH_RECOMMENDED').': '; ?></th>
+		<td><?php echo $this->publication->recommended? JText::_('JRESEARCH_YES') : JText::_('JRESEARCH_NO'); ?></td>
 	</tr>
+	<?php $country = $this->publication->getCountry(); 
+		  $language = $this->publication->getLanguage();
+		  $colspan = 4;
+		  if(!empty($country) || !empty($language)):
+	?>	
+	<tr>
+		<?php if(!empty($country)): ?>
+			<th scope="row"><?php echo JText::_('JRESEARCH_COUNTRY').': '; ?></th>
+			<td><?php echo $country; ?></td>	
+		<?php else: 
+				$colspan -= 2; 
+			  endif; 
+			  if(!empty($language)): 
+		?>			
+			<th scope="row"><?php echo JText::_('JRESEARCH_LANGUAGE').': '; ?></th>
+			<td><?php echo $language; $colspan -= 2; ?></td>
+			<?php if($colspan > 0): ?><td colspan="2" /><?php endif; ?>
+		<?php endif;?>
+	</tr>
+	<?php endif; ?>
 	<?php require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.$this->publication->pubtype.'.php') ?>
 	<tr>		
 	
@@ -248,48 +257,58 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		<th scope="row"><?php echo JText::_('JRESEARCH_NOTE').': '; ?></th>
 		<td style="width:85%;" colspan="3"><div style="text-align:justify;"><?php echo $note; ?></div></td>	
 	</tr>
-	<?php endif; ?>	
-	
-
-	<?php $abstracts = $this->publication->getAbstracts(); 
-	?>
-	<?php if(!empty($abstracts)): ?>
+	<?php endif; ?>		
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_ABSTRACT').': '; ?></th>	
-	</tr>
-	<tr>
-		<td style="width:100%;" colspan="4">
-		<div>
+		<td style="padding:0px;" colspan="4">
+		
+			<?php $abstracts = $this->publication->getAbstracts();
+			  if(!empty($abstracts)): ?>
+				<h4><?php echo JText::_('JRESEARCH_ABSTRACT'); ?></h4>
+			<?php endif; ?>
 			<?php if(count($this->abstracts) > 1): ?>
-				<?php if(isset($this->abstracts[4])): ?>
-					<div><strong><i><?php echo JText::_('JRESEARCH_ENGLISH_VERSION'); ?></i></strong></div>
-					<div  style="text-align:justify;"><?php echo $this->abstracts[4]; //English ?></div>
+				<?php $secondLang = JResearchLanguageHelper::getLanguage('id', $this->publication->id_language); ?>			
+				<?php if(isset($this->abstracts[ENGLISH_ABSTRACT_ID])): ?>
+					<div><h5><?php echo JText::_('JRESEARCH_ENGLISH_VERSION'); ?></h5></div>
+					<div  style="text-align:justify;"><?php echo $this->abstracts[ENGLISH_ABSTRACT_ID]; //English ?></div>
 				<?php endif; ?>				
 				<div style="height:20px;"></div>
+				<div><a id="ashow" href="javascript:showOriginalAbstract();"><?php echo JText::sprintf('JRESEARCH_SHOW_ORIGINAL_ABSTRACT', $secondLang['name']); ?></a></div>				
 				<div id="second_language">
-					<?php $secondLang = JResearchLanguageHelper::getLanguage('id', $this->publication->id_language); ?>
-					<div><strong><i><?php echo JText::_('JRESEARCH_ORIGINAL_ABSTRACT').' ('.$secondLang['name'].')'; ?></i></strong></div>
-					<div  style="text-align:justify;"><?php echo $this->abstracts[$this->publication->id_language]; ?></div>
-					<div style="height:20px;"></div>					
-					<div><a id="ahide" href="javascript:hideOriginalAbstract();"><?php echo JText::_('JRESEARCH_HIDE_ORIGINAL_ABSTRACT'); ?></a></div>			
+					<a id="ahide" href="javascript:hideOriginalAbstract();"><?php echo JText::_('JRESEARCH_HIDE_ORIGINAL_ABSTRACT'); ?></a>
+					<h5><?php echo JText::sprintf('JRESEARCH_LANGUAGE_VERSION', $secondLang['name'] ); ?></h5>
+					<?php $original_title = $this->publication->original_title; ?>
+					<?php if(!empty($this->publication->original_title)): ?>		
+						<span class="original_title_lbl"><?php echo JText::_('JRESEARCH_TITLE').': ' ?></span>
+						<span class="original_title"><?php echo $this->publication->original_title; ?></span>
+					<?php endif; ?>				
+					<h5><?php echo JText::_('JRESEARCH_ABSTRACT'); ?></h5>
+					<div>
+						<div style="text-align:justify;"><?php echo $this->abstracts[$this->publication->id_language]; ?></div>
+						<div style="height:20px;"></div>
+					</div>					
 				</div>
-				<div><a id="ashow" href="javascript:showOriginalAbstract();"><?php echo JText::_('JRESEARCH_SHOW_ORIGINAL_ABSTRACT'); ?></a></div>
 			<?php else: ?>
 				<div style="text-align:justify;">
-					<?php if(isset($this->abstracts[4])): ?>
-						<?php echo $this->abstracts[4]; ?>					
+					<?php if(isset($this->abstracts[ENGLISH_ABSTRACT_ID])): ?>
+						<?php echo $this->abstracts[ENGLISH_ABSTRACT_ID]; ?>					
 					<?php elseif(isset($this->abstracts[$this->publication->id_language])): ?>
 						<?php echo $this->abstracts[$this->publication->id_language]; ?>
 					<?php endif; ?>
 				</div>
-			<?php endif; ?>	
-		</div>
-		<div style="height:20px;"></div>		
+				<?php $original_title = $this->publication->original_title; ?>
+				<?php if(!empty($this->publication->original_title)): ?>
+					<div><a id="ashow" href="javascript:showOriginalAbstract();"><?php echo JText::sprintf('JRESEARCH_SHOW_ORIGINAL_ABSTRACT', $secondLang['name']); ?></a></div>
+					<div id="second_language">					
+						<div><a id="ahide" href="javascript:hideOriginalAbstract();"><?php echo JText::_('JRESEARCH_HIDE_ORIGINAL_ABSTRACT'); ?></a></div>								
+						<h5><?php echo JText::sprintf('JRESEARCH_LANGUAGE_VERSION', $secondLang['name'] ); ?></h5>					
+						<span class="original_title_lbl"><?php echo JText::_('JRESEARCH_ORIGINAL_TITLE').': ' ?></span>
+						<span class="original_title"><?php echo $this->publication->original_title; ?></span>
+					</div>
+				<?php endif; ?>										
+			<?php endif; ?>				
+		<div style="height:20px;"></div>
 		</td>	
-	</tr>
-	<?php endif; ?>	
-	
-	
+	</tr>		
 	<?php $comments = trim($this->publication->comments); ?>	
 	<?php if(!empty($comments)): ?>
 	<tr>
