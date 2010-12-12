@@ -636,8 +636,8 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 		inputEmail.setAttribute('type', 'text');
 		inputEmail.setAttribute('class', 'validate-email');
 		inputEmail.setAttribute('classname', 'validate-email');
-		inputEmail.setAttribute('id', this.fld.name+'email'+nResults);
-		inputEmail.setAttribute('name', this.fld.name+'email'+nResults);
+		inputEmail.setAttribute('id', 'email'+this.fld.name+nResults);
+		inputEmail.setAttribute('name', 'email'+this.fld.name+nResults);
 		emailLabel = document.createElement('label');
 		emailLabel.setAttribute('class', 'labelform');
 		emailLabel.setAttribute('classname', 'labelform');
@@ -745,6 +745,7 @@ function moveUp(controlName){
 	var suffix = controlName.substring(2, controlName.length); 
 	var inputHidden = document.getElementById(suffix);
 	var nameSpan = document.getElementById('span'+suffix);
+	var inputEmail = document.getElementById('email'+suffix);	
 	
 	if(ili){
 		var iliparent = ili.parentNode;
@@ -753,6 +754,7 @@ function moveUp(controlName){
 			var previousSuffix = iliPrevious.id.substring(2, iliPrevious.id.length);			
 			var previousInput = document.getElementById(previousSuffix);
 			var namePreviousSpan = document.getElementById('span'+previousSuffix);
+			var nextInputEmail = document.getElementById('email'+previousSuffix);			
 
 			// Intercambio del valor de los inputs
 			var spanTmp = nameSpan.firstChild.nodeValue;
@@ -762,6 +764,11 @@ function moveUp(controlName){
 			var tmp = inputHidden.value;			
 			inputHidden.value = previousInput.value;
 			previousInput.value = tmp;						
+			
+			var tmp2 = inputEmail.value;
+			inputEmail.value = nextInputEmail.value;
+			nextInputEmail.value = tmp2;
+
 		}
 	}
 }
@@ -771,6 +778,7 @@ function moveDown(controlName){
 	var suffix = controlName.substring(2, controlName.length); 
 	var inputHidden = document.getElementById(suffix);
 	var nameSpan = document.getElementById('span'+suffix);
+	var inputEmail = document.getElementById('email'+suffix);
 	
 	if(ili){
 		var iliparent = ili.parentNode;
@@ -779,6 +787,7 @@ function moveDown(controlName){
 			var nextSuffix = iliNext.id.substring(2, iliNext.id.length);			
 			var nextInput = document.getElementById(nextSuffix);
 			var nameNextSpan = document.getElementById('span'+nextSuffix);
+			var nextInputEmail = document.getElementById('email'+nextSuffix);
 
 			// Intercambio del valor de los inputs y etiquetas
 			var spanTmp = nameSpan.firstChild.nodeValue;
@@ -787,7 +796,11 @@ function moveDown(controlName){
 
 			var tmp = inputHidden.value;			
 			inputHidden.value = nextInput.value;
-			nextInput.value = tmp;						
+			nextInput.value = tmp;
+			
+			var tmp2 = inputEmail.value;
+			inputEmail.value = nextInputEmail.value;
+			nextInputEmail.value = tmp2;
 		}
 	}
 	

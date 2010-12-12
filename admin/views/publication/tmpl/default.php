@@ -6,29 +6,26 @@
  */
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->osteotype)); ?></h3></div>
-<div class="divForm">
-<form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
+<style type="text/css">
+	.requiredspan{
+		margin-bottom: 10px;
+		color: red;
+		font-weight: bold;
+	}
+</style>
 <?php if(isset($this->publication)): ?>
-	<div class="divChangeType">
-		<?php echo $this->changeType; ?>
-		<input type="button" onclick="
-		if(document.adminForm.change_type.value == '0'){ 
-			alert('<?php echo JText::_('JRESEARCH_SELECT_PUBTYPE'); ?>') 
-		} 
-		if(document.adminForm.change_type.value != '0' && document.adminForm.change_type.value != document.adminForm.pubtype.value && confirm('<?php echo JText::_('JRESEARCH_SURE_CHANGE_PUBTYPE')?>') ){
-			msubmitform('changeType');
-		}" 
-		value="<?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE'); ?>" />
-		<label for="keepold"><?php echo JText::_('JRESEARCH_KEEP_OLD_PUBLICATION').': '; ?><input type="checkbox" name="keepold" id="keepold" /></label>
-	</div>
-<?php endif; ?>	
+<div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->osteotype)); ?></h3></div>
+<?php endif; ?>
+
+<div class="divForm">
+<div class="requiredspan">* = <?php echo JText::_('Required'); ?></div>
+<form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_BASIC')?></legend>
 	<div class="divTable">
 	    <div class="divTR">
 	        <div class="divTd">
-				<label for="title"><?php echo JText::_('Title').': '?></label>
+				<label for="title"><?php echo JText::_('Title').'* : '?></label>
 			</div>
 			<div class="divTdl">			
 				<input name="title" id="title" size="60" maxlength="255" value="<?php echo isset($this->publication)?$this->publication->title:'' ?>" class="required" />
@@ -101,17 +98,23 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	        <div class="divTd">
 	            <label for="keywords"><?php echo JText::_('JRESEARCH_KEYWORDS').': '?></label>
 	        </div>
-	        <div class="divTdl">
+	        <div class="divTdl divTdl2">
 				<input name="keywords" id="keywords" size="30" maxlength="255" class="validate-keywords" value="<?php echo isset($this->publication)?$this->publication->keywords:'' ?>" /><span class="information"><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span>
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'keywords', JText::_('JRESEARCH_PROVIDE_KEYWORDS')); ?>				
 	        </div>
+	        <div class="divTd">
+		        <label for="osteotype"><?php echo JText::_('JRESEARCH_PUBLICATION_TYPE').': '; ?></label>
+	        </div>
+	        <div class="divTdl">
+		        <?php echo $this->osteotypeList; ?>
+	        </div>	        
 		  <div class="divEspacio" ></div>		        
 		</div> 
         <div class="divTR"> 		
 	        <div class="divTd">
 	            <label for="id_institute"><?php echo JText::_('JRESEARCH_INSTITUTE').': '?></label>
 	        </div>
-	        <div class="divTdl">
+	        <div class="divTdl divTdl2">
 	        <?php echo $this->institutesList; ?>
 	        </div>
 		  <div class="divEspacio" ></div>		        
@@ -182,7 +185,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_SPECIFIC'); ?></legend>	
 	<div class="divTable">
-		<?php include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.(JResearchPublication::osteoToJReseachType($this->osteotype)).'.php'); ?>
+		<?php include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.'article.php'); ?>
 	</div>
 </fieldset>
 <fieldset>
@@ -284,9 +287,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
     </div>
     </div>
 </fieldset>
-
-<input type="hidden" name="pubtype" id="pubtype" value="<?php echo JResearchPublication::osteoToJReseachType($this->osteotype); ?>" />
-<input type="hidden" name="osteotype" id="osteotype" value="<?php echo $this->osteotype; ?>" />
+<input type="hidden" name="pubtype" id="pubtype" value="<?php echo isset($this->publication)? JResearchPublication::osteoToJReseachType($this->publication->osteotype) : ''; ?>" />
 <input type="hidden" name="id" value="<?php echo isset($this->publication)?$this->publication->id:'' ?>" />
 <?php if(JRequest::getVar('modelkey')): ?>
 	<input type="hidden" name="modelkey" value="<?php echo JRequest::getVar('modelkey'); ?>" />

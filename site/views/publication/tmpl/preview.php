@@ -44,7 +44,6 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  	
 ?>
-<div style="float: right;"><?php echo JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
 <h1 class="componentheading"><?php echo $this->publication->title; ?></h1>
 <table class="frontendsingleitem">
 <tbody>
@@ -319,70 +318,72 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 
 </tbody>
 </table>
-<?php if($this->commentsAllowed): ?>
-	<?php if($this->showComments): ?>
-	<div><span><a id="showComments" href="javascript:showComments(0, <?php echo "'".JText::_('JRESEARCH_SHOW_COMMENTS')."','".JText::_('JRESEARCH_HIDE_COMMENTS')."'"; ?>);"><?php echo JText::_('JRESEARCH_HIDE_COMMENTS') ?></a></span>&nbsp;&nbsp;&nbsp;<span><a id="postComment" href="javascript:postComment();"><?php echo JText::_('JRESEARCH_POST_COMMENT'); ?></a></span></div>
-	<?php else: ?>
-	<div><span><a id="showComments" href="javascript:showComments(1, <?php echo "'".JText::_('JRESEARCH_SHOW_COMMENTS')."','".JText::_('JRESEARCH_HIDE_COMMENTS')."'"; ?>);"><?php echo JText::_('JRESEARCH_SHOW_COMMENTS') ?></a></span>&nbsp;&nbsp;&nbsp;<span><a id="postComment" href="javascript:postComment();"><?php echo JText::_('JRESEARCH_POST_COMMENT'); ?></a></span></div>
-	<?php endif; ?>
-	<?php $user =& JFactory::getUser(); ?>
-	<div id="commentForm" style="display:none;">
-		<form id="form" name="form" action="index.php" method="POST" class="form-validate" onSubmit="return validateCommentForm(this);">
-			<div><span style="margin-right:10px;"><?php echo JText::_('JRESEARCH_SUBJECT').': '; ?></span>
-			<span><input type="text" size="30" maxlength="255" name="subject" id="subject"  /></span></div>
-			<div><span style="margin-right:22px;"><?php echo JText::_('JRESEARCH_FROM').': '; ?></span>
-			<span><input type="text" name="author" id="author" size="30" maxlength="255" value="<?php echo (!$user->guest)?$user->name:''; ?>" class="required"  /></span><br />
-			<label for="author" class="labelform"><?php echo JText::_('JRESEARCH_FIELD_NOT_EMPTY');  ?></label>
-			</div>
-			<div><div><?php echo JText::_('JRESEARCH_CONTENT').': ' ?></div>
-			<textarea name="content" id="content" rows="5" cols="43" class="required"></textarea><br />
-			<label for="content" class="labelform"><?php echo JText::_('JRESEARCH_FIELD_NOT_EMPTY'); ?></label></div>
-			<div><img src="<?php echo JURI::base() ?>components/com_jresearch/views/publication/captcha/<?php echo $this->captcha['file']; ?>" /></div>
-			<div>
-				<?php echo JText::_('JRESEARCH_ENTER_TEXT_IN_IMAGE').': ' ?>
-				<input name="<?php echo $this->captcha['id'] ?>" id="<?php echo $this->captcha['id'] ?>" type="text" size="10" class="required" /><br />
-				<label for="<?php echo $this->captcha['id'] ?>" class="labelform"><?php echo JText::_('JRESEARCH_FIELD_NOT_EMPTY'); ?></label>
-			</div>		
-			
-			<input type="hidden" name="id_publication" id="id_publication" value="<?php echo $this->publication->id; ?>" />
-			<input type="hidden" name="task" id="task" value="saveComment" />
-			<input type="hidden" name="option" value="com_jresearch"  />
-			<input type="hidden" name="view" value="publication"  />		
-			<input type="hidden" name="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />
-			<input type="hidden" name="showcomm" id="showcomm" value="1" />	
-			<div><input type="submit" name="submit" value="<?php echo JText::_('JRESEARCH_POST_COMMENT'); ?>" /></div>
-		</form>
-	</div>
-	<div id="divcomments" <?php if(!$this->showComments): ?> style="display:none;" <?php endif; ?> >
-		<?php if(!empty($this->comments)): ?>
-		<ul class="comments">
-		<?php $j=0; ?>
-		<?php foreach($this->comments as $comment):  ?>
-			<li class="comments">
-				<div class="subjectComment"><?php echo $comment->subject.' '.JText::_('JRESEARCH_FROM_L').' '.$comment->author.' ('.$comment->datetime.')'; ?></div>
-				<div><?php echo $comment->content; ?></div>
-			</li>
-			<?php $j++; ?>
-		<?php endforeach; ?>
-		</ul>
-		<div style="width:100%;text-align:center;">
-			<span>
-			<?php if($this->limitstart > 0): ?>	
-				<a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;showcomm=1&amp;id=<?php echo $this->publication->id; ?>&amp;limitstart=<?php echo ($this->limitstart - $this->limit); ?>&amp;limit=<?php echo $this->limit; ?>"><?php echo JText::_('Prev'); ?></a>
-			<?php endif; ?>
-			</span>
-			<span>&nbsp;&nbsp;</span>
-			<span>
-			<?php if($this->limitstart + $this->limit < $this->total ): ?>
-				<a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;showcomm=1&amp;id=<?php echo $this->publication->id; ?>&amp;limitstart=<?php echo ($this->limitstart + $this->limit); ?>&amp;limit=<?php echo $this->limit; ?>"><?php echo JText::_('Next'); ?></a>
-			<?php endif; ?>
-			</span>
-		</div>	
-		<?php endif; ?>
-	</div>
-<?php endif; ?>
+<form name="adminForm" id="adminForm" enctype="multipart/form-data" action="./" method="post" class="form-validate" >			
+<input name="title" id="title" type="hidden" value="<?php echo isset($this->publication)?$this->publication->title:'' ?>" />
+<input name="original_title" id="original_title" type="hidden" value="<?php echo isset($this->publication)?$this->publication->original_title:'' ?>" />
 <?php 
-	if(JRequest::getVar('modelkey') != 'preview'):
+	$maxAuthors = JRequest::getInt('nauthorsfield');
+	$k = 0;
+	for($j = 0; $j <= $maxAuthors; $j++){
+		$value = JRequest::getVar("authorsfield".$j);
+		if(!empty($value)){
+			if(is_numeric($value)){
+?>				
+<input type="hidden" id="authorsfield<?php echo $j; ?>" name="authorsfield<?php echo $j; ?>" value="<?php echo $value; ?>"  />
+<?php 				
+			}else{
+				$email = JRequest::getVar('emailauthorsfield'.$j);
 ?>
-	<div><a href="javascript:history.go(-1);"><?php echo JText::_('Back'); ?></a></div>
-    <?php endif; ?>	
+<input type="hidden" id="authorsfield<?php echo $j; ?>" name="authorsfield<?php echo $j; ?>" value="<?php echo $value; ?>"  />
+<input type="hidden" id="emailauthorsfield<?php echo $j; ?>" name="emailauthorsfield<?php echo $j; ?>" value="<?php echo $email; ?>"  />
+
+<?php		}
+			
+			$k++;
+		}			
+	}
+?>
+<input name="year" id="year" type="hidden" value="<?php echo isset($this->publication)?$this->publication->year:'' ?>"  />
+<input name="month" id="month" type="hidden" value="<?php echo isset($this->publication)?$this->publication->month:''; ?>" />
+<input name="source" id="source" type="hidden" value="<?php echo isset($this->publication)?$this->publication->source:''; ?>" />
+<input name="abstract" id="abstract" type="hidden" value="<?php echo isset($this->publication)?$this->publication->abstract:''; ?>" />
+<input name="original_abstract" id="original_abstract" type="hidden" value="<?php echo isset($this->publication)?$this->publication->original_abstract:''; ?>" />
+<input name="headings" id="headings" type="hidden" value="<?php echo isset($this->publication)?$this->publication->headings:''; ?>" />
+<input name="keywords" id="keywords" type="hidden" value="<?php echo isset($this->publication)?$this->publication->keywords:'' ?>" />
+<input name="osteotype" id="osteotype" type="hidden" value="<?php echo isset($this->publication)?$this->publication->osteotype:'' ?>" />
+<input name="id_institute" id="id_institute" type="hidden" value="<?php echo isset($this->publication)?$this->publication->id_institute:'' ?>" />
+<input value="<?php echo isset($this->publication)?$this->publication->npages:'' ?>" size="4" name="npages" id="npages" type="hidden" />
+<input value="<?php echo isset($this->publication)?$this->publication->nimages:'' ?>" size="4" name="nimages" id="nimages" type="hidden" />
+<input value="<?php echo isset($this->publication)?$this->publication->files:'' ?>" size="4" name="files" id="files" type="hidden" />
+<input name="url" id="url" type="hidden" value="<?php echo isset($this->publication)?$this->publication->url:'' ?>" />
+<input name="id_language" id="id_language" type="hidden" value="<?php echo isset($this->publication)?$this->publication->id_language:'' ?>" />
+<input name="id_country" id="id_country" type="hidden" value="<?php echo isset($this->publication)?$this->publication->id_country:'' ?>" />
+<?php if(isset($this->publication)):
+		$recomm = $this->publication->recommended ? 'on' : 'off';
+	  endif;	
+?>
+<input name="nauthorsfield" id="nauthorsfield" type="hidden" value="<?php echo JRequest::getVar('nauthorsfield'); ?>" />
+<input name="recommended" id="recommended" type="hidden" value="<?php echo isset($this->publication)?$recomm:'' ?>" />
+<input name="status" id="status" type="hidden" value="<?php echo isset($this->publication)?$this->publication->status:'' ?>" />
+<input type="hidden" name="internal" id="internal" value="<?php echo isset($this->publication)? $this->publication->internal : 1; ?>" />
+<input type="hidden" name="published" id="published" value="<?php echo isset($this->publication)? $this->publication->published : 1; ?>" />	
+<input type="hidden" name="citekey" id="citekey" value="<?php echo isset($this->publication)?$this->publication->citekey:'' ?>" />								
+<input type="hidden" name="pubtype" id="pubtype" value="<?php echo isset($this->publication)? JResearchPublication::osteoToJReseachType($this->publication->osteotype) : ''; ?>" />
+<input type="hidden" name="id" value="<?php echo isset($this->publication)?$this->publication->id:'' ?>" />
+<?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications'); ?>
+<?php echo JHTML::_('behavior.keepalive'); ?>
+<?php echo JHTML::_('form.token'); ?>
+<?php
+	$Itemid = JRequest::getInt('Itemid', null);  
+	if(!empty($Itemid)): ?>
+		<input type="hidden" id="Itemid" name="Itemid" value="<?php echo $Itemid; ?>" />
+<?php endif; ?>
+<input type="hidden" name="id_research_area" id="id_research_area" value="0" />
+<input type="hidden" name="modelkey" id="modelkey" value="preview" />
+</form>
+<div class="buttonsfooter">
+	<div>
+	<button type="button" onclick="javascript:msubmitform('save');"><?php echo JText::_('Save'); ?></button>
+	<button type="button" onclick="javascript:msubmitform('backToEdit')"><?php echo JText::_('JRESEARCH_BACK_EDIT') ?></button>
+	</div>
+</div>

@@ -33,8 +33,7 @@ class JResearchViewPublication extends JResearchView
 
         switch($layout){
         	case 'default':
-        		$result = $this->_displayPublication();
-        		
+        		$result = $this->_displayPublication();        		
         		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
         		break;
         	case 'new':
@@ -43,10 +42,12 @@ class JResearchViewPublication extends JResearchView
         		$mainframe->triggerEvent('onBeforeNewJResearchPublication', $arguments);
         		break;
         	case 'edit':
-        		$result = $this->_editPublication();
-        		
+        		$result = $this->_editPublication();        		
         		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
         		break;
+        	case 'preview':
+        		$result = $this->_previewPublication();
+        		break;	
         }
         
     	if($result)
@@ -89,7 +90,7 @@ class JResearchViewPublication extends JResearchView
 			return false;
 		}
 
-		if(($publication->source == 'WSO' || $publication->status == 'in_progress') && $user->guest){
+		if(($publication->source == 'WSO' && $user->guest) || $publication->status == 'in_progress') {
 			JError::raiseWarning(1, JText::_('Access not allowed'));
 			return false;
 		}
@@ -190,10 +191,11 @@ class JResearchViewPublication extends JResearchView
     private function _editPublication()
     {
     	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');		
 		JHTML::_('jresearchhtml.validation');		
 		$user = JFactory::getUser();
 		$cid = JRequest::getVar('id', 0);
+		$osteotype = '';
 		
 		$this->assignRef('id', $cid);
 		$doc = JFactory::getDocument();
@@ -218,40 +220,50 @@ class JResearchViewPublication extends JResearchView
     			document.adminForm.submit();
     		}
     	}');
-				
-		if($isNew)
-		{    		
-			$osteotype = JRequest::getVar('osteotype');	
-			$this->addPathwayItem(JText::_('Add'));	
-		}
-		else 
-		{
-			$publication = JResearchPublication::getById($cid);
-			$osteotype = $publication->osteotype;
-			
+
+		if(!isset($this->preview)){		
+			if($isNew)
+			{    		
+				$this->addPathwayItem(JText::_('Add'));	
+				$osteotype = JRequest::getVar('osteotype');
+			}
+			else 
+			{
+				$publication = JResearchPublication::getById($cid);
+				$this->addPathwayItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
+				$this->addPathwayItem(JText::_('Edit'));					
+				$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);	
+			}
+		}else{
+			$publication = $this->preview;
 			$this->addPathwayItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
-			$this->addPathwayItem(JText::_('Edit'));					
-			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);	
-			$publicationTypes = JHTML::_('jresearchhtml.publicationsosteopathictypeslist', 'change_type');
-			$this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);
+			$this->addPathwayItem(JText::_('Edit'));								
+			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);				
 		}
 
-		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));
-		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));			
-		$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , !$isNew?$publication->getAuthors(true):array());
+		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->published:1));
+		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->published:1));			
+		$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , isset($publication)?$publication->getAuthors(true):array());
 						
 		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->recommended:0));
 		$statusRadio = JHTML::_('jresearchhtml.publicationsstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->status:'in_progress'));
-		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', !$isNew?$publication->id_language:0);
-		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', 'class="inputbox"', !$isNew?$publication->id_country:0);
+		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', isset($publication)? $publication->id_language:0);
+		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', 'class="inputbox"', isset($publication)? $publication->id_country:0);
 		$institutesList = JHTML::_('jresearchhtml.instituteslist', 'id_institute', 'class="inputbox"', isset($publication)? $publication->id_institute:0);		
 		$sourcesList = JHTML::_('jresearchhtml.publicationsourceslist', array('name' => 'source', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->source:'ORW'));		
+		$publicationTypes = JHTML::_('jresearchhtml.publicationsosteopathictypeslist', 'osteotype', 'class="inputbox" size="1"', isset($publication)? $publication->osteotype : $osteotype);		
+		
 		
 		$params = $this->getParams();
-		if(!empty($publication->files))
-			$uploadedFiles = explode(';', trim($publication->files));
-		else
-			$uploadedFiles = array();	
+		if(isset($publication)){
+			if(!empty($publication->files))
+				$uploadedFiles = explode(';', trim($publication->files));
+			else
+				$uploadedFiles = array();	
+		}else{
+			$uploadedFiles = array();
+		}
+
 		$files = JHTML::_('JResearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
 		
 		$this->assignRef('statusRadio', $statusRadio);
@@ -261,7 +273,7 @@ class JResearchViewPublication extends JResearchView
 		$this->assignRef('languageList', $languageList);
 		$this->assignRef('countriesList', $countriesList);		
 		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
-		$this->assignRef('osteotype', $osteotype);
+		$this->assignRef('osteotypeList', $publicationTypes);
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
 		$this->assignRef('authors', $authorsControl);
@@ -288,6 +300,68 @@ class JResearchViewPublication extends JResearchView
 		
 		$this->assignRef('types', $typesList);
 		return true;
+	}
+	
+	/**
+	 * 
+	 * Preview of a non-saved publication
+	 */
+	private function _previewPublication(){
+		global $mainframe;
+      	require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'publications.php');      	
+    	//Get and use configuration
+    	$params = $mainframe->getPageParameters('com_jresearch');      	    	
+   		$doc = JFactory::getDocument();
+   		$doc->addScriptDeclaration('
+		function msubmitform(pressbutton){
+			if (pressbutton) {
+				document.adminForm.task.value=pressbutton;
+			}
+			if (typeof document.adminForm.onsubmit == "function") {
+				if(!document.adminForm.onsubmit())
+				{
+					return;
+				}
+				else
+				{
+					document.adminForm.submit();
+				}
+    		}
+    		else
+    		{
+    			document.adminForm.submit();
+    		}
+    	}');
+   				
+    	$areaModel = $this->getModel('researcharea');
+    	$area = $areaModel->getItem($this->publication->id_research_area);
+    	
+    	$showHits = ($params->get('show_hits') == 'yes');
+    	$format = $params->get('staff_format') == 'last_first'?1:0;		
+    	$showBibtex = ($params->get('show_export_bibtex') == 'yes');
+    	$showMODS = ($params->get('show_export_mods') == 'yes');    		
+    	$showRIS = ($params->get('show_export_ris') == 'yes');	
+    	$abstracts = $this->publication->getAbstracts();
+	    	
+		$doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$this->publication->title);
+    	// Bind variables for layout
+    	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
+    	$this->assignRef('abstracts', $abstracts);
+    	$this->assignRef('showHits', $showHits);
+    	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
+    	$this->assignRef('commentsAllowed', $commentsAllowed);
+    	$this->assignRef('showComments', $showComments);
+    	$this->assignRef('captcha', $captchaInformation);
+		$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
+		$this->assignRef('params', $params);
+		$this->assignRef('format', $format);
+		$this->assignRef('showBibtex', $showBibtex);
+    	$this->assignRef('showMODS', $showMODS);	
+    	$this->assignRef('showRIS', $showRIS);			
+				
+		return true;
+    	
+		
 	}
 }
 

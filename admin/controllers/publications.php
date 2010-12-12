@@ -30,7 +30,7 @@ class JResearchAdminPublicationsController extends JController
 		$lang->load('com_jresearch.publications');
 		
 		// Tasks for edition of publications when the user is authenticated
-		$this->registerTask('add', 'add');
+		$this->registerTask('add', 'edit');
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('publish', 'publish');
 		$this->registerTask('unpublish', 'unpublish');
@@ -96,7 +96,7 @@ class JResearchAdminPublicationsController extends JController
 		if(!empty($cid)){
 			$publication = $pubModel->getItem($cid[0]);
 			if(!empty($publication)){
-				$user =& JFactory::getUser();
+				$user = JFactory::getUser();
 				// Verify if it is checked out
 				if($publication->isCheckedOut($user->get('id'))){
 					$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
@@ -391,7 +391,7 @@ class JResearchAdminPublicationsController extends JController
 						$publication->setAuthor($value, $k, true); 
 					}else{
 						// For external authors 
-						$email = JRequest::getVar('authorsfieldemail'.$k);
+						$email = JRequest::getVar('emailauthorsfield'.$k);
 						$publication->setAuthor($value, $k, false, $email);
 					}
 					
@@ -568,7 +568,7 @@ class JResearchAdminPublicationsController extends JController
 						$publication->setAuthor($value, $k, true); 
 					}else{
 						// For external authors 	
-						$email = JRequest::getVar('authorsfieldemail'.$j);						
+						$email = JRequest::getVar('emailauthorsfield'.$j);						
 						$publication->setAuthor($value, $k, false, $email);
 					}					
 					$k++;

@@ -80,8 +80,10 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'publications.php');
 				echo ': '.$pub->pages;
 
 			echo ' ';	
-		?>    	
-    	<span><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id=<?php echo $pub->id; ?>" title="Bibtex">[Bibtex]</a></span>
+		?>
+		<?php if($pub->status != 'in_progress'): ?>    	
+	    	<span><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id=<?php echo $pub->id; ?>" title="Bibtex">[Bibtex]</a></span>
+    	<?php endif; ?>
     	</div>
 	</li>
 	</ul>
