@@ -273,7 +273,7 @@ class JHTMLjresearchhtml
 				$authorEmail = $author instanceof JResearchMember?$author->email:$author['author_email'];				
 				$output .= "<span id=\"span$textField$j\" style=\"padding: 2px;\">$authorText</span>";
 				$output .= "<input type=\"hidden\" id=\"$textField".$j."\" name=\"$textField".$j."\" value=\"$authorValue\" />";
-				$output .= ', <strong>'.JText::_('Email').'</strong>'.": <input type=\"text\" class=\"validate-email\" id=\"$textField"."email".$j."\" name=\"$textField"."email".$j."\" value=\"$authorEmail\" size=\"10\" maxlength=\"60\" style=\"margin-left:3px;\" />";
+				$output .= ', <strong>'.JText::_('Email').'</strong>'.": <input type=\"text\" class=\"validate-email\" id=\"email$textField".$j."\" name=\"email$textField".$j."\" value=\"$authorEmail\" size=\"20\" maxlength=\"60\" style=\"margin-left:3px;\" />";
 				$output .= JHTML::_('jresearchhtml.formWarningMessage', $textField.'email'.$j, JText::_('JRESEARCH_PROVIDE_EMAIL'));				
 				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:removeAuthor('li$textField$j')\">$delete</a></span>";
 				$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveUp('li$textField$j')\"><img style=\"width:16px;height:16px\" src=\"$upImage\" alt=\"\" /></a></span>";
@@ -881,7 +881,6 @@ class JHTMLjresearchhtml
 		// Publication type filter
 		$types = JResearchPublication::getPublicationsOsteopathicSubtypes();
 		$typesHTML = array();
-		$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
 		foreach($types as $type){
 			$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
 		}

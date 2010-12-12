@@ -21,13 +21,26 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'comment.php');
 */
 class JResearchModelPublication extends JResearchModelSingleRecord{
 
+	private $_preview;
+	
 	/**
 	* Returns the record with the id sent as parameter.
 	* @param int $itemId Numeric id 
 	* @return 	object
 	*/
-	public function getItem($itemId){
+	public function getItem($itemId = null){
+		if($itemId == null)
+			return $this->_preview;
 		return JResearchPublication::getById($itemId);
+	}
+	
+	/**
+	 * 
+	 * Added to support preview functionality
+	 * @param JResearchPublication $preview
+	 */
+	public function setPreview($preview){
+		$this->_preview = $preview;
 	}
 
 	/**

@@ -65,8 +65,6 @@ class JResearchAdminViewPublication extends JResearchView
 			$osteotype = $publication->osteotype;
 			$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
 			$authors = $publication->getAuthors(true);
-			$publicationTypes = JHTML::_('jresearchhtml.publicationsosteopathictypeslist', 'change_type');
-			$this->assignRef('changeType', $publicationTypes);			
 		}
 		else
 		{
@@ -82,7 +80,8 @@ class JResearchAdminViewPublication extends JResearchView
 		$institutesList = JHTML::_('jresearchhtml.instituteslist', 'id_institute', 'class="inputbox"', isset($publication)?$publication->id_institute:0);		
 		$sourcesList = JHTML::_('jresearchhtml.publicationsourceslist', array('name' => 'source', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->source:'ORW'));
 		$params = JComponentHelper::getParams('com_jresearch');
-		$authorsControl	= JHTML::_('jresearchhtml.autoSuggest', 'authors', $authors);		
+		$authorsControl	= JHTML::_('jresearchhtml.autoSuggest', 'authors', $authors);
+		$publicationTypes = JHTML::_('jresearchhtml.publicationsosteopathictypeslist', 'osteotype', 'class="inputbox" size="1"', isset($publication)? $publication->osteotype : 'generic');		
 		
 		if(!empty($publication->files))
 			$uploadedFiles = explode(';', trim($publication->files));
@@ -99,7 +98,7 @@ class JResearchAdminViewPublication extends JResearchView
 		$this->assignRef('languageList', $languageList);	
 		$this->assignRef('publishedRadio', $publishedRadio);
 		$this->assignRef('internalRadio', $internalRadio );
-		$this->assignRef('osteotype', $osteotype);
+		$this->assignRef('osteotypeList', $publicationTypes);
 		$this->assignRef('authors', $authorsControl);
 		$this->assignRef('files', $files);
 	}

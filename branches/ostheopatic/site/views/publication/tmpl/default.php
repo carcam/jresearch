@@ -177,7 +177,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		<?php endif;?>
 	</tr>
 	<?php endif; ?>
-	<?php require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.$this->publication->pubtype.'.php') ?>
+	<?php require_once(JPATH_COMPONENT.DS.'views'.DS.'publication'.DS.'types'.DS.'article.php') ?>
 	<tr>		
 	
 	<?php $colspan=4; ?>
@@ -381,4 +381,8 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		<?php endif; ?>
 	</div>
 <?php endif; ?>
-<div><a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a></div>
+<?php 
+	if(JRequest::getVar('modelkey') != 'preview'):
+?>
+	<div><a href="javascript:history.go(-1);"><?php echo JText::_('Back'); ?></a></div>
+    <?php endif; ?>	

@@ -35,7 +35,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$lang->load('com_jresearch.publications');
 		
 		// Tasks for edition of publications when the user is authenticated
-		$this->registerTask('new', 'add');
+		$this->registerTask('newpub', 'add');
+		$this->registerTask('new', 'edit');
 		$this->registerTask('add', 'edit');
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('admin', 'administer');
@@ -60,6 +61,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$this->registerTask('startsearch', 'startsearch');
 		$this->registerTask('search', 'search');
 		$this->registerTask('advancedSearch', 'advancedSearch');
+		$this->registerTask('preview', 'preview');
+		$this->registerTask('backToEdit', 'backToEdit');				
 				
 		// Add models paths
 		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
@@ -468,8 +471,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$publication = JTable::getInstance('Publication', 'JResearch');
 		$Itemid = JRequest::getVar('Itemid');
 		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';		
-		$publication->bind($post);		
-		
+		$publication->bind($post);
+			
 		$previousFile = JRequest::getVar('old_url_0', null);
 	    $countUrl = JRequest::getInt('count_url', 0);		
 		$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$previousFile;	    
@@ -484,8 +487,9 @@ class JResearchPublicationsController extends JResearchFrontendController
 	    }
 	    
 		// Upload new file	    
+	    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');	    
 		if(!empty($file['name'])){	
-	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');			
+	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'paper_pdf'));						
 	    	if($previousFile != null){
 		    	//Remove previous file if it has not been removed yet    	
 			    if(file_exists($filetoremove))
@@ -526,7 +530,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 						$publication->setAuthor($value, $k, true); 
 					}else{
 						// For external authors 
-						$email = JRequest::getVar('authorsfieldemail'.$j);
+						$email = JRequest::getVar('emailauthorsfield'.$j);
 						$publication->setAuthor($value, $k, false, $email);
 					}
 					
@@ -547,7 +551,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 				if($task == 'apply'){
 					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$ItemidText.($modelkey?'&modelkey='.$modelkey:''), JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
 				}elseif($task == 'save'){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=show&id='.$publication->id.$ItemidText.$modeltext, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
+					$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=show&id='.$publication->id.$ItemidText.$modeltext.($modelkey?'&modelkey='.$modelkey:''), JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));	
 				}
 								
 			}else{
@@ -591,9 +595,11 @@ class JResearchPublicationsController extends JResearchFrontendController
 			if(!$publication->checkin()){
 				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
 			}
-		}
-		
-		$this->setRedirect('index.php?option=com_jresearch&view=publication&layout=new&task=new'.$ItemidText);
+			$this->setRedirect('index.php?option=com_jresearch&view=publication&task=show'.$ItemidText.'&id='.$id);
+		}else{
+			$this->setRedirect('index.php?option=com_jresearch&view=publication&task=newpub'.$ItemidText);			
+		}		
+
 	}
 	
 
@@ -735,7 +741,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 						$publication->setAuthor($value, $k, true); 
 					}else{
 						// For external authors 	
-						$email = JRequest::getVar('authorsfieldemail'.$j);						
+						$email = JRequest::getVar('emailauthorsfield'.$j);						
 						$publication->setAuthor($value, $k, false, $email);
 					}
 					
@@ -811,10 +817,14 @@ class JResearchPublicationsController extends JResearchFrontendController
 			
 			if($publication == null){
 				$output = JText::_('JRESEARCH_ITEM_NOT_FOUND');		
-			}elseif($publication->published){			
-				$exporter = JResearchPublicationExporterFactory::getInstance($format);
-				$output = $exporter->parse($publication);	
-				$document->setMimeEncoding($exporter->getMimeEncoding());			
+			}elseif($publication->published && $publication->status != 'in_progress'){
+				if($publication == 'WSO' && $user->guest){
+					$output = JText::_('Access not allowed');					
+				}else{
+					$exporter = JResearchPublicationExporterFactory::getInstance($format);
+					$output = $exporter->parse($publication);	
+					$document->setMimeEncoding($exporter->getMimeEncoding());
+				}			
 			}else{
 				$output = JText::_('JRESEARCH_ITEM_NOT_FOUND');
 			}
@@ -1040,6 +1050,153 @@ class JResearchPublicationsController extends JResearchFrontendController
 		JRequest::setVar('order_by2', '');
 		JRequest::setVar('with_abstract', '');
 		JRequest::setVar('recommended', '');													
+	}
+	
+	/**
+	 * Invoked when the user decides to see a preview of the publication he is editing
+	 * 
+	 */
+	function preview(){
+		global $mainframe;
+		$session = JFactory::getSession();
+	    if(!JRequest::checkToken())
+		{
+		    $this->setRedirect('index.php?option=com_jresearch');
+		    return;
+		}
+		
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');		
+		
+		$db = JFactory::getDBO();
+		$params = JComponentHelper::getParams('com_jresearch');				
+		$user = JFactory::getUser();
+		$id = JRequest::getInt('id');
+		$post = JRequest::get('post');
+		$type = JRequest::getVar('pubtype');
+		$publication = JTable::getInstance('Publication', 'JResearch');
+		$Itemid = JRequest::getVar('Itemid');
+		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';		
+		$publication->bind($post);		
+		
+		$previousFile = JRequest::getVar('old_url_0', null);
+	    $countUrl = JRequest::getInt('count_url', 0);		
+		$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$previousFile;	    
+		
+		//Verify if the user wants to remove old files
+		$delete = JRequest::getVar('delete_url_0', false);		
+	    if($delete === 'on'){	    	
+	    	if($previousFile != null){
+		    	@unlink($filetoremove);
+		    	$publication->files = '';
+	    	}
+	    }
+	   
+	    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
+		// Upload new file	    
+		if(!empty($file['name'])){	
+	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'paper_pdf'));						
+	    	if($previousFile != null){
+		    	//Remove previous file if it has not been removed yet    	
+			    if(file_exists($filetoremove))
+			    	@unlink($filetoremove);	    	
+	    	}
+
+	    }
+	    
+	 	//Generate an alias if needed
+		$alias = trim(JRequest::getVar('alias'));
+	  	if(empty($alias)){
+ 	  	 	$publication->alias = JResearch::alias($publication->title);
+		}
+		
+		$publication->abstract = JRequest::getVar('abstract', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		$publication->original_abstract = JRequest::getVar('original_abstract', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		
+		$check = $publication->check();		
+		// Validate publication
+		if(!$check){
+			for($i = 0; $i<count($publication->getErrors()); $i++)
+				JError::raiseWarning(1, $publication->getError($i));
+		}		
+		
+		//Time to set the authors
+		$maxAuthors = JRequest::getInt('nauthorsfield');
+		$k = 0;
+
+		for($j=0; $j<=$maxAuthors; $j++){
+			$value = JRequest::getVar("authorsfield".$j);
+			if(!empty($value)){
+				if(is_numeric($value)){
+					// In that case, we are talking about a staff member
+					$publication->setAuthor($value, $k, true); 
+				}else{
+					// For external authors 
+					$email = JRequest::getVar('emailauthorsfield'.$j);
+					$publication->setAuthor($value, $k, false, $email);
+				}
+				
+				$k++;
+			}			
+		}		
+		
+		$view = $this->getView('Publication', 'html', 'JResearchView');
+		$areaModel = $this->getModel('ResearchArea', 'JResearchModel');
+		$view->setModel($areaModel);		
+		$view->assignRef('publication', $publication);
+		$view->setLayout('preview');		
+		$view->display();			
+		
+	}
+	
+	/**
+	 * 
+	 * Back to edit after a preview
+	 */
+	function backToEdit(){
+		global $mainframe;		
+	    if(!JRequest::checkToken())
+		{
+		    $this->setRedirect('index.php?option=com_jresearch');
+		    return;
+		}
+
+		$post = JRequest::get('post');
+		$type = JRequest::getVar('pubtype');
+		$publication = JTable::getInstance('Publication', 'JResearch');
+		$Itemid = JRequest::getVar('Itemid');
+		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';		
+		$publication->bind($post);		
+		$alias = trim(JRequest::getVar('alias'));
+	  	if(empty($alias)){
+ 	  	 	$publication->alias = JResearch::alias($publication->title);
+		}		
+		$publication->abstract = JRequest::getVar('abstract', '', 'post', 'string', JREQUEST_ALLOWHTML);
+		$publication->original_abstract = JRequest::getVar('original_abstract', '', 'post', 'string', JREQUEST_ALLOWHTML);
+				
+		//Time to set the authors
+		$maxAuthors = JRequest::getInt('nauthorsfield');
+		$k = 0;
+
+		for($j = 0; $j <= $maxAuthors; $j++){
+			$value = JRequest::getVar("authorsfield".$j);
+			if(!empty($value)){
+				if(is_numeric($value)){
+					// In that case, we are talking about a staff member
+					$publication->setAuthor($value, $k, true); 
+				}else{
+					// For external authors 
+					$email = JRequest::getVar('emailauthorsfield'.$j);
+					$publication->setAuthor($value, $k, false, $email);
+				}
+				
+				$k++;
+			}			
+		}		
+				
+		$view = $this->getView('Publication', 'html', 'JResearchView');		
+		$view->setLayout('edit');
+		$view->assignRef('preview', $publication);
+		$view->display();
 	}
 	
 
