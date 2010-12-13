@@ -7,10 +7,10 @@ var newButton;
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g, ''); };
 
 function addDatabasesSearchButton(){
-	citekey = document.getElementById('citekey');
+	var citekey = document.getElementById('citekey');
 	if(citekey!= null){
-		parent = citekey.parentNode;
-		text = document.createTextNode(' ');
+		var parent = citekey.parentNode;
+		var text = document.createTextNode(' ');
 		newButton = document.createElement('button');
 		newButton.setAttribute('type', 'button');
 		newButton.appendChild(document.createTextNode(document.jresearch_plugins_buttonText));
@@ -22,9 +22,9 @@ function addDatabasesSearchButton(){
 
 function queryDatabase(){
 	// Disable the button
-	citekey = document.forms['adminForm'].citekey;
+	var citekey = document.forms['adminForm'].citekey;
 	if(citekey){
-		key = citekey.value;	
+		var key = citekey.value;	
 		key = key.trim();
 		if(key != null && key != ''){
 			newButton.firstChild.nodeValue = document.jresearch_loading_text+'...';

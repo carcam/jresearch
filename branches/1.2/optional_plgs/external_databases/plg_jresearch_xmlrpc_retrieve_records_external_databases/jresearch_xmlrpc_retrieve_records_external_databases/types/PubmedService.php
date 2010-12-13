@@ -112,7 +112,7 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 		$request = new $requestClass();
 		$request->retstart = '0';
 		$request->retmax = '1';
-		$request->id = JRequest::getVar('pmid');	
+		$request->id = JRequest::getVar('pmid');
 		return $request;
 	}
 	
@@ -132,14 +132,14 @@ class PubmedService implements JResearchDatabaseServiceInterface{
 	private function _xmlSerialize($result){
 		global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 		$publication = array();
-		$publication['citekey'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->PMID, $xmlrpcString);		
-		$publication['title'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->ArticleTitle, $xmlrpcString);		
-		$publication['abstract'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Abstract->AbstractText, $xmlrpcString);		
+		$publication['citekey'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->PMID->_, $xmlrpcString);
+		$publication['title'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->ArticleTitle->_, $xmlrpcString);		
+		$publication['abstract'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Abstract->AbstractText->_, $xmlrpcString);		
 		$publication['journal'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->Title, $xmlrpcString);		
 		$publication['volume'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->JournalIssue->Volume, $xmlrpcString);		
 		$publication['number'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->JournalIssue->Issue, $xmlrpcString);		
 		$publication['issn'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Journal->ISSN->_, $xmlrpcString);				
-		$publication['pages'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Pagination->MedlinePgn, $xmlrpcString);								
+		$publication['pages'] = new xmlrpcval($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->Pagination->MedlinePgn, $xmlrpcString);				
 		$authors = array();
 		if(is_array($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author)){
 				foreach($result->PubmedArticleSet->PubmedArticle->MedlineCitation->Article->AuthorList->Author as $author){
