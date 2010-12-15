@@ -182,6 +182,7 @@ class JResearchProject extends JResearchActivity{
             $deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_external_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
             //Delete information of financiers
             $deleteFinQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_financier').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
+            $deleteCoopQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_cooperation').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->$j);
 
             $db->setQuery($deleteInternalQuery);
             if(!$db->query()){
@@ -197,6 +198,13 @@ class JResearchProject extends JResearchActivity{
 
             $db->setQuery($deleteFinQuery);
             if(!$db->query())
+            {
+                    $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+                    return false;
+            }
+            
+            $db->setQuery($deleteCoopQuery);
+			if(!$db->query())
             {
                     $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
                     return false;

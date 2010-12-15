@@ -48,7 +48,7 @@ class JResearchPublicationMODSExporter extends JResearchPublicationExporter{
 		
 		fwrite($inputFile, $bibtexText);						
 		
-		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'bib2xml'.' '.$filename;
+		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'bib2xml'.' -i utf8 '.escapeshellarg($filename);
 		$output = array();
 		exec($conversionCommand, $output);
 		$modsText = implode("\n", $output); 

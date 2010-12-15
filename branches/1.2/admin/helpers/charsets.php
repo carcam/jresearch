@@ -313,7 +313,7 @@ class JResearchCharsetsHelper{
 	function getBibtexCharsArray()
 	{
 	    return array(
-                    "/{\\\([aeiou])}/i",
+            "/{\\\([aeiou])}/i",
 		    "/{(\\\`([aeiou]|{[aeiou]}))}/i",//remove the outside braces...
 		    "/{(\\\'([aeiou]|{[aeiou]}))}/i",
 		    "/{(\\\\\^([aeiou]|{[aeiou]}))}/i",
@@ -363,7 +363,7 @@ class JResearchCharsetsHelper{
 		    "/\\\\\"(E|{E})/",
 		    "/\\\\\"(i|{i})/",
 		    "/\\\\\"(I|{I})/",
-		    "/\\\\\/(u|{u})/",
+		    "/\\\\\"(u|{u})/",
 		    "/\\\\\"(U|{U})/",
 		    "/\\\\\"(o|{o})/",
 		    "/\\\\\"(O|{O})/",
@@ -474,15 +474,15 @@ class JResearchCharsetsHelper{
 		    "Ã",
 		    "õ",
 		    "Õ",
-                    "$1",
-                    "ž",
-                    "Ž",
-                    "Ř",
-                    "ř",
-                    "Č",
-                    "č",
-                    "Š",
-                    "š",
+            "$1",
+            "ž",
+            "Ž",
+            "Ř",
+            "ř",
+            "Č",
+            "č",
+            "Š",
+            "š",
 		    "&"
 	    );
 	}

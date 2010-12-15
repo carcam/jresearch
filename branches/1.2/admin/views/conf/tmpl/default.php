@@ -135,8 +135,8 @@ function downloadFile_new($url,$target)
 	</div>
     	<div>
 		<div class="icon">
-              <?php 
-                // E:\xampp\htdocs\jresearch121\plugins\jresearch\com_upgrader\jupdateman.class.php
+		<?php if(JPluginHelper::isEnabled('jresearch', 'jresearch_upgrader')): ?>		
+              <?php                           	
                 if(defined('_JRESEARCH_UPGRADER_SUPPORT_') || defined('JRESEARCH_UPGRADER_SUPPORT')){
                     $version = _JRESEARCH_VERSION_;
                     $versionComps = explode(' ', $version);
@@ -154,19 +154,6 @@ function downloadFile_new($url,$target)
                 $target = $tmp_path . DS . 'jresearchupgrader.xml';
 
                 $cached_update = $params->get('cached_update', 0);
-                
-                // if($cached_update) {
-                    // if(!file_exists($target)) {
-                        // HTML_jupgrader::showError( 'Missing update file. Please <a href="'. $url .'" target="_blank">download the update definition file</a> and put it into your temporary directory as "jupgrader.xml".<br />Target Path: '. $target);
-                        // return false;
-                    // }
-                // } else {
-                    // $result = downloadFile_new($url,$target);
-                    // if(is_object( $result )) {
-                        // HTML_jupgrader::showError( 'Download Failed: '. $result->message . '('. $result->number . ')' );
-                        // return false;
-                    // }
-                // }
 
                 if(!file_exists($target)) {
                     HTML_jupgrader::showError( 'Update file does not exist: '. $target );
@@ -193,7 +180,6 @@ function downloadFile_new($url,$target)
                 $latest = $rootattributes['release'];
                 
                 if($latest == $version){
-            //    echo ' The currect version is : '.$latest.' final '.$version;           
                 ?>
                 <a href="index.php?option=com_jresearch">
                     <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/no_update.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_FINAL_VERSION'); ?>" />
@@ -208,9 +194,13 @@ function downloadFile_new($url,$target)
                     <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/update_please.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
                     <span><?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?></span>
                 </a>
-                <?php
-                }
-                ?>
+                <?php } ?>
+        <?php else: ?>
+                <a href="index.php?option=com_jresearch&amp;mode=upgrader">
+                    <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/update_please.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
+                    <span><?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?></span>
+                </a>        
+        <?php endif;?>        
 		</div>
 	</div>
 
@@ -276,6 +266,7 @@ function downloadFile_new($url,$target)
 					<li><strong>Web site:</strong> Nereyda Valentin-Macias</li>
 					<li><strong>sf404sef Integration:</strong> Carlos Cámara Mora</li>
 					<li><strong>Several improvements 1.2 Beta: </strong>Pablo Moncada, (<?php echo JHTML::_('email.cloak', 'pmoncadaisla@gmail.com')?>)</li>
+					<li><strong>Tracker management and logistic: </strong>Iulian Dudita, (<?php echo JHTML::_('email.cloak', 'iulydj@yahoo.com'); ?>)</li>					
 				</ul>
 			</td>					
 		</tr>																		

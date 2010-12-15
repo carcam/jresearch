@@ -13,8 +13,8 @@ define('_PROJECT_IMAGE_MAX_HEIGHT_', 768);
 define('_MEMBER_IMAGE_MAX_WIDTH_', 1024);
 define('_MEMBER_IMAGE_MAX_HEIGHT_', 768);
 
-define('_JRESEARCH_VERSION_', '1.2.1 Stable');
-define('_JRESEARCH_BIBUTILS_VERSION_', '4.10 for Unix, 4.2 for Windows');
+define('_JRESEARCH_VERSION_', '1.2.2 Stable');
+define('_JRESEARCH_BIBUTILS_VERSION_', '4.12');
 define('_JRESEARCH_UPGRADER_SUPPORT_', true);
 
 if (!defined('PHP_EOL'))

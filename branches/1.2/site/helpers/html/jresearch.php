@@ -44,9 +44,19 @@ class JHTMLJresearch
 				{
 					case 'publications':
 						$task = ($task == 'add')?'new':$task;
-						return '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="'.($task == "new" ? "Add publication" : ( $task == "remove" ? "Remove publication" : "Edit publication")).'">'
-						.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
-						.'</a>';
+						$msg = '';
+						switch($task){
+							case 'new':
+								$msg = JText::_('JRESEARCH_NEW_PUBLICATION');
+								break;
+							case 'edit':
+								$msg = JText::_('JRESEARCH_EDIT_PUBLICATION');	
+								break;
+							case 'remove':
+								$msg = JText::_('JRESEARCH_REMOVE');
+								break;	
+						}
+						return '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="'.$msg.'">'.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/></a>';
 						break;
 					default:
 						break;
