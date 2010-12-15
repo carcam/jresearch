@@ -47,7 +47,7 @@ class JResearchRISImporter extends JResearchPublicationImporter{
 
 		$modsParser = JResearchPublicationImporterFactory::getInstance('MODS');
 		// Invoke the conversion command
-		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'ris2xml'.' '.$filename;
+		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'ris2xml'.' -i utf8 '.escapeshellarg($filename);
 		
 		$output = array();
 		exec($conversionCommand, $output);

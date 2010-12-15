@@ -275,9 +275,9 @@ class JResearchMember extends JTable{
 		
 		foreach($ids as $id)
 		{
-                    $team = JTable::getInstance('Team', 'JResearch');
-                    $team->load($id);
-                    $teams[] = $team;
+              $team = JTable::getInstance('Team', 'JResearch');
+              $team->load($id);
+              $teams[] = $team;
 		}
 		
 		return $teams;

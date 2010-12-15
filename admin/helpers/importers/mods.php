@@ -49,7 +49,7 @@ class JResearchMODSImporter extends JResearchPublicationImporter{
 
 		$bibtexParser = &JResearchPublicationImporterFactory::getInstance('Bibtex');
 		// Invoke the conversion command
-		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'xml2bib'.' '.$filename;
+		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'xml2bib'.' -i utf8 '.escapeshellarg($filename);
 		$output = array();
 		exec($conversionCommand, $output);
 		$bibtexText = implode("\n", $output); 

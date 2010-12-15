@@ -33,7 +33,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 		$parser = new Structures_BibTex();
 		$parser->content = $text;
 		$user = JFactory::getUser();
-                $mapToStaff = JRequest::getVar('maptostaff', null);
+        $mapToStaff = JRequest::getVar('maptostaff', null);
 		if($parser->parse()){
 			foreach($parser->data as $data){
 				$type = strtolower($data['entryType']);
@@ -59,17 +59,16 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
                                             continue;
                                         }
                                     }
-                                    
                                     if(empty($auth['von']))
                                         $authorName = $auth['first'].' '.$auth['last'];
                                     elseif(!empty($auth['jr']))
                                         $authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
                                     else
                                         $authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
-
+                                        
                                      // We do not need to sanitize the info again!   
                                      if($mapToStaff != 'on'){
-	                                    $authorName = JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName);
+	                                    $authorName = JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName);	                                    
     	                                $authorName = JResearchPublicationsHelper::formatBibtexTitleForImport($authorName);
                                      }
 
@@ -79,10 +78,12 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 						// Normalize the data, bibtex entities are not stored in database
 						$newPub->citekey = JResearchPublicationsHelper::bibCharsToUtf8FromString($data['cite']);
 						foreach($data as $key=>$info){
-                                                    if($key != 'author')
-                                                        $data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
-                                                    
-                                                    $data[$key] = JResearchPublicationsHelper::formatBibtexTitleForImport($data[$key]);
+                            if($key != 'author'){
+                                $data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
+                            }
+                            
+                            $data[$key] = JResearchPublicationsHelper::formatBibtexTitleForImport($data[$key]);
+                            
 						}
                                                 
 						$params = &JComponentHelper::getParams( 'com_jresearch' );

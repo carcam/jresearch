@@ -304,7 +304,6 @@ class JResearchPublicationsHelper{
 	{
 	    $specialUtf8Chars = JResearchCharsetsHelper::getUtf8CharsArray();
 	    $replaceChars        = JResearchCharsetsHelper::getUtf8CharsReplaceArray();
-
 	    $string = preg_replace($specialUtf8Chars, $replaceChars, $string);
 	    return $string;
 	}
