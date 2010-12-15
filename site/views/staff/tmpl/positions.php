@@ -16,7 +16,6 @@ $itemId = JRequest::getVar('Itemid');
     $itemId = JRequest::getVar('Itemid');
 	
     ?>
-	<tbody>
 	    <?php
 		if(count($this->positions) > 0):
 			foreach($this->positions as $position):
