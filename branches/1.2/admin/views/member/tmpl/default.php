@@ -66,7 +66,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div class="divTR">
 		<div class="divTd"><label for="file"><?php echo JText::_('Photo').': ' ?></label></div>
 		<div class="divTdl">
-			<input class="inputbox" size="20" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::_('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 400, 400)); ?>						
+			<input class="inputbox" size="20" name="inputfile" id="inputfile" type="file" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 400, 400)); ?>						
 		</div>
 		<div class="divTdl">
 			<?php
