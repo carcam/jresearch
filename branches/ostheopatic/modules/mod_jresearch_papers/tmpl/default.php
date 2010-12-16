@@ -2,7 +2,6 @@
 $itemId = JRequest::getVar('Itemid');
 ?>
 <div id="mod_jresearch_papers">
-	<h2><?php echo JText::_('JRESEARCH_PAPERS'); ?></h2>
 	<?php
 	foreach($papers as $paper):
 		$listitem = $paper->title;
