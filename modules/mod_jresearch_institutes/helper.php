@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 class modJResearchInstitutesHelper
 {
 	/**
-	 * Gets cooperations from database
+	 * Gets institutes from database
 	 *
 	 * @return array
 	 */
@@ -25,7 +25,7 @@ class modJResearchInstitutesHelper
 		$institutes = array();
 		$limit = intval($limit,10);
 		$db = &JFactory::getDBO();
-		$query = "SELECT i.*, COUNT(i.id) AS count FROM #__jresearch_institute AS i LEFT JOIN #__jresearch_publication AS p ON (p.id_institute = i.id AND p.published = 1) GROUP by i.id ORDER by count DESC LIMIT 0,$limit";
+		$query = "SELECT i.*, COUNT(i.id) AS count FROM #__jresearch_institute AS i LEFT JOIN #__jresearch_publication AS p ON (p.id_institute = i.id AND p.published = 1 AND i.name != ´unknown´) GROUP by i.id ORDER by count DESC LIMIT 0,$limit";
 		
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
