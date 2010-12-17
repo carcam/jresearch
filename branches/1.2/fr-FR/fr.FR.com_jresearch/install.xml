@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="language" version="1.5" client="both" method="upgrade">
-  <name>French (French-Canadian)</name>
+  <name>French</name>
 	<tag>fr-FR</tag>
-	<version>1.5.7.1</version>
-	<creationDate>24.01.2009</creationDate>
+	<version>1.0</version>
+	<creationDate>Dec 2010</creationDate>
 	<author>Laouen DULISCOUËT</author>
 	<authorEmail></authorEmail>
-	<description>French translation for J!Research.</description>
+	<description>French translation for J!Research 1.2</description>
   <administration>
     <files folder="admin">
 	<filename>fr-FR.com_jresearch.cooperations.ini</filename>
