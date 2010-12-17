@@ -111,14 +111,12 @@ if(file_exists($installation.DS.'upgrade.sql')){
 	if($upgradeRoutine){
 	    $db = JFactory::getDBO();
 	    $queries = splitSql($upgradeRoutine);
-	    dump($queries);	
 	    foreach ($queries as $query)
 	    {
 		$query = trim($query);
 		if ($query != '' && $query {0} != '#')
 		{
 	 	    $db->setQuery($query);
-		    JError::raiseNotice(1, 'Executing this query: '.$query);		
 		    if(!$db->query()){
 		        JError::raiseWarning(1, JText::_('JRESEARCH_SQL_UPGRADE_FAILED').': '.$db->getErrorMsg());
 		        break;
@@ -133,16 +131,15 @@ $removedFiles = $installation.DS.'deleted.txt';
 $fh = @fopen($removedFiles, 'r');
 if($fh !== false){
     while ($line = fgets ($fh)) {
-        if ($line !== false){
-            $comp = explode(' ', $line);
-            // Assume directories are empty
-            $item = JPATH_SITE.$comps[1];
-            if($comp[0] == 'D'){
-                if(is_file($item)){
-                    @unlink($item);
-                }elseif(is_dir($item)){
-                   @rmdir($item);
-                }
+        $comp = explode(' ', $line);
+        // Assume directories are empty
+        $item = trim(JPATH_SITE.$comp[1]);
+		$comp[0] = trim($comp[0]);
+        if($comp[0] == 'D'){
+            if(is_file($item)){
+                @unlink($item);
+            }elseif(is_dir($item)){
+               @rmdir($item);
             }
         }
     }

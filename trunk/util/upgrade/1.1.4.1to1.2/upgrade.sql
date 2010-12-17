@@ -202,3 +202,6 @@ DROP TABLE IF EXISTS `#__jresearch_phdthesis`;
 DROP TABLE IF EXISTS `#__jresearch_proceedings`;
 DROP TABLE IF EXISTS `#__jresearch_techreport`;
 DROP TABLE IF EXISTS `#__jresearch_unpublished`;
+
+-- 1.2.2 upgrade
+ALTER TABLE `#__jresearch_publication` CHANGE `chapter` `chapter` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
