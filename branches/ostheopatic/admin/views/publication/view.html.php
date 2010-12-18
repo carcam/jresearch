@@ -55,7 +55,7 @@ class JResearchAdminViewPublication extends JResearchView
 		
 		$cid = JRequest::getVar('cid');
 		$isNew = !isset($cid);
-		$osteotype = JRequest::getVar('osteotype');
+		$osteotype = JRequest::getVar('osteotype', 'osteo_thesis');
 		$authors = null;  
 		$publication = JResearchPublication::getById($cid[0]);	
     	
@@ -74,7 +74,7 @@ class JResearchAdminViewPublication extends JResearchView
 		$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));
 		$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));		
 		$recommendedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'recommended', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->recommended:0));
-		$statusRadio = JHTML::_('jresearchhtml.publicationsstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->status:'in_progress'));
+		$statusRadio = JHTML::_('jresearchhtml.publicationsstatuslist', array('name' => 'status', 'backend' => true ,'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->status:'in_progress'));
 		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', !$isNew?$publication->id_language:0);
 		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', 'class="inputbox"', !$isNew?$publication->id_country:0);		
 		$institutesList = JHTML::_('jresearchhtml.instituteslist', 'id_institute', 'class="inputbox"', isset($publication)?$publication->id_institute:0);		
@@ -117,7 +117,7 @@ class JResearchAdminViewPublication extends JResearchView
 			$typesOptions[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));			
 		}
 		
-		$typesList = JHTML::_('select.genericlist', $typesOptions, 'osteotype', 'size="1"');		
+		$typesList = JHTML::_('select.genericlist', $typesOptions, 'osteotype', 'size="1"', 'value', 'text', 'osteo_thesis');		
 		
 		$this->assignRef('types', $typesList);
 		

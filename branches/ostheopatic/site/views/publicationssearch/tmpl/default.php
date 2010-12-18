@@ -41,7 +41,7 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'publications.php');
     <ul style="list-style:none;padding-left:0px;">
     <li>
     	<div><strong><?php echo JText::_('JRESEARCH_TITLE').': '; ?></strong>
-    	<?php if($pub->status == 'in_progress'): ?>
+    	<?php if($pub->status == 'in_progress' || $pub->status == 'protocol'): ?>
 	    	<span><?php echo $pub->title; ?></span>	    	
 		<?php else: ?>
 	    	<span><?php echo JHTML::_('jresearch.link', $pub->title, 'publication', 'show', $pub->id); ?></span>	
@@ -50,9 +50,18 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'publications.php');
     	<div><strong><?php echo JText::_('JRESEARCH_AUTHORS').': '?></strong>
     	<?php 
     		$authors = $pub->getAuthors();
-    	    echo JResearchPublicationsHelper::formatAuthorsArray($authors, 1);
+			global $mainframe;
+    		$params = $mainframe->getParams('com_jresearch');
+    		$format = $params->get('staff_format') == 'last_first'?0:1;
+    	    echo JResearchPublicationsHelper::formatAuthorsArray($authors, $format);
     	?>
     	</div>
+    	<?php if(!empty($pub->status)): ?>
+    	<div>
+    		<span><strong><?php echo JText::_('JRESEARCH_STATUS').': '; ?></strong></span>
+    		<span><?php echo JText::_('JRESEARCH_'.strtoupper($pub->status)); ?></span>    		
+    	</div>
+    	<?php endif; ?>
     	<div>		
     	<?php 
 			if(isset($pub->journal) && !empty($pub->journal))

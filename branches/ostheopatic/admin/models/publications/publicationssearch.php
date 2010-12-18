@@ -109,8 +109,8 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$db = JFactory::getDBO();
 		$output = '';		
 		$secondTable = $db->nameQuote('#__jresearch_publication_external_author');		
-		$first_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by1', 'order_by1', 'date_descending');
-		$second_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by2', 'order_by2', 'title');		
+		$first_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by1', 'order_by1', 'author_name_ascending');
+		$second_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by2', 'order_by2', 'date_descending');		
 		
 		switch($first_filter){
 			case 'date_descending':
@@ -200,6 +200,8 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$where[] = $db->nameQuote('published').' = '.$db->Quote(1);
 		$where[] = $db->nameQuote('internal').' = '.$db->Quote(1);
 		$where[] = $db->nameQuote('source').' = '.$db->Quote('ORW');
+		$where[] = $db->nameQuote('status').' != '.$db->Quote('rejected');
+		$where[] = $db->nameQuote('status').' != '.$db->Quote('for_reevaluation');		
 			
 		// operators
 		$op1 = $mainframe->getUserStateFromRequest('publicationssearchop1', 'op1');	
@@ -308,9 +310,9 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			$where[] = "NOT ISNULL(abstract)";
 		}
 		
-		$pubtype = $mainframe->getUserStateFromRequest('publicationssearchpubtype', 'pubtype');
-		if($pubtype != '0' && $pubtype != null){
-			$where[] = 'pubtype = '.$db->Quote($pubtype);			
+		$osteotype = $mainframe->getUserStateFromRequest('publicationssearchosteotype', 'osteotype');
+		if($osteotype != '0' && $osteotype != null){
+			$where[] = 'osteotype = '.$db->Quote($osteotype);			
 		}
 		
 		$language = $mainframe->getUserStateFromRequest('publicationssearchlanguage', 'language');;
@@ -323,15 +325,16 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			$where[] = 'status = '.$db->Quote($status);			
 		}
 		
-		$from_year = $mainframe->getUserStateFromRequest('publicationssearchfrom_year', 'from_year');
-		$from_month = $mainframe->getUserStateFromRequest('publicationssearchfrom_month', 'from_month');
-		$from_day = $mainframe->getUserStateFromRequest('publicationssearchfrom_day', 'from_day');
-		$to_year = $mainframe->getUserStateFromRequest('publicationssearchto_year', 'to_year');
-		$to_month = $mainframe->getUserStateFromRequest('publicationssearchto_month', 'to_month');		
-		$to_day = $mainframe->getUserStateFromRequest('publicationssearchto_day', 'to_day');
-		$date_field = $mainframe->getUserStateFromRequest('publicationssearchdatefield', 'date_field');
-		
+		$from_year = (int)$mainframe->getUserStateFromRequest('publicationssearchfrom_year', 'from_year');
+		$from_month = (int)$mainframe->getUserStateFromRequest('publicationssearchfrom_month', 'from_month');
+		$from_day = (int)$mainframe->getUserStateFromRequest('publicationssearchfrom_day', 'from_day');
+		$to_year = (int)$mainframe->getUserStateFromRequest('publicationssearchto_year', 'to_year');
+		$to_month = (int)$mainframe->getUserStateFromRequest('publicationssearchto_month', 'to_month');		
+		$to_day = (int)$mainframe->getUserStateFromRequest('publicationssearchto_day', 'to_day');
+		$date_field = (int)$mainframe->getUserStateFromRequest('publicationssearchdatefield', 'date_field');
+						
 		if(!empty($from_year)){
+			
 			if(empty($from_month)){
 				$from_month = 1;
 			}

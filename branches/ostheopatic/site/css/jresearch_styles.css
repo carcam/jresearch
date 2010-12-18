@@ -281,3 +281,12 @@ div.buttonsfooter div{
 	margin: 0 auto;
 	text-align: center !important;
 }
+
+ul.liauthors{
+	list-style-type: none;
+}
+
+ul.liauthors li{
+	background: none !important;
+	padding-left: 0px !important;
+}

@@ -56,7 +56,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	        <div class="divTdl divTdl2">
 				<input maxlength="4" size="4" name="year" id="year" value="<?php echo isset($this->publication)?$this->publication->year:'' ?>" class="validate-year" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'year', JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); ?>/
-				<input maxlength="20" size="2" name="month" id="month" value="<?php echo isset($this->publication)?$this->publication->month:''; ?>" />
+				<input maxlength="20" size="2" name="month" id="month" value="<?php echo isset($this->publication)?$this->publication->month:''; ?>" class="validate-month" />
+				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'year', JText::_('JRESEARCH_PROVIDE_VALID_MONTH')); ?>			
 	        </div>		        
 			<div class="divTd">
 				<label for="country"><?php echo JText::_('JRESEARCH_SOURCE').': ';?></label>
@@ -183,10 +184,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
      </div>
 </fieldset>
 <fieldset>
-	<legend><?php echo JText::_('JRESEARCH_SPECIFIC'); ?></legend>	
+	<legend><?php echo JText::_('JRESEARCH_ARTICLE'); ?></legend>	
 	<div class="divTable">
 		<?php include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.'article.php'); ?>
 	</div>
+</fieldset>
+<fieldset>	
+	<legend><?php echo JText::_('JRESEARCH_BOOK'); ?></legend>	
+	<div class="divTable">
+		<?php include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.'book.php'); ?>
+	</div>	
 </fieldset>
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_EXTRA'); ?></legend>

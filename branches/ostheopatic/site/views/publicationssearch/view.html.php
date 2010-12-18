@@ -41,7 +41,7 @@ class JResearchViewPublicationsSearch extends JResearchView
     		
 
 			$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
-			$first_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by1', 'order_by1', 'date_descending');	    	
+			$first_filter = $mainframe->getUserStateFromRequest('publicationssearchorder_by1', 'order_by1', 'author_name_ascending');	    	
 			$filter_order = JHTML::_('select.genericlist', $orderOptions, 'order_by1', 'class="inputbox" size="1" '.$js, 'value','text', $first_filter); 			 			
   			
 			$this->assignRef('items', $items);

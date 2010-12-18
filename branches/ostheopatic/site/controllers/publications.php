@@ -818,7 +818,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 			if($publication == null){
 				$output = JText::_('JRESEARCH_ITEM_NOT_FOUND');		
 			}elseif($publication->published && $publication->status != 'in_progress'){
-				if($publication == 'WSO' && $user->guest){
+				if($publication->source == 'WSO' && $user->guest){
 					$output = JText::_('Access not allowed');					
 				}else{
 					$exporter = JResearchPublicationExporterFactory::getInstance($format);
@@ -895,6 +895,11 @@ class JResearchPublicationsController extends JResearchFrontendController
 	
 	function startsearch(){
 		$url = 'index.php?option=com_jresearch&view=publicationssearch&task=search';
+		$yearPattern = '/^[0-9]{4}$/';
+		$monthPattern = '/^(0?[1-9]|1[0-2])$/';
+		$dayPattern = '/^(0?[1-9]|[1-2][0-9]|3[0-1])$/';
+		$itemId = JRequest::getInt('Itemid', 0);
+		
 		// Time to construct the URL
 		$limitstart = JRequest::getInt('limitstart', 0);
 		$limit = JRequest::getInt('limit', 20);
@@ -950,8 +955,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$with_abstract = JRequest::getVar('with_abstract', 'off');
 		$url .= '&with_abstract='.$with_abstract;
 					
-		$pubtype = JRequest::getVar('pubtype', '0');
-		$url .= '&pubtype='.$pubtype;
+		$osteotype = JRequest::getVar('osteotype', '0');
+		$url .= '&osteotype='.$osteotype;
 
 		$language =	JRequest::getVar('language', '0');
 		$url .= '&language='.$language;
@@ -959,27 +964,54 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$status = JRequest::getVar('status', '0');
 		$url .= '&status='.$status;
 			
-		$from_year = JRequest::getVar('from_year', '');
-		if(!empty($from_year))
-			$url .= '&from_year='.$from_year;																			
+		$from_year = trim(JRequest::getVar('from_year', ''));
+		if(!empty($from_year) && !preg_match($yearPattern, $from_year)){
+			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_FROM_YEAR'));
+			$from_year = '';			
+		}		
+		if(!empty($from_year)){
+			$url .= '&from_year='.$from_year;
+		}																			
 
-		$from_month = JRequest::getVar('from_month', '');
-		if(!empty($from_month))
-			$url .= '&from_month='.$from_month;																			
+		$from_month = trim(JRequest::getVar('from_month', ''));		
+		if(!empty($from_month) && !preg_match($monthPattern, $from_month)){
+			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_FROM_MONTH'));
+			$from_month = '';			
+		}				
+		if(!empty($from_month)){
+			$url .= '&from_month='.$from_month;
+		}																			
 
-		$from_day = JRequest::getVar('from_day', '');
-		if(!empty($from_day))
-			$url .= '&from_day='.$from_day;																			
-
-		$to_year = JRequest::getVar('to_year', '');
+		$from_day = trim(JRequest::getVar('from_day', ''));		
+		if(!empty($from_day) && !preg_match($dayPattern, $from_day)){
+			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_FROM_DAY'));
+			$from_day = '';			
+		}				
+		if(!empty($from_day)){
+			$url .= '&from_day='.$from_day;
+		}																			
+		
+		$to_year = trim(JRequest::getVar('to_year', ''));
+		if(!empty($to_year) && !preg_match($yearPattern, $to_year)){
+			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_TO_YEAR'));
+			$to_year = '';
+		}				
 		if(!empty($to_year))
 			$url .= '&to_year='.$to_year;																			
 		
-		$to_month = JRequest::getVar('to_month', '');
+		$to_month = trim(JRequest::getVar('to_month', ''));
+		if(!empty($to_month) && !preg_match($monthPattern, $to_month)){
+			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_TO_MONTH'));
+			$to_month = '';
+		}				
 		if(!empty($to_month))
 			$url .= '&to_month='.$to_month;																			
 						
-		$to_day = JRequest::getVar('to_day', '');
+		$to_day = trim(JRequest::getVar('to_day', ''));
+		if(!empty($to_day) && !preg_match($dayPattern, $to_day)){
+			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_TO_DAY'));
+			$to_day = '';
+		}		
 		if(!empty($to_day))
 			$url .= '&to_day='.$to_day;
 		
@@ -1036,7 +1068,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		JRequest::setVar('op2', 'and');		
 		JRequest::setVar('op3', 'and');
 		JRequest::setVar('with_abstract', 'off');
-		JRequest::setVar('pubtype', '0');
+		JRequest::setVar('osteotype', '0');
 		JRequest::setVar('language', '0');
 		JRequest::setVar('status', '0');
 		JRequest::setVar('date_field', 'publication_date');
@@ -1046,8 +1078,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 		JRequest::setVar('to_year', '');																		
 		JRequest::setVar('to_month', '');
 		JRequest::setVar('to_day', '');
-		JRequest::setVar('order_by1', '');
-		JRequest::setVar('order_by2', '');
+		JRequest::setVar('order_by1', 'author_name_ascending');
+		JRequest::setVar('order_by2', 'date_descending');
 		JRequest::setVar('with_abstract', '');
 		JRequest::setVar('recommended', '');													
 	}
@@ -1076,12 +1108,13 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$publication = JTable::getInstance('Publication', 'JResearch');
 		$Itemid = JRequest::getVar('Itemid');
 		$ItemidText = !empty($Itemid)?'&Itemid='.$Itemid:'';		
-		$publication->bind($post);		
+		$publication->bind($post);
 		
 		$previousFile = JRequest::getVar('old_url_0', null);
+		$publication->files = $previousFile;
+		// Now check whether we keep the old file.				
 	    $countUrl = JRequest::getInt('count_url', 0);		
-		$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$previousFile;	    
-		
+		$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$previousFile;	    		
 		//Verify if the user wants to remove old files
 		$delete = JRequest::getVar('delete_url_0', false);		
 	    if($delete === 'on'){	    	
