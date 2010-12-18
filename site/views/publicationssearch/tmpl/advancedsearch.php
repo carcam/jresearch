@@ -41,13 +41,13 @@
 <fieldset>
 <legend><?php echo JText::_('JRESEARCH_SEARCH_LIMITED_TO'); ?></legend>
 <div class="divTR">
-	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.publicationstypeslist', 'pubtype', 'size="1"', $mainframe->getUserStateFromRequest('publicationssearchpubtype', 'pubtype')); ?></div>	
+	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.publicationsosteopathictypeslist', 'osteotype', 'size="1"', $mainframe->getUserStateFromRequest('publicationssearchosteotype', 'osteotype')); ?></div>	
 	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.languagelist', 'language', 'size="1"', 'id', 'name', $mainframe->getUserStateFromRequest('publicationssearchlanguage', 'language')); ?></div>
-	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.publicationstatuslist', array('name'=>'status', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchpubtype', 'status'),  'size="1"')); ?></div>
+	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.publicationstatuslist', array('name'=>'status', 'backend' => false ,'selected' => $mainframe->getUserStateFromRequest('publicationssearchkeystatus', 'status'),  'size="1"')); ?></div>
 	<div class="divEspacio"></div>	
 </div>
 <div class="divTR">
-	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.publicationdatesearchlist', array('name'=>'date_field', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchdate_field', 'date_field') ,'size="1"')); ?></div>
+	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.publicationdatesearchlist', array('name'=>'date_field', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchdatefield', 'date_field') ,'size="1"')); ?></div>
 	<div class="divTdl"><?php echo JText::_('JRESEARCH_FROM').': '?>
 	<input maxlength="4" name="from_year" size="4" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchfrom_year', 'from_year'); ?>" />/<input maxlength="2" name="from_month" size="2" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchfrom_month', 'from_month'); ?>" />/<input maxlength="2" name="from_day" size="2" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchfrom_day', 'from_day'); ?>" />
 	 <?php echo JText::_('JRESEARCH_TO').': '?> 
@@ -68,8 +68,8 @@
 <fieldset>
 	<legend><?php echo JText::_('JRESEARCH_ORDER_BY')?></legend>
 	<div class="divTR">
-		<div class="divTdl"><?php echo JHTML::_('jresearchhtml.orderbysearchlist', array('name'=>'order_by1', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchorder_by1', 'order_by1') ,'size="1"')); ?></div>
-		<div class="divTdl"><?php echo JHTML::_('jresearchhtml.orderbysearchlist', array('name'=>'order_by2', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchorder_by2', 'order_by2')  ,'size="1"')); ?></div>		
+		<div class="divTdl"><?php echo JHTML::_('jresearchhtml.orderbysearchlist', array('name'=>'order_by1', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchorder_by1', 'order_by1', 'author_name_ascending') ,'size="1"')); ?></div>
+		<div class="divTdl"><?php echo JHTML::_('jresearchhtml.orderbysearchlist', array('name'=>'order_by2', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchorder_by2', 'order_by2', 'date_descending')  ,'size="1"')); ?></div>		
 		<div class="divEspacio"></div>		
 	</div>
 </fieldset>

@@ -90,9 +90,14 @@ class JResearchViewPublication extends JResearchView
 			return false;
 		}
 
-		if(($publication->source == 'WSO' && $user->guest) || $publication->status == 'in_progress') {
+		if(($publication->source == 'WSO' && $user->guest) || (($publication->status == 'in_progress' || $publication->status == 'protocol')  && $publication->created_by != $user->get('id'))) {
 			JError::raiseWarning(1, JText::_('Access not allowed'));
 			return false;
+		}
+		
+		if($publication->status == 'rejected' || $publication->status == 'for_reevaluation'){
+			JError::raiseWarning(1, JText::_('Access not allowed'));
+			return false;			
 		}
 		
 		$this->addPathwayItem(JText::_('New'), 'index.php?option=com_jresearch&view=publication&task=new');
@@ -161,7 +166,7 @@ class JResearchViewPublication extends JResearchView
 		}
 		
 		$showHits = ($params->get('show_hits') == 'yes');
-    	$format = $params->get('staff_format') == 'last_first'?1:0;		
+    	$format = $params->get('staff_format') == 'last_first'?0:1;		
     	$showBibtex = ($params->get('show_export_bibtex') == 'yes');
     	$showMODS = ($params->get('show_export_mods') == 'yes');    		
     	$showRIS = ($params->get('show_export_ris') == 'yes');    	
@@ -225,7 +230,7 @@ class JResearchViewPublication extends JResearchView
 			if($isNew)
 			{    		
 				$this->addPathwayItem(JText::_('Add'));	
-				$osteotype = JRequest::getVar('osteotype');
+				$osteotype = JRequest::getVar('osteotype', 'osteo_thesis');
 			}
 			else 
 			{
@@ -296,7 +301,7 @@ class JResearchViewPublication extends JResearchView
 			$typesOptions[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));			
 		}
 		
-		$typesList = JHTML::_('select.genericlist', $typesOptions, 'osteotype', 'size="1"');		
+		$typesList = JHTML::_('select.genericlist', $typesOptions, 'osteotype', 'size="1"', 'value', 'text', 'osteo_thesis');		
 		
 		$this->assignRef('types', $typesList);
 		return true;

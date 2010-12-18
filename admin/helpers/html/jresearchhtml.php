@@ -398,7 +398,13 @@ class JHTMLjresearchhtml
 			regex=/^\d{4}(-\d{2}){2}$/;
 			return regex.test(value); })
 		})');
-
+    	
+    	$doc->addScriptDeclaration('window.onDomReady(function() {
+			document.formvalidator.setHandler(\'month\', function(value) {
+			regex=/^(0?[1-9]|1[0-2])$/;
+			return regex.test(value); })
+		})');
+    	
     	$doc->addScriptDeclaration('window.onDomReady(function() {
 			document.formvalidator.setHandler(\'alias\', function(value) {
 			regex=/^[\w\s_-]+$/;
@@ -641,9 +647,11 @@ class JHTMLjresearchhtml
     	$statusOptions = array();
     	$statusOptions[] = JHTML::_('select.option', 'protocol', JText::_('JRESEARCH_PROTOCOL'));
     	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
-    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));
-    	$statusOptions[] = JHTML::_('select.option', 'rejected', JText::_('JRESEARCH_REJECTED'));
-     	$statusOptions[] = JHTML::_('select.option', 'for_reevaluation', JText::_('JRESEARCH_FOR_REEVALUATION'));   	    	
+    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));	    	
+    	if($attributes['backend'] == true){    	    	
+	    	$statusOptions[] = JHTML::_('select.option', 'rejected', JText::_('JRESEARCH_REJECTED'));
+    	 	$statusOptions[] = JHTML::_('select.option', 'for_reevaluation', JText::_('JRESEARCH_FOR_REEVALUATION'));
+    	}   	    	
     	return self::htmllist($statusOptions, $attributes);
 	}
 	
@@ -941,9 +949,11 @@ class JHTMLjresearchhtml
     	$statusOptions[] = JHTML::_('select.option', 'protocol', JText::_('JRESEARCH_PROTOCOL'));
     	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
     	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));
-    	$statusOptions[] = JHTML::_('select.option', 'rejected', JText::_('JRESEARCH_REJECTED'));
-    	$statusOptions[] = JHTML::_('select.option', 'for_reevaluation', JText::_('JRESEARCH_FOR_REEVALUATION'));
-    	
+		if($attributes['backend'] == true){   	
+	    	$statusOptions[] = JHTML::_('select.option', 'rejected', JText::_('JRESEARCH_REJECTED'));
+    		$statusOptions[] = JHTML::_('select.option', 'for_reevaluation', JText::_('JRESEARCH_FOR_REEVALUATION'));
+		}
+		
     	return self::htmllist($statusOptions, $attributes);
 	}
 	

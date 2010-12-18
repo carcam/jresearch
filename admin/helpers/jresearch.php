@@ -38,12 +38,15 @@ class JResearch
 		);
 		
 		$uploadedFile = $file['tmp_name'];
-		
+				
 		if($uploadedFile != null)
 		{
 			list($width, $height, ,) = getimagesize($uploadedFile);
+			$mimetype = self::_getUploadMimeType($uploadedFile);
+			if(empty($mimetype))
+				$mimetype = $file['type'];
 			
-			if(!array_key_exists($file['type'], $availableTypes))
+			if(!array_key_exists($mimetype, $availableTypes))
 			{
 				JError::raiseWarning(1, JText::_('Image format not supported. Please provide images with extension jpg, gif, png'));
 			}
@@ -76,11 +79,16 @@ class JResearch
 	 */
 	function uploadDocument($file, $path){
 		$uploadedFile = $file['tmp_name'];
+
 		$availableTypes = array('application/msword'=>'doc','application/vnd.openxmlformats-officedocument.wordprocessingml.document'=>'docx',
 		'application/pdf'=>'pdf', 'application/x-pdf' => 'pdf', 'application/postscript'=>'ps', 
 		'application/vnd.oasis.opendocument.text'=>'odt', 'text/plain'=>'txt');
+		
 		if($uploadedFile != null){
-			if(isset($availableTypes[$file['type']])){
+			$mimetype = self::_getUploadMimeType($uploadedFile);
+			if(empty($mimetype))
+				$mimetype = $file['type'];						
+			if(isset($availableTypes[$mimetype])){
 				$newName = JPATH_SITE.DS.$path.DS.basename($file['name']);
 				if(!move_uploaded_file($uploadedFile, $newName)){
 					JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED', basename($newName)));
@@ -94,6 +102,32 @@ class JResearch
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Returns the mime type of the uploaded file or false if the system is
+	 * unable to determine it.
+	 * 
+	 * @param string $path
+	 * @return string
+	 */
+	private static function _getUploadMimeType($path){
+		// This function is defined in PHP 5.3.0
+		if(function_exists('finfo_file')){
+			$finfo = finfo_open(FILEINFO_MIME_TYPE);
+			$mimetype = finfo_file($finfo, $path);
+			finfo_close($finfo);
+			return $mimetype;			
+		}elseif(function_exists('mime_content_type')){
+			//This function is deprecated, but it is better than nothing
+			return mime_content_type($path);
+		}elseif(file_exists('/usr/bin/file')){
+			//This works only in Unix platforms			
+			$type = split(';', trim(exec('/usr/bin/file -b --mime '.escapeshellarg($path), $out)));					
+			return trim($type[0]);
+		}else{
+			return false;
+		}
 	}
 		
 	/**

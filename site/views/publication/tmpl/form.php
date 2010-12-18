@@ -49,17 +49,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	        <div class="divTd">
 	            <label for="year"><?php echo JText::_('JRESEARCH_PUBLICATION_DATE').': '; ?></label>
 	        </div>
-	        <div class="divTdl divTdl2">
+	        <div class="divTdl">
 				<input maxlength="4" size="4" name="year" id="year" value="<?php echo isset($this->publication)?$this->publication->year:'' ?>" class="validate-year" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'year', JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); ?>/
-				<input maxlength="20" size="2" name="month" id="month" value="<?php echo isset($this->publication)?$this->publication->month:''; ?>" />
+				<input maxlength="20" size="2" name="month" id="month" value="<?php echo isset($this->publication)?$this->publication->month:''; ?>" class="validate-month" />
+				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'year', JText::_('JRESEARCH_PROVIDE_VALID_MONTH')); ?>				
 	        </div>		        
-			<div class="divTd">
-				<label for="source"><?php echo JText::_('JRESEARCH_SOURCE').': ';?></label>
-			</div>
-			<div class="divTdl">
-				<?php echo $this->sourcesList; ?>								
-			</div>			
 			<div class="divEspacio" ></div>	
 		</div>
 		   	<div class="divTR">
@@ -197,6 +192,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </div>
 
 <input type="hidden" name="internal" id="internal" value="<?php echo isset($this->publication)? $this->publication->internal : 1; ?>" />
+<input type="hidden" name="source" id="source" value="<?php echo isset($this->publication)? $this->publication->source : 'ORW'; ?>" />
 <input type="hidden" name="published" id="published" value="<?php echo isset($this->publication)? $this->publication->published : 1; ?>" />	
 <input type="hidden" name="citekey" id="citekey" value="<?php echo isset($this->publication)?$this->publication->citekey:'' ?>" />								
 <input type="hidden" name="pubtype" id="pubtype" value="<?php echo isset($this->publication)? JResearchPublication::osteoToJReseachType($this->publication->osteotype) : ''; ?>" />

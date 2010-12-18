@@ -77,7 +77,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		</td>		
 		<?php else: ?>
 		<td colspan="3">
-			<ul style="list-style-type:none;">
+			<ul class="liauthors">
 				<?php foreach($authors as $auth): ?>
 					<li>
 						<?php if($auth instanceof JResearchMember): ?>
@@ -235,14 +235,17 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 	 <?php if($this->showMODS): 
 		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id='.$this->publication->id, '[MODS]').'</span>';		
 	 endif;?>				
-	 <?php $n = $this->publication->countAttachments();
+	</td>
+	</tr>
+	<?php $n = $this->publication->countAttachments();
       		if($n == 1):
             	$attach = $this->publication->getAttachment(0, 'publications');
-		    	echo !empty($attach)? '<span>'.JHTML::_('JResearchhtml.attachment', $attach).'</span>' : '';
-            endif;
-      ?>	 	
-	</td>
-	</tr>		
+     ?>		 		
+	<tr>
+		<th scope="row"><?php echo JText::_('JRESEARCH_FULLTEXT').': '; ?></th>		
+		<td colspan="3"><?php echo !empty($attach)? '<span>'.JHTML::_('JResearchhtml.attachment', $attach).'</span>' : ''; ?></td>
+	</tr>	
+	<?php endif; ?>
 	<?php $awards = trim($this->publication->awards); ?>
 	<?php if(!empty($awards) && ($this->params->get('show_awards') == 'yes')): ?>
 	<tr>
@@ -260,13 +263,12 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 	<?php endif; ?>		
 	<tr>
 		<td style="padding:0px;" colspan="4">
-		
+			<?php $secondLang = JResearchLanguageHelper::getLanguage('id', $this->publication->id_language); ?>					
 			<?php $abstracts = $this->publication->getAbstracts();
 			  if(!empty($abstracts)): ?>
 				<h4><?php echo JText::_('JRESEARCH_ABSTRACT'); ?></h4>
 			<?php endif; ?>
 			<?php if(count($this->abstracts) > 1): ?>
-				<?php $secondLang = JResearchLanguageHelper::getLanguage('id', $this->publication->id_language); ?>			
 				<?php if(isset($this->abstracts[ENGLISH_ABSTRACT_ID])): ?>
 					<div><h5><?php echo JText::_('JRESEARCH_ENGLISH_VERSION'); ?></h5></div>
 					<div  style="text-align:justify;"><?php echo $this->abstracts[ENGLISH_ABSTRACT_ID]; //English ?></div>
