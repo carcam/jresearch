@@ -44,9 +44,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</div>
 		<div class="divTR">
 	        <div class="divTd">
-	            <label for="authors"><?php echo JText::_('JRESEARCH_AUTHORS').': '?></label>	            
+	            <label for="authors"><?php echo JText::_('JRESEARCH_AUTHORS').': '?></label><span class="information"><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_FORMAT_FOR_AUTHORS'))?></span>	            
 	        </div>
-			<?php echo $this->authors; ?><span class="information"><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_FORMAT_FOR_AUTHORS'))?></span>		
+			<?php echo $this->authors; ?>		
 	        <div class="divEspacio"></div>
 	    </div>	
 		<div class="divTR">

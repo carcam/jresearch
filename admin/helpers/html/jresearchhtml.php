@@ -306,7 +306,7 @@ class JHTMLjresearchhtml
 		$output = "{\"results\": [";
 		$arr = array();
 		foreach($members as $member){
-			$arr[] = "{\"id\": \"".$member['id']."\", \"value\": \"".$member['firstname'].' '.$member['lastname']."\", \"info\": \"".$member['email']."\"}";
+			$arr[] = "{\"id\": \"".$member['id']."\", \"value\": \"".$member['lastname'].' '.$member['firstname']."\", \"info\": \"".$member['email']."\"}";
 		}
 		$output .= implode(", ", $arr);
 		$output .= "]}";
@@ -1027,12 +1027,12 @@ class JHTMLjresearchhtml
 	public static function instituteslist($name, $options, $value = 0){
 		$db = JFactory::getDBO();
 		
-		$db->setQuery('SELECT id, alias FROM #__jresearch_institute WHERE published = 1 ORDER BY alias');
+		$db->setQuery('SELECT id, name FROM #__jresearch_institute WHERE published = 1 ORDER BY alias');
 		$institutesHtmlOptions = array();
 		$institutesHtmlOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_INSTITUTES'));
 		$institutes = $db->loadAssocList();	
 		foreach($institutes as $ins){
-			$institutesHtmlOptions[] = JHTML::_('select.option', $ins['id'], $ins['alias']);
+			$institutesHtmlOptions[] = JHTML::_('select.option', $ins['id'], $ins['name']);
 		}
 		
 		return JHTML::_('select.genericlist', $institutesHtmlOptions, $name, $options, 'value','text', $value);		
