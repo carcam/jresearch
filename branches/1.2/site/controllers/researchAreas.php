@@ -28,7 +28,7 @@ class JResearchResearchAreasController extends JResearchFrontendController
 		
 		// When the wants to see more information about a research area.
 		$this->registerTask('show', 'show');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'researchareaslist');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'researcharea');
 		

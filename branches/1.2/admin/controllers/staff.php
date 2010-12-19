@@ -39,9 +39,9 @@ class JResearchAdminStaffController extends JController
             $this->registerTask('save', 'save');
             $this->registerTask('cancel', 'cancel');
             $this->registerTask('autoSuggestMembers', 'autoSuggestMembers');
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'staff');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'staff');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
+            $this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'staff');
 		
 	}
 
@@ -80,7 +80,7 @@ class JResearchAdminStaffController extends JController
 	*/
 	function edit(){
             $cid = JRequest::getVar('cid');
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
             $user = JFactory::getUser();
 
             $view = &$this->getView('Member', 'html', 'JResearchAdminView');
@@ -186,7 +186,7 @@ class JResearchAdminStaffController extends JController
                 return;
             }
 
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
 
             $db =& JFactory::getDBO();
 
@@ -370,7 +370,7 @@ class JResearchAdminStaffController extends JController
 	 */
 	function autoSuggestMembers(){
             $key = JRequest::getVar('key');
-            JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+            JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'html');
             echo JHTML::_('jresearchhtml.jsonMembers', $key);
 	}
 	

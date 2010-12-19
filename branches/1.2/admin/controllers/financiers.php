@@ -31,8 +31,8 @@ class JResearchAdminFinanciersController extends JController
             $this->registerTask('apply', 'save');
             $this->registerTask('cancel', 'cancel');
 
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers');
-            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'financiers');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'financiers');
+            $this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'financiers');
 	}
 	
 	/**

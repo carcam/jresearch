@@ -35,9 +35,9 @@ class JResearchStaffController extends JResearchFrontendController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 		$this->registerTask('autoSuggestMembers', 'autoSuggestMembers');		
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'member_position');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'staff');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'member_position');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
 		
@@ -122,7 +122,7 @@ class JResearchStaffController extends JResearchFrontendController
                 return;
             }
             
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');
 
             $task = JRequest::getVar('task');
 
@@ -209,7 +209,7 @@ class JResearchStaffController extends JResearchFrontendController
 	 */
 	function autoSuggestMembers(){
 		$key = JRequest::getVar('key');
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+		JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'html');
 		echo JHTML::_('jresearchhtml.jsonMembers', $key);
 	}
 	

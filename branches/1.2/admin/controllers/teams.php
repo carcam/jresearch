@@ -40,9 +40,9 @@ class JResearchAdminTeamsController extends JController
             $this->registerTask('save', 'save');
             $this->registerTask('cancel', 'cancel');
 
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
-            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'teams');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'staff');
+            $this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'teams');
 	}
 	
 	/**

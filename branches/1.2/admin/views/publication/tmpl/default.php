@@ -161,7 +161,7 @@ $abstract_rows = $params->get('abstract_rows');
 
             <?php
             if(in_array($this->pubtype, $nativeTypes)){
-                include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'publication'.DS.'tmpl'.DS.$this->pubtype.'.php');
+                include_once(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'publication'.DS.'tmpl'.DS.$this->pubtype.'.php');
             }else{
                 global $mainframe;
                 if(in_array($this->pubtype, $extendedTypes)){

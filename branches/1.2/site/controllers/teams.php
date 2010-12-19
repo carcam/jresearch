@@ -26,7 +26,7 @@ class JResearchTeamsController extends JResearchFrontendController
 		$this->registerDefaultTask('display');
 		$this->registerTask('show', 'show');
 
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');
 		
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'teams');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'team');
@@ -64,10 +64,10 @@ class JResearchTeamsController extends JResearchFrontendController
 	*/
 	public function show()
 	{
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'staff');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'theses');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'staff');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'projects');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'theses');
 		
 		$model =& $this->getModel('Team', 'JResearchModel');
 		$memberModel =& $this->getModel('Member', 'JResearchModel');

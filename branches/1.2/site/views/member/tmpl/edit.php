@@ -15,6 +15,6 @@
 /**
  * Require the administrator template.
  */
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'member'.DS.'tmpl'.DS.'default.php'); 
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'member'.DS.'tmpl'.DS.'default.php'); 
 
 ?>

@@ -31,8 +31,8 @@ class JResearchThesesController extends JResearchFrontendController
 		// When the user sees the detailed information of a thesis
 		$this->registerTask('show', 'show');
 		// Add models paths
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'theses');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'theses');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'theseslist');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'thesis');
 

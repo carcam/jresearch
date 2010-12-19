@@ -34,7 +34,7 @@ class JResearchCooperationsController extends JResearchFrontendController
 		$this->registerTask('show', 'show');
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('save','save');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'cooperations');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
 		

@@ -12,7 +12,7 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
+require_once(JRESEARCH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
 
 /**
  * HTML View class for single project management in JResearch Component backend

@@ -65,7 +65,7 @@ class JResearchViewCooperation extends JResearchView
 	
 	private function _editCooperation(&$coop)
 	{
-            JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+            JHTML::addIncludePath(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 		
             //Published options
             $publishedOptions = array();

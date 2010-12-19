@@ -40,7 +40,7 @@ class JResearchAdminViewPublication extends JResearchView
 	* publications.
 	*/
 	private function _displayPublicationForm(){
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');
             global $mainframe;
             $arguments = array();
             

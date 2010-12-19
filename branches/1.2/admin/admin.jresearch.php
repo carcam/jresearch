@@ -18,7 +18,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 // Common needed files
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'init.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'init.php');
 
 // Handle upgrade case
 $mode = JRequest::getVar('mode');
@@ -38,22 +38,22 @@ $availableControllers = array('publications', 'projects', 'theses', 'staff', 'co
 
 if($controller == null || !in_array($controller, $availableControllers)){
 	// It is the default controller
-	require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
+	require_once (JRESEARCH_COMPONENT_ADMIN.DS.'controller.php');
 	$classname = $prefix.'Controller';
 }else{
 	// That task is the exception
 	if($task == 'tocontrolPanel'){
 		// It is the default controller
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
+		require_once (JRESEARCH_COMPONENT_ADMIN.DS.'controller.php');
 		$classname = $prefix.'Controller';
 	}else{				
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controllers'.DS.$controller.'.php');
+		require_once (JRESEARCH_COMPONENT_ADMIN.DS.'controllers'.DS.$controller.'.php');
 		$inlineCitingTasks = array('cite', 'citeFromDialog', 'generateBibliography', 'searchByPrefix', 'ajaxRemoveAll', 'ajaxGenerateBibliography', 'removeCitedRecord' ); 
 		
 		// If the task is related to cite records, request the frontend controller
 		if(in_array($task, $inlineCitingTasks)){
 			$prefix = 'JResearch';
-			require_once(JPATH_COMPONENT_SITE.DS.'controllers'.DS.$controller.'.php');
+			require_once(JRESEARCH_COMPONENT_SITE.DS.'controllers'.DS.$controller.'.php');
 			$session =& JSession::getInstance(null, null);
 		
 			if($session->get('citedRecords', null, 'jresearch') == null){

@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.utilities.date');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'activity.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'activity.php');
 
 /**
  * This class defines the base for all types of publications managed by JResearch.
@@ -317,7 +317,7 @@ class JResearchPublication extends JResearchActivity{
 
             if(!empty($this->keywords)){
                     $this->doi = trim($this->doi);
-                    require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'charsets.php');
+                    require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'charsets.php');
                     $extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());
 
                     if(!preg_match("/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/", $this->keywords)){
