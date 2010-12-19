@@ -62,7 +62,7 @@ class JResearch
 		//Create thumbnail if it is enabled and upload was successful
 		if($params->get('thumbnail_enable', 1) == 1 && $url)
 		{
-			self::_createThumbnail(JPATH_COMPONENT_ADMINISTRATOR.DS.$url, $folder);
+			self::_createThumbnail(JRESEARCH_COMPONENT_ADMIN.DS.$url, $folder);
 		}
 		
 		return $url;
@@ -88,7 +88,7 @@ class JResearch
 				$mimetype = $file['type'];						
 			
 			if(isset($availableTypes[$mimetype])){
-				$newName = JPATH_COMPONENT_ADMINISTRATOR.DS.$path.DS.basename($file['name']);
+				$newName = JRESEARCH_COMPONENT_ADMIN.DS.$path.DS.basename($file['name']);
 				if(!move_uploaded_file($uploadedFile, $newName)){
 					JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED', basename($newName)));
 				}else{
@@ -139,7 +139,7 @@ class JResearch
 		//Delete file and set file variable to empty string
 		if(($delete === true) && ($fileVar != null))
 		{
-			@unlink(JPATH_COMPONENT_ADMINISTRATOR.DS.$folder.basename($fileVar));
+			@unlink(JRESEARCH_COMPONENT_ADMIN.DS.$folder.basename($fileVar));
 			$fileVar = '';
 		}
 		
@@ -147,7 +147,7 @@ class JResearch
 		
 		if($uploadedFile != null)
 		{
-            $newName = JPATH_COMPONENT_ADMINISTRATOR.DS.JPath::clean($folder).DS.$file['name'];
+            $newName = JRESEARCH_COMPONENT_ADMIN.DS.JPath::clean($folder).DS.$file['name'];
 			if(array_key_exists($file['type'], $types))
 			{
 				$base = basename($newName);
@@ -186,7 +186,7 @@ class JResearch
 		if($imageUploaded && imagecopyresampled($imageThumb, $imageUploaded, 0, 0, 0, 0, $thumbSize->width, $thumbSize->height, $width, $height))
 		{
 			$filename = 'thumb_'.basename($uploadedFile);
-			$filepath = JPATH_COMPONENT_ADMINISTRATOR.DS.$folder.$filename;
+			$filepath = JRESEARCH_COMPONENT_ADMIN.DS.$folder.$filename;
 			
 			switch($type)
 			{

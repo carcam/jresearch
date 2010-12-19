@@ -34,7 +34,7 @@ class JResearchPublicationImporterFactory{
 	public static function getInstance($inputFormat){
 		static $instances;
 		
-		$importersFolder  = JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'importers';
+		$importersFolder  = JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers';
 
 		if(!$instances){
 			$instances = array();

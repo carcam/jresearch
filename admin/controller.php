@@ -26,7 +26,7 @@ class JResearchAdminController extends JController
 		$this->registerTask('show', 'show');
 		$this->registerTask('save', 'save');
 		$this->registerTask('help', 'help');
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'conf');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'conf');
 	}
 
 	/**

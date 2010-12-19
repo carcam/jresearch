@@ -57,8 +57,8 @@ class JResearchAdminViewPublicationsList extends JResearchView
     private function _displayDefaultList(){
     	global $mainframe, $option;
     	
-    	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
-    	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'researcharea.php');
+    	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
+    	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'researcharea.php');
     	
     	JResearchToolbar::publicationsAdminListToolbar();
     	JHTML::_('behavior.tooltip');

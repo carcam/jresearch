@@ -14,8 +14,8 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'project.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'thesis.php');
 
 /**
  * This class represents a staff member.
@@ -161,7 +161,7 @@ class JResearchMember extends JTable{
 	* are imported into the object. Used for impòrting members from Joomla tables.
 	*/	
 	function bindFromUser($username){
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
 		
 		$db =& JFactory::getDBO();
 		$query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('username').' = '.$db->Quote($username);

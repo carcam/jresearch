@@ -9,7 +9,7 @@
 */
 jimport( 'joomla.application.component.model' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelList.php');
 
 class JResearchModelFacilities extends JResearchModelList
 {

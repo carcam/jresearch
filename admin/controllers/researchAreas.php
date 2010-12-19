@@ -37,7 +37,7 @@ class JResearchAdminResearchAreasController extends JController
             $this->registerTask('apply', 'save');
             $this->registerTask('save', 'save');
             $this->registerTask('cancel', 'cancel');
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 	}
 
 	/**
@@ -121,7 +121,7 @@ class JResearchAdminResearchAreasController extends JController
 
 	function display(){
             JResearchUnlockerHelper::unlockItems('research_area');
-            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'researchareaslist');
+            $this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'researchareaslist');
             $view = &$this->getView('ResearchAreasList', 'html', 'JResearchAdminView');
             $model = &$this->getModel('ResearchAreasList', 'JResearchModel');
             $view->setModel($model, true);
@@ -183,7 +183,7 @@ class JResearchAdminResearchAreasController extends JController
 	* @access public
 	*/
 	function edit(){
-            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'researcharea');
+            $this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'researcharea');
             $cid = JRequest::getVar('cid');
             $view = &$this->getView('ResearchArea', 'html', 'JResearchAdminView');
             $model = &$this->getModel('ResearchArea', 'JResearchModel');

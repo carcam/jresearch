@@ -36,7 +36,7 @@ class JResearchAdminProjectsController extends JController
             $this->registerTask('save', 'save');
             $this->registerTask('apply', 'save');
             $this->registerTask('cancel', 'cancel');
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'projects');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'projects');
 	}
 
 	/**
@@ -47,8 +47,8 @@ class JResearchAdminProjectsController extends JController
 
 	function display(){
             JResearchUnlockerHelper::unlockItems('project');
-            $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'projectslist');
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            $this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'projectslist');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
             $view = &$this->getView('ProjectsList', 'html', 'JResearchAdminView');
             $model = &$this->getModel('ProjectsList', 'JResearchModel');
             $areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
@@ -63,9 +63,9 @@ class JResearchAdminProjectsController extends JController
 	* @access public
 	*/
 	function edit(){
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'cooperations');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'financiers');
 		
 		$cid = JRequest::getVar('cid', array());
 		
@@ -164,7 +164,7 @@ class JResearchAdminProjectsController extends JController
                 return;
             }
 
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
 
             $db = JFactory::getDBO();
 
@@ -201,7 +201,7 @@ class JResearchAdminProjectsController extends JController
                             if($delete != null){
                                     if($delete == 'on'){
                                             if(!empty($projectFiles[$k])){
-                                                    $path = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'projects'.DS.$projectFiles[$k];
+                                                    $path = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'projects'.DS.$projectFiles[$k];
                                                     @unlink($path);
                                                     unset($projectFiles[$k]);
                                             }

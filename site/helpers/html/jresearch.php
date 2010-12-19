@@ -10,8 +10,8 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'publication.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'publication.php');
 
 class JHTMLJresearch
 {
@@ -223,7 +223,7 @@ class JHTMLJresearch
     	
     	if($bAuthors === true)
     	{
-    		JModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+    		JModel::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
     		
 			$authorsHTML = array();
 			$model = JModel::getInstance('PublicationsList', 'JResearchModel');
@@ -240,7 +240,7 @@ class JHTMLJresearch
 		
 		if($bTeams === true)
 		{
-			JModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
+			JModel::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');
 			
 			//Team filter
 			$teamsOptions = array();  
@@ -258,7 +258,7 @@ class JHTMLJresearch
     	
     	if($bAreas === true)
     	{
-    		JModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+    		JModel::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
     		
     		//Researchareas filter
     		$areasOptions = array();

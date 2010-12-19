@@ -70,7 +70,7 @@ class JResearchViewStaff extends JResearchView
     */
     private function _displayDefaultList(&$model){
       	global $mainframe;
-      	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+      	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
       	
       	$doc = JFactory::getDocument();
       	$params = $mainframe->getPageParameters('com_jresearch');
@@ -108,8 +108,8 @@ class JResearchViewStaff extends JResearchView
     	jimport('joomla.filesystem.file');
     	
     	//Includes
-        require(JPATH_COMPONENT_SITE.DS.'includes'.DS.'reflect2.php');
-        require(JPATH_COMPONENT_SITE.DS.'includes'.DS.'reflect3.php');
+        require(JRESEARCH_COMPONENT_SITE.DS.'includes'.DS.'reflect2.php');
+        require(JRESEARCH_COMPONENT_SITE.DS.'includes'.DS.'reflect3.php');
     	
     	$doc = JFactory::getDocument();
     	
@@ -212,7 +212,7 @@ class JResearchViewStaff extends JResearchView
     */
     private function _displayPositions(&$model){
       	global $mainframe;
-      	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+      	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
       	
       	$doc = JFactory::getDocument();
       	$params = $mainframe->getPageParameters('com_jresearch');

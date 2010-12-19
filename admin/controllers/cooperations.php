@@ -40,8 +40,8 @@ class JResearchAdminCooperationsController extends JController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'cooperations');
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'cooperations');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'cooperations');
 	}
 
 	/**
@@ -144,7 +144,7 @@ class JResearchAdminCooperationsController extends JController
                 return;
             }
 
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
 
             $db = JFactory::getDBO();
 

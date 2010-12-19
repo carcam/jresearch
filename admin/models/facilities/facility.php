@@ -9,8 +9,8 @@
 */
 jimport( 'joomla.application.component.model' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelSingleRecord.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'facility.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelSingleRecord.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'facility.php');
 
 class JResearchModelFacility extends JResearchModelSingleRecord
 {

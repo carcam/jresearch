@@ -13,7 +13,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 if(!class_exists('JResearchFrontendController'))
 {
-	require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
+	require_once(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
 }
 
 /**
@@ -59,8 +59,8 @@ class JResearchPublicationsController extends JResearchFrontendController
             $this->registerTask('executeImport', 'executeImport');
 
             // Add models paths
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
             $this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publicationslist');
             $this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publication');
 
@@ -250,7 +250,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 */
 	function citeFromDialog(){
 		// Add explicitly the view path (useful when requesting from the backend)
-		$this->addViewPath(JPATH_COMPONENT_SITE.DS.'views');
+		$this->addViewPath(JRESEARCH_COMPONENT_SITE.DS.'views');
 		$view = &$this->getView('PublicationsList', 'html', 'JResearchView');
 		$view->setLayout('cite');
 		$view->display();
@@ -262,7 +262,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 */
 	function generateBibliography(){
 		// Add explicitly the view path (useful when requesting from the backend)
-		$this->addViewPath(JPATH_COMPONENT_SITE.DS.'views');
+		$this->addViewPath(JRESEARCH_COMPONENT_SITE.DS.'views');
 		$view = &$this->getView('PublicationsList', 'html', 'JResearchView');
 		$model =& $this->getModel('Publication', 'JResearchModel');
 		$view->setLayout('generatebibliography');
@@ -413,12 +413,12 @@ class JResearchPublicationsController extends JResearchFrontendController
 		global $mainframe;
 		jximport('jxtended.captcha.captcha');
 		jimport('joomla.utilities.date');
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'comment.php');
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'comment.php');
 	 	$post = JRequest::get('post');
 
 	 	// Get the captcha tests
 	 	$captchas = $mainframe->getUserState('jxcaptcha.captcha');
-	 	$captchaInstance = JXCaptcha::getInstance('image', array('filePath'=>JPATH_COMPONENT_SITE.DS.'views'.DS.'publication'.DS.'captcha'));
+	 	$captchaInstance = JXCaptcha::getInstance('image', array('filePath'=>JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publication'.DS.'captcha'));
 	 
 	 	foreach ($captchas as $captcha){
 	 		if (isset($post[$captcha['id']]))
@@ -460,7 +460,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		    return;
 		}
 		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');		
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');		
 		
 		$db = JFactory::getDBO();
 		$params = JComponentHelper::getParams('com_jresearch');				
@@ -476,7 +476,7 @@ class JResearchPublicationsController extends JResearchFrontendController
     		$previousFile = JRequest::getVar('old_url_0', null);
                 $countUrl = JRequest::getInt('count_url', 0);
                 $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
-		$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$previousFile;	    
+		$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$previousFile;	    
 		
 		//Verify if the user wants to remove old files
 		$delete = JRequest::getVar('delete_url_0', false);		
@@ -641,8 +641,8 @@ class JResearchPublicationsController extends JResearchFrontendController
             JRequest::setVar('filter_order_Dir', $filter_order_Dir);
 
 
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'teams');
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
             $view = &$this->getView('PublicationsList', 'html', 'JResearchView');
             $pubModel = $this->getModel('PublicationsList', 'JResearchModel');
             $areaModel = $this->getModel('ResearchAreasList', 'JResearchModel');
@@ -691,7 +691,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	function changeType(){	
             global $mainframe;
 
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
 
             $db = JFactory::getDBO();
             $type = JRequest::getVar('change_type');
@@ -720,7 +720,7 @@ class JResearchPublicationsController extends JResearchFrontendController
             $delete = JRequest::getVar('delete_url_0');
             if($delete === 'on'){
                 if(!empty($publication->files)){
-                    $filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
+                    $filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
                     @unlink($filetoremove);
                     $publication->files = '';
                     $oldPublication->files = '';
@@ -786,8 +786,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 
                         // Duplicate files if they have not been removed
                         if(!empty($oldPublication->files)){
-                                $source = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$oldPublication->files;
-                                $dest = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.'old_'.$oldPublication->files;
+                                $source = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$oldPublication->files;
+                                $dest = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.'old_'.$oldPublication->files;
                                 if(!@copy($source, $dest))
                                         JError::raiseWarning(1, JText::_('JRESEARCH_FILE_NOT_BACKUP'));
                                 $oldPublication->files = 'old_'.$oldPublication->files;
@@ -832,8 +832,8 @@ class JResearchPublicationsController extends JResearchFrontendController
             $format = JRequest::getVar('format');
 
             if($exportEnabled == 'yes'){
-                    $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-                    require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+                    $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
+                    require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');
                     $id = JRequest::getInt('id');
                     $model = $this->getModel('Publication', 'JResearchModel');
                     $publication = $model->getItem($id);
@@ -877,8 +877,8 @@ class JResearchPublicationsController extends JResearchFrontendController
             $format = JRequest::getVar('format', 'bibtex');
 
             if($exportEnabled == 'yes'){
-                    $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-                    require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+                    $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
+                    require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');
                     $model = $this->getModel('PublicationsList', 'JResearchModel');
                     $publicationsArray = $model->getData(null, true, false);
                     $exportOptions['strict_bibtex'] = false;
@@ -917,7 +917,7 @@ class JResearchPublicationsController extends JResearchFrontendController
                     $idResearchArea = JRequest::getVar('researchAreas');
                     $uploadedFile = $fileArray['tmp_name'];
 
-                    require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'importers'.DS.'factory.php');
+                    require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
                     $importer = JResearchPublicationImporterFactory::getInstance("bibtex");
 
                     if($fileArray == null || $uploadedFile == null){

@@ -47,7 +47,7 @@ class JResearchViewPublication extends JResearchView
     */
     private function _displayPublication(){
       	global $mainframe;
-      	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');      	
+      	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');      	
     	
       	$id = JRequest::getInt('id');
     	$user = JFactory::getUser();    	    	
@@ -228,8 +228,8 @@ class JResearchViewPublication extends JResearchView
     
     private function _editPublication()
     {
-    	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');
+    	JHTML::addIncludePath(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');
 		JHTML::_('jresearchhtml.validation');		
 		$user = JFactory::getUser();
 		$cid = JRequest::getVar('id', 0);	
@@ -298,8 +298,8 @@ class JResearchViewPublication extends JResearchView
 	* for a new publication.
 	*/
 	private function _displayNewPublicationForm(){
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-		JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+		JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'html');
+		JHTML::addIncludePath(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 		$subtypes = JResearchPublication::getPublicationsSubtypes();
 		$typesOptions = array();
 		

@@ -313,7 +313,7 @@ class JHTMLjresearchhtml
 	public function staffImporter($name){
 		global $mainframe;
 		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
 
 		$doc = JFactory::getDocument();
 		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
@@ -372,7 +372,7 @@ class JHTMLjresearchhtml
 	public function staffImporter2($name){
 		static $dependenciesLoad = false;
 		global $mainframe;
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');		
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');		
 		$doc = JFactory::getDocument();
 		$db = JFactory::getDBO();		
 		
@@ -436,7 +436,7 @@ class JHTMLjresearchhtml
 	* Renders the DHTML code needed to enable validation in JResearch forms.
 	*/
 	static function validation(){
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'charsets.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'charsets.php');
 
             $extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());
             $doc = JFactory::getDocument();
@@ -559,7 +559,7 @@ class JHTMLjresearchhtml
 	 */
 	public static function researchareas(array $attributes=array(), array $additional=array())
 	{
-		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas'.DS.'researchareaslist.php');
+		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas'.DS.'researchareaslist.php');
 		
 		$model = new JResearchModelResearchAreasList();
 		$areas = $model->getData(null,true);
@@ -613,7 +613,7 @@ class JHTMLjresearchhtml
 	 */
 	public static function cooperations(array $attributes=array())
 	{
-		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'cooperations'.DS.'cooperations.php');
+		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations'.DS.'cooperations.php');
 		
 		$model = new JResearchModelCooperations();
 		$coops = $model->getData(null, true);
@@ -632,7 +632,7 @@ class JHTMLjresearchhtml
 	 */
 	public static function financiers(array $attributes=array())
 	{
-		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers'.DS.'financiers.php');
+		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'financiers'.DS.'financiers.php');
 		
 		$model = new JResearchModelFinanciers();
 		$financiers = $model->getData(null, true);
@@ -728,7 +728,7 @@ class JHTMLjresearchhtml
 	 */
 	public static function currencylist(array $attributes=array())
 	{
-            include_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
+            include_once(JRESEARCH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
 		
             //Currency options
             $currencyOptions = array();
@@ -807,7 +807,7 @@ class JHTMLjresearchhtml
 	 * @param array $authors
 	 */
 	public static function authors(array $attributes = array()){
-		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications'.DS.'publicationslist.php');
+		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications'.DS.'publicationslist.php');
 		
 		$model = new JResearchModelPublicationsList();
 		$result = $model->getAllAuthors();
