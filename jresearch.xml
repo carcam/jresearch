@@ -122,6 +122,7 @@
 			<language tag="en-GB">en-GB.com_jresearch.teams.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.member_positions.ini</language>				
 			<language tag="en-GB">en-GB-jresearch_help.html</language>
+			<language tag="en-GB">en-GB.com_jresearch.institutes.ini</language>			
 		</languages>
 	</administration>
 </install>
