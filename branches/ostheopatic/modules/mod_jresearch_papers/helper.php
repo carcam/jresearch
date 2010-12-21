@@ -22,19 +22,17 @@ class modJResearchPapersHelper
 	 */
 	function getNewestPapers($limit=5)
 	{
-		$papers = array();
 		$limit = intval($limit,10);
 		$db = &JFactory::getDBO();
-		$query = "SELECT * FROM #__jresearch_publication WHERE published = 1 AND status = ´finished´ AND source = ´ORW´ ORDER by created DESC LIMIT 0,$limit";
+		$query = "SELECT * FROM #__jresearch_publication WHERE published = 1 AND status = 'finished' AND source = ´ORW´ ORDER by created DESC LIMIT 0,$limit";
 		
 		return $this->_getResult($query);
 	}
 	
 	function getMostViewed($limit=5)
 	{
-		$papers = array();
 		$db = &JFactory::getDBO();
-		$query = "SELECT * FROM #__jresearch_publication WHERE published = 1 AND status = ´finished´ AND source = ´ORW´ ORDER by hits DESC LIMIT 0,$limit";
+		$query = "SELECT * FROM #__jresearch_publication WHERE published = 1 AND status = 'finished' AND source = ´ORW´ ORDER by hits DESC LIMIT 0,$limit";
 		
 		return $this->_getResult($query);
 	}
@@ -42,7 +40,7 @@ class modJResearchPapersHelper
 	private function _getResult($query)
 	{
 		$db = &JFactory::getDBO();
-		
+		$papers = array();		
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		foreach($result as $item){
