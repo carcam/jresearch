@@ -30,9 +30,9 @@ class modJResearchInstitutesHelper
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		foreach($result as $item){
-			$pub = JTable::getInstance("Institute", "JResearch");
-			$pub->bind($item, array(), true);
-			$institutes[] = array("i" => $pub, "count" => $item['count']);
+			$inst = JTable::getInstance("Institute", "JResearch");
+			$inst->load($item['id_institute']);
+			$institutes[] = array("i" => $inst, "count" => $item['count']);
 		}
 		
 		return $institutes;
