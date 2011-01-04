@@ -10,7 +10,51 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.html.pane');
 $pane = JPane::getInstance('sliders', array('allowAllClose' => true));
 
-function juimport_new($path)
+function getComponentVersion()
+{
+	jimport('joomla.application.helper');
+	$file = JApplicationHelper::parseXMLInstallFile(JPATH_PLUGINS . DS . 'jresearch'.DS.'jresearch_upgrader.xml');
+	if($file) {
+		return $file['version'];
+	}
+	else
+	{
+		static $warned = false;
+		if(!$warned)
+		{
+			$app =& JFactory::getApplication();
+			$app->enqueueMessage('Fallback component version used!');
+			$warned = true;
+		}
+		return '1.0'; // fallback call
+	}
+}
+
+/**
+ * Generate a user agent string
+ * @param boolean Mask the user agent as Mozilla or Joomla!
+ * @return string a user agent string
+ */
+function generateUAString($mask=true)
+{
+	$version = new JVersion();
+	$lang =& JFactory::getLanguage();
+	$parts = Array();
+	if($mask) {
+		$parts[] = 'Mozilla/5.0';
+	} else {
+		$parts[] = 'Joomla!';
+	}
+	$parts[] = '(Joomla; PHP; '. PHP_OS .'; '. $lang->getTag() .'; rv:1.9.1)';
+	$parts[] = 'Joomla/'. $version->getShortVersion();
+	$parts[] = 'JUpdateMan/'. getComponentVersion();
+	return implode(' ', $parts);
+}
+
+/**
+ * Replacement for jimport that falls back to jimport
+ */
+function juimport($path)
 {
 	// attempt to load the path locally but...
 	// unfortunately 1.5 doesn't check the file exists before including it so we mask it
@@ -24,11 +68,12 @@ function juimport_new($path)
 
 function downloadFile_new($url,$target)
 {
-	juimport_new('pasamio.downloader.downloader');
+	juimport('pasamio.downloader.downloader');
 	$downloader =& Downloader::getInstance();
 	$error_object = new stdClass();
 
-	$params = JComponentHelper::getParams('com_jupdateman');
+	$plugin = JPluginHelper::getPlugin('jresearch', 'jresearch_upgrader');
+	$params = new JParameter($plugin->params);
 	$adapter = null;
 	switch($params->get('download_method', 0))
 	{
@@ -41,7 +86,7 @@ function downloadFile_new($url,$target)
 			break;
 	}
 	
-	return $adapter->downloadFile_new($url, $target, $params);
+	return $adapter->downloadFile($url, $target, $params);
 }
 ?>
 <div style="width:100%;">
@@ -133,77 +178,6 @@ function downloadFile_new($url,$target)
 			</a>
 		</div>
 	</div>
-    	<div>
-		<div class="icon">
-		<?php if(JPluginHelper::isEnabled('jresearch', 'jresearch_upgrader')): ?>		
-              <?php                           	
-                if(defined('_JRESEARCH_UPGRADER_SUPPORT_') || defined('JRESEARCH_UPGRADER_SUPPORT')){
-                    $version = _JRESEARCH_VERSION_;
-                    $versionComps = explode(' ', $version);
-                    $version = $versionComps[0];
-                }else
-                    $version = '1.1.4';   
-                    
-                $url = "http://joomla-research.com/public_html/jresearchupgrader.xml";
-
-                $config = JFactory::getConfig();
-                $tmp_path = $config->getValue('config.tmp_path');
-                $plugin = JPluginHelper::getPlugin('jresearch', 'jresearch_upgrader');
-                $params = new JParameter($plugin->params);
-
-                $target = $tmp_path . DS . 'jresearchupgrader.xml';
-
-                $cached_update = $params->get('cached_update', 0);
-
-                if(!file_exists($target)) {
-                    HTML_jupgrader::showError( 'Update file does not exist: '. $target );
-                }
-                
-                
-                // Yay! file downloaded! Processing time :(
-                $xmlDoc = new JSimpleXML();
-
-                if (!$xmlDoc->loadFile( $target )) {
-                    HTML_jupgrader::showError( 'Parsing XML Document Failed!' );
-                    return false;
-                }
-
-                //$root = &$xmlDoc->documentElement;
-                $root = &$xmlDoc->document;
-
-                if ($root->name() != 'update') {
-                    HTML_jupgrader::showError( 'Parsing XML Document Failed: Not an update definition file!' );
-                    return false;
-                }
-
-                $rootattributes = $root->attributes();
-                $latest = $rootattributes['release'];
-                
-                if($latest == $version){
-                ?>
-                <a href="index.php?option=com_jresearch">
-                    <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/no_update.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_FINAL_VERSION'); ?>" />
-                    <span><?php echo JText::_('JRESEARCH_UPGRADE_FINAL_VERSION'); ?></span>
-                </a>
-                <?php
-                }
-                else {
-                
-                ?>
-                <a href="index.php?option=com_jresearch&amp;mode=upgrader">
-                    <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/update_please.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
-                    <span><?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?></span>
-                </a>
-                <?php } ?>
-        <?php else: ?>
-                <a href="index.php?option=com_jresearch&amp;mode=upgrader">
-                    <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/update_please.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
-                    <span><?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?></span>
-                </a>        
-        <?php endif;?>        
-		</div>
-	</div>
-
 </div>	
 <div class="about-panel">
 <?php 
@@ -217,7 +191,61 @@ function downloadFile_new($url,$target)
 				</tr>
 				<tr>
 					<th scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_VERSION').': '; ?></th>
-					<td><?php echo _JRESEARCH_VERSION_; ?></td>
+					<td><?php echo _JRESEARCH_VERSION_; ?>
+			  	<?php if(JPluginHelper::isEnabled('jresearch', 'jresearch_upgrader')): ?>		
+	              <?php                           	
+	                if(defined('_JRESEARCH_UPGRADER_SUPPORT_') || defined('JRESEARCH_UPGRADER_SUPPORT')){
+	                    $version = _JRESEARCH_VERSION_;
+	                    $versionComps = explode(' ', $version);
+	                    $version = $versionComps[0];
+	                }else{
+	                    $version = '1.1.4';   
+	                }
+	                
+	                $url = "http://joomla-research.com/public_html/jresearchupgrader.xml";
+	
+	                $config = JFactory::getConfig();
+	                $tmp_path = $config->getValue('config.tmp_path');
+	                $plugin = JPluginHelper::getPlugin('jresearch', 'jresearch_upgrader');
+	                $params = new JParameter($plugin->params);
+	
+	                $target = $tmp_path . DS . 'jresearchupgrader.xml';
+	
+	                $cached_update = $params->get('cached_update', 0);
+					if(!$cached_update){
+		                $result = downloadFile_new($url,$target);
+		                if(!is_object($result) && file_exists($target)) {
+		                
+			                // Yay! file downloaded! Processing time :(
+			                $xmlDoc = new JSimpleXML();
+			
+			                if ($xmlDoc->loadFile( $target )) {	                    
+			                	$root = &$xmlDoc->document;	
+			 	               	if ($root->name() == 'update') {
+					                $rootattributes = $root->attributes();
+			    		            $latest = $rootattributes['release'];
+			                
+				            		if($latest == $version){
+				        ?>
+			                <a href="index.php?option=com_jresearch" title="<?php echo JText::_('JRESEARCH_UPGRADE_FINAL_VERSION'); ?>">
+			                    <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/no_update_small.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_FINAL_VERSION'); ?>" />
+			                </a>
+					           <?php }else { ?>
+			                <a href="index.php?option=com_jresearch&amp;mode=upgrader" title="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>">
+			                    <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/update_please_small.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
+			                </a>
+					           <?php } ?>
+					       <?php } ?>
+					    <?php } ?>
+					 <?php } ?>
+				<?php } ?>	                 
+        		<?php else: ?>
+	                <a href="index.php?option=com_jresearch&amp;mode=upgrader" title="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>">
+	                    <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/update_please_small.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
+	                </a>        
+	 		   <?php endif;?>        					
+					
+				</td>
 				</tr>
 				<tr>
 					<th scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_COPYRIGHT').': '; ?></th>

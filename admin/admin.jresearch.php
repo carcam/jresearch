@@ -18,7 +18,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 // Common needed files
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'init.php');
+require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'init.php');
 
 // Handle upgrade case
 $mode = JRequest::getVar('mode');

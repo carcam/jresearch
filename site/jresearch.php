@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 global $mainframe;
 
 // Common needed files
-require_once(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'init.php');
+require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'init.php');
 require_once(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
 
 //Set ACL
@@ -37,7 +37,7 @@ else{
 		$controller = 'researchAreas';
 }
 
-require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
+require_once (JRESEARCH_COMPONENT_SITE.DS.'controllers'.DS.$controller.'.php');
 
 //Session
 $session =& JFactory::getSession();
