@@ -139,6 +139,13 @@ class JResearchMember extends JTable{
 	public $checked_out_time;
 
 	/**
+	* The member's title (Mr. Ms. Dr.)
+	* @var string
+	*/
+
+	public $title;
+
+	/**
 	 * Class constructor. Maps the class to a Joomla table.
 	 *
 	 * @param JDatabase $db

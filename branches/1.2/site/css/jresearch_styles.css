@@ -186,7 +186,6 @@ table.stafftable{
 }
 
 table.stafftable th{
-	width: 25%;
 	text-align: center;
 }
 
@@ -249,3 +248,18 @@ div.divTdl2{
 	
 }
 
+table.stafftable th.stafftitle{
+	width: 10%;
+}
+
+table.stafftable th.staffname{
+	width: 30%;
+}
+
+table.stafftable th.staffemail{
+	width: 30%;
+}
+
+table.stafftable td{
+	padding-right: 5px;
+}

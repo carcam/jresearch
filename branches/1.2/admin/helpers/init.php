@@ -22,7 +22,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 
 // Common needed files		
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'includes'.DS.'defines.php');
+require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'defines.php');
+
+// Plugin management
+JPluginHelper::importPlugin('jresearch');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'plugins.php');
 
 //Helpers
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'cite.php');
@@ -46,9 +50,6 @@ require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'publication.php');
 require_once(JRESEARCH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
 require_once(JRESEARCH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
 
-// Plugin management
-JPluginHelper::importPlugin('jresearch');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'plugins.php');
 
 //Time to import all plugins of type jresearch
 JResearchPluginsHelper::requireJResearchPlugins();

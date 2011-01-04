@@ -12,11 +12,11 @@
 				<option value="asc">JRESEARCH_ASCENDING</option>
 				<option value="desc">JRESEARCH_DESCENDING</option>
 			</param>
-                        <param name="staff_list_header" default="Staff" label="JRESEARCH_CONFIG_STAFF_HEADER" type="text" />
-                        <param name="staff_filter" label="JRESEARCH_CONFIG_STAFF_FILTER" default="no" type="radio">
+            <param name="staff_list_header" default="Staff" label="JRESEARCH_CONFIG_STAFF_HEADER" type="text" />
+            <param name="staff_filter" label="JRESEARCH_CONFIG_STAFF_FILTER" default="only_current" type="radio">
 				<option value="only_current">JRESEARCH_ONLY_CURRENT</option>
 				<option value="only_former">JRESEARCH_ONLY_FORMER</option>
-                                <option value="all">JRESEARCH_ALL</option>
+                <option value="all">JRESEARCH_ALL</option>
 			</param>
 			<param name="member_show_email" label="JRESEARCH_CONFIG_PROFILES_SHOW_EMAIL" default="yes" type="radio">
 				<option value="yes">Yes</option>
@@ -33,6 +33,11 @@
 			<param name="staff_show_research_area" label="JRESEARCH_CONFIG_STAFF_SHOW_RESEARCH_AREA" default="yes" type="radio">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
+			</param>
+			<param name="staff_show_title" label="JRESEARCH_CONFIG_STAFF_SHOW_TITLE" default="no" type="radio" >
+				<option value="no">No</option>			
+				<option value="next_to_name">JRESEARCH_NEXT_TO_NAME</option>
+				<option value="own_column">JRESEARCH_OWN_COLUMN</option>
 			</param>
 			<param name="staff_show_publications" label="JRESEARCH_CONFIG_SHOW_PUBLICATIONS_IN_PROFILES" type="radio" default="yes">
 				<option value="yes">Yes</option>

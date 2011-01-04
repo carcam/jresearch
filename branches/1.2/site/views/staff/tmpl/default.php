@@ -9,6 +9,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
 $itemId = JRequest::getVar('Itemid');
+$showTitle = $this->params->get('staff_show_title', 'no');
+$showEmail = $this->params->get('member_show_email', 'yes');
+$showResearchArea = $this->params->get('staff_show_research_area', 'yes');
+$showPosition = $this->params->get('staff_show_position', 'yes');
+$showPhoneOrFax = $this->params->get('staff_show_phone_or_fax', 'yes');
+
 ?>
 <h2 class="componentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
 <br />
@@ -17,20 +23,26 @@ $itemId = JRequest::getVar('Itemid');
         <?php $nCols = 1; ?>
 	<thead>
 		<tr>
-			<th><?php echo JText::_('JRESEARCH_NAME'); ?></th>
-		<?php if($this->params->get('member_show_email') == 'yes'): ?>
-			<th><?php echo JText::_('JRESEARCH_EMAIL'); ?></th>
+		<?php if($showTitle == 'own_column'): ?>
+			<th class="stafftitle"><?php echo JText::_('JRESEARCH_MEMBER_TITLE'); ?></th>
+		<?php   $nCols++;
+					endif; ?>
+		
+
+			<th class="staffname"><?php echo JText::_('JRESEARCH_NAME'); ?></th>
+		<?php if($showEmail == 'yes'): ?>
+			<th class="staffemail"><?php echo JText::_('JRESEARCH_EMAIL'); ?></th>
                         <?php $nCols++; ?>
 		<?php endif; ?>
-       	<?php if($this->params->get('staff_show_research_area') == 'yes'): ?>
+       	<?php if($showResearchArea == 'yes'): ?>
 			<th><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
                         <?php $nCols++; ?>
         <?php endif; ?>
-        <?php if($this->params->get('staff_show_position') == 'yes'): ?>
+        <?php if($showPosition == 'yes'): ?>
 			<th><?php echo JText::_('JRESEARCH_POSITION'); ?></th>
                         <?php $nCols++; ?>
         <?php endif; ?>
-        <?php if($this->params->get('staff_show_phone_or_fax') == 'yes'): ?>
+        <?php if($showPhoneOrFax == 'yes'): ?>
 			<th><?php echo JText::_('JRESEARCH_PHONE_OR_FAX'); ?></th>
                         <?php $nCols++; ?>
          <?php endif; ?>
@@ -48,11 +60,14 @@ $itemId = JRequest::getVar('Itemid');
 		    $researchArea = $this->areaModel->getItem($member->id_research_area);
 	    ?>
 		<tr>
-			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a></td>
-			<?php if($this->params->get('member_show_email') == 'yes'): ?>
+			<?php if($showTitle == 'own_column'): ?>
+				<td><?php echo $member->title; ?></td>
+			<?php endif; ?>
+			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a></td>
+			<?php if($showEmail == 'yes'): ?>
 				<td><?php echo JHTML::_('email.cloak', $member->email); ?></td>
 			<?php endif; ?>	
-            <?php if($this->params->get('staff_show_research_area') == 'yes'): ?>
+            <?php if($showResearchArea == 'yes'): ?>
 			<td>
 			
 				<?php if($researchArea->id > 1):?>
@@ -63,10 +78,10 @@ $itemId = JRequest::getVar('Itemid');
 			</td>				
              <?php endif; ?>
 			
-              <?php if($this->params->get('staff_show_position') == 'yes'): ?>
+              <?php if($showPosition == 'yes'): ?>
                     <td><?php echo empty($member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$member->getPosition(); ?></td>
                <?php endif; ?>
-               <?php if($this->params->get('staff_show_phone_or_fax') == 'yes'): ?>
+               <?php if($showPhoneOrFax == 'yes'): ?>
                      <td><?php echo $member->phone_or_fax; ?></td>
                 <?php endif; ?>
 		</tr>

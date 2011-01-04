@@ -205,6 +205,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
 DROP TABLE IF EXISTS `#__jresearch_member`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `id` int(10) unsigned NOT NULL auto_increment,
+  `title` varchar(10) default NULL,
   `former_member` tinyint(1) NOT NULL,
   `firstname` varchar(30) NOT NULL,
   `lastname` varchar(30) NOT NULL,

@@ -195,6 +195,7 @@ class JResearchModelMember extends JResearchModelSingleRecord{
 		$teams = array();
 		
 		$sql = 'SELECT '.$db->nameQuote('id_team').' FROM '.$db->nameQuote('#__jresearch_team_member').' WHERE '.$db->nameQuote('id_member').' = '.$db->Quote($memberId);
+		$sql .= ' UNION (SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote('#__jresearch_team').' WHERE '.$db->nameQuote('id_leader').' = '.$db->Quote($memberId).')';
 		$db->setQuery($sql);
 		
 		$ids = $db->loadResultArray();

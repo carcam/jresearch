@@ -593,6 +593,7 @@ class JHTMLjresearchhtml
 		
 		//Additional elements
 		$positionOptions = array();
+		$positionOptions[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_MEMBER_POSITIONS'));
 		foreach($additional as $position)
 		{
 			if(array_key_exists('id', $position) && array_key_exists('name'))
