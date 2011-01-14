@@ -254,7 +254,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
             if(($filter_search = trim($filter_search))){
                     $filter_search = JString::strtolower($filter_search);
                     $filter_search = $db->getEscaped($filter_search);
-                    $where[] = 'LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%');
+                    $where[] = '(LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%')." OR LOCATE(".$db->Quote($filter_search).", LOWER(keywords)) > 0)";
             }
 
             if($filter_pubtype){

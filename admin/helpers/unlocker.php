@@ -30,7 +30,6 @@ class JResearchUnlockerHelper {
                .', '.$db->nameQuote('checked_out').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('checked_out').' != '.$db->Quote($user->id).' AND '
                .$db->nameQuote('checked_out_time').' <= '.$db->Quote($onedayAgo->toMySQL());
        $db->setQuery($query);
-
        $db->query();
 
     }

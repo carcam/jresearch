@@ -165,7 +165,7 @@ class JResearchAdminPublicationsController extends JController
             $user = JFactory::getUser();
             $n = 0;
             $publication = JTable::getInstance('Publication', 'JResearch');
-            foreach($cid as $id){            	 
+            foreach($cid as $id){ 
                  if(!$publication->delete($id))
                       JError::raiseWarning(1, JText::sprintf('JRESEARCH_PUBLICATION_NOT_DELETED', $id));
                     else
