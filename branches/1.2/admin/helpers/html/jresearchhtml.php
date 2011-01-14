@@ -558,11 +558,12 @@ class JHTMLjresearchhtml
 	 * @return JHTMLSelect
 	 */
 	public static function researchareas(array $attributes=array(), array $additional=array())
-	{
-		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas'.DS.'researchareaslist.php');
-		
-		$model = new JResearchModelResearchAreasList();
-		$areas = $model->getData(null,true);
+	{		
+		$db = JFactory::getDBO();
+		$query = 'SELECT id, name FROM #__jresearch_research_area WHERE published = '.$db->Quote(1);
+		$query .= ' ORDER BY name ASC';
+		$db->setQuery($query);
+		$areas = $db->loadAssocList();
 		
 		//Additional elements
 		$areasOptions = array();
@@ -575,7 +576,7 @@ class JHTMLjresearchhtml
 		//Add research areas
 		foreach($areas as $area)
 		{
-			$areasOptions[] = JHTML::_('select.option', $area->id, $area->name);
+			$areasOptions[] = JHTML::_('select.option', $area['id'], $area['name']);
 		}
 		
 		return self::htmllist($areasOptions, $attributes);
@@ -614,15 +615,17 @@ class JHTMLjresearchhtml
 	 */
 	public static function cooperations(array $attributes=array())
 	{
-		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations'.DS.'cooperations.php');
-		
-		$model = new JResearchModelCooperations();
-		$coops = $model->getData(null, true);
+		$db = JFactory::getDBO();
+		$query = 'SELECT id, name FROM #__jresearch_cooperations WHERE published = '.$db->Quote(1);
+		$query .= ' ORDER BY name ASC';
+		$db->setQuery($query);
+		$coops = $db->loadAssocList();
 		
 		$cooperationOptions = array();
+		$cooperationOptions[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_COOPERATIONS'));
 		foreach($coops as $coop)
 		{
-			$cooperationOptions[] = JHTML::_('select.option', $coop->id, $coop->name);	
+			$cooperationOptions[] = JHTML::_('select.option', $coop['id'], $coop['name']);	
 		}
 		
 		return self::htmllist($cooperationOptions, $attributes);
@@ -633,17 +636,17 @@ class JHTMLjresearchhtml
 	 */
 	public static function financiers(array $attributes=array())
 	{
-		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'financiers'.DS.'financiers.php');
-		
-		$model = new JResearchModelFinanciers();
-		$financiers = $model->getData(null, true);
-		
+		$db = JFactory::getDBO();
+		$query = 'SELECT id, name FROM #__jresearch_financier WHERE published = '.$db->Quote(1);
+		$query .= ' ORDER BY name ASC';
+		$db->setQuery($query);		
+		$financiers = $db->loadAssocList();		
 		//Financier options
     	$financierOptions = array();
     	$financierOptions[0] = JHTML::_('select.option', '', JText::_('JRESEARCH_PROJECT_NO_FINANCIERS'));
     	foreach($financiers as $fin)
     	{
-    		$financierOptions[] = JHTML::_('select.option', $fin->id, $fin->name);
+    		$financierOptions[] = JHTML::_('select.option', $fin['id'], $fin['name']);
     	}
     	
     	return self::htmllist($financierOptions, $attributes);
@@ -913,6 +916,25 @@ class JHTMLjresearchhtml
 		$result = '<span class="hits"><span>'.$value.'</span><span><label for="'.$name.'">(';
 		$result .= JText::_('Reset').': </label></span><span><input type="checkbox" name="'.$name.'" id="'.$name.'" />)</span></span>';
 		return $result;
+	}
+	
+	/**
+	 * Renders a HTML generic select list with degree options
+	 */
+	public static function staffmemberslist(array $attributes=array())
+	{
+         $staffOptions = array();
+         $db = JFactory::getDBO();
+         $query = "SELECT id, CONCAT_WS(' ', lastname, firstname) as name FROM #__jresearch_member WHERE published = ".$db->Quote(1);
+         $query .= " ORDER BY lastname ASC";
+         $db->setQuery($query); 
+         $result = $db->loadAssocList();  
+         $staffOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_MEMBERS'));
+		 foreach($result as $m){
+		 	$staffOptions[] = JHTML::_('select.option', $m['id'], $m['name']);
+		 }
+		          
+         return self::htmllist($staffOptions, $attributes);
 	}
 }
 ?>

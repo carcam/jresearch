@@ -13,7 +13,7 @@ $showTitle = $this->params->get('staff_show_title', 'no');
 $showEmail = $this->params->get('member_show_email', 'yes');
 $showResearchArea = $this->params->get('staff_show_research_area', 'yes');
 $showPosition = $this->params->get('staff_show_position', 'yes');
-$showPhoneOrFax = $this->params->get('staff_show_phone_or_fax', 'yes');
+$showPhone = $this->params->get('staff_show_phone', 'yes');
 
 ?>
 <h2 class="componentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
@@ -42,8 +42,8 @@ $showPhoneOrFax = $this->params->get('staff_show_phone_or_fax', 'yes');
 			<th><?php echo JText::_('JRESEARCH_POSITION'); ?></th>
                         <?php $nCols++; ?>
         <?php endif; ?>
-        <?php if($showPhoneOrFax == 'yes'): ?>
-			<th><?php echo JText::_('JRESEARCH_PHONE_OR_FAX'); ?></th>
+        <?php if($showPhone == 'yes'): ?>
+			<th><?php echo JText::_('JRESEARCH_PHONE'); ?></th>
                         <?php $nCols++; ?>
          <?php endif; ?>
 		</tr>
@@ -81,8 +81,8 @@ $showPhoneOrFax = $this->params->get('staff_show_phone_or_fax', 'yes');
               <?php if($showPosition == 'yes'): ?>
                     <td><?php echo empty($member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$member->getPosition(); ?></td>
                <?php endif; ?>
-               <?php if($showPhoneOrFax == 'yes'): ?>
-                     <td><?php echo $member->phone_or_fax; ?></td>
+               <?php if($showPhone == 'yes'): ?>
+                     <td><?php echo $member->phone; ?></td>
                 <?php endif; ?>
 		</tr>
         <?php

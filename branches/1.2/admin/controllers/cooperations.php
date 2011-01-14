@@ -93,24 +93,34 @@ class JResearchAdminCooperationsController extends JController
 
 	function publish()
 	{
-            // Array of ids
-            $cid = JRequest::getVar('cid');
-
-            $coop = JTable::getInstance('Cooperation', 'JResearch');
-            $coop->publish($cid, 1);
-
-            $this->setRedirect('index.php?option=com_jresearch&controller=cooperations', JText::_('The items were successfully published'));
+         // Array of ids
+         $cid = JRequest::getVar('cid');
+		 $user = JFactory::getUser();
+		 
+         $coop = JTable::getInstance('Cooperation', 'JResearch');
+		 
+         if($coop->publish($cid, 1, $user->get('id')))
+         	$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY');
+         else
+         	$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_UNSUCCESSFULLY');	
+         	
+	    $this->setRedirect('index.php?option=com_jresearch&controller=cooperations', $message);
 	}
 
 	function unpublish()
 	{
-            // Array of ids
-            $cid = JRequest::getVar('cid');
-
-            $coop = JTable::getInstance('Cooperation', 'JResearch');
-            $coop->publish($cid, 0);
-
-            $this->setRedirect('index.php?option=com_jresearch&controller=cooperations', JText::_('The items were successfully unpublished'));
+         // Array of ids
+         $cid = JRequest::getVar('cid');
+		 $user = JFactory::getUser();
+		 
+         $coop = JTable::getInstance('Cooperation', 'JResearch');
+		 
+         if($coop->publish($cid, 0, $user->get('id')))
+         	$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY');
+         else
+         	$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_UNSUCCESSFULLY');	
+         	
+	    $this->setRedirect('index.php?option=com_jresearch&controller=cooperations', $message);
 	}
 
 	function remove()
@@ -139,7 +149,7 @@ class JResearchAdminCooperationsController extends JController
 	{
         global $mainframe;
 	    if(!JRequest::checkToken())
-            {
+         {
                 $this->setRedirect('index.php?option=com_jresearch');
                 return;
             }
@@ -241,7 +251,7 @@ class JResearchAdminCooperationsController extends JController
 
                     if(!$coop->checkin())
                     {
-                            JError::raiseWarning(1, JText::_('The record could not be unlocked.'));
+                       JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
                     }
             }
 

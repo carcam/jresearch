@@ -103,12 +103,17 @@ class JResearchAdminThesesController extends JController
 	*/ 
 	function publish(){
 		// Array of ids
-		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
 		$cid = JRequest::getVar('cid');
 
 		$thesis = JTable::getInstance('Thesis', 'JResearch');
-		$thesis->publish($cid, 1);
-		$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));		
+
+		if($thesis->publish($cid, 1, $user->get('id')))
+			$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY');
+	    else
+        	$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_UNSUCCESSFULLY');	
+		
+		$this->setRedirect('index.php?option=com_jresearch&controller=theses', $message);		
 	}
 
 	/**
@@ -117,12 +122,17 @@ class JResearchAdminThesesController extends JController
 	*/ 
 	function unpublish(){
 		// Array of ids
-		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
 		$cid = JRequest::getVar('cid');
 
 		$thesis = JTable::getInstance('Thesis', 'JResearch');
-		$thesis->publish($cid, 0);
-		$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
+
+		if($thesis->publish($cid, 0, $user->get('id')))
+			$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY');
+	    else
+        	$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_UNSUCCESSFULLY');	
+		
+		$this->setRedirect('index.php?option=com_jresearch&controller=theses', $message);
 		
 	}
 

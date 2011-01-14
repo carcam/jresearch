@@ -34,17 +34,7 @@ class JResearchAdminViewTeam extends JResearchView
     	$membersModel =& $this->getModel('Staff'); 	
     	$teamsModel =& $this->getModel('Teams');
     	$hierarchy = $teamsModel->getHierarchical(false, false);
-    	
-    	//Staff options
-    	//@todo Add member list to HTML helper class
-    	$members = $membersModel->getData();
-    	$memberOptions = array();
-    	
-    	foreach($members as $member)
-    	{
-            $memberOptions[] = JHTML::_('select.option', $member->id, $member->firstname.' '.$member->lastname);
-    	}
-    	
+    	    	
     	$selectedMemberOptions = array();
     	
     	if($cid){
@@ -52,26 +42,23 @@ class JResearchAdminViewTeam extends JResearchView
                 JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
                 return;
             }
-
             $arguments[] = $team;
-
             //Leader and members list
-            $leaderList = JHTML::_('select.genericlist', $memberOptions ,'id_leader', 'class="inputbox" size="1"' ,'value', 'text' , $team->id_leader);
+            $leaderList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'id_leader', 'attributes' => 'class="inputbox"', 'selected' => $team->id_leader));
             $selectedMembers = $team->getMembers();
             foreach($selectedMembers as $member)
             {
-                    $selectedMemberOptions[] = $member['id_member'];
+               $selectedMemberOptions[] = $member['id_member'];
             }
-            $memberList = JHTML::_('select.genericlist', $memberOptions ,'members[]', 'class="inputbox" multiple="multiple" size="5"' ,'value', 'text' ,$selectedMemberOptions);
-
+            $memberList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'members[]', 'attributes' => 'class="inputbox" multiple="multiple" size="5"', 'selected' => $selectedMemberOptions));
     	}else{
             $arguments[] = null;
-                    //Leader and members list
-            $leaderList = JHTML::_('select.genericlist', $memberOptions ,'id_leader', 'class="inputbox" size="1"');
-            $memberList = JHTML::_('select.genericlist', $memberOptions ,'members[]', 'class="inputbox" multiple="multiple" size="5"');
+            //Leader and members list
+            $memberList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'members[]', 'attributes' => 'class="inputbox" multiple="multiple" size="5"', 'selected' => array()));
     	}
     	
-    	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $team?$team->published:1));
+        $leaderList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'id_leader', 'attributes' => 'class="inputbox"', 'selected' => !empty($team)? $team->id_leader : ''));    	
+    	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !empty($team)? $team->published : 1));
     	
         $editor =& JFactory::getEditor();
         

@@ -112,8 +112,12 @@ class JResearchAdminProjectsController extends JController
 		$cid = JRequest::getVar('cid');
 
 		$project = JTable::getInstance('Project', 'JResearch');
-		$project->publish($cid, 1);
-		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
+		if($project->publish($cid, 1, $user->get('id')))
+		    $message = JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY');
+        else
+         	$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_UNSUCCESSFULLY');	
+				
+		$this->setRedirect('index.php?option=com_jresearch&controller=projects', $message);
 		
 	}
 
@@ -124,10 +128,14 @@ class JResearchAdminProjectsController extends JController
 	function unpublish(){
 		// Array of ids
 		$cid = JRequest::getVar('cid');
-				
+
 		$project = JTable::getInstance('Project', 'JResearch');
-		$project->publish($cid, 0);
-		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));		
+		if($project->publish($cid, 0, $user->get('id')))
+		    $message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY');
+        else
+         	$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_UNSUCCESSFULLY');	
+				
+		$this->setRedirect('index.php?option=com_jresearch&controller=projects', $message);				
 		
 	}
 

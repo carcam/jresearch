@@ -48,15 +48,24 @@ JHTML::_('behavior.modal');
 	<td style="width:50%;" colspan="2"></td>
   </tr>
   <?php endif; ?>
+  <?php if(!empty($this->member->phone) || !empty($this->member->fax)): ?>
   <tr>
-  	<?php if(empty($this->member->phone_or_fax)): ?>
-  	<td style="width:50%;" colspan="2"></td>
-  	<?php else: ?>	
-  	<th scope="row"><?php echo JText::_('JRESEARCH_PHONE_OR_FAX').': ';  ?></th>
+  	<?php $colspan = 4; ?>
+  	<?php if(!empty($this->member->phone)): ?>
+  	<th scope="row"><?php echo JText::_('JRESEARCH_PHONE').': ';  ?></th>
+  	<?php $colspan = 2;?>
   	<td><?php echo $this->member->phone_or_fax; ?></td>
-	<?php endif; ?>  		
-  	<td colspan="2"></td>
+	<?php endif; ?>
+	<?php if(!empty($this->member->fax)): ?>
+	<th scope="row"><?php echo JText::_('JRESEARCH_FAX').': ';  ?></th>	
+  	<td><?php echo $this->member->fax; ?></td>	
+  	<?php $colspan = 0; ?>
+	<?php endif; ?>
+	<?php if($colspan > 0): ?>  		
+	  	<td colspan="2"></td>
+	<?php endif; ?>
   </tr>
+  <?php endif; ?>
   <tr>
   	<?php if(empty($this->member->location)): ?>
 	<td style="width:50%;" colspan="2"></td>

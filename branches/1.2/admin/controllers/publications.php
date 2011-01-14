@@ -123,13 +123,18 @@ class JResearchAdminPublicationsController extends JController
 	* @access	public
 	*/ 
 	function publish(){
-            // Array of ids
-            $db =& JFactory::getDBO();
-            $cid = JRequest::getVar('cid');
+       // Array of ids
+       $cid = JRequest::getVar('cid');
+       $user = JFactory::getUser();
 
-            $publication = JTable::getInstance('Publication', 'JResearch');
-            $publication->publish($cid, 1);
-            $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));				
+       $publication = JTable::getInstance('Publication', 'JResearch');
+       
+       if($publication->publish($cid, 1, $user->get('id')))
+       		$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY');
+       else
+         	$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_UNSUCCESSFULLY');	
+       
+       $this->setRedirect('index.php?option=com_jresearch&controller=publications', $message);				
 	}
 
 	/**
@@ -137,13 +142,18 @@ class JResearchAdminPublicationsController extends JController
 	* @access	public
 	*/ 
 	function unpublish(){
-            // Array of ids
-            $db =& JFactory::getDBO();
-            $cid = JRequest::getVar('cid');
+		// Array of ids
+       $cid = JRequest::getVar('cid');
+       $user = JFactory::getUser();
 
-            $publication = JTable::getInstance('Publication', 'JResearch');
-            $publication->publish($cid, 0);
-            $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
+       $publication = JTable::getInstance('Publication', 'JResearch');
+       
+       if($publication->publish($cid, 0, $user->get('id')))
+       		$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY');
+       else
+         	$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_UNSUCCESSFULLY');	
+       
+       $this->setRedirect('index.php?option=com_jresearch&controller=publications', $message);
 	}
 
 	/**
@@ -151,15 +161,15 @@ class JResearchAdminPublicationsController extends JController
 	* @access	public
 	*/ 
 	function remove(){
-            $db =& JFactory::getDBO();
             $cid = JRequest::getVar('cid');
+            $user = JFactory::getUser();
             $n = 0;
             $publication = JTable::getInstance('Publication', 'JResearch');
-            foreach($cid as $id){
-                    if(!$publication->delete($id))
-                            JError::raiseWarning(1, JText::sprintf('JRESEARCH_PUBLICATION_NOT_DELETED', $id));
+            foreach($cid as $id){            	 
+                 if(!$publication->delete($id))
+                      JError::raiseWarning(1, JText::sprintf('JRESEARCH_PUBLICATION_NOT_DELETED', $id));
                     else
-                            $n++;
+                      $n++;
             }
             $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', $n));
 	}
@@ -485,10 +495,14 @@ class JResearchAdminPublicationsController extends JController
 		$cid = JRequest::getVar('cid');
 		$task = JRequest::getVar('task');		
 		$db = JFactory::getDBO();
-		
+
 		$publication = JTable::getInstance('Publication', 'JResearch');
-		$publication->toggleInternal($cid, $task == 'makeinternal'?1:0);
-		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));		
+		if($publication->toggleInternal($cid, $task == 'makeinternal'?1:0))
+			$message = JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY');
+		else
+			$message = JText::_('JRESEARCH_TOGGLE_INTERNAL_FAILED');		
+					
+		$this->setRedirect('index.php?option=com_jresearch&controller=publications', $message);		
 	}	
 	
 	/**
@@ -497,17 +511,23 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function toggle_internal(){
-		//$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
+		$user = JFactory::getUser();
 		$publication =& JResearchPublication::getById($cid[0]);
-		$publication->internal = !$publication->internal;
-		if($publication->store())
-			$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));
-		else{
-			JError::raiseWarning(1, JText::_('JRESEARCH_TOGGLE_INTERNAL_FAILED'));
-			$this->setRedirect('index.php?option=com_jresearch&controller=publications');
-		}
+
+		if(!$publication->isCheckedOut($user->get('id'))){		
+			$publication->internal = !$publication->internal;
 		
+			if($publication->store())
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));
+			else{
+				JError::raiseWarning(1, JText::_('JRESEARCH_TOGGLE_INTERNAL_FAILED'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications');
+			}
+		}else{
+			JError::raiseWarning(1, JText::_('JRESEARCH_TOGGLE_INTERNAL_FAILED'));
+			$this->setRedirect('index.php?option=com_jresearch&controller=publications');			
+		}		
 	}
 	
 	/**
