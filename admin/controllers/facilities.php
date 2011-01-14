@@ -107,24 +107,31 @@ class JResearchAdminFacilitiesController extends JController
 	function publish()
 	{
 		// Array of ids
-		$db =& JFactory::getDBO();
 		$cid = JRequest::getVar('cid');
+		$user = JFactory::getUser();
 
 		$fac = JTable::getInstance('Facility', 'JResearch');
-		$fac->publish($cid, 1);
-
-		$this->setRedirect('index.php?option=com_jresearch&controller=facilities', JText::_('The items were successfully published'));
+		if($fac->publish($cid, 1, $user->get('id')))
+		    $message = JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY');
+        else
+         	$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_UNSUCCESSFULLY');	
+		
+		$this->setRedirect('index.php?option=com_jresearch&controller=facilities', $message);
 	}
 
 	function unpublish()
 	{
 		// Array of ids
 		$cid = JRequest::getVar('cid');
+		$user = JFactory::getUser();
 
 		$fac = JTable::getInstance('Facility', 'JResearch');
-		$fac->publish($cid, 0);
-
-		$this->setRedirect('index.php?option=com_jresearch&controller=facilities', JText::_('The items were successfully unpublished'));
+		if($fac->publish($cid, 0, $user->get('id')))
+		    $message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY');
+        else
+         	$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_UNSUCCESSFULLY');	
+		
+		$this->setRedirect('index.php?option=com_jresearch&controller=facilities', $message);
 	}
 
 	function remove()

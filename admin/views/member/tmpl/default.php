@@ -42,25 +42,31 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<div class="divTd"><label for="position"><?php echo JText::_('Position').': ' ?></label></div>
 		<div class="divTdl divTdl2"><?php echo $this->positionList; ?></div>
 		<div class="divTd"><label for="location"><?php echo JText::_('JRESEARCH_LOCATION').': '; ?></label></div>
-		<div class="divTdl"><input type="text" size="15" name="location" id="location" value="<?php echo isset($this->member)?$this->member->location:'' ?>" /></div>
+		<div class="divTdl"><input type="text" size="15" maxlength="255" name="location" id="location" value="<?php echo isset($this->member)?$this->member->location:'' ?>" /></div>
 	    <div class="divEspacio" ></div>		
 	</div>		
 	<div class="divTR">
 		<div class="divTd"><label for="former_member"><?php echo JText::_('JRESEARCH_FORMER_MEMBER')?></label></div>
 		<div class="divTdl divTdl2"><input type="checkbox" name="former_member" value="1" <?php echo (($this->member->former_member == 1) ? 'checked="checked"' : "")?> /></div>	
-		<div class="divTd"><label for="phone_or_fax"><?php echo JText::_('JRESEARCH_PHONE_OR_FAX').': ' ?></label></div>
-		<div class="divTdl"><input name="phone_or_fax" id="phone_or_fax" size="15" maxlength="15" value="<?php echo isset($this->member)?$this->member->phone_or_fax:'' ?>" /></div>
+		<div class="divTd"><label for="phone"><?php echo JText::_('JRESEARCH_PHONE').': ' ?></label></div>
+		<div class="divTdl"><input name="phone" id="phone" size="15" maxlength="15" value="<?php echo isset($this->member)?$this->member->phone:'' ?>" /></div>
 	    <div class="divEspacio" ></div>		
 	</div>
 	<div class="divTR">
+		<div class="divTd"><label for="fax"><?php echo JText::_('JRESEARCH_FAX').': ' ?></label></div>	
+		<div class="divTdl divTdl2"><input name="fax" id="fax" size="15" maxlength="15" value="<?php echo isset($this->member)?$this->member->fax:'' ?>" /></div>
+	
 		<div class="divTd"><label for="email"><?php echo JText::_('Email').': ' ?></label></div>
-		<div class="divTdl divTdl2">
+		<div class="divTdl">
 			<input maxlength="255" size="15" name="email" class="required validate-email" id="email" value="<?php echo isset($this->member)?$this->member->email:''; ?>" />
 			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'email', JText::_('JRESEARCH_PROVIDE_EMAIL')); ?>						
 		</div>		
-		<div class="divTd"><label for="url_personal_page"><?php echo JText::_('JRESEARCH_PERSONAL_PAGE').': ' ?></label></div>
+	    <div class="divEspacio" ></div>		
+	</div>
+	<div class="divTR">
+			<div class="divTd"><label for="url_personal_page"><?php echo JText::_('JRESEARCH_PERSONAL_PAGE').': ' ?></label></div>
 		<div class="divTdl">
-			<input type="text" size="15" maxlength="255" class="validate-url" name="url_personal_page" id="url_personal_page" value="<?php echo isset($this->member)?$this->member->url_personal_page:'' ?>" />
+			<input type="text" size="30" maxlength="255" class="validate-url" name="url_personal_page" id="url_personal_page" value="<?php echo isset($this->member)?$this->member->url_personal_page:'' ?>" />
 			<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'url_personal_page', JText::_('JRESEARCH_PROVIDE_VALID_URL')); ?>			
 		</div>
 	    <div class="divEspacio" ></div>		

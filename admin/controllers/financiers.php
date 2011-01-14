@@ -91,22 +91,30 @@ class JResearchAdminFinanciersController extends JController
 	{
 		// Array of ids
 		$cid = JRequest::getVar('cid');
+		$user = JFactory::getUser();
 
 		$fin = JTable::getInstance('Financier', 'JResearch');
-		$fin->publish($cid, 1);
-
-		$this->setRedirect('index.php?option=com_jresearch&controller=financiers', JText::_('The items were successfully published'));
+		if($fin->publish($cid, 1, $user->get('id')))
+		    $message = JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY');
+        else
+         	$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_UNSUCCESSFULLY');	
+		
+		$this->setRedirect('index.php?option=com_jresearch&controller=financiers', $message);
 	}
 
 	function unpublish()
 	{
 		// Array of ids
 		$cid = JRequest::getVar('cid');
+		$user = JFactory::getUser();
 
 		$fin = JTable::getInstance('Financier', 'JResearch');
-		$fin->publish($cid, 0);
-
-		$this->setRedirect('index.php?option=com_jresearch&controller=financiers', JText::_('The items were successfully unpublished'));
+		if($fin->publish($cid, 0, $user->get('id')))
+		    $message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY');
+        else
+         	$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_UNSUCCESSFULLY');	
+		
+		$this->setRedirect('index.php?option=com_jresearch&controller=financiers', $message);		
 	}
 
 	function remove()

@@ -106,25 +106,32 @@ class JResearchAdminTeamsController extends JController
 	function publish()
 	{
 		// Array of ids
-		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
 		$cid = JRequest::getVar('cid');
-
+		
 		$team = JTable::getInstance('Team', 'JResearch');
-		$team->publish($cid, 1);
-
-		$this->setRedirect('index.php?option=com_jresearch&controller=teams', JText::_('The items were successfully published'));
+		if($team->publish($cid, 1, $user->get('id')))
+			$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY');
+	    else
+        	$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_UNSUCCESSFULLY');	
+		
+		$this->setRedirect('index.php?option=com_jresearch&controller=teams', $message);
 	}
 
 	function unpublish()
 	{
 		// Array of ids
-		$db =& JFactory::getDBO();
+		$user = JFactory::getUser();
 		$cid = JRequest::getVar('cid');
-
+		
 		$team = JTable::getInstance('Team', 'JResearch');
-		$team->publish($cid, 0);
-
-		$this->setRedirect('index.php?option=com_jresearch&controller=teams', JText::_('The items were successfully unpublished'));
+		if($team->publish($cid, 0, $user->get('id')))
+			$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY');
+	    else
+        	$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_UNSUCCESSFULLY');	
+		
+		$this->setRedirect('index.php?option=com_jresearch&controller=teams', $message);
+		
 	}
 
 	function remove()

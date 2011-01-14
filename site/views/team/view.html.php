@@ -56,6 +56,9 @@ class JResearchViewTeam extends JResearchView
 		$show_publications = $params->get('team_show_publications', 'yes');
 		$show_projects = $params->get('team_show_projects', 'yes');
 		$show_theses = $params->get('team_show_theses', 'yes');
+		$applyStyles = $params->get('publications_apply_style', 'no');
+		$style = $params->get('citationStyle', 'APA');
+
 		if($show_publications == "yes")
 		{
 			$pub_view_all = JRequest::getVar('publications_view_all', 0);
@@ -128,7 +131,8 @@ class JResearchViewTeam extends JResearchView
 		$this->assignRef('max_publications', $max_publications);
 		$this->assignRef('max_projects', $max_projects);
 		$this->assignRef('max_theses', $max_theses);
-		
+		$this->assignRef('applyStyles', $applyStyles);
+		$this->assignRef('style', $style);
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		
        	parent::display($tpl);

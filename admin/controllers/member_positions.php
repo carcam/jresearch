@@ -100,22 +100,29 @@ class JResearchAdminMember_positionsController extends JController
 	{
 		// Array of ids
 		$cid = JRequest::getVar('cid');
-
-		$coop = JTable::getInstance('Member_position', 'JResearch');
-		$coop->publish($cid, 1);
-
-		$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('The items were successfully published'));
+		$memp = JTable::getInstance('Member_position', 'JResearch');
+		
+		if($memp->publish($cid, 1, $user->get('id')))
+		    $message = JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY');
+        else
+         	$message = JText::_('JRESEARCH_ITEMS_PUBLISHED_UNSUCCESSFULLY');	
+		
+		$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', $message);
 	}
 
 	function unpublish()
 	{
 		// Array of ids
 		$cid = JRequest::getVar('cid');
-
-		$position = JTable::getInstance('Member_position', 'JResearch');
-		$position->publish($cid, 0);
-
-		$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('The items were successfully unpublished'));
+		$memp = JTable::getInstance('Member_position', 'JResearch');
+		
+		if($memp->publish($cid, 1, $user->get('id')))
+		    $message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY');
+        else
+         	$message = JText::_('JRESEARCH_ITEMS_UNPUBLISHED_UNSUCCESSFULLY');	
+		
+		$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', $message);
+		
 	}
 
 	function remove()

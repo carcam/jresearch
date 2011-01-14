@@ -26,7 +26,7 @@
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
 			</param>
-			<param name="staff_show_phone_or_fax" label="JRESEARCH_CONFIG_STAFF_SHOW_PHONE_OR_FAX" default="yes" type="radio">
+			<param name="staff_show_phone" label="JRESEARCH_CONFIG_STAFF_SHOW_PHONE" default="yes" type="radio">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
 			</param>

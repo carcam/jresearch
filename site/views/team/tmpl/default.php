@@ -28,7 +28,8 @@ $Itemid = JRequest::getVar('Itemid', 0);
 		?>
 		<tr>
 			<th><?php echo JText::_('Position').': ' ?></th>
-			<td><?php echo $this->leader->getPosition(); ?></td>
+			<td><?php $position = $this->leader->getPosition(); 
+			echo $position->position; ?></td>
 		</tr>
 		<?php 
 		endif;
@@ -45,8 +46,8 @@ $Itemid = JRequest::getVar('Itemid', 0);
 		if($this->leader->phone_or_fax):
 		?>
 		<tr>
-			<th><?php echo JText::_('JRESEARCH_PHONE_OR_FAX').': ' ?></th>
-			<td><?php echo $this->leader->phone_or_fax; ?></td>
+			<th><?php echo JText::_('JRESEARCH_PHONE').': ' ?></th>
+			<td><?php echo $this->leader->phone; ?></td>
 		</tr>
 		<?php 
 		endif;
@@ -120,9 +121,20 @@ if(!empty($text))
 <div>&nbsp;&nbsp;</div>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h3>
 <ul>
+<?php if($this->applyStyles): ?>
+<?php foreach($this->publications as $publication): ?>
+<li>
+  <?php  
+  	$styleObj = JResearchCitationStyleFactory::getInstance($this->style, $publication->pubtype);
+  	echo $styleObj->getReferenceHTMLText($publication, true); 
+  ?>
+</li>
+<?php endforeach; ?>
+<?php else:?>
 <?php foreach($this->publications as $publication): ?>
 	<li><?php echo JHTML::_('jresearch.link', $publication->title, 'publication', 'show', $publication->id); ?></li>
 <?php endforeach; ?>
+<?php endif; ?>
 </ul>
 <?php 
 $text = '';

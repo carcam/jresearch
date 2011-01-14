@@ -107,8 +107,14 @@ class JResearchMember extends JTable{
 	 *
 	 * @var string
 	 */
-	public $phone_or_fax;
+	public $phone;
 	
+	/**
+	 * Member's phone number
+	 *
+	 * @var string
+	 */
+	public $fax;
 	
 	/**
 	 * Member's photo
