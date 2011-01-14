@@ -219,7 +219,7 @@ class JResearchViewPublication extends JResearchView
        }
 
        $nattach = $publication->countAttachments();
-       if($n > 0){
+       if($nattach > 0){
            $attach = $publication->getAttachment(0, 'publications');
            $doc->setMetaData('citation_pdf_url', JHTML::_('JResearchhtml.attachment', $attach));
        }
