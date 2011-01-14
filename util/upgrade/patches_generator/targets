@@ -1,7 +1,0 @@
-/jresearch.xml = /administrator/components/com_jresearch/jresearch.xml
-/uninstall.php = /administrator/components/com_jresearch/uninstall.php
-/plg_jresearch/jresearch.xml = /plugins/search/jresearch.xml
-/site = /components/com_jresearch
-/admin = /administrator/components/com_jresearch
-/language/admin = /administrator/language/en-GB
-/language/site = /language/en-GB
