@@ -40,6 +40,7 @@ class JResearchAdminFacilitiesController extends JController
             $this->registerTask('cancel', 'cancel');
 
             $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'facilities');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');            
             $this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'facilities');
 	}
 
@@ -69,9 +70,10 @@ class JResearchAdminFacilitiesController extends JController
 	
 		$cid = JRequest::getVar('cid', array());
 
-		$view = &$this->getView('Facility', 'html', 'JResearchAdminView');
-		$model = &$this->getModel('Facility', 'JResearchModel');
-		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
+		$view = $this->getView('Facility', 'html', 'JResearchAdminView');
+		$model = $this->getModel('Facility', 'JResearchModel');
+		$areaModel = $this->getModel('ResearchAreasList', 'JResearchModel');
+		$teamsModel = $this->getModel('Teams', 'JResearchModel'); 
 
 		if(!empty($cid)){
 			$fac = $model->getItem($cid[0]);
@@ -89,6 +91,7 @@ class JResearchAdminFacilitiesController extends JController
 					$fac->checkout($user->get("id"));
 					$view->setModel($model,true);
 					$view->setModel($areaModel);
+					$view->setModel($teamsModel);					
 					$view->display();
 				}
 			}else{
@@ -100,6 +103,7 @@ class JResearchAdminFacilitiesController extends JController
 		{
 			$view->setModel($model,true);
 			$view->setModel($areaModel);
+			$view->setModel($teamsModel);			
 			$view->display();
 		}
 	}

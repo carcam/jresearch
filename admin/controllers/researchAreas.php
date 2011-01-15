@@ -38,6 +38,7 @@ class JResearchAdminResearchAreasController extends JController
             $this->registerTask('save', 'save');
             $this->registerTask('cancel', 'cancel');
             $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');            
 	}
 
 	/**
@@ -196,8 +197,9 @@ class JResearchAdminResearchAreasController extends JController
             $cid = JRequest::getVar('cid');
             $view = &$this->getView('ResearchArea', 'html', 'JResearchAdminView');
             $model = &$this->getModel('ResearchArea', 'JResearchModel');
+			$teamsModel = $this->getModel('Teams', 'JResearchModel');
 
-            if($cid){
+			if($cid){
                     $area = $model->getItem($cid[0]);
                     if(!empty($area)){
                             $user =& JFactory::getUser();
@@ -208,6 +210,7 @@ class JResearchAdminResearchAreasController extends JController
                                     $area->checkout($user->get('id'));
                                     $view->setLayout('default');
                                     $view->setModel($model, true);
+                                    $view->setModel($teamsModel);
                                     $view->display();
                             }
                     }else{
@@ -219,6 +222,7 @@ class JResearchAdminResearchAreasController extends JController
                     $session->set('citedRecords', array(), 'jresearch');
                     $view->setLayout('default');
                     $view->setModel($model, true);
+                    $view->setModel($teamsModel);                    
                     $view->display();
             }
 	}

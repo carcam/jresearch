@@ -28,8 +28,8 @@ class JResearchAdminViewResearchArea extends JResearchView
         
     	// Information about the member
     	$cid = JRequest::getVar('cid');
-    	$editor =& JFactory::getEditor();
-    	$model =& $this->getModel();
+    	$editor = JFactory::getEditor();
+    	$model = $this->getModel();
     	$area = $model->getItem($cid[0]);
     	$arguments = array('researcharea');
     	
@@ -39,12 +39,18 @@ class JResearchAdminViewResearchArea extends JResearchView
             $arguments[] = null;
     	
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $area?$area->published:1));
-        // Load cited records
+        
+		$teamsModel = $this->getModel('Teams');
+    	$hierarchy = $teamsModel->getHierarchical();
+		$teamsList = JHTML::_('jresearchhtml.teamshierarchy', $hierarchy, array('name' => 'id_team', 'selected' => !empty($area)? $area->id_team : null));    	
+    			
+		// Load cited records
         $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
     	
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
         $this->assignRef('editor', $editor);
+        $this->assignRef('teamsList', $teamsList);
     			
        	parent::display($tpl);
 

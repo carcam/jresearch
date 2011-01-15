@@ -42,6 +42,7 @@ class JResearchAdminCooperationsController extends JController
 
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations');
 		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'cooperations');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');
 	}
 
 	/**
@@ -52,8 +53,8 @@ class JResearchAdminCooperationsController extends JController
 	function display()
 	{
             JResearchUnlockerHelper::unlockItems('cooperations');
-            $view = &$this->getView('Cooperations', 'html', 'JResearchAdminView');
-            $model = &$this->getModel('Cooperations', 'JResearchModel');
+            $view = $this->getView('Cooperations', 'html', 'JResearchAdminView');
+            $model = $this->getModel('Cooperations', 'JResearchModel');
 
             $view->setModel($model,true);
             $view->display();
@@ -63,13 +64,14 @@ class JResearchAdminCooperationsController extends JController
 	{
             $cid = JRequest::getVar('cid', array());
 
-            $view = &$this->getView('Cooperation', 'html', 'JResearchAdminView');
-            $model = &$this->getModel('Cooperation', 'JResearchModel');
+            $view = $this->getView('Cooperation', 'html', 'JResearchAdminView');
+            $model = $this->getModel('Cooperation', 'JResearchModel');
+            $teamsModel = $this->getModel('Teams', 'JResearchModel');
 
             if(!empty($cid)){
                 $coop = $model->getItem($cid[0]);
                 if(!empty($coop)){
-                    $user = &JFactory::getUser();
+                    $user = JFactory::getUser();
                     //Check if it is checked out
                     if($coop->isCheckedOut($user->get("id")))
                     {
@@ -78,7 +80,8 @@ class JResearchAdminCooperationsController extends JController
                     else
                     {
                         $coop->checkout($user->get("id"));
-                        $view->setModel($model,true);
+                        $view->setModel($model, true);
+                        $view->setModel($teamsModel);
                         $view->display();
                     }
                 }else{
@@ -87,6 +90,7 @@ class JResearchAdminCooperationsController extends JController
                 }
             }else{
                 $view->setModel($model,true);
+                $view->setModel($teamsModel);                
                 $view->display();
             }
 	}

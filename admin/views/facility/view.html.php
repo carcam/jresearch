@@ -42,6 +42,10 @@ class JResearchAdminViewFacility extends JResearchView
     	else
             $arguments[] = null;
 
+		$teamsModel = $this->getModel('Teams');
+    	$hierarchy = $teamsModel->getHierarchical();
+		$teamsList = JHTML::_('jresearchhtml.teamshierarchy', $hierarchy, array('name' => 'id_team', 'selected' => !empty($area)? $area->id_team : null));    	
+            
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $fac?$fac->published:1));
         $researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $fac?$fac->id_research_area:1));
         $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
@@ -51,6 +55,7 @@ class JResearchAdminViewFacility extends JResearchView
     	$this->assignRef('areasList', $researchAreasHTML);
         $this->assignRef('editor', $editor);
         $this->assignRef('params', $params);
+        $this->assignRef('teamsList', $teamsList);
     	
        	parent::display($tpl);
 

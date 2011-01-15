@@ -53,8 +53,8 @@ class JResearchAdminTeamsController extends JController
 	function display()
 	{
             JResearchUnlockerHelper::unlockItems('team');
-            $view = &$this->getView('Teams', 'html', 'JResearchAdminView');
-            $model = &$this->getModel('Teams', 'JResearchModel');
+            $view = $this->getView('Teams', 'html', 'JResearchAdminView');
+            $model = $this->getModel('Teams', 'JResearchModel');
 
             $view->setModel($model, true);
 
@@ -69,10 +69,10 @@ class JResearchAdminTeamsController extends JController
 	{
 		$cid = JRequest::getVar('cid', array());
 		
-		$view = &$this->getView('Team', 'html', 'JResearchAdminView');
-		$model = &$this->getModel('Team', 'JResearchModel');
-		$membersModel =& $this->getModel('Staff', 'JResearchModel');
-		$teamsModel =& $this->getModel('Teams', 'JResearchModel');
+		$view = $this->getView('Team', 'html', 'JResearchAdminView');
+		$model = $this->getModel('Team', 'JResearchModel');
+		$membersModel = $this->getModel('Staff', 'JResearchModel');
+		$teamsModel = $this->getModel('Teams', 'JResearchModel');
 		
 		if(!empty($cid))
 		{

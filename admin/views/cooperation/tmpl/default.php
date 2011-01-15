@@ -45,6 +45,8 @@ JHTML::_('behavior.modal');
 	    <div class="divEspacio" ></div>		
 	</div>
 	<div class="divTR">
+		<div class="divTd"><label for="id_team"><?php echo JText::_('JRESEARCH_TEAM').': '; ?></label></div>
+		<div class="divTdl divTdl2"><?php echo $this->teamsList; ?></div>	
 		<div class="divTd"><label for="catid"><?php echo JText::_('JRESEARCH_COOPERATION_CATEGORIES').': '?></label></div>
 		<div class="divTdl"><?php echo $this->categoryList; ?></div>
 	    <div class="divEspacio" ></div>				

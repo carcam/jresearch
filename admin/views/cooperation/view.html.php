@@ -31,7 +31,7 @@ class JResearchAdminViewCooperation extends JResearchView
     	
     	// Information about the member
     	$cid = JRequest::getVar('cid');
-    	$model =& $this->getModel();
+    	$model = $this->getModel();
     	$coop = $model->getItem($cid[0]);
     	$arguments = array('cooperation', $coop?$coop:null);
     	
@@ -43,7 +43,12 @@ class JResearchAdminViewCooperation extends JResearchView
     	
     	$categoryList = JHTML::_('list.category', 'catid', 'com_jresearch_cooperations', $coop?$coop->catid:null);
     	
-        $editor =& JFactory::getEditor();
+    	$teamsModel = $this->getModel('Teams');
+    	$hierarchy = $teamsModel->getHierarchical();
+		$teamsList = JHTML::_('jresearchhtml.teamshierarchy', $hierarchy, array('name' => 'id_team', 'selected' => !empty($coop)? $coop->id_team : null));    	
+    	
+    	
+        $editor = JFactory::getEditor();
     	
     	$this->assignRef('coop', $coop, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('categoryList', $categoryList);
@@ -51,6 +56,7 @@ class JResearchAdminViewCooperation extends JResearchView
     	$this->assignRef('orderList', $orderList);
         $this->assignRef('editor', $editor);
         $this->assignRef('params', $params);
+        $this->assignRef('teamsList', $teamsList);
 
         // Load cited records
         $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);

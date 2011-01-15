@@ -104,6 +104,9 @@ class JResearchTeam extends JTable
 	public function delete($oid = null)
 	{
 		$this->_deleteMembers($oid);
+		$this->_unlinkResearcharea($oid);
+		$this->_unlinkFacilities($oid);
+		$this->_unlinkCooperations($oid);
 		parent::delete($oid);
 	}
 	
@@ -229,7 +232,7 @@ class JResearchTeam extends JTable
 	
 	private function _deleteMembers($oid = null)
 	{
-		$db = &$this->getDBO();
+		$db = $this->getDBO();
 		$j = $this->_tbl_key;
 		$oid = ($oid == null) ? $this->$j : $oid;
 		$tableName = $db->nameQuote('#__jresearch_team_member');
@@ -248,9 +251,41 @@ class JResearchTeam extends JTable
 		return true;
 	}
 	
+	 /**
+	  * Unlinks any research area pointing to the team being removed.
+	  * @param $oid
+	  */
+	 private function _unlinkResearcharea($oid){
+	 	$db = JFactory::getDBO();	 	
+	 	$query = 'UPDATE #__jresearch_research_area SET id_team = NULL WHERE id_team = '.$db->Quote($oid);
+	 	$db->query();	 	
+	 }
+	
+	 /**
+	  * Unlinks any facility pointing to the team being removed.
+	  * @param int $oid
+	  */
+	 private function _unlinkFacilities($oid){
+		$db = JFactory::getDBO();	 	
+	 	$query = 'UPDATE #__jresearch_facilities SET id_team = NULL WHERE id_team = '.$db->Quote($oid);
+	 	$db->query();	 	
+	 }
+
+	 /**
+	  * 
+	  * Unlink any cooperation pointing to the team being invoked
+	  * @param int $oid
+	  */
+	private function _unlinkCooperations($oid){
+		$db = JFactory::getDBO();	 	
+	 	$query = 'UPDATE #__jresearch_cooperation SET id_team = NULL WHERE id_team = '.$db->Quote($oid);
+	 	$db->query(); 			
+	}
+	
+	
 	private function _loadMembers($oid)
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$table = $db->nameQuote('#__jresearch_team_member');
 		$idTeam = $db->nameQuote('id_team');
 		
