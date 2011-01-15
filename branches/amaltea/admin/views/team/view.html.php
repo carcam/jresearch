@@ -29,10 +29,10 @@ class JResearchAdminViewTeam extends JResearchView
 
     	// Information about the member
     	$cid = JRequest::getVar('cid');
-    	$model =& $this->getModel();
+    	$model = $this->getModel();
     	$team = $model->getItem($cid[0]);
-    	$membersModel =& $this->getModel('Staff'); 	
-    	$teamsModel =& $this->getModel('Teams');
+    	$membersModel = $this->getModel('Staff'); 	
+    	$teamsModel = $this->getModel('Teams');
     	$hierarchy = $teamsModel->getHierarchical(false, false);
     	    	
     	$selectedMemberOptions = array();

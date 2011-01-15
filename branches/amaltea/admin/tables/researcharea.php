@@ -61,6 +61,14 @@ class JResearchResearcharea extends JTable{
 	 */
 	public $checked_out;	
 
+	
+	/**
+	 * 
+	 * Team sponsoring the research area
+	 * @var int
+	 */
+	public $id_team;
+	
 	/**
 	 * @var unknown_type
 	 */

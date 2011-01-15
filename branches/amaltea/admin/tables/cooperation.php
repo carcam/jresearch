@@ -54,13 +54,21 @@ class JResearchCooperation extends JTable
   	 * Cooperation URL
   	 *
   	 * @var string
-  	 */
+  	 */  	  	
   	public $url;
   	public $checked_out;
   	public $checked_out_time;
   	public $published;
   	public $ordering;
 
+	/**
+	 * 
+	 * Team sponsoring the research area
+	 * @var int
+	 */
+	public $id_team;
+  	
+  	
     /**
      * Constructor
      *

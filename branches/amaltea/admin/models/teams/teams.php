@@ -71,13 +71,17 @@ class JResearchModelTeams extends JResearchModelList
 	 * @param bool $paginate
 	 * @return array 
 	 */
-	public function getHierarchical($onlyPublished = false, $paginate = false)
+	public function getHierarchical()
 	{
 		//Set items
-		$this->getData(null, $onlyPublished, $paginate);
+		$db = JFactory::getDBO();
+		$query = 'SELECT * FROM #__jresearch_team WHERE published = '.$db->Quote(1);
+		$db->setQuery($query);
+		$items = $db->loadObjectList(); 
+		
 		$children = array();
 		
-		foreach($this->_items as $row)
+		foreach($items as $row)
 		{
 			$pointer = $row->parent;
 			$list = @$children[$pointer] ? $children[$pointer] : array();

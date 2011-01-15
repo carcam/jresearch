@@ -31,6 +31,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <div class="divEspacio" ></div>		
 </div>
 <div class="divTR">
+	<div class="divTd"><label for="id_team"><?php echo JText::_('JRESEARCH_TEAM').': '; ?></label></div>
+	<div class="divTdl divTdl2"><?php echo $this->teamsList; ?></div>
 	<div class="divTd"><label for="published"><?php echo JText::_('Published').': '; ?></label></div>
 	<div class="divTdl"><?php echo $this->publishedRadio; ?></div>
     <div class="divEspacio" ></div>			

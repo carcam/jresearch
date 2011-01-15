@@ -37,7 +37,22 @@ class JResearchFacility extends JTable
 	 * @var string
 	 */
 	public $alias;
-  	public $name;
+  	
+	/**
+	 * 
+	 * Facility name
+	 * @var string
+	 */
+	public $name;
+  	
+  	/**
+	 * 
+	 * Team sponsoring the research area
+	 * @var int
+	 */
+	public $id_team;
+  	
+  	
   	public $image_url;
   	public $description;
   	public $checked_out;

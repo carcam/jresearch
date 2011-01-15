@@ -32,7 +32,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
     		<div class="divTdl divTdl2"><?php echo $this->areasList; ?></div>
     		<div class="divTd"><label for="published"><?php echo JText::_('Published').': '; ?></label></div>
     		<div><?php echo $this->publishedRadio; ?></div>
-    	</div>	
+			<div class="divEspacio" ></div>    		
+    	</div>
+    	<div>
+			<div class="divTd"><label for="id_team"><?php echo JText::_('JRESEARCH_TEAM').': '; ?></label></div>
+			<div class="divTdl divTdl2"><?php echo $this->teamsList; ?></div>	    	
+			<div class="divEspacio" ></div>    	
+    	</div>    		
 	</div>
 </fieldset>
 <fieldset>
