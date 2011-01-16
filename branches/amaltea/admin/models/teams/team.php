@@ -115,7 +115,34 @@ class JResearchModelTeam extends JResearchModelSingleRecord
 		$db->setQuery($query);
 		return $db->loadResult();
 	
-	}	
+	}
+
+	public function getNumberFacilities($teamId){
+		$db = JFactory::getDBO();
+		
+		$query = "SELECT COUNT(*) FROM #__jresearch_facilities WHERE id_team = ".$db->Quote($teamId)." AND published = ".$db->Quote(1);
+		$db->setQuery($query);
+		
+		return $db->loadResult();
+	}
+	
+	public function getNumberCooperations($teamId){
+		$db = JFactory::getDBO();
+		
+		$query = "SELECT COUNT(*) FROM #__jresearch_cooperation WHERE id_team = ".$db->Quote($teamId)." AND published = ".$db->Quote(1);
+		$db->setQuery($query);
+		
+		return $db->loadResult();
+	}
+	
+	public function getNumberAreas($teamId){
+		$db = JFactory::getDBO();
+		
+		$query = "SELECT COUNT(*) FROM #__jresearch_research_area WHERE id_team = ".$db->Quote($teamId)." AND published = ".$db->Quote(1);
+		$db->setQuery($query);
+		
+		return $db->loadResult();
+	}
 
 }
 ?>

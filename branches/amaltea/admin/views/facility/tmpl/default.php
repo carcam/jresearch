@@ -34,9 +34,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
     		<div><?php echo $this->publishedRadio; ?></div>
 			<div class="divEspacio" ></div>    		
     	</div>
-    	<div>
+    	<div class="divTR">
 			<div class="divTd"><label for="id_team"><?php echo JText::_('JRESEARCH_TEAM').': '; ?></label></div>
-			<div class="divTdl divTdl2"><?php echo $this->teamsList; ?></div>	    	
+			<div class="divTdl"><?php echo $this->teamsList; ?></div>	    	
 			<div class="divEspacio" ></div>    	
     	</div>    		
 	</div>
@@ -48,7 +48,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<div class="divTd"><?php echo JText::_('JRESEARCH_FACILITY_IMAGE').': '; ?></div>
 			<div class="divTdl">			
 				<input type="file" name="inputfile" id="inputfile" />&nbsp;&nbsp;<?php echo JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 1024, 768)); ?><br />
-				<label for="delete" /><?php echo JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
+				<label for="delete"><?php echo JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
 			</div>
 			<div class="divTdl">
 				<?php

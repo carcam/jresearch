@@ -44,7 +44,7 @@ class JResearchAdminViewFacility extends JResearchView
 
 		$teamsModel = $this->getModel('Teams');
     	$hierarchy = $teamsModel->getHierarchical();
-		$teamsList = JHTML::_('jresearchhtml.teamshierarchy', $hierarchy, array('name' => 'id_team', 'selected' => !empty($area)? $area->id_team : null));    	
+		$teamsList = JHTML::_('jresearchhtml.teamshierarchy', $hierarchy, array('name' => 'id_team', 'selected' => !empty($fac)? $fac->id_team : null));    	
             
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $fac?$fac->published:1));
         $researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $fac?$fac->id_research_area:1));

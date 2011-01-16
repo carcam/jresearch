@@ -34,6 +34,7 @@ class JResearchAdminViewTeam extends JResearchView
     	$membersModel = $this->getModel('Staff'); 	
     	$teamsModel = $this->getModel('Teams');
     	$hierarchy = $teamsModel->getHierarchical(false, false);
+    	$params = JComponentHelper::getParams('com_jresearch');
     	    	
     	$selectedMemberOptions = array();
     	
@@ -56,11 +57,11 @@ class JResearchAdminViewTeam extends JResearchView
             //Leader and members list
             $memberList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'members[]', 'attributes' => 'class="inputbox" multiple="multiple" size="5"', 'selected' => array()));
     	}
-    	
+    	    	
         $leaderList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'id_leader', 'attributes' => 'class="inputbox"', 'selected' => !empty($team)? $team->id_leader : ''));    	
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !empty($team)? $team->published : 1));
     	
-        $editor =& JFactory::getEditor();
+        $editor = JFactory::getEditor();
         
         $mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
 
@@ -70,6 +71,7 @@ class JResearchAdminViewTeam extends JResearchView
     	$this->assignRef('memberList', $memberList);
         $this->assignRef('editor', $editor);
         $this->assignRef('hierarchy', $hierarchy);
+        $this->assignRef('params', $params);
 
        	parent::display($tpl);
        	

@@ -103,7 +103,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				</a>
 				<input type="hidden" name="url_project_image" value="<?php echo $this->project->url_project_image; ?>" />
 	
-				<label for="delete" /><?php echo JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
+				<label for="delete"><?php echo JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
 				<?php endif; ?>
 			<?php endif; ?>			
 		</div>	

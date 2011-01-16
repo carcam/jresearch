@@ -65,16 +65,34 @@ class JResearchFacility extends JTable
      *
      * @param object Database connector object
      */
-    function JResearchFacility(&$db)
+    function __construct(&$db)
     {
         parent::__construct('#__jresearch_facilities', 'id', $db);
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see joomla/database/JTable::check()
+     */
     function check()
     {
     	$url_pattern = "!^((ht|f)tp(s?)\:\/\/|~/|/)?([\w]+:\w+@)?([a-zA-Z]{1}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?((/?\w+/)+|/?)(\w+\.[\w]{3,4})?((\?\w+=\w+)?(&\w+=\w+)*)?$!";
         	
         return true;
+    }
+    
+	/**
+     * Returns the JResearchTeam associated to the facility
+     * @return JResearchTeam
+     */
+    function getTeam(){    	
+    	$team = null;
+    	if(!empty($this->id_team)){
+			$team = JTable::getInstance('Team', 'JResearch');    		
+	    	$team->load($this->id_team);
+    	}
+    	    	
+		return $team;    	
     }
 }
 ?>

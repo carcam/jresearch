@@ -24,6 +24,25 @@
                             <option value="no">No</option>
                     </param>
                     <param name="team_number_last_theses" label="JRESEARCH_CONFIG_TEAM_NUMBER_THESES" default="5" type="text" />
+				<param name="team_show_areas" label="JRESEARCH_CONFIG_SHOW_AREAS_IN_TEAM" type="radio" default="yes">
+					<option value="yes">Yes</option>
+					<option value="no">No</option>
+				</param>
+				<param name="team_number_last_areas" label="JRESEARCH_CONFIG_TEAM_NUMBER_AREAS" default="5" type="text" />
+
+				<param name="team_show_facilities" label="JRESEARCH_CONFIG_SHOW_FACILITIES_IN_TEAM" type="radio" default="yes">
+					<option value="yes">Yes</option>
+					<option value="no">No</option>
+				</param>
+				<param name="team_number_last_facilities" label="JRESEARCH_CONFIG_TEAM_NUMBER_FACILITIES" default="5" type="text" />
+				<param name="team_number_last_areas" label="JRESEARCH_CONFIG_TEAM_NUMBER_AREAS" default="5" type="text" />
+
+				<param name="team_show_cooperations" label="JRESEARCH_CONFIG_SHOW_COOPERATIONS_IN_TEAM" type="radio" default="yes">
+					<option value="yes">Yes</option>
+					<option value="no">No</option>
+				</param>
+				<param name="team_number_last_cooperations" label="JRESEARCH_CONFIG_TEAM_NUMBER_COOPERATIONS" default="5" type="text" />
+                    
             </params>
 	</state>
 </metadata>

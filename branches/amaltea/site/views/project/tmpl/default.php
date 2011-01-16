@@ -48,7 +48,7 @@ JHTML::_('behavior.modal');
 		<?php $status = $this->statusArray[$this->project->status]; ?>
 		<td style="width:20%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_STATUS').': ' ?></td>
 		<td style="width:30%;"><?php echo $status; ?></td>
-		<td colspan="2">&nbsp;</td>
+		<td colspan="2"></td>
 	</tr>
 	
 	<?php $authors = $this->project->getPrincipalInvestigators(); ?>

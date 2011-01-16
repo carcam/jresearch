@@ -166,9 +166,12 @@ class JResearchAdminTeamsController extends JController
 		    return;
 		}
 		
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$team = JTable::getInstance('Team', 'JResearch');
-
+		$params = JComponentHelper::getParams('com_jresearch');
+        $imageWidth = $params->get('project_image_width', _PROJECT_IMAGE_MAX_WIDTH_);
+        $imageHeight = $params->get('project_image_height', _PROJECT_IMAGE_MAX_HEIGHT_);
+		
 		// Bind request variables
 		$post = JRequest::get('post');
 
@@ -198,11 +201,23 @@ class JResearchAdminTeamsController extends JController
 		{
 			$team->setMember($member);
 		}
+        
+		$fileArr = JRequest::getVar('inputfile', null, 'FILES');		
+		$delete = JRequest::getVar('delete');
+
+      	JResearch::uploadImage($team->logo, 	//Image string to save
+                             $fileArr, 			//Uploaded File array
+                             'assets'.DS.'teams'.DS, //Relative path from administrator folder of the component
+                             ($delete == 'on')?true:false,	//Delete?
+                             $imageWidth, //Max Width
+                             $imageHeight //Max Height
+            );
+		
 
 			// Validate and save
 		if($team->check())
 		{
-                        $mainframe->triggerEvent('onBeforeSaveJResearchEntity', array('team', $team));
+            $mainframe->triggerEvent('onBeforeSaveJResearchEntity', array('team', $team));
 			if($team->store())
 			{
 				$task = JRequest::getVar('task');
