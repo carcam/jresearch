@@ -38,6 +38,7 @@ class JResearchTeam extends JTable
 	public $published;
 	public $checked_out;
   	public $checked_out_time;
+  	public $logo;
 	
 	protected $_members = array();
 	

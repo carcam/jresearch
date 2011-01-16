@@ -51,6 +51,7 @@ class JResearchViewFacility extends JResearchView
     */
     private function _displayFacility(&$arguments)
     {
+    	global $mainframe;
     	$id = JRequest::getInt('id');
         $doc =& JFactory::getDocument();
 

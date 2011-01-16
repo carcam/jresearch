@@ -221,5 +221,32 @@ class JResearchModelFacilities extends JResearchModelList
 
 		return true;
 	}
+	
+	/**
+	 * Gets data by team id
+	 *
+	 * @param int $teamId
+	 * @return array
+	 */
+	public function getDataByTeamId($teamId, $count=0)
+	{
+		$db = JFactory::getDBO();
+				
+		$query = 'SELECT * FROM #__jresearch_facilities WHERE id_team = '.$db->Quote($teamId).' AND published = '.$db->Quote(1);
+		if($count > 0)
+			$query .= 'LIMIT 0, '.((int)($count));
+			
+		$db->setQuery($query);
+		$result = $db->loadAssocList();
+		$facilities = array();
+		
+		foreach($result as $row){
+			$fac = JTable::getInstance('Facility', 'JResearch');
+			$fac->bind($row);
+			$facilities[] = $fac;
+		}
+		
+		return $facilities;
+	}
 }
 ?>

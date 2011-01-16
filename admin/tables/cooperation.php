@@ -101,13 +101,31 @@ class JResearchCooperation extends JTable
         return true;
     }
     
+    /**
+     * Returns the cooperation's category
+     * @return object (stdClass)
+     */
     public function getCategory()
     {
-    	$db =& JFactory::getDBO();
+    	$db = JFactory::getDBO();
     	$sql = 'SELECT id, image, title FROM '.$db->nameQuote('#__categories').' WHERE '.$db->nameQuote('id').'='.$db->Quote($this->catid);
     	
     	$db->setQuery($sql);
 		return $db->loadObject();
+    }
+    
+	/**
+     * Returns the JResearchTeam associated to the cooperation
+     * @return JResearchTeam
+     */
+    function getTeam(){    	
+    	$team = null;
+    	if(!empty($this->id_team)){
+			$team = JTable::getInstance('Team', 'JResearch');    		
+	    	$team->load($this->id_team);
+    	}
+    	    	
+		return $team;    	
     }
 }
 ?>

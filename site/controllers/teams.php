@@ -68,19 +68,28 @@ class JResearchTeamsController extends JResearchFrontendController
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'projects');
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'theses');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'facilities');		
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');		
 		
-		$model =& $this->getModel('Team', 'JResearchModel');
-		$memberModel =& $this->getModel('Member', 'JResearchModel');
-		$pubsModel =& $this->getModel('Publicationslist', 'JResearchModel');
-		$projectsModel =& $this->getModel('Projectslist', 'JResearchModel');
-		$thesesModel =& $this->getModel('Theseslist', 'JResearchModel');
+		$model = $this->getModel('Team', 'JResearchModel');
+		$memberModel = $this->getModel('Member', 'JResearchModel');
+		$pubsModel = $this->getModel('Publicationslist', 'JResearchModel');
+		$projectsModel = $this->getModel('Projectslist', 'JResearchModel');
+		$thesesModel = $this->getModel('Theseslist', 'JResearchModel');
+		$facilitiesModel = $this->getModel('Facilities', 'JResearchModel');
+		$cooperationsModel = $this->getModel('Cooperations', 'JResearchModel');		
+		$areasModel = $this->getModel('Researchareaslist', 'JResearchModel');		
 		
-		$view =& $this->getView('Team', 'html', 'JResearchView');
+		$view = $this->getView('Team', 'html', 'JResearchView');
 		$view->setModel($model, true);
 		$view->setModel($memberModel);
 		$view->setModel($pubsModel);
 		$view->setModel($projectsModel);
 		$view->setModel($thesesModel);
+		$view->setModel($areasModel);
+		$view->setModel($cooperationsModel);
+		$view->setModel($facilitiesModel);
 		$view->display();				
 	}
 }

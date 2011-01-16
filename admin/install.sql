@@ -245,6 +245,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_team` (
   `id_leader` int(11) unsigned NOT NULL,
   `alias` varchar(255) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `logo` text default NULL,
   `description` text,
   `published` tinyint(4) NOT NULL default '0',
   `checked_out` tinyint(11) unsigned NOT NULL default '0',

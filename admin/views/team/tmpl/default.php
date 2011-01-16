@@ -42,6 +42,29 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	    <div class="divEspacio" ></div>		
 	</div>	
 	<div class="divTR">
+		<div class="divTd"><label for="inputfile"><?php echo JText::_('JRESEARCH_TEAM_LOGO').': '; ?></label></div>
+		<div class="divTdl">
+			<input type="file" name="inputfile" id="inputfile" /><?php echo JHTML::_('tooltip', JText::sprintf('JRESEARCH_IMAGE_SUPPORTED_FORMATS', 400, 400)); ?>
+		</div>
+		<div class="divTdl">		
+			<?php
+			if(isset($this->team)):
+				if($this->team->logo):
+					$url = JResearch::getUrlByRelative($this->team->logo);
+					$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->team->logo):$url;
+			?>
+				<a href="<?php echo $url;?>" class="modal">
+					<img src="<?php echo $thumb; ?>" alt="<?php echo JText::_('JRESEARCH_NO_PHOTO'); ?>" />
+				</a>
+				<input type="hidden" name="logo" value="<?php echo $this->team->logo; ?>" />
+	
+				<label for="delete"><?php echo JText::_('Delete current photo'); ?></label><input type="checkbox" name="delete" id="delete" />
+				<?php endif; ?>
+			<?php endif; ?>			
+		</div>		
+	    <div class="divEspacio" ></div>		
+	</div>
+	<div class="divTR">
 		<label for="description"><?php echo JText::_('JRESEARCH_DESCRIPTION').': ';?></label>
 		<div class="divEspacio" ></div>	
 		<?php echo $this->editor->display( 'description',  isset($this->team)?$this->team->description:'' , '100%', '350', '75', '20' ) ; ?>

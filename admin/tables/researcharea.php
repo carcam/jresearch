@@ -220,35 +220,50 @@ class JResearchResearcharea extends JTable{
     * @return true if successful otherwise returns and error message
     */
    function delete($oid=null){
-   	$db =& JFactory::getDBO();
-   	$booleanResult = parent::delete($oid);
+   		$db = JFactory::getDBO();
+	   	$booleanResult = parent::delete($oid);
    	
-   	if($booleanResult){
-   		// Set as uncategorized any item related to this research area
-   		$queryPub = 'UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
+   		if($booleanResult){
+   			// Set as uncategorized any item related to this research area
+   			$queryPub = 'UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
    					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);
    					
-   		$queryProj = 'UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
+   			$queryProj = 'UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
    					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);
    		
-   		$queryStaff = 'UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
+   			$queryStaff = 'UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
    					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);						
    					
-   		$queryThes = 'UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
+   			$queryThes = 'UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
    					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);			
    					
-   		$db->setQuery($queryPub);
-   		$db->query();
-   		$db->setQuery($queryProj);			
-   		$db->query();
-   		$db->setQuery($queryStaff);			
-   		$db->query();
-   		$db->setQuery($queryThes);			
-   		$db->query();
+   			$db->setQuery($queryPub);
+   			$db->query();
+   			$db->setQuery($queryProj);			
+   			$db->query();
+   			$db->setQuery($queryStaff);			
+   			$db->query();
+   			$db->setQuery($queryThes);			
+   			$db->query();
 
-   	}
+   		}
    	
-   	return $booleanResult;
+   		return $booleanResult;
+    }
+    
+    
+    /**
+     * Returns the JResearchTeam associated to the research area
+     * @return JResearchTeam
+     */
+    function getTeam(){    	
+    	$team = null;
+    	if(!empty($this->id_team)){
+			$team = JTable::getInstance('Team', 'JResearch');    		
+	    	$team->load($this->id_team);
+    	}
+    	    	
+		return $team;    	
     }
 	
 }	

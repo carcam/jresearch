@@ -234,5 +234,32 @@ class JResearchModelCooperations extends JResearchModelList
 
         return true;
     }
+    
+	/**
+	 * Gets data by team id
+	 *
+	 * @param int $teamId
+	 * @return array
+	 */
+	public function getDataByTeamId($teamId, $count=0)
+	{
+		$db = JFactory::getDBO();
+				
+		$query = 'SELECT * FROM #__jresearch_cooperation WHERE id_team = '.$db->Quote($teamId).' AND published = '.$db->Quote(1);
+		if($count > 0)
+			$query .= 'LIMIT 0, '.((int)($count));
+			
+		$db->setQuery($query);
+		$result = $db->loadAssocList();
+		$areas = array();
+		
+		foreach($result as $row){
+			$coop = JTable::getInstance('Cooperation', 'JResearch');
+			$coop->bind($row);
+			$cooperations[] = $coop;
+		}
+		
+		return $cooperations;
+	}
 }
 ?>

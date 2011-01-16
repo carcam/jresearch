@@ -8,9 +8,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <h2 class="componentheading"><?php echo $this->area->name; ?></h2>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_SPONSOR_TEAM'); ?></h3>
+<p>	<?php 
+		$team = $this->area->getTeam();
+		echo JHTML::_('jresearch.link', $team->name, 'team', 'show', $team->id);
+	?>
+</p>
+<div class="divEspacio"></div>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h3>
 <?php echo $this->description;  ?>
-<div>&nbsp;&nbsp;</div>
+<div class="divEspacio"></div>
 <?php if(!empty($this->facilities)): ?>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h3>
 <ul class="float">
@@ -20,7 +27,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</li>
 <?php endforeach; ?>
 </ul>
-<div>&nbsp;&nbsp;</div>
 <?php endif; ?>
 <?php $itemId = JRequest::getVar('Itemid'); ?>
 <?php if(!empty($this->members)): ?>

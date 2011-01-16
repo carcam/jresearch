@@ -155,5 +155,32 @@ class JResearchModelResearchAreasList extends JResearchModelList{
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
 	}
+	
+	/**
+	 * Gets data by team id
+	 *
+	 * @param int $teamId
+	 * @return array
+	 */
+	public function getDataByTeamId($teamId, $count=0)
+	{
+		$db = JFactory::getDBO();
+				
+		$query = 'SELECT * FROM #__jresearch_research_area WHERE id_team = '.$db->Quote($teamId).' AND published = '.$db->Quote(1);
+		if($count > 0)
+			$query .= 'LIMIT 0, '.((int)($count));
+			
+		$db->setQuery($query);
+		$result = $db->loadAssocList();
+		$areas = array();
+		
+		foreach($result as $row){
+			$area = JTable::getInstance('Researcharea', 'JResearch');
+			$area->bind($row);
+			$areas[] = $area;
+		}
+		
+		return $areas;
+	}
 }
 ?>

@@ -14,13 +14,33 @@ $Itemid = JRequest::getVar('Itemid', 0);
 	-
 	<?php echo JFilterOutput::ampReplace($this->item->name);?>
 </h2>
-<div>&nbsp;&nbsp;</div>
-<table summary="<?php echo JText::_('JRESEARCH_TEAM_SUMMARY'); ?>">
+<div class="divEspacio"></div>
+<style>
+table.teamdescription{
+	width: 100%;
+}
+
+table.teamdescription th{
+	width: 20%;
+}
+</style>
+<table summary="<?php echo JText::_('JRESEARCH_TEAM_SUMMARY'); ?>" class="teamdescription">
 	<tbody>
 		<tr>
 			<th><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</th>
 			<td>
 				<?php echo $this->leader->published? JHTML::_('jresearch.link', $this->leader, 'member', 'show', $this->leader->id) : $this->leader->__toString(); ?>
+			</td>
+			<td rowspan="3">
+				<?php
+			   	if(!empty($this->item->logo)): 
+		       		$url = JResearch::getUrlByRelative($this->item->logo);
+		       		$thumb = ($this->enableThumbnails == 1)?JResearch::getThumbUrlByRelative($this->item->logo):$url;
+		       	?>		
+		    			<a href="<?php echo $url?>" class="modal" rel="{handler: 'image'}">
+		    				<img src="<?php echo $thumb; ?>" border="0" alt="<?php echo $this->item->name; ?>" />
+		    			</a>
+		    	<?php endif; ?>
 			</td>
 		</tr>
 		<?php 
@@ -47,7 +67,7 @@ $Itemid = JRequest::getVar('Itemid', 0);
 		?>
 		<tr>
 			<th><?php echo JText::_('JRESEARCH_PHONE').': ' ?></th>
-			<td><?php echo $this->leader->phone; ?></td>
+			<td colspan="2"><?php echo $this->leader->phone; ?></td>
 		</tr>
 		<?php 
 		endif;
@@ -56,14 +76,14 @@ $Itemid = JRequest::getVar('Itemid', 0);
 		?>
 		<tr>
 			<th><?php echo JText::_('Email').' :' ?></th>
-			<td><?php echo JHTML::_('email.cloak',$this->leader->email, false); ?></td>
+			<td colspan="2"><?php echo JHTML::_('email.cloak',$this->leader->email, false); ?></td>
 		</tr>
 		<?php 
 		endif;
 		?>
 		<tr>
 			<th><?php echo JText::_('JRESEARCH_TEAM_MEMBERS');?>:</th>
-			<td>
+			<td colspan="2">
 				<ul><li><?php echo implode("</li><li> ", $this->memberLinks)?></li></ul>
 			</td>
 		</tr>
@@ -72,12 +92,12 @@ $Itemid = JRequest::getVar('Itemid', 0);
 		if(count($this->description) > 0 && !empty($this->description[0])):
 		?>
 		<tr>
-			<th colspan="2" scope="colgroup">
+			<th colspan="3" scope="colgroup">
 				<?php echo JText::_('Description')?>:
 			</th>
 		</tr>
 		<tr>
-			<td colspan="2">
+			<td colspan="3">
 				<?php
 				foreach($this->description as $content):
 				?>
@@ -96,9 +116,36 @@ $Itemid = JRequest::getVar('Itemid', 0);
 $pub_view_all = JRequest::getVar('publications_view_all', 0);
 $pro_view_all = JRequest::getVar('projects_view_all', 0);
 $the_view_all = JRequest::getVar('theses_view_all', 0);
+$are_view_all = JRequest::getVar('areas_view_all', 0);
+$fac_view_all = JRequest::getVar('facilities_view_all', 0);
+$coo_view_all = JRequest::getVar('cooperations_view_all', 0);
 ?>
+
+<?php if(!empty($this->areas)): ?>
+<div class="divEspacio"></div>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></h3>
+<ul class="float">
+<?php foreach($this->areas as $area): ?>
+	<li>
+		<?php echo JHTML::_('jresearch.link', $area->name, 'researcharea', 'show', $area->id); ?>
+	</li>
+<?php endforeach; ?>
+</ul>
+<?php 
+$text = '';
+if($are_view_all == 0 && $this->max_areas > count($this->areas))
+	$text = '['.JText::_('JRESEARCH_VIEW_ALL').']';
+elseif($are_view_all == 1 && $this->max_areas > $this->nare)
+	$text = '['.JText::_('JRESEARCH_VIEW_LESS').']';
+
+if(!empty($text))
+	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.$pub_view_all.'&amp;projects_view_all='.$pro_view_all.'&amp;theses_view_all='.$the_view_all.'&amp;facilities_view_all='.$fac_view_all.'&amp;areas_view_all='.(!$are_view_all).'&amp;cooperations_view_all='.$coo_view_all.'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
+?>
+
+<?php endif; ?>
+
 <?php if(!empty($this->projects)): ?>
-<div>&nbsp;&nbsp;</div>
+<div class="divEspacio"></div>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h3>
 <ul>
 <?php foreach($this->projects as $project): ?>
@@ -113,12 +160,12 @@ elseif($pro_view_all == 1 && $this->max_projects > $this->npro)
 	$text = '['.JText::_('JRESEARCH_VIEW_LESS').']';
 
 if(!empty($text))
-	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.$pub_view_all.'&amp;projects_view_all='.(!$pro_view_all).'&amp;theses_view_all='.$the_view_all.'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
+	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.$pub_view_all.'&amp;projects_view_all='.(!$pro_view_all).'&amp;theses_view_all='.$the_view_all.'&amp;facilities_view_all='.$fac_view_all.'&amp;areas_view_all='.$are_view_all.'&amp;cooperations_view_all='.$coo_view_all.'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
 ?>
 <?php endif; ?>
 
 <?php if(!empty($this->publications)): ?>
-<div>&nbsp;&nbsp;</div>
+<div class="divEspacio"></div>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h3>
 <ul>
 <?php if($this->applyStyles): ?>
@@ -144,10 +191,11 @@ elseif($pub_view_all == 1 && $this->max_publications > $this->npubs)
 	$text = '['.JText::_('JRESEARCH_VIEW_LESS').']';
 
 if(!empty($text))
-	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.(!($pub_view_all)).'&amp;projects_view_all='.$pro_view_all.'&amp;theses_view_all='.$the_view_all.'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
+	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.(!$pub_view_all).'&amp;projects_view_all='.$pro_view_all.'&amp;theses_view_all='.$the_view_all.'&amp;facilities_view_all='.$fac_view_all.'&amp;areas_view_all='.$are_view_all.'&amp;cooperations_view_all='.$coo_view_all.'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
 ?>
 <?php endif; ?>
 <?php if(!empty($this->theses)): ?>
+<div class="divEspacio"></div>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h3>
 <ul>
 <?php foreach($this->theses as $thesis): ?>
@@ -162,11 +210,54 @@ elseif($the_view_all == 1 && $this->max_theses > $this->nthes)
 	$text = '['.JText::_('JRESEARCH_VIEW_LESS').']';
 
 if(!empty($text))
-	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.$pub_view_all.'&amp;projects_view_all='.$pro_view_all.'&amp;theses_view_all='.(!$the_view_all).'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
+	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.$pub_view_all.'&amp;projects_view_all='.$pro_view_all.'&amp;theses_view_all='.(!$the_view_all).'&amp;facilities_view_all='.$fac_view_all.'&amp;areas_view_all='.$are_view_all.'&amp;cooperations_view_all='.$coo_view_all.'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';
 
 ?>
 <?php endif; ?>
-<div>&nbsp;&nbsp;</div>
+<?php if(!empty($this->facilities)): ?>
+<div class="divEspacio"></div>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h3>
+<ul class="float">
+<?php foreach($this->facilities as $facility): ?>
+	<li>
+		<?php echo JHTML::_('jresearch.link', $facility->name, 'facility', 'show', $facility->id); ?>
+	</li>
+<?php endforeach; ?>
+</ul>
+<?php 
+$text = '';
+if($fac_view_all == 0 && $this->max_facilities > count($this->facilities))
+	$text = '['.JText::_('JRESEARCH_VIEW_ALL').']';
+elseif($fac_view_all == 1 && $this->max_facilities > $this->nfac)
+	$text = '['.JText::_('JRESEARCH_VIEW_LESS').']';
+
+if(!empty($text))
+	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.$pub_view_all.'&amp;projects_view_all='.$pro_view_all.'&amp;theses_view_all='.$the_view_all.'&amp;facilities_view_all='.!($fac_view_all).'&amp;areas_view_all='.$are_view_all.'&amp;cooperations_view_all='.$coo_view_all.'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
+?>
+<?php endif; ?>
+<?php if(!empty($this->cooperations)): ?>
+<div class="divEspacio"></div>
+<h3 class="contentheading"><?php echo JText::_('JRESEARCH_COOPERATIONS'); ?></h3>
+<ul class="float">
+<?php foreach($this->cooperation as $cooperation): ?>
+	<li>
+		<?php echo JHTML::_('jresearch.link', $cooperation->name, 'cooperation', 'show', $cooperation->id); ?>
+	</li>
+<?php endforeach; ?>
+</ul>
+<?php 
+$text = '';
+if($coo_view_all == 0 && $this->max_cooperations > count($this->cooperations))
+	$text = '['.JText::_('JRESEARCH_VIEW_ALL').']';
+elseif($coo_view_all == 1 && $this->max_cooperations > $this->ncoo)
+	$text = '['.JText::_('JRESEARCH_VIEW_LESS').']';
+
+if(!empty($text))
+	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.$pub_view_all.'&amp;projects_view_all='.$pro_view_all.'&amp;theses_view_all='.$the_view_all.'&amp;facilities_view_all='.$fac_view_all.'&amp;areas_view_all='.$are_view_all.'&amp;cooperations_view_all='.!($coo_view_all).'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
+?>
+<?php endif; ?>
+
+
 <div>
 	<a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a>
 </div>
