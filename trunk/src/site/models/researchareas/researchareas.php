@@ -10,7 +10,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JPATH_COMPONENT_SITE.DS.'models'.DS.'modellist.php');
+require_once(JRESEARCH_COMPONENT_SITE.DS.'models'.DS.'modellist.php');
 
 /**
 * Model class for holding lists of research areas records.

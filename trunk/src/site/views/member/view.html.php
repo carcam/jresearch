@@ -56,9 +56,9 @@ class JResearchViewMember extends JResearchView
     private function _displayEditProfile(array &$arguments){
     	global $mainframe;
     	
-    	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
-    	JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-      	JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+    	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'toolbar.jresearch.html.php');
+    	JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'html');
+      	JHTML::addIncludePath(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 		JHTML::_('jresearchhtml.validation');
     	JResearchToolbar::editMemberAdminToolbar();		
 		    	
@@ -121,7 +121,7 @@ class JResearchViewMember extends JResearchView
     */
     private function _displayProfile(array &$arguments){
       	global $mainframe;
-      	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+      	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
       	
     	$id = JRequest::getInt('id');
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);

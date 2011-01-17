@@ -86,9 +86,9 @@ class JResearchAdminModelResearchArea extends JModelForm{
         {
                 $app = JFactory::getApplication();
                 
-                $data = &$this->getData();
-
-                $row = $this->getTable('Researcharea', 'JResearch');
+                $data =& $this->getData();
+                
+                $row =& $this->getTable('Researcharea', 'JResearch');
 
                 // Bind the form fields to the hello table
                 if (!$row->save($data))
@@ -102,12 +102,18 @@ class JResearchAdminModelResearchArea extends JModelForm{
                 return true;
         }
 
+        /**
+         * Publishes the set of selected items
+         */
         function publish(){
            $selected = & JRequest::getVar('cid', 0, '', 'array');
            $area = JTable::getInstance('Researcharea', 'JResearch');
            return $area->publish($selected, 1);
         }
 
+        /**
+         * Unpublishes the set of selected items
+         */
         function unpublish(){
            $selected = & JRequest::getVar('cid', 0, '', 'array');
            $area = JTable::getInstance('Researcharea', 'JResearch');
@@ -115,20 +121,28 @@ class JResearchAdminModelResearchArea extends JModelForm{
 
         }
 
+        /**
+         * 
+         * Returns the number of removed items based on the 
+         * selected items
+         */
         function delete(){
            $n = 0;
            $selected = & JRequest::getVar('cid', 0, '', 'array');
            $area = JTable::getInstance('Researcharea', 'JResearch');
            foreach($selected as $id){
-                if(!$area->delete($id)){
-                    JError::raiseWarning(1, JText::sprintf('JRESEARCH_AREA_NOT_DELETED', $id));
-                }else{
-                    $n++;
-                }
+                $area->load($id);
+	           	if(!$area->isCheckedOut($user->get('id'))){	
+                	if($area->delete($id)){
+            	        $n++;
+                	}
+	           	}
            }
-           return $n;
+                                 
+           return $n;           
         }
 
+        
         function checkin(){
             $data = &$this->getData();
 
@@ -159,10 +173,10 @@ class JResearchAdminModelResearchArea extends JModelForm{
         
 
         /**
-	* Ordering item
-	*/
-	function orderItem($item, $movement)
-	{
+		* Ordering item
+		*/
+		function orderItem($item, $movement)
+		{
             $row = JTable::getInstance('Researcharea', 'JResearch');
             $row->load($item);
 
@@ -173,44 +187,44 @@ class JResearchAdminModelResearchArea extends JModelForm{
             }
 
             return true;
-	}
-
-	/**
-	 * Set ordering
-	*/
-	function setOrder($items)
-	{
-		$total = count($items);
-                $row = JTable::getInstance('Researcharea', 'JResearch');
-
-		$order = JRequest::getVar( 'order', array(), 'post', 'array' );
-		JArrayHelper::toInteger($order);
-
-		// update ordering values
-		for( $i=0; $i < $total; $i++ )
-		{
-			$row->load( $items[$i] );
-
-			$groupings[] = $row->former_member;
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-				if (!$row->store())
-				{
-					$this->setError($row->getError());
-					return false;
-				}
-			} // if
-		} // for
-
-		// execute updateOrder
-		$groupings = array_unique($groupings);
-		foreach ($groupings as $group)
-		{
-			$row->reorder(' AND published >= 0');
 		}
 
-		return true;
-	}
+		/**
+		 * Set ordering
+		*/
+		function setOrder($items)
+		{
+			$total = count($items);
+            $row = JTable::getInstance('Researcharea', 'JResearch');
+
+			$order = JRequest::getVar( 'order', array(), 'post', 'array' );
+			JArrayHelper::toInteger($order);
+
+			// update ordering values
+			for( $i=0; $i < $total; $i++ )
+			{
+				$row->load( $items[$i] );
+
+				$groupings[] = $row->former_member;
+				if ($row->ordering != $order[$i])
+				{
+					$row->ordering = $order[$i];
+					if (!$row->store())
+					{
+						$this->setError($row->getError());
+						return false;
+					}
+				} // if
+			} // for
+
+			// execute updateOrder
+			$groupings = array_unique($groupings);
+			foreach ($groupings as $group)
+			{
+				$row->reorder(' AND published >= 0');
+			}
+
+			return true;
+		}
 }
 ?>

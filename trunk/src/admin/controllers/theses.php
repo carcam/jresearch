@@ -12,7 +12,7 @@
 jimport('joomla.application.component.controller');
 
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'thesis.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'thesis.php');
 /**
  * Theses Backend Controller
  * @package		JResearch
@@ -39,7 +39,7 @@ class JResearchAdminThesesController extends JController
 		$this->registerTask('save', 'save');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'theses');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'theses');
 		
 	}
 
@@ -50,8 +50,8 @@ class JResearchAdminThesesController extends JController
 	 */
 
 	function display(){
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'theseslist');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'theseslist');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 		$view = &$this->getView('ThesesList', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('ThesesList', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
@@ -67,7 +67,7 @@ class JResearchAdminThesesController extends JController
 	* @access public
 	*/
 	function edit(){
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 		$cid = JRequest::getVar('cid', array());
 		$view = &$this->getView('Thesis', 'html', 'JResearchAdminView');	
 		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
@@ -160,7 +160,7 @@ class JResearchAdminThesesController extends JController
 		    return;
 		}
 		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
 				
 		$db = JFactory::getDBO();
 		$thesis = new JResearchThesis($db);
@@ -191,7 +191,7 @@ class JResearchAdminThesesController extends JController
 				if($delete != null){
 					if($delete == 'on'){
 						if(!empty($thesisFiles[$k])){
-							$path = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'theses'.DS.$thesisFiles[$k];
+							$path = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'theses'.DS.$thesisFiles[$k];
 							@unlink($path);
 							unset($thesisFiles[$k]);
 						}

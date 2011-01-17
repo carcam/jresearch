@@ -83,17 +83,63 @@ class JResearchAdminModelPublication extends JModelForm{
          */
         function save()
         {
-                $data = & $this->getData();
-                // Database processing
-                $row = & $this->getTable();
+				$app = JFactory::getApplication();
+                
+                $data =& $this->getData();                
+                $row =& $this->getTable('Publication', 'JResearch');
+
                 // Bind the form fields to the hello table
                 if (!$row->save($data))
                 {
-                        $this->setError($row->getErrorMsg());
-                        return false;
+                    $this->setError($row->getError());
+                    return false;
                 }
+
+                $app->setUserState('com_jresearch.edit.publication.data', $data);
+
                 return true;
         }
+        
+        /**
+         * Publishes the set of selected items
+         */
+        function publish(){
+           $selected =& JRequest::getVar('cid', 0, '', 'array');
+           $publication = JTable::getInstance('Publication', 'JResearch');
+           return $publication->publish($selected, 1);
+        }
+
+        /**
+         * Unpublishes the set of selected items
+         */
+        function unpublish(){
+           $selected =& JRequest::getVar('cid', 0, '', 'array');
+           $publication = JTable::getInstance('Publication', 'JResearch');
+           return $publication->publish($selected, 0);
+
+        }
+
+        /**
+         * 
+         * Returns the number of removed items based on the 
+         * selected items
+         */
+        function delete(){
+           $n = 0;
+           $selected =& JRequest::getVar('cid', 0, '', 'array');
+           $publication = JTable::getInstance('Publication', 'JResearch');
+           foreach($selected as $id){
+                $publication->load($id);
+	           	if(!$publication->isCheckedOut($user->get('id'))){	
+                	if($publication->delete($id)){
+            	        $n++;
+                	}
+	           	}
+           }
+                                 
+           return $n;           
+        }
+        
 	
 	/**
 	 * Returns an array of JResearchComment objects.

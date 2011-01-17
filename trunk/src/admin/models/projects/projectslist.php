@@ -11,8 +11,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
 jimport( 'joomla.application.component.model' );
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'project.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'project.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelList.php');
 
 /**
 * Model class for holding lists of project records.
@@ -64,7 +64,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 	* 
 	* @return string SQL query.
 	*/	
-	protected function _buildRawQuery(){
+	protected function _buildCountQuery(){
 		$db =& JFactory::getDBO();
 		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();

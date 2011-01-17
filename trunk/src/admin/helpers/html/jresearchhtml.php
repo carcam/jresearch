@@ -314,7 +314,7 @@ class JHTMLjresearchhtml
 	public function staffImporter($name){
 		$mainframe = JFactory::getApplication();
 		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
 
 		$doc = JFactory::getDocument();
 		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::root();
@@ -373,7 +373,7 @@ class JHTMLjresearchhtml
 	public function staffImporter2($name){
             static $dependenciesLoaded = false;
             $mainframe = JFactory::getApplication();
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
             $doc = JFactory::getDocument();
             $db = JFactory::getDBO();
 
@@ -437,49 +437,45 @@ class JHTMLjresearchhtml
 	* Renders the DHTML code needed to enable validation in JResearch forms.
 	*/
 	static function validation(){
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'charsets.php');
-
+			jresearchimport('helpers.charsets', 'jresearch.admin');
             $extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());
             $doc = JFactory::getDocument();
             $token = JUtility::getToken();
             JHTML::_('behavior.formvalidation');
-
+            JHTML::_('behavior.tooltip');
+            
             $message = JText::_('JRESEARCH_FORM_NOT_VALID');
 
-            $doc->addScriptDeclaration("function submitbutton(task)
-            {
-                    if (task == '')
-                    {
-                            return false;
-                    }
-                    else
-                    {
-                            var isValid=true;
-                            if (task != 'cancel')
-                            {
-                                    var forms = $$('form.form-validate');
-                                    for (var i=0;i<forms.length;i++)
-                                    {
-                                            if (!document.formvalidator.isValid(forms[i]))
-                                            {
-                                                    isValid = false;
-                                                    break;
-                                            }
-                                    }
-                            }
-
-                            if (isValid)
-                            {
-                                    submitform(task);
-                                    return true;
-                            }
-                            else
-                            {
-                                    alert(Joomla.JText._('JRESEARCH_FORM_NOT_VALID','$message'));
-                                    return false;
-                            }
-                    }
-            }");
+            $doc->addScriptDeclaration("Joomla.submitbutton = function(task){
+		        if (task == ''){
+	                return false;
+    		    }else{
+	                var isValid=true;
+	                if (task != 'cancel' && task != 'close')
+	                {
+	                        var forms = $$('form.form-validate');
+	                        for (var i=0;i<forms.length;i++)
+	                        {
+	                                if (!document.formvalidator.isValid(forms[i]))
+	                                {
+	                                        isValid = false;
+	                                        break;
+	                                }
+	                        }
+	                }
+ 
+	                if (isValid)
+                	{
+            	            Joomla.submitform(task);
+        	                return true;
+    	            }
+	                else
+                	{
+                        alert(Joomla.JText._('COM_JRESEARCH_FORM_ERROR_UNACCEPTABLE','Some values are unacceptable'));
+                        return false;
+                	}
+        		}
+			}");
 
             $doc->addScriptDeclaration('window.addEvent(\'domready\', function() {
                     document.formvalidator.setHandler(\'date\', function(value) {
@@ -499,6 +495,12 @@ class JHTMLjresearchhtml
                     return regex.test(value); })
             });');
 
+            $doc->addScriptDeclaration('window.addEvent(\'domready\', function() {
+                    document.formvalidator.setHandler(\'number\', function(value) {
+                    regex=/^([\+\-]{0,1}\d+\.?\d*)$/i;
+                    return regex.test(value); })
+            });');
+            
 
             $doc->addScriptDeclaration("window.addEvent('domready', function() {
                     document.formvalidator.setHandler('keywords', function(value) {
@@ -618,7 +620,7 @@ class JHTMLjresearchhtml
 	 */
 	public static function memberpositions(array $attributes=array(), array $additional=array())
 	{
-		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'member_position'.DS.'member_positionlist.php');
+		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'member_position'.DS.'member_positionlist.php');
 		
 		$model = new JResearchModelMember_positionList();
 		$positions = $model->getData(null,true);
@@ -645,7 +647,7 @@ class JHTMLjresearchhtml
 	 */
 	public static function cooperations(array $attributes=array())
 	{
-		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'cooperations'.DS.'cooperations.php');
+		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations'.DS.'cooperations.php');
 		
 		$model = new JResearchModelCooperations();
 		$coops = $model->getData(null, true);
@@ -664,7 +666,7 @@ class JHTMLjresearchhtml
 	 */
 	public static function financiers(array $attributes=array())
 	{
-		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'financiers'.DS.'financiers.php');
+		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'financiers'.DS.'financiers.php');
 		
 		$model = new JResearchModelFinanciers();
 		$financiers = $model->getData(null, true);
@@ -760,7 +762,7 @@ class JHTMLjresearchhtml
 	 */
 	public static function currencylist(array $attributes=array())
 	{
-		include_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
+		include_once(JRESEARCH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
 		
 		//Currency options
     	$currencyOptions = array();
@@ -839,7 +841,7 @@ class JHTMLjresearchhtml
 	 * @param array $authors
 	 */
 	public static function authors(array $attributes = array()){
-		include_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications'.DS.'publicationslist.php');
+		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications'.DS.'publicationslist.php');
 		
 		$model = new JResearchModelPublicationsList();
 		$result = $model->getAllAuthors();

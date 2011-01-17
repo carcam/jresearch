@@ -102,6 +102,13 @@ class JResearchActivity extends JTable{
 	public $hits;
 	
 	/**
+	 * 
+	 * String storing either author names or staff ids separated by commas
+	 * @var string
+	 */
+	public $authors;
+	
+	/**
 	 * Array of internal authors ids
 	 *
 	 * @var array
@@ -275,7 +282,7 @@ class JResearchActivity extends JTable{
 	 * as key.
 	 */
 	public function getInternalAuthors(){
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member.php');		
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');		
 		$db = $this->getDBO();
 		if($this->_internalAuthorsObjects == null){
 			foreach($this->_internalAuthors as $member){

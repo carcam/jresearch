@@ -30,7 +30,7 @@ class JResearchViewPublicationsList extends JResearchView
         $layout = $this->getLayout();
         
         //Add template path explicitly (useful when requesting from the backend)
-        $this->addTemplatePath(JPATH_COMPONENT_SITE.DS.'views'.DS.'publicationslist'.DS.'tmpl');  
+        $this->addTemplatePath(JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publicationslist'.DS.'tmpl');  
 
         switch($layout){
                 // Template for making citations from TinyMCE editor

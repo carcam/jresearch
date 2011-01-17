@@ -21,8 +21,8 @@ defined('_JEXEC') or die('Restricted access');
 global $mainframe;
 
 // Common needed files
-require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'init.php');
-require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
+require_once(JRESEARCH_COMPONENT_SITE.DS.'includes'.DS.'init.php');
+require_once(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
 
 //Set ACL
 //setACL();

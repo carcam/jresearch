@@ -1,7 +1,7 @@
 <?php
 /**
  * @package JResearch
- * @subpackage ResearchAreas
+ * @subpackage Researchareas
  * Default view for listing research areas
  */
 
@@ -56,7 +56,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td class="center"><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td class="center"><?php echo $this->items[$i]->id > 1?$checked:''; ?></td>
-					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=researchAreas&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->name;  ?></a></td>
+					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=researchareas&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->name;  ?></a></td>
                                         <td class="order" nowrap="nowrap">
                                             <span><?php echo $this->page->orderUpIcon( $i, $this->items[$i]->ordering > 1, 'orderup', 'Move Up', $this->ordering); ?></span>
                                             <span><?php echo $this->page->orderDownIcon( $i, $n, $this->items[$i]->ordering < ($this->items[$i]->getNextOrder()-1), 'orderdown', 'Move Down', $this->ordering ); ?></span>
@@ -84,6 +84,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="" /> 
 	
-	<?php echo JHtml::_('jresearchhtml.hiddenfields', 'researchAreas'); ?>
+	<?php echo JHtml::_('jresearchhtml.hiddenfields', 'researchareas'); ?>
 	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

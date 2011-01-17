@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 $fields = array('id', 'name', 'alias', 'published');
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
     <div class="width-70">
         <fieldset class="panelform">
                 <ul class="adminformlist">
@@ -30,7 +30,7 @@ $fields = array('id', 'name', 'alias', 'published');
         </fieldset>
     </div>
     <input type="hidden" name="task" value="edit" />
-    <input type="hidden" name="controller" value="researchAreas" />
+    <input type="hidden" name="controller" value="researchareas" />    
     <?php echo JHtml::_('form.token'); ?>
 </form>
 <div class="clr"></div>

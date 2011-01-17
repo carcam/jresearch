@@ -7,7 +7,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
 ?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publicationslist&amp;layout=filtered&amp;task=filtered&amp;modelkey=tabular">

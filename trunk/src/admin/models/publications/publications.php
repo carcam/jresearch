@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jresearchimport( 'joomla.application.component.model' );
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'modelList.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelList.php');
 
 /**
 * Model class for holding lists of publication records.
@@ -221,7 +221,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             $mdresult = array();
             $name = array();
             // First, bring them to the form lastname, firstname.
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
             foreach($result as $key => $author){
                     $components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
                     $value = (isset($components['von'])?$components['von'].' ':'').$components['lastname'].(isset($components['firstname'])?', '.$components['firstname']:'').(isset($components['jr'])?' '.$components['jr']:'');

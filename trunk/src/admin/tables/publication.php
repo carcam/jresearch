@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.utilities.date');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'activity.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'activity.php');
 
 /**
  * This class defines the base for all types of publications managed by JResearch.
@@ -64,7 +64,7 @@ class JResearchPublication extends JResearchActivity{
 	 * @var string
 	 */
 	public $citekey;
-	
+		
 	public $abstract;	
 	public $pubtype;
 	public $keywords;	
@@ -83,8 +83,8 @@ class JResearchPublication extends JResearchActivity{
 	 */
 	public $doi;	
 	public $issn;
-        public $isbn;
-        public $volume;
+    public $isbn;
+    public $volume;
 	public $number;
 	public $pages;
 	public $month;	    
@@ -269,20 +269,14 @@ class JResearchPublication extends JResearchActivity{
 		// Verify authors integrity
 		if(!parent::checkAuthors())
 			return false;
-		
-			
-		if(empty($this->citekey)){
-			$this->citekey = trim($this->citekey);
-			$this->setError(JText::_('JRESEARCH_PROVIDE_CITEKEY'));
-			$withoutErrors = false;
-		}	
-		
+				
 		// Verify if title is not empty
 		if(empty($this->title)){
 			$this->title = trim($this->title);			
 			$this->setError(JText::_('JRESEARCH_REQUIRE_PUBLICATION_TITLE'));
 			$withoutErrors = false;
 		}
+		
 		// Verify year
 		if(!empty($this->year)){
 			$this->year = trim($this->year);			
@@ -295,11 +289,11 @@ class JResearchPublication extends JResearchActivity{
 		
 		if(!empty($this->keywords)){
 			$this->doi = trim($this->doi);
-			require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'charsets.php');		
+			require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'charsets.php');		
 			$extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());	
 					
 			if(!preg_match("/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/", $this->keywords)){
-				$this->setError(JText::_('Error in the keywords field. They must be provided as several words separated by commas'));
+				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_KEYWORDS'));
 				$withoutErrors = false;
 			}
 		}
@@ -307,7 +301,7 @@ class JResearchPublication extends JResearchActivity{
 		if(!empty($this->journal_acceptance_rate)){
 			$this->journal_acceptance_rate = trim($this->journal_acceptance_rate);			
 			if(!is_numeric($this->journal_acceptance_rate)){
-				$this->setError(JText::_('Journal acceptance rate must be a number'));
+				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_JOURNAL_ACCEPTANCE_RATE'));
 				$withoutErrors = false;
 			}
 		}
@@ -354,7 +348,6 @@ class JResearchPublication extends JResearchActivity{
 	        return false;
 	    }				
    
-
 		// Delete the information about internal and external references
 		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);
 		$deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);

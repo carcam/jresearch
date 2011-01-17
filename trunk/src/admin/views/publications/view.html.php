@@ -50,7 +50,7 @@ class JResearchAdminViewPublications extends JResearchView
     private function _displayDefaultList(){
     	$mainframe = JFactory::getApplication();
         $option = JRequest::getVar('option');
-    	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+    	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
     	
     	JResearchToolbar::publicationsAdminListToolbar();
         $db = JFactory::getDBO();
