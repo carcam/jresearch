@@ -35,26 +35,26 @@ if($mode == 'upgrader'){
 $controller = JRequest::getVar('controller', null);
 $task = JRequest::getVar('task');
 $prefix = 'JResearchAdmin';
-$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas', 'financiers', 'member_positions');
+$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchareas', 'financiers', 'member_positions');
 
 if($controller == null || !in_array($controller, $availableControllers)){
 	// It is the default controller
-	require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
+	require_once (JRESEARCH_COMPONENT_ADMIN.DS.'controller.php');
 	$classname = $prefix;
 }else{
 	// That task is the exception
 	if($task == 'tocontrolPanel'){
 		// It is the default controller
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
+		require_once (JRESEARCH_COMPONENT_ADMIN.DS.'controller.php');
 		$classname = $prefix;
 	}else{				
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controllers'.DS.$controller.'.php');
+		require_once (JRESEARCH_COMPONENT_ADMIN.DS.'controllers'.DS.$controller.'.php');
 		$inlineCitingTasks = array('cite', 'citeFromDialog', 'generateBibliography', 'searchByPrefix', 'ajaxRemoveAll', 'ajaxGenerateBibliography', 'removeCitedRecord' ); 
 		
 		// If the task is related to cite records, request the frontend controller
 		if(in_array($task, $inlineCitingTasks)){
 			$prefix = 'JResearch';
-			require_once(JPATH_COMPONENT_SITE.DS.'controllers'.DS.$controller.'.php');
+			require_once(JRESEARCH_COMPONENT_SITE.DS.'controllers'.DS.$controller.'.php');
 			$session =& JSession::getInstance(null, null);
 		
 			if($session->get('citedRecords', null, 'jresearch') == null){

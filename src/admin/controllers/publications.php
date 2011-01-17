@@ -48,7 +48,7 @@ class JResearchAdminPublicationsController extends JController
             $this->registerTask('cancel', 'cancel');
             $this->registerTask('toggle_internal', 'toggle_internal');
             $this->registerTask('changeType', 'changeType');
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
 	}
 
 	/**
@@ -114,27 +114,34 @@ class JResearchAdminPublicationsController extends JController
 	* @access	public
 	*/ 
 	function publish(){
-            // Array of ids
-            $db =& JFactory::getDBO();
-            $cid = JRequest::getVar('cid');
-
-            $publication = new JResearchPublication($db);
-            $publication->publish($cid, 1);
-            $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));				
-	}
+			if(!JRequest::checkToken()){
+                $this->setRedirect('index.php?option=com_jresearch');
+                return;
+            }
+		
+            $model = $this->getModel('Publications', 'JResearchAdminModel');
+            if(!$model->publish()){
+                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
+            }
+            $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
+    }
 
 	/**
 	* Invoked when an administrator has decided to unpublish one or more items
 	* @access	public
 	*/ 
 	function unpublish(){
-            // Array of ids
-            $db =& JFactory::getDBO();
-            $cid = JRequest::getVar('cid');
-
-            $publication = new JResearchPublication($db);
-            $publication->publish($cid, 0);
-            $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
+			if(!JRequest::checkToken()){
+                $this->setRedirect('index.php?option=com_jresearch');
+                return;
+            }
+		
+            $model = $this->getModel('Publications', 'JResearchAdminModel');
+            if(!$model->publish()){
+                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
+            }
+            $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
+		
 	}
 
 	/**
@@ -142,17 +149,15 @@ class JResearchAdminPublicationsController extends JController
 	* @access	public
 	*/ 
 	function remove(){
-            $db =& JFactory::getDBO();
-            $cid = JRequest::getVar('cid');
-            $n = 0;
-            $publication = new JResearchPublication($db);
-            foreach($cid as $id){
-                    if(!$publication->delete($id))
-                            JError::raiseWarning(1, JText::sprintf('JRESEARCH_PUBLICATION_NOT_DELETED', $id));
-                    else
-                            $n++;
+			if(!JRequest::checkToken()){
+                $this->setRedirect('index.php?option=com_jresearch');
+                return;
             }
-            $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', $n));
+	
+            $model = $this->getModel('Researcharea', 'JResearchAdminModel');
+            $n = $model->delete();
+            $this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::sprintf('JRESEARCH_AREA_SUCCESSFULLY_DELETED', $n));
+		
 	}
 	
 	/**
@@ -160,7 +165,7 @@ class JResearchAdminPublicationsController extends JController
 	* @access	public
 	*/
 	function import(){
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
             $view = &$this->getView('PublicationsList', 'html', 'JResearchAdminView');
             $model = &$this->getModel('ResearchAreasList', 'JResearchModel');
             $view->setLayout('import');
@@ -173,7 +178,7 @@ class JResearchAdminPublicationsController extends JController
 	* @access	public
 	*/
 	function export(){
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
             $view = &$this->getView('PublicationsList', 'html', 'JResearchAdminView');
             $model = &$this->getModel('PublicationsList', 'JResearchModel');
             $view->setModel($model, true);
@@ -185,8 +190,8 @@ class JResearchAdminPublicationsController extends JController
 	* Invoked when the user exports a single publication from backend list.
 	*/	
 	function exportSingle(){		
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');
             $document =& JFactory::getDocument();
 
             $id = JRequest::getInt('id');
@@ -221,7 +226,7 @@ class JResearchAdminPublicationsController extends JController
             $uploadedFile = $fileArray['tmp_name'];
             //$savedRecords = 0;
 
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'importers'.DS.'factory.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
 
             if($fileArray == null || $uploadedFile == null){
                 JError::raiseWarning(1, JText::_('JRESEARCH_NO_INPUT_FILE'));
@@ -252,15 +257,15 @@ class JResearchAdminPublicationsController extends JController
             $session = JFactory::getSession();
             $exportOptions = array();
 
-            $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'publications');
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');
             $markedRecords = $session->get('markedRecords', null, 'jresearch');
             if($markedRecords !== null){
                 if($markedRecords === 'all'){
-                        $model = &$this->getModel('PublicationsList', 'JResearchModel');
+                        $model = &$this->getModel('PublicationsList', 'JResearchAdminModel');
                         $publicationsArray = $model->getData();
                 }else{
-                        $model = &$this->getModel('Publication', 'JResearchModel');
+                        $model = &$this->getModel('Publication', 'JResearchAdminModel');
                         $publicationsArray = array();
                         foreach($markedRecords as $id){
                                 $publicationsArray[] = $model->getItem($id);
@@ -295,134 +300,29 @@ class JResearchAdminPublicationsController extends JController
 	* Invoked when the user has decided to save a publication.
 	*/	
 	function save(){		
-            global $mainframe;
-	    if(!JRequest::checkToken())
-            {
-                $this->setRedirect('index.php?option=com_jresearch');
-                return;
+             $model = $this->getModel('Publication', 'JResearchAdminModel');
+             $app = JFactory::getApplication();
+             if ($model->save()){
+	             JError::raiseWarning(1, var_export($task, true));                
+                $publication = $model->getItem();
+                if($task == 'save'){
+                    $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+                    $app->setUserState('com_jresearch.edit.publication.data', array());
+                }elseif($task == 'apply'){
+                    $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+             	}
+             }else{
+                $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
+                $type = 'error';
+                $app = JFactory::getApplication();
+                $app->enqueueMessage($msg, $type);
+                $view = $this->getView('Publication','html', 'JResearchAdminView');
+                $view->setModel($model, true);
+				$view->setLayout('default');
+                $view->display();
             }
-
-            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
-
-            $db = JFactory::getDBO();
-
-            // Bind request variables to publication attributes
-            $post = JRequest::get('post');
-            $type = JRequest::getVar('pubtype');
-            $publication = JTable::getInstance("Publication", "JResearch");
-            $params = JComponentHelper::getParams('com_jresearch');
-            $user = JFactory::getUser();
-            $id = JRequest::getInt('id');
-	   
-	    $publication->bind($post);
-	    $countUrl = JRequest::getInt('count_url', 0);
-	    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
-            $previousFile = JRequest::getVar('old_url_0', null);
-            $filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$previousFile;
-		
-            //Verify if the user wants to remove old files
-            $delete = JRequest::getVar('delete_url_0', false);
-	    if($delete === 'on'){	    	
-	    	if($previousFile != null){
-		    	@unlink($filetoremove);
-		    	$publication->files = '';
-	    	}
-	    }
-	    
-		// Upload new file	    
-            if(!empty($file['name'])){
-	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');			
-	    	if($previousFile != null){
-                    //Remove previous file if it has not been removed yet
-                    if(file_exists($filetoremove))
-                        @unlink($filetoremove);
-	    	}
-
-	    }	    
-	    
-	    $reset = JRequest::getVar('resethits', false);
-	    if($reset == 'on'){
-	    	$publication->hits = 0;
-	    }
-		
-            $check = $publication->check();
-
-            //Generate an alias if needed
-            $alias = trim(JRequest::getVar('alias'));
-            if(empty($alias)){
-                $publication->alias = JResearch::alias($publication->title);
-            }else{
-                $publication->alias = JResearch::alias($publication->alias);
-            }
-
-            // Validate publication
-            if(!$check){
-                for($i=0; $i<count($publication->getErrors()); $i++)
-                        JError::raiseWarning(1, $publication->getError($i));
-
-                if($publication->id)
-                        $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype);
-                else
-                        $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);
-            }else{
-                //Time to set the authors
-                $maxAuthors = JRequest::getInt('nauthorsfield');
-                $k = 0;
-
-                for($j=0; $j<=$maxAuthors; $j++){
-                        $value = JRequest::getVar("authorsfield".$j);
-                        if(!empty($value)){
-                                if(is_numeric($value)){
-                                        // In that case, we are talking about a staff member
-                                        $publication->setAuthor($value, $k, true);
-                                }else{
-                                        // For external authors
-                                        $publication->setAuthor($value, $k);
-                                }
-
-                                $k++;
-                        }
-                }
-
-                // Set the id of the author if the item is new
-                if(empty($publication->id))
-                        $publication->created_by = $user->get('id');
-
-                // Now, save the record
-                $task = JRequest::getVar('task');
-                if($publication->store(true)){
-
-                        if($task == 'apply'){
-                                $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
-                        }elseif($task == 'save'){
-                                $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
-                        }
-
-                        // Trigger event
-                        $arguments = array('publication', $publication->id);
-                        $mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
-
-
-                }else{
-                    $idText = !empty($publication->id) && $task == 'apply'?'&cid[]='.$publication->id:'';
-
-                    if($db->getErrorNum() == 1062)
-                            JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD').', '.$db->getErrorMsg());
-                    else
-                            JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());
-
-                    $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype);
-                }
-            }
-
-            if(!empty($publication->id)){
-                $user =& JFactory::getUser();
-                if(!$publication->isCheckedOut($user->get('id'))){
-                    if(!$publication->checkin())
-                        JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
-                }
-            }
-
+            
+            return true;
 	}
 	
 	/**
@@ -430,17 +330,12 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function cancel(){
-		$id = JRequest::getInt('id');
-		$model = &$this->getModel('Publication', 'JResearchModel');		
+          $model = $this->getModel('Publication', 'JResearchAdminModel');
+          if(!$model->checkin()){
+                JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+          }
+          $this->setRedirect('index.php?option=com_jresearch&controller=publications');
 		
-		if($id != null){
-			$publication = $model->getItem($id);
-			if(!$publication->checkin()){
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
-			}
-		}
-		
-		$this->setRedirect('index.php?option=com_jresearch&controller=publications');
 	}
 	
 	
@@ -484,7 +379,7 @@ class JResearchAdminPublicationsController extends JController
 	 */
 	function changeType(){	
 		global $mainframe;		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
 		
 		$db = JFactory::getDBO();
 		$type = JRequest::getVar('change_type');
@@ -509,7 +404,7 @@ class JResearchAdminPublicationsController extends JController
 		$delete = JRequest::getVar('delete_url_0');
 	    if($delete === 'on'){
 	    	if(!empty($publication->files)){
-		    	$filetoremove = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
+		    	$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
 		    	@unlink($filetoremove);
 		    	$publication->files = '';
 		    	$oldPublication->files = '';
@@ -573,8 +468,8 @@ class JResearchAdminPublicationsController extends JController
 		    	
 				// Duplicate files if they have not been removed
 				if(!empty($oldPublication->files)){
-					$source = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$oldPublication->files;				
-					$dest = JPATH_COMPONENT_ADMINISTRATOR.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.'old_'.$oldPublication->files;					
+					$source = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$oldPublication->files;				
+					$dest = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.'old_'.$oldPublication->files;					
 					if(!@copy($source, $dest))
 						JError::raiseWarning(1, JText::_('JRESEARCH_FILE_NOT_BACKUP'));
 					$oldPublication->files = 'old_'.$oldPublication->files;

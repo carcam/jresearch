@@ -17,6 +17,10 @@ define('_JRESEARCH_VERSION_', '2.0 Alpha');
 define('_JRESEARCH_BIBUTILS_VERSION_', '4.8 for Unix, 4.2 for Windows, 4.9 for Unix x86/64');
 define('_JRESEARCH_UPGRADER_SUPPORT_', true);
 
+define('JRESEARCH_COMPONENT_ADMIN', JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch');
+define('JRESEARCH_COMPONENT_SITE', JPATH_SITE.DS.'components'.DS.'com_jresearch');
+
+
 if (!defined('PHP_EOL'))
 {
     switch (strtoupper(substr(PHP_OS, 0, 3)))

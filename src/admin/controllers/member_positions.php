@@ -9,7 +9,7 @@
 * of cooperations in the backend interface.
 */
 jimport('joomla.application.component.controller');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'member_position.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member_position.php');
 
 /**
 * JResearch Member positions Backend Controller
@@ -40,8 +40,8 @@ class JResearchAdminMember_positionsController extends JController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'member_position');
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'member_positions');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'member_position');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'member_positions');
 	}
 
 	/**
@@ -152,7 +152,7 @@ class JResearchAdminMember_positionsController extends JController
 		    return;
 		}
 		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
 		
 		$db =& JFactory::getDBO();
 

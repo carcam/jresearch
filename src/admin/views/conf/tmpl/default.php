@@ -61,7 +61,7 @@ jimport('joomla.html.pane');
 	</div>
 	<div  class="icon-wrapper">
 		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=researchAreas">
+			<a href="index.php?option=com_jresearch&amp;controller=researchareas">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/areas.png" alt="<?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?>" />
 				<span><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></span></a>
 		</div>

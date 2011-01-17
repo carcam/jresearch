@@ -51,7 +51,7 @@ class JResearchViewProject extends JResearchView
     */
     private function _displayProject(array &$arguments){
       	global $mainframe;
-      	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+      	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
       	
     	$id = JRequest::getInt('id');
 	$doc =& JFactory::getDocument();

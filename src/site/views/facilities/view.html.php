@@ -75,8 +75,8 @@ class JResearchViewFacilities extends JResearchView
     	global $mainframe;
     	
     	//Includes
-		require(JPATH_COMPONENT_SITE.DS.'includes'.DS.'reflect2.php');
-		require(JPATH_COMPONENT_SITE.DS.'includes'.DS.'reflect3.php');
+		require(JRESEARCH_COMPONENT_SITE.DS.'includes'.DS.'reflect2.php');
+		require(JRESEARCH_COMPONENT_SITE.DS.'includes'.DS.'reflect3.php');
     	
     	//Get document and add various scripts/stylesheets
 		$document =& JFactory::getDocument();

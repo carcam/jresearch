@@ -12,7 +12,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'cooperation.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'cooperation.php');
 
 /**
  * JResearch Cooperations Component Controller
@@ -35,7 +35,7 @@ class JResearchCooperationsController extends JResearchFrontendController
 		$this->registerTask('show', 'show');
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('save','save');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'cooperations');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
 		

@@ -292,9 +292,9 @@ class JResearchToolbar
 	 *
 	 */
 	public static function editItemAdminToolbar(){
-            JToolBarHelper::save('save');
-            JToolBarHelper::apply('apply');
-            JToolBarHelper::cancel('cancel', JText::_('JToolBar_Close'));
+            JToolBarHelper::save("save");
+            JToolBarHelper::apply("apply");
+            JToolBarHelper::cancel("cancel", JText::_('JToolBar_Close'));
 	}
 
 	/**

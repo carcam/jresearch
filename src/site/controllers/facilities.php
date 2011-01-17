@@ -31,8 +31,8 @@ class JResearchFacilitiesController extends JResearchFrontendController
 		
 		$this->registerTask('show', 'show');
 		// Add models paths
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'facilities');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'facilities');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 		
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'facilities');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'facility');

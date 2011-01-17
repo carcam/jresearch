@@ -40,6 +40,8 @@ class JFormFieldResearchareaslist extends JFormFieldList
 
                 $areas = $db->loadAssocList();
 
+                $options[] = JHtml::_('select.option', 0, JText::_('JRESEARCH_RESEARCH_AREAS'), 'value', 'text', ((string) $option['disabled']=='true'));                
+
                 foreach($areas as $area){
                     // Only add <option /> elements.
                     if ($area['id'] == 1) {

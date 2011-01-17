@@ -37,6 +37,7 @@
                         class="inputbox"
                         default=""
                         label="JRESEARCH_YEAR"
+                        validate="year"
                 />
                 <field
                         id="id_research_area"
@@ -57,6 +58,7 @@
                         class="inputbox"
                         default=""
                         label="URL"
+                        validate="url"
                 />
                 <field
                         id="keywords"
@@ -67,6 +69,7 @@
                         class="inputbox"
                         default=""
                         label="JRESEARCH_KEYWORDS"
+                        validate="keywords"
                 />
                 <field
                         id="citekey"
@@ -78,7 +81,7 @@
                         default=""
                         label="JRESEARCH_CITEKEY"
                         description="JRESEARCH_CITEKEY_TOOLTIP"
-                        required="true"
+                        required="false"
                 />
                 <field
                         id="doi"
@@ -116,13 +119,18 @@
                         label="JRESEARCH_FILE"
                 />
                 <field
-                        id="authors"
-                        name="authors"
+                        id="authorsControl"
+                        name="authorsControl"
                         type="authorsselector"
                         class="inputbox"
                         allowPrincipals="true"
                         default=""
                         label="JRESEARCH_AUTHORS"
+                />
+                <field
+                        id="authors"
+                        name="authorsControl"
+                        type="hidden"
                 />
                 <field
                         id="abstract"

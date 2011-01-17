@@ -29,7 +29,7 @@ class JFormFieldAuthorsselector extends JFormField
 	 */
 	protected $type = 'List';
 
-        public static $loaded = false;
+    public static $loaded = false;
 
 	/**
 	 * Method to get the field input markup.

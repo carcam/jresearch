@@ -70,5 +70,6 @@ defined('_JEXEC') or die('Restricted access');
         <input type="hidden" name="task" value="com_jresearch.edit" />
         <?php echo JHtml::_('form.token'); ?>
     </div>
+    <input type="hidden" name="controller" value="publications" />    
 </form>
 <div class="clr"></div>

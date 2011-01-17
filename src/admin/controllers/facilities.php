@@ -10,7 +10,7 @@
 */
 
 jimport('joomla.application.component.controller');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'facility.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'facility.php');
 
 /**
 * JResearch Facilities Backend Controller
@@ -40,8 +40,8 @@ class JResearchAdminFacilitiesController extends JController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'facilities');
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.'facilities');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'facilities');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'facilities');
 	}
 
 	/**
@@ -51,7 +51,7 @@ class JResearchAdminFacilitiesController extends JController
 	 */
 	function display()
 	{
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 
 		$view = &$this->getView('Facilities', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Facilities', 'JResearchModel');
@@ -65,7 +65,7 @@ class JResearchAdminFacilitiesController extends JController
 
 	function edit()
 	{
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 	
 		$cid = JRequest::getVar('cid', array());
 
@@ -161,7 +161,7 @@ class JResearchAdminFacilitiesController extends JController
 		    return;
 		}
 		
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
 		
 		$db =& JFactory::getDBO();
 		

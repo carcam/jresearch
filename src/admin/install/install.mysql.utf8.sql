@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `id_research_area` int(10) unsigned NOT NULL default '1',
   `alias` varchar(255) NOT NULL,
+  `authors` text,
   `comments` text,
   `journal_acceptance_rate` float unsigned default NULL,
   `impact_factor` float unsigned default NULL,
@@ -206,6 +207,26 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `#__jresearch_research_area_team`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
+  `id_research_area` int(10) unsigned NOT NULL,
+  `id_team` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id_research_area`, `id_team`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `#__jresearch_publication_keyword`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_publication_keyword` (
+  `id_publication` int(10) unsigned NOT NULL,
+  `keyword` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id_publication`, `keyword`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `#__jresearch_keyword`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_keyword` (
+  `keyword` varchar(255) NOT NULL,
+  PRIMARY KEY  (`keyword`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `#__jresearch_member`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_member` (

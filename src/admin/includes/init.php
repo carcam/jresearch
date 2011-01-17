@@ -20,31 +20,31 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 
 // Common needed files		
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'includes'.DS.'defines.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'includes'.DS.'import.php');
+require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'defines.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'includes'.DS.'import.php');
 
 //Helpers
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'cite.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'jresearch.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'includes'.DS.'view.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'cite.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'includes'.DS.'view.php');
 
 //HTML helpers
-JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
-JHTML::addIncludePath(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'html');
+JHTML::addIncludePath(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 
 //Citation factory
-require_once(JPATH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
+require_once(JRESEARCH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
 
 //Needed plugins
-require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
-require_once(JPATH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
+require_once(JRESEARCH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
+require_once(JRESEARCH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
 
 // Plugin management
 JPluginHelper::importPlugin('jresearch');
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'plugins.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'plugins.php');
 
 //Toolbar
-require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'toolbar.jresearch.html.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'toolbar.jresearch.html.php');
 
 //Stylesheet
 $mainframe = JFactory::getApplication();

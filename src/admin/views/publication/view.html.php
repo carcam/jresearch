@@ -19,36 +19,30 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class JResearchAdminViewPublication extends JResearchView
 {
 
-    	function display($tpl = null)
-	{
+    function display($tpl = null){
             $mainframe = JFactory::getApplication();
             $layout = $this->getLayout();
-            $arguments = array();
 
             switch($layout){
                     case 'new':
                             $this->_displayNewPublicationForm();
                             break;
                     case 'default':
-                            $this->_displayPublicationForm($arguments);
+                            $this->_displayPublicationForm();
                             break;
             }
-
-            parent::display($tpl);
-
-            if($layout == 'default')
-                $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);
-
 	}
 	
 	/**
 	* Binds the variables useful for displaying the form for editing/creating
 	* publications.
 	*/
-	private function _displayPublicationForm(&$arguments){
-            JResearchToolbar::editPublicationAdminToolbar();
+	private function _displayPublicationForm(){
+            $mainframe = JFactory::getApplication();
+			JResearchToolbar::editPublicationAdminToolbar();
+			JHtml::_('jresearchhtml.validation');
+			
             $form = $this->get('Form');
-            // get the Data
             $data = &$this->get('Data');
 
             $pubtype = JRequest::getVar('pubtype', 'article');
@@ -56,6 +50,10 @@ class JResearchAdminViewPublication extends JResearchView
             $this->assignRef('form', $form);
             $this->assignRef('data', $data);
             $this->assignRef('pubtype', $pubtype);
+            
+            $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('publication'));
+            parent::display($tpl);
+            $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('publication'));            
 	}
 	
 	/**
@@ -63,8 +61,9 @@ class JResearchAdminViewPublication extends JResearchView
 	* for a new publication.
 	*/
 	private function _displayNewPublicationForm(){
-	   JResearchToolbar::importPublicationsToolbar();
-		$subtypes = JResearchPublication::getPublicationsSubtypes();
+	   	JResearchToolbar::importPublicationsToolbar();
+	   	$this->loadHelper('publications');
+		$subtypes = JResearchPublicationsHelper::getPublicationsSubtypes();
 		$typesOptions = array();
 		
 		foreach($subtypes as $type){
@@ -75,8 +74,8 @@ class JResearchAdminViewPublication extends JResearchView
 		
 		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
 		
-		$this->assignRef('types', $typesList);
-		
+		$this->assignRef('types', $typesList);		
+        parent::display($tpl);		
 	}
 }
 

@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  
 	//BibTex show in frontend; Pablo Moncada
-	require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters'.DS.'factory.php');		
+	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');		
 	$document = JFactory::getDocument(); 
 	$id = JRequest::getInt('id');
 	$format = "bibtex";		

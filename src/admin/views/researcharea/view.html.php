@@ -23,6 +23,7 @@ class JResearchAdminViewResearchArea extends JResearchView
     {
       	JResearchToolbar::editResearchAreaAdminToolbar();
         JHtml::_('jresearchhtml.validation');
+        $mainframe = JFactory::getApplication();
         
         $form = $this->get('Form');
         // get the Data
@@ -33,8 +34,10 @@ class JResearchAdminViewResearchArea extends JResearchView
         $this->assignRef('form', $form);
         $this->assignRef('data', $data);
 
+        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('researcharea'));
         parent::display($tpl);
-    }
+        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('researcharea'));
+     }
 }
 
 ?>

@@ -32,7 +32,7 @@ class JResearchPublicationExporterFactory{
 	public static function getInstance($outputFormat){
 		static $instances;
 		
-		$exportersFolder  = JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'exporters';
+		$exportersFolder  = JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters';
 
 		if(!$instances){
 			$instances = array();
