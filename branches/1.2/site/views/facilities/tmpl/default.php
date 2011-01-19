@@ -11,28 +11,27 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php
 if(count($this->items) > 0):
 ?>
-<ul id="jresearch-facility-list" style="padding-left:0px;">
+<ul class="jresearch-facility-list">
 	<?php foreach($this->items as $fac): ?>
 		<?php $researchArea = $this->areaModel->getItem($fac->id_research_area); ?>
-		<li class="lifacility">
+		<li>
 			<div>
 				<?php $itemId = JRequest::getVar('Itemid'); ?>
 				<h3 class="contentheading">
 					<?php echo $fac->name; ?>
-				</h3>		
-				<p>
-					<strong>
-						<?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?>
-					</strong>
-					<span>
-						<?php echo $researchArea->name;  ?>
-					</span>
-				</p>			
-				<div>&nbsp;</div>
-				<div style="text-align:left">
-					<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'facility', 'show', $fac->id); ?>
-				</div>
-			</div>
+				</h3>
+						
+				<span><strong>
+					<?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?>
+				</strong>
+				</span>
+				<span>
+					<?php echo $researchArea->name;  ?>
+				</span>
+				<div class="divEspacio"></div>
+
+					<span><?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'facility', 'show', $fac->id); ?></span>
+				</div>			
 		</li>	
 	<?php endforeach; ?>
 </ul>

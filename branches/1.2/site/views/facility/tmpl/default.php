@@ -18,9 +18,10 @@ if($this->fac->image_url):
 ?>
 <div style="text-align: center;">
 	<a href="<?php echo $url?>" class="modal" rel="{handler: 'image'}">
-		<img src="<?php echo $thumb?>" alt="<?php echo JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" title="<?php echo JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" style="width: 500px;" />
+		<img src="<?php echo $thumb?>" alt="<?php echo JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>" title="<?php echo JText::sprintf('JRESEARCH_FACILITY_IMAGE_OF', $this->fac->name)?>"  />
 	</a>
 </div>
+
 <?php 
 endif;
 if($this->description):
@@ -31,6 +32,6 @@ if($this->description):
 	endforeach;
 endif;
 ?>
-<div style="text-align: center;">
+<div>
 	<a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a>
 </div>
