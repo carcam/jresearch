@@ -204,6 +204,7 @@ class JResearchModelCooperations extends JResearchModelList
         $db 		=& JFactory::getDBO();
         $total		= count($items);
         $row		= new JResearchCooperation($db);
+        $groupings  = array();
 
         $order		= JRequest::getVar( 'order', array(), 'post', 'array' );
         JArrayHelper::toInteger($order);
