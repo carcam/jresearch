@@ -192,6 +192,7 @@ class JResearchModelFacilities extends JResearchModelList
 		$db =& JFactory::getDBO();
 		$total		= count($items);
 		$row		= new JResearchFacility($db);
+		$groupings  = array();
 
 		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($order);
@@ -217,7 +218,7 @@ class JResearchModelFacilities extends JResearchModelList
 		$groupings = array_unique( $groupings );
 		foreach ($groupings as $group)
 		{
-			$row->reorder('id_research_area = '.(int) $group.' AND published >=0');
+			$row->reorder('id_research_area = '.(int) $group);
 		}
 
 		return true;
