@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class JResearchAdminViewMember extends JResearchView 
 {
     function display($tpl = null){
-    	global $mainframe;
+    	$mainframe = JFactory::getApplication();
       	JResearchToolbar::editMemberAdminToolbar();
        	
 		JHTML::_('jresearchhtml.validation');

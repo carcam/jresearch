@@ -14,10 +14,10 @@
 */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'importer.php');
-require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'BibTex.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');
+jresearchimport('helpers.importers.importer', 'jresearch.admin');
+jresearchimport('includes.BibTex', 'jresearch.admin');
+jresearchimport('helpers.publications', 'jresearch.admin');
+jresearchimport('tables.publication', 'jresearch.admin');
 
 class JResearchBibtexImporter extends JResearchPublicationImporter{
 	
@@ -33,7 +33,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 		$parser = new Structures_BibTex();
 		$parser->content = $text;
 		$user = JFactory::getUser();
-                $mapToStaff = JRequest::getVar('maptostaff', null);
+        $mapToStaff = JRequest::getVar('maptostaff', null);
 		if($parser->parse()){
 			foreach($parser->data as $data){
 				$type = strtolower($data['entryType']);
@@ -41,7 +41,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 					$newPub = JTable::getInstance('Publication', 'JResearch');
 					if($newPub != null){
 						$j = -1;
-                                                $type = strtolower($type);
+                        $type = strtolower($type);
 						$newPub->pubtype = ($type == 'inproceedings') ? 'conference' : $type;
 						if(!empty($data['author'])){
                                                         foreach($data['author'] as $auth){

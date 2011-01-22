@@ -4,7 +4,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
 
-<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
    
     <div class="width-60 fltlft">
         <fieldset class="panelform">
@@ -18,6 +18,24 @@ defined('_JEXEC') or die('Restricted access');
                         <?php echo $field->input; ?>
                     </li>
                 <?php endforeach; ?>
+                <?php
+            		$fileInputField = $this->form->getField('file_url');
+            		$filesField = $this->form->getField('files');
+     			?> 
+     				<li>
+                        <?php if (!$fileInputField->hidden): ?>
+                                <?php echo $fileInputField->label; ?>
+                        <?php endif; ?>
+                        <?php echo $fileInputField->input; ?>
+                    </li>
+     			 <?php       		
+            		if(!empty($filesField->value)):
+            			echo $fieldsField->input;
+            			$deleteAttachField = $this->form->getField('delete_url'); 
+            			echo '<li>'.$deleteAttachField->label.''.$deleteAttachField->input.'</li>';
+            		endif;	
+            	?>
+                
                 </ul>
         </fieldset>
     </div>
@@ -40,6 +58,16 @@ defined('_JEXEC') or die('Restricted access');
         <?php echo JHtml::_('sliders.panel',JText::_('Extra'), 'extra-details'); ?>
         <fieldset class="panelform">
             <ul>
+            	<?php
+            		$hitsField = $this->form->getField('hits');
+            		if(!empty($hitsField)): 
+            			$nHits = $hitsField->value;
+            			if(!empty($nHits)):
+            				$resetHitsField = $this->form->getField('resethits');
+            				echo '<li>'.$resetHitsField->input.'<li>';
+            			endif;
+            		endif;	
+            	?>
                 <?php foreach($this->form->getFieldset('extra') as $field): ?>
                         <li>
                             <?php if (!$field->hidden): ?>
@@ -67,9 +95,9 @@ defined('_JEXEC') or die('Restricted access');
         <?php endif; ?>
 
         <?php echo JHtml::_('sliders.end'); ?>
-        <input type="hidden" name="task" value="com_jresearch.edit" />
+	    <input type="hidden" name="task" value="edit" />
+	    <input type="hidden" name="controller" value="publications" />    
         <?php echo JHtml::_('form.token'); ?>
-    </div>
-    <input type="hidden" name="controller" value="publications" />    
+    </div> 
 </form>
 <div class="clr"></div>

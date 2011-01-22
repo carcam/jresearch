@@ -134,7 +134,7 @@ class JResearchPublication extends JResearchActivity{
 		parent::__construct( '#__jresearch_publication', 'id', $db );		
 		$this->year = 0;
 		$this->_type = 'publication';
-		
+		$this->id_research_area = array();		
 	}
 	
 	/**
@@ -289,7 +289,7 @@ class JResearchPublication extends JResearchActivity{
 		
 		if(!empty($this->keywords)){
 			$this->doi = trim($this->doi);
-			require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'charsets.php');		
+			jresearchimport('helpers.charsets', 'jresearch.admin');
 			$extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());	
 					
 			if(!preg_match("/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/", $this->keywords)){
@@ -305,9 +305,19 @@ class JResearchPublication extends JResearchActivity{
 				$withoutErrors = false;
 			}
 		}
+		
+		if(!empty($this->impact_factor)){
+			$this->journal_acceptance_rate = trim($this->impact_factor);			
+			if(!is_numeric($this->impact_factor)){
+				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_IMPACT_FACTOR'));
+				$withoutErrors = false;
+			}
+		}
+		
 
 		return $withoutErrors;
 	}
+	
 	
 	/**
 	 * Inserts a new row if id is zero or updates an existing row in the 
@@ -316,41 +326,32 @@ class JResearchPublication extends JResearchActivity{
 	 * @param boolean $updateNulls If false, null object variables are not updated
 	 * @return true if successful
 	 */
-	public function store($updateNulls = false){				
-		$db = $this->getDBO();
+	public function store(){				
 		// Time to insert the information of the publication per se			
- 		$j = $this->_tbl_key;		
+ 		$db = JFactory::getDBO();
+ 		$user = JFactory::getUser();
+		$now = new JDate(); 		
 
-		$isNew = $this->$j?false:true;
-		if($isNew){
-			$now = new JDate();
+		if(isset($this->id)){
 			$this->created = $now->toMySQL();
+            $author = JRequest::getVar('created_by', $user->get('id'));
+            $this->created_by = $author;
 		}
-
-		$parentProperties = $this->_getClassAttributes();		
-
-		$parentObject = (object)array();
-		$parentObject->$j = $this->$j;
-		foreach($parentProperties as $prop){
-			 if($this->$prop !== null)
-				$parentObject->$prop = $this->$prop;
-		}
- 		// Time to insert the attributes
-      	if($this->$j){
-          	$ret = $db->updateObject( $this->_tbl, $parentObject, $this->_tbl_key, $updateNulls );
-      	}else{
-          	$ret = $db->insertObject( $this->_tbl, $parentObject, $this->_tbl_key );
-          	$this->$j = $db->insertid();
-      	}
-      	
-	    if( !$ret ){
-	        $this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
-	        return false;
-	    }				
+		
+        $this->modified = $now->toMySQL();
+        $this->modified_by = $author;
+        if(empty($this->alias))
+             $this->alias = JFilterOutput::stringURLSafe($this->name);
+		
+		
+		$result = parent::store();
+		
+		if(!$result)
+			return false;
    
 		// Delete the information about internal and external references
-		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);
-		$deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->$j);
+		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->id);
+		$deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($this->id);
 		
 		$db->setQuery($deleteInternalQuery);
 		if(!$db->query()){
@@ -392,25 +393,58 @@ class JResearchPublication extends JResearchActivity{
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 				return false;
 			}
-		}     		
-     
+		}     	
+
+		//Time to remove research areas too
+		$researchareaRemoveQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_researcharea').' WHERE id_publication = '.$db->Quote($this->id);
+		$db->setQuery($researchareaRemoveQuery);
+		if(!$db->query()){
+			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+			return false;
+		}		
+		//And to insert them again
+		$idsAreas = explode(',', $this->id_research_area);
+		foreach($idsAreas as $area){
+			$insertAreaQuery = 'INSERT INTO '.$db->nameQuote('#__jresearch_publication_researcharea').'(id_publication, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';	
+			$db->setQuery($insertAreaQuery);
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}					
+		}
+		
+		//Time to remove keyword relationships
+		$keywordsRemoveQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_keyword').' WHERE id_publication = '.$db->Quote($this->id);
+				
+		//Time to insert keywords
+		$keywords = explode(';', trim($this->keywords));
+		$keywords = array_unique($keywords);
+		foreach($keywords as $keyword){
+			if(!empty($keyword)){
+				$selectKeywordQuery = 'SELECT * FROM '.$db->nameQuote('#__jresearch_keyword').' WHERE keyword = '.$db->Quote($keyword);
+				$db->setQuery($selectKeywordQuery);
+				$resultKeyword = $db->loadResult();
+				if(empty($resultKeyword)){				
+					$insertKeywordQuery = 'INSERT INTO '.$db->nameQuote('#__jresearch_keyword').' VALUES('.$db->Quote($keyword).')';
+					$db->setQuery($insertKeywordQuery);
+					if(!$db->query()){
+						$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+						return false;
+					}									
+				}
+				
+				$insertPublicationKeywordQuery = 'INSERT INTO '.$db->nameQuote('#__jresearch_publication_keyword').' VALUES('.$db->Quote($this->id).', '.$db->Quote($keyword).')';
+				$db->setQuery($insertPublicationKeywordQuery); 
+				if(!$db->query()){
+					$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+					return false;
+				}								
+			}		
+		}
+		     
 	    return true;
 	}
 
-	/**
-	* Returns an array with the supported publications datatypes. 
-	* 
-	* @return array
-	*/	
-	public static function getPublicationsSubtypes(){
-            $db = JFactory::getDBO();
-
-            $query = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');
-            $db->setQuery($query);
-
-            return $db->loadResultArray();
-	}
-	
 	/**
 	 * Returns an array of book's editors.
 	 *

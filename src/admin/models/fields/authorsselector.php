@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id: list.php 16210 2010-04-19 04:03:00Z infograf768 $
- * @package		Joomla.Framework
+ * @package		J!Research
  * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Luis Galárraga (C) 2008
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,11 +12,8 @@ jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Control for authors selection
  *
- * @package		Joomla.Framework
- * @subpackage	Form
- * @since		1.6
  */
 class JFormFieldAuthorsselector extends JFormField
 {

@@ -165,9 +165,12 @@ class JResearchAdminResearchareasController extends JController
 	 */
 	function cancel(){
             $model = $this->getModel('Researcharea', 'JResearchAdminModel');
-            if(!$model->checkin()){
+            $app = JFactory::getApplication();
+            if(!$model->checkin()){            	
                 JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
             }
+            
+            $app->setUserState('com_jresearch.edit.researcharea.data', array());
             $this->setRedirect('index.php?option=com_jresearch&controller=researchareas');
 	}
 

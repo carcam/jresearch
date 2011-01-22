@@ -90,7 +90,6 @@ class JResearchAdminModelResearchArea extends JModelForm{
                 
                 $row =& $this->getTable('Researcharea', 'JResearch');
 
-                // Bind the form fields to the hello table
                 if (!$row->save($data))
                 {
                     $this->setError($row->getError());
@@ -130,6 +129,7 @@ class JResearchAdminModelResearchArea extends JModelForm{
            $n = 0;
            $selected = & JRequest::getVar('cid', 0, '', 'array');
            $area = JTable::getInstance('Researcharea', 'JResearch');
+           $user = JFactory::getUser();
            foreach($selected as $id){
                 $area->load($id);
 	           	if(!$area->isCheckedOut($user->get('id'))){	

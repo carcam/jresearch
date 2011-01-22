@@ -50,7 +50,7 @@ class JResearchAdminViewPublications extends JResearchView
     private function _displayDefaultList(){
     	$mainframe = JFactory::getApplication();
         $option = JRequest::getVar('option');
-    	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
+		jresearchimport('helpers.publications', 'jresearch.admin');
     	
     	JResearchToolbar::publicationsAdminListToolbar();
         $db = JFactory::getDBO();
@@ -58,8 +58,7 @@ class JResearchAdminViewPublications extends JResearchView
 		
         // Get the default model
     	$model = $this->getModel();
-    	$researchAreaModel = $this->getModel('researcharea');
-    	$items = $model->get('Items');
+    	$items = $model->getItems();
     	
     	// Ordering variables
     	$lists = array();    	
@@ -85,7 +84,7 @@ class JResearchAdminViewPublications extends JResearchView
         $yearsHTML = array();
         $yearsHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
         foreach($years as $y)
-                $yearsHTML[] = JHTML::_('select.option', $y, $y);
+            $yearsHTML[] = JHTML::_('select.option', $y, $y);
 
         $lists['year'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
 
@@ -110,7 +109,7 @@ class JResearchAdminViewPublications extends JResearchView
 
         $this->assignRef('lists', $lists);
 
-        $authors = $model->getAllAuthors();
+        $authors = JResearchPublicationsHelper::getAllAuthors();
         $authorsHTML = array();
         $authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));
         foreach($authors as $auth){
@@ -131,10 +130,9 @@ class JResearchAdminViewPublications extends JResearchView
      */
     private function _displayImportForm(){
     	JResearchToolbar::importPublicationsToolbar();
+		$this->loadHelper('researchareas');
     	
-    	$model = $this->getModel('researchareaslist');
-    	
-    	$researchAreas = $model->getData(null, true, false);
+    	$researchAreas = JResearchResearchareasHelper::getResearchAreas();
     	$researchAreasOptions = array();
     	$formatsOptions = array();
     	
@@ -165,10 +163,10 @@ class JResearchAdminViewPublications extends JResearchView
         if($task == 'export'){
                 $cid = JRequest::getVar('cid', null);
                 $exportCompleteDatabase = false;
-                $session->set('markedRecords', $cid, 'jresearch');
+                $session->set('markedRecords', $cid, 'com_jresearch.publications');
         }elseif($task == 'exportAll'){
                 $exportCompleteDatabase = true;
-                $session->set('markedRecords', 'all', 'jresearch');
+                $session->set('markedRecords', 'all', 'com_jresearch.publications');
         }
 		      	
       

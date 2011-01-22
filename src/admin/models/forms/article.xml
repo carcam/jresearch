@@ -41,7 +41,7 @@
                 />
                 <field
                         id="id_research_area"
-                        name="id_research_area[]"
+                        name="id_research_area"
                         type="researchareaslist"
                         size="5"
                         class="inputbox"
@@ -129,7 +129,7 @@
                 />
                 <field
                         id="authors"
-                        name="authorsControl"
+                        name="authors"
                         type="hidden"
                 />
                 <field
@@ -141,7 +141,8 @@
                         class="inputbox"
                         default=""
                         label="JRESEARCH_ABSTRACT"
-                 />
+                 />                
+                 
         </fieldset>
         <fieldset name="extra">
                 <field
@@ -150,7 +151,7 @@
                         type="text"
                         size="30"
                         maxlength="255"
-                        class="inputbox"
+                   class="inputbox"
                         default=""
                         label="JRESEARCH_COVER"
                 />
@@ -185,6 +186,12 @@
                         default=""
                         label="JRESEARCH_COMMENTS"
                         description="JRESEARCH_TOOLTIP_COMMENTS"
+                />
+                <field
+                	id="pubtype"
+                	name="pubtype"
+                	type="hidden"
+                	default="article"                	
                 />
         </fieldset>
         <fieldset name="specific">
@@ -258,5 +265,42 @@
                         default=""
                         label="JRESEARCH_CROSS_REFERENCE"
                 />
+        </fieldset>
+        <fieldset name="conditional">
+                <field
+                	id="hits"
+                	name="hits"
+                	type="hidden"
+                	default="0"                	
+                />
+                <field
+                	id="resethits"
+                	name="resethits"
+                	type="hitsfield"
+                	default="0"                	
+                /> 
+                <field
+                        id="delete_url"
+                        name="delete_url"
+                        type="checkbox"
+                        label="JRESEARCH_DELETE_ATTACHMENT"
+                />
+                <field
+                        id="files"
+                        name="files"
+                        type="jresearchattachment"
+                        controller="publications"
+                        default=""
+                />
+                <field
+                        id="file_url"
+                        name="file_url"
+                        type="file"
+                        rows="5"
+                        cols="50"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_FILE"
+                />       
         </fieldset>
 </form>
