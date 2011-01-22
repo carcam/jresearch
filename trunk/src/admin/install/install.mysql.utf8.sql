@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS `#__jresearch_publication`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `id_research_area` int(10) unsigned NOT NULL default '1',
+  `id_team` int(10) unsigned NULL,
   `alias` varchar(255) NOT NULL,
   `authors` text,
   `comments` text,
@@ -31,6 +32,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
   `created_by` int(10) default NULL,
+  `modified` datetime NULL,
+  `modified_by` int(10) default NULL,
   `hits` int(10) default 0,
   `issn` varchar(32) default NULL,
   `journal` varchar(255) NOT NULL,

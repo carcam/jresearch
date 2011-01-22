@@ -66,19 +66,22 @@ class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
             $orders = array('name', 'published', 'ordering');
             $columns = array();
 
-            $filter_order = $mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_order', 'filter_order', 'ordering');
-            $filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_order_Dir', 'filter_order_Dir', 'ASC'));
+            $filter_order = $mainframe->getUserStateFromRequest('com_jresearch.researchareas.filter_order', 'filter_order', 'ordering');
+            $filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('com_jresearch.researchareas.filter_order_Dir', 'filter_order_Dir', 'ASC'));
 
             //Validate order direction
             if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
                     $filter_order_Dir = 'ASC';
 
+            if(!in_array($filter_order, $orders))
+            	$filter_order = 'ordering';        
+                    
             $columns[] = $filter_order.' '.$filter_order_Dir;
 
             return $columns;
 	}	
 	
-		/**
+	/**
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere(){

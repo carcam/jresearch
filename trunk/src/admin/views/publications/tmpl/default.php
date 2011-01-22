@@ -38,7 +38,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_YEAR'), 'year', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_CITEKEY'), 'citekey', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_TYPE'), 'pubtype', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 5%;"><?php echo JText::_('Hits'); ?></th>
 			<th style="width: 10%;"><?php echo JText::_('JRESEARCH_EXPORT'); ?></th>
 		</tr>
@@ -66,7 +65,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=bibtex&id='.$this->items[$i]->id), 'Bibtex');	
 					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=mods&id='.$this->items[$i]->id), 'MODS');	
 					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=ris&id='.$this->items[$i]->id), 'RIS');
-					$researchArea = $this->area->getItem((int)$this->items[$i]->id_research_area);
 			?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
@@ -74,14 +72,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$this->items[$i]->id.'&pubtype='.$this->items[$i]->pubtype); ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td class="center"><?php echo $published; ?></td>
 					<td class="center">
+						<?php
+							$app =& JFactory::getApplication();
+							$templateDir = JURI::base().'templates/'.$app->getTemplate().'/images/admin';							
+						?>
 						<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_internal')" title="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>">
-						<img src="images/<?php echo ( $this->items[$i]->internal ) ? 'tick.png' : 'publish_x.png'; ?>" width="16" height="16" border="0" alt="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
+						<img src="<?php echo $templateDir; ?>/<?php echo ( $this->items[$i]->internal ) ? 'tick.png' : 'publish_x.png'; ?>" width="16" height="16" border="0" alt="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
 					</td>					
 					<td class="center"><?php echo $text; ?></td>
 					<td class="center"><?php echo $this->items[$i]->year; ?></td>
 					<td class="center"><?php echo $this->items[$i]->citekey; ?></td>
 					<td class="center"><?php echo JText::_('JRESEARCH_'.strtoupper($this->items[$i]->pubtype)); ?></td>
-					<td class="center"><?php echo $researchArea->name ;?></td>
 					<td class="center"><?php echo $this->items[$i]->hits; ?></td>
 					<td class="center"><?php echo implode(' , ', $exportLinks); ?></td>
 				</tr>
@@ -91,7 +92,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			if($n <= 0):
 			?>
 			<tr>
-				<td colspan="12"></td>
+				<td colspan="11"></td>
 			</tr>
 			<?php 
 			endif;
@@ -101,7 +102,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir'] ?>" /> 
-	<input type="hidden" name="hidemainmenu" value="" />
 	
 	<?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications'); ?>
 	<?php echo JHTML::_( 'form.token' ); ?>

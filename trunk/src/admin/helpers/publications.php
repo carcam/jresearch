@@ -5,7 +5,7 @@
 * @subpackage	Helpers
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
-* Joomla! is free software. This version may have been modified pursuant
+* J!Research is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
 * other free or open source software licenses.
@@ -14,7 +14,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'charsets.php');
+jresearchimport('helpers.charsets', 'jresearch.admin');
 
 define('LASTNAME_FIRSTNAME', 1);
 define('FIRSTNAME_LASTNAME', 0);
@@ -382,7 +382,7 @@ class JResearchPublicationsHelper{
 	 */
 	public static function formatAuthorsArray($authors, $format = null){
 	    if(!class_exists('JResearchMember'))
-	      require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');
+	      jresearchimport('tables.member');
 	      
 	    $text = '';
 	    foreach($authors as $author){
@@ -497,18 +497,88 @@ class JResearchPublicationsHelper{
 	* @return array
 	*/
 	public static function getPublicationsSubtypes(){
-            $db = JFactory::getDBO();
+       $db = JFactory::getDBO();
 
-            $query = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');
-            $db->setQuery($query);
+       $query = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');
+       $db->setQuery($query);
 
-            return $db->loadResultArray();
+       return $db->loadResultArray();
 	}
 
-   public static function getYears(){
-            $db = JFactory::getDBO();
-            $db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
-            return $db->loadResultArray();
-   }
+	/**
+	 * Gets a list of all years used for publications
+	 */
+   	public static function getYears(){
+       $db = JFactory::getDBO();
+       $db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
+       return $db->loadResultArray();
+   	}
+   	
+
+   	/**
+   	 * 
+   	 * Generates a citekey based on the input data. It uses authors information as well as 
+   	 * year of publication
+   	 * @param array $data
+   	 */
+   	public static function generateCitekey($data){
+   		//First trial: first author + year
+   		$db = JFactory::getDBO();
+   		$authorsArray = explode(',', $data['authors']);
+   		$citekey = '';
+   		if(!empty($authorsArray)){
+	   		$citekey = $authorsArray[0].$data['year'];
+   		}elseif(!empty($data['institute'])){
+   			//Look for some institution
+	   		$citekey = $data['institute'].$data['year'];   			
+   		}else{
+   			$citekey = rand().$data['year'];
+   		}
+   		
+   		$noSuccess = true;
+   		$next = 1;
+   		$citekey2 = $citekey;
+   		while($noSuccess){
+   			$query = 'SELECT citekey FROM #__jresearch_publication WHERE citekey = '.$db->Quote($citekey2);
+   			if(!empty($data['id']))
+	   			$query .= ' AND id != '.$db->Quote($data['id']);
+
+   			$db->setQuery($query);
+   			$result = $db->loadResult();
+   			if(empty($result)){
+   				$noSuccess = false;
+   			}else{
+   				$citekey2 = $citekey.$next;
+   				$next++;
+   			}
+   		}
+   		
+   		return $citekey2;
+   	}
+   	
+	/**
+	* Returns an associative array with the information of all members and external authors.
+	* @return array
+	*/
+	public static function getAllAuthors(){
+		$db = JFactory::getDBO();
+		$query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_publication_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
+		$db->setQuery($query);
+		$result =  $db->loadAssocList();
+		$mdresult = array();
+		$name = array();
+		// First, bring them to the form lastname, firstname.
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
+		foreach($result as $key => $author){
+			$components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
+			$value = (isset($components['von'])?$components['von'].' ':'').$components['lastname'].(isset($components['firstname'])?', '.$components['firstname']:'').(isset($components['jr'])?' '.$components['jr']:'');
+			$mdresult[] = array('id'=>$author['id'], 'name'=>$value);
+			$name[$key] = $value;
+			
+		}
+		array_multisort($name, SORT_ASC, $mdresult);
+		return $mdresult;
+	}
+   
 }
 ?>

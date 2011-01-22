@@ -620,10 +620,8 @@ class JHTMLjresearchhtml
 	 */
 	public static function memberpositions(array $attributes=array(), array $additional=array())
 	{
-		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'member_position'.DS.'member_positionlist.php');
-		
-		$model = new JResearchModelMember_positionList();
-		$positions = $model->getData(null,true);
+		jresearchimport('helpers.memberpositions', 'jresearch.admin');	
+		$positions = JResearchMemberpositionsHelper::getMemberPositions();
 		
 		//Additional elements
 		$positionOptions = array();

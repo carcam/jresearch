@@ -145,44 +145,38 @@ class JResearchActivity extends JTable{
 		$this->_internalAuthorsObjects = null;
 	}
 	
-	
-	public function bind($from, $ignore = array(), $loadAuthors = false){
-		parent::bind($from, $ignore);
-		if($loadAuthors)
-			$this->_loadAuthors();
-	}
-	 
+		 
 	/**
 	 * Loads the information about internal and external authors.
 	 *
 	 */
 	protected function _loadAuthors(){
-            $db = $this->getDBO();
+        $db = $this->getDBO();
 
-            $internalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_internal_author');
-            $idActivity = $db->nameQuote('id_'.$this->_type);
-            $qoid = $db->Quote($this->id);
-            $externalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_external_author');
+        $internalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_internal_author');
+        $idActivity = $db->nameQuote('id_'.$this->_type);
+        $qoid = $db->Quote($this->id);
+        $externalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_external_author');
 		
 		// Get internal authors
-            $internalAuthorsQuery = "SELECT * FROM $internalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
-                    $db->setQuery($internalAuthorsQuery);
-            if(($result = $db->loadAssocList())){
-                    $this->_internalAuthors = $result;
-            }else{
-                    $this->_internalAuthors = array();
-            }
-
-            // Get external authors
-            $externalAuthorsQuery = "SELECT * FROM $externalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
-                $db->setQuery($externalAuthorsQuery);
-            if(($result = $db->loadAssocList())){
-                    $this->_externalAuthors = $result;
-            }else{
-                    $this->_externalAuthors = array();
-            }
-
+        $internalAuthorsQuery = "SELECT * FROM $internalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
+        $db->setQuery($internalAuthorsQuery);
+        if(($result = $db->loadAssocList())){
+            $this->_internalAuthors = $result;
+        }else{
+            $this->_internalAuthors = array();
         }
+
+        // Get external authors
+        $externalAuthorsQuery = "SELECT * FROM $externalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
+        $db->setQuery($externalAuthorsQuery);
+        if(($result = $db->loadAssocList())){
+            $this->_externalAuthors = $result;
+        }else{
+            $this->_externalAuthors = array();
+        }
+
+   }
 	
 
 	/**
@@ -410,10 +404,13 @@ class JResearchActivity extends JTable{
 		
 		$internalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_internal_author');
 		$externalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_external_author');
+		$areasTable = $db->nameQuote('#__jresearch_'.$this->_type.'_researcharea');
+
 		$db->setQuery('DELETE FROM '.$internalTable.' WHERE '.$db->nameQuote('id_'.$this->_type).' = '.$db->Quote($oid));		
 		$db->query();
 		$db->setQuery('DELETE FROM '.$externalTable.' WHERE '.$db->nameQuote('id_'.$this->_type).' = '.$db->Quote($oid));		
 		$db->query();
+		$db->setQuery('DELETE FROM '.$areasTable.' WHERE '.$db->nameQuote('id_'.$this->_type).' = '.$db->Quote($oid));
 		
 		return parent::delete($oid);
 		

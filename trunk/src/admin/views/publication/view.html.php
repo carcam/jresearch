@@ -42,11 +42,14 @@ class JResearchAdminViewPublication extends JResearchView
 			JResearchToolbar::editPublicationAdminToolbar();
 			JHtml::_('jresearchhtml.validation');
 			
-            $form = $this->get('Form');
-            $data = &$this->get('Data');
-
-            $pubtype = JRequest::getVar('pubtype', 'article');
-
+	        $form = $this->get('Form');
+	        // get the Data
+	        $data = &$this->get('Data');
+    	    // Bind the Data
+        	$form->bind($data);
+			
+            $pubtype = JRequest::getVar('pubtype', $data['pubtype'], 'jform');
+            
             $this->assignRef('form', $form);
             $this->assignRef('data', $data);
             $this->assignRef('pubtype', $pubtype);

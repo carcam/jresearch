@@ -37,6 +37,7 @@ class JResearchAdminPublicationsController extends JController
             $this->registerTask('makeinternal', 'changeInternalStatus');
             $this->registerTask('makenoninternal', 'changeInternalStatus');
             $this->registerTask('remove', 'remove');
+            $this->registerTask('delete', 'remove');            
             $this->registerTask('import', 'import');
             $this->registerTask('export', 'export');
             $this->registerTask('exportAll', 'export');
@@ -81,6 +82,7 @@ class JResearchAdminPublicationsController extends JController
 	* the type for a new one.
 	*/	
 	function edit(){
+			$app = JFactory::getApplication();
             $cid = JRequest::getVar('cid', array());
             $view = $this->getView('Publication', 'html', 'JResearchAdminView');
             $pubModel = $this->getModel('Publication', 'JResearchAdminModel');
@@ -103,6 +105,7 @@ class JResearchAdminPublicationsController extends JController
                         $this->setRedirect('index.php?option=com_jresearch&controller=publications');
                     }
             }else{
+                $app->setUserState('com_jresearch.edit.publication.data', array());            	
                 $view->setLayout('default');
                 $view->setModel($pubModel, true);
                 $view->display();
@@ -113,13 +116,13 @@ class JResearchAdminPublicationsController extends JController
 	* Invoked when an administrator has decided to publish a one or more items
 	* @access	public
 	*/ 
-	function publish(){
+	function publish(){		
 			if(!JRequest::checkToken()){
                 $this->setRedirect('index.php?option=com_jresearch');
                 return;
             }
 		
-            $model = $this->getModel('Publications', 'JResearchAdminModel');
+            $model = $this->getModel('Publication', 'JResearchAdminModel');
             if(!$model->publish()){
                 JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
             }
@@ -136,11 +139,11 @@ class JResearchAdminPublicationsController extends JController
                 return;
             }
 		
-            $model = $this->getModel('Publications', 'JResearchAdminModel');
-            if(!$model->publish()){
-                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
+            $model = $this->getModel('Publication', 'JResearchAdminModel');
+            if(!$model->unpublish()){
+                JError::raiseWarning(1, JText::_('JRESEARCH_UNPUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
             }
-            $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
+            $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));
 		
 	}
 
@@ -154,9 +157,9 @@ class JResearchAdminPublicationsController extends JController
                 return;
             }
 	
-            $model = $this->getModel('Researcharea', 'JResearchAdminModel');
+            $model = $this->getModel('Publication', 'JResearchAdminModel');
             $n = $model->delete();
-            $this->setRedirect('index.php?option=com_jresearch&controller=researchAreas', JText::sprintf('JRESEARCH_AREA_SUCCESSFULLY_DELETED', $n));
+            $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_ITEM_SUCCESSFULLY_DELETED', $n));
 		
 	}
 	
@@ -165,11 +168,8 @@ class JResearchAdminPublicationsController extends JController
 	* @access	public
 	*/
 	function import(){
-            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
-            $view = &$this->getView('PublicationsList', 'html', 'JResearchAdminView');
-            $model = &$this->getModel('ResearchAreasList', 'JResearchModel');
+            $view = $this->getView('Publications', 'html', 'JResearchAdminView');
             $view->setLayout('import');
-            $view->setModel($model);
             $view->display();
 	}
 	
@@ -178,9 +178,8 @@ class JResearchAdminPublicationsController extends JController
 	* @access	public
 	*/
 	function export(){
-            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
-            $view = &$this->getView('PublicationsList', 'html', 'JResearchAdminView');
-            $model = &$this->getModel('PublicationsList', 'JResearchModel');
+            $view = &$this->getView('Publications', 'html', 'JResearchAdminView');
+            $model = &$this->getModel('Publications', 'JResearchAdminModel');
             $view->setModel($model, true);
             $view->setLayout('export');
             $view->display();
@@ -189,24 +188,23 @@ class JResearchAdminPublicationsController extends JController
 	/**
 	* Invoked when the user exports a single publication from backend list.
 	*/	
-	function exportSingle(){		
-            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
-            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');
-            $document =& JFactory::getDocument();
+	function exportSingle(){		            
+            jresearchimport('helpers.exporters.factory', 'jresearch.admin');
+            $document = JFactory::getDocument();
 
             $id = JRequest::getInt('id');
             $format = JRequest::getVar('format');
-            $model = &$this->getModel('Publication', 'JResearchModel');
-            $publication = $model->getItem($id);
+            $model = $this->getModel('Publication', 'JResearchAdminModel');
+            $publication = $model->getItem();
 
             $exporter =& JResearchPublicationExporterFactory::getInstance($format);
             $output = $exporter->parse($publication);
             $document->setMimeEncoding($exporter->getMimeEncoding());
 
             if($format == 'bibtex')
-                    $ext = 'bib';
+                $ext = 'bib';
             else
-                    $ext = $format;
+                $ext = $format;
 
             $tmpfname = "jresearch_output.$ext";
             header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
@@ -219,14 +217,11 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function executeImport(){
-            //global $mainframe;
+            jresearchimport('helpers.importers.factory', 'jresearch.admin');
             $fileArray = JRequest::getVar('inputfile', null, 'FILES');
             $format = JRequest::getVar('formats');
             $idResearchArea = JRequest::getVar('researchAreas');
             $uploadedFile = $fileArray['tmp_name'];
-            //$savedRecords = 0;
-
-            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
 
             if($fileArray == null || $uploadedFile == null){
                 JError::raiseWarning(1, JText::_('JRESEARCH_NO_INPUT_FILE'));
@@ -236,7 +231,7 @@ class JResearchAdminPublicationsController extends JController
                 $parsedPublications = $importer->parseFile($uploadedFile);
                 $n = 0;
                 foreach($parsedPublications as $p){
-                    $p->id_research_area = $idResearchArea;
+                    $p->id_research_area = array($idResearchArea);
                     if(!$p->store()){
                         JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
                     }else{
@@ -254,62 +249,33 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function executeExport(){
-            $session = JFactory::getSession();
-            $exportOptions = array();
-
-            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
-            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');
-            $markedRecords = $session->get('markedRecords', null, 'jresearch');
-            if($markedRecords !== null){
-                if($markedRecords === 'all'){
-                        $model = &$this->getModel('PublicationsList', 'JResearchAdminModel');
-                        $publicationsArray = $model->getData();
-                }else{
-                        $model = &$this->getModel('Publication', 'JResearchAdminModel');
-                        $publicationsArray = array();
-                        foreach($markedRecords as $id){
-                                $publicationsArray[] = $model->getItem($id);
-                        }
-                }
-
-                $strictBibtex = JRequest::getVar('strict_bibtex');
-                if($strictBibtex == 'on')
-                        $exportOptions['strict_bibtex'] = true;
-
-                $format = JRequest::getVar('outformat');
-                $exporter =& JResearchPublicationExporterFactory::getInstance($format);
-                $output = $exporter->parse($publicationsArray, $exportOptions);
-                $document =& JFactory::getDocument();
-                $document->setMimeEncoding($exporter->getMimeEncoding());
-                $session->clear('markedRecords', 'jresearch');
-
-                if($format == 'bibtex')
-                        $ext = 'bib';
-                else
-                        $ext = $format;
-                $tmpfname = "jresearch_output.$ext";
-                header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
-                echo $output;
-            }else{
-                JError::raiseNotice(1, JText::_('JRESEARCH_SELECT_ITEMS_TO_EXPORT'));
-                $this->setRedirect('index.php?option=com_jresearch&controller=publications');
-            }
+        $view = $this->getView('Publication', 'raw', 'JResearchAdminView');
+        $publicationsModel = $this->getModel('Publications', 'JResearchAdminModel');
+        $publicationModel = $this->getModel('Publication', 'JResearchAdminModel');        
+        $view->setModel($publicationsModel, true);
+        $view->setModel($publicationModel);        
+        $view->display();		
 	}
 
 	/**
 	* Invoked when the user has decided to save a publication.
 	*/	
 	function save(){		
-             $model = $this->getModel('Publication', 'JResearchAdminModel');
-             $app = JFactory::getApplication();
-             if ($model->save()){
-	             JError::raiseWarning(1, var_export($task, true));                
+		if(!JRequest::checkToken()){
+           $this->setRedirect('index.php?option=com_jresearch');
+           return;
+        }
+		
+		$model = $this->getModel('Publication', 'JResearchAdminModel');
+        $app = JFactory::getApplication();
+        if ($model->save()){
+             	$task = JRequest::getVar('task');             	
                 $publication = $model->getItem();
                 if($task == 'save'){
                     $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
                     $app->setUserState('com_jresearch.edit.publication.data', array());
                 }elseif($task == 'apply'){
-                    $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+                    $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
              	}
              }else{
                 $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
@@ -330,12 +296,17 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function cancel(){
-          $model = $this->getModel('Publication', 'JResearchAdminModel');
-          if(!$model->checkin()){
-                JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
-          }
-          $this->setRedirect('index.php?option=com_jresearch&controller=publications');
+		if(!JRequest::checkToken()){
+           $this->setRedirect('index.php?option=com_jresearch');
+           return;
+        }
 		
+        $model = $this->getModel('Publication', 'JResearchAdminModel');
+        if(!$model->checkin()){
+            JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+        }
+        
+        $this->setRedirect('index.php?option=com_jresearch&controller=publications');		
 	}
 	
 	
@@ -345,13 +316,24 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function changeInternalStatus(){
-		$cid = JRequest::getVar('cid');
-		$task = JRequest::getVar('task');		
-		$db = JFactory::getDBO();
-		
-		$publication = new JResearchPublication($db);
-		$publication->toggleInternal($cid, $task == 'makeinternal'?1:0);
-		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));		
+		if(!JRequest::checkToken()){
+           $this->setRedirect('index.php?option=com_jresearch');
+           return;
+        }
+	
+        $model = $this->getModel('Publication', 'JResearchAdminModel');
+        $task = JRequest::getVar('task');
+        $value = false;
+        if($task == 'makeinternal'){
+        	$key = 'JRESEARCH_NITEMS_TURNED_INTERNAL'; 
+        	$value = true;
+        }else{
+			$key = 'JRESEARCH_NITEMS_TURNED_NON_INTERNAL';        	
+        }
+        
+        $n = $model->setInternalValue($value);
+		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_NITEMS_TURNED_INTERNAL', $n));
+	
 	}	
 	
 	/**
@@ -360,17 +342,17 @@ class JResearchAdminPublicationsController extends JController
 	 *
 	 */
 	function toggle_internal(){
-		//$db =& JFactory::getDBO();
-		$cid = JRequest::getVar('cid');
-		$publication =& JResearchPublication::getById($cid[0]);
-		$publication->internal = !$publication->internal;
-		if($publication->store())
-			$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));
-		else{
-			JError::raiseWarning(1, JText::_('JRESEARCH_TOGGLE_INTERNAL_FAILED'));
-			$this->setRedirect('index.php?option=com_jresearch&controller=publications');
-		}
-		
+		if(!JRequest::checkToken()){
+           $this->setRedirect('index.php?option=com_jresearch');
+           return;
+        }
+	
+        $model = $this->getModel('Publication', 'JResearchAdminModel');
+
+        if($model->toggleInternal())
+	        $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));		
+		else
+			$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_TOGGLE_INTERNAL_UNSUCCESSFULLY'));	        
 	}
 	
 	/**

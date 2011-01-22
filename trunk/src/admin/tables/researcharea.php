@@ -116,12 +116,9 @@ class JResearchResearcharea extends JTable{
 	* otherwise. 
 	*/
 	function check(){
-            $name_pattern = '/^\w[-_\w\d\s]+$/';
-
-            // Validate first and lastname
-            if(!preg_match($name_pattern, $this->name)){
-                    $this->setError(JText::_('JRESEARCH_PROVIDE_VALID_TITLE'));
-                    return false;
+            if(empty($this->name)){
+                 $this->setError(JText::_('JRESEARCH_PROVIDE_VALID_TITLE'));
+                 return false;
             }
 
             return true;
@@ -185,15 +182,15 @@ class JResearchResearcharea extends JTable{
         }
         
 
-        public function store($updateNulls = false){
+        public function store(){
             jresearchimport('joomla.utilities.date');
             $dateObj = new JDate();
-            $user = JFactory::getDBO();
+            $user = JFactory::getUser();
 
             if(isset($this->id)){
                 $created = JRequest::getVar('created', $dateObj->toMySQL());
                 $this->created = $created;
-                $author = JRequest::getVar('created_by', $user->id);
+                $author = JRequest::getVar('created_by', $user->get('id'));
                 $this->created_by = $author;
             }
             
@@ -202,10 +199,10 @@ class JResearchResearcharea extends JTable{
             if(empty($this->alias))
                 $this->alias = JFilterOutput::stringURLSafe($this->name);
 
-            $result = parent::store($updateNulls);
+            $result = parent::store();
             
             // If the item is unpublished, unpublished all its children
-            if($this->published == 0 && !empty($this->id)){
+            if($this->published == 0 && !empty($this->id) && $result){
                 $this->_unpublishChildren($this->id);
             }
 

@@ -56,9 +56,15 @@ class JResearchAdminModelPublication extends JModelForm{
                             unset($data['id']);
                     }
                     
+                    //Once the data is retrieved, time to fix it
+                    if(is_string($data['id_research_area'])){
+                    	$data['id_research_area'] = explode(',', $data['id_research_area']);
+                    }
+                    
                     $app->setUserState('com_jresearch.edit.publication.data', $data);
                     $this->data = $data;
             }
+            
             return $this->data;
         }
         /**
@@ -84,12 +90,68 @@ class JResearchAdminModelPublication extends JModelForm{
         function save()
         {
 				$app = JFactory::getApplication();
+				jresearchimport('helpers.publications', 'jresearch.admin');
+				$params = JComponentHelper::getParams('com_jresearch');
+				$omittedFields = array();
                 
                 $data =& $this->getData();                
                 $row =& $this->getTable('Publication', 'JResearch');
-
-                // Bind the form fields to the hello table
-                if (!$row->save($data))
+                //Time to upload the file
+                $delete = $data['delete_url'];
+	    		if($delete === 'on'){
+	    			if(!empty($data['files'])){
+		    			$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$row->files;
+		    			@unlink($filetoremove);
+	    			}
+		    	}
+	    
+	    		$file = JRequest::getVar('file_url', null, 'FILES');
+			    if(!empty($file['name'])){	    	
+		    		$data['files'] = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');
+	    		}
+	    
+			    $reset = JRequest::getVar('resethits', false);
+	    		if($reset == 'on'){
+			    	$data['hits'] = 0;
+			    	$omittedFields[] = 'hits';
+			    }
+			    			    			    
+			    //Now time for the authors
+				$maxAuthors = $data['nauthorsfield'];
+				$k = 0;
+				$authorsArray = array();
+				for($j = 0; $j <= $maxAuthors; $j++){
+					$value = JRequest::getVar("authorsfield".$j);
+					if(!empty($value)){
+						if(is_numeric($value)){
+							// In that case, we are talking about a staff member
+							$publication->setAuthor($value, $k, true); 
+						}else{
+							// For external authors 
+							$publication->setAuthor($value, $k);
+						}
+						$authorsArray[] = $value;
+						$k++;
+					}
+				}
+				
+				$data['authors'] = implode(',', $authorsArray);
+				//Citekey generation
+				$data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
+				
+				//Checking of research areas
+				if(!empty($data['id_research_area'])){
+					if(in_array('1', $data['id_research_area'])){
+						$data['id_research_area'] = '1';
+					}else{
+						$data['id_research_area'] = implode(',', $data['id_research_area']);
+					}
+				}else{
+					$data['id_research_area'] = '1';
+				}
+				
+				
+                if (!$row->save($data, '', $omittedFields))
                 {
                     $this->setError($row->getError());
                     return false;
@@ -128,6 +190,7 @@ class JResearchAdminModelPublication extends JModelForm{
            $n = 0;
            $selected =& JRequest::getVar('cid', 0, '', 'array');
            $publication = JTable::getInstance('Publication', 'JResearch');
+           $user = JFactory::getUser();
            foreach($selected as $id){
                 $publication->load($id);
 	           	if(!$publication->isCheckedOut($user->get('id'))){	
@@ -140,44 +203,74 @@ class JResearchAdminModelPublication extends JModelForm{
            return $n;           
         }
         
-	
-	/**
-	 * Returns an array of JResearchComment objects.
-	 *
-	 * @param int $id_publication The publication the comments belong to.
-	 * @param int $limit How many comments will be returned at most.
-	 * @param int $start Start index
-	 */
-	public function getComments($id_publication, $limit=5, $start=0){
-		$db = JFactory::getDBO();
-		$comments = array();
-		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_publication_comment').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($id_publication)
-				.' ORDER BY datetime DESC LIMIT '.$start.', '.$limit;
-				
-		$db->setQuery($query);
-		$result = $db->loadAssocList();		
-		foreach($result as $r){
-			$newComm = JTable::getInstance('PublicationComment', 'JResearch');
-			$newComm->bind($r);
-			$comments[] = $newComm;
-		}
-		return $comments;
-	}
-	
-	/**
-	 * Returns the total number of comments posted for a publication.
-	 *
-	 * @param int $id_publication
-	 * @return int 
-	 */
-	public function countComments($id_publication){
-		$db =& JFactory::getDBO();
-		
-		$query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_publication_comment').' WHERE '.$db->nameQuote('id_publication').' = '.$db->Quote($id_publication);
-		$db->setQuery($query);
-		return (int)$db->loadResult();
-	}
+		/**
+         * Returns the model data store in the user state as a table
+         * object
+         */
+        public function getItem(){
+            $row = $this->getTable('Publication', 'JResearch');
+            $data =& $this->getData();
+            $row->bind($data);
+            return $row;
+        }
+        
+        /**
+         * Returns the items whose ids are contained in the
+         * url "cid" parameter
+         * 
+         */
+        public function getItems(){
+        	$cid = JRequest::getVar('cid', array());
+        	$result = array();
+        	foreach($cid as $id){
+        		$pub = JTable::getInstance('Publication', 'JResearch');
+        		$pub->load($id);
+        		$result[] = $pub;
+        	}
+        	
+        	return $result;
+        }
+        
+        /**
+         * Sets the internal status of the selected publications to the 
+         * value sent as argument
+         * @param bool $value
+         */
+        public function setInternalValue($value){
+        	$publication = $this->getTable('Publication', 'JResearch');
+        	$cid = JRequest::getVar('cid', array());
+        	$user = JFactory::getUser();
+        	$n = 0;
+        	foreach($cid as $id){
+        		if($publication->toggleInternal(array($id), $value, $user->get('id'))){
+        			$n++;
+        		}
+        	}
+        	
+        	return $n;
+        }
+        
+		/**
+         * Sets the internal status of the selected publications to the 
+         * value sent as argument
+         * @param bool $value
+         */
+        public function toggleInternal(){
+        	$publication = $this->getTable('Publication', 'JResearch');
+        	$cid = JRequest::getVar('cid', array());
+        	$publication->load($cid[0]);
+        	if(!empty($publication->id)){
+        		$user = JFactory::getUser();
+        		if(!$publication->isCheckedOut($user->get('id'))){
+	        		$publication->internal = !$publication->internal;	
+	        		return $publication->store();
+        		}else{
+        			return false;
+        		}
+        	}
+        	
+        	return false;
+        }
 	
 }
 ?>
