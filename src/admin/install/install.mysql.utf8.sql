@@ -237,22 +237,27 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `former_member` tinyint(1) NOT NULL,
   `firstname` varchar(30) NOT NULL,
   `lastname` varchar(30) NOT NULL,
+  `title` varchar(10) NOT NULL,
   `email` varchar(255) NULL,
-  `username` varchar(150) NOT NULL,
+  `username` varchar(150) default NULL,
   `id_research_area` int(10) unsigned NOT NULL default '1',
   `position` int(10) unsigned default '0',
-  `location` varchar(50) default NULL,
+  `location` varchar(255) default NULL,
   `url_personal_page` varchar(255) default NULL,
   `published` tinyint(4) NOT NULL default '1',
   `ordering` int(11) unsigned NOT NULL default '0',
-  `phone_or_fax` varchar(15) default NULL,
+  `phone` varchar(15) default NULL,
+  `fax` varchar(15) default NULL,
   `url_photo` varchar(255) default NULL,
   `description` text,
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL,
+  `created` datetime NULL,
+  `created_by` int(10) default NULL,
+  `modified` datetime NULL,
+  `modified_by` int(10) default NULL,
   PRIMARY KEY  (`id`),
-  INDEX `name` (`lastname`,`firstname`),
-  INDEX `id_research_area` (`id_research_area`)
+  INDEX `name` (`lastname`,`firstname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `#__jresearch_member_position`;

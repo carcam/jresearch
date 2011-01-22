@@ -37,13 +37,12 @@ defined('_JEXEC') or die('Restricted access');
 				<?php echo JHTML::_('grid.order', $this->items ); ?>
 			</th>
 			<th style="width: 20%; text-align: center;"><?php echo JText::_('JRESEARCH_POSITION'); ?></th>
-			<th style="text-align: center;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th><?php echo JText::_('JRESEARCH_CONTACT'); ?></th>
 		</tr>
 		</thead>		
 		<tfoot>
 			<tr>
-				<td colspan="9">
+				<td colspan="8">
 					<?php echo $this->page->getListFooter(); ?>
 				</td>
 			</tr>
@@ -56,7 +55,6 @@ defined('_JEXEC') or die('Restricted access');
 					$k = $i % 2;
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
-//					$researchArea = $this->items[i]->getResearchAreas();
 			?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
@@ -71,7 +69,6 @@ defined('_JEXEC') or die('Restricted access');
 						<input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>
 					<td class="center"><?php echo $this->items[$i]->getPosition(); ?></td>
-					<td class="center"><?php //echo $researchArea->name; ?></td>
 					<td class="center"><a href="mailto:<?php echo $this->items[$i]->email; ?>"><?php echo $this->items[$i]->email ?></a></td>
 				</tr>
 			<?php

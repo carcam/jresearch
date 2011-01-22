@@ -86,6 +86,17 @@ class JResearchAdminModelMember extends JModelForm{
             $data = &$this->getData();
 
             $row = $this->getTable('Member', 'JResearch');
+            
+        	//Checking of research areas
+			if(!empty($data['id_research_area'])){
+				if(in_array('1', $data['id_research_area'])){
+					$data['id_research_area'] = '1';
+				}else{
+					$data['id_research_area'] = implode(',', $data['id_research_area']);
+				}
+			}else{
+				$data['id_research_area'] = '1';
+			}            
 
             // Bind the form fields to the hello table
             if (!$row->save($data))

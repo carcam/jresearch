@@ -134,6 +134,13 @@ class JResearchMember extends JTable{
 	* @var datetime
 	*/
 	public $checked_out_time;
+	
+	
+	public $created;
+	public $created_by;
+	public $modified;
+	public $modified_by;
+
 
 	/**
 	 * Class constructor. Maps the class to a Joomla table.
@@ -176,6 +183,54 @@ class JResearchMember extends JTable{
             $this->lastname = (isset($arrayName['von'])?$arrayName['von'].' ':'');
             $this->lastname .= $arrayName['lastname'];
 			
+	}
+	
+	/**
+	 * Inherited from JTable, it updates research area tables
+	 * @see trunk/Joomla16/libraries/joomla/database/JTable::store()
+	 */
+	function store(){
+		// Time to insert the member of the publication per se	
+		jimport('joomla.utilities.date');				
+
+		$db = JFactory::getDBO();
+ 		$user = JFactory::getUser();
+		$now = new JDate(); 		
+
+		if(isset($this->id)){
+			$this->created = $now->toMySQL();
+            $author = JRequest::getVar('created_by', $user->get('id'));
+            $this->created_by = $author;
+		}
+		
+        $this->modified = $now->toMySQL();
+        $this->modified_by = $author;	
+		
+		$result = parent::store();
+		if(!$result)
+			return $result;
+				
+		//Time to remove research areas too
+		$researchareaRemoveQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_member_researcharea').' WHERE id_member = '.$db->Quote($this->id);
+		$db->setQuery($researchareaRemoveQuery);
+		if(!$db->query()){
+			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+			return false;
+		}		
+		
+		//And to insert them again
+		$idsAreas = explode(',', $this->id_research_area);
+		foreach($idsAreas as $area){
+			$insertAreaQuery = 'INSERT INTO '.$db->nameQuote('#__jresearch_member_researcharea').'(id_member, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';	
+			$db->setQuery($insertAreaQuery);
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}					
+		}
+
+		return true;
+
 	}
 
 	/**
@@ -329,6 +384,59 @@ class JResearchMember extends JTable{
 
             return false;
 
+        }
+        
+        /**
+         * (non-PHPdoc)
+         * @see trunk/Joomla16/libraries/joomla/database/JTable::delete()
+         */
+        function delete($oid){
+			$db = JFactory::getDBO();
+
+			$k = $this->_tbl_key;
+			$oid = (is_null($oid)) ? $this->$k : $oid;			
+			$result = parent::delete($oid);
+
+			if(!$result)
+				return $result;			
+		
+			$publicationsTable = $db->nameQuote('#__jresearch_publication_internal_author');
+			$projectsTable = $db->nameQuote('#__jresearch_project_internal_author');
+			$thesesTable = $db->nameQuote('#__jresearch_thesis_internal_author');
+			$teamsTable = $db->nameQuote('#__jresearch_team_member');
+			$areasTable = $db->nameQuote('#__jresearch_member_researcharea');
+
+			$db->setQuery('DELETE FROM '.$publicationsTable.' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($oid));		
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}	
+			
+			$db->setQuery('DELETE FROM '.$projectsTable.' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($oid));		
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}	
+			
+			$db->setQuery('DELETE FROM '.$thesesTable.' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($oid));
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}	
+						
+			$db->setQuery('DELETE FROM '.$teamsTable.' WHERE '.$db->nameQuote('id_member').' = '.$db->Quote($oid));			
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}	
+						
+			$db->setQuery('DELETE FROM '.$areasTable.' WHERE '.$db->nameQuote('id_member').' = '.$db->Quote($oid));			
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}	
+						
+			return true;		        	
         }
 	
 }

@@ -4,8 +4,12 @@
 * @subpackage	F
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL v2
-* Description
+* Control for displaying the number of hits of a row and reset them
 */
+
+defined('JPATH_BASE') or die;
+
+
 
 /**
  * Control for authors selection
