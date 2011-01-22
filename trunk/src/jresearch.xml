@@ -83,7 +83,7 @@
 			<menu controller="member_positions">COM_JRESEARCH_JRESEARCH_MEMBER_POSITIONS</menu>
 			<menu controller="projects" img="../administrator/components/com_jresearch/assets/projects_mini.png">COM_JRESEARCH_JRESEARCH_PROJECTS</menu>
 			<menu controller="publications" img="../administrator/components/com_jresearch/assets/publications_mini.png">COM_JRESEARCH_JRESEARCH_PUBLICATIONS</menu>
-			<menu controller="researchAreas" img="../administrator/components/com_jresearch/assets/jresearch_logomini.png">COM_JRESEARCH_JRESEARCH_RESEARCH_AREAS</menu>
+			<menu controller="researchareas" img="../administrator/components/com_jresearch/assets/jresearch_logomini.png">COM_JRESEARCH_JRESEARCH_RESEARCH_AREAS</menu>
 			<menu controller="staff" img="../administrator/components/com_jresearch/assets/staff_mini.png">COM_JRESEARCH_JRESEARCH_STAFF</menu>
 			<menu controller="theses" img="../administrator/components/com_jresearch/assets/theses_mini.png">COM_JRESEARCH_JRESEARCH_THESES</menu>
 			<menu controller="teams" img="../administrator/components/com_jresearch/assets/teams_mini.png">COM_JRESEARCH_JRESEARCH_TEAMS</menu>

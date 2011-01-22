@@ -88,7 +88,7 @@ class JResearchAdminPublicationsController extends JController
             $pubModel = $this->getModel('Publication', 'JResearchAdminModel');
 
             if(!empty($cid)){
-                    $publication = $pubModel->getItem($cid[0]);
+                    $publication = $pubModel->getItem();
                     if(!empty($publication)){
                             $user = JFactory::getUser();
                             // Verify if it is checked out
