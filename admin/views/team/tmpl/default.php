@@ -30,8 +30,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div class="divTR">
 		<div class="divTd"><label for="published"><?php echo JText::_('Published').': '; ?></label></div>
 		<div class="divTdl divTdl2"><?php echo $this->publishedRadio; ?></div>
-		<div class="divTd"><label for="parent"><?php echo JText::_('Parent').': '; ?></label></div>
-		<div class="divTdl"><?php echo JHTML::_('jresearchhtml.teamshierarchy', $this->hierarchy, array('name' => 'parent', 'selected' => $this->team?$this->team->parent:null)); ?></div>
+		<div class="divTd"><label for="id_research_area"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '; ?></label></div>
+		<div class="divTdl"><?php echo $this->areasList; ?></div>
 	    <div class="divEspacio" ></div>		
 	</div>	
 	<div class="divTR">

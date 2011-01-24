@@ -43,6 +43,14 @@ table.teamdescription th{
 		    	<?php endif; ?>
 			</td>
 		</tr>
+		<?php $researchArea = $this->item->getResearchArea(); 
+			  if(!empty($researchArea)):	
+		?>		
+		<tr>
+			<th><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '; ?></th>
+			<td><?php echo JHTML::_('jresearch.link', $researchArea->name, 'researchArea', 'show', $researchArea->id); ?></td>
+		</tr>		
+		<?php endif; ?>
 		<?php 
 		if($this->leader->position):
 		?>
@@ -116,33 +124,9 @@ table.teamdescription th{
 $pub_view_all = JRequest::getVar('publications_view_all', 0);
 $pro_view_all = JRequest::getVar('projects_view_all', 0);
 $the_view_all = JRequest::getVar('theses_view_all', 0);
-$are_view_all = JRequest::getVar('areas_view_all', 0);
 $fac_view_all = JRequest::getVar('facilities_view_all', 0);
 $coo_view_all = JRequest::getVar('cooperations_view_all', 0);
 ?>
-
-<?php if(!empty($this->areas)): ?>
-<div class="divEspacio"></div>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></h3>
-<ul class="float">
-<?php foreach($this->areas as $area): ?>
-	<li>
-		<?php echo JHTML::_('jresearch.link', $area->name, 'researcharea', 'show', $area->id); ?>
-	</li>
-<?php endforeach; ?>
-</ul>
-<?php 
-$text = '';
-if($are_view_all == 0 && $this->max_areas > count($this->areas))
-	$text = '['.JText::_('JRESEARCH_VIEW_ALL').']';
-elseif($are_view_all == 1 && $this->max_areas > $this->nare)
-	$text = '['.JText::_('JRESEARCH_VIEW_LESS').']';
-
-if(!empty($text))
-	echo '<span><a href="index.php?option=com_jresearch&amp;Itemid='.$Itemid.'&amp;publications_view_all='.$pub_view_all.'&amp;projects_view_all='.$pro_view_all.'&amp;theses_view_all='.$the_view_all.'&amp;facilities_view_all='.$fac_view_all.'&amp;areas_view_all='.(!$are_view_all).'&amp;cooperations_view_all='.$coo_view_all.'&amp;task=show&amp;view=team&amp;id='.$this->item->id.'">'.$text.'</a></span><div>&nbsp;</div>';		
-?>
-
-<?php endif; ?>
 
 <?php if(!empty($this->projects)): ?>
 <div class="divEspacio"></div>
@@ -239,7 +223,7 @@ if(!empty($text))
 <div class="divEspacio"></div>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_COOPERATIONS'); ?></h3>
 <ul class="float">
-<?php foreach($this->cooperation as $cooperation): ?>
+<?php foreach($this->cooperations as $cooperation): ?>
 	<li>
 		<?php echo JHTML::_('jresearch.link', $cooperation->name, 'cooperation', 'show', $cooperation->id); ?>
 	</li>

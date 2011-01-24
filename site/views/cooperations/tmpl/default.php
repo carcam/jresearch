@@ -14,16 +14,12 @@ defined("_JEXEC") or die("Restricted access");
 <?php
 if(!empty($this->intro_text)):
 ?>
-	<p style="text-align: justify;"><?php echo $this->intro_text?></p>
+<p style="text-align: justify;"><?php echo $this->intro_text?></p>
 <?php
 endif;
-
+$firstTime = true;	
 if(count($this->items) > 0):
-?>
-<ul id="jresearch-cooperation-list" style="padding-left:0px;">
-	<?php
-	$lastCat = -1;
-	
+	$lastCat = -1;	
 	foreach($this->items as $coop):
 		if($lastCat != $coop->catid && $coop->catid != 0):
 			$print = null;
@@ -33,13 +29,17 @@ if(count($this->items) > 0):
 				{
 					$print = $cat;
 					unset($this->cats[$key]);
-					
 					break;
 				}
 			}
+
+			if(!$firstTime):
+				echo "</ul>";
+			endif;
 			//print Category
 			?>
-			<li style="background: none; list-style-type: none; text-align: center;">
+			
+			<div>
 				<?php 
 				if(!empty($print->image)):
 				?>
@@ -47,16 +47,26 @@ if(count($this->items) > 0):
 				<?php 
 				else:
 					?>
-					<h3><?php echo $print->title?></h3>
+					<h3 class="contentheading"><?php echo $print->title?></h3>
 					<?php
 				endif;
 				?>
-			</li>
-			<?php
+			</div>
+		<?php
+			echo '<ul class="jresearch-cooperation-list">';										
+			if($firstTime):
+				$firstTime = false;
+			endif;
 			$lastCat = $coop->catid;
+		else:
+			if($firstTime && $coop->catid == 0):
+				echo '<ul class="jresearch-cooperation-list">';	
+				$firstTime = false;		
+			endif;
 		endif;
-	?>
-		<li class="licooperation" style="background: none; clear: both; margin-bottom: 10px;">
+		
+		?>
+		<li>
 			<?php 
 			if($coop->image_url):
 				$url = JResearch::getUrlByRelative($coop->image_url);
@@ -65,7 +75,7 @@ if(count($this->items) > 0):
 			<?php 
 			endif;
 			?>
-			<div style="width: 85%; margin-left: auto; margin-right: auto;">
+			<div>
 				<?php
 				$contentArray = explode('<hr id="system-readmore" />', $coop->description);
 				?>
@@ -91,12 +101,12 @@ if(count($this->items) > 0):
 					<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'cooperation', 'show', $coop->id); ?>
 				</div>
 			</div>
-			<div style="clear: both;">&nbsp;</div>
+			<div style="clear: both;" class="divEspacio"></div>
 		</li>
 	<?php
 	endforeach;
+	echo "</ul>"
 	?>
-</ul>
 <?php
 endif;
 ?>

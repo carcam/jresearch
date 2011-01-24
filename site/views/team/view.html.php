@@ -22,8 +22,8 @@ class JResearchViewTeam extends JResearchView
 		$layout = $this->getLayout();
 		$doc = JFactory::getDocument();
 		$params = $this->getParams();
-		$publications = $projects = $theses = $facilities = $cooperations = $areas = array();
-		$max_publications = $max_projects = $max_theses = $max_cooperations = $max_facilities = $max_areas = 0;
+		$publications = $projects = $theses = $facilities = $cooperations = array();
+		$max_publications = $max_projects = $max_theses = $max_cooperations = $max_facilities = 0;
 		
 		$arguments = array('team', $id);
 		
@@ -35,7 +35,6 @@ class JResearchViewTeam extends JResearchView
 		$thesesModel = $this->getModel('Theseslist');
 		$facilitiesModel = $this->getModel('Facilities');
 		$cooperationsModel = $this->getModel('Cooperations');
-		$areasModel = $this->getModel('Researchareaslist');		
 		
 		$item = $model->getItem($id);
 		
@@ -57,7 +56,6 @@ class JResearchViewTeam extends JResearchView
 		$show_publications = $params->get('team_show_publications', 'yes');
 		$show_projects = $params->get('team_show_projects', 'yes');
 		$show_theses = $params->get('team_show_theses', 'yes');
-		$show_areas = $params->get('team_show_areas', 'yes');
 		$show_facilities = $params->get('team_show_facilities', 'yes');
 		$show_cooperations = $params->get('team_show_cooperations', 'yes');
 		$applyStyles = $params->get('publications_apply_style', 'no');
@@ -101,19 +99,6 @@ class JResearchViewTeam extends JResearchView
 			$max_theses = $model->getNumberTheses($id);
 			$this->assignRef('nthes', &$thecount);
 		}
-		
-		if($show_areas == "yes")
-		{
-			$are_view_all = JRequest::getVar('areas_view_all', 0);
-			if($are_view_all == 0) 	
-				$arecount = $params->get('team_number_last_areas', 3);
-			else
-				$arecount = -1;
-
-			$areas = $areasModel->getDataByTeamId($id, $arecount);
-			$max_areas = $model->getNumberAreas($id);
-			$this->assignRef('nare', &$arecount);
-		}
 
 		if($show_cooperations == "yes")
 		{
@@ -130,13 +115,13 @@ class JResearchViewTeam extends JResearchView
 		
 		if($show_facilities == "yes")
 		{
-			$fac_view_all = JRequest::getVar('facilitites_view_all', 0);
+			$fac_view_all = JRequest::getVar('facilities_view_all', 0);
 			if($fac_view_all == 0) 	
 				$faccount = $params->get('team_number_last_facilities', 3);
 			else
 				$faccount = -1;
 
-			$facilities = $areasModel->getDataByTeamId($id, $faccount);
+			$facilities = $facilitiesModel->getDataByTeamId($id, $faccount);
 			$max_facilities = $model->getNumberFacilities($id);
 			$this->assignRef('nfac', &$faccount);
 		}
@@ -171,7 +156,6 @@ class JResearchViewTeam extends JResearchView
 		$this->assignRef('theses', $theses);
 		$this->assignRef('facilities', $facilities);
 		$this->assignRef('cooperations', $cooperations);
-		$this->assignRef('areas', $areas);						
 		$this->assignRef('itemId', $itemId);
 		$this->assignRef('description', $description);
 		$this->assignRef('leader', $leader);
@@ -180,7 +164,6 @@ class JResearchViewTeam extends JResearchView
 		$this->assignRef('max_theses', $max_theses);
 		$this->assignRef('max_facilities', $max_facilities);
 		$this->assignRef('max_cooperations', $max_cooperations);		
-		$this->assignRef('max_areas', $max_areas);		
 		$this->assignRef('applyStyles', $applyStyles);
 		$this->assignRef('style', $style);
 		$this->assignRef('enableThumbnails', $enableThumbnails);

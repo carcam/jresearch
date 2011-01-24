@@ -11,10 +11,6 @@
 			       description="JRESEARCH_RESEARCH_AREA_DISPLAYED" query="SELECT id as value, alias as id FROM #__jresearch_research_area" />	
 			<param type="hidden" name="task" default="show" />
 		</url>
-		<params>
-			<param name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
-			<param name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />			
-			<param name="area_number_last_theses" label="JRESEARCH_CONFIG_LAST_THESES_IN_AREA" default="5" type="text" />	
-		</params>
+		<params />
 	</state>
 </metadata>

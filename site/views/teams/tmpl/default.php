@@ -31,7 +31,7 @@ if(count($this->items) > 0):
 					<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'team', 'show', $team->id); ?>
 				</div>
 			</div>
-			<div style="clear: both;">&nbsp;</div>
+			<div class="divEspacio" style="clear: both;"></div>
 		</li>
 	<?php
 	endforeach;

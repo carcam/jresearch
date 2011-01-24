@@ -54,6 +54,7 @@ defined('_JEXEC') or die('Restricted access');
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
 					$leader = $this->items[$i]->getLeader();
+					$researchArea = $this->items[$i]->getResearchArea();
 			?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
@@ -65,7 +66,7 @@ defined('_JEXEC') or die('Restricted access');
 					</td>
 					<td class="center"><?php echo $published; ?></td>
 					<td class="center"><?php echo $leader; ?></td>
-					<td class="center"><?php echo $this->items[$i]->parent; ?></td>
+					<td class="center"><?php echo !empty($researchArea)? $researchArea->name : ''; ?></td>
 				</tr>
 			<?php
 			endfor;

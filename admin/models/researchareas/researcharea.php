@@ -218,5 +218,34 @@ class JResearchModelResearchArea extends JResearchModelSingleRecord{
 		
 		return $facilities;	
 	}
+	
+	/**
+	 * 
+	 * Enter description here ...
+	 * @param unknown_type $areaId
+	 * @param unknown_type $n
+	 */
+	public function getTeams($areaId, $n=0)
+	{
+		$db =& JFactory::getDBO();
+		$teams = array();
+		
+		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_team').' WHERE '.$db->nameQuote('published').' = 1'
+				.' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY name DESC';
+
+		if($n > 0){
+			$query .= ' LIMIT 0, '.$n;
+		}
+				 				 
+		$db->setQuery($query);
+		$result = $db->loadAssocList();
+		foreach($result as $r){
+			$item = JTable::getInstance('Team', 'JResearch');
+			$item->bind($r);
+			$teams[] = $item;
+		}
+		
+		return $teams;	
+	}
 }
 ?>
