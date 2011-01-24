@@ -263,3 +263,40 @@ table.stafftable th.staffemail{
 table.stafftable td{
 	padding-right: 5px;
 }
+
+ul.jresearch-cooperation-list{
+	padding-left:0px;
+}
+
+ul.jresearch-cooperation-list li{
+	list-style-type: none;
+}
+
+ul.jresearch-cooperation-category li{
+	background: none; 
+	list-style-type: none; 
+	text-align: center;
+}
+
+ul.jresearch-cooperation-category li div{
+	width: 85%; 
+	margin-left: auto; 
+	margin-right: auto;
+}
+
+ul.jresearch-facility-list{
+	padding-left:0px;	
+}
+
+ul.jresearch-facility-list li{
+	background: none; 
+	list-style-type: none; 
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+ul.jresearch-facility-list li div{
+	width: 90%; 
+	margin-left: auto; 
+	margin-right: auto;
+}

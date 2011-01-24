@@ -347,6 +347,55 @@ class JResearchMember extends JTable{
             return false;
 
         }
+
+        function delete($oid){
+			$db = JFactory::getDBO();
+
+			$k = $this->_tbl_key;
+			$oid = (is_null($oid)) ? $this->$k : $oid;			
+			$result = parent::delete($oid);
+
+			if(!$result)
+				return $result;			
+		
+			$publicationsTable = $db->nameQuote('#__jresearch_publication_internal_author');
+			$projectsTable = $db->nameQuote('#__jresearch_project_internal_author');
+			$thesesTable = $db->nameQuote('#__jresearch_thesis_internal_author');
+			$teamsTable = $db->nameQuote('#__jresearch_team_member');
+			$areasTable = $db->nameQuote('#__jresearch_member_researcharea');
+
+			$db->setQuery('DELETE FROM '.$publicationsTable.' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($oid));		
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}	
+			
+			$db->setQuery('DELETE FROM '.$projectsTable.' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($oid));		
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}	
+			
+			$db->setQuery('DELETE FROM '.$thesesTable.' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($oid));
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}	
+						
+			$db->setQuery('DELETE FROM '.$teamsTable.' WHERE '.$db->nameQuote('id_member').' = '.$db->Quote($oid));			
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}	
+						
+			$db->setQuery('DELETE FROM '.$areasTable.' WHERE '.$db->nameQuote('id_member').' = '.$db->Quote($oid));			
+			if(!$db->query()){
+				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+				return false;
+			}	
+						
+			return true;		        	
+        }
 	
 }
 

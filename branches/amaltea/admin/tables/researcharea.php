@@ -60,14 +60,6 @@ class JResearchResearcharea extends JTable{
 	 * @var int
 	 */
 	public $checked_out;	
-
-	
-	/**
-	 * 
-	 * Team sponsoring the research area
-	 * @var int
-	 */
-	public $id_team;
 	
 	/**
 	 * @var unknown_type
@@ -196,6 +188,8 @@ class JResearchResearcharea extends JTable{
                             $db->query();
                             $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
                             $db->query();
+                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_team').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));                            
+                            $db->query();
                     }else{
                             foreach($cid as $id){
                                     $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
@@ -206,6 +200,8 @@ class JResearchResearcharea extends JTable{
                                     $db->query();
                                     $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
                                     $db->query();
+                           		 	$db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_team').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));                            
+                           			$db->query();                                    
                             }
                     }
             }
@@ -221,7 +217,10 @@ class JResearchResearcharea extends JTable{
     */
    function delete($oid=null){
    		$db = JFactory::getDBO();
-	   	$booleanResult = parent::delete($oid);
+		$k = $this->_tbl_key;
+		$oid = (is_null($oid)) ? $this->$k : $oid;			
+
+		$booleanResult = parent::delete($oid);
    	
    		if($booleanResult){
    			// Set as uncategorized any item related to this research area
@@ -237,6 +236,9 @@ class JResearchResearcharea extends JTable{
    			$queryThes = 'UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
    					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);			
    					
+   			$queryTeam = 'UPDATE '.$db->nameQuote('#__jresearch_team').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
+   					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);		
+   					
    			$db->setQuery($queryPub);
    			$db->query();
    			$db->setQuery($queryProj);			
@@ -245,6 +247,9 @@ class JResearchResearcharea extends JTable{
    			$db->query();
    			$db->setQuery($queryThes);			
    			$db->query();
+   			$db->setQuery($queryTeam);			
+   			$db->query();
+   			
 
    		}
    	

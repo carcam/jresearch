@@ -39,6 +39,7 @@ class JResearchTeam extends JTable
 	public $checked_out;
   	public $checked_out_time;
   	public $logo;
+  	public $id_research_area;
 	
 	protected $_members = array();
 	
@@ -105,7 +106,6 @@ class JResearchTeam extends JTable
 	public function delete($oid = null)
 	{
 		$this->_deleteMembers($oid);
-		$this->_unlinkResearcharea($oid);
 		$this->_unlinkFacilities($oid);
 		$this->_unlinkCooperations($oid);
 		parent::delete($oid);
@@ -252,15 +252,6 @@ class JResearchTeam extends JTable
 		return true;
 	}
 	
-	 /**
-	  * Unlinks any research area pointing to the team being removed.
-	  * @param $oid
-	  */
-	 private function _unlinkResearcharea($oid){
-	 	$db = JFactory::getDBO();	 	
-	 	$query = 'UPDATE #__jresearch_research_area SET id_team = NULL WHERE id_team = '.$db->Quote($oid);
-	 	$db->query();	 	
-	 }
 	
 	 /**
 	  * Unlinks any facility pointing to the team being removed.
@@ -279,7 +270,7 @@ class JResearchTeam extends JTable
 	  */
 	private function _unlinkCooperations($oid){
 		$db = JFactory::getDBO();	 	
-	 	$query = 'UPDATE #__jresearch_cooperation SET id_team = NULL WHERE id_team = '.$db->Quote($oid);
+	 	$query = 'UPDATE #__jresearch_cooperations SET id_team = NULL WHERE id_team = '.$db->Quote($oid);
 	 	$db->query(); 			
 	}
 	
@@ -309,6 +300,15 @@ class JResearchTeam extends JTable
 	public function __toString()
 	{
 		return $this->name;
+	}
+	
+	public function getResearchArea(){
+		$area = JTable::getInstance('Researcharea', 'JResearch');
+		
+		if($area->load($this->id_research_area))
+			return $area;
+		else
+			return null;		
 	}
 }
 ?>

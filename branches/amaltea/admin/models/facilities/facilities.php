@@ -233,6 +233,8 @@ class JResearchModelFacilities extends JResearchModelList
 		$db = JFactory::getDBO();
 				
 		$query = 'SELECT * FROM #__jresearch_facilities WHERE id_team = '.$db->Quote($teamId).' AND published = '.$db->Quote(1);
+		$query .= ' ORDER BY ordering ASC ';
+				
 		if($count > 0)
 			$query .= 'LIMIT 0, '.((int)($count));
 			

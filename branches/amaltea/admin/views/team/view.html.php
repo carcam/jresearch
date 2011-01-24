@@ -57,7 +57,8 @@ class JResearchAdminViewTeam extends JResearchView
             //Leader and members list
             $memberList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'members[]', 'attributes' => 'class="inputbox" multiple="multiple" size="5"', 'selected' => array()));
     	}
-    	    	
+        
+    	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => !empty($team)?$team->id_research_area:null));    	    	
         $leaderList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'id_leader', 'attributes' => 'class="inputbox"', 'selected' => !empty($team)? $team->id_leader : ''));    	
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !empty($team)? $team->published : 1));
     	
@@ -72,6 +73,7 @@ class JResearchAdminViewTeam extends JResearchView
         $this->assignRef('editor', $editor);
         $this->assignRef('hierarchy', $hierarchy);
         $this->assignRef('params', $params);
+        $this->assignRef('areasList', $researchAreasHTML);        
 
        	parent::display($tpl);
        	

@@ -89,6 +89,7 @@ class JResearchAdminViewPublication extends JResearchView
             $this->assignRef('pubtype', $pubtype);
             $this->assignRef('authors', $authorsControl);
             $this->assignRef('files', $files);
+            
 
             parent::display($tpl);
 

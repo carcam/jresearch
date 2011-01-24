@@ -37,7 +37,7 @@ $ampReplacedUrl = JFilterOutput::ampReplace($this->coop->url);
 		<p><a href="<?php echo $ampReplacedUrl;?>"><?php echo $ampReplacedUrl;?></a></p>
 	<?php endif; ?>
 	<?php if(!empty($this->coop->id_team)): ?>
-		<h3 class="contentheading"><?php echo JText::_('JRESEARCH_SPONSOR_TEAM').': '?></h3>
+		<h3 class="contentheading"><?php echo JText::_('JRESEARCH_SPONSOR_TEAM')?></h3>
 		<p>
 		<?php 
 			$team = $this->coop->getTeam();
@@ -47,14 +47,18 @@ $ampReplacedUrl = JFilterOutput::ampReplace($this->coop->url);
 	<?php endif; ?>
 	
 	<?php
-	if($this->description):
-		foreach($this->description as $content):
+	if(!empty($this->description)):
 	?>
-	<p>
-		<?php echo $content;?>
-	</p>
-	<?php
-		endforeach;
+		<h3 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION')?></h3>
+		<?php foreach($this->description as $content): ?>
+			<p>
+				<?php echo $content;?>
+			</p>
+		<?php
+			  endforeach;
 	endif;
 	?>
+</div>
+<div>
+	<a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a>
 </div>

@@ -38,7 +38,7 @@ class JResearchModelTeam extends JResearchModelSingleRecord
 		$item = $this->getItem($itemId);
 		$members = $item->getMembers();
 		
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$memberObjects = array(); 
 		
 		foreach($members as $member)
@@ -129,7 +129,7 @@ class JResearchModelTeam extends JResearchModelSingleRecord
 	public function getNumberCooperations($teamId){
 		$db = JFactory::getDBO();
 		
-		$query = "SELECT COUNT(*) FROM #__jresearch_cooperation WHERE id_team = ".$db->Quote($teamId)." AND published = ".$db->Quote(1);
+		$query = "SELECT COUNT(*) FROM #__jresearch_cooperations WHERE id_team = ".$db->Quote($teamId)." AND published = ".$db->Quote(1);
 		$db->setQuery($query);
 		
 		return $db->loadResult();
