@@ -89,10 +89,12 @@ class JResearchAdminPublicationsController extends JController
 	*/	
 	function edit(){
             $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');            
             $cid = JRequest::getVar('cid', array());
             $view = &$this->getView('Publication', 'html', 'JResearchAdminView');
             $pubModel = &$this->getModel('Publication', 'JResearchModel');
             $model = &$this->getModel('ResearchAreasList', 'JResearchModel');
+            $teamsModel = &$this->getModel('Teams', 'JResearchModel');
 
             if(!empty($cid)){
                     $publication = $pubModel->getItem($cid[0]);
@@ -105,6 +107,7 @@ class JResearchAdminPublicationsController extends JController
                                     $publication->checkout($user->get('id'));
                                     $view->setLayout('default');
                                     $view->setModel($model);
+                                    $view->setModel($teamsModel);
                                     $view->display();
                             }
                     }else{
@@ -114,6 +117,7 @@ class JResearchAdminPublicationsController extends JController
             }else{
                     $view->setLayout('default');
                     $view->setModel($model);
+                    $view->setModel($teamsModel);                    
                     $view->display();
             }
 	}

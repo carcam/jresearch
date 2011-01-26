@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS `#__jresearch_publication`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `id_research_area` int(10) unsigned NOT NULL default '1',
+  `id_team` int(10) unsigned NOT NULL default '0',
   `alias` varchar(255) NOT NULL,
   `comments` text,
   `journal_acceptance_rate` float unsigned default NULL,
@@ -99,6 +100,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `alias` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL default '1',
+  `id_team` int(10) unsigned NOT NULL default '0',
   `published` tinyint(4) NOT NULL default '1',
   `url` varchar(255) default NULL,
   `files` text default NULL,
@@ -267,6 +269,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_thesis` (
   `alias` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL default '1',
+  `id_team` int(10) unsigned NOT NULL default '0',
   `degree` enum('bachelor','master','phd') NOT NULL default 'bachelor',
   `status` enum('not_started','in_progress','finished') NOT NULL default 'not_started',
   `start_date` date default NULL,

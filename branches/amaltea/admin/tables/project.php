@@ -515,36 +515,6 @@ class JResearchProject extends JResearchActivity{
                 $this->_loadCooperations($this->id);
 	}
 	
-	/**
-	 * Returns the team sponsoring the activity.
-	 */
-	function getSponsorTeam(){
-		$db = JFactory::getDBO();
-		$projId = $db->Quote($this->id);
-
-		$query = "SELECT * FROM (SELECT DISTINCT team.id, team.name, pia.order FROM #__jresearch_project_internal_author pia, #__jresearch_team_member tm, #__jresearch_member mem, #__jresearch_team team"
-				." WHERE pia.id_project = $projId AND pia.id_staff_member = tm.id_member AND tm.id_member = mem.id AND pia.is_principal = 1 AND tm.id_team = team.id"
-				." AND team.published = 1 UNION (SELECT DISTINCT team.id, team.name, pia.order FROM #__jresearch_project_internal_author pia, #__jresearch_member mem, #__jresearch_team team"
-				." WHERE pia.id_project = $projId AND pia.id_staff_member = team.id_leader AND team.id_leader = mem.id AND pia.is_principal = 1"
-				." AND team.published = 1)) R1 ORDER BY R1.order ASC ";
-		$db->setQuery($query);
-		$result = $db->loadAssoc();						
-		
-		// If not, we will try to look by research area
-		if(empty($result)){
-			$idArea = $db->Quote($this->id_research_area);
-			$query = "SELECT * FROM (SELECT DISTINCT team.id, team.name, pia.order FROM #__jresearch_project_internal_author pia, #__jresearch_team_member tm, #__jresearch_member mem, #__jresearch_team team"
-					." WHERE pia.id_project = $projId AND pia.id_staff_member = tm.id_member AND tm.id_member = mem.id AND mem.id_research_area = $idArea AND tm.id_team = team.id"
-					." AND team.published = 1 UNION (SELECT DISTINCT team.id, team.name, pia.order FROM #__jresearch_project_internal_author pia, #__jresearch_member mem, #__jresearch_team team"
-					." WHERE pia.id_project = $projId AND pia.id_staff_member = team.id_leader AND team.id_leader = mem.id AND mem.id_research_area = $idArea"
-					." AND team.published = 1)) R1 ORDER BY R1.order ASC ";
-			$db->setQuery($query);
-			$result = $db->loadAssoc();									
-		}
-		
-		return $result;		
-	}	
-	
 }
 
 ?>

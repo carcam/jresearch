@@ -34,9 +34,13 @@ class JResearchAdminViewProject extends JResearchView
     	$cid = JRequest::getVar('cid');
     	$editor =& JFactory::getEditor();
     	$model =& $this->getModel();
+	    $teamsModel =& $this->getModel('Teams');            
+	    $hierarchy = $teamsModel->getHierarchical(false, false);            
+    	    	
     	$project = $model->getItem($cid[0]);
     	$projectFins = array();
     	$cooperations = array();
+    	
 
     	$principalFlags = null;    	
     	$members = null;
@@ -94,6 +98,7 @@ class JResearchAdminViewProject extends JResearchView
         $this->assignRef('status', $statusHTML);
         $this->assignRef('files', $files);
         $this->assignRef('params', $params);
+        $this->assignRef('hierarchy', $hierarchy);        
     	
        	parent::display($tpl);
        	
