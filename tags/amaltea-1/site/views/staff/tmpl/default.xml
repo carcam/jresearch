@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_STAFF_LIST">
+		<message>JRESEARCH_STAFF_LIST_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_STAFF_LIST</name>
+		<description>JRESEARCH_STAFF_LIST_VIEW_MESSAGE</description>
+		<params>
+			<param name="staff_entries_per_page" default="25" label="JRESEARCH_CONFIG_MEMBERS_PER_PAGE" type="text" ></param>									
+			<param name="staff_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+				<option value="asc">JRESEARCH_ASCENDING</option>
+				<option value="desc">JRESEARCH_DESCENDING</option>
+			</param>
+            <param name="staff_list_header" default="Staff" label="JRESEARCH_CONFIG_STAFF_HEADER" type="text" />
+            <param name="staff_filter" label="JRESEARCH_CONFIG_STAFF_FILTER" default="only_current" type="radio">
+				<option value="only_current">JRESEARCH_ONLY_CURRENT</option>
+				<option value="only_former">JRESEARCH_ONLY_FORMER</option>
+                <option value="all">JRESEARCH_ALL</option>
+			</param>
+			<param name="member_show_email" label="JRESEARCH_CONFIG_PROFILES_SHOW_EMAIL" default="yes" type="radio">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="staff_show_location" label="JRESEARCH_CONFIG_STAFF_SHOW_LOCATION" default="yes" type="radio">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="staff_show_phone_or_fax" label="JRESEARCH_CONFIG_STAFF_SHOW_PHONE_OR_FAX" default="yes" type="radio">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="staff_show_research_area" label="JRESEARCH_CONFIG_STAFF_SHOW_RESEARCH_AREA" default="yes" type="radio">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="staff_show_title" label="JRESEARCH_CONFIG_STAFF_SHOW_TITLE" default="no" type="radio" >
+				<option value="no">No</option>			
+				<option value="next_to_name">JRESEARCH_NEXT_TO_NAME</option>
+				<option value="own_column">JRESEARCH_OWN_COLUMN</option>
+			</param>
+			<param name="staff_show_publications" label="JRESEARCH_CONFIG_SHOW_PUBLICATIONS_IN_PROFILES" type="radio" default="yes">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="staff_number_last_publications" label="JRESEARCH_CONFIG_PROFILES_NUMBER_PUBLICATIONS" default="5" type="text" />
+			<param name="staff_show_projects" label="JRESEARCH_CONFIG_SHOW_PROJECTS_IN_PROFILES" type="radio" default="yes">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="staff_number_last_projects" label="JRESEARCH_CONFIG_PROFILES_NUMBER_PROJECTS" default="5" type="text" />
+			<param name="staff_show_theses" label="JRESEARCH_CONFIG_SHOW_THESES_IN_PROFILES" type="radio" default="yes">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="staff_number_last_theses" label="JRESEARCH_CONFIG_PROFILES_NUMBER_THESES" default="5" type="text" />							
+		</params>		
+	</state>
+
+</metadata>
