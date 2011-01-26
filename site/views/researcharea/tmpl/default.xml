@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="JRESEARCH_RESEARCH_AREA">
+		<message>JRESEARCH_AREA_VIEW_INFORMATION</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_RESEARCH_AREA</name>
+		<description>JRESEARCH_AREA_VIEW_INFORMATION</description>
+		<url>
+			<param type="sql" name="id" label="JRESEARCH_RESEARCH_AREA" 
+			       description="JRESEARCH_RESEARCH_AREA_DISPLAYED" query="SELECT id as value, alias as id FROM #__jresearch_research_area" />	
+			<param type="hidden" name="task" default="show" />
+		</url>
+		<params />
+	</state>
+</metadata>
