@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="JRESEARCH_AREAS_LIST">
+		<message>JRESEARCH_AREAS_LIST_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_AREAS_LIST</name>
+		<description>JRESEARCH_AREAS_LIST_VIEW_MESSAGE</description>		
+		<params>
+			<param name="area_entries_per_page" default="10" label="JRESEARCH_CONFIG_AREAS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_AREAS_PER_PAGE_DESCRIPTION" ></param>
+			<param name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
+			<param name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />			
+			<param name="area_number_last_theses" label="JRESEARCH_CONFIG_LAST_THESES_IN_AREA" default="5" type="text" />		
+		</params>
+	</state>
+</metadata>
