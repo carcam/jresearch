@@ -29,8 +29,10 @@ table.teamdescription th{
 		<tr>
 			<th><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</th>
 			<td>
-				<?php echo $this->leader->published? JHTML::_('jresearch.link', $this->leader, 'member', 'show', $this->leader->id) : $this->leader->__toString(); ?>
-			</td>
+				<?php if(!empty($this->leader)): ?>
+					<?php echo $this->leader->published? JHTML::_('jresearch.link', $this->leader, 'member', 'show', $this->leader->id) : $this->leader->__toString(); ?>
+				<?php endif; ?>
+			</td>	
 			<td rowspan="3">
 				<?php
 			   	if(!empty($this->item->logo)): 
@@ -48,47 +50,53 @@ table.teamdescription th{
 		?>		
 		<tr>
 			<th><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '; ?></th>
-			<td><?php echo JHTML::_('jresearch.link', $researchArea->name, 'researchArea', 'show', $researchArea->id); ?></td>
+			<?php if($researchArea->published): ?>
+				<td><?php echo JHTML::_('jresearch.link', $researchArea->name, 'researchArea', 'show', $researchArea->id); ?></td>
+			<?php else: ?>
+				<td><?php echo $researchArea->name; ?></td>
+			<?php endif;?>	
 		</tr>		
 		<?php endif; ?>
-		<?php 
-		if($this->leader->position):
-		?>
-		<tr>
-			<th><?php echo JText::_('Position').': ' ?></th>
-			<td><?php $position = $this->leader->getPosition(); 
-			echo $position->position; ?></td>
-		</tr>
-		<?php 
-		endif;
-		
-		if($this->leader->location):
-		?>
-		<tr>
-			<th><?php echo JText::_('JRESEARCH_LOCATION'); ?></th>
-			<td><?php echo $this->leader->location; ?></td>
-		</tr>
-		<?php 
-		endif;
-		
-		if($this->leader->phone_or_fax):
-		?>
-		<tr>
-			<th><?php echo JText::_('JRESEARCH_PHONE').': ' ?></th>
-			<td colspan="2"><?php echo $this->leader->phone; ?></td>
-		</tr>
-		<?php 
-		endif;
-		
-		if($this->leader->email):
-		?>
-		<tr>
-			<th><?php echo JText::_('Email').' :' ?></th>
-			<td colspan="2"><?php echo JHTML::_('email.cloak',$this->leader->email, false); ?></td>
-		</tr>
-		<?php 
-		endif;
-		?>
+		<?php if(!empty($this->leader)): ?>		
+				<?php 
+				if($this->leader->position):
+				?>
+				<tr>
+					<th><?php echo JText::_('Position').': ' ?></th>
+					<td><?php $position = $this->leader->getPosition(); 
+					echo $position->position; ?></td>
+				</tr>
+				<?php 
+				endif;
+				
+				if($this->leader->location):
+				?>
+				<tr>
+					<th><?php echo JText::_('JRESEARCH_LOCATION'); ?></th>
+					<td><?php echo $this->leader->location; ?></td>
+				</tr>
+				<?php 
+				endif;
+				
+				if($this->leader->phone_or_fax):
+				?>
+				<tr>
+					<th><?php echo JText::_('JRESEARCH_PHONE').': ' ?></th>
+					<td colspan="2"><?php echo $this->leader->phone; ?></td>
+				</tr>
+				<?php 
+				endif;
+				
+				if($this->leader->email):
+				?>
+				<tr>
+					<th><?php echo JText::_('Email').' :' ?></th>
+					<td colspan="2"><?php echo JHTML::_('email.cloak',$this->leader->email, false); ?></td>
+				</tr>
+				<?php 
+				endif;
+				?>
+		<?php endif;?>		
 		<tr>
 			<th><?php echo JText::_('JRESEARCH_TEAM_MEMBERS');?>:</th>
 			<td colspan="2">

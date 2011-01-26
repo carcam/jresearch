@@ -23,10 +23,12 @@ if(count($this->items) > 0):
 				<h3 class="contentheading">
 					<?php echo JFilterOutput::ampReplace($team->name)?>
 				</h3>
-				<div>
-					<?php $leader = $team->getLeader(); ?>
-					<h4><?php echo JText::_('JRESEARCH_TEAM_LEADER');?></h4> <?php echo !empty($leader)?$leader->__toString():'';?>
-				</div>
+				<?php $leader = $team->getLeader(); ?>				
+				<?php if(!empty($leader)): ?>
+					<div>
+						<h4><?php echo JText::_('JRESEARCH_TEAM_LEADER');?></h4> <?php echo !empty($leader)?$leader->__toString():'';?>
+					</div>
+				<?php endif; ?>
 				<div style="text-align:left">
 					<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'team', 'show', $team->id); ?>
 				</div>
