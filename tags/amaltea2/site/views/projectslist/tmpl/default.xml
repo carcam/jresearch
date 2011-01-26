@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_PROJECTS_LIST">
+		<message>JRESEARCH_PROJECTS_LIST_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_PROJECTS_LIST</name>
+		<description>JRESEARCH_PROJECTS_LIST_VIEW_MESSAGE</description>
+		<params addpath="/administrator/components/com_jresearch/elements">
+			<param name="project_id" type="projects" label="JRESEARCH_PROJECTS_SELECTION" description="JRESEARCH_PROJECTS_SELECTION_DESCRIPTION" default="0"/>
+			
+			<param name="show_members" type="radio" label="JRESEARCH_SHOW_MEMBERS" default="0">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			
+			<param name="show_researcharea" type="radio" label="JRESEARCH_SHOW_RESEARCHAREA" default="1">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			
+			<param name="projects_entries_per_page" default="25" label="JRESEARCH_CONFIG_PROJECTS_PER_PAGE" type="text" ></param>				
+			<param name="projects_default_sorting" default="date" label="JRESEARCH_ORDER_BY" type="radio">
+				<option value="start_date">JRESEARCH_DATE</option>
+				<option value="title">JRESEARCH_ALPHABETICAL</option>
+				<option value="finance_level">JRESEARCH_FINANCE_LEVEL</option>
+			</param>
+			<param name="projects_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+				<option value="asc">JRESEARCH_ASCENDING</option>
+				<option value="desc">JRESEARCH_DESCENDING</option>
+			</param>
+                        <param name="projects_filterby_status" type="radio" label="JRESEARCH_FILTER_STATUS" default="0">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+                        <param name="projects_status_filter" type="radio" label="JRESEARCH_STATUS" default="not_started">
+				<option value="not_started">JRESEARCH_NOT_STARTED</option>
+				<option value="in_progress">JRESEARCH_IN_PROGRESS</option>
+				<option value="finished">Finished</option>
+			</param>
+                        <param name="projects_filterby_researcharea" type="radio" label="JRESEARCH_FILTER_RESEARCHAREA" default="0">
+				<option value="0">No</option>
+				<option value="1">Yes</option>				
+			</param>
+                        <param type="sql" name="projects_area_filter" label="JRESEARCH_RESEARCH_AREA"
+			description="JRESEARCH_RESEARCH_AREA" query="SELECT id as value, alias as projects_area_filter FROM #__jresearch_research_area WHERE published = 1" />
+			
+		</params>
+	</state>
+</metadata>
