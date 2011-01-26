@@ -1,0 +1,32 @@
+<?php
+/**
+* @version		$Id: helper.php 10214 2008-04-19 08:59:04Z eddieajau $
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+/** ensure this file is being included by a parent file */
+defined('_JEXEC') or die('Direct Access to this location is not allowed.');
+
+require_once(JPATH_ADMINISTRATOR.DS.'com_jresearch'.DS.'models'.DS.'cooperations'.DS.'cooperations.php');
+
+class modJResearchCooperationsHelper
+{
+	/**
+	 * Gets cooperations from database
+	 *
+	 * @return array
+	 */
+	function getCooperations()
+	{
+		$coops = JResearchModelCooperations::getData(null, true);
+		
+		return $coops;
+	}
+}
