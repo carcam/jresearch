@@ -155,7 +155,7 @@ class JResearchAdminStaffController extends JController
 		    $member = JTable::getInstance('Member', 'JResearch');
             foreach($cid as $id){
                     if(!$member->delete($id)){
-                            JError::raiseWarning(1, JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id));
+                            JError::raiseWarning(1, JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $member->getError()));
                     }else{
                             $n++;
                     }

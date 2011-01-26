@@ -168,7 +168,9 @@ class JResearchResearcharea extends JTable{
             if($publish == 0){
                 if(is_array($cid)){
                     $index = array_search('1', $cid);
-                    unset($cid[$index]);
+                    if($index !== false)
+	                    unset($cid[$index]);
+                    
                     if(empty($cid))
                         return false;
                 }elseif($cid == '1'){
@@ -177,34 +179,6 @@ class JResearchResearcharea extends JTable{
             }
 
             $result = parent::publish($cid, $publish, $user_id);
-
-            if($result && $publish == 0){
-                    if(!is_array($cid)){
-                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
-                            $db->query();
-                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
-                            $db->query();
-                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
-                            $db->query();
-                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
-                            $db->query();
-                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_team').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));                            
-                            $db->query();
-                    }else{
-                            foreach($cid as $id){
-                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
-                                    $db->query();
-                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
-                                    $db->query();
-                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
-                                    $db->query();
-                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
-                                    $db->query();
-                           		 	$db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_team').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));                            
-                           			$db->query();                                    
-                            }
-                    }
-            }
 
             return $result;
 	}
@@ -238,6 +212,10 @@ class JResearchResearcharea extends JTable{
    					
    			$queryTeam = 'UPDATE '.$db->nameQuote('#__jresearch_team').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
    					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);		
+
+	   		$queryFac = 'UPDATE '.$db->nameQuote('#__jresearch_facilities').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
+	   					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);			
+
    					
    			$db->setQuery($queryPub);
    			$db->query();
@@ -248,6 +226,8 @@ class JResearchResearcharea extends JTable{
    			$db->setQuery($queryThes);			
    			$db->query();
    			$db->setQuery($queryTeam);			
+   			$db->query();
+   			$db->setQuery($queryFac);			
    			$db->query();
    			
 
