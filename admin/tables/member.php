@@ -362,7 +362,7 @@ class JResearchMember extends JTable{
 			$projectsTable = $db->nameQuote('#__jresearch_project_internal_author');
 			$thesesTable = $db->nameQuote('#__jresearch_thesis_internal_author');
 			$teamsTable = $db->nameQuote('#__jresearch_team_member');
-			$areasTable = $db->nameQuote('#__jresearch_member_researcharea');
+			$teams = $db->nameQuote('#__jresearch_team');			
 
 			$db->setQuery('DELETE FROM '.$publicationsTable.' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($oid));		
 			if(!$db->query()){
@@ -387,12 +387,13 @@ class JResearchMember extends JTable{
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 				return false;
 			}	
-						
-			$db->setQuery('DELETE FROM '.$areasTable.' WHERE '.$db->nameQuote('id_member').' = '.$db->Quote($oid));			
+
+		    $db->setQuery('UPDATE '.$teams.' SET id_leader = NULL WHERE '.$db->nameQuote('id_leader').' = '.$db->Quote($oid));			
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 				return false;
-			}	
+			}
+			
 						
 			return true;		        	
         }
