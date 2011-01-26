@@ -14,12 +14,12 @@ defined("_JEXEC") or die("Restricted access");
 <?php
 if(count($this->items) > 0):
 ?>
-<ul style="padding-left:0px;">
+<ul class="jresearch-team-list">
 	<?php
 	foreach($this->items as $team):
 	?>
-		<li class="liteam" style="background: none; clear: both; margin-bottom: 10px;">
-			<div style="width: 85%; margin-left: auto; margin-right: auto;">
+		<li>
+			<div>
 				<h3 class="contentheading">
 					<?php echo JFilterOutput::ampReplace($team->name)?>
 				</h3>

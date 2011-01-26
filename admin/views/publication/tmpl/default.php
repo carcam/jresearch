@@ -72,10 +72,16 @@ $abstract_rows = $params->get('abstract_rows');
 	    </div>
 		<div class="divTR">
 	    	<div class="divTd">
+	            <label for="id_team"><?php echo JText::_('JRESEARCH_TEAM').': '?></label>
+	        </div>
+	        <div class="divTdl divTdl2">
+				<?php echo JHTML::_('jresearchhtml.teamshierarchy', $this->hierarchy, array('name' => 'id_team', 'selected' => isset($this->publication)?$this->publication->id_team:null)); ?>
+			</div>			
+	    	<div class="divTd">
 	            <label for="url"><?php echo JText::_('URL').': '?></label>
 	        </div>
 	        <div class="divTdl">
-				<input name="url" id="url" size="50" maxlength="255" class="validate-url" value="<?php echo isset($this->publication)?$this->publication->url:'' ?>" />
+				<input name="url" id="url" size="30" maxlength="255" class="validate-url" value="<?php echo isset($this->publication)?$this->publication->url:'' ?>" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'url', JText::_('JRESEARCH_PROVIDE_VALID_URL')); ?>				
 			</div>
 			<div class="divEspacio" ></div>				

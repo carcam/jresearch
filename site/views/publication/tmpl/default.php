@@ -29,13 +29,29 @@ $extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
 <table class="frontendsingleitem">
 <tbody>
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
-		<td><?php if($this->area->id > 1): ?>
-			<?php echo JHTML::_('jresearch.link', $this->area->name, 'researcharea', 'show', $this->area->id)?>
+        <?php $categorizeBy = $this->params->get('categorize_by', 'teams'); ?>
+		<?php if($categorizeBy == 'teams'): ?>	
+			<th scope="row"><?php echo JText::_('JRESEARCH_TEAM').': ' ?></th>
+			<?php $team = $this->publication->getSponsorTeam(); ?>
+			<td><?php if(!empty($team)): ?>
+					<?php if($team->published): ?>
+						<?php echo JHTML::_('jresearch.link', $team->name, 'team', 'show', $team->id); ?>
+					<?php else: ?>	
+						<?php echo $team->name; ?>						
+					<?php endif; ?>
+			<?php else: ?>
+				<?php echo JText::_('JRESEARCH_UNCATEGORIZED'); ?>	
+			<?php endif; ?>	
+			</td>
 		<?php else: ?>
-			<?php echo $this->area->name; ?>	
-		<?php endif; ?>	
-		</td>
+			<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
+			<td><?php if($this->area->id > 1 && $this->area->published): ?>
+				<?php echo JHTML::_('jresearch.link', $this->area->name, 'researcharea', 'show', $this->area->id)?>
+			<?php else: ?>
+				<?php echo $this->area->name; ?>	
+			<?php endif; ?>	
+			</td>		
+		<?php endif;?>	
 		<?php $year = $this->publication->year; ?>
 		<?php if($year != null && $year != '0000' && !empty($year)): ?>
 		<th scope="row"><?php echo JText::_('JRESEARCH_YEAR').': ' ?></th>

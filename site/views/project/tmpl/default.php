@@ -20,14 +20,30 @@ JHTML::_('behavior.modal');
 <table cellspacing="2" cellpadding="2" width="100%">
 <tbody>
 	<tr>
+	<?php if($this->categorizedBy == 'teams'): ?>
+		<?php $team = $this->project->getSponsorTeam(); ?>
+		<td style="width:20%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_TEAM').': ' ?></td>
+		<td>
+			<?php if(!empty($team)): ?>
+				<?php if($team->published): ?>
+					<a href="index.php?option=com_jresearch&amp;controller=teams&amp;task=show&amp;view=team&amp;id=<?php echo $team->id; ?><?php echo $ItemidText ?>"><?php echo $team->name; ?></a>
+				<?php else: ?>
+					<?php echo $this->team->name; ?>	
+				<?php endif; ?>	
+			<?php else: ?>
+				<?php echo JText::_('JRESEARCH_UNCATEGORIZED'); ?>
+			<?php endif; ?>	
+		</td>
+	<?php else: ?>	
 		<td style="width:20%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
 		<td>
-			<?php if($this->area->id > 1): ?>
+			<?php if($this->area->id > 1 && $this->area->published): ?>
 				<a href="index.php?option=com_jresearch&amp;controller=researchAreas&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
 			<?php else: ?>
 				<?php echo $this->area->name; ?>	
 			<?php endif; ?>	
-		</td>
+		</td>	
+	<?php endif; ?>
 	   	<?php
 	   	if(empty($this->project->url_project_image)): 
 	   	?>

@@ -87,31 +87,17 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	private function _getTeamPublicationIds($teamId, $count=0){
 		$db = JFactory::getDBO();
 		
-		$id_staff_member = $db->nameQuote('id_staff_member');
-		$team_member = $db->nameQuote('#__jresearch_team_member');
-		$id_publication = $db->nameQuote('id_publication');
-		$year = $db->nameQuote('year');
-		$month = $db->nameQuote('month');
-		$pub_internal_author = $db->nameQuote('#__jresearch_publication_internal_author');
-		$teamValue = $db->Quote($teamId);
-		$id_team = $db->nameQuote('id_team');
-		$id_member = $db->nameQuote('id_member');
-		$team_table = $db->nameQuote('#__jresearch_team');
-		$pub_table = $db->nameQuote('#__jresearch_publication');
-		
-				$query = "SELECT $id_publication FROM (SELECT DISTINCT $id_publication, $year, $month FROM $pub_internal_author, $team_member, $pub_table WHERE $team_member.$id_team = $teamValue "
-				 ." AND $pub_internal_author.$id_staff_member = $team_member.$id_member AND $pub_table.id = $pub_internal_author.$id_publication AND $pub_table.internal = 1 AND $pub_table.published = 1"
-				 ." UNION (SELECT DISTINCT $id_publication, $year, $month FROM $pub_internal_author pia, $team_table t, $pub_table p WHERE t.id = $teamValue AND "
-		         	 ."pia.$id_staff_member = t.id_leader AND p.id = pia.$id_publication AND p.published = 1 AND p.internal = 1)) R1 ORDER BY $year DESC, STR_TO_DATE($month, '%M')";
-
+		$query = 'SELECT id FROM '.$db->nameQuote('#__jresearch_publication').' WHERE '.$db->nameQuote('published').' = '.$db->Quote(1);
+		$query .= ' AND '.$db->nameQuote('id_team').' = '.$db->Quote($teamId).' ORDER BY year DESC';
+				 
 		if($count > 0)
 		{
 			$query .= " LIMIT 0, $count";
 		}
-		
+				
 		$db->setQuery($query);
-		// Now take publications from the leader
 		return $db->loadResultArray();
+		
 	}
 
 	/**

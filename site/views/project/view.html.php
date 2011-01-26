@@ -46,8 +46,8 @@ class JResearchViewProject extends JResearchView
         $arguments = array('project');
       	
     	$id = JRequest::getInt('id');
-	$doc =& JFactory::getDocument();
-	$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
+		$doc =& JFactory::getDocument();
+		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
 
         if(empty($id)){
             JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
@@ -70,7 +70,7 @@ class JResearchViewProject extends JResearchView
     	$params = $mainframe->getPageParameters('com_jresearch');
     	$coops = $project->getCooperations();
     	$description = str_replace('<hr id="system-readmore" />', '', trim($project->description));
-    	$format = $params->get('staff_format') == 'last_first'?1:0;
+    	$format = $params->get('staff_format', 'last_first') == 'last_first'? 1 : 0;
         
     	$doc->setTitle(JText::_('JRESEARCH_PROJECT').' - '.$project->title);
         $mainframe->triggerEvent('onPrepareJResearchContent', $arguments);
@@ -85,6 +85,7 @@ class JResearchViewProject extends JResearchView
     	$this->assignRef('enableThumbnails', $params->get('thumbnail_enable', 1));
         $this->assignRef('showHits', $params->get('show_hits'));
         $this->assignRef('format', $format);
+        $this->assignRef('categorizedBy', $params->get('categorized_by', 'teams'));
     	
         parent::display($tpl);
         $mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);

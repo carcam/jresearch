@@ -27,17 +27,24 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'alias', JText::_('JRESEARCH_PROVIDE_VALID_ALIAS')); ?>			
 			</div>
 			<div class="divEspacio" ></div>		
-		</div>
+		</div>		
 		<div class="divTR">
 			<div class="divTd"><label for="id_research_area"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></label></div>
 			<div class="divTdl divTdl2"><?php echo $this->areasList; ?></div>
-			<div class="divTd"><label for="published"><?php echo JText::_('Published').': '; ?></label></div>
-			<div class="divTdl"><?php echo $this->publishedRadio; ?></div>
+			<div class="divTd"><label for="id_team"><?php echo JText::_('JRESEARCH_TEAM').': ' ?></label></div>
+			<div class="divTdl">
+				<?php echo JHTML::_('jresearchhtml.teamshierarchy', $this->hierarchy, array('name' => 'id_team', 'selected' => isset($this->publication)?$this->publication->id_team:null)); ?>			
+			</div>			
 			<div class="divEspacio" ></div>						
+		</div>		
+		<div class="divTR">
+			<div class="divTd"><label for="published"><?php echo JText::_('Published').': '; ?></label></div>
+			<div class="divTdl divTdl2"><?php echo $this->publishedRadio; ?></div>		
+			<div class="divTd"><label for="status"><?php echo JText::_('JRESEARCH_STATUS').' :' ?></label></div>
+			<div class="divTdl"><?php echo $this->status; ?></div>			
+			<div class="divEspacio"></div>
 		</div>
 		<div class="divTR">
-			<div class="divTd"><label for="status"><?php echo JText::_('JRESEARCH_STATUS').' :' ?></label></div>
-			<div class="divTdl divTdl2"><?php echo $this->status; ?></div>
 			<div class="divTd"><label for="degree"><?php echo JText::_('JRESEARCH_DEGREE').' :' ?></label></div>
 			<div class="divTdl"><?php echo $this->degree; ?></div>
 			<div class="divEspacio" ></div>			

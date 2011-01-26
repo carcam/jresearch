@@ -54,7 +54,9 @@ class JResearchAdminViewPublication extends JResearchView
             $pubtype = JRequest::getVar('pubtype');
             $authors = null;
             $publication = JResearchPublication::getById($cid[0]);
-
+	    	$teamsModel =& $this->getModel('Teams');            
+	    	$hierarchy = $teamsModel->getHierarchical(false, false);
+				    	            
             if(!$isNew)
             {
                 $arguments[] = $publication;
@@ -89,8 +91,8 @@ class JResearchAdminViewPublication extends JResearchView
             $this->assignRef('pubtype', $pubtype);
             $this->assignRef('authors', $authorsControl);
             $this->assignRef('files', $files);
+            $this->assignRef('hierarchy', $hierarchy);
             
-
             parent::display($tpl);
 
             $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);

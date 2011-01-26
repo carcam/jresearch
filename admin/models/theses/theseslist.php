@@ -75,31 +75,17 @@ class JResearchModelThesesList extends JResearchModelList{
 	{
 		$db = JFactory::getDBO();
 		
-		$id_staff_member = $db->nameQuote('id_staff_member');
-		$team_member = $db->nameQuote('#__jresearch_team_member');
-		$id_thesis = $db->nameQuote('id_thesis');
-		$internal_author = $db->nameQuote('#__jresearch_thesis_internal_author');
-		$teamValue = $db->Quote($teamId);
-		$id_team = $db->nameQuote('id_team');
-		$id_member = $db->nameQuote('id_member');
-		$thes_table = $db->nameQuote('#__jresearch_thesis');
-		$team_table = $db->nameQuote('#__jresearch_team');
-		$start_date = $db->nameQuote('start_date');
-		$end_date = $db->nameQuote('end_date');
-
-		
-		$query = "SELECT $id_thesis FROM (SELECT DISTINCT $id_thesis, $start_date, $end_date FROM $internal_author, $team_member, $thes_table WHERE $team_member.$id_team = $teamValue "
-				 ." AND $internal_author.$id_staff_member = $team_member.$id_member AND $thes_table.id = $internal_author.$id_thesis AND $thes_table.published = 1"
-				 ." UNION (SELECT DISTINCT $id_thesis, $start_date, $end_date FROM $internal_author pia, $team_table t, $thes_table th WHERE t.id = $teamValue AND "
-		         	 ."pia.$id_staff_member = t.id_leader AND th.id = pia.$id_thesis AND th.published = 1) ORDER BY $start_date DESC, $end_date DESC";
-		
+		$query = 'SELECT id FROM '.$db->nameQuote('#__jresearch_thesis').' WHERE '.$db->nameQuote('published').' = '.$db->Quote(1);
+		$query .= ' AND '.$db->nameQuote('id_team').' = '.$db->Quote($teamId).' ORDER BY start_date DESC';
+				 
 		if($count > 0)
 		{
-			$query .= " LIMIT 0, $count) R1";
-		}		 
+			$query .= " LIMIT 0, $count";
+		}
+				
 		$db->setQuery($query);
-		$result = $db->loadResultArray();
-		return $result;
+		return $db->loadResultArray();
+		
 	}
 	
 	/**

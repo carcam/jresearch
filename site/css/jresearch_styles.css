@@ -300,3 +300,21 @@ ul.jresearch-facility-list li div{
 	margin-left: auto; 
 	margin-right: auto;
 }
+
+ul.jresearch-team-list{
+	padding-left:0px;	
+}
+
+ul.jresearch-team-list li{
+	background: none; 
+	list-style-type: none; 
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+ul.jresearch-team-list li div{
+	width: 95%; 
+	margin-left: auto; 
+	margin-right: auto;
+}
+

@@ -32,13 +32,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div class="divTR">
 		<div class="divTd"><label for="id_research_area"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></label></div>		
 		<div class="divTdl divTdl2"><?php echo $this->areasList; ?></div>
-		<div class="divTd"><label for="status"><?php echo JText::_('JRESEARCH_PROJECT_STATUS').' :' ?></label></div>
-		<div class="divTdl"><?php echo $this->status; ?></div>
+	    <div class="divTd">
+	          <label for="id_team"><?php echo JText::_('JRESEARCH_TEAM').': '?></label>
+	    </div>
+	    <div class="divTdl">
+			<?php echo JHTML::_('jresearchhtml.teamshierarchy', $this->hierarchy, array('name' => 'id_team', 'selected' => isset($this->publication)?$this->publication->id_team:null)); ?>
+		</div>						
 	    <div class="divEspacio" ></div>		
 	</div>
 	<div class="divTR">
-		<div class="divTd"><?php echo JText::_('Published').': '; ?></div>
-		<div class="divTdl"><?php echo $this->publishedRadio; ?></div>
+			<div class="divTd"><label for="status"><?php echo JText::_('JRESEARCH_PROJECT_STATUS').' :' ?></label></div>
+			<div class="divTdl divTdl2"><?php echo $this->status; ?></div>
+			<div class="divTd"><?php echo JText::_('Published').': '; ?></div>
+			<div class="divTdl"><?php echo $this->publishedRadio; ?></div>
 	</div>
 </div>	
 </fieldset>	

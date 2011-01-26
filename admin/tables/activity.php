@@ -102,6 +102,12 @@ class JResearchActivity extends JTable{
 	public $hits;
 	
 	/**
+	 * 
+	 * @var int
+	 */
+	public $id_team;
+	
+	/**
 	 * Array of internal authors ids
 	 *
 	 * @var array
@@ -424,6 +430,18 @@ class JResearchActivity extends JTable{
 		
 		return true;
 	}
+	
+	/**
+	 * Returns the team sponsoring the activity.
+	 */
+	function getSponsorTeam(){
+		$db = JFactory::getDBO();
+		$teamRow = JTable::getInstance('Team', 'JResearch');
+		if($teamRow->load($this->id_team))
+			return $teamRow;
+		else
+			return null;
+	}	
 	
 
 }

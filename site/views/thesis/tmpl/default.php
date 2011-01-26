@@ -20,15 +20,31 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
 <table class="frontendsingleitem">
 <tbody>
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
-		<td>
-		<?php if($this->area->id > 1): ?>
-			<a href="index.php?option=com_jresearch&amp;controller=researchAreas&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
-		<?php else: ?>
-			<?php echo $this->area->name; ?>	
-		<?php endif; ?>
-		</td>	
-    	<td colspan="2"></td>
+		<?php if($this->categorizedBy == 'teams'): ?>
+			<th scope="row"><?php echo JText::_('JRESEARCH_TEAM').': ' ?></th>
+			<td>
+			<?php $team = $this->thesis->getSponsorTeam(); ?>	
+			<?php if(!empty($team)): ?>
+				<?php if($team->published): ?>
+					<a href="index.php?option=com_jresearch&amp;controller=teams&amp;task=show&amp;view=team&amp;id=<?php echo $team->id; ?><?php echo $ItemidText ?>"><?php echo $team->name; ?></a>
+				<?php else: ?>
+					<?php echo $team->name; ?>	
+				<?php endif; ?>
+				</td>
+			<?php else: ?>
+				<?php echo JText::_('JRESEARCH_UNCATEGORIZED'); ?>
+			<?php endif;?>		
+    	<?php else: ?>	
+			<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
+			<td>
+			<?php if($this->area->id > 1): ?>
+				<a href="index.php?option=com_jresearch&amp;controller=researchAreas&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
+			<?php else: ?>
+				<?php echo $this->area->name; ?>	
+			<?php endif; ?>
+			</td>	
+    	<?php endif; ?>
+    	<td colspan="2"></td>    	
 	</tr>
 	<tr>
 		<?php $status = $this->statusArray[$this->thesis->status]; ?>

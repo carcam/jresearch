@@ -66,7 +66,8 @@ class JResearchAdminProjectsController extends JController
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations');
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'financiers');
-		
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');
+				
 		$cid = JRequest::getVar('cid', array());
 		
 		$view = &$this->getView('Project', 'html', 'JResearchAdminView');	
@@ -75,6 +76,7 @@ class JResearchAdminProjectsController extends JController
 		$coopModel = &$this->getModel('Cooperations', 'JResearchModel');
 		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
 		$model =& $this->getModel('Project', 'JResearchModel');
+		$teamsModel = $this->getModel('Teams', 'JResearchModel');
 
 		if(!empty($cid)){
 			$project = $model->getItem($cid[0]);
@@ -100,6 +102,7 @@ class JResearchAdminProjectsController extends JController
 		$view->setModel($areaModel);
 		$view->setModel($finModel);
 		$view->setModel($coopModel);
+		$view->setModel($teamsModel);
 		$view->display();
 	}
 	

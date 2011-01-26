@@ -66,11 +66,13 @@ class JResearchAdminThesesController extends JController
 	*/
 	function edit(){
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
+        $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');            		
 		$cid = JRequest::getVar('cid', array());
 		$view = &$this->getView('Thesis', 'html', 'JResearchAdminView');	
 		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
 		$model =& $this->getModel('Thesis', 'JResearchModel');
-		
+        $teamsModel = $this->getModel('Teams', 'JResearchModel');		
+        
 		if($cid){
 			$thesis = $model->getItem($cid[0]);
 			if(!empty($thesis)){
@@ -82,6 +84,7 @@ class JResearchAdminThesesController extends JController
 					$thesis->checkout($user->get('id'));
 					$view->setModel($model, true);
 					$view->setModel($areaModel);
+					$view->setModel($teamsModel);
 					$view->display();
 				}
 			}else{
@@ -93,6 +96,7 @@ class JResearchAdminThesesController extends JController
 			$session->set('citedRecords', array(), 'jresearch');			
 			$view->setModel($model, true);
 			$view->setModel($areaModel);
+			$view->setModel($teamsModel);			
 			$view->display();
 		}
 	}
