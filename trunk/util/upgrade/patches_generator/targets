@@ -3,5 +3,5 @@
 /plg_jresearch/jresearch.xml = /plugins/search/jresearch.xml
 /site = /components/com_jresearch
 /admin = /administrator/components/com_jresearch
-/language/admin = /administrator/language/en-GB
-/language/site = /language/en-GB
+/languages/admin = /administrator/language/en-GB
+/languages/site = /language/en-GB

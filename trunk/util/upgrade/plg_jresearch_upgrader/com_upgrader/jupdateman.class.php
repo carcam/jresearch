@@ -13,7 +13,8 @@ function downloadFile($url,$target)
 	$downloader =& Downloader::getInstance();
 	$error_object = new stdClass();
 
-	$params = JComponentHelper::getParams('com_jupdateman');
+	$plugin = JPluginHelper::getPlugin('jresearch', 'jresearch_upgrader');
+	$params = new JParameter($plugin->params);	
 	$adapter = null;
 	switch($params->get('download_method', 0))
 	{
