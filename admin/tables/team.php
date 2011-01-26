@@ -108,6 +108,9 @@ class JResearchTeam extends JTable
 		$this->_deleteMembers($oid);
 		$this->_unlinkFacilities($oid);
 		$this->_unlinkCooperations($oid);
+		$this->_unlinkProjects($oid);
+		$this->_unlinkPublications($oid);
+		$this->_unlinkTheses($oid);
 		parent::delete($oid);
 	}
 	
@@ -115,11 +118,10 @@ class JResearchTeam extends JTable
 	{
 		if($this->parent)
 		{
-			$db =& JFactory::getDBO();
-			$parent = new JResearchTeam($db);
+			$parent = JTable::getInstance('Team', 'JResearch');
 			$parent->load($this->parent);
-			
-			return $parent;
+			if(isset($parent->id))
+				return $parent;
 		}
 		
 		return null;
@@ -143,13 +145,14 @@ class JResearchTeam extends JTable
 	 */
 	public function getLeader()
 	{
-		$db =& JFactory::getDBO();
-		$leader = new JResearchMember($db);
+		$leader = JTable::getInstance('Member', 'JResearch');
 		
-		if($this->id_leader > 0)
-			$leader->load($this->id_leader);
+		if($this->id_leader > 0){
+			if($leader->load($this->id_leader))
+				return $leader;
+		}
 		
-		return $leader;
+		return null;
 	}
 
 	/**
@@ -260,6 +263,7 @@ class JResearchTeam extends JTable
 	 private function _unlinkFacilities($oid){
 		$db = JFactory::getDBO();	 	
 	 	$query = 'UPDATE #__jresearch_facilities SET id_team = NULL WHERE id_team = '.$db->Quote($oid);
+	 	$db->setQuery($query);
 	 	$db->query();	 	
 	 }
 
@@ -271,6 +275,43 @@ class JResearchTeam extends JTable
 	private function _unlinkCooperations($oid){
 		$db = JFactory::getDBO();	 	
 	 	$query = 'UPDATE #__jresearch_cooperations SET id_team = NULL WHERE id_team = '.$db->Quote($oid);
+	 	$db->setQuery($query);	 	
+	 	$db->query(); 			
+	}
+	
+	 /**
+	  * 
+	  * Unlink any cooperation pointing to the team being invoked
+	  * @param int $oid
+	  */
+	private function _unlinkPublications($oid){
+		$db = JFactory::getDBO();	 	
+	 	$query = 'UPDATE #__jresearch_publication SET id_team = NULL WHERE id_team = '.$db->Quote($oid);
+	 	$db->setQuery($query);	 	
+	 	$db->query(); 			
+	}
+	
+ 	/**
+	  * 
+	  * Unlink any cooperation pointing to the team being invoked
+	  * @param int $oid
+	  */
+	private function _unlinkProjects($oid){
+		$db = JFactory::getDBO();	 	
+	 	$query = 'UPDATE #__jresearch_project SET id_team = NULL WHERE id_team = '.$db->Quote($oid);
+	 	$db->setQuery($query);	 	
+	 	$db->query(); 			
+	}
+	
+	/**
+	  * 
+	  * Unlink any cooperation pointing to the team being invoked
+	  * @param int $oid
+	  */
+	private function _unlinkTheses($oid){
+		$db = JFactory::getDBO();	 	
+	 	$query = 'UPDATE #__jresearch_thesis SET id_team = NULL WHERE id_team = '.$db->Quote($oid);
+	 	$db->setQuery($query);	 	
 	 	$db->query(); 			
 	}
 	
