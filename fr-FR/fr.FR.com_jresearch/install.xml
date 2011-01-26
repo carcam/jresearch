@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="language" version="1.5" client="both" method="upgrade">
+  <name>French</name>
+	<tag>fr-FR</tag>
+	<version>1.0</version>
+	<creationDate>Dec 2010</creationDate>
+	<author>Laouen DULISCOUËT</author>
+	<authorEmail></authorEmail>
+	<description>French translation for J!Research 1.2</description>
+  <administration>
+    <files folder="admin">
+	<filename>fr-FR.com_jresearch.cooperations.ini</filename>
+	<filename>fr-FR.com_jresearch.facilities.ini</filename>
+	<filename>fr-FR.com_jresearch.financiers.ini</filename>
+	<filename>fr-FR.com_jresearch.projects.ini</filename>
+	<filename>fr-FR.com_jresearch.publications.ini</filename>
+	<filename>fr-FR.com_jresearch.researchareas.ini</filename>
+	<filename>fr-FR.com_jresearch.staff.ini</filename>
+	<filename>fr-FR.com_jresearch.teams.ini</filename>
+	<filename>fr-FR.com_jresearch.theses.ini</filename>
+  	<filename>fr-FR.com_jresearch.ini</filename>
+	<filename>fr-FR.com_jresearch.menu.ini</filename>
+	<filename>fr-FR-jresearch_help.html</filename>
+    </files>
+  </administration>
+  <site>
+    <files folder="site">
+		<filename>fr-FR.com_jresearch.ini</filename>
+		<filename>fr-FR.com_jresearch.cooperations.ini</filename>
+		<filename>fr-FR.com_jresearch.facilities.ini</filename>
+		<filename>fr-FR.com_jresearch.financiers.ini</filename>
+		<filename>fr-FR.com_jresearch.projects.ini</filename>
+		<filename>fr-FR.com_jresearch.publications.ini</filename>
+		<filename>fr-FR.com_jresearch.researchareas.ini</filename>
+		<filename>fr-FR.com_jresearch.staff.ini</filename>
+		<filename>fr-FR.com_jresearch.teams.ini</filename>
+		<filename>fr-FR.com_jresearch.theses.ini</filename>
+		<filename>fr-FR.plg_search_jresearch.ini</filename>		
+  	</files>
+  </site>
+  <params />
+</install>
