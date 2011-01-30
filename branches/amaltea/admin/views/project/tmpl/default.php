@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	          <label for="id_team"><?php echo JText::_('JRESEARCH_TEAM').': '?></label>
 	    </div>
 	    <div class="divTdl">
-			<?php echo JHTML::_('jresearchhtml.teamshierarchy', $this->hierarchy, array('name' => 'id_team', 'selected' => isset($this->publication)?$this->publication->id_team:null)); ?>
+			<?php echo JHTML::_('jresearchhtml.teamshierarchy', $this->hierarchy, array('name' => 'id_team', 'selected' => isset($this->project)?$this->project->id_team:null)); ?>
 		</div>						
 	    <div class="divEspacio" ></div>		
 	</div>

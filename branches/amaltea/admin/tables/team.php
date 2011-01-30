@@ -319,13 +319,18 @@ class JResearchTeam extends JTable
 	private function _loadMembers($oid)
 	{
 		$db = JFactory::getDBO();
-		$table = $db->nameQuote('#__jresearch_team_member');
+		$table1 = $db->nameQuote('#__jresearch_team_member');
+		$table2 = $db->nameQuote('#__jresearch_member');
 		$idTeam = $db->nameQuote('id_team');
+		$title = $db->nameQuote('title');
+		$profesor = $db->Quote('Prof. Dr.');
 		
 		$qoid = $db->Quote($oid);
 		
 		// Get internal authors
-        $membersQuery = "SELECT * FROM $table WHERE $idTeam = $qoid";
+		$membersQuery = "SELECT $table1.* FROM $table1, $table2 WHERE $table1.id_member = $table2.id AND $table1.$idTeam = $qoid AND title = $profesor 
+		UNION (SELECT $table1.* FROM $table1, $table2 WHERE $table1.id_member = $table2.id AND $table1.$idTeam = $qoid AND title != $profesor ORDER BY lastname)
+		UNION (SELECT $table1.* FROM $table1, $table2 WHERE $table1.id_member = $table2.id AND $table1.$idTeam = $qoid AND title IS NULL ORDER BY lastname)";
 		$db->setQuery($membersQuery);
         
 		if(($result = $db->loadAssocList()))
