@@ -11,9 +11,9 @@ if((JHTML::_('Jresearch.authorize','edit', 'publications', $this->id) && ($this-
 //End of changes
 ?>
 	<div style="float: right;">
-		<button type="button" onclick="javascript:msubmitform('apply');"><?php echo JText::_('Apply'); ?></button>
-		<button type="button" onclick="javascript:msubmitform('save')"><?php echo JText::_('Save') ?></button>
-		<button type="button" onclick="javascript:msubmitform('cancel')"><?php echo JText::_('Cancel'); ?></button>
+		<button type="button" onclick="javascript:submitform('apply');"><?php echo JText::_('Apply'); ?></button>
+		<button type="button" onclick="javascript:submitform('save')"><?php echo JText::_('Save') ?></button>
+		<button type="button" onclick="javascript:submitform('cancel')"><?php echo JText::_('Cancel'); ?></button>
 	</div>
 	<div style="clear: both;">&nbsp;</div>
 	<?php
