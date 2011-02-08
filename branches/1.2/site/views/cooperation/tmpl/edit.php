@@ -5,8 +5,8 @@
 if((JHTML::_('Jresearch.authorize','edit', 'cooperations', $this->coop->id) && ($this->coop->id > 0)) || (JHTML::_('Jresearch.authorize','add', 'cooperations') && ($this->coop->id <= 0))):
 ?>
 <div style="float: right;">
-	<button type="button" onclick="javascript:submitform('save');">Save</button>
-	<button type="button" onclick="javascript:submitform('cancel')">Cancel</button>
+	<button type="button" onclick="javascript:submitbutton('save');">Save</button>
+	<button type="button" onclick="javascript:submitbutton('cancel')">Cancel</button>
 </div>
 <div style="clear: right">&nbsp;</div>
 <?php
