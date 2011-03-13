@@ -11,13 +11,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<table>
 		<tbody>
 			<tr>
-				<td style="text-align:left; width:100%;"><?php echo JText::_('Filter'); ?>
+				<td style="text-align:left; width:30%;"><?php echo JText::_('Filter'); ?>
 					<input type="text" name="filter_search" id="search" value="<?php echo $this->lists['search'] ?>" class="text_area" onchange="document.adminForm.submit();" />
 					<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 					<button onclick="document.adminForm.filter_search.value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 				</td>
+				<td style="text-align:left; width:30%;text-align:right;">
+				<?php echo JText::_('JRESEARCH_AUTHORS');?>
+					<input type="text" name="filter_author" id="search_author" value="<?php echo $this->lists['authors'] ?>" class="text_area" onchange="document.adminForm.submit();" />
+					<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
+					<button onclick="document.adminForm.filter_author.value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
+					||				
+				</td>
 				<td nowrap="nowrap">
-					<?php echo $this->lists['authors'] ?>
 					<?php echo $this->lists['year']; ?>
 					<?php echo $this->lists['state'];?>
 					<?php echo $this->lists['osteotype']; ?>

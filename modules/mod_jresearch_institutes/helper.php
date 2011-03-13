@@ -25,13 +25,13 @@ class modJResearchInstitutesHelper
 		$institutes = array();
 		$limit = intval($limit,10);
 		$db = &JFactory::getDBO();
-		$query = "SELECT i.*, COUNT(i.id) AS count FROM #__jresearch_institute AS i LEFT JOIN #__jresearch_publication AS p ON (p.id_institute = i.id AND p.published = 1 AND i.name != ´unknown´) GROUP by i.id ORDER by count DESC LIMIT 0,$limit";
+		$query = "SELECT i.*, COUNT(i.id) AS count FROM #__jresearch_institute AS i LEFT JOIN #__jresearch_publication AS p ON (p.id_institute = i.id AND p.published = 1 AND i.name != 'unknown' AND p.status = 'finished' AND p.source = 'ORW') GROUP by i.id ORDER by count DESC LIMIT 0,$limit";
 		
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		foreach($result as $item){
 			$inst = JTable::getInstance("Institute", "JResearch");
-			$inst->load($item['id_institute']);
+			$inst->load($item['id']);
 			$institutes[] = array("i" => $inst, "count" => $item['count']);
 		}
 		

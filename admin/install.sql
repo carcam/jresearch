@@ -793,3 +793,12 @@ INSERT INTO `#__jresearch_research_area`(`name`, `description`, `published` ) VA
 DELETE FROM `#__categories` WHERE `section` = 'com_jresearch_cooperations';
 INSERT INTO `#__categories` (`title`, `name`, `alias`, `image`, `section`, `image_position`, `description`, `published`, `checked_out`, `checked_out_time`, `editor`, `ordering`, `access`, `count`, `params`) VALUES
 ('Uncategorized', '', 'cooperations-category-uncategorized', '', 'com_jresearch_cooperations', 'left', 'Holds uncategorized cooperations of the component J!Research', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
+
+ALTER TABLE `#__jresearch_publication` ADD FULLTEXT INDEX pub_search_title(`title`) USING BTREE;
+ALTER TABLE `#__jresearch_publication` ADD FULLTEXT INDEX pub_search_headings(`headings`) USING BTREE;
+ALTER TABLE `#__jresearch_publication` ADD FULLTEXT INDEX pub_search_abstract(`abstract`) USING BTREE;
+ALTER TABLE `#__jresearch_publication` ADD FULLTEXT INDEX pub_search_keywords(`keywords`) USING BTREE;
+ALTER TABLE `#__jresearch_publication` ADD FULLTEXT INDEX pub_search_all(`title`, `headings`, `keywords`, `abstract`) USING BTREE;
+ALTER TABLE `#__jresearch_institute` ADD FULLTEXT INDEX ins_search_title(`name`) USING BTREE;
+ALTER TABLE `#__jresearch_institute` ADD FULLTEXT INDEX ins_search_title2(`name2`) USING BTREE;
+ALTER TABLE `#__jresearch_publication_external_author` ADD FULLTEXT INDEX pub_search_external_author(`author_name`) USING BTREE;

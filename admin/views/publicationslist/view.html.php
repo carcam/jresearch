@@ -86,9 +86,9 @@ class JResearchAdminViewPublicationsList extends JResearchView
 		$lists['state'] = JHTML::_('grid.state', $filter_state);
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
-		
+		$lists['authors'] = $filter_author;
 		// Year filter
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
 		$years = $db->loadResultArray();
 		$yearsHTML = array();
@@ -125,17 +125,7 @@ class JResearchAdminViewPublicationsList extends JResearchView
 		}
 		$lists['area'] = JHTML::_('select.genericlist', $areasHTML, 'filter_area', 'class="inputbox" size="1" '.$js, 'value','text', $filter_area);
 		
-		$this->assignRef('lists', $lists);
-
-		$authors = $model->getAllAuthors();
-		$authorsHTML = array();
-		$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
-		foreach($authors as $auth){
-			$authorsHTML[] = JHTML::_('select.option', $auth['id'], $auth['name']); 
-		}
-		$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);
-
-	
+		$this->assignRef('lists', $lists);	
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $model->getPagination());
     	$this->assignRef('area', $researchAreaModel);
@@ -176,7 +166,7 @@ class JResearchAdminViewPublicationsList extends JResearchView
     * Invoked when the user exports a set of bibliographical references.
     */	
     private function _displayExportForm(){
-      JResearchToolbar::importPublicationsToolbar();
+      	JResearchToolbar::importPublicationsToolbar();
 		$session =& JFactory::getSession();
 		$task = JRequest::getVar('task');
 		

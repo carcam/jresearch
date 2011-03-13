@@ -81,13 +81,13 @@ class JResearchAdminViewPublication extends JResearchView
 		$sourcesList = JHTML::_('jresearchhtml.publicationsourceslist', array('name' => 'source', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->source:'ORW'));
 		$params = JComponentHelper::getParams('com_jresearch');
 		$authorsControl	= JHTML::_('jresearchhtml.autoSuggest', 'authors', $authors);
-		$publicationTypes = JHTML::_('jresearchhtml.publicationsosteopathictypeslist', 'osteotype', 'class="inputbox" size="1"', isset($publication)? $publication->osteotype : 'generic');		
+		$publicationTypes = JHTML::_('jresearchhtml.publicationsosteopathictypeslist', 'osteotype', 'class="inputbox" size="1"', isset($publication)? $publication->osteotype : 'generic', false);		
 		
 		if(!empty($publication->files))
 			$uploadedFiles = explode(';', trim($publication->files));
 		else
 			$uploadedFiles = array();	
-		$files = JHTML::_('jresearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="20" maxlength="255" class="validate-url"', true, $uploadedFiles);
+		$files = JHTML::_('jresearchhtml.fileUpload', 'url', $params->get('files_root_path', 'paper_pdf'),'size="20" maxlength="255" class="validate-url"', true, $uploadedFiles);
 
 		
 		$this->assignRef('statusRadio', $statusRadio);

@@ -478,7 +478,7 @@ class JHTMLjresearchhtml
 		$uploadField .= '</div>';
 		
 		//Render the uploaded files
-		$baseUrl = $url.'administrator/components/com_jresearch/'.str_replace(DS, '/', $filesFolder);
+		$baseUrl = $url.str_replace(DS, '/', $filesFolder);
 		$result = '<ul style="padding:0px;margin:0px;">';
 		$n = 0;
 		foreach($uploadedFiles as $file){
@@ -885,10 +885,13 @@ class JHTMLjresearchhtml
 	 * @param $name Control name.
 	 * @return string
 	 */
-	public static function publicationsosteopathictypeslist($name, $options = '', $value=''){	
+	public static function publicationsosteopathictypeslist($name, $options = '', $value='', $header = true){	
 		// Publication type filter
 		$types = JResearchPublication::getPublicationsOsteopathicSubtypes();
 		$typesHTML = array();
+		if($header)
+			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));		
+		
 		foreach($types as $type){
 			$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
 		}
@@ -1027,12 +1030,34 @@ class JHTMLjresearchhtml
 	public static function instituteslist($name, $options, $value = 0){
 		$db = JFactory::getDBO();
 		
-		$db->setQuery('SELECT id, name FROM #__jresearch_institute WHERE published = 1 ORDER BY alias');
+		$db->setQuery('SELECT id, alias FROM #__jresearch_institute WHERE published = 1 ORDER BY alias');
 		$institutesHtmlOptions = array();
 		$institutesHtmlOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_INSTITUTES'));
 		$institutes = $db->loadAssocList();	
 		foreach($institutes as $ins){
-			$institutesHtmlOptions[] = JHTML::_('select.option', $ins['id'], $ins['name']);
+			$institutesHtmlOptions[] = JHTML::_('select.option', $ins['id'], $ins['alias']);
+		}
+		
+		return JHTML::_('select.genericlist', $institutesHtmlOptions, $name, $options, 'value','text', $value);		
+	}
+	
+	/**
+	 * 
+	 * List of institutes for frontend forms
+	 * @param string $name
+	 * @param array $options
+	 * @param int $value
+	 */
+	public static function instituteslistfrontend($name, $options, $value = 0){
+		$db = JFactory::getDBO();
+		$query = "SELECT DISTINCT i.id as id, i.alias as alias FROM #__jresearch_institute i, #__jresearch_publication p WHERE i.id = p.id_institute 
+		AND i.published = 1 AND p.published = 1 AND p.source = 'ORW' ORDER BY alias";
+		$db->setQuery($query);
+		$institutesHtmlOptions = array();
+		$institutesHtmlOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_INSTITUTES'));
+		$institutes = $db->loadAssocList();	
+		foreach($institutes as $ins){
+			$institutesHtmlOptions[] = JHTML::_('select.option', $ins['id'], $ins['alias']);
 		}
 		
 		return JHTML::_('select.genericlist', $institutesHtmlOptions, $name, $options, 'value','text', $value);		

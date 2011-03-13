@@ -42,8 +42,9 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false){		
 		$db = JFactory::getDBO();		
 		$secondTable = $db->nameQuote('#__jresearch_publication_external_author');
+		$thirdTable = $db->nameQuote('#__jresearch_institute');
 		if($memberId === null){	
-			$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName).', '.$secondTable; 	
+			$resultQuery = 'SELECT #__jresearch_publication.* FROM '.$db->nameQuote($this->_tableName).', '.$secondTable.', '.$thirdTable; 	
 		}else{
 			$resultQuery = '';
 		}
@@ -74,7 +75,8 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	protected function _countTotalItems(){
 		$db = JFactory::getDBO();
 		$secondTable = $db->nameQuote('#__jresearch_publication_external_author');
-		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName).', '.$secondTable.' '; 	
+		$thirdTable = $db->nameQuote('#__jresearch_institute');
+		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName).', '.$secondTable.', '.$thirdTable; 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished);
 		return $resultQuery;
 	}
@@ -90,9 +92,10 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$db = JFactory::getDBO();
 		$query = $this->_buildQuery();
 		$db->setQuery($query);
-		$ids = $db->loadResultArray();
-		foreach($ids as $id){
-			$pub = JResearchPublication::getById($id);
+		$rows = $db->loadAssocList();
+		foreach($rows as $row){
+			$pub = JTable::getInstance('Publication', 'JResearch');			
+			$pub->bind($row, array(), true);
 			$items[] = $pub;
 		}
 		$this->updatePagination();
@@ -163,41 +166,48 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$db = JFactory::getDBO();
 
 		$secondTable = $db->nameQuote('#__jresearch_publication_external_author');		
+		$thirdTable = $db->nameQuote('#__jresearch_institute');
 		$firstTable = $db->nameQuote($this->_tableName);
 		$where = array();
 		$where[] = "$firstTable.id = $secondTable.id_publication";
+		$where[] = "$firstTable.id_institute = $thirdTable.id";
+
 		//Obtention of search key		
 		$key = $mainframe->getUserStateFromRequest('publicationssearchkey', 'key');
 		$keyfield0 = $mainframe->getUserStateFromRequest('publicationssearchkeyfield0', 'keyfield0', 'all');
 
 		$whereKeyClause = array();
-		$escapedKey = $db->Quote( '%'.$db->getEscaped( strtolower($key), true ).'%', false );
-		$quotedKey = $db->Quote($db->getEscaped( strtolower($key), true ));
-		$whereKeyClause['title_word'] = "LOWER(title) LIKE $escapedKey";
-		$whereKeyClause['heading_word'] = "LOWER(headings) LIKE $escapedKey";
-		$whereKeyClause['abstract_word'] = "LOWER(abstract) LIKE $escapedKey";
-		$whereKeyClause['keywords'] = "LOCATE($quotedKey, LOWER(keywords)) > 0";
-		$ids = $this->_getAuthorPublicationIds(trim($key));			
-		if(count($ids) > 0)
-			$whereKeyClause['author_name'] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
-		else
-			$whereKeyClause['author_name'] = '0 = 1';	
-
-		$idsInstitutes = $this->_getInstitutePublicationIds($key);
-		if(!empty($idsInstitutes))
-			$whereKeyClause['institute_name'] = $db->nameQuote('id').' IN ('.implode(',', $idsInstitutes).')';
-		else
-			$whereKeyClause['institute_name'] = '0 = 1';
+		$escapedKey = $db->Quote( $db->getEscaped( strtolower($key), true ), false );
+		switch($keyfield0){
+			case 'title_word':
+				$whereKeyClause['title_word'] = "MATCH(title) AGAINST($escapedKey IN BOOLEAN MODE)";
+				break;
+			case 'heading_word':
+				$whereKeyClause['heading_word'] = "MATCH(headings) AGAINST ($escapedKey IN BOOLEAN MODE)";				
+				break;
+			case 'abstract_word':						
+				$whereKeyClause['abstract_word'] = "MATCH(abstract) AGAINST ($escapedKey IN BOOLEAN MODE)";				
+				break;
+			case 'keywords':
+				$whereKeyClause['keywords'] = "MATCH(keywords) AGAINST($escapedKey IN BOOLEAN MODE)";
+				break;
+			case 'author_name':
+				$whereKeyClause['author_name'] = "MATCH(author_name) AGAINST($escapedKey IN BOOLEAN MODE)";
+				break;
+			case 'institute_name':
+				$whereKeyClause['institute_name'] = "MATCH(name) AGAINST($escapedKey IN BOOLEAN MODE)";				
+				break;								
+			case 'all': default:
+				$whereKeyClause['text'] = "MATCH(title,keywords,headings,abstract) AGAINST ($escapedKey IN BOOLEAN MODE)";
+				$whereKeyClause['author_name'] = "MATCH(author_name) AGAINST($escapedKey IN BOOLEAN MODE)";
+				$whereKeyClause['institute_name'] = "MATCH(name) AGAINST($escapedKey IN BOOLEAN MODE)";
+				break;						
+		}	
 			
-		if($keyfield0 == 'all'){
-			$where[] = '('.implode(' OR ', $whereKeyClause).')';
-		}else{
-			$where[] = $whereKeyClause[$keyfield0];			
-		}
-		
-				
+		$where[] = '('.implode(' OR ', $whereKeyClause).')';
+						
 		// prepare the WHERE clause
-		$where[] = $db->nameQuote('published').' = '.$db->Quote(1);
+		$where[] = '#__jresearch_publication.published = '.$db->Quote(1);
 		$where[] = $db->nameQuote('internal').' = '.$db->Quote(1);
 		$where[] = $db->nameQuote('source').' = '.$db->Quote('ORW');
 		$where[] = $db->nameQuote('status').' != '.$db->Quote('rejected');
@@ -220,87 +230,102 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		if(!empty($key1)){
 			$where1 = array();
 			$whereKeyClause1 = array();
-			$escapedKey1 = $db->Quote( '%'.$db->getEscaped( strtolower($key1), true ).'%', false );
-			$quotedKey1 = $db->Quote($db->getEscaped( strtolower($key1), true ));			
-			$whereKeyClause1['title_word'] = "LOWER(title) LIKE $escapedKey1";
-			$whereKeyClause1['abstract_word'] = "LOWER(abstract) LIKE $escapedKey1";
-			$whereKeyClause1['heading_word'] = "LOWER(headings) LIKE $escapedKey1";
-			$whereKeyClause1['keywords'] = "LOCATE($quotedKey1, LOWER(keywords)) > 0";
-			
-			$idsInstitutes1 = $this->_getInstitutePublicationIds($key1);
-			if(!empty($idsInstitutes1))
-				$whereKeyClause1['institute_name'] = $db->nameQuote('id').' IN ('.implode(',', $idsInstitutes1).')';
-			else
-				$whereKeyClause['institute_name'] = '0 = 1';	
-
-			$ids1 = $this->_getAuthorPublicationIds(trim($key1));			
-
-			if(count($ids1) > 0)
-				$whereKeyClause1['author_name'] = $db->nameQuote('id').' IN ('.implode(',', $ids1).')';
-			else
-				$whereKeyClause1['author_name'] = '0 = 1';	
+			$escapedKey1 = $db->Quote($db->getEscaped( strtolower($key1), true ), false );
+			switch($keyfield1){
+				case 'title_word':
+					$whereKeyClause1['title_word'] = "MATCH(title) AGAINST($escapedKey1 IN BOOLEAN MODE)";					
+					break;
+				case 'abstract_word':
+					$whereKeyClause1['abstract_word'] = "MATCH(abstract) AGAINST ($escapedKey1 IN BOOLEAN MODE)";		
+					break;	
+				case 'heading_word':
+					$whereKeyClause1['heading_word'] = "MATCH(headings) AGAINST ($escapedKey1 IN BOOLEAN MODE)";		
+					break;
+				case 'keywords':
+					$whereKeyClause1['keywords'] = "MATCH(keywords) AGAINST($escapedKey1 IN BOOLEAN MODE) > 0";		
+					break;
+				case 'institute_name':
+					$whereKeyClause1['institute_name'] = "MATCH(name) AGAINST($escapedKey1 IN BOOLEAN MODE)";
+					break;
+				case 'author_name':
+					$whereKeyClause1['author_name'] = "MATCH(author_name) AGAINST($escapedKey1 IN BOOLEAN MODE)";
+					break;
+				case 'all': default:
+					$whereKeyClause1['text'] = "MATCH(title,keywords,headings,abstract) AGAINST($escapedKey1 IN BOOLEAN MODE) > 0";		
+					$whereKeyClause1['author_name'] = "MATCH(author_name) AGAINST($escapedKey1 IN BOOLEAN MODE)";					
+					$whereKeyClause1['author_name'] = "MATCH(author_name) AGAINST($escapedKey1 IN BOOLEAN MODE)";						
+					break;				
+			}
 				
 			$op1 = ($op1 == 'not')? 'AND NOT':$op1;	
-			if($keyfield1 == 'all'){
-				$whereAdditionals .= ' '.$op1.' ('.implode(' OR ', $whereKeyClause1).')';
-			}else{
-				$whereAdditionals .= ' '.$op1.' '.$whereKeyClause1[$keyfield1];
-			}
+			$whereAdditionals .= ' '.$op1.' ('.implode(' OR ', $whereKeyClause1).')';
 		}
 		
 		if(!empty($key2)){
 			$whereKeyClause2 = array();
-			$escapedKey2 = $db->Quote( '%'.$db->getEscaped( strtolower($key2), true ).'%', false );
-			$quotedKey2 = $db->Quote($db->getEscaped( strtolower($key2), true ));		
-			$whereKeyClause2['title_word'] = "LOWER(title) LIKE $escapedKey2";
-			$whereKeyClause2['abstract_word'] = "LOWER(abstract) LIKE $escapedKey2";
-			$whereKeyClause2['keywords'] = "LOCATE($quotedKey2, LOWER(keywords)) > 0";
-			$whereKeyClause2['heading_word'] = "LOWER(headings) LIKE $escapedKey2";			
-			
-			$idsInstitutes2 = $this->_getInstitutePublicationIds($key2);
-			if(!empty($idsInstitutes2))
-				$whereKeyClause1['institute_name'] = $db->nameQuote('id').' IN ('.implode(',', $idsInstitutes2).')';
-			else
-				$whereKeyClause['institute_name'] = '0 = 1';	
-			
-			
-			$ids2 = $this->_getAuthorPublicationIds(trim($key2));					
-			if(count($ids2) > 0)
-				$whereKeyClause2['author_name'] = $db->nameQuote('id').' IN ('.implode(',', $ids2).')';
-			else
-				$whereKeyClause2['author_name'] = '0 = 1';			
-			
-			$op2 = ($op2 == 'not')? 'AND NOT':$op2;				
-			if($keyfield2 == 'all'){
-				$whereAdditionals .= ' '.$op2.' ('.implode(' OR ', $whereKeyClause2).')';
-			}else{
-				$whereAdditionals .= ' '.$op2.' '.$whereKeyClause2[$keyfield2];
+			$escapedKey2 = $db->Quote($db->getEscaped( strtolower($key2), true ), false );
+
+			switch($keyfield2){
+				case 'title_word':
+					$whereKeyClause2['title_word'] = "MATCH(title) AGAINST ($escapedKey2 IN BOOLEAN MODE)";					
+					break;
+				case 'abstract_word':
+					$whereKeyClause2['abstract_word'] = "MATCH(abstract) AGAINST ($escapedKey2 IN BOOLEAN MODE)";
+					break;				
+				case 'keywords':
+					$whereKeyClause2['keywords'] = "MATCH(keywords) AGAINST ($escapedKey2 IN BOOLEAN MODE)";					
+					break;	
+				case 'heading_word':
+					$whereKeyClause2['heading_word'] = "MATCH(headings) AGAINST ($escapedKey2 IN BOOLEAN MODE)";					
+					break;	
+				case 'institute_name':
+					$whereKeyClause2['author_name'] = "MATCH(author_name) AGAINST($escapedKey2 IN BOOLEAN MODE)";		
+					break;	
+				case 'author_name':
+					$whereKeyClause2['author_name'] = "MATCH(author_name) AGAINST($escapedKey2 IN BOOLEAN MODE)";
+					break;
+				case 'all':
+					$whereKeyClause2['text'] = "MATCH(title,keywords,headings,abstract) AGAINST ($escapedKey2 IN BOOLEAN MODE)";					
+					$whereKeyClause2['author_name'] = "MATCH(author_name) AGAINST($escapedKey2 IN BOOLEAN MODE)";						
+					$whereKeyClause2['author_name'] = "MATCH(author_name) AGAINST($escapedKey2 IN BOOLEAN MODE)";												
+					break;		
 			}
-			
+						
+			$op2 = ($op2 == 'not')? 'AND NOT':$op2;
+			$whereAdditionals .= ' '.$op2.' ('.implode(' OR ', $whereKeyClause2).')';
 		}
 
 		if(!empty($key3)){
 			$whereKeyClause3 = array();
-			$escapedKey3 = $db->Quote( '%'.$db->getEscaped( strtolower($key3), true ).'%', false );
-			$quotedKey3 = $db->Quote($db->getEscaped( strtolower($key3), true ));		
-			$whereKeyClause3['title_word'] = "LOWER(title) LIKE $escapedKey3";
-			$whereKeyClause3['abstract_word'] = "LOWER(abstract) LIKE $escapedKey3";
-			$whereKeyClause3['keywords'] = "LOCATE($quotedKey3, LOWER(keywords)) > 0";
-			$whereKeyClause3['heading_word'] = "LOWER(headings) LIKE $escapedKey3";			
-
-			$idsInstitutes3 = $this->_getInstitutePublicationIds($key3);
-			if(!empty($idsInstitutes3))
-				$whereKeyClause1['institute_name'] = $db->nameQuote('id').' IN ('.implode(',', $idsInstitutes3).')';
-			else
-				$whereKeyClause['institute_name'] = '0 = 1';	
-			
+			$escapedKey3 = $db->Quote($db->getEscaped( strtolower($key3), true ), false );
+			switch($keyfield3){
+				case 'title_word':
+					$whereKeyClause3['title_word'] = "MATCH(title) AGAINST($escapedKey3 IN BOOLEAN MODE)";			
+					break;
+				case 'abstract_word':
+					$whereKeyClause3['abstract_word'] = "MATCH(abstract) AGAINST($escapedKey3 IN BOOLEAN MODE)";
+					break;	
+				case 'keywords':
+					$whereKeyClause3['keywords'] = "MATCH(keywords) AGAINST($escapedKey3 IN BOOLEAN MODE)";					
+					break;
+				case 'heading_word':
+					$whereKeyClause3['heading_word'] = "MATCH(headings) AGAINST($escapedKey3 IN BOOLEAN MODE)";								
+					break;
+				case 'institute_name':
+					$whereKeyClause3['author_name'] = "MATCH(author_name) AGAINST($escapedKey3 IN BOOLEAN MODE)";					
+					break;
+				case 'author_name':
+					$whereKeyClause3['author_name'] = "MATCH(author_name) AGAINST($escapedKey3 IN BOOLEAN MODE)";
+					break;
+				case 'all':
+					$whereKeyClause3['text'] = "MATCH(title,keywords,headings,abstract) AGAINST($escapedKey3 IN BOOLEAN MODE)";
+					$whereKeyClause3['author_name'] = "MATCH(author_name) AGAINST($escapedKey3 IN BOOLEAN MODE)";
+					$whereKeyClause3['author_name'] = "MATCH(author_name) AGAINST($escapedKey3 IN BOOLEAN MODE)";
+					break;			
+			}
 			
 			$op3 = ($op3 == 'not')? 'AND NOT':$op3;			
-			if($keyfield3 == 'all'){
-				$whereAdditionals .= ' '.$op3.' ('.implode(' OR ', $whereKeyClause3).')';
-			}else{
-				$whereAdditionals .= ' '.$op3.' '.$whereKeyClause3[$keyfield3];
-			}
+			$whereAdditionals .= ' '.$op3.' ('.implode(' OR ', $whereKeyClause3).')';
 			
 		}		
 		
@@ -378,12 +403,13 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 	private function _getInstitutePublicationIds($key){
 		$db = JFactory::getDBO();
 		$query = 'SELECT DISTINCT p.id FROM '.$db->nameQuote('#__jresearch_publication').' p, '.$db->nameQuote('#__jresearch_institute').' i WHERE '.
-		'p.id_institute = i.id AND LOWER(i.name) LIKE '.$db->Quote( '%'.$db->getEscaped( strtolower($key), true ).'%', false ).' OR LOWER(i.name2) LIKE '.$db->Quote( '%'.$db->getEscaped( strtolower($key), true ).'%', false );
+		'p.id_institute = i.id AND MATCH(i.name) AGAINST('.$db->Quote($db->getEscaped( strtolower($key), true ), false ).' IN BOOLEAN MODE) OR MATCH(i.name2) AGAINST('.$db->Quote($db->getEscaped( strtolower($key), true ), false ).' IN BOOLEAN MODE)';
 		$db->setQuery($query);
 		$result = $db->loadResultArray();
 				
 		return $result;				
 	}
+		
 	
 	/**
 	* Returns the ids of the publications where the author has participated. 
@@ -395,7 +421,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		if(is_numeric($author)){
 			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
 		}else{
-			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote('%'.$db->getEscaped($author, true).'%', false);
+			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE MATCH('.$db->nameQuote('author_name').') AGAINST ('.$db->Quote($db->getEscaped($author, true), false).' IN BOOLEAN MODE)';
 		}
 		$db->setQuery($query);
 		

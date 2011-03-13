@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT.DS.'helpers'.DS.'publications.php');
 ?>
 <h1 class="componentheading"><?php echo JText::_('JRESEARCH_SEARCH_RESULTS_FOR').': '; ?><strong><?php echo JRequest::getVar('key'); ?></strong></h1>
-<form name="adminForm" method="post" id="adminForm" action="index.php">
+<form name="adminForm" method="post" id="adminForm" action="<?php echo $this->url; ?>">
 <div style="float:left;">
 <a href="index.php?option=com_jresearch&controller=publications&task=advancedsearch&newSearch=1&Itemid=<?php echo JRequest::getInt('Itemid'); ?>"><?php echo JText::_('JRESEARCH_NEW_SEARCH'); ?></a>
 <a href="index.php?option=com_jresearch&controller=publications&task=advancedsearch&Itemid=<?php echo JRequest::getInt('Itemid'); ?>"><?php echo JText::_('JRESEARCH_EDIT_CURRENT_SEARCH'); ?></a>
@@ -38,7 +38,7 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'publications.php');
 <div>
 <?php 
 	foreach($this->items as $pub): ?>
-    <ul style="list-style:none;padding-left:0px;">
+    <ul style="list-style:none;padding-left:0px;padding-bottom:5px; margin-bottom:5px;border-bottom:1px solid #999;">
     <li>
     	<div><strong><?php echo JText::_('JRESEARCH_TITLE').': '; ?></strong>
     	<?php if($pub->status == 'in_progress' || $pub->status == 'protocol'): ?>
@@ -62,11 +62,11 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'publications.php');
     		<span><?php echo JText::_('JRESEARCH_'.strtoupper($pub->status)); ?></span>    		
     	</div>
     	<?php endif; ?>
+		<?php if($pub->status != 'in_progress'): ?>    	
+		<?php if(!empty($pub->year)): ?>
     	<div>		
+					<span><strong><?php echo JText::_('JRESEARCH_PUBLICATION_DATE').': '; ?></strong></span>
     	<?php 
-			if(isset($pub->journal) && !empty($pub->journal))
-				echo $pub->journal.'. ';
-				
 			if(!empty($pub->year)){
 				echo $pub->year;
 				if(!empty($pub->month)){
@@ -79,6 +79,9 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'publications.php');
 				
 			}
 			
+			if(isset($pub->journal) && !empty($pub->journal))
+				echo ' ' . $pub->journal;
+				
 			if(isset($pub->volume) && !empty($pub->volume)){
 				if(isset($pub->number) && !empty($pub->number)){
 					echo '; '.$pub->volume.'('.$pub->number.')';
@@ -87,13 +90,16 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'publications.php');
 			
 			if(isset($pub->pages) && !empty($pub->pages))
 				echo ': '.$pub->pages;
-
-			echo ' ';	
 		?>
-		<?php if($pub->status != 'in_progress'): ?>    	
-	    	<span><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id=<?php echo $pub->id; ?>" title="Bibtex">[Bibtex]</a></span>
-    	<?php endif; ?>
     	</div>
+    	<?php endif; ?>
+				<div>
+					<span><strong><?php echo JText::_('JRESEARCH_EXPORT').': '; ?></strong></span>
+	    		<span><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id=<?php echo $pub->id; ?>" title="Bibtex">[Bibtex]</a></span>
+	    		<span><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id=<?php echo $pub->id; ?>" title="MODS">[MODS]</a></span>    	
+	    		<span><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=ris&amp;id=<?php echo $pub->id; ?>" title="RIS">[RIS]</a></span>
+				</div>
+    		<?php endif; ?>
 	</li>
 	</ul>
 <?php endforeach ?>

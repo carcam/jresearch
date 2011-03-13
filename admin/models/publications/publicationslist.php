@@ -32,7 +32,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	/**
 	* Returns the SQL used to get the data from publications table.
 	* 
-	* @pàram $memberId If non null, it represents the id of a staff member and the method returns
+	* @param $memberId If non null, it represents the id of a staff member and the method returns
 	* only those items of the member's authoring.
 	* @param $onlyPublished If true, returns only published items.
 	* @param $paginate If true, the method considers pagination user parameters
@@ -67,10 +67,14 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		if(is_numeric($author)){
 			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
 		}else{
-			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
+			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' = '.$db->Quote($author);
+			$query .= ' UNION (SELECT id_publication FROM '.$db->nameQuote('#__jresearch_member').' m , '.$db->nameQuote('#__jresearch_publication_internal_author').' pi WHERE ';
+			$query .= ' m.id = pi.id_staff_member AND m.lastname = '.$db->Quote($author).' OR CONCAT_WS( \' \', m.lastname, m.firstname ) = '.$db->Quote($author);
+			$query .= ' OR firstname = '.$db->Quote($author).') ';
 		}
+
 		$db->setQuery($query);
-		
+		echo $db->getQuery();		
 		$result = $db->loadResultArray();
 		
 		//@todo Add id_author comparison
@@ -124,7 +128,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* Returns an array of ALL the items of an entity independently of its published state considering
 	* pagination parameters. 
 	*
-	* @pàram $memberId If non null, it represents the id of a staff member and the method returns
+	* @pÃ ram $memberId If non null, it represents the id of a staff member and the method returns
 	* only those items of the member's authoring.
 	* @param $onlyPublished If true, returns only published items.
 	* @param $paginate If true, the method considers pagination user parameters
@@ -298,7 +302,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	*/
 	function getAllAuthors(){
 		$db = JFactory::getDBO();
-		$query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_publication_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
+		$query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_publication_external_author').' UNION SELECT id, CONCAT_WS( \' \', lastname, firstname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
 		$db->setQuery($query);
 		$result =  $db->loadAssocList();
 		$mdresult = array();
@@ -306,8 +310,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		// First, bring them to the form lastname, firstname.
 		require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'publications.php');
 		foreach($result as $key => $author){
-			$components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
-			$value = (isset($components['von'])?$components['von'].' ':'').$components['lastname'].', '.$components['firstname'].(isset($components['jr'])?' '.$components['jr']:'');
+			$value = $author['name'];
 			$mdresult[] = array('id'=>$author['id'], 'name'=>$value);
 			$name[$key] = $value;
 			

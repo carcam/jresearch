@@ -804,7 +804,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 */
 	function export(){
 		$params = JComponentHelper::getParams('com_jresearch');
-		$exportEnabled = $params->get('enable_export_frontend');
+		$exportEnabled = $params->get('enable_export_frontend', 'yes');
 		$document =& JFactory::getDocument();		
 		$format = JRequest::getVar('format');
 		
@@ -852,7 +852,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		//Do the export only if export from frontend is enabled		
 		$exportOptions = array();	
 		$params = JComponentHelper::getParams('com_jresearch');
-		$exportEnabled = $params->get('enable_export_frontend');
+		$exportEnabled = $params->get('enable_export_frontend', 'yes');
 		$document =& JFactory::getDocument();
 		$format = JRequest::getVar('format', 'bibtex');				
 		

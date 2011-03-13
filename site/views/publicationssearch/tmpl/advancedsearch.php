@@ -2,10 +2,10 @@
 <?php global $mainframe; ?>
 <fieldset><legend><?php echo JText::_('JRESEARCH_SEARCH_FOR');?></legend>
 <div class="divTR">
-	<div class="divTdl"><label for="key" ><?php echo JText::_('JRESEARCH_SEARCH_KEY').': ' ?></label></div>
-	<div class="divTdl"><input name="key" size="15" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchkey', 'key'); ?>" /></div>	
-	<div class="divTdl"><label for="in_fields" ><?php echo JText::_('JRESEARCH_IN_FIELDS').': ' ?></label></div>
-	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.searchfieldslist', array('name'=>'keyfield0', 'attributes'=>'size="1"')); ?></div>
+	<div class="divTdl divTdl1"><label for="key" ><?php echo JText::_('JRESEARCH_SEARCH_KEY').': ' ?></label></div>
+	<div class="divTdl"><input name="key" size="20" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchkey', 'key'); ?>" /></div>	
+	<div class="divTdl divTdl3"><label for="in_fields" ><?php echo JText::_('JRESEARCH_IN_FIELDS').': ' ?></label></div>
+	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.searchfieldslist', array('name'=>'keyfield0', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchkeyfield0', 'keyfield0'), 'attributes'=>'size="1"')); ?></div>
 	<div class="divTdl">
 	<input name="submit" type="submit" value="<?php echo JText::_('Go');?>">
 	<input name="reset" type="reset" onclick="javascript:document.location.href='index.php?option=com_jresearch&controller=publications&task=advancedsearch&newSearch=1&Itemid=<?php echo JRequest::getInt('Itemid'); ?>';" value="<?php echo JText::_('Clear');?>">
@@ -13,20 +13,23 @@
 	<div class="divEspacio"></div>
 </div>
 <div class="divTR">
-	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.operatorslist', array('name' => 'op1', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchop1', 'op1'),  'attributes' => 'size="1"')); ?></div>
+	<div class="divTdl divTdl1"><?php echo JHTML::_('jresearchhtml.operatorslist', array('name' => 'op1', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchop1', 'op1'),  'attributes' => 'size="1"')); ?></div>
 	<div class="divTdl divTdl2"><input name="key1" size="20" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchkey1', 'key1'); ?>" /></div>	
+	<div class="divTdl divTdl3"></div>
 	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.searchfieldslist', array('name'=>'keyfield1', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchkeyfield1', 'keyfield1') , 'attributes'=>'size="1"')); ?></div>
 	<div class="divEspacio"></div>	
 </div>
 <div class="divTR">
-	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.operatorslist', array('name' => 'op2', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchop2', 'op2') ,'attributes' => 'size="1"')); ?></div>
+	<div class="divTdl divTdl1"><?php echo JHTML::_('jresearchhtml.operatorslist', array('name' => 'op2', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchop2', 'op2') ,'attributes' => 'size="1"')); ?></div>
 	<div class="divTdl divTdl2"><input name="key2" size="20" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchkey2', 'key2'); ?>" /></div>	
+	<div class="divTdl divTdl3"></div>
 	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.searchfieldslist', array('name'=>'keyfield2' , 'selected' => $mainframe->getUserStateFromRequest('publicationssearchkeyfield2', 'keyfield2'), 'attributes'=>'size="1"')); ?></div>
 	<div class="divEspacio"></div>	
 </div>
 <div class="divTR">
-	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.operatorslist', array('name' => 'op3' , 'selected' => $mainframe->getUserStateFromRequest('publicationssearchop3', 'op3'), 'attributes' => 'size="1"')); ?></div>
-	<div class="divTdl divTdl2"><input name="key2" size="20" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchkey3', 'key3'); ?>" /></div>	
+	<div class="divTdl divTdl1"><?php echo JHTML::_('jresearchhtml.operatorslist', array('name' => 'op3' , 'selected' => $mainframe->getUserStateFromRequest('publicationssearchop3', 'op3'), 'attributes' => 'size="1"')); ?></div>
+	<div class="divTdl divTdl2"><input name="key3" size="20" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchkey3', 'key3'); ?>" /></div>	
+	<div class="divTdl divTdl3"></div>
 	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.searchfieldslist', array('name'=>'keyfield3', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchkeyfield3', 'keyfield3'), 'attributes'=>'size="1"')); ?></div>
 	<div class="divEspacio"></div>	
 </div>
@@ -74,7 +77,7 @@
 	</div>
 </fieldset>
 <?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications', 'startsearch'); ?>
-<div style="text-align:center;"><input name="submit" type="submit" value="<?php echo JText::_('Go');?>"></div>
+<div style="text-align:right;"><input name="submit" type="submit" value="<?php echo JText::_('Go');?>"></div>
 <input type="hidden" name="limit" value="20" />
 <input type="hidden" name="limitstart" value="0" />
 </form>
