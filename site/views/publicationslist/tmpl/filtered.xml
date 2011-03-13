@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="JRESEARCH_PUBLICATIONS_PER_GROUP_LIST">
+		<message>JRESEARCH_PUBLICATIONS_PER_GROUP_LIST_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_PUBLICATIONS_PER_GROUP_LIST</name>
+		<description>JRESEARCH_PUBLICATIONS_PER_GROUP_LIST_VIEW_MESSAGE</description>
+		<url>
+				<param type="hidden" name="task" default="filtered" />
+				<param type="hidden" name="modelkey" default="tabular" />
+
+		</url>
+		<params>
+			<param name="filter_teams" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="show_average" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_AVERAGE" description="JRESEARCH_PUBLICATIONS_SHOW_AVERAGE_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="filter_areas" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="filter_year" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR" description="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="field_for_average" type="radio" default="impact_factor" label="JRESEARCH_PUBLICATIONS_FIELD_FOR_PUNCTUATION" description="JRESEARCH_PUBLICATIONS_FIELD_FOR_PUNCTUATION_DESCRIPTION">
+				<option value="impact_factor">JRESEARCH_JOURNAL_IMPACT_FACTOR</option>
+				<option value="journal_acceptance_rate">JRESEARCH_JOURNAL_ACCEPTANCE_RATE</option>
+			</param>
+			<param name="filter_type" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="filter_authors" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</param>
+			<param name="filter_search" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_TEXT" description="JRESEARCH_PUBLICATIONS_FILTER_TEXT_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>			
+			</param>															
+		</params>		
+	</state>
+</metadata>
