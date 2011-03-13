@@ -23,7 +23,16 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 	h5{
 		font-size: 12px;
 	}
-	
+
+	.border-bottom td, .border-bottom th{
+		border-bottom: 1px solid #999;
+		padding-bottom: 5px;
+	}
+
+	.padding-top td, .padding-top th{
+		padding-top: 5px;
+	}
+
 </style>
 <script type="text/javascript">
 	function showOriginalAbstract(){
@@ -46,7 +55,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 ?>
 <div style="float: right;"><?php echo JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
 <h1 class="componentheading"><?php echo $this->publication->title; ?></h1>
-<table class="frontendsingleitem">
+<table class="frontendsingleitem" cellspacing="0">
 <tbody>
 	<?php $authors = $this->publication->getAuthors(true); ?>
 	<?php if(!empty($authors)): ?>
@@ -111,7 +120,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		<th scope="row"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
 		<td colspan="3"><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->osteotype)); ?></td>
 	</tr>
-	<tr>
+	<tr class="border-bottom">
 		<?php $institute = $this->publication->getInstitute();
 		$colspan = 2; 
 		 if(!empty($institute)):
@@ -126,7 +135,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		  $day = trim($this->publication->day);
 	?>
 	<?php $year = $this->publication->year; ?>
-	<tr>	
+	<tr class="padding-top">	
 	<?php if($year != null && $year != '0000' && !empty($year)): ?>
 		<th scope="row"><?php echo JText::_('JRESEARCH_PUBLICATION_DATE').': ' ?></th>
 		<td><?php echo $this->publication->year; ?>
@@ -162,13 +171,11 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 		  $colspan = 4;
 		  if(!empty($country) || !empty($language)):
 	?>	
-	<tr>
+	<tr class="border-bottom">
 		<?php if(!empty($country)): ?>
 			<th scope="row"><?php echo JText::_('JRESEARCH_COUNTRY').': '; ?></th>
 			<td><?php echo $country; ?></td>	
-		<?php else: 
-				$colspan -= 2; 
-			  endif; 
+		<?php endif; 
 			  if(!empty($language)): 
 		?>			
 			<th scope="row"><?php echo JText::_('JRESEARCH_LANGUAGE').': '; ?></th>
@@ -266,24 +273,23 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'language.php');
 			<?php $secondLang = JResearchLanguageHelper::getLanguage('id', $this->publication->id_language); ?>					
 			<?php $abstracts = $this->publication->getAbstracts();
 			  if(!empty($abstracts)): ?>
-				<h4><?php echo JText::_('JRESEARCH_ABSTRACT'); ?></h4>
+				<h3><?php echo JText::_('JRESEARCH_ABSTRACT'); ?></h3>
 			<?php endif; ?>
 			<?php if(count($this->abstracts) > 1): ?>
 				<?php if(isset($this->abstracts[ENGLISH_ABSTRACT_ID])): ?>
-					<div><h5><?php echo JText::_('JRESEARCH_ENGLISH_VERSION'); ?></h5></div>
+					<?php /* <div><h5><?php echo JText::_('JRESEARCH_ENGLISH_VERSION'); ?></h5></div> */ ?>
 					<div  style="text-align:justify;"><?php echo $this->abstracts[ENGLISH_ABSTRACT_ID]; //English ?></div>
 				<?php endif; ?>				
 				<div style="height:20px;"></div>
 				<div><a id="ashow" href="javascript:showOriginalAbstract();"><?php echo JText::sprintf('JRESEARCH_SHOW_ORIGINAL_ABSTRACT', $secondLang['name']); ?></a></div>				
 				<div id="second_language">
 					<a id="ahide" href="javascript:hideOriginalAbstract();"><?php echo JText::_('JRESEARCH_HIDE_ORIGINAL_ABSTRACT'); ?></a>
-					<h5><?php echo JText::sprintf('JRESEARCH_LANGUAGE_VERSION', $secondLang['name'] ); ?></h5>
+					<h3><?php echo JText::_('JRESEARCH_ABSTRACT'); ?> (<?php echo $secondLang['name']; ?>)</h3>
 					<?php $original_title = $this->publication->original_title; ?>
 					<?php if(!empty($this->publication->original_title)): ?>		
 						<span class="original_title_lbl"><?php echo JText::_('JRESEARCH_TITLE').': ' ?></span>
 						<span class="original_title"><?php echo $this->publication->original_title; ?></span>
 					<?php endif; ?>				
-					<h5><?php echo JText::_('JRESEARCH_ABSTRACT'); ?></h5>
 					<div>
 						<div style="text-align:justify;"><?php echo $this->abstracts[$this->publication->id_language]; ?></div>
 						<div style="height:20px;"></div>

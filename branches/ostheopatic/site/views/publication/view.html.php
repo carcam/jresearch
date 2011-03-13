@@ -254,11 +254,10 @@ class JResearchViewPublication extends JResearchView
 		$statusRadio = JHTML::_('jresearchhtml.publicationsstatuslist', array('name' => 'status', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->status:'in_progress'));
 		$languageList = JHTML::_('jresearchhtml.languagelist', 'id_language', 'class="inputbox"', 'id', 'name', isset($publication)? $publication->id_language:0);
 		$countriesList = JHTML::_('jresearchhtml.countrieslist', 'id_country', 'class="inputbox"', isset($publication)? $publication->id_country:0);
-		$institutesList = JHTML::_('jresearchhtml.instituteslist', 'id_institute', 'class="inputbox"', isset($publication)? $publication->id_institute:0);		
+		$institutesList = JHTML::_('jresearchhtml.instituteslistfrontend', 'id_institute', 'class="inputbox"', isset($publication)? $publication->id_institute:0);		
 		$sourcesList = JHTML::_('jresearchhtml.publicationsourceslist', array('name' => 'source', 'attributes' => 'class="inputbox"', 'selected' => isset($publication)?$publication->source:'ORW'));		
-		$publicationTypes = JHTML::_('jresearchhtml.publicationsosteopathictypeslist', 'osteotype', 'class="inputbox" size="1"', isset($publication)? $publication->osteotype : $osteotype);		
-		
-		
+		$publicationTypes = JHTML::_('jresearchhtml.publicationsosteopathictypeslist', 'osteotype', 'class="inputbox" size="1"', isset($publication)? $publication->osteotype : $osteotype, false);		
+				
 		$params = $this->getParams();
 		if(isset($publication)){
 			if(!empty($publication->files))
@@ -269,7 +268,7 @@ class JResearchViewPublication extends JResearchView
 			$uploadedFiles = array();
 		}
 
-		$files = JHTML::_('JResearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
+		$files = JHTML::_('JResearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files'),'size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
 		
 		$this->assignRef('statusRadio', $statusRadio);
 		$this->assignRef('institutesList', $institutesList);		
@@ -365,8 +364,6 @@ class JResearchViewPublication extends JResearchView
     	$this->assignRef('showRIS', $showRIS);			
 				
 		return true;
-    	
-		
 	}
 }
 

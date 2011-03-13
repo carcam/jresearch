@@ -57,26 +57,31 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	        </div>		        
 			<div class="divEspacio" ></div>	
 		</div>
-		   	<div class="divTR">
+		<div class="divTR">
         	<div class="divTd">
             	<label for="abstract"><?php echo JText::_('JRESEARCH_ABSTRACT').': ' ?></label>
         	</div>
-       	 	<div class="divTdl">
-       	 		<?php $editor = JFactory::getEditor(); ?>
-				<?php echo $editor->display( 'abstract',  isset($this->publication)?$this->publication->abstract:'' , '100%', '250', '75', '20' ) ; ?>
-        	</div>	    
-	  		<div class="divEspacio" ></div>	        
+ 	  	<div class="divEspacio" ></div>	        
     	</div>
     	<div class="divTR">
-	        <div class="divTd">
-	            <label for="original_abstract"><?php echo JText::_('JRESEARCH_ORIGINAL_ABSTRACT').': ' ?></label>
-	        </div>
-	        <div class="divTdl">
-				<?php echo $editor->display( 'original_abstract',  isset($this->publication)?$this->publication->original_abstract:'' , '100%', '250', '75', '20' ) ; ?>
+      	 	<div class="divTdl">
+       	 		<?php $editor = JFactory::getEditor(); ?>
+		<?php echo $editor->display( 'abstract',  isset($this->publication)?$this->publication->abstract:'' , '100%', '250', '75', '20' ) ; ?>
+        	</div>	    
+  	<div class="divEspacio" ></div>
+    	</div>
+    	<div class="divTR">
+	      	<div class="divTd" style="width:25%;">	         <label for="original_abstract"><?php echo JText::_('JRESEARCH_ORIGINAL_ABSTRACT').': ' ?></label>
+</div>
+		 <div class="divEspacio" ></div>	        
+    	</div>
+    	<div class="divTR">
+    		<div class="divTdl">
+			<?php echo $editor->display( 'original_abstract',  isset($this->publication)?$this->publication->original_abstract:'' , '100%', '250', '75', '20' ) ; ?>
 	        </div>	    
-		  	<div class="divEspacio" ></div>	        
+		 <div class="divEspacio" ></div>
     	</div>		
-		<div class="divTR">
+	<div class="divTR">
         	<div class="divTd">
             	<label for="headings"><?php echo JText::_('JRESEARCH_HEADINGS').': ' ?></label>
         	</div>

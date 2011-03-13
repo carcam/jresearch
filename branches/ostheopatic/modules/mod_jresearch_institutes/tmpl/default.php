@@ -14,7 +14,7 @@ $itemId = JRequest::getVar('Itemid');
 				<?php echo $listitem; ?>
 			</a>
 
-			<a href="./?option=com_jresearch&amp;view=publicationssearch&amp;task=search&amp;limitstart=0&amp;limit=20&amp;key=<?php echo $i->name; ?>&amp;keyfield0=institute_name&amp;with_abstract=off&amp;pubtype=0&amp;language=0&amp;status=0&amp;date_field=publication_date&amp;order_by1=date_descending&amp;order_by2=date_descending&amp;newSearch=1">
+			<a href="./?option=com_jresearch&amp;view=publicationssearch&amp;task=search&amp;limitstart=0&amp;limit=20&amp;key=<?php echo $i->name; ?>&amp;keyfield0=institute_name&amp;with_abstract=off&amp;pubtype=0&amp;language=0&amp;status=finished&amp;date_field=publication_date&amp;order_by1=date_descending&amp;order_by2=date_descending&amp;newSearch=1">
 				<?php echo "(".$count.")"; ?>
 			</a>
 		</li>

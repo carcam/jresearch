@@ -238,9 +238,17 @@ text-align:left;
 	padding:0px;
 }
 
+div.divTdl1{
+	width: 50px;
+	text-align: right;
+}
+
 div.divTdl2{
-	width: 200px;
-	overflow: visible;
+}
+
+div.divTdl3{
+	width: 40px;
+	text-align: right;
 }
 
 .divForm{

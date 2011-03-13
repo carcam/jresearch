@@ -404,16 +404,29 @@ class JResearchActivity extends JTable{
 	*/	
 	function delete($oid){
 		$db = JFactory::getDBO();
+		$k = $this->_tbl_key;
+		$oid = (is_null($oid)) ? $this->$k : $oid;			
+		$result = parent::delete($oid);
+		
+		if(!$result)
+			return $result;
 		
 		$internalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_internal_author');
 		$externalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_external_author');
+
 		$db->setQuery('DELETE FROM '.$internalTable.' WHERE '.$db->nameQuote('id_'.$this->_type).' = '.$db->Quote($oid));		
-		$db->query();
+		if(!$db->query()){
+			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+			return false;
+		}
+		
 		$db->setQuery('DELETE FROM '.$externalTable.' WHERE '.$db->nameQuote('id_'.$this->_type).' = '.$db->Quote($oid));		
-		$db->query();
+		if(!$db->query()){
+			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+			return false;
+		}
 		
-		return parent::delete($oid);
-		
+		return true;
 	}
 }
 
