@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<joomfish type="contentelement">
+	<name>J!Research Publication - Patent</name>
+	<author>F. Prinz</author>
+	<version>0.1</version>
+	<description>Definition for the publication (patent) content of the J!Research component</description>
+	<reference type="content">
+		<table name="jresearch_publication_patent">
+			<field type="referenceid" name="id" translate="0">ID</field>
+			<field type="titletext" name="title" translate="1">Title</field>
+			<field type="text" name="internal" translate="0">Internal</field>
+			<field type="text" name="year" translate="0">Year</field>
+			<field type="text" name="citekey" translate="0">Citekey</field>
+			<field type="text" name="keywords" translate="1">Keywords</field>
+			<field type="text" name="url" translate="0">URL</field>
+			<field type="text" name="journal_acceptance_rate" translate="0">Journal acceptance rate</field>
+			<field type="text" name="impact_factor" translate="0">Impact factor</field>
+			<field type="textarea" name="abstract" translate="1">Abstract</field>
+			<field type="textarea" name="note" translate="1">Note</field>
+			<field type="textarea" name="awards" translate="1">Awards</field>
+			<field type="textarea" name="comments" translate="1">Comments</field>
+			<field type="created_date" name="created" translate="0">Created</field>
+			<field type="checked_out_by" name="checked_out" translate="0">Check out by</field>
+			<field type="checked_out_date" name="checked_out_time" translate="0">Check out date</field>
+			<field type="text" name="patent_number" translate="0">Patent number</field>
+			<field type="text" name="filing_date" translate="0">Filing date</field>
+			<field type="text" name="issue_date" translate="0">Issue date</field>
+			<field type="text" name="country" translate="1">Country</field>
+			<field type="textarea" name="drawings_dir" translate="0">Drawings directory</field>
+			<field type="textarea" name="claims" translate="1">Claims</field>
+			<field type="textarea" name="address" translate="1">Address</field>
+			<field type="textarea" name="office" translate="1">Office</field>
+		</table>
+	</reference>
+	<translationfilters>
+	</translationfilters>
+</joomfish>
