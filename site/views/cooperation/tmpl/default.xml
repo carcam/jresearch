@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_COOPERATION_DESCRIPTION">
+		<message>JRESEARCH_COOPERATION_DESCRIPTION_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_COOPERATION_DESCRIPTION</name>
+		<description>JRESEARCH_COOPERATION_DESCRIPTION_VIEW_MESSAGE</description>
+		<url>
+			<param type="sql" name="id" label="JRESEARCH_COOPERATION" description="JRESEARCH_COOPERATION_DISPLAYED" query="SELECT id as value, name as id FROM #__jresearch_cooperations WHERE published = 1" />	
+			<param type="hidden" name="task" default="show" />
+		</url>
+		<params>
+			<param name="cooperation_image_width" default="1024" label="JRESEARCH_COOPERATION_IMAGE_WIDTH" type="text" />
+			<param name="cooperation_image_height" default="768" label="JRESEARCH_COOPERATION_IMAGE_HEIGHT" type="text" />		
+		</params>
+	</state>
+</metadata>

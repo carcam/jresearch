@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="language" version="1.5" client="both" method="upgrade">
+  <name>Spanish (Traditional Sort)</name>
+	<tag>es-ES</tag>
+	<version>1.5.7.1</version>
+	<creationDate>07.10.2008</creationDate>
+	<author>carcam</author>
+	<authorEmail>carcam@gnumla.com</authorEmail>
+	<description></description>
+  <administration>
+    <files folder="admin">
+  	<filename file="meta">es-ES.xml</filename>
+	<filename>es-ES.com_jresearch.cooperations.ini</filename>
+	<filename>es-ES.com_jresearch.facilities.ini</filename>
+	<filename>es-ES.com_jresearch.projects.ini</filename>
+	<filename>es-ES.com_jresearch.publications.ini</filename>
+	<filename>es-ES.com_jresearch.researchareas.ini</filename>
+	<filename>es-ES.com_jresearch.staff.ini</filename>
+	<filename>es-ES.com_jresearch.teams.ini</filename>
+	<filename>es-ES.com_jresearch.theses.ini</filename>
+  	<filename>es-ES.com_jresearch.ini</filename>
+	<filename>es-ES.com_jresearch.menu.ini</filename>
+	<filename>es-ES.com_jresearch.member_positions.ini</filename>	
+    </files>
+  </administration>
+  <site>
+    <files folder="site">
+		<filename file="meta">es-ES.xml</filename>
+		<filename>es-ES.com_jresearch.ini</filename>
+		<filename>es-ES.com_jresearch.cooperations.ini</filename>
+		<filename>es-ES.com_jresearch.facilities.ini</filename>
+		<filename>es-ES.com_jresearch.financiers.ini</filename>
+		<filename>es-ES.com_jresearch.projects.ini</filename>
+		<filename>es-ES.com_jresearch.publications.ini</filename>
+		<filename>es-ES.com_jresearch.researchareas.ini</filename>
+		<filename>es-ES.com_jresearch.staff.ini</filename>
+		<filename>es-ES.com_jresearch.teams.ini</filename>
+		<filename>es-ES.com_jresearch.theses.ini</filename>
+  	</files>
+  </site>
+  <params />
+</install>
