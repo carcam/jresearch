@@ -949,10 +949,10 @@ class JHTMLjresearchhtml
 		//Status options
     	$statusOptions = array();
     	$statusOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_STATUS'));
-    	$statusOptions[] = JHTML::_('select.option', 'protocol', JText::_('JRESEARCH_PROTOCOL'));
     	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
     	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));
 		if($attributes['backend'] == true){   	
+	    	$statusOptions[] = JHTML::_('select.option', 'protocol', JText::_('JRESEARCH_PROTOCOL'));			
 	    	$statusOptions[] = JHTML::_('select.option', 'rejected', JText::_('JRESEARCH_REJECTED'));
     		$statusOptions[] = JHTML::_('select.option', 'for_reevaluation', JText::_('JRESEARCH_FOR_REEVALUATION'));
 		}

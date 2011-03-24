@@ -42,16 +42,16 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db = JFactory::getDBO();		
 		if($memberId === null){	
-			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName); 	
+			$resultQuery = 'SELECT p.* FROM '.$db->nameQuote($this->_tableName).' p LEFT JOIN #__jresearch_publication_external_author pea'; 	
 		}else{
 			$resultQuery = '';
 		}
 		// Deal with pagination issues
 		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();		
 		if($paginate){
-			$limit = (int)$this->getState('limit');
+			$limit = (int)$this->getState('limit', 20);
 			if($limit != 0)
-					$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit');					
+					$resultQuery .= ' LIMIT '.(int)$this->getState('limitstart').' , '.$this->getState('limit', 20);					
 		}
 		
 		return $resultQuery;
@@ -67,14 +67,13 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		if(is_numeric($author)){
 			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
 		}else{
-			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' = '.$db->Quote($author);
+			$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE MATCH('.$db->nameQuote('author_name').') AGAINST('.$db->Quote($author).' IN BOOLEAN MODE) > 0';
 			$query .= ' UNION (SELECT id_publication FROM '.$db->nameQuote('#__jresearch_member').' m , '.$db->nameQuote('#__jresearch_publication_internal_author').' pi WHERE ';
 			$query .= ' m.id = pi.id_staff_member AND m.lastname = '.$db->Quote($author).' OR CONCAT_WS( \' \', m.lastname, m.firstname ) = '.$db->Quote($author);
 			$query .= ' OR firstname = '.$db->Quote($author).') ';
 		}
 
 		$db->setQuery($query);
-		echo $db->getQuery();		
 		$result = $db->loadResultArray();
 		
 		//@todo Add id_author comparison
@@ -104,7 +103,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 				 
 		if($count > 0)
 		{
-			$query .= " LIMIT 0,$count";
+			$query .= " LIMIT 0, $count";
 		}
 		
 		$db->setQuery($query);
@@ -118,7 +117,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	*/	
 	protected function _countTotalItems(){
 		$db = JFactory::getDBO();
-		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName).' p LEFT JOIN #__jresearch_publication_external_author pea'; 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();		
 		return $resultQuery;
 	}
@@ -195,7 +194,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('title', 'published', 'year', 'citekey', 'pubtype', 'id_research_area', 'osteotype');
+		$orders = array('title', 'published', 'year', 'citekey', 'pubtype', 'id_research_area', 'osteotype', 'pea.author_name');
 		
 		$filter_order = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_order', 'filter_order', 'title');
 		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_order_Dir', 'filter_order_Dir', 'ASC'));
@@ -233,6 +232,10 @@ class JResearchModelPublicationsList extends JResearchModelList{
 
 		// prepare the WHERE clause
 		$where = array();
+		$on = array();
+
+		$on[] = 'p.id = pea.id_publication';	
+		
 		if(!$published){
 			if($filter_state == 'P')
 				$where[] = $db->nameQuote('published').' = 1 ';
@@ -248,11 +251,12 @@ class JResearchModelPublicationsList extends JResearchModelList{
 		if($filter_year != null && $filter_year != -1 )
 			$where[] = $db->nameQuote('year').' = '.$db->Quote($filter_year);
 			
-					
+	
+			
 		if(($filter_search = trim($filter_search))){
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
-			$where[] = 'LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%');
+			$where[] = 'MATCH('.$db->nameQuote('title').') AGAINST('.$db->Quote($filter_search).' IN BOOLEAN MODE) > 0';
 		}
 		
 		if($filter_pubtype){
@@ -268,13 +272,9 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
 		}
 
-		
+
 		if(!empty($filter_author) && $filter_author != -1){
-			$ids = $this->_getAuthorPublicationIds(trim($filter_author));			
-			if(count($ids) > 0)
-				$where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
-			else
-				$where[] = '0 = 1';	
+			$where[] = 'MATCH(pea.author_name) AGAINST ('.$db->Quote($filter_author).' IN BOOLEAN MODE)';
 		}
 		
 		if(!empty($filter_team)){
@@ -291,8 +291,9 @@ class JResearchModelPublicationsList extends JResearchModelList{
 			$where[] = $db->nameQuote('internal').' = '.$db->Quote('1');
 		}
 
-		
-		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
+		$result = count($on) ? ' ON '.implode(' AND ', $on) : '';
+		$result .= count($where) ? ' WHERE '.implode(' AND ', $where) : ''; 
+		return $result;
 			
 	}
 

@@ -11,14 +11,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<table>
 		<tbody>
 			<tr>
-				<td style="text-align:left; width:30%;"><?php echo JText::_('Filter'); ?>
-					<input type="text" name="filter_search" id="search" value="<?php echo $this->lists['search'] ?>" class="text_area" onchange="document.adminForm.submit();" />
+				<td style="text-align:left; width:30%;"><?php echo JText::_('Filter by title: '); ?>
+					<input type="text" name="filter_search" id="search" value="<?php echo htmlentities($this->lists['search']); ?>" class="text_area" onchange="document.adminForm.submit();" />
 					<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 					<button onclick="document.adminForm.filter_search.value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 				</td>
 				<td style="text-align:left; width:30%;text-align:right;">
 				<?php echo JText::_('JRESEARCH_AUTHORS');?>
-					<input type="text" name="filter_author" id="search_author" value="<?php echo $this->lists['authors'] ?>" class="text_area" onchange="document.adminForm.submit();" />
+					<input type="text" name="filter_author" id="search_author" value="<?php echo htmlentities($this->lists['authors']); ?>" class="text_area" onchange="document.adminForm.submit();" />
 					<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 					<button onclick="document.adminForm.filter_author.value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 					||				
@@ -41,7 +41,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort',  JText::_('Title'), 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Published'), 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Internal'), 'internal', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>			
-			<th style="width: 22%;"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
+			<th style="width: 22%;"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_AUTHORS'), 'pea.author_name', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_YEAR'), 'year', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_CITEKEY'), 'citekey', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_TYPE'), 'osteotype', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>

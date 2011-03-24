@@ -50,19 +50,19 @@ class JResearchViewPublicationsSearch extends JResearchView
 
 			$key = $mainframe->getUserStateFromRequest('publicationssearchkey', 'key');
 			if(!empty($key))
-				$url .= '&key='.$key;
+				$url .= '&key='.htmlentities(urlencode($key));
 		
 			$key1 = $mainframe->getUserStateFromRequest('publicationssearchkey1', 'key1');
 			if(!empty($key1))
-				$url .= '&key1='.$key1;
+				$url .= '&key1='.htmlentities(urlencode($key1));
 
 			$key2 = $mainframe->getUserStateFromRequest('publicationssearchkey2', 'key2');
 			if(!empty($key2))
-				$url .= '&key2='.$key2;
+				$url .= '&key2='.htmlentities(urlencode($key2));
 
 			$key3 = $mainframe->getUserStateFromRequest('publicationssearchkey3', 'key3');
 			if(!empty($key3))
-				$url .= '&key3='.$key3;
+				$url .= '&key3='.htmlentities(urlencode($key3));
 				
 			$keyfield0 = $mainframe->getUserStateFromRequest('publicationssearchkeyfield0', 'keyfield0', 'all');			
 			if(!empty($key))	
@@ -104,57 +104,55 @@ class JResearchViewPublicationsSearch extends JResearchView
 	
 			$status = $mainframe->getUserStateFromRequest('publicationssearchkeystatus', 'status', '0');
 			$url .= '&status='.$status;
-				
+
+			$yearPattern = '/^[12]\d{3}$/';
+			$monthPattern = '/^(0?[1-9]|1[0-2])$/';
+			$dayPattern = '/^(0?[1-9]|[12]\d|3[01])$/';
+			
 			$from_year = trim($mainframe->getUserStateFromRequest('publicationssearchfrom_year', 'from_year'));
 			if(!empty($from_year) && !preg_match($yearPattern, $from_year)){
-				JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_FROM_YEAR'));
 				$from_year = '';			
 			}		
 			if(!empty($from_year)){
-				$url .= '&from_year='.$from_year;
+				$url .= '&from_year='.htmlentities($from_year);
 			}																			
 	
 			$from_month = trim($mainframe->getUserStateFromRequest('publicationssearchfrom_month', 'from_month'));		
 			if(!empty($from_month) && !preg_match($monthPattern, $from_month)){
-				JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_FROM_MONTH'));
 				$from_month = '';			
 			}				
 			if(!empty($from_month)){
-				$url .= '&from_month='.$from_month;
+				$url .= '&from_month='.htmlentities($from_month);
 			}																			
 	
 			$from_day = trim($mainframe->getUserStateFromRequest('publicationssearchfrom_day', 'from_day'));		
 			if(!empty($from_day) && !preg_match($dayPattern, $from_day)){
-				JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_FROM_DAY'));
 				$from_day = '';			
 			}				
 			if(!empty($from_day)){
-				$url .= '&from_day='.$from_day;
+				$url .= '&from_day='.htmlentities($from_day);
 			}																			
 			
 			$to_year = trim($mainframe->getUserStateFromRequest('publicationssearchto_year', 'to_year'));
 			if(!empty($to_year) && !preg_match($yearPattern, $to_year)){
-				JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_TO_YEAR'));
 				$to_year = '';
 			}				
 			if(!empty($to_year))
-				$url .= '&to_year='.$to_year;																			
+				$url .= '&to_year='.htmlentities($to_year);																			
 			
 			$to_month = trim($mainframe->getUserStateFromRequest('publicationssearchto_month', 'to_month'));
 			if(!empty($to_month) && !preg_match($monthPattern, $to_month)){
-				JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_TO_MONTH'));
 				$to_month = '';
 			}				
 			if(!empty($to_month))
-				$url .= '&to_month='.$to_month;																			
+				$url .= '&to_month='.htmlentities($to_month);																			
 							
 			$to_day = trim($mainframe->getUserStateFromRequest('publicationssearchto_day', 'to_day'));
 			if(!empty($to_day) && !preg_match($dayPattern, $to_day)){
-				JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_TO_DAY'));
 				$to_day = '';
 			}		
 			if(!empty($to_day))
-				$url .= '&to_day='.$to_day;
+				$url .= '&to_day='.htmlentities($to_day);
 			
 			$date_field = $mainframe->getUserStateFromRequest('publicationssearchdatefield', 'date_field', 'publication_date');
 			$url .= '&date_field='.$date_field;

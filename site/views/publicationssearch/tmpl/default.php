@@ -9,7 +9,7 @@
 defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT.DS.'helpers'.DS.'publications.php');
 ?>
-<h1 class="componentheading"><?php echo JText::_('JRESEARCH_SEARCH_RESULTS_FOR').': '; ?><strong><?php echo JRequest::getVar('key'); ?></strong></h1>
+<h1 class="componentheading"><?php echo JText::_('JRESEARCH_SEARCH_RESULTS_FOR').': '; ?><strong><?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchkey', 'key')); ?></strong></h1>
 <form name="adminForm" method="post" id="adminForm" action="<?php echo $this->url; ?>">
 <div style="float:left;">
 <a href="index.php?option=com_jresearch&controller=publications&task=advancedsearch&newSearch=1&Itemid=<?php echo JRequest::getInt('Itemid'); ?>"><?php echo JText::_('JRESEARCH_NEW_SEARCH'); ?></a>
@@ -26,7 +26,7 @@ require_once(JPATH_COMPONENT.DS.'helpers'.DS.'publications.php');
 	<input type="hidden" name="limitstart" value="" />
 	<input type="hidden" name="limit" value="20" />
 	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />	
-	<input type="hidden" name="key" value="<?php echo JRequest::getVar('key', ''); ?>" />
+	<input type="hidden" name="key" value="<?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchkey', 'key')); ?>" />
 </form>
 <?php if($this->nitems > 0): ?>
 <?php if($this->nitems > 1): ?>
