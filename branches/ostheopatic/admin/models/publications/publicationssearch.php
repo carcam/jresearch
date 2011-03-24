@@ -44,7 +44,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$secondTable = $db->nameQuote('#__jresearch_publication_external_author');
 		$thirdTable = $db->nameQuote('#__jresearch_institute');
 		if($memberId === null){	
-			$resultQuery = 'SELECT #__jresearch_publication.* FROM '.$db->nameQuote($this->_tableName).', '.$secondTable.', '.$thirdTable; 	
+			$resultQuery = 'SELECT #__jresearch_publication.* FROM '.$db->nameQuote($this->_tableName).' LEFT JOIN ('.$secondTable.' , '.$thirdTable.')'; 	
 		}else{
 			$resultQuery = '';
 		}
@@ -65,6 +65,24 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		return $db->loadResult();
 	}
 
+	/**
+	* Updates the pagination object according to the parameters sent when trying to retreive
+	* the data. Should be invoked after getData.
+	*/
+	protected function updatePagination(){
+		jimport('joomla.html.pagination');
+		//prepare the pagination values
+		$db = JFactory::getDBO();
+		$total = $this->getResultsCount();
+		$limitstart = $this->getState('limitstart');
+		$limit = $this->getState('limit');
+		if($total <= $limitstart)
+			$limitstart = 0;
+
+		$this->_pagination = new JPagination($total, $limitstart, $limit);
+
+	}
+	
 	
 
 	/**
@@ -76,7 +94,7 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$db = JFactory::getDBO();
 		$secondTable = $db->nameQuote('#__jresearch_publication_external_author');
 		$thirdTable = $db->nameQuote('#__jresearch_institute');
-		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName).', '.$secondTable.', '.$thirdTable; 	
+		$resultQuery = 'SELECT count(*) FROM '.$db->nameQuote($this->_tableName).' LEFT JOIN ('.$secondTable.' , '.$thirdTable.')'; 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished);
 		return $resultQuery;
 	}
@@ -143,10 +161,10 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 				$second_clause = 'year ASC, month ASC, day ASC';
 				break;
 			case 'author_name_ascending':
-				$first_clause = "$secondTable.author_name ASC";
+				$second_clause = "$secondTable.author_name ASC";
 				break;
 			case 'author_name_descending':
-				$first_clause = "$secondTable.author_name DESC";				
+				$second_clause = "$secondTable.author_name DESC";				
 				break;				
 			case 'title': default:
 				$second_clause = 'title ASC';				
@@ -169,68 +187,76 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		$thirdTable = $db->nameQuote('#__jresearch_institute');
 		$firstTable = $db->nameQuote($this->_tableName);
 		$where = array();
-		$where[] = "$firstTable.id = $secondTable.id_publication";
-		$where[] = "$firstTable.id_institute = $thirdTable.id";
+		$on = array();
+		$on[] = "$firstTable.id = $secondTable.id_publication";
+		$on[] = "$firstTable.id_institute = $thirdTable.id";
 
 		//Obtention of search key		
-		$key = $mainframe->getUserStateFromRequest('publicationssearchkey', 'key');
+		$key = trim($mainframe->getUserStateFromRequest('publicationssearchkey', 'key'));
 		$keyfield0 = $mainframe->getUserStateFromRequest('publicationssearchkeyfield0', 'keyfield0', 'all');
 
-		$whereKeyClause = array();
-		$escapedKey = $db->Quote( $db->getEscaped( strtolower($key), true ), false );
-		switch($keyfield0){
-			case 'title_word':
-				$whereKeyClause['title_word'] = "MATCH(title) AGAINST($escapedKey IN BOOLEAN MODE)";
-				break;
-			case 'heading_word':
-				$whereKeyClause['heading_word'] = "MATCH(headings) AGAINST ($escapedKey IN BOOLEAN MODE)";				
-				break;
-			case 'abstract_word':						
-				$whereKeyClause['abstract_word'] = "MATCH(abstract) AGAINST ($escapedKey IN BOOLEAN MODE)";				
-				break;
-			case 'keywords':
-				$whereKeyClause['keywords'] = "MATCH(keywords) AGAINST($escapedKey IN BOOLEAN MODE)";
-				break;
-			case 'author_name':
-				$whereKeyClause['author_name'] = "MATCH(author_name) AGAINST($escapedKey IN BOOLEAN MODE)";
-				break;
-			case 'institute_name':
-				$whereKeyClause['institute_name'] = "MATCH(name) AGAINST($escapedKey IN BOOLEAN MODE)";				
-				break;								
-			case 'all': default:
-				$whereKeyClause['text'] = "MATCH(title,keywords,headings,abstract) AGAINST ($escapedKey IN BOOLEAN MODE)";
-				$whereKeyClause['author_name'] = "MATCH(author_name) AGAINST($escapedKey IN BOOLEAN MODE)";
-				$whereKeyClause['institute_name'] = "MATCH(name) AGAINST($escapedKey IN BOOLEAN MODE)";
-				break;						
-		}	
+		if($key != '*'){
+			$whereKeyClause = array();
+			$cleanedKey = str_replace('"', '', $key);
+			$processedKey = $this->_preprocessSearchKey($cleanedKey);
+			$escapedKey = $db->Quote( $db->getEscaped( strtolower($processedKey), true ), false );
+			switch($keyfield0){
+				case 'title_word':
+					$whereKeyClause['title_word'] = "MATCH(title) AGAINST($escapedKey IN BOOLEAN MODE)";
+					break;
+				case 'heading_word':
+					$whereKeyClause['heading_word'] = "MATCH(headings) AGAINST ($escapedKey IN BOOLEAN MODE)";				
+					break;
+				case 'abstract_word':						
+					$whereKeyClause['abstract_word'] = "MATCH(abstract) AGAINST ($escapedKey IN BOOLEAN MODE)";				
+					break;
+				case 'keywords':
+					$whereKeyClause['keywords'] = "MATCH(keywords) AGAINST($escapedKey IN BOOLEAN MODE)";
+					break;
+				case 'author_name':
+					$whereKeyClause['author_name'] = "MATCH(author_name) AGAINST($escapedKey IN BOOLEAN MODE)";
+					break;
+				case 'institute_name':
+					$whereKeyClause['institute_name'] = "MATCH(name) AGAINST($escapedKey IN BOOLEAN MODE)";				
+					break;								
+				case 'all': default:
+					$whereKeyClause['text'] = "MATCH(title,keywords,headings,abstract) AGAINST ($escapedKey IN BOOLEAN MODE)";
+					$whereKeyClause['author_name'] = "MATCH(author_name) AGAINST($escapedKey IN BOOLEAN MODE)";
+					$whereKeyClause['institute_name'] = "MATCH(name) AGAINST($escapedKey IN BOOLEAN MODE)";
+					break;						
+			}	
 			
-		$where[] = '('.implode(' OR ', $whereKeyClause).')';
+			$where[] = '('.implode(' OR ', $whereKeyClause).')';
+		}
 						
 		// prepare the WHERE clause
 		$where[] = '#__jresearch_publication.published = '.$db->Quote(1);
 		$where[] = $db->nameQuote('internal').' = '.$db->Quote(1);
 		$where[] = $db->nameQuote('source').' = '.$db->Quote('ORW');
 		$where[] = $db->nameQuote('status').' != '.$db->Quote('rejected');
-		$where[] = $db->nameQuote('status').' != '.$db->Quote('for_reevaluation');		
+		$where[] = $db->nameQuote('status').' != '.$db->Quote('for_reevaluation');
+		$where[] = $db->nameQuote('status').' != '.$db->Quote('protocol');		
 			
 		// operators
 		$op1 = $mainframe->getUserStateFromRequest('publicationssearchop1', 'op1');	
 		$op2 = $mainframe->getUserStateFromRequest('publicationssearchop2', 'op2');	
 		$op3 = $mainframe->getUserStateFromRequest('publicationssearchop3', 'op3');;		
 					
-		$key1 = $mainframe->getUserStateFromRequest('publicationssearchkey1', 'key1');
-		$key2 = $mainframe->getUserStateFromRequest('publicationssearchkey2', 'key2');
-		$key3 = $mainframe->getUserStateFromRequest('publicationssearchkey3', 'key3');		
+		$key1 = trim($mainframe->getUserStateFromRequest('publicationssearchkey1', 'key1'));
+		$key2 = trim($mainframe->getUserStateFromRequest('publicationssearchkey2', 'key2'));
+		$key3 = trim($mainframe->getUserStateFromRequest('publicationssearchkey3', 'key3'));		
 		
 		$keyfield1 = $mainframe->getUserStateFromRequest('publicationssearchkeyfield1', 'keyfield1');
 		$keyfield2 = $mainframe->getUserStateFromRequest('publicationssearchkeyfield2', 'keyfield2');
 		$keyfield3 = $mainframe->getUserStateFromRequest('publicationssearchkeyfield3', 'keyfield3');		
 		$whereAdditionals = '';
 		
-		if(!empty($key1)){
+		if(!empty($key1) && $key != '*'){
 			$where1 = array();
 			$whereKeyClause1 = array();
-			$escapedKey1 = $db->Quote($db->getEscaped( strtolower($key1), true ), false );
+			$cleanedKey1 = str_replace('"', '', $key1);
+			$processedKey1 = $this->_preprocessSearchKey($cleanedKey1);
+			$escapedKey1 = $db->Quote($db->getEscaped( strtolower($processedKey1), true ), false );
 			switch($keyfield1){
 				case 'title_word':
 					$whereKeyClause1['title_word'] = "MATCH(title) AGAINST($escapedKey1 IN BOOLEAN MODE)";					
@@ -261,9 +287,11 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			$whereAdditionals .= ' '.$op1.' ('.implode(' OR ', $whereKeyClause1).')';
 		}
 		
-		if(!empty($key2)){
+		if(!empty($key2) && $key2 != '*'){
 			$whereKeyClause2 = array();
-			$escapedKey2 = $db->Quote($db->getEscaped( strtolower($key2), true ), false );
+			$cleanedKey2 = str_replace('"', '', $key2);
+			$processedKey2 = $this->_preprocessSearchKey($cleanedKey2);			
+			$escapedKey2 = $db->Quote($db->getEscaped( strtolower($processedKey2), true ), false );
 
 			switch($keyfield2){
 				case 'title_word':
@@ -295,9 +323,11 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 			$whereAdditionals .= ' '.$op2.' ('.implode(' OR ', $whereKeyClause2).')';
 		}
 
-		if(!empty($key3)){
+		if(!empty($key3) && $key != '*'){
 			$whereKeyClause3 = array();
-			$escapedKey3 = $db->Quote($db->getEscaped( strtolower($key3), true ), false );
+			$cleanedKey3 = str_replace('"', '', $key3);
+			$processedKey3 = $this->_preprocessSearchKey($cleanedKey3);			
+			$escapedKey3 = $db->Quote($db->getEscaped( strtolower($processedKey3), true ), false );
 			switch($keyfield3){
 				case 'title_word':
 					$whereKeyClause3['title_word'] = "MATCH(title) AGAINST($escapedKey3 IN BOOLEAN MODE)";			
@@ -392,8 +422,10 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 		if($recommended == 'on')
 			$where[] = ' recommended = '.$db->Quote(1);
 		
-		return (count($where)) ? ' WHERE '.implode(' AND ', $where).' '.$whereAdditionals : '';
 			
+		$result = (count($on)) ? ' ON '.implode(' AND ', $on) : '';	
+		$result .= (count($where)) ? ' WHERE '.implode(' AND ', $where).' '.$whereAdditionals : '';
+		return $result;	
 	}
 	
 	/**
@@ -429,7 +461,47 @@ class JResearchModelPublicationsSearch extends JResearchModelList{
 				
 		return $result;
 	}
-
 	
+	/**
+	 * 
+	 * Preprocess a search key before it is sent to the database by identifying components
+	 * separated by words using wildcards (*)
+	 * @param string $searchKey
+	 */
+	private function _preprocessSearchKey($searchKey){
+		$words = preg_split('/([\s,.:;]|\'\')/', $searchKey, -1, PREG_SPLIT_NO_EMPTY);
+		$components = array();		
+		$currentChunk = '';
+		$result = '';
+		$keyEven = 2;
+		$keyOdd = 1;
+		
+		foreach($words as $word){			
+			if(strpos($word, '*') !== false){
+				if($currentChunk != ''){
+					$components[$keyEven] = $currentChunk;
+					$keyEven += 2;
+				}
+				$currentChunk = '';		
+				$components[$keyOdd] = $word;			
+				$keyOdd += 2;
+			}else{
+				$currentChunk .= $word.' ';
+			}
+		}
+		
+		if($currentChunk != '')
+			$components[$keyEven] = $currentChunk;
+		
+		//Now construct the final string
+		foreach($components as $key => $chunk){
+			if($key % 2 == 0)
+				$result .= '"'.$chunk.'" ';
+			else
+				$result .= 	$chunk.' ';
+		}
+		
+		return trim($result);		
+	}
 }
 ?>

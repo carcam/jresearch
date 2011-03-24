@@ -609,7 +609,7 @@ class JResearchPublicationsController extends JResearchFrontendController
     	$params = $mainframe->getPageParameters('com_jresearch');
 	
 		// Use configuration parameters
-		$limit = $params->get('publications_entries_per_page');			
+		$limit = $params->get('publications_entries_per_page', 25);			
 		$filter_order_Dir = $params->get('publications_order', 'DESC');
 		$filter_order = $params->get('publications_default_sorting', 'title');
 		
@@ -887,6 +887,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	function search(){
 		$limitstart = JRequest::getInt('limitstart', 0);
  		JRequest::setVar('limitstart', $limitstart);	
+ 		$newSearch = JRequest::getVar('newSearch', 0);
 		$view = $this->getView('PublicationsSearch', 'html', 'JResearchView');
 		$pubModel = $this->getModel('PublicationsSearch', 'JResearchModel');
 		$view->setModel($pubModel);
@@ -895,7 +896,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	
 	function startsearch(){
 		$url = 'index.php?option=com_jresearch&view=publicationssearch&task=search';
-		$yearPattern = '/^[0-9]{4}$/';
+		$yearPattern = '/^[12]\d{3}$/';
 		$monthPattern = '/^(0?[1-9]|1[0-2])$/';
 		$dayPattern = '/^(0?[1-9]|[1-2][0-9]|3[0-1])$/';
 		$itemId = JRequest::getInt('Itemid', 0);
@@ -906,22 +907,28 @@ class JResearchPublicationsController extends JResearchFrontendController
 		
 		$url .= '&limitstart='.$limitstart;
 		$url .= '&limit='.$limit;
-
+		
+		$newSearch = JRequest::getInt('newSearch', 0);
+		if($newSearch == 1)
+			$this->_resetUserState();	
+				
 		$key = JRequest::getVar('key', '');
 		if(!empty($key))
-			$url .= '&key='.$key;
+			$url .= '&key='.urlencode($key);
+
+		$searchType = JRequest::getVar('searchType', '');
 		
 		$key1 = JRequest::getVar('key1', '');
 		if(!empty($key1))
-			$url .= '&key1='.$key1;
+			$url .= '&key1='.urlencode($key1);
 
 		$key2 = JRequest::getVar('key2', '');
 		if(!empty($key2))
-			$url .= '&key2='.$key2;
+			$url .= '&key2='.urlencode($key2);
 
 		$key3 = JRequest::getVar('key3', '');
 		if(!empty($key3))
-			$url .= '&key3='.$key3;
+			$url .= '&key3='.urlencode($key3);
 			
 		$keyfield0 = JRequest::getVar('keyfield0', 'all');			
 		if(!empty($key))	
@@ -966,17 +973,16 @@ class JResearchPublicationsController extends JResearchFrontendController
 			
 		$from_year = trim(JRequest::getVar('from_year', ''));
 		if(!empty($from_year) && !preg_match($yearPattern, $from_year)){
-			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_FROM_YEAR'));
-			$from_year = '';			
-		}		
+			JError::raiseNotice(1, JText::_('JRESEARCH_INVALID_FROM_YEAR'));
+		}
+				
 		if(!empty($from_year)){
 			$url .= '&from_year='.$from_year;
 		}																			
 
 		$from_month = trim(JRequest::getVar('from_month', ''));		
 		if(!empty($from_month) && !preg_match($monthPattern, $from_month)){
-			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_FROM_MONTH'));
-			$from_month = '';			
+			JError::raiseNotice(1, JText::_('JRESEARCH_INVALID_FROM_MONTH'));
 		}				
 		if(!empty($from_month)){
 			$url .= '&from_month='.$from_month;
@@ -984,8 +990,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 
 		$from_day = trim(JRequest::getVar('from_day', ''));		
 		if(!empty($from_day) && !preg_match($dayPattern, $from_day)){
-			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_FROM_DAY'));
-			$from_day = '';			
+			JError::raiseNotice(1, JText::_('JRESEARCH_INVALID_FROM_DAY'));
 		}				
 		if(!empty($from_day)){
 			$url .= '&from_day='.$from_day;
@@ -993,28 +998,31 @@ class JResearchPublicationsController extends JResearchFrontendController
 		
 		$to_year = trim(JRequest::getVar('to_year', ''));
 		if(!empty($to_year) && !preg_match($yearPattern, $to_year)){
-			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_TO_YEAR'));
-			$to_year = '';
+			JError::raiseNotice(1, JText::_('JRESEARCH_INVALID_TO_YEAR'));
 		}				
 		if(!empty($to_year))
 			$url .= '&to_year='.$to_year;																			
 		
 		$to_month = trim(JRequest::getVar('to_month', ''));
 		if(!empty($to_month) && !preg_match($monthPattern, $to_month)){
-			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_TO_MONTH'));
-			$to_month = '';
+			JError::raiseNotice(1, JText::_('JRESEARCH_INVALID_TO_MONTH'));
 		}				
 		if(!empty($to_month))
 			$url .= '&to_month='.$to_month;																			
 						
 		$to_day = trim(JRequest::getVar('to_day', ''));
 		if(!empty($to_day) && !preg_match($dayPattern, $to_day)){
-			JError::raiseWarning(1, JText::_('JRESEARCH_INVALID_TO_DAY'));
-			$to_day = '';
+			JError::raiseNotice(1, JText::_('JRESEARCH_INVALID_TO_DAY'));
 		}		
 		if(!empty($to_day))
 			$url .= '&to_day='.$to_day;
 		
+		$fromDate = new JDate(mktime(0,0,0, $from_month, $from_day, $from_year));
+		$toDate = new JDate(mktime(0,0,0,$to_month, $to_day, $to_year));	
+		
+		if($toDate->toUnix() < $fromDate->toUnix())
+			JError::raiseNotice(1, JText::_('JRESEARCH_TO_DATE_SMALLER_THAN_FROM_DATE'));
+			
 		$date_field = JRequest::getVar('date_field', 'publication_date');
 		$url .= '&date_field='.$date_field;
 			
@@ -1030,7 +1038,6 @@ class JResearchPublicationsController extends JResearchFrontendController
 		if(!empty($recommended))
 			$url .= '&recommended='.$recommended;																			
 			
-		$newSearch = JRequest::getVar('newSearch', 0);
 		$url .= '&newSearch='.$newSearch;	
 			
 		$this->setRedirect($url);
@@ -1054,34 +1061,35 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 * @return unknown_type
 	 */
 	private function _resetUserState(){
-		JRequest::setVar('key', '');
-		JRequest::setVar('keyfield0', 'all');
+		global $mainframe;
+		$mainframe->setUserState('publicationssearchkey', '');
+		$mainframe->setUserState('publicationssearchkeyfield0', 'all');		
 		JRequest::setVar('limit', '20');
 		JRequest::setVar('limitstart', '0');		
-		JRequest::setVar('keyfield1', 'all');
-		JRequest::setVar('keyfield2', 'all');
-		JRequest::setVar('keyfield3', 'all');						
-		JRequest::setVar('key1', '');
-		JRequest::setVar('key2', '');		
-		JRequest::setVar('key3', '');
-		JRequest::setVar('op1', 'and');
-		JRequest::setVar('op2', 'and');		
-		JRequest::setVar('op3', 'and');
-		JRequest::setVar('with_abstract', 'off');
-		JRequest::setVar('osteotype', '0');
-		JRequest::setVar('language', '0');
-		JRequest::setVar('status', '0');
-		JRequest::setVar('date_field', 'publication_date');
-		JRequest::setVar('from_year', '');																		
-		JRequest::setVar('from_month', '');
-		JRequest::setVar('from_day', '');
-		JRequest::setVar('to_year', '');																		
-		JRequest::setVar('to_month', '');
-		JRequest::setVar('to_day', '');
-		JRequest::setVar('order_by1', 'author_name_ascending');
-		JRequest::setVar('order_by2', 'date_descending');
-		JRequest::setVar('with_abstract', '');
-		JRequest::setVar('recommended', '');													
+		$mainframe->setUserState('publicationssearchkeyfield1', 'all');
+		$mainframe->setUserState('publicationssearchkeyfield2', 'all');
+		$mainframe->setUserState('publicationssearchkeyfield3', 'all');						
+		$mainframe->setUserState('publicationssearchkey1', '');
+		$mainframe->setUserState('publicationssearchkey2', '');
+		$mainframe->setUserState('publicationssearchkey3', '');
+		$mainframe->setUserState('publicationssearchop1', 'and');
+		$mainframe->setUserState('publicationssearchop2', 'and');		
+		$mainframe->setUserState('publicationssearchop3', 'and');
+		$mainframe->setUserState('publicationssearchwith_abstract', '0');
+		$mainframe->setUserState('publicationssearchosteotype', '0');
+		$mainframe->setUserState('publicationssearchlanguage', '0');
+		$mainframe->setUserState('publicationssearchstatus', '0');
+		$mainframe->setUserState('publicationssearchdatefield', 'publication_date');
+		$mainframe->setUserState('publicationssearchfrom_year', '');																		
+		$mainframe->setUserState('publicationssearchfrom_month', '');
+		$mainframe->setUserState('publicationssearchfrom_day', '');
+		$mainframe->setUserState('publicationssearchto_year', '');																		
+		$mainframe->setUserState('publicationssearchto_month', '');
+		$mainframe->setUserState('publicationssearchto_day', '');
+		$mainframe->setUserState('publicationssearchorder_by1', 'author_name_ascending');
+		$mainframe->setUserState('publicationssearchorder_by2', 'date_descending');				
+		$mainframe->setUserState('publicationssearchwith_abstract', '0');
+		$mainframe->setUserState('publicationssearchrecommended', '0');													
 	}
 	
 	/**

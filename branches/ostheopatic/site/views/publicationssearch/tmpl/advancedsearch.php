@@ -3,7 +3,7 @@
 <fieldset><legend><?php echo JText::_('JRESEARCH_SEARCH_FOR');?></legend>
 <div class="divTR">
 	<div class="divTdl divTdl1"><label for="key" ><?php echo JText::_('JRESEARCH_SEARCH_KEY').': ' ?></label></div>
-	<div class="divTdl"><input name="key" size="20" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchkey', 'key'); ?>" /></div>	
+	<div class="divTdl"><input name="key" size="20" value="<?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchkey', 'key')); ?>" /></div>	
 	<div class="divTdl divTdl3"><label for="in_fields" ><?php echo JText::_('JRESEARCH_IN_FIELDS').': ' ?></label></div>
 	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.searchfieldslist', array('name'=>'keyfield0', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchkeyfield0', 'keyfield0'), 'attributes'=>'size="1"')); ?></div>
 	<div class="divTdl">
@@ -14,21 +14,21 @@
 </div>
 <div class="divTR">
 	<div class="divTdl divTdl1"><?php echo JHTML::_('jresearchhtml.operatorslist', array('name' => 'op1', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchop1', 'op1'),  'attributes' => 'size="1"')); ?></div>
-	<div class="divTdl divTdl2"><input name="key1" size="20" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchkey1', 'key1'); ?>" /></div>	
+	<div class="divTdl divTdl2"><input name="key1" size="20" value="<?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchkey1', 'key1')); ?>" /></div>	
 	<div class="divTdl divTdl3"></div>
 	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.searchfieldslist', array('name'=>'keyfield1', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchkeyfield1', 'keyfield1') , 'attributes'=>'size="1"')); ?></div>
 	<div class="divEspacio"></div>	
 </div>
 <div class="divTR">
 	<div class="divTdl divTdl1"><?php echo JHTML::_('jresearchhtml.operatorslist', array('name' => 'op2', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchop2', 'op2') ,'attributes' => 'size="1"')); ?></div>
-	<div class="divTdl divTdl2"><input name="key2" size="20" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchkey2', 'key2'); ?>" /></div>	
+	<div class="divTdl divTdl2"><input name="key2" size="20" value="<?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchkey2', 'key2')); ?>" /></div>	
 	<div class="divTdl divTdl3"></div>
 	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.searchfieldslist', array('name'=>'keyfield2' , 'selected' => $mainframe->getUserStateFromRequest('publicationssearchkeyfield2', 'keyfield2'), 'attributes'=>'size="1"')); ?></div>
 	<div class="divEspacio"></div>	
 </div>
 <div class="divTR">
 	<div class="divTdl divTdl1"><?php echo JHTML::_('jresearchhtml.operatorslist', array('name' => 'op3' , 'selected' => $mainframe->getUserStateFromRequest('publicationssearchop3', 'op3'), 'attributes' => 'size="1"')); ?></div>
-	<div class="divTdl divTdl2"><input name="key3" size="20" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchkey3', 'key3'); ?>" /></div>	
+	<div class="divTdl divTdl2"><input name="key3" size="20" value="<?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchkey3', 'key3')); ?>" /></div>	
 	<div class="divTdl divTdl3"></div>
 	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.searchfieldslist', array('name'=>'keyfield3', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchkeyfield3', 'keyfield3'), 'attributes'=>'size="1"')); ?></div>
 	<div class="divEspacio"></div>	
@@ -52,9 +52,9 @@
 <div class="divTR">
 	<div class="divTdl"><?php echo JHTML::_('jresearchhtml.publicationdatesearchlist', array('name'=>'date_field', 'selected' => $mainframe->getUserStateFromRequest('publicationssearchdatefield', 'date_field') ,'size="1"')); ?></div>
 	<div class="divTdl"><?php echo JText::_('JRESEARCH_FROM').': '?>
-	<input maxlength="4" name="from_year" size="4" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchfrom_year', 'from_year'); ?>" />/<input maxlength="2" name="from_month" size="2" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchfrom_month', 'from_month'); ?>" />/<input maxlength="2" name="from_day" size="2" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchfrom_day', 'from_day'); ?>" />
+	<input maxlength="4" name="from_year" size="4" value="<?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchfrom_year', 'from_year')); ?>" />/<input maxlength="2" name="from_month" size="2" value="<?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchfrom_month', 'from_month')); ?>" />/<input maxlength="2" name="from_day" size="2" value="<?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchfrom_day', 'from_day')); ?>" />
 	 <?php echo JText::_('JRESEARCH_TO').': '?> 
-	<input maxlength="4" name="to_year" size="4" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchto_year', 'to_year'); ?>" />/<input maxlength="2" name="to_month" size="2" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchto_month', 'to_month'); ?>" />/<input maxlength="2" name="to_day" size="2" value="<?php echo $mainframe->getUserStateFromRequest('publicationssearchto_day', 'to_day'); ?>" />
+	<input maxlength="4" name="to_year" size="4" value="<?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchto_year', 'to_year')); ?>" />/<input maxlength="2" name="to_month" size="2" value="<?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchto_month', 'to_month')); ?>" />/<input maxlength="2" name="to_day" size="2" value="<?php echo htmlspecialchars($mainframe->getUserStateFromRequest('publicationssearchto_day', 'to_day')); ?>" />
 	</div>	
 	<div class="divEspacio"></div>		
 </div>
