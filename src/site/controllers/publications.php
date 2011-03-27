@@ -34,6 +34,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$lang = JFactory::getLanguage();
 		$lang->load('com_jresearch.publications');
 		
+		$this->registerDefaultTask('display');
+		
 		// Tasks for edition of publications when the user is authenticated
 		$this->registerTask('new', 'add');
 		$this->registerTask('add', 'edit');
@@ -59,10 +61,9 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$this->registerTask('executeImport', 'executeImport');
 				
 		// Add models paths
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
-		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publicationslist');
-		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'publication');
+		$this->addModelPath(JRESEARCH_COMPONENT_SITE.DS.'models'.DS.'publications');
+		$this->addViewPath(JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publicationslist');
+		$this->addViewPath(JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publication');
 
 		$this->addPathwayItem(JText::_('JRESEARCH_PUBLICATIONS'), 'index.php?option=com_jresearch&view=publicationslist');
 	}
@@ -76,8 +77,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 */
 
 	function display(){
-		global $mainframe;
-		
+		$mainframe = JFactory::getApplication();
+				
 		//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
 		$format = JRequest::getVar('format', 'html');	
@@ -102,14 +103,12 @@ class JResearchPublicationsController extends JResearchFrontendController
 		JRequest::setVar('limit', $limit);		
 		JRequest::setVar('filter_order', $filter_order);
 		JRequest::setVar('filter_order_Dir', $filter_order_Dir);
-		
-		
+					
 		// Set the view and the model
-		$model =& $this->getModel('PublicationsList', 'JResearchModel');
-		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-		$view =& $this->getView('PublicationsList', $format, 'JResearchView');
+		$model =& $this->getModel('Publications', 'JResearchModel');
+		$view =& $this->getView('Publications', $format, 'JResearchView');
 		$view->setModel($model, true);
-		$view->setModel($areaModel);
+		
 		$view->display();
 	}
 

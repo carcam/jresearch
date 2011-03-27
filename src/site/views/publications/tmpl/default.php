@@ -28,7 +28,7 @@ defined('_JEXEC') or die('Restricted access');
 <div style="text-align: right;"><a title="<?php echo JText::_('JRESEARCH_EXPORT_ALL_TITLE')?>" href="index.php?option=com_jresearch&amp;controller=publications&amp;task=exportAll&amp;format=<?php echo $this->showAllFormat; ?>"><?php echo JText::_('JRESEARCH_EXPORT_ALL'); ?></a></div>
 <?php endif; ?>
 <?php 
-	require_once(JPATH_COMPONENT.DS.'views'.DS.'publicationslist'.DS.'tmpl'.DS.$this->layout.'.php');
+	require_once(JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publications'.DS.'tmpl'.DS.$this->layout.'.php');
 ?>
 </div>
 <div style="text-align:center;"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>

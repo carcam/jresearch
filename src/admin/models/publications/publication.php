@@ -96,20 +96,22 @@ class JResearchAdminModelPublication extends JModelForm{
                 
                 $data =& $this->getData();                
                 $row =& $this->getTable('Publication', 'JResearch');
+
                 //Time to upload the file
                 $delete = $data['delete_url'];
-	    		if($delete === 'on'){
+	    		if($delete == 1){
 	    			if(!empty($data['files'])){
 		    			$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$row->files;
+		    			$data['files'] = '';
 		    			@unlink($filetoremove);
 	    			}
 		    	}
-	    
-	    		$file = JRequest::getVar('file_url', null, 'FILES');
-			    if(!empty($file['name'])){	    	
-		    		$data['files'] = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');
+		    		    
+	    		$files = JRequest::getVar('jform', array(), 'FILES');
+			    if(!empty($files['name']['file_url'])){	    	
+		    		$data['files'] = JResearchUtilities::uploadDocument($files, 'file_url', $params->get('files_root_path', 'files').DS.'publications');
 	    		}
-	    
+	    		
 			    $reset = JRequest::getVar('resethits', false);
 	    		if($reset == 'on'){
 			    	$data['hits'] = 0;

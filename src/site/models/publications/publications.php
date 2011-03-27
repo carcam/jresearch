@@ -1,14 +1,13 @@
 <?php
-
 /**
-* @version		$Id$
 * @package		JResearch
-* @subpackage   Frontend.Models
+* @subpackage	Frontend.Models
 * @copyright	Copyright (C) 2008 Luis Galarraga.
-* @license		GNU/GPL
+* @license		GNU/GPL v2
+* Description
 */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('JPATH_BASE') or die;
 
 jresearchimport('models.modellist', 'jresearch.site');
 
@@ -16,18 +15,18 @@ jresearchimport('models.modellist', 'jresearch.site');
 * Model class for holding lists of research areas records.
 *
 */
-class JResearchModelResearchAreas extends JResearchModelList{
+class JResearchModelPublications extends JResearchModelList{
 
 
         public function getItems(){
             if(!isset($this->_items)){
                 $items = parent::getItems();
-
                 if($items !== false){
+					$this->_items = array();
                     foreach($items as $item){
-                        $area = $this->getTable('Researcharea', 'JResearch');
-                        $area->bind($item);
-                        $this->_items[] = $area;
+                        $publication = $this->getTable('Publication', 'JResearch');
+                        $publication->bind($item);
+                        $this->_items[] = $publication;
                     }
                 }else{
                     return $items;
@@ -46,7 +45,7 @@ class JResearchModelResearchAreas extends JResearchModelList{
             $query = $db->getQuery(true);
 
             $query->select('*');
-            $query->from('#__jresearch_research_area');
+            $query->from('#__jresearch_publication');
             if(!empty($whereClauses))
                 $query->where($whereClauses);
 
@@ -65,8 +64,8 @@ class JResearchModelResearchAreas extends JResearchModelList{
             $columns = array();
 
             // Read those from configuration
-            $filter_order = $params->get('researchareas_default_sorting', 'ordering');
-            $filter_order_Dir = $params->get('researchareas_order', 'ASC');
+            $filter_order = $params->get('publications_default_sorting', 'year');
+            $filter_order_Dir = $params->get('publications_order', 'ASC');
 
             //Validate order direction
             if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -93,4 +92,3 @@ class JResearchModelResearchAreas extends JResearchModelList{
 	}
 }
 ?>
-

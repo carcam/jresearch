@@ -26,7 +26,6 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         public function getItems(){
             if(!isset($this->_items)){
                 $items = parent::getItems();
-
                 if($items !== false){
                     foreach($items as $item){
                         $publication = $this->getTable('Publication', 'JResearch');

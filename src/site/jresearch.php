@@ -21,11 +21,9 @@ defined('_JEXEC') or die('Restricted access');
 global $mainframe;
 
 // Common needed files
-require_once(JRESEARCH_COMPONENT_SITE.DS.'includes'.DS.'init.php');
-require_once(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
+require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'init.php');
+require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
 
-//Set ACL
-//setACL();
 
 $controller = JRequest::getVar('controller', null);
 // Verify if view parameter is set (usually for frontend requests and map to a controller
@@ -81,13 +79,13 @@ function __mapViewToController(){
 		case 'staff': case 'member':
 			$value = 'staff';
 			break;
-		case 'publicationslist': case 'publication':
+		case 'publications': case 'publication':
 			$value = 'publications';
 			break;
-		case 'projectslist': case 'project':
+		case 'projects': case 'project':
 			$value = 'projects';
 			break;
-		case 'theseslist': case 'thesis':
+		case 'theses': case 'thesis':
 			$value = 'theses';
 			break;
 		case 'cooperations': case 'cooperation':
