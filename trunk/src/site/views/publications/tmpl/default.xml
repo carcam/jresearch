@@ -1,18 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <metadata>
-	<layout title="JRESEARCH_PUBLICATIONS_LIST">
-		<message>JRESEARCH_PUBLICATIONS_LIST_VIEW_MESSAGE</message>
+	<layout title="JRESEARCH_PUBLICATIONS_LIST" option="com_content_article_view_default_option">
+		<help
+			key = "JRESEARCH_PUBLICATIONS_LIST_VIEW_MESSAGE"
+		/>
+		<message>
+			<![CDATA[JRESEARCH_PUBLICATIONS_LIST_VIEW_MESSAGE]]>
+		</message>
 	</layout>
-	<state>
-		<name>JRESEARCH_PUBLICATIONS_LIST</name>
-		<description>JRESEARCH_PUBLICATIONS_LIST_VIEW_MESSAGE</description>
-		<params>
-			<param name="filter_show" type="radio" default="0" label="JRESEARCH_PUBLICATIONS_SHOW" description="JRESEARCH_PUBLICATIONS_SHOW_DESCRIPTION">
-				<option value="0">All publications</option>
+	<fields name="params">
+		<!-- Basic options. -->
+		<fieldset name="basic"
+			label="JRESEARCH_VIEW_WHICH_PUBLICATIONS">
+
+			<field name="filter_show" type="list" default="0" label="JRESEARCH_PUBLICATIONS_SHOW" description="JRESEARCH_PUBLICATIONS_SHOW_DESCRIPTION">
+				<option value="all">All publications</option>
 				<option value="my">Only my publications</option>
-			</param>
-			<param name="filter_pubtype" type="list" default="0" label="JRESEARCH_PUBLICATIONS_SHOW_TYPE" description="JRESEARCH_PUBLICATIONS_SHOW_TYPE_DESCRIPTION">
-				<option value="0">All publications</option>
+			</field>
+			<field name="filter_pubtype" type="list" default="0" label="JRESEARCH_PUBLICATIONS_SHOW_TYPE" description="JRESEARCH_PUBLICATIONS_SHOW_TYPE_DESCRIPTION">
+				<option value="all">All publications</option>
 				<option value="article">JRESEARCH_ARTICLE</option>
 				<option value="book">JRESEARCH_BOOK</option>
 				<option value="booklet">JRESEARCH_BOOKLET</option>
@@ -30,91 +36,86 @@
 				<option value="proceedings">JRESEARCH_PROCEEDINGS</option>
 				<option value="techreport">JRESEARCH_TECHREPORT</option>
 				<option value="unpublished">JRESEARCH_UNPUBLISHED</option>
-			</param>			
-			<param type="spacer" />
-			<param name="publications_entries_per_page" default="25" label="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE_DESCRIPTION" ></param>
-			<param name="publications_default_sorting" default="year" label="JRESEARCH_ORDER_BY" type="radio">
+			</field>			
+		</fieldset>
+
+		<fieldset name="grouping"
+			label="JRESEARCH_VIEW_GROUPING_CRITERIA_AND_APPEARANCE">
+			<field name="publications_header" default="Publications" label="JRESEARCH_VIEW_HEADER_PAGE" type="text" description="JRESEARCH_VIEW_HEADER_PAGE_DESCRIPTION" />
+			<field name="publications_entries_per_page" default="25" label="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE_DESCRIPTION" ></field>
+			<field name="publications_default_sorting" default="year" label="JRESEARCH_ORDER_BY" type="list">
 				<option value="year">JRESEARCH_YEAR</option>
 				<option value="alphabetical">Title</option>
 				<option value="type">JRESEARCH_TYPE</option>
-			</param>
-			<param name="publications_order" label="JRESEARCH_SORTED" type="radio" default="DESC">
+			</field>
+			<field name="publications_order" label="JRESEARCH_SORTED" type="list" default="DESC">
 				<option value="ASC">JRESEARCH_ASCENDING</option>
 				<option value="DESC">JRESEARCH_DESCENDING</option>
-			</param>
-			<param name="publications_activate_sindication" label="JRESEARCH_CONFIG_ACTIVATE_SINDICATION" type="radio" default="yes">
+			</field>
+			<field name="publications_activate_sindication" label="JRESEARCH_CONFIG_ACTIVATE_SINDICATION" type="list" default="yes">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
-			</param>
-			<param name="publications_items_in_feed" default="10" label="JRESEARCH_CONFIG_ITEMS_IN_RSS_FEED" type="text" />
-		
-			<param name="publications_allow_comentaries" label="JRESEARCH_CONFIG_ALLOW_COMENTARIES" type="radio" default="no">
+			</field>
+			<field name="publications_items_in_feed" default="10" label="JRESEARCH_CONFIG_ITEMS_IN_RSS_FEED" type="text" />
+					
+			<field name="show_more" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_MORE" description="JRESEARCH_PUBLICATIONS_SHOW_MORE_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
-			</param>
-			<param name="publications_allow_comentaries_from" label="JRESEARCH_CONFIG_ALLOW_COMENTARIES_FROM" type="radio" default="users">
-				<option value="everyone">JRESEARCH_EVERYONE</option>
-				<option value="users">JRESEARCH_AUTHENTICATED</option>
-			</param>
+			</field>
+			<field name="show_digital" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL" description="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</field>
 			
-			<param name="show_more" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_MORE" description="JRESEARCH_PUBLICATIONS_SHOW_MORE_DESCRIPTION">
+			<field name="filter_teams" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
-			</param>
-			<param name="show_digital" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL" description="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL_DESCRIPTION">
+			</field>
+			<field name="filter_areas" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
-			</param>
-			<param type="spacer" />
-			<param name="filter_teams" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM_DESCRIPTION">
+			</field>
+			<field name="filter_year" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR" description="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
-			</param>
-			<param name="filter_areas" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA_DESCRIPTION">
+			</field>
+			<field name="filter_type" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
-			</param>
-			<param name="filter_year" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR" description="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR_DESCRIPTION">
+			</field>
+			<field name="filter_authors" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
-			</param>
-			<param name="filter_type" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</param>
-			<param name="filter_authors" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</param>
-			<param name="filter_search" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_TEXT" description="JRESEARCH_PUBLICATIONS_FILTER_TEXT_DESCRIPTION">
+			</field>
+			<field name="filter_search" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_TEXT" description="JRESEARCH_PUBLICATIONS_FILTER_TEXT_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>			
-			</param>
-			<param name="show_bibtex" type="radio" default="yes" label="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND_DESCRIPTION">
+			</field>
+			<field name="show_bibtex" type="list" default="yes" label="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
-			</param>
-			<param name="show_export_bibtex" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_BIBTEX" description="JRESEARCH_PUBLICATION_EXPORT_BIBTEX_DESCRIPTION">
+			</field>
+			<field name="show_export_bibtex" type="list" default="no" label="JRESEARCH_PUBLICATION_EXPORT_BIBTEX" description="JRESEARCH_PUBLICATION_EXPORT_BIBTEX_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>						
-			</param>
-			<param name="show_export_ris" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_RIS" description="JRESEARCH_PUBLICATION_EXPORT_RIS_DESCRIPTION">
+			</field>
+			<field name="show_export_ris" type="list" default="no" label="JRESEARCH_PUBLICATION_EXPORT_RIS" description="JRESEARCH_PUBLICATION_EXPORT_RIS_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>						
-			</param>			
-			<param name="show_export_mods" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_MODS" description="JRESEARCH_PUBLICATION_EXPORT_MODS_DESCRIPTION">
+			</field>			
+			<field name="show_export_mods" type="list" default="no" label="JRESEARCH_PUBLICATION_EXPORT_MODS" description="JRESEARCH_PUBLICATION_EXPORT_MODS_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>						
-			</param>
-			<param name="show_export_all" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_ALL" description="JRESEARCH_PUBLICATION_EXPORT_ALL_DESCRIPTION">
+			</field>
+			<field name="show_export_all" type="list" default="no" label="JRESEARCH_PUBLICATION_EXPORT_ALL" description="JRESEARCH_PUBLICATION_EXPORT_ALL_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>						
-			</param>
-			<param name="show_export_all_format" type="list" default="bibtex" label="JRESEARCH_PUBLICATION_EXPORT_ALL_FORMAT" description="JRESEARCH_PUBLICATION_EXPORT_ALL_FORMAT_DESCRIPTION">
+			</field>
+			<field name="show_export_all_format" type="list" default="bibtex" label="JRESEARCH_PUBLICATION_EXPORT_ALL_FORMAT" description="JRESEARCH_PUBLICATION_EXPORT_ALL_FORMAT_DESCRIPTION">
 				<option value="bibtex">Bibtex</option>
 				<option value="mods">MODS</option>
 				<option value="ris">RIS</option>
-			</param>												
-		</params>
-	</state>
+			</field>												
+		</fieldset>
+	</fields>
 </metadata>

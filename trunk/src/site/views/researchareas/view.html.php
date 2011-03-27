@@ -29,7 +29,9 @@ class JResearchViewResearchareas extends JResearchView
         // Require css and styles
         $model = $this->getModel();
         $items = $model->getItems();
-        $params = $mainframe->getParams();
+        $params = $mainframe->getParams('com_jresearch');
+        $doc->setTitle($params->get('page_title'));
+        
         
         $this->assignRef('items', $items);
         $this->assignRef('page', $model->getPagination());

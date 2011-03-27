@@ -24,13 +24,13 @@ if(count($this->items) > 0):
 			<?php $contentArray = explode('<hr id="system-readmore" />', $area->description); ?>
 			<?php $itemId = JRequest::getVar('Itemid'); ?>
                         <?php if($this->params->get('researchareas_link_in_title')): ?>
-        			<h3 class="contentheading"><?php echo JHTML::_('jresearch.link', $area->name, 'researcharea', 'show', $area->id); ?></h3>
+        			<h3 class="contentheading"><?php echo JHTML::_('jresearchfrontend.link', $area->name, 'researcharea', 'show', $area->id); ?></h3>
                          <?php else: ?>
         			<h3 class="contentheading"><?php echo $area->name ?></h3>
                         <?php endif; ?>
 			<?php echo $contentArray[0]; ?>
 			<div>&nbsp;</div>			
-			<div style="text-align:left"><?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'researcharea', 'show', $area->id); ?></div>
+			<div style="text-align:left"><?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_READ_MORE'), 'researcharea', 'show', $area->id); ?></div>
 		</div>
 	</li>
 	<?php endforeach; ?>

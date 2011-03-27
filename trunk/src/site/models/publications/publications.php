@@ -60,7 +60,7 @@ class JResearchModelPublications extends JResearchModelList{
 	private function _buildQueryOrderBy(){
             //Array of allowable order fields
             $mainframe = JFactory::getApplication('site');
-            $params = $mainframe->getParams();
+            $params = $mainframe->getParams('com_jresearch');
             $columns = array();
 
             // Read those from configuration
@@ -82,11 +82,46 @@ class JResearchModelPublications extends JResearchModelList{
 	private function _buildQueryWhere(){
             $db = JFactory::getDBO();
             $mainframe = JFactory::getApplication();
-
+            
             // prepare the WHERE clause
             $where = array();
             $where[] = $db->nameQuote('published').' = 1 ';
-            $where[] = $db->nameQuote('id').' > 1 ';
+            $where[] = $db->nameQuote('internal').' = 1 ';            
+            $where[] = $db->nameQuote('id').' > 0 ';
+            
+            $filter_year = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_year', 'filter_year');
+            $filter_search = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_search', 'filter_search');
+            $filter_pubtype = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_pubtype', 'filter_pubtype');
+            $filter_author = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_author', 'filter_author');            
+            $filter_area = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_area', 'filter_area');
+			$filter_team = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_team', 'filter_team');
+
+            if($filter_year != null && $filter_year != -1 )
+                  $where[] = $db->nameQuote('year').' = '.$db->Quote($filter_year);
+
+
+            if(($filter_search = trim($filter_search))){
+                  $filter_search = $db->getEscaped($filter_search);
+        		  $where[] = '(MATCH('.$db->nameQuote('title').', '.$db->nameQuote('keywords').') AGAINST('.$db->Quote($filter_search).' IN BOOLEAN MODE)';
+            }
+
+            if($filter_pubtype){
+                 $where[] = $db->nameQuote('pubtype').' = '.$db->Quote($filter_pubtype);
+            }
+
+            if(!empty($filter_author) && $filter_author != -1){
+                  $filter_author = $db->getEscaped($filter_author);            	
+        		  $where[] = 'LOWER('.$db->nameQuote('authors').') LIKE '.$db->Quote('%'.$filter_author.'%');            	
+            }
+            
+            if(!empty($filter_area) && $filter_area != -1){
+        		  $where[] = 'LOWER('.$db->nameQuote('id_research_area').') LIKE '.$db->Quote('%'.$filter_area.'%');            	
+            }
+            
+            if(!empty($filter_team) && $filter_team != -1){
+        		  $where[] = 'LOWER('.$db->nameQuote('id_team').') LIKE '.$db->Quote('%'.$filter_team.'%');            	
+            }
+            
 
             return $where;
 	}

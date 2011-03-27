@@ -25,18 +25,18 @@ defined('_JEXEC') or die('Restricted access');
 	<li>
 	<span><?php echo $publicationText;  ?></span>
 	<?php if($this->showmore): ?>
-		<span><?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $pub->id); ?></span>
+		<span><?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $pub->id); ?></span>
 	<?php endif; ?>
 	<?php if($this->showdigital): ?>
 		<?php 
 			  if(!empty($url)){
 				$link = str_replace('&', '&amp;', $url);
-                                $digitalVersion = JText::_('JRESEARCH_ONLINE_VERSION');
-                          }elseif(!empty($attach)){
+                $digitalVersion = JText::_('JRESEARCH_ONLINE_VERSION');
+             }elseif(!empty($attach)){
 			  	$link = $attach;
-                                $digitalVersion = JText::_('JRESEARCH_FULLTEXT');
-                          }else
-			  	$link = '';				  	
+                $digitalVersion = JText::_('JRESEARCH_FULLTEXT');
+             }else
+			 $link = '';				  	
 		 ?>
 		<?php if(!empty($link)): ?>
 			<?php echo "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			
@@ -51,7 +51,7 @@ defined('_JEXEC') or die('Restricted access');
 	 <?php if($this->showMODS): 
 		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id='.$pub->id, '[MODS]').'</span>';		
 	 endif;?>	 	
-	<span><?php echo JHTML::_('Jresearch.icon','edit', 'publications', $pub->id); ?> <?php echo JHTML::_('Jresearch.icon','remove', 'publications', $pub->id); ?></span>
+	<span><?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $pub->id); ?> <?php echo JHTML::_('jresearchfrontend.icon','remove', 'publications', $pub->id); ?></span>
 	</li>
 	<?php endforeach; ?>
 	</ul>

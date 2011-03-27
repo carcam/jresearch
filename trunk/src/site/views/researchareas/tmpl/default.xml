@@ -16,8 +16,8 @@
                         name="researchareas_header"
                         type="text"
                         default=""
-                        label="JRESEARCH_HEADER_PAGE"
-                        description="JRESEARCH_HEADER_PAGE_DESCRIPTION" />
+                        label="JRESEARCH_VIEW_HEADER_PAGE"
+                        description="JRESEARCH_VIEW_HEADER_PAGE_DESCRIPTION" />
 
                 <field
                         name="researchareas_list_limit"
@@ -32,7 +32,7 @@
                         label="JRESEARCH_CONFIG_INTRO_TEXT" filter="nofilter"
                         />
 
-                    <field name="researchareas_link_in_title" type="radio"
+                    <field name="researchareas_link_in_title" type="list"
                             description="JRESEARCH_CONFIG_LINK_IN_TITLE_DESCRIPTION"
                             filter="safehtml"
                             label="JRESEARCH_CONFIG_LINK_IN_TITLE"
@@ -40,11 +40,11 @@
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                     </field>
-                    <field name="researchareas_default_sorting" default="ordering" label="JRESEARCH_ORDER_BY" type="radio">
+                    <field name="researchareas_default_sorting" default="ordering" label="JRESEARCH_ORDER_BY" type="list">
                             <option value="name">JRESEARCH_TITLE</option>
                             <option value="ordering">JRESEARCH_ORDERING</option>
                     </field>
-                    <field name="researchareas_order" label="JRESEARCH_SORTED" type="radio" default="ASC">
+                    <field name="researchareas_order" label="JRESEARCH_SORTED" type="list" default="ASC">
                             <option value="ASC">JRESEARCH_ASCENDING</option>
                             <option value="DESC">JRESEARCH_DESCENDING</option>
                     </field>

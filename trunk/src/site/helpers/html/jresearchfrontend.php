@@ -10,10 +10,11 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'publication.php');
+jresearchimport('tables.member', 'jresearch.admin');
+jresearchimport('tables.publication', 'jresearch.admin');
 
-class JHTMLJresearch
+
+class JHTMLjresearchfrontend
 {
 	/**
 	 * Renders task icon for specific item, if user is authorized for it
@@ -36,7 +37,7 @@ class JHTMLJresearch
 				
 		if(in_array($controller, $availableController))
 		{
-			$authorized = JHTMLJResearch::authorize($task, $controller, $itemid, $userid);
+			$authorized = self::authorize($task, $controller, $itemid, $userid);
 
 			if($authorized) //Changes by Pablo Moncada
 			{
@@ -163,6 +164,23 @@ class JHTMLJresearch
 		
 		$url = "index.php?option=com_jresearch&view=$view&task=$task".((!empty($id))?'&id='.intval($id):'').(($bItemId && !empty($itemid))?'&Itemid='.intval($itemid):'').((count($additional) > 0)?self::_getKeyValueString($additional):'');
 		return JFilterOutput::linkXHTMLSafe('<a href="'.$url.'">'.$text.'</a>');
+	}
+	
+	public static function researchareaslinks($researchAreas){
+		$itemid = JRequest::getVar('Itemid', null);
+		$linksText = '';
+		if(count($researchAreas) > 1){			
+			foreach($researchAreas as $area){
+				if($area->id > 1){
+					$link = self::link($area->name, 'researcharea', 'show', $area->id);
+					$linksText .= '<li>'.$link.'</li>';
+				}
+			}
+		}else{
+			$linksText .= '<li>'.JText::_('JRESEARCH_UNCATEGORIZED').'</li>';
+		}
+		
+		return '<ul>'.$linksText.'</ul>';
 	}
 	
 	/**

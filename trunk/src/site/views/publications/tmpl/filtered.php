@@ -13,7 +13,7 @@ require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publicationslist&amp;layout=filtered&amp;task=filtered&amp;modelkey=tabular">
 	<div style="text-align:left">
 		<?php echo $this->filter; ?>
-		<div>&nbsp;<?php echo JHTML::_('Jresearch.icon','add','publications'); ?></div>						
+		<div>&nbsp;<?php echo JHTML::_('jresearchfrontend.icon','add','publications'); ?></div>						
 	</div>
 	<?php $label = JText::_('JRESEARCH_PUNCTUATION_AVERAGE'); ?>
 	<?php if(!empty($this->average))
@@ -58,14 +58,14 @@ require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
 		?>
 				<tr class="<?php $k = i%2; echo "row$k"; ?>">
 					<td><?php echo $outIndex; ?></td>
-					<td><a href="index.php?option=com_jresearch&amp;controller=publications&amp;task=show&amp;modelkey=tabular&amp;id=<?php echo $this->items[$i]->id; ?><?php echo !empty($Itemid)?'&amp;Itemid='.$Itemid:''; ?>"><?php echo $this->items[$i]->title;  ?></a></td>
+					<td><?php echo JHTML::_('jresearchfrontend.link', $publication->title ,'publication', 'show', $publication->id); ?></td>
 					<td style="text-align:center"><?php echo $text; ?></td>
 					<td style="text-align:center"><?php echo $this->items[$i]->year; ?></td>
 					<?php if($this->showScore): ?>
 					<td style="text-align:center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
 					<?php endif; ?>
 					<?php if(!$user->guest): ?>
-						<td><?php JHTML::_('Jresearch.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
+						<td><?php JHTML::_('jresearchfrontend.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
 					<?php endif; ?>			
 				</tr>
 				<?php $outIndex++; ?>
