@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
  * Helper function for different functionalities
  *
  */
-class JResearch
+class JResearchUtilities
 {	
 	/**
 	 * Uploads one image file
@@ -69,31 +69,63 @@ class JResearch
 	 * documents.
 	 *
 	 * @param array $fileArray Array with the information about the uploaded file, provided by the server
+	 * @param string $key The name of the file field used in the form
 	 * @param string $path Path within J!Research administrator space, where the file will be located.
 	 * @return string The basename of the uploaded file or null if there is a problem during the upload or a non-supported format file
 	 * has been provided.
 	 */
-	function uploadDocument($file, $path){
-		$uploadedFile = $file['tmp_name'];
+	function uploadDocument($file, $key ,$path){
+		$uploadedFile = $file['tmp_name'][$key];
 		$availableTypes = array('application/msword'=>'doc','application/vnd.openxmlformats-officedocument.wordprocessingml.document'=>'docx',
 		'application/pdf'=>'pdf', 'application/x-pdf' => 'pdf', 'application/postscript'=>'ps', 
 		'application/vnd.oasis.opendocument.text'=>'odt', 'text/plain'=>'txt');
 		if($uploadedFile != null){
-			if(isset($availableTypes[$file['type']])){
-				$newName = JRESEARCH_COMPONENT_ADMIN.DS.$path.DS.basename($file['name']);
-				if(!move_uploaded_file($uploadedFile, $newName)){
+			$mimetype = self::_getUploadMimeType($uploadedFile);
+			if(empty($mimetype))
+				$mimetype = $file['type'][$key];						
+			
+			if(isset($availableTypes[$mimetype])){
+				$newName = JRESEARCH_COMPONENT_ADMIN.DS.$path.DS.basename(JFile::makeSafe($file['name'][$key]));
+				if(!JFile::upload($uploadedFile, $newName)){
 					JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED', basename($newName)));
 				}else{
 					//Construct the file entry
 					return basename($newName);
 				}
 			}else{
-				JError::raiseWarning(1, JText::sprintf('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED', basename($newName)));
+				JError::raiseWarning(1, JText::sprintf('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED', basename($file['name'][$key]).' ('. $file['type'][$key]. ')'));
 			}
 		}
 		
 		return null;
 	}
+	
+	/**
+	 * Returns the mime type of the uploaded file or false if the system is
+	 * unable to determine it.
+	 * 
+	 * @param string $path
+	 * @return string
+	 */
+	private static function _getUploadMimeType($path){
+		// This function is defined in PHP 5.3.0
+		if(function_exists('finfo_file')){
+			$finfo = finfo_open(FILEINFO_MIME_TYPE);
+			$mimetype = finfo_file($finfo, $path);
+			finfo_close($finfo);
+			return $mimetype;			
+		}elseif(function_exists('mime_content_type')){
+			//This function is deprecated, but it is better than nothing
+			return mime_content_type($path);
+		}elseif(file_exists('/usr/bin/file')){
+			//This works only in Unix platforms			
+			$type = split(';', trim(exec('/usr/bin/file -b --mime '.escapeshellarg($path), $out)));					
+			return trim($type[0]);
+		}else{
+			return false;
+		}
+	}
+	
 	
 	/**
 	 * Uploads ONE file to specific folder (relative path from component administrator folder)
@@ -113,7 +145,7 @@ class JResearch
 		
 		if($uploadedFile != null)
 		{
-                        $newName = JRESEARCH_COMPONENT_ADMIN.DS.JPath::clean($folder).DS.$file['name'];
+            $newName = JRESEARCH_COMPONENT_ADMIN.DS.JPath::clean($folder).DS.$file['name'];
 			if(array_key_exists($file['type'], $types))
 			{
 				$base = basename($newName);

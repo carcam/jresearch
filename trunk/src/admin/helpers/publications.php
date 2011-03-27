@@ -568,9 +568,8 @@ class JResearchPublicationsHelper{
 		$mdresult = array();
 		$name = array();
 		// First, bring them to the form lastname, firstname.
-		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
 		foreach($result as $key => $author){
-			$components = JResearchPublicationsHelper::getAuthorComponents($author['name']);
+			$components = self::getAuthorComponents($author['name']);
 			$value = (isset($components['von'])?$components['von'].' ':'').$components['lastname'].(isset($components['firstname'])?', '.$components['firstname']:'').(isset($components['jr'])?' '.$components['jr']:'');
 			$mdresult[] = array('id'=>$author['id'], 'name'=>$value);
 			$name[$key] = $value;

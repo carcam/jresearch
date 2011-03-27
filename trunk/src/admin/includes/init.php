@@ -25,7 +25,7 @@ require_once(JRESEARCH_COMPONENT_ADMIN.DS.'includes'.DS.'import.php');
 
 //Helpers
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'cite.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearchutilities.php');
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'includes'.DS.'view.php');
 
 //HTML helpers

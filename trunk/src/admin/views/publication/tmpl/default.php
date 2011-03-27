@@ -28,12 +28,12 @@ defined('_JEXEC') or die('Restricted access');
                         <?php endif; ?>
                         <?php echo $fileInputField->input; ?>
                     </li>
-     			 <?php       		
-            		if(!empty($filesField->value)):
-            			echo $fieldsField->input;
+     			 <?php 
+     			 	$attachment = $filesField->value;
+            		if(!empty($attachment)){
             			$deleteAttachField = $this->form->getField('delete_url'); 
-            			echo '<li>'.$deleteAttachField->label.''.$deleteAttachField->input.'</li>';
-            		endif;	
+            			echo '<li>'.$filesField->input.$deleteAttachField->label.' '.$deleteAttachField->input.'</li>';
+            		}	
             	?>
                 
                 </ul>

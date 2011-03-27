@@ -3,14 +3,14 @@
 /**
 * @version		$Id$
 * @package		JResearch
-* @subpackage           Frontend.ResearchAreas
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @subpackage   Frontend.Models
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JRESEARCH_COMPONENT_SITE.DS.'models'.DS.'modellist.php');
+jresearchimport('models.modellist', 'jresearch.site');
 
 /**
 * Model class for holding lists of research areas records.

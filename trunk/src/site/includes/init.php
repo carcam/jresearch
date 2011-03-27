@@ -22,13 +22,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 
 // Common needed files		
-require_once(JRESEARCH_COMPONENT_SITE.DS.'includes'.DS.'defines.php');
+require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'defines.php');
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'includes'.DS.'import.php');
 
 //Helpers
-//require_once(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'acl.php');
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'cite.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearchutilities.php');
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'includes'.DS.'view.php');
 
 //HTML helpers
