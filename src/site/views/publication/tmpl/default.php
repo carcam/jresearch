@@ -11,30 +11,20 @@ defined('_JEXEC') or die('Restricted access');
 <?php $Itemid = JRequest::getVar('Itemid'); 
 	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  
-	//BibTex show in frontend; Pablo Moncada
-	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');		
+	jresearchimport('helpers.exporters.factory', 'jresearch.admin');
 	$document = JFactory::getDocument(); 
-	$id = JRequest::getInt('id');
 	$format = "bibtex";		
-	$model = &$this->getModel('Publication', 'JResearchModel');		
-	$publication = $model->getItem($id);		
 	$exporter =& JResearchPublicationExporterFactory::getInstance($format);		
-	$output2 = $exporter->parse($publication);				
-	//End Pablo Moncada
+	$output2 = $exporter->parse($this->publication);				
 	  	
 ?>
-<div style="float: right;"><?php echo JHTML::_('Jresearch.icon','edit','publications', $this->publication->id); ?></div>
+<div style="float: right;"><?php echo JHTML::_('jresearchfrontend.icon','edit','publications', $this->publication->id); ?></div>
 <h2 class="componentheading"><?php echo $this->publication->title; ?></h2>
 <table class="frontendsingleitem">
 <tbody>
 	<tr>
-		<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
-		<td><?php if($this->area->id > 1): ?>
-			<?php echo JHTML::_('jresearch.link', $this->area->name, 'researcharea', 'show', $this->area->id)?>
-		<?php else: ?>
-			<?php echo $this->area->name; ?>	
-		<?php endif; ?>	
-		</td>
+		<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREAS').': ' ?></th>
+		<td><?php echo JHTML::_('jresearchfrontend.researchareaslinks', $this->publication->getResearchAreas('names')); ?></td>
 		<?php $year = $this->publication->year; ?>
 		<?php if($year != null && $year != '0000' && !empty($year)): ?>
 		<th scope="row"><?php echo JText::_('JRESEARCH_YEAR').': ' ?></th>
@@ -66,7 +56,7 @@ defined('_JEXEC') or die('Restricted access');
 				<?php foreach($authors as $auth): ?>
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<?php echo JHTML::_('jresearch.link', JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format), 'member', 'show', $auth->id)?><?php echo $i == $n - 1?'':';' ?>
+								<?php echo JHTML::_('jresearchfrontend.link', JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format), 'member', 'show', $auth->id)?><?php echo $i == $n - 1?'':';' ?>
 							<?php else: ?>
 								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 							<?php endif; ?>	
@@ -83,7 +73,7 @@ defined('_JEXEC') or die('Restricted access');
 					<li style="list-style:none;">
 						<?php if($auth instanceof JResearchMember): ?>
 							<?php if($auth->published): ?>
-								<?php echo JHTML::_('jresearch.link', JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format), 'member', 'show', $auth->id)?>
+								<?php echo JHTML::_('jresearchfrontend.link', JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format), 'member', 'show', $auth->id)?>
 							<?php else: ?>
 								<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
 							<?php endif; ?>	
@@ -170,7 +160,7 @@ defined('_JEXEC') or die('Restricted access');
         ?>
         <?php if($n == 1):
             $attach = $this->publication->getAttachment(0, 'publications');
-	    echo !empty($attach)?'<div><strong>'.JText::_('JRESEARCH_FULLTEXT').':</strong> '.JHTML::_('JResearchhtml.attachment', $attach).'</div>':'';
+	    echo !empty($attach)?'<div><strong>'.JText::_('JRESEARCH_FULLTEXT').':</strong> '.JHTML::_('jresearchhtml.attachment', $attach).'</div>':'';
             endif;
          ?>
 
@@ -190,66 +180,4 @@ defined('_JEXEC') or die('Restricted access');
 	
 </tbody>
 </table>
-<?php if($this->commentsAllowed): ?>
-	<?php if($this->showComments): ?>
-	<div><span><a id="showComments" href="javascript:showComments(0, <?php echo "'".JText::_('JRESEARCH_SHOW_COMMENTS')."','".JText::_('JRESEARCH_HIDE_COMMENTS')."'"; ?>);"><?php echo JText::_('JRESEARCH_HIDE_COMMENTS') ?></a></span>&nbsp;&nbsp;&nbsp;<span><a id="postComment" href="javascript:postComment();"><?php echo JText::_('JRESEARCH_POST_COMMENT'); ?></a></span></div>
-	<?php else: ?>
-	<div><span><a id="showComments" href="javascript:showComments(1, <?php echo "'".JText::_('JRESEARCH_SHOW_COMMENTS')."','".JText::_('JRESEARCH_HIDE_COMMENTS')."'"; ?>);"><?php echo JText::_('JRESEARCH_SHOW_COMMENTS') ?></a></span>&nbsp;&nbsp;&nbsp;<span><a id="postComment" href="javascript:postComment();"><?php echo JText::_('JRESEARCH_POST_COMMENT'); ?></a></span></div>
-	<?php endif; ?>
-	<?php $user =& JFactory::getUser(); ?>
-	<div id="commentForm" style="display:none;">
-		<form id="form" name="form" action="index.php" method="POST" class="form-validate" onSubmit="return validateCommentForm(this);">
-			<div><span style="margin-right:10px;"><?php echo JText::_('JRESEARCH_SUBJECT').': '; ?></span>
-			<span><input type="text" size="30" maxlength="255" name="subject" id="subject"  /></span></div>
-			<div><span style="margin-right:22px;"><?php echo JText::_('JRESEARCH_FROM').': '; ?></span>
-			<span><input type="text" name="author" id="author" size="30" maxlength="255" value="<?php echo (!$user->guest)?$user->name:''; ?>" class="required"  /></span><br />
-			<label for="author" class="labelform"><?php echo JText::_('JRESEARCH_FIELD_NOT_EMPTY');  ?></label>
-			</div>
-			<div><div><?php echo JText::_('JRESEARCH_CONTENT').': ' ?></div>
-			<textarea name="content" id="content" rows="5" cols="43" class="required"></textarea><br />
-			<label for="content" class="labelform"><?php echo JText::_('JRESEARCH_FIELD_NOT_EMPTY'); ?></label></div>
-			<div><img src="<?php echo JURI::base() ?>components/com_jresearch/views/publication/captcha/<?php echo $this->captcha['file']; ?>" /></div>
-			<div>
-				<?php echo JText::_('JRESEARCH_ENTER_TEXT_IN_IMAGE').': ' ?>
-				<input name="<?php echo $this->captcha['id'] ?>" id="<?php echo $this->captcha['id'] ?>" type="text" size="10" class="required" /><br />
-				<label for="<?php echo $this->captcha['id'] ?>" class="labelform"><?php echo JText::_('JRESEARCH_FIELD_NOT_EMPTY'); ?></label>
-			</div>		
-			
-			<input type="hidden" name="id_publication" id="id_publication" value="<?php echo $this->publication->id; ?>" />
-			<input type="hidden" name="task" id="task" value="saveComment" />
-			<input type="hidden" name="option" value="com_jresearch"  />
-			<input type="hidden" name="view" value="publication"  />		
-			<input type="hidden" name="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />
-			<input type="hidden" name="showcomm" id="showcomm" value="1" />	
-			<div><input type="submit" name="submit" value="<?php echo JText::_('JRESEARCH_POST_COMMENT'); ?>" /></div>
-		</form>
-	</div>
-	<div id="divcomments" <?php if(!$this->showComments): ?> style="display:none;" <?php endif; ?> >
-		<?php if(!empty($this->comments)): ?>
-		<ul class="comments">
-		<?php $j=0; ?>
-		<?php foreach($this->comments as $comment):  ?>
-			<li class="comments">
-				<div class="subjectComment"><?php echo $comment->subject.' '.JText::_('JRESEARCH_FROM_L').' '.$comment->author.' ('.$comment->datetime.')'; ?></div>
-				<div><?php echo $comment->content; ?></div>
-			</li>
-			<?php $j++; ?>
-		<?php endforeach; ?>
-		</ul>
-		<div style="width:100%;text-align:center;">
-			<span>
-			<?php if($this->limitstart > 0): ?>	
-				<a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;showcomm=1&amp;id=<?php echo $this->publication->id; ?>&amp;limitstart=<?php echo ($this->limitstart - $this->limit); ?>&amp;limit=<?php echo $this->limit; ?>"><?php echo JText::_('Prev'); ?></a>
-			<?php endif; ?>
-			</span>
-			<span>&nbsp;&nbsp;</span>
-			<span>
-			<?php if($this->limitstart + $this->limit < $this->total ): ?>
-				<a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;showcomm=1&amp;id=<?php echo $this->publication->id; ?>&amp;limitstart=<?php echo ($this->limitstart + $this->limit); ?>&amp;limit=<?php echo $this->limit; ?>"><?php echo JText::_('Next'); ?></a>
-			<?php endif; ?>
-			</span>
-		</div>	
-		<?php endif; ?>
-	</div>
-<?php endif; ?>
 <div><a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a></div>

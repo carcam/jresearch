@@ -29,7 +29,7 @@ class JResearchViewResearchArea extends JResearchView
     	$theses_view_all = JRequest::getVar('theses_view_all', 0);
 
         // The uncategorized view is not retrieved
-    	if($id == 1){
+    	if($id == 1 || empty($id)){
             JError::raiseError(404, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
             return;
     	}
@@ -45,7 +45,7 @@ class JResearchViewResearchArea extends JResearchView
         }
         
         $this->addPathwayItem($area->alias, 'index.php?option=com_jresearch&view=researcharea&id='.$area->id);
-        $arguments[] = $id;
+        $arguments[] = $area;
         $latestPublications = $params->get('area_number_last_publications', 5);
         if($publications_view_all == 0)	
             $publications = $model->getLatestPublications($latestPublications);

@@ -173,11 +173,9 @@ class JResearchPublicationsController extends JResearchFrontendController
 	* @access public
 	*/
 	function show(){
-		$model =& $this->getModel('Publication', 'JResearchModel');
-		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-		$view =& $this->getView('Publication', 'html', 'JResearchView');
+		$model = $this->getModel('Publication', 'JResearchModel');
+		$view = $this->getView('Publication', 'html', 'JResearchView');
 		$view->setModel($model, true);
-		$view->setModel($areaModel);
 		$view->display();				
 	}
 

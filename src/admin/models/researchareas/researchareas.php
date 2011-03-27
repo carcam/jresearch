@@ -24,8 +24,8 @@ class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
         public function getItems(){
             if(!isset($this->_items)){
                 $items = parent::getItems();
-
                 if($items !== false){
+                	$this->_items = array();
                     foreach($items as $item){
                         $area = $this->getTable('Researcharea', 'JResearch');
                         $area->bind($item);

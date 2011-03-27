@@ -68,9 +68,9 @@ class JResearchActivity extends JTable{
 	public $files;
 	
 	/**
-	 * Research area's publication database id
+	 * Research areas ids
 	 *
-	 * @var int
+	 * @var string
 	 */
 	public $id_research_area;	
 	
@@ -136,6 +136,11 @@ class JResearchActivity extends JTable{
 	protected $_type;
 	
 
+	/**
+	 * Cache for the list of research areas associated to the
+	 * object
+	 */
+	protected $_areas;
 	
 
 	public function __construct($table, $key, $db ){
@@ -432,6 +437,38 @@ class JResearchActivity extends JTable{
 		
 		return true;
 		
+	}
+	
+	/**
+	 * 
+	 * Returns an array with the research area objects associated to 
+	 * the activity.
+	 * @param string $whatInfo "all" to bring the entire list of objects,
+	 * "names" to bring only the names.
+	 * @return Array of JResearchResearcharea objects or stdobjects containing ids and names
+	 */
+	function getResearchAreas($whatInfo = 'all'){
+		$db = JFactory::getDBO();
+		
+		if($whatInfo == 'all'){
+			if(!isset($this->_areas)){
+				$this->_areas = array();
+				$db->setQuery('SELECT * FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');				
+				$areas = $db->loadAssocList();		
+				foreach($areas as $row){
+					$area = JTable::getInstance('Researcharea', 'JResearch');
+					$area->bind($row);
+					$this->_areas[] = $area;
+				}
+			}			
+			
+			return $this->_areas;			
+		}elseif($whatInfo == 'names'){
+			$db->setQuery('SELECT id, name FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');				
+			return $db->loadObjectList();
+		}else{
+			return null;
+		}		
 	}
 }
 

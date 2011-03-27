@@ -23,20 +23,10 @@ class JResearchViewPublication extends JResearchView
 {
     function display($tpl = null)
     {
-    	$mainframe = JFactory::getApplication();
-    	$id = JRequest::getVar('id', 0);
-    	
-    	$arguments = array('publication', $id);
-    	
+    	$mainframe = JFactory::getApplication();    	
         $layout = $this->getLayout();
-        $result = true;
 
         switch($layout){
-        	case 'default':
-        		$result = $this->_displayPublication();
-        		
-        		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
-        		break;
         	case 'new':
         		$result = $this->_displayNewPublicationForm();
         		
@@ -47,127 +37,69 @@ class JResearchViewPublication extends JResearchView
         		
         		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
         		break;
+        		
+        	case 'default': default:
+        		$this->_displayPublication();
+        		break;
+        		
         }
-        
-    	if($result)
-		{
-       		parent::display($tpl);
-       	
-       		$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
-		}
+        		
     }
     
     /**
     * Display the information of a publication.
     */
     private function _displayPublication(){
-      	$mainframe = JFactory::getApplication();
-      	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');      	
+    	jresearchimport('helpers.publications', 'jresearch.admin');
     	
-      	$id = JRequest::getInt('id');
-    	$user = JFactory::getUser();    	    	
-    	$commentsAllowed = false;
-        $showComments = JRequest::getInt('showcomm', 0);
+      	$mainframe = JFactory::getApplication();
+		$pathway = $mainframe->getPathway();      	
+      	$user = JFactory::getUser();    	    	
         $doc = JFactory::getDocument();
-        //Verify if the visit is done in the same session
         $session = JFactory::getSession();
-
-        JHTML::_('jresearchhtml.validation');
-        $config = array('filePath'=>JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'views'.DS.'publication'.DS.'captcha');
-        $doc->addScript(JURI::base().'components/com_jresearch/views/publication/comments.js');
+        $id = JRequest::getInt('id', 0);
    		
     	if(empty($id)){
-    		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		return false;
+            JError::raiseError(404, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+    		return;
     	}
+    	
     	//Get the model
     	$model = $this->getModel();
-    	$publication = $model->getItem($id);
+    	$publication = $model->getItem();
     	
-        if(!$publication->internal || !$publication->published){
-                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));
-                return false;
+        if($publication === false){
+            JError::raiseError(404, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));        	
+			return;
         }
 
-        $this->addPathwayItem(JText::_('New'), 'index.php?option=com_jresearch&view=publication&task=new');
+        $pathway->addItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
 
         //If the publication was visited in the same session, do not increment the hit counter
-        if(!$session->get('visited', false, 'publications'.$id)){
-                $session->set('visited', true, 'publications'.$id);
-                $publication->hit();
+        if(!$session->get('visited', false, 'com_jresearch.publication.'.$id)){
+             $session->set('visited', true, 'com_jresearch.publication'.$id);
+             $publication->hit();
         }
-		
-    	$areaModel = &$this->getModel('researcharea');
-    	$area = $areaModel->getItem($publication->id_research_area);
     	
     	//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
-        if($params->get('publications_allow_comentaries') == 'yes'){
-                $user =& JFactory::getUser();
-                $from = $params->get('publications_allow_comentaries_from');
-                if($from == 'everyone' || (!$user->guest && $from == 'users')){
-                        $commentsAllowed = true;
-                }
-
-                jximport('jxtended.captcha.captcha');
-                $captcha = &JXCaptcha::getInstance('image', $config);
-                if(!$captcha->initialize())
-                        JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
-
-        if (!is_array($captchaInformation = $captcha->create())) {
-            JError::raiseWarning(1, JText::_('JRESEARCH_CAPTCHA_NOT_INITIALIZED'));
-        }
-
-        // Get the comments
-        $limit = JRequest::getVar('limit', 5);
-        $limitStart = JRequest::getVar('limitstart', 0);
-        $comments = $model->getComments($publication->id, $limit, $limitStart);
-        $total = $model->countComments($publication->id);
-
-        $this->assignRef('comments', $comments);
-        $this->assignRef('limit', $limit);
-                $this->assignRef('limitstart', $limitStart);
-                $this->assignRef('total', $total);
-
-        }
-
-
-// Cross referencing
-        $missingFields = $publication->getReferencedFields();
-        if(!empty($missingFields)){
-                $count = 0;
-                $crossrefData = "<tr>";
-                foreach($missingFields as $key=>$value){
-                        if($count % 2 == 0 && $count > 0){
-                                $crossrefData .= "<tr>";
-                        }
-                        $crossrefData .= "<th scope=\"row\">".JResearchText::_($key).": </th><td>".trim($value)."</td>";
-                        $count++;
-                        if($count % 2 == 0 && $count > 0){
-                                $crossrefData .= "</tr>";
-                        }
-
-                }
-                if($count % 2 != 0)
-                        $crossrefData .= "<td></td><td></td></tr>";
-
-                $this->assignRef('reference', $crossrefData);
-        }
-		
-        $showHits = ($params->get('show_hits') == 'yes');
-    	$format = $params->get('staff_format') == 'last_first'?1:0;		
-    	$showBibtex = ($params->get('show_export_bibtex') == 'yes');
-    	$showMODS = ($params->get('show_export_mods') == 'yes');    		
-    	$showRIS = ($params->get('show_export_ris') == 'yes');    	
+    			
+        $showHits = ($params->get('show_hits', 'yes') == 'yes');
+    	$format = $params->get('staff_format', 'last_first') == 'last_first'?1:0;		
+    	$showBibtex = ($params->get('show_export_bibtex', 'no') == 'yes');
+    	$showMODS = ($params->get('show_export_mods', 'no') == 'yes');    		
+    	$showRIS = ($params->get('show_export_ris', 'no') == 'yes');    	
     	
-		
-        $doc->setTitle(JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
-    	// Bind variables for layout
+    	$arguments = array('publication', $publication);
+    	
+		$pageTitle = $params->get('page_title', JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
+        $doc->setTitle($pageTitle);
+    	
+        // Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
     	$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('showHits', $showHits);
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
-    	$this->assignRef('commentsAllowed', $commentsAllowed);
     	$this->assignRef('showComments', $showComments);
     	$this->assignRef('captcha', $captchaInformation);
         $this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
@@ -176,10 +108,10 @@ class JResearchViewPublication extends JResearchView
         $this->assignRef('showBibtex', $showBibtex);
     	$this->assignRef('showMODS', $showMODS);	
     	$this->assignRef('showRIS', $showRIS);			
-		
-		
-		return true;
 
+    	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);        
+       	parent::display($tpl);       	
+       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
     }
     
     private function _editPublication()

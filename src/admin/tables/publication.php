@@ -415,7 +415,13 @@ class JResearchPublication extends JResearchActivity{
 		
 		//Time to remove keyword relationships
 		$keywordsRemoveQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_keyword').' WHERE id_publication = '.$db->Quote($this->id);
-				
+		$db->setQuery($keywordsRemoveQuery);	
+		if(!$db->query()){			
+			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+			return false;			
+		}
+		
+		
 		//Time to insert keywords
 		$keywords = explode(';', trim($this->keywords));
 		$keywords = array_unique($keywords);
@@ -571,54 +577,5 @@ class JResearchPublication extends JResearchActivity{
         return true;		
 	}
 	
-	/**
-	 * Method to provide a shortcut to binding, checking and storing a JTable
-	 * instance to the database table.  The method will check a row in once the
-	 * data has been stored and if an ordering filter is present will attempt to
-	 * reorder the table rows based on the filter.  The ordering filter is an instance
-	 * property name.  The rows that will be reordered are those whose value matches
-	 * the JTable instance for the property specified.
-	 *
-	 * @param	mixed	An associative array or object to bind to the JTable instance.
-	 * @param	string	Filter for the order updating
-	 * @param	mixed	An optional array or space separated list of properties
-	 *					to ignore while binding.
-	 * @return	boolean	True on success.
-	 * @since	1.0
-	 * @link	http://docs.joomla.org/JTable/save
-	 */
-	public function save($src, $orderingFilter = '', $ignore = '')
-	{
-		// Attempt to bind the source to the instance.
-		if (!$this->bind($src, $ignore)) {
-			return false;
-		}
-
-		// Run any sanity checks on the instance and verify that it is ready for storage.
-		if (!$this->check()) {
-			return false;
-		}
-
-		// Attempt to store the properties to the database table.
-		if (!$this->store(true)) {
-			return false;
-		}
-
-		// Attempt to check the row in, just in case it was checked out.
-		if (!$this->checkin()) {
-			return false;
-		}
-
-		// If an ordering filter is set, attempt reorder the rows in the table based on the filter and value.
-		if ($orderingFilter) {
-			$filterValue = $this->$orderingFilter;
-			$this->reorder($orderingFilter ? $this->_db->nameQuote($orderingFilter).' = '.$this->_db->Quote($filterValue) : '');
-		}
-
-		// Set the error to empty and return true.
-		$this->setError('');
-
-		return true;
-	}
 }
 ?>

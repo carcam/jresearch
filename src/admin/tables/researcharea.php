@@ -293,7 +293,10 @@ class JResearchResearcharea extends JTable{
             }
 
         }
-	
+        
+        function __toString(){
+        	return $this->title;
+        }
 }	
 
 ?>
