@@ -15,7 +15,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent('onAfterContentSave', 'plgJResearchOnAfterContentSave');
+$app = JFactory::getApplication();
+$app->registerEvent('onAfterContentSave', 'plgJResearchOnAfterContentSave');
 
 
 /**
@@ -23,11 +24,11 @@ $mainframe->registerEvent('onAfterContentSave', 'plgJResearchOnAfterContentSave'
  */
 function plgJResearchOnAfterContentSave(&$article, $isNew)
 {
-	global $mainframe;
+	$mainframe = JFactory::getApplication();
 	
 	$db = JFactory::getDBO();	
 	$session = JFactory::getSession();
-	$citedRecords = $session->get('citedRecords', array(), 'jresearch');
+	$citedRecords = $session->get('citedRecords', array(), 'com_jresearch');
 	
 	// Clear the table
 	$query = 'DELETE FROM '.$db->nameQuote('#__jresearch_cited_records').' WHERE '.$db->nameQuote('id_record').' = '.$db->Quote($article->id)

@@ -25,7 +25,7 @@ class JResearchFrontendController extends JController
      */
     public function addPathwayItem($name, $link='', $bItemid = false)
     {
-        global $mainframe;
+        $mainframe = JFactory::getApplication();
         
         $itemid = JRequest::getVar('Itemid', null);
         

@@ -58,16 +58,20 @@ defined('_JEXEC') or die('Restricted access');
         <?php echo JHtml::_('sliders.panel',JText::_('Extra'), 'extra-details'); ?>
         <fieldset class="panelform">
             <ul>
+            
             	<?php
-            		$hitsField = $this->form->getField('hits');
-            		if(!empty($hitsField)): 
-            			$nHits = $hitsField->value;
-            			if(!empty($nHits)):
-            				$resetHitsField = $this->form->getField('resethits');
-            				echo '<li>'.$resetHitsField->input.'<li>';
-            			endif;
-            		endif;	
-            	?>
+            			$hitsField = $this->form->getField('hits');
+	            		$resetField = $this->form->getField('resethits');
+	            		$hits = $hitsField->value;
+	            		if(!empty($hits)):
+	            			echo '<li>'.JText::_('JRESEARCH_HITS').': '.$hitsField->value.'</li>';
+	            			echo '<li>';	            				
+		            		echo $resetField->label;
+		            		echo $resetField->input;	            		
+		            		echo '</li>';
+		            	endif;	
+            		?>
+            		
                 <?php foreach($this->form->getFieldset('extra') as $field): ?>
                         <li>
                             <?php if (!$field->hidden): ?>

@@ -30,7 +30,7 @@ if(count($this->items) > 0):
                         <?php endif; ?>
 			<?php echo $contentArray[0]; ?>
 			<div>&nbsp;</div>			
-			<div style="text-align:left"><?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_READ_MORE'), 'researcharea', 'show', $area->id); ?></div>
+			<div style="text-align:left"><?php echo JHTML::_('jresearchfronten.link', JText::_('JRESEARCH_READ_MORE'), 'researcharea', 'show', $area->id); ?></div>
 		</div>
 	</li>
 	<?php endforeach; ?>

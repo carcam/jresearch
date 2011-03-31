@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `month` varchar(20) default NULL,
   `crossref` varchar(256) default NULL,
   `isbn` varchar(32) default NULL,	
-  `publisher` varchar(60) NOT NULL,
+  `publisher` varchar(256) NOT NULL,
   `editor` varchar(256) NOT NULL,
   `volume` varchar(30) default NULL,
   `series` varchar(256) default NULL,

@@ -112,10 +112,10 @@ class JResearchAdminModelPublication extends JModelForm{
 		    		$data['files'] = JResearchUtilities::uploadDocument($files, 'file_url', $params->get('files_root_path', 'files').DS.'publications');
 	    		}
 	    		
-			    $reset = JRequest::getVar('resethits', false);
-	    		if($reset == 'on'){
+	    		if($data['resethits'] == 1){
 			    	$data['hits'] = 0;
-			    	$omittedFields[] = 'hits';
+			    }else{
+			    	$omittedFields[] = 'hits';			    	
 			    }
 			    			    			    
 			    //Now time for the authors

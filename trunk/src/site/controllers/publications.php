@@ -40,7 +40,6 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$this->registerTask('new', 'add');
 		$this->registerTask('add', 'edit');
 		$this->registerTask('edit', 'edit');
-		$this->registerTask('admin', 'administer');
 		// When the user sees the profile of a single publication
 		$this->registerTask('show', 'show');
 		$this->registerTask('cite', 'cite');
@@ -119,8 +118,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	*/
 	function add()
 	{
-		$view = &$this->getView('Publication', 'html', 'JResearchView');
-		
+		$view = $this->getView('Publication', 'html', 'JResearchView');		
 		$view->setLayout('new');
 		$view->display();
 	}
@@ -180,32 +178,21 @@ class JResearchPublicationsController extends JResearchFrontendController
 	}
 
 	/**
-	* Invoked when an authenticated user sees the list of his/her publications
-	* in an administrator form.
-	*
-	*/
-	function administer(){
-		JRequest::setVar('view', 'publications');
-		JRequest::serVar('layout', 'admin');
-		parent::display();
-	}
-
-	/**
 	 * Invoked when a user cites one or more records from publications database through
 	 * an editor.
 	 */
 	function cite(){
+		jresearchimport('helpers.publications', 'jresearch.admin');
 		$output = '';
 		// Search the citekey
-		$model = & $this->getModel('publication', 'JResearchModel');
-		$citekeys = JRequest::getVar('citekeys');		
+		$citekeys = JRequest::getVar('citekeys', '');		
 		$citekeys = split(',', $citekeys);
 		$publicationsArray = array();
 		$session = JSession::getInstance(null, null);
-		$citedRecords =&  $session->get('citedRecords', array(), 'jresearch');		
+		$citedRecords =&  $session->get('citedRecords', array(), 'com_jresearch');		
 		
 		foreach($citekeys as $key){
-			$pub = $model->getItemByCitekey(trim($key));
+			$pub = JResearchPublicationsHelper::getItemByCitekey(trim($key));
 			if($pub != null){
 				$publicationsArray[] = $pub;
 				if(array_search($key, $citedRecords) === false)
@@ -213,6 +200,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 			}
 		}
 		
+		$session->set('citedRecords', $citedRecords, 'com_jresearch');
 		// Get the object that executes the command		
 		$command = JRequest::getVar('command');
 		$citeExec =& JResearchCite::getInstance();
@@ -242,7 +230,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	function citeFromDialog(){
 		// Add explicitly the view path (useful when requesting from the backend)
 		$this->addViewPath(JRESEARCH_COMPONENT_SITE.DS.'views');
-		$view = &$this->getView('PublicationsList', 'html', 'JResearchView');
+		$view = $this->getView('Publications', 'html', 'JResearchView');
 		$view->setLayout('cite');
 		$view->display();
 	}
@@ -254,10 +242,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 	function generateBibliography(){
 		// Add explicitly the view path (useful when requesting from the backend)
 		$this->addViewPath(JRESEARCH_COMPONENT_SITE.DS.'views');
-		$view = &$this->getView('PublicationsList', 'html', 'JResearchView');
-		$model =& $this->getModel('Publication', 'JResearchModel');
+		$view  = $this->getView('Publications', 'html', 'JResearchView');
 		$view->setLayout('generatebibliography');
-		$view->setModel($model);
 		$view->display();
 	}
 	
@@ -276,7 +262,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		
 		if($citekey != null){
 			$session =& JSession::getInstance(null, null);
-			$citedRecords =& $session->get('citedRecords', array(), 'jresearch');
+			$citedRecords =& $session->get('citedRecords', array(), 'com_jresearch');
 			$index = array_search($citekey, $citedRecords);
 			//Output the result
 			if($index !== false){
@@ -306,6 +292,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 *
 	 */
 	function searchByPrefix(){
+		jresearchimport('helpers.publications', 'jresearch.admin');
 		$writer = new XMLWriter;
 		$writer->openMemory();
 		$writer->startDocument('1.0');
@@ -319,8 +306,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$upper = $limitstart + $limit;
 		
 		$writer->writeElement('lowerlimit', $limitstart);
-
-		$returnedItems = $model->getItemsByPrefix($key, $criteria, $limitstart, $limit+1);
+		$returnedItems = JResearchPublicationsHelper::getItemsByPrefix($key, $criteria, $limitstart, $limit+1);
 		
 		if(count($returnedItems) < ($limit+1)){
 			$upper = 0;
@@ -365,7 +351,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$document->setMimeEncoding("text/plain");
 		
 		$session = &JSession::getInstance(null, null);
-		$citekeysArray = $session->get('citedRecords', array(), 'jresearch');
+		$citekeysArray = $session->get('citedRecords', array(), 'com_jresearch');
 
 		// Get the complete publications
 		foreach($citekeysArray as $key){
@@ -392,52 +378,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$document->setMimeEncoding("text/plain");
 		
 		$session = &JSession::getInstance(null, null);
-		$session->set('citedRecords', array(), 'jresearch');
+		$session->set('citedRecords', array(), 'com_jresearch');
 		echo 'success';
-	}
-
-	/**
-	 * Invoked when a user has posted a comment.
-	 *
-	 */
-	function saveComment(){
-		global $mainframe;
-		jximport('jxtended.captcha.captcha');
-		jimport('joomla.utilities.date');
-		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'comment.php');
-	 	$post = JRequest::get('post');
-
-	 	// Get the captcha tests
-	 	$captchas = $mainframe->getUserState('jxcaptcha.captcha');
-	 	$captchaInstance = JXCaptcha::getInstance('image', array('filePath'=>JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publication'.DS.'captcha'));
-	 
-	 	foreach ($captchas as $captcha){
-	 		if (isset($post[$captcha['id']]))
-	 		{
-	 			if (!$captchaInstance->validate($captcha['id'], $post[$captcha['id']], false)){
-	 				JError::raiseWarning(1, JText::_('The user has not passed the verification test.'));
-	 				$failed = true;
-	 				break;
-	 			}
-	 		}
-	 	}
-	 	
-	 	// If the user passed the test, save the comment.
-	 	if(!$failed){
-	 		$db =& JFactory::getDBO();
-	 		$comment = new JResearchPublicationComment($db);
-	 		$comment->bind($post);
-	 		$now = new JDate();
-	 		$comment->datetime = $now->toMySQL();
-	 		if(!$comment->store()){
-	 			$this->setRedirect('index.php?option=com_jresearch&view=publication&task=show&id='.$post['id_publication'].'&showcomm=1&Itemid='.$post['Itemid']);
-	 		}else{
-				$this->setRedirect('index.php?option=com_jresearch&view=publication&task=show&id='.$post['id_publication'].'&showcomm='.$post['showcomm'].'&Itemid='.$post['Itemid']);	 			
-	 		}
-	 	}else{
-	 		$this->setRedirect('index.php?option=com_jresearch&view=publication&task=show&id='.$post['id_publication'].'&showcomm='.$post['showcomm'].'&Itemid='.$post['Itemid']);	 			
-	 	}
-
 	}
 
 	/**

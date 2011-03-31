@@ -141,7 +141,7 @@
                         type="text"
                         size="30"
                         maxlength="255"
-                   class="inputbox"
+                   		class="inputbox"
                         default=""
                         label="JRESEARCH_COVER"
                 />
@@ -190,7 +190,7 @@
                         name="issn"
                         type="text"
                         size="20"
-                        maxlength="255"
+                        maxlength="32"
                         class="inputbox"
                         default=""
                         label="JRESEARCH_ISSN"
@@ -210,7 +210,7 @@
                         name="volume"
                         type="text"
                         size="15"
-                        maxlength="255"
+                        maxlength="30"
                         class="inputbox"
                         default=""
                         label="JRESEARCH_VOLUME"
@@ -245,30 +245,23 @@
                         default=""
                         label="JRESEARCH_MONTH"
                 />
-                <field
-                        id="crossref"
-                        name="crossref"
-                        type="text"
-                        size="15"
-                        maxlength="255"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_CROSS_REFERENCE"
-                />
         </fieldset>
         <fieldset name="conditional">
-                <field
-                	id="hits"
-                	name="hits"
-                	type="hidden"
-                	default="0"                	
-                />
+        		<field name="hits" 
+        			id="hits"
+        			type="hidden"
+        			default="0" 
+        		/>
                 <field
                 	id="resethits"
                 	name="resethits"
-                	type="hitsfield"
+                	label="JRESEARCH_RESET_HITS"
+                	type="radio"
                 	default="0"                	
-                /> 
+                >
+                	<option value="0">JNO</option>
+					<option value="1">JYES</option>
+           	 	</field> 
                 <field id="delete_url" name="delete_url" type="radio"
 			label="JRESEARCH_DELETE_ATTACHMENT"
 			default="0">

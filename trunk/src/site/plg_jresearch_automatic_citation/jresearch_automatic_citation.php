@@ -33,7 +33,7 @@ class plgButtonJResearch_Automatic_Citation extends JPlugin
 	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function plgButtonJResearch_Automatic_Citation(& $subject, $config)
+	function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 	}
@@ -45,11 +45,8 @@ class plgButtonJResearch_Automatic_Citation extends JPlugin
 	 */
 	function onDisplay($name)
 	{
-		global $mainframe;
-		
-		$doc 		=& JFactory::getDocument();
-		$template 	= $mainframe->getTemplate();
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$doc = JFactory::getDocument();
+		$url = JURI::root();
 		$image = $url.'components/com_jresearch/assets/j_button2_cite.png';			
 
 		$link = 'index.php?option=com_jresearch&amp;controller=publications&amp;task=citeFromDialog&amp;tmpl=component&amp;e_name='.$name;
