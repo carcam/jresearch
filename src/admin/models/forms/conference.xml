@@ -181,7 +181,7 @@
                 	id="pubtype"
                 	name="pubtype"
                 	type="hidden"
-                	default="article"                	
+                	default="conference"                	
                 />
         </fieldset>
         <fieldset name="specific">
@@ -196,14 +196,24 @@
                         label="JRESEARCH_ISSN"
                 />
                 <field
-                        id="journal"
-                        name="journal"
+                        id="isbn"
+                        name="isbn"
                         type="text"
                         size="20"
-                        maxlength="255"
+                        maxlength="32"
                         class="inputbox"
                         default=""
-                        label="JRESEARCH_JOURNAL"
+                        label="JRESEARCH_ISBN"
+                />
+                <field
+                        id="editor"
+                        name="editor"
+                        type="text"
+                        size="15"
+                        maxlength="256"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_EDITOR"
                 />
                 <field
                         id="volume"
@@ -216,6 +226,16 @@
                         label="JRESEARCH_VOLUME"
                 />
                 <field
+                        id="booktitle"
+                        name="booktitle"
+                        type="text"
+                        size="30"
+                        maxlength="256"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_BOOKTITLE"
+                />                
+                <field
                         id="number"
                         name="number"
                         type="text"
@@ -224,6 +244,16 @@
                         class="inputbox"
                         default=""
                         label="JRESEARCH_NUMBER"
+                />
+                <field
+                        id="series"
+                        name="series"
+                        type="text"
+                        size="20"
+                        maxlength="256"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_SERIES"
                 />
                 <field
                         id="pages"
@@ -245,6 +275,27 @@
                         default=""
                         label="JRESEARCH_MONTH"
                 />
+                <field
+                        id="publisher"
+                        name="publisher"
+                        type="text"
+                        size="20"
+                        maxlength="256"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_PUBLISHER"
+                />
+                <field
+                        id="organization"
+                        name="organization"
+                        type="text"
+                        size="20"
+                        maxlength="256"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_ORGANIZATION"
+                />
+
         </fieldset>
         <fieldset name="conditional">
         		<field name="hits" 

@@ -77,7 +77,7 @@ class JResearchViewPublication extends JResearchView
 
         //If the publication was visited in the same session, do not increment the hit counter
         if(!$session->get('visited', false, 'com_jresearch.publication.'.$id)){
-             $session->set('visited', true, 'com_jresearch.publication'.$id);
+             $session->set('visited', true, 'com_jresearch.publication.'.$id);
              $publication->hit();
         }
     	

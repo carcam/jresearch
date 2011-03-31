@@ -46,11 +46,8 @@ class plgButtonJResearch_Automatic_Bibliography_Generation extends JPlugin
 	 */
 	function onDisplay($name)
 	{
-		global $mainframe;
-
-		$doc 		=& JFactory::getDocument();
-		$template 	= $mainframe->getTemplate();
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$doc =  JFactory::getDocument();
+		$url = JURI::root();
 		$image = $url.DS.'components'.DS.'com_jresearch'.DS.'assets'.DS.'j_button2_bibliography.png';		
 		$link = 'index.php?option=com_jresearch&amp;controller=publications&amp;task=generateBibliography&amp;tmpl=component&amp;e_name='.$name;
 

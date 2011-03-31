@@ -88,6 +88,9 @@ class JResearchAdminModelResearchArea extends JModelForm{
                 
                 $data =& $this->getData();
                 
+                $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
+                $data['description'] = $form['description'];
+
                 $row =& $this->getTable('Researcharea', 'JResearch');
 
                 if (!$row->save($data))

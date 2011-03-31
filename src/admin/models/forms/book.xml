@@ -181,29 +181,29 @@
                 	id="pubtype"
                 	name="pubtype"
                 	type="hidden"
-                	default="article"                	
+                	default="book"                	
                 />
         </fieldset>
         <fieldset name="specific">
                 <field
-                        id="issn"
-                        name="issn"
+                        id="isbn"
+                        name="isbn"
                         type="text"
                         size="20"
                         maxlength="32"
                         class="inputbox"
                         default=""
-                        label="JRESEARCH_ISSN"
+                        label="JRESEARCH_ISBN"
                 />
                 <field
-                        id="journal"
-                        name="journal"
+                        id="publisher"
+                        name="publisher"
                         type="text"
                         size="20"
-                        maxlength="255"
+                        maxlength="256"
                         class="inputbox"
                         default=""
-                        label="JRESEARCH_JOURNAL"
+                        label="JRESEARCH_PUBLISHER"
                 />
                 <field
                         id="volume"
@@ -216,6 +216,46 @@
                         label="JRESEARCH_VOLUME"
                 />
                 <field
+                        id="series"
+                        name="series"
+                        type="text"
+                        size="256"
+                        maxlength="20"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_SERIES"
+                />
+                <field
+                        id="edition"
+                        name="edition"
+                        type="text"
+                        size="10"
+                        maxlength="10"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_EDITION"
+                />
+                <field
+                        id="editor"
+                        name="editor"
+                        type="text"
+                        size="15"
+                        maxlength="256"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_EDITOR"
+                />
+               <field
+                        id="address"
+                        name="address"
+                        type="text"
+                        size="20"
+                        maxlength="256"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_ADDRESS"
+                />                                
+                <field
                         id="number"
                         name="number"
                         type="text"
@@ -224,17 +264,7 @@
                         class="inputbox"
                         default=""
                         label="JRESEARCH_NUMBER"
-                />
-                <field
-                        id="pages"
-                        name="pages"
-                        type="text"
-                        size="10"
-                        maxlength="20"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_PAGES"
-                />
+                />                
                 <field
                         id="month"
                         name="month"

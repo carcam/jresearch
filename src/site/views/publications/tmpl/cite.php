@@ -40,8 +40,8 @@ function startPublicationSearch(key){
 	else if(document.getElementById('authorsRadio').checked)
 		criteria = 'authors';	
 
-	searchRequest = new XHR({method: 'get', onSuccess: addSearchResults, onFailure: onSearchFailure});
-	searchRequest.send('index.php?option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key='+key+'&criteria='+criteria+'&limitstart='+limitstart, null);	
+	searchRequest = new Request({method: 'get', async: true , onSuccess: addSearchResults, onFailure: onSearchFailure});
+	searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key='+key+'&criteria='+criteria+'&limitstart='+limitstart, null);	
 		
 }
 
@@ -234,8 +234,8 @@ function makeCitation(command){
 	}
 		
 	var citekeys = selectedCitekeys.join(",");		
-	var queryString = "index.php?option=com_jresearch&controller=publications&task=cite&command="+command+"&citekeys="+encodeURIComponent(citekeys)+"&format=text";
-	citeRequest = new XHR({method: 'get', onSuccess: onCiteSuccessful, onFailure: onCiteFailure});
+	var queryString = "option=com_jresearch&controller=publications&task=cite&command="+command+"&citekeys="+encodeURIComponent(citekeys)+"&format=text";
+	citeRequest = new Request({method: 'get', async: true , onSuccess: onCiteSuccessful, onFailure: onCiteFailure});
 	citeRequest.send(queryString, null);		
 }
 
@@ -267,8 +267,8 @@ function removeSelectedRecord(){
 	
 	if(selectedIndex >= 0){
 		var selectedOption = list.options[selectedIndex];
-		list.remove(selectedOption);
-		citekey = selectedOption.value;
+		citekey = selectedOption.value;		
+		list.removeChild(selectedOption);
 		var citekeyIndex = -1;
 		for(j=0; j<selectedCitekeys.length; j++){
 			if(selectedCitekeys[j] == citekey){

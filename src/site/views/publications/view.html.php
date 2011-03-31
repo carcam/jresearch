@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		JResearch
 * @subpackage	Publications
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of list of publications
 * in the backend.
@@ -23,38 +23,26 @@ class JResearchViewPublications extends JResearchView
 {
     public function display($tpl = null)
     {
-    	global $mainframe;
-    	
-    	// Require css and styles
-        $document =& JFactory::getDocument();
-        $layout = $this->getLayout();
-        
+        $layout = $this->getLayout();        
         //Add template path explicitly (useful when requesting from the backend)
-        $this->addTemplatePath(JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publicationslist'.DS.'tmpl');  
-
+        $this->addTemplatePath(JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publications'.DS.'tmpl');  
+        
         switch($layout){
                 // Template for making citations from TinyMCE editor
-                case 'cite':
-                        $this->_displayCiteDialog();
-                        break;
-                case 'generatebibliography':
-                        $this->_displayGenerateBibliographyDialog();
-                        break;
+		     case 'cite':
+		        $this->_displayCiteDialog();
+		        break;
+             case 'generatebibliography':
+                $this->_displayGenerateBibliographyDialog();
+                break;
             case 'filtered':
                 $this->_displayTabularList();
                 break;
             default:
-                $this->_displayFrontendList();
+                $this->_displayFrontendList($tpl);
                 break;
         }
 
-        $eArguments = array('publications', $layout);
-
-        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
-
-        parent::display($tpl);
-
-        $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
     
 	/**
@@ -103,7 +91,7 @@ class JResearchViewPublications extends JResearchView
      * style for the format.
      *
      */
-    private function _displayFrontendList(){
+    private function _displayFrontendList($tpl){
     	$mainframe = JFactory::getApplication();
     	
     	$doc = JFactory::getDocument();
@@ -179,6 +167,12 @@ class JResearchViewPublications extends JResearchView
     	$this->assignRef('showMODS', $showMODS);	
     	$this->assignRef('showRIS', $showRIS);    	
     	$this->assignRef('header', $pageHeader);
+    	
+        $eArguments = array('publications', $this->getLayout());
+        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+        parent::display($tpl);
+        $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+    	
         	
     }
     
@@ -257,18 +251,16 @@ class JResearchViewPublications extends JResearchView
      *
      */
     private function _displayCiteDialog(){    	
-    	global $mainframe;
-    	
     	$citedRecordsOptionsHTML = array();
-    	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+    	$url = JURI::root();
     	
     	// Prepare the HTML document
-    	$document =& JFactory::getDocument();
+    	$document = JFactory::getDocument();
         $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
-        $document->addScriptDeclaration("window.onDomReady(
+        $document->addScriptDeclaration("window.addEvent('domready',
                 function(){
-                        var searchRequest = new XHR({method: 'get', onSuccess: addSearchResults, onFailure: onSearchFailure});
-                        searchRequest.send('index.php?option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
+                        var searchRequest = new Request({method: 'get', async: true, onSuccess: addSearchResults, onFailure: onSearchFailure});
+                        searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
                  }
         );");
         $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:200px;" ');
@@ -280,8 +272,6 @@ class JResearchViewPublications extends JResearchView
         $citeParentheticalButton = '<button onclick="javascript:makeCitation(\'citep\')">'.JText::_('JRESEARCH_CITE_PARENTHETICAL').'</button>';
         $citeYearButton = '<button onclick="javascript:makeCitation(\'citeyear\')">'.JText::_('JRESEARCH_CITE_YEAR').'</button>';
         $noCiteButton = '<button onclick="javascript:makeCitation(\'nocite\')">'.JText::_('JRESEARCH_NO_CITE').'</button>';
-        $closeButton = '<button onclick="window.parent.document.getElementById(\'sbox-window\').close()">'.JText::_('JRESEARCH_CLOSE').'</button>';
-
 
         // Put the variables into the template
         $this->assignRef('citedRecords', $citedRecordsListHTML);
@@ -292,29 +282,31 @@ class JResearchViewPublications extends JResearchView
         $this->assignRef('citeYearButton', $citeYearButton);
         $this->assignRef('noCiteButton', $noCiteButton);
         $this->assignRef('url', $url);
+        
+        parent::display();
 		
     }
     
     private function _displayGenerateBibliographyDialog(){
-    	$session = &JSession::getInstance(null,null);
-    	$citedRecords = $session->get('citedRecords', array(), 'jresearch') ;
+    	jresearchimport('helpers.publications', 'jresearch.admin');
+    	
+    	$session = JSession::getInstance(null,null);
+    	$citedRecords = $session->get('citedRecords', array(), 'com_jresearch') ;
     	$citedRecordsOptionsHTML = array();
-    	$document =& JFactory::getDocument();
+    	$document = JFactory::getDocument();
         $document->setTitle(JText::_('JRESEARCH_GENERATE_BIBLIOGRAPHY'));
-    	$model = &$this->getModel('Publication');
         JHTML::_('behavior.mootools');
 
         foreach($citedRecords as $pub){
-        $pubTitle = $pub;
-        if($model != null){
-                $pubRecord = $model->getItemByCitekey($pub);
-                if($pubRecord != null)
-                        $pubTitle = $pubRecord->title;
+	        $pubTitle = $pub;
+            $pubRecord = JResearchPublicationsHelper::getItemByCitekey($pub);
+            if($pubRecord != null){
+                $pubTitle = $pubRecord->title;            
+	           	$citedRecordsOptionsHTML[] = JHTML::_('select.option', $pub, $pub.': '.$pubTitle);
+            }
         }
-                $citedRecordsOptionsHTML[] = JHTML::_('select.option', $pub, $pub.': '.$pubTitle);
-        }
+        
         $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:250px;" ');
-
 
         // Remove button
         $removeButton = '<button onclick="javascript:startSelectedRecordRemoval()">'.JText::_('JRESEARCH_REMOVE').'</button>';
@@ -327,7 +319,9 @@ class JResearchViewPublications extends JResearchView
         $this->assignRef('removeAllButton', $removeAllButton);
         $this->assignRef('closeButton', $closeButton);
         $this->assignRef('generateBibButton', $generateBibButton);
-    	
+        
+        parent::display();
+        
     }
     
 	/**

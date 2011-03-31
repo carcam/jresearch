@@ -181,59 +181,19 @@
                 	id="pubtype"
                 	name="pubtype"
                 	type="hidden"
-                	default="article"                	
+                	default="misc"                	
                 />
         </fieldset>
         <fieldset name="specific">
                 <field
-                        id="issn"
-                        name="issn"
+                        id="howpublished"
+                        name="howpublished"
                         type="text"
-                        size="20"
-                        maxlength="32"
+                        size="30"
+                        maxlength="256"
                         class="inputbox"
                         default=""
-                        label="JRESEARCH_ISSN"
-                />
-                <field
-                        id="journal"
-                        name="journal"
-                        type="text"
-                        size="20"
-                        maxlength="255"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_JOURNAL"
-                />
-                <field
-                        id="volume"
-                        name="volume"
-                        type="text"
-                        size="15"
-                        maxlength="30"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_VOLUME"
-                />
-                <field
-                        id="number"
-                        name="number"
-                        type="text"
-                        size="15"
-                        maxlength="20"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_NUMBER"
-                />
-                <field
-                        id="pages"
-                        name="pages"
-                        type="text"
-                        size="10"
-                        maxlength="20"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_PAGES"
+                        label="JRESEARCH_HOWPUBLISHED"
                 />
                 <field
                         id="month"

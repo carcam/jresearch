@@ -15,7 +15,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent('onAfterRoute', 'plgJResearchOnAfterRoute');
+$app = JFactory::getApplication();
+$app->registerEvent('onAfterRoute', 'plgJResearchOnAfterRoute');
 
 
 /**
@@ -23,11 +24,11 @@ $mainframe->registerEvent('onAfterRoute', 'plgJResearchOnAfterRoute');
  */
 function plgJResearchOnAfterRoute()
 {
-	global $mainframe;
+	$mainframe = JFactory::getApplication();
 	$component = JRequest::getVar('option');
 	$task = JRequest::getVar('task');
-	$db =& JFactory::getDBO();
-	$session =& JFactory::getSession();
+	$db = JFactory::getDBO();
+	$session = JFactory::getSession();
 	
 	if($component == 'com_content'){
 		if($task == 'edit'){
@@ -44,10 +45,10 @@ function plgJResearchOnAfterRoute()
 				
 				$db->setQuery($query);
 				$citedRecords = $db->loadResultArray();
-				$session->set('citedRecords', $citedRecords, 'jresearch');			
+				$session->set('citedRecords', $citedRecords, 'com_jresearch');			
 			}
 		}elseif($task == 'add'){
-			$session->set('citedRecords', array(), 'jresearch');
+			$session->set('citedRecords', array(), 'com_jresearch');
 		}		
 	}
 

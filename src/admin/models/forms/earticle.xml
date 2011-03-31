@@ -181,21 +181,11 @@
                 	id="pubtype"
                 	name="pubtype"
                 	type="hidden"
-                	default="article"                	
+                	default="earticle"                	
                 />
         </fieldset>
         <fieldset name="specific">
-                <field
-                        id="issn"
-                        name="issn"
-                        type="text"
-                        size="20"
-                        maxlength="32"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_ISSN"
-                />
-                <field
+               <field
                         id="journal"
                         name="journal"
                         type="text"
@@ -226,16 +216,6 @@
                         label="JRESEARCH_NUMBER"
                 />
                 <field
-                        id="pages"
-                        name="pages"
-                        type="text"
-                        size="10"
-                        maxlength="20"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_PAGES"
-                />
-                <field
                         id="month"
                         name="month"
                         type="text"
@@ -245,7 +225,27 @@
                         default=""
                         label="JRESEARCH_MONTH"
                 />
-        </fieldset>
+                <field
+                        id="day"
+                        name="day"
+                        type="text"
+                        size="2"
+                        maxlength="2"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_DAY"
+                />                        
+                <field
+                        id="access_date"
+                        name="access_date"
+                        type="calendar"
+                        size="10"
+                        maxlength="10"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_ACCESS_DATE"
+                />                                        
+         </fieldset>
         <fieldset name="conditional">
         		<field name="hits" 
         			id="hits"
