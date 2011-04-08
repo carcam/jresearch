@@ -88,11 +88,13 @@ class JResearchAdminResearchareasController extends JController
 	* Invoked when the user has published a set of research areas items.
 	*/	
 	function publish(){		
-            $model = $this->getModel('Researcharea', 'JResearchAdminModel');
-            if(!$model->publish()){
-                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
-            }
-            $this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
+		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
+        if(!$model->publish()){
+        	JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
+        	$this->setRedirect('index.php?option=com_jresearch&controller=researchareas');        	
+        }else{
+	        $this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
+        }
 	}
 	
 		/**
@@ -100,11 +102,13 @@ class JResearchAdminResearchareasController extends JController
 	* @access	public
 	*/ 
 	function unpublish(){		
-            $model = $this->getModel('Researcharea', 'JResearchAdminModel');
-            if(!$model->unpublish()){
-                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
-            }
-            $this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_AREAS_UNPUBLISHED_SUCCESSFULLY'));
+        $model = $this->getModel('Researcharea', 'JResearchAdminModel');
+        if(!$model->unpublish()){
+        	JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
+        	$this->setRedirect('index.php?option=com_jresearch&controller=researchareas');
+        }else{        
+        	$this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_AREAS_UNPUBLISHED_SUCCESSFULLY'));
+        }
 	}
 	
 	/**
@@ -112,14 +116,14 @@ class JResearchAdminResearchareasController extends JController
 	* @access	public
 	*/ 
 	function remove(){
-			if(!JRequest::checkToken()){
-                $this->setRedirect('index.php?option=com_jresearch');
-                return;
-            }
+		if(!JRequest::checkToken()){
+        	$this->setRedirect('index.php?option=com_jresearch');
+            return;
+        }
 	
-            $model = $this->getModel('Researcharea', 'JResearchAdminModel');
-            $n = $model->delete();
-            $this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::sprintf('JRESEARCH_AREA_SUCCESSFULLY_DELETED', $n));
+        $model = $this->getModel('Researcharea', 'JResearchAdminModel');
+        $n = $model->delete();
+        $this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::sprintf('JRESEARCH_AREA_SUCCESSFULLY_DELETED', $n));
 	}
 
 
@@ -129,34 +133,34 @@ class JResearchAdminResearchareasController extends JController
 	* @access public
 	*/
 	function edit(){
-            $cid = JRequest::getVar('cid');
-            $view = $this->getView('ResearchArea', 'html', 'JResearchAdminView');
-            $model = $this->getModel('ResearchArea', 'JResearchAdminModel');
+        $cid = JRequest::getVar('cid');
+        $view = $this->getView('ResearchArea', 'html', 'JResearchAdminView');
+        $model = $this->getModel('ResearchArea', 'JResearchAdminModel');
 				
-            if($cid){
-                $area = $model->getItem();
-                if(!empty($area->id)){
-                    $user = JFactory::getUser();
-                    // Verify if it is checked out
-                    if($area->isCheckedOut($user->get('id'))){
-                        $this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-                    }else{
-                        $area->checkout($user->get('id'));
-                        $view->setLayout('default');
-                        $view->setModel($model, true);
-                        $view->display();
-                    }
+        if($cid){
+        	$area = $model->getItem();
+            if(!empty($area->id)){
+            	$user = JFactory::getUser();
+                // Verify if it is checked out
+                if($area->isCheckedOut($user->get('id'))){
+                	$this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
                 }else{
-                    JError::raiseError(404, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-                    $this->setRedirect('index.php?option=com_jresearch&controller=researchareas');
+                	$area->checkout($user->get('id'));
+                    $view->setLayout('default');
+                    $view->setModel($model, true);
+                    $view->display();
                 }
             }else{
-                $session = JFactory::getSession();
-                $session->set('citedRecords', array(), 'jresearch');
-                $view->setLayout('default');
-                $view->setModel($model, true);
-                $view->display();
+            	JError::raiseError(404, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+                $this->setRedirect('index.php?option=com_jresearch&controller=researchareas');
             }
+        }else{
+        	$session = JFactory::getSession();
+            $session->set('citedRecords', array(), 'jresearch');
+            $view->setLayout('default');
+            $view->setModel($model, true);
+            $view->display();
+        }
 	}
 	
 	/**
@@ -164,14 +168,14 @@ class JResearchAdminResearchareasController extends JController
 	 *
 	 */
 	function cancel(){
-            $model = $this->getModel('Researcharea', 'JResearchAdminModel');
-            $app = JFactory::getApplication();
-            if(!$model->checkin()){            	
-                JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
-            }
+		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
+        $app = JFactory::getApplication();
+        if(!$model->checkin()){            	
+        	JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+        }
             
-            $app->setUserState('com_jresearch.edit.researcharea.data', array());
-            $this->setRedirect('index.php?option=com_jresearch&controller=researchareas');
+        $app->setUserState('com_jresearch.edit.researcharea.data', array());
+        $this->setRedirect('index.php?option=com_jresearch&controller=researchareas');
 	}
 
         	/**

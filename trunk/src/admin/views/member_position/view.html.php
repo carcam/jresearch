@@ -21,35 +21,24 @@ class JResearchAdminViewMember_position extends JResearchView
 {
     function display($tpl = null)
     {
-    	global $mainframe;
-      	JResearchToolbar::editMember_positionAdminToolbar();
-      	
-		JHTML::_('jresearchhtml.validation');   	
     	JRequest::setVar( 'hidemainmenu', 1 );
-    	
-    	// Information about the member
-    	$cid = JRequest::getVar('cid');
-    	
-    	$model =& $this->getModel();
-    	$position = $model->getItem($cid[0]); 
+      	JResearchToolbar::editMember_positionAdminToolbar();
 
-    	$arguments = array('member_position');
-    	
-    	if($cid)
-    		$arguments[] = $position->id;
-    	else 
-    		$arguments[] = null;
+      	JHtml::_('jresearchhtml.validation');
+        $mainframe = JFactory::getApplication();
+        
+        $form = $this->get('Form');
+        // get the Data
+        $data = &$this->get('Data');
+        // Bind the Data
+        $form->bind($data);
 
-    	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $position?$position->published:1));
-		
-    	$this->assignRef('item', $position, JResearchFilter::OBJECT_XHTML_SAFE);
-    	$this->assignRef('publishedRadio', $publishedRadio);
- 
-       	$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
-		
-       	parent::display($tpl);
-       	
-       	$mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);
+        $this->assignRef('form', $form);
+        $this->assignRef('data', $data);
+
+        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('member_position'));
+        parent::display($tpl);
+        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('member_position'));    	
     }
 }
 

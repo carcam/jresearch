@@ -255,25 +255,20 @@ class JResearchUtilities
 	
 	public static function getUrlByRelative($rel_path)
 	{
-		global $mainframe;
-		
-		$path = JURI::base().((!$mainframe->isAdmin())?'administrator/':'').'components/com_jresearch/';
-		
+		$path = JURI::root();
 		return $path.str_replace($path, '', $rel_path); //For backward compatibility if absolute path is stored
 	}
 	
 	public static function getThumbUrlByRelative($rel_path)
 	{
-		$url = JResearch::getUrlByRelative(dirname($rel_path).'/thumb_'.basename($rel_path));
-		
+		$url = self::getUrlByRelative(dirname($rel_path).'/thumb_'.basename($rel_path));		
 		//Check thumb
-		if(@file_get_contents($url))
-		{
+		if(@file_get_contents($url)){
 			return $url;
 		}
 		
 		//If thumb doesn't exist, return full size
-		return JResearch::getUrlByRelative($rel_path);
+		return self::getUrlByRelative($rel_path);
 	}
 	
 	/**

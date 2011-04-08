@@ -38,25 +38,26 @@ class JResearchAdminViewPublication extends JResearchView
 	* publications.
 	*/
 	private function _displayPublicationForm(){
-            $mainframe = JFactory::getApplication();
-			JResearchToolbar::editPublicationAdminToolbar();
-			JHtml::_('jresearchhtml.validation');
+        $mainframe = JFactory::getApplication();
+    	JRequest::setVar( 'hidemainmenu', 1 );            
+		JResearchToolbar::editPublicationAdminToolbar();
+		JHtml::_('jresearchhtml.validation');
 			
-	        $form = $this->get('Form');
-	        // get the Data
-	        $data = &$this->get('Data');
-    	    // Bind the Data
-        	$form->bind($data);
+	    $form = $this->get('Form');
+	    // get the Data
+	    $data = &$this->get('Data');
+        // Bind the Data
+    	$form->bind($data);
 			
-            $pubtype = JRequest::getVar('pubtype', $data['pubtype'], 'jform');
+        $pubtype = JRequest::getVar('pubtype', $data['pubtype'], 'jform');
             
-            $this->assignRef('form', $form);
-            $this->assignRef('data', $data);
-            $this->assignRef('pubtype', $pubtype);
+        $this->assignRef('form', $form);
+        $this->assignRef('data', $data);
+        $this->assignRef('pubtype', $pubtype);
             
-            $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('publication'));
-            parent::display($tpl);
-            $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('publication'));            
+        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('publication'));
+        parent::display($tpl);
+        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('publication'));            
 	}
 	
 	/**

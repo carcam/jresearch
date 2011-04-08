@@ -53,7 +53,6 @@ class JResearchAdminModelPublication extends JModelForm{
                     {
                             // Check the session for previously entered form data.
                             $data = $app->getUserState('com_jresearch.edit.publication.data', array());
-                            unset($data['id']);
                     }
                     
                     //Once the data is retrieved, time to fix it
@@ -64,7 +63,6 @@ class JResearchAdminModelPublication extends JModelForm{
                     $app->setUserState('com_jresearch.edit.publication.data', $data);
                     $this->data = $data;
             }
-            
             return $this->data;
         }
         /**
@@ -119,25 +117,17 @@ class JResearchAdminModelPublication extends JModelForm{
 			    }
 			    			    			    
 			    //Now time for the authors
-				$maxAuthors = $data['nauthorsfield'];
-				$k = 0;
+				$maxAuthors = (int)$data['nauthorsfield'];
 				$authorsArray = array();
-				for($j = 0; $j <= $maxAuthors; $j++){
-					$value = JRequest::getVar("authorsfield".$j);
+				for($j = 0; $j < $maxAuthors; $j++){
+					$value = $data["authorsfield".$j];
 					if(!empty($value)){
-						if(is_numeric($value)){
-							// In that case, we are talking about a staff member
-							$publication->setAuthor($value, $k, true); 
-						}else{
-							// For external authors 
-							$publication->setAuthor($value, $k);
-						}
-						$authorsArray[] = $value;
-						$k++;
+						$row->addAuthor($value);
 					}
 				}
 				
-				$data['authors'] = implode(',', $authorsArray);
+				$data['authors'] = $row->authors;
+				
 				//Citekey generation
 				$data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
 				

@@ -22,67 +22,42 @@ class JResearchViewStaff extends JResearchView
 {
     function display($tpl = null)
     {
-    	global $mainframe;
-    	
-        $layout = &$this->getLayout();
-        
-        
-        $params =& $this->getParams();
-    	$former = (int) $params->get('former_members');
-    	
-    	//Get the model
-    	$model =& $this->getModel();
-    	$areaModel = &$this->getModel('researcharea');
-        $positionModel = &$this->getModel('member_position');
-		
-    	
-    	//$model->setFormer($former);
-    	JRequest::setVar('filter_former', $former);
+        $layout = $this->getLayout();
     	
         switch($layout){
         	case 'staffflow':
-	        	$this->_displayStaffFlow($model);
-	        	break;
-				
+	        	$this->_displayStaffFlow();
+	        	break;				
 		case 'positions':
-	        	$this->_displayPositions($model);
-	        	break;
-	        	
+	        	$this->_displayPositions();
+	        	break;	        	
         	default:
-       			$this->_displayDefaultList($model);
+       			$this->_displayDefaultList();
        			break;
         }
         
-        $this->assignRef('params', $params);
-        $this->assignRef('areaModel', $areaModel);
-	
-        $eArguments = array('staff', $layout);
-		
-        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
-
-        parent::display($tpl);
-
-        $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
     
     /**
     * Display the list of published staff members.
     */
-    private function _displayDefaultList(&$model){
-      	global $mainframe;
-      	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
+    private function _displayDefaultList(){
+      	$mainframe = JFactory::getApplication();
+      	jresearchimport('helpers.publications', 'jresearch.admin');
       	
       	$doc = JFactory::getDocument();
-      	$params = $mainframe->getPageParameters('com_jresearch');
-      	
-      	$members =  $model->getData(null, true, true);   
-    	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));
+      	$params = $mainframe->getParams('com_jresearch');
+      	$model = $this->getModel();
+      	$members =  $model->getItems();   
     	
-    	$format = $params->get('staff_format') == 'last_first'?1:0;
     	$this->assignRef('items', $members);
     	$this->assignRef('page', $model->getPagination());	
-    	$this->assignRef('format', $format);
-
+    	$this->assignRef('params', $params);
+	
+        $eArguments = array('staff', 'default');		
+        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+        parent::display($tpl);
+        $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
     
 	/**

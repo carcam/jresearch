@@ -23,28 +23,15 @@ class JResearchViewMember extends JResearchView
 {
     function display($tpl = null)
     {
-    	global $mainframe;
-    	
         $layout = $this->getLayout();
-        $arguments = array('member');
-        $params = $this->getParams();
         
         switch($layout){
         	case 'edit':
-        		$value = $this->_displayEditProfile($arguments);
+        		$value = $this->_displayEditProfile();
         		break;
         	default:
-        		$value = $this->_displayProfile($arguments);
+        		$this->_displayProfile($arguments);
         		break;
-        }
-        
-        $this->assignRef('params', $params);
-	
-        if($value)
-        {
-	        parent::display($tpl);
-	        
-	        $mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
         }
     }
     
@@ -119,49 +106,47 @@ class JResearchViewMember extends JResearchView
     * @return boolean True if the information of the member was correctly bind to
     * the template file.
     */
-    private function _displayProfile(array &$arguments){
-      	global $mainframe;
-      	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
-      	
-    	$id = JRequest::getInt('id');
+    private function _displayProfile(){
+      	$mainframe = JFactory::getApplication();
+        $doc = JFactory::getDocument();      	
+        $pathway = $mainframe->getPathway();
+      	jresearchimport('helpers.publications', 'jresearch.admin');
+      	 	
+    	$id = JRequest::getInt('id', null);
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);
     	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
     	$theses_view_all = JRequest::getVar('theses_view_all', 0);
-        $doc = JFactory::getDocument();
+
 
     	if(empty($id)){
-    		JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		$arguments[] = null;
+    		JError::raiseError(404, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
     		return false;
     	}
     
     	//Get the model
-    	$model  =& $this->getModel();
-    	$member =  $model->getItem($id);
-    	$teams  =  $model->getTeams($id);
+    	$model  = $this->getModel();
+    	$member =  $model->getItem();
+    	//$teams  =  $model->getTeams($id);
     	
     	if(!$member->published){
-    		JError::raiseWarning(1, JText::_('JRESEARCH_MEMBER_NOT_FOUND'));
-    		$arguments[] = null;
+    		JError::raiseError(1, JText::_('JRESEARCH_MEMBER_NOT_FOUND'));
     		return false;
     	}
     	
-    	$this->addPathwayItem($member, 'index.php?option=com_jresearch&view=member&id='.$member->id);
-    	$arguments[] = $id;
-    	
-    	$areaModel = &$this->getModel('researcharea');
-    	$area = $areaModel->getItem($member->id_research_area);
-    	
+    	$pathway->addItem(JFilterOutput::stringURLSafe($member->__toString()), 'index.php?option=com_jresearch&view=member&id='.$id);
+    	$arguments[] = array('member', $member);
+    	    	
     	//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
     	
     	if($params->get('staff_show_publications', 'yes') == 'yes'){
     		if($publications_view_all == 0){
     			$latestPublications = $params->get('staff_number_last_publications', 5);
-    			$publications = $model->getLatestPublications($member->id, $latestPublications);
+    			$publications = $model->getLatestPublications($latestPublications);
     		}else{
-    			$publications = $model->getLatestPublications($member->id);
+    			$publications = $model->getLatestPublications();
     		}
+    		
     		$this->assignRef('publications', $publications);
     		$this->assignRef('npublications', $model->countPublications($member->id));    		    		
     	}
@@ -169,10 +154,11 @@ class JResearchViewMember extends JResearchView
     	if($params->get('staff_show_projects', 'yes') == 'yes'){
     		if($projects_view_all == 0){
 	    		$latestProjects = $params->get('staff_number_last_projects', 5);
-    			$projects = $model->getLatestProjects($member->id, $latestProjects);
+    			$projects = $model->getLatestProjects($latestProjects);
     		}else{
-    			$projects = $model->getLatestProjects($member->id);
+    			$projects = $model->getLatestProjects();
     		}
+    		
     		$this->assignRef('projects', $projects);
     		$this->assignRef('nprojects', $model->countProjects($member->id));    		    		
     	}
@@ -180,9 +166,9 @@ class JResearchViewMember extends JResearchView
     	if($params->get('staff_show_theses', 'yes') == 'yes'){
     		if($theses_view_all == 0){
 	    		$latestTheses = $params->get('staff_number_last_theses', 5);
-    			$theses = $model->getLatestTheses($member->id, $latestTheses);
+    			$theses = $model->getLatestTheses($latestTheses);
     		}else{
-    			$theses = $member->getLatestTheses($member->id);
+    			$theses = $member->getLatestTheses();
     		}
     		$this->assignRef('theses', $theses);
     		$this->assignRef('ntheses', $model->countTheses($member->id));
@@ -199,7 +185,8 @@ class JResearchViewMember extends JResearchView
     	$format = $params->get('staff_format') == 'last_first'?1:0;
     	$description = str_replace('<hr id="system-readmore" />', '', $member->description);
         $doc->setTitle($member->__toString());
-
+    	$this->assignRef('params', $params);
+    	
         // Bind variables for layout
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
@@ -213,7 +200,10 @@ class JResearchViewMember extends JResearchView
     	$this->assignRef('description', $description);
     	$this->assignRef('teams', $teams, JResearchFilter::ARRAY_OBJECT_XHTML_SAFE);
     	
-    	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
+
+    	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);    	
+    	parent::display($tpl);	        
+	    $mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);   	
     	
     	return true;
     }

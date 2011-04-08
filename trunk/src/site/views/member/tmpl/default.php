@@ -20,8 +20,8 @@ JHTML::_('behavior.modal');
     <?php if(empty($this->member->url_photo)): ?>
     <td style="width:50%;" colspan="2" rowspan="3"></td>
     <?php else: 
-    	$url = JResearch::getUrlByRelative($this->member->url_photo);
-    	$thumb = ($this->params->get('thumbnail_enable', 1) == 1)?JResearch::getThumbUrlByRelative($this->member->url_photo):$url;
+    	$url = JResearchUtilities::getUrlByRelative($this->member->url_photo);
+    	$thumb = ($this->params->get('thumbnail_enable', 1) == 1)? JResearchUtilities::getThumbUrlByRelative($this->member->url_photo) : $url;
     ?>		
     <td style="width:50%;" colspan="2" rowspan="3">
     	<a href="<?php echo $url?>" class="modal" rel="{handler: 'image'}">
@@ -31,7 +31,7 @@ JHTML::_('behavior.modal');
     <?php endif; ?>		
   </tr>
   <?php
-  if($this->member->former_member == 0 && $this->params->get('member_show_email', 'no') == 'yes'):
+  if(!$this->member->former_member && $this->params->get('member_show_email', 'no') == 'yes'):
   ?>
 	  <tr>
 	  	<th scope="row"><?php echo JText::_('JRESEARCH_EMAIL').': ' ?></th>
@@ -42,8 +42,8 @@ JHTML::_('behavior.modal');
   endif;
   ?>
   <tr>
-  	<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></th>
-  	<td><?php echo $this->area->name; ?></td>
+  	<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREAS').': ' ?></th>
+  	<td><?php echo JHTML::_('jresearchfrontend.researchareaslinks', $this->member->getResearchAreas('names')); ?></td>
 	<td style="width:50%;" colspan="2"></td>
   </tr>
   <tr>

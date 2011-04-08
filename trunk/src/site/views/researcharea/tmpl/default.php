@@ -8,16 +8,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<h2 class="componentheading"><?php echo $this->area->name; ?></h2>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h3>
+<h1 class="componentheading"><?php echo $this->escape($this->area->name); ?></h1>
+<h2 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h2>
 <?php echo $this->description;  ?>
 <div>&nbsp;&nbsp;</div>
 <?php if(!empty($this->facilities)): ?>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h3>
+<h2 class="contentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h2>
 <ul class="float">
 <?php foreach($this->facilities as $facility): ?>
 	<li>
-		<?php echo JHTML::_('jresearch.link', $facility->name, 'facility', 'show', $facility->id); ?>
+		<?php echo JHTML::_('jresearchfrontend.link', $facility->name, 'facility', 'show', $facility->id); ?>
 	</li>
 <?php endforeach; ?>
 </ul>
@@ -25,17 +25,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <?php $itemId = JRequest::getVar('Itemid'); ?>
 <?php if(!empty($this->members)): ?>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h3>
+<h2 class="contentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
 <ul>
 <?php foreach($this->members as $member): ?>
-	<li><?php echo JHTML::_('jresearch.link', $member, 'member', 'show', $member->id); ?></li>
+	<li><?php echo JHTML::_('jresearchfrontend.link', $member, 'member', 'show', $member->id); ?></li>
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
 
 <?php if(!empty($this->publications)): ?>
 <div>&nbsp;&nbsp;</div>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h3>
+<h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
 <ul>
 <?php foreach($this->publications as $publication): ?>
 	<?php if($this->applyStyle): ?>
@@ -44,11 +44,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
   			$styleObj =& JResearchCitationStyleFactory::getInstance($this->style, $publication->pubtype);
   			echo $styleObj->getReferenceHTMLText($publication, true); 
   		?>
-  		<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $publication->id); ?>&nbsp;
+  		<?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $publication->id); ?>&nbsp;
   	</li>
 	<?php else: ?>
 	<li>
-		<?php echo JHTML::_('jresearch.link', $publication->title, 'publication', 'show', $publication->id); ?>
+		<?php echo JHTML::_('jresearchfrontend.link', $publication->title, 'publication', 'show', $publication->id); ?>
 	</li>
 	<?php endif; ?>
 <?php endforeach; ?>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php if(!empty($this->projects)): ?>
 <div>&nbsp;&nbsp;</div>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h3>
+<h2 class="contentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h2>
 <ul>
 <?php foreach($this->projects as $project): ?>
 	<li><a href="index.php?option=com_jresearch&amp;view=project&amp;task=show&amp;id=<?php echo $project->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $project->title; ?></a></li>
@@ -85,7 +85,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php if(!empty($this->theses)): ?>
 <div>&nbsp;&nbsp;</div>
-<h3 class="contentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h3>
+<h2 class="contentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h2>
 <ul>
 <?php foreach($this->theses as $thesis): ?>
 	<li><a href="index.php?option=com_jresearch&amp;view=thesis&amp;task=show&amp;id=<?php echo $thesis->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>" ><?php echo $thesis->title; ?></a></li>

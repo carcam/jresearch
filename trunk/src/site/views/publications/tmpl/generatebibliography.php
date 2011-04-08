@@ -19,7 +19,7 @@ function startSelectedRecordRemoval(){
 	if(selectedIndex >= 0){
 		citekey = citedRecordsList.options[selectedIndex].value;
 		removeRequest = new Request({method: 'get', async: true , onSuccess: removeSelectedRecord, onFailure: onRemovalFailure});
-		removeRequest.send('index.php?option=com_jresearch&controller=publications&task=removeCitedRecord&format=text&citekey='+citekey, null);
+		removeRequest.send('option=com_jresearch&controller=publications&task=removeCitedRecord&format=text&citekey='+citekey, null);
 	}
 }
 	
@@ -61,7 +61,7 @@ function requestBibliographyGeneration(){
 	}
 			
 	bibliographyRequest = new Request({method: 'get', async: true, onSuccess: generateBibliography, onFailure: onBibliographyGenerationFailure});
-	bibliographyRequest.send('index.php?option=com_jresearch&controller=publications&task=ajaxGenerateBibliography&format=raw', null);
+	bibliographyRequest.send('option=com_jresearch&controller=publications&task=ajaxGenerateBibliography&format=raw', null);
 }
 	
 function generateBibliography(response){
@@ -78,8 +78,8 @@ function startAllRemoval(){
 	citedRecordsList = getRecordsList();
 	n = citedRecordsList.options.length;
 	
-	bibliographyRequest = new XHR({method: 'get', onSuccess: removeAllRecords, onFailure: onAllRemovalFailure});
-	bibliographyRequest.send('index.php?option=com_jresearch&controller=publications&task=ajaxRemoveAll&format=text', null);	
+	bibliographyRequest = new Request({method: 'get', async: true ,onSuccess: removeAllRecords, onFailure: onAllRemovalFailure});
+	bibliographyRequest.send('option=com_jresearch&controller=publications&task=ajaxRemoveAll&format=text', null);	
 }
 
 function removeAllRecords(response){

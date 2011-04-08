@@ -69,81 +69,7 @@ class JHTMLjresearchfrontend
 	 */
 	public static function authorize($task, $controller, $itemid=0, $userid=null)
 	{
-		$availableTasks = array('edit','add','remove');
-		$db =& JFactory::getDBO();
-		$user =& JFactory::getUser($userid);
-		$itemid = (int) $itemid;
-		
-		if($user->guest == 0)
-		{
-			//If task isn't available, return false
-			if(!in_array($task, $availableTasks))
-				return false;
-				
-			//Can do the specific task with "all" rights
-			$canDo = ($user->authorize('com_jresearch',$task,$controller,'all') != 0)
-						? true 
-						: false;
-	
-			//Can do the specific task with "own" rights
-			$canDoOwn = (($user->authorize('com_jresearch',$task,$controller,'own') != 0) 
-							&& ($task == 'edit' || $task == 'remove'))
-						? true 
-						: false;
-			
-			//I'm able to do specific task?
-			if($canDo || $canDoOwn)
-			{
-				$member = new JResearchMember($db);
-				$member->bindFromUsername($user->username);
-				
-				switch($controller)
-				{
-					case 'publications':
-						if($itemid > 0)
-						{
-							$pub = JResearchPublication::getById($itemid);
-							
-							$authors = $pub->getAuthors();
-							
-							foreach($authors as $author)
-							{
-								//Return true if I'm able to edit all publications or only mine
-								if(is_a($author, 'JResearchMember'))
-								{
-									if($canDo || ($canDoOwn && ($author->id == $user->id)) || $pub->created_by == $user->id)
-									{
-										return true;
-									}
-									
-									//Check teams of author 
-									//If user is member of one team of the author, 
-									//he will get authorized
-									$teams = $author->getTeams();
-									
-									foreach($teams as $team)
-									{
-										//If user is member of one team, he is authorized to do the task
-										if($team->isMember($user->id))
-										{
-											return true;
-										}
-									}
-								}
-							}
-						}
-						elseif($itemid <= 0 && $canDo)
-						{
-							return true;
-						}
-						break;
-					default:
-						break;
-				}
-			}
-		}
-		
-		return false;
+		return true;
 	}
 	
 	/**
@@ -166,21 +92,49 @@ class JHTMLjresearchfrontend
 		return JFilterOutput::linkXHTMLSafe('<a href="'.$url.'">'.$text.'</a>');
 	}
 	
-	public static function researchareaslinks($researchAreas){
+	/**
+	 * 
+	 * Constructs a list of research area links
+	 * @param array $researchAreas
+	 */
+	public static function researchareaslinks($researchAreas, $display = 'list'){
 		$itemid = JRequest::getVar('Itemid', null);
 		$linksText = '';
-		if(count($researchAreas) > 1){			
-			foreach($researchAreas as $area){
-				if($area->id > 1){
-					$link = self::link($area->name, 'researcharea', 'show', $area->id);
-					$linksText .= '<li>'.$link.'</li>';
+		
+		if($display != 'list' && $display != 'inline')
+			$display = 'list';
+		
+		foreach($researchAreas as $area){
+			if($area->id > 1){
+				if($area->published){
+					$link = self::link($area->name, 'researcharea', 'show', $area->id);					
+					if($display == 'list')
+						$linksText .= '<li>'.$link.'</li>';
+					else 
+						$linksText .= ', '.$link;	
+				}else{
+					if($display == 'list')
+						$linksText .= '<li>'.$area->name.'</li>';
+					else
+						$linksText .= ', '.$link;							
 				}
 			}
-		}else{
-			$linksText .= '<li>'.JText::_('JRESEARCH_UNCATEGORIZED').'</li>';
 		}
 		
-		return '<ul>'.$linksText.'</ul>';
+		if(empty($linksText)){
+			if($display == 'list')
+				$linksText .= '<li>'.JText::_('JRESEARCH_UNCATEGORIZED').'</li>';
+			else
+				$linksText .= JText::_('JRESEARCH_UNCATEGORIZED');	
+		}
+		
+		
+		if($display == 'list')	
+			$result = '<ul>'.$linksText.'</ul>'; 	
+		else
+			$result = ltrim(ltrim($linksText, ','));
+			
+		return $result;	
 	}
 	
 	/**

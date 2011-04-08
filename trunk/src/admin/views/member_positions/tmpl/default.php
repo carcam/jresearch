@@ -21,19 +21,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</tr>
 		</tbody>
 	</table>
-	<table class="adminlist" cellspacing="1">
+	<table class="adminlist">
 		<thead>
 		<tr>		
-			<th style="width: 1%;">#</th>
-			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort', 'Position', 'position', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 5%;" class="center">#</th>
+			<th style="width: 5%;" class="center"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
+			<th style="width: 50%;" class="title"><?php echo JHTML::_('grid.sort', 'Position', 'position', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 40%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 		</tr>
 		</thead>
 		
 		<tfoot>
 			<tr>
-				<td colspan="7">
+				<td colspan="4">
 					<?php echo $this->page->getListFooter(); ?>
 				</td>
 			</tr>
@@ -48,8 +48,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
 			?>
 				<tr class="<?php echo "row$k"; ?>">
-					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
-					<td><?php echo $checked; ?></td>
+					<td class="center"><?php echo $this->page->getRowOffset( $i ); ?></td>
+					<td class="center"><?php echo $checked; ?></td>
 					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->position;  ?></a></td>
 					<td class="center"><?php echo $published; ?></td>
 				</tr>

@@ -11,11 +11,5 @@
 			description="JRESEARCH_MEMBER_PROFILE_DISPLAYED" query="SELECT id as value, CONCAT_WS(' ', firstname, lastname) as id FROM #__jresearch_member WHERE published = 1" />	
 			<param type="hidden" name="task" default="show" />
 		</url>
-		<params>
-			<param name="member_show_email" label="JRESEARCH_CONFIG_PROFILES_SHOW_EMAIL" default="yes" type="radio">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
-			</param>		
-		</params>	
 	</state>
 </metadata>

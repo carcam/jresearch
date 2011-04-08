@@ -100,7 +100,7 @@ class JResearchViewResearchArea extends JResearchView
 		
        	parent::display($tpl);
        	
-       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+       	$mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);
     }
 }
 

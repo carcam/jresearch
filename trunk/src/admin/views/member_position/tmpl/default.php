@@ -1,31 +1,29 @@
 <?php
-/**
- * @package JResearch
- * @subpackage Projects
- * Default view for adding/editing a single project
- */
-// no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<form name="adminForm" id="adminForm" action="./" method="post" class="form-validate" onsubmit="return validate(this);">
-<table class="edit" cellpadding="5" cellspacing="5">
-<tbody>
-	<tr>
-		<th><?php echo JText::_('Position').': '?></th>
-		<td colspan="3">
-			<input name="position" id="position" size="80" maxlength="255" value="<?php echo $this->item?$this->item->position:'' ?>" class="required" />
-			<br />
-			<label for="position" class="labelform"><?php echo JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_POSITION'); ?></label>
-		</td>
-	</tr>
-	<tr>
-		<th><?php echo JText::_('Published').': '; ?></th>
-		<td colspan="3"><?php echo $this->publishedRadio; ?></td>
-	</tr>
-</tbody>
-</table>
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-<input type="hidden" name="id" value="<?php echo $this->item?$this->item->id:'' ?>" />		
-<?php echo JHTML::_('jresearchhtml.hiddenfields', 'member_positions'); ?>
-<?php echo JHTML::_('behavior.keepalive'); ?>
-<?php echo JHTML::_('form.token'); ?>	
+$fields = array('id', 'position', 'published');
+
+?>
+<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+    <div class="width-70">
+        <fieldset class="panelform">
+                <ul class="adminformlist">
+                <?php foreach($fields as $fieldName):  ?>
+                    <?php $field = $this->form->getField($fieldName); ?>
+                    <li>
+                        <?php if (!$field->hidden): ?>
+                                <?php echo $field->label; ?>
+                        <?php endif; ?>
+                        <?php echo $field->input; ?>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            <div class="clr"></div>
+        </fieldset>
+    </div>
+    <input type="hidden" name="task" value="edit" />
+    <input type="hidden" name="controller" value="member_positions" />    
+    <?php echo JHtml::_('form.token'); ?>
 </form>
+<div class="clr"></div>

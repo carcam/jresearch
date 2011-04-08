@@ -44,7 +44,7 @@
                             <option value="name">JRESEARCH_TITLE</option>
                             <option value="ordering">JRESEARCH_ORDERING</option>
                     </field>
-                    <field name="researchareas_order" label="JRESEARCH_SORTED" type="list" default="ASC">
+                    <field name="researchareas_order" label="JRESEARCH_SORT_DIRECTION" type="list" default="ASC">
                             <option value="ASC">JRESEARCH_ASCENDING</option>
                             <option value="DESC">JRESEARCH_DESCENDING</option>
                     </field>

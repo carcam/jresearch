@@ -189,7 +189,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$citekeys = split(',', $citekeys);
 		$publicationsArray = array();
 		$session = JSession::getInstance(null, null);
-		$citedRecords =&  $session->get('citedRecords', array(), 'com_jresearch');		
+		$citedRecords = $session->get('citedRecords', array(), 'com_jresearch');		
 		
 		foreach($citekeys as $key){
 			$pub = JResearchPublicationsHelper::getItemByCitekey(trim($key));
@@ -203,7 +203,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$session->set('citedRecords', $citedRecords, 'com_jresearch');
 		// Get the object that executes the command		
 		$command = JRequest::getVar('command');
-		$citeExec =& JResearchCite::getInstance();
+		$citeExec = JResearchCite::getInstance();
 		if(count($publicationsArray) > 0){			
 			if($command != 'bibliography')
 				$output = $citeExec->$command($publicationsArray);
@@ -217,7 +217,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 				
 		}
 		//Output the result
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setMimeEncoding("text/plain");
 		echo $output;
 
@@ -252,8 +252,9 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 *
 	 */
 	function removeCitedRecord(){
+		jresearchimport('helpers.publications', 'jresearch.admin');		
 		$citekey = JRequest::getVar('citekey', null);
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setMimeEncoding("text/xml");		
 		
 		$writer = new XMLWriter;
@@ -261,8 +262,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$writer->startDocument('1.0');
 		
 		if($citekey != null){
-			$session =& JSession::getInstance(null, null);
-			$citedRecords =& $session->get('citedRecords', array(), 'com_jresearch');
+			$session = JSession::getInstance(null, null);
+			$citedRecords = $session->get('citedRecords', array(), 'com_jresearch');
 			$index = array_search($citekey, $citedRecords);
 			//Output the result
 			if($index !== false){
@@ -270,17 +271,21 @@ class JResearchPublicationsController extends JResearchFrontendController
 				
 				$writer->startElement("publications");
 				foreach($citedRecords as $key){
-					$writer->startElement('publication');
-					$writer->writeElement('key', $key);
-					$pub = JResearchPublication::getByCitekey($key);
-					$writer->writeElement('title', $pub->title);
-					$writer->endElement();
+					$pub = JResearchPublicationsHelper::getItemByCitekey($key);
+					if($pub != null){					
+						$writer->startElement('publication');
+						$writer->writeElement('key', $key);
+						$writer->writeElement('title', $pub->title);
+						$writer->endElement();
+					}
 				}
-				$writer->endElement();											
+				$writer->endElement();
+				$session->set('citedRecords', $citedRecords, 'com_jresearch');											
 			}else{
 				$writer->writeElement('answer', 'not found');
 			}
 		}	
+		
 		$writer->endDocument();
 		$output = $writer->outputMemory();
 		echo $output;				
@@ -347,15 +352,17 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 *
 	 */
 	function ajaxGenerateBibliography(){
-		$document = &JFactory::getDocument();
+		jresearchimport('helpers.publications', 'jresearch.admin');
+		
+		$document = JFactory::getDocument();
 		$document->setMimeEncoding("text/plain");
 		
-		$session = &JSession::getInstance(null, null);
+		$session = JSession::getInstance(null, null);
 		$citekeysArray = $session->get('citedRecords', array(), 'com_jresearch');
 
 		// Get the complete publications
 		foreach($citekeysArray as $key){
-			$pub = JResearchPublication::getByCitekey(trim($key));
+			$pub = JResearchPublicationsHelper::getItemByCitekey(trim($key));
 			if($pub != null){
 				$publicationsArray[] = $pub;
 			}
@@ -374,10 +381,10 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 *
 	 */
 	function ajaxRemoveAll(){
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setMimeEncoding("text/plain");
 		
-		$session = &JSession::getInstance(null, null);
+		$session = JSession::getInstance(null, null);
 		$session->set('citedRecords', array(), 'com_jresearch');
 		echo 'success';
 	}

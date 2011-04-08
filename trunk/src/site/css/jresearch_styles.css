@@ -132,8 +132,11 @@ li.comments{
 
 .liresearcharea{
 	list-style: none;
-	margin-top: 10px;
 	background-image: none;
+}
+
+.liresearcharea div{
+	margin-bottom: 10px;
 }
 
 
