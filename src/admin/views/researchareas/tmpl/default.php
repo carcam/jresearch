@@ -6,7 +6,11 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access'); 
+
+$saveOrder = ($this->lists['order'] == 'ordering');
+
+?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<table>
 		<tbody>
@@ -27,10 +31,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th style="width: 1%;">#</th>
 			<th style="width: 1%;" class="center"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th style="width: 58%;" class="title"><?php echo JHTML::_('grid.sort',  'Name', 'name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
+			<th style="width: 58%;" class="title"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_RESEARCH_AREA_NAME'), 'name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
 			<th style="width: 10%;">
-				<?php echo JHTML::_('grid.sort', 'Ordering', 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-				<?php echo JHTML::_('grid.order', $this->items ); ?>
+				<?php echo JHTML::_('grid.sort', JText::_('JGRID_HEADING_ORDERING'), 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+					<?php if ($saveOrder) :
+					?>
+						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'saveorder'); ?>
+					<?php endif; ?>				
 			</th>
 			<th style="width: 30%;"><?php echo JHTML::_('grid.sort',   'Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
 
@@ -55,16 +62,31 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td class="center"><?php echo $this->page->getRowOffset( $i ); ?></td>
-					<td class="center"><?php echo $this->items[$i]->id > 1?$checked:''; ?></td>
-					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=researchareas&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->name;  ?></a></td>
-                                        <td class="order" nowrap="nowrap">
-                                            <span><?php echo $this->page->orderUpIcon( $i, $this->items[$i]->ordering > 1, 'orderup', 'Move Up', $this->ordering); ?></span>
-                                            <span><?php echo $this->page->orderDownIcon( $i, $n, $this->items[$i]->ordering < ($this->items[$i]->getNextOrder()-1), 'orderdown', 'Move Down', $this->ordering ); ?></span>
-                                            <?php $disabled = $this->ordering ?  '' : 'disabled="disabled"'; ?>
-                                            <input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" <?php echo $disabled ?> class="text_area" />
+					<td class="center"><?php echo $checked; ?></td>
+					<td>
+					<a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=researchareas&task=edit&cid[]='.$this->items[$i]->id); ?>">
+						<?php echo $this->items[$i]->name;  ?>
+					</a>						
+					<?php if(!empty($this->items[$i]->alias)): ?>
+					<p class="smallsub">
+						(<span><?php echo JText::_('JRESEARCH_ALIAS') ?></span>: <?php echo $this->items[$i]->alias; ?>)
+					</p>
+					<?php endif; ?>						
 					</td>
-
-                                        <td class="center"><?php echo $published; ?></td>
+					<td class="order" nowrap="nowrap">
+						<?php if ($saveOrder) :?>
+							<?php if ($this->lists['order_Dir'] == 'asc') : ?>
+								<span><?php echo $this->page->orderUpIcon($i, true, 'orderup', 'JLIB_HTML_MOVE_UP', $saveOrder); ?></span>
+								<span><?php echo $this->page->orderDownIcon($i, $this->page->total, true, 'orderdown', 'JLIB_HTML_MOVE_DOWN', $saveOrder); ?></span>
+							<?php elseif ($this->lists['order_Dir'] == 'desc') : ?>
+								<span><?php echo $this->page->orderUpIcon($i, true, 'orderdown', 'JLIB_HTML_MOVE_UP', $saveOrder); ?></span>
+								<span><?php echo $this->page->orderDownIcon($i, $this->pagination->total, true, 'orderup', 'JLIB_HTML_MOVE_DOWN', $saveOrder); ?></span>
+							<?php endif; ?>
+						<?php endif; ?>
+						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering;?>" <?php echo $disabled ?> class="text-area-order" />					
+					</td>
+					<td class="center"><?php echo $published; ?></td>
 				</tr>
 			<?php
 			endfor;
@@ -82,7 +104,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="" /> 
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" /> 
 	
 	<?php echo JHtml::_('jresearchhtml.hiddenfields', 'researchareas'); ?>
 	<?php echo JHtml::_( 'form.token' ); ?>

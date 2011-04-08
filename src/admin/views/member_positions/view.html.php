@@ -17,22 +17,22 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  *
  */
 
-class JResearchAdminViewMember_positionList extends JResearchView
+class JResearchAdminViewMember_positions extends JResearchView
 {
     function display($tpl = null)
     {
-     	global $mainframe;	
+     	$mainframe = JFactory::getApplication();	
  		JResearchToolbar::member_positionListToolbar();
  	
-       	$model = &$this->getModel();
-      	$items = $model->getData(null, false, true);
+       	$model = $this->getModel();
+      	$items = $model->getItems();
 
       	// Filters and pagination
 		$lists = array();    	
-    	$filter_order = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order', 'position');
-    	$filter_order_Dir = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order_Dir', 'ASC');
-		$filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
-    	$filter_search = $mainframe->getUserStateFromRequest('projectsfilter_search', 'filter_search');
+    	$filter_order = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_order', 'filter_order', 'ordering');
+    	$filter_order_Dir = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_order_Dir', 'filter_order_Dir', 'ASC');
+		$filter_state = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_state', 'filter_state');
+    	$filter_search = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_search', 'filter_search');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
@@ -45,11 +45,10 @@ class JResearchAdminViewMember_positionList extends JResearchView
      	$this->assignRef('lists', $lists );
      	$this->assignRef('page', $model->getPagination());
 
-     	$eArguments = array('member_positionlist');
-		$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
+     	$eArguments = array('member_positions');
 		
-		parent::display($tpl);
-		
+     	$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);				
+		parent::display($tpl);		
 		$mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
 
     }

@@ -118,6 +118,15 @@ class JResearchAdminModelResearchArea extends JModelForm{
          */
         function unpublish(){
            $selected = & JRequest::getVar('cid', 0, '', 'array');
+			
+           $uncatId = array_search('1', $selected);
+           if($uncatId !== false){
+           		unset($selected[$uncatId]);
+                $this->setError(JText::_('JRESEARCH_UNCATEGORIZED_AREA_NEITHER_UNPUBLISHED_NOR_REMOVED'));
+                if(empty($selected))
+                	return false;           		
+           }
+           
            $area = JTable::getInstance('Researcharea', 'JResearch');
            return $area->publish($selected, 0);
 
@@ -135,11 +144,15 @@ class JResearchAdminModelResearchArea extends JModelForm{
            $user = JFactory::getUser();
            foreach($selected as $id){
                 $area->load($id);
-	           	if(!$area->isCheckedOut($user->get('id'))){	
-                	if($area->delete($id)){
-            	        $n++;
-                	}
-	           	}
+                if($id > 1){
+		           	if(!$area->isCheckedOut($user->get('id'))){	
+    	            	if($area->delete($id)){
+        	    	        $n++;
+            	    	}
+	           		}
+                }else{
+                	JError::raiseNotice(1, JText::_('JRESEARCH_UNCATEGORIZED_AREA_NEITHER_UNPUBLISHED_NOR_REMOVED'));
+                }
            }
                                  
            return $n;           

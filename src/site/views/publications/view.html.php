@@ -36,7 +36,7 @@ class JResearchViewPublications extends JResearchView
                 $this->_displayGenerateBibliographyDialog();
                 break;
             case 'filtered':
-                $this->_displayTabularList();
+                $this->_displayTabularList($tpl);
                 break;
             default:
                 $this->_displayFrontendList($tpl);
@@ -50,8 +50,8 @@ class JResearchViewPublications extends JResearchView
      * filtered by team groups and showing the journal acceptance rate per each publication
      * and calculating the average per group.
      */
-    private function _displayTabularList(){
-    	global $mainframe;    	
+    private function _displayTabularList($tpl = null){
+    	$mainframe = JFactory::getApplication();    	
     	
     	$doc = JFactory::getDocument();
     	$doc->addStyleDeclaration(".title{text-align:center;}");
@@ -147,11 +147,9 @@ class JResearchViewPublications extends JResearchView
     	$showMODS = ($params->get('show_export_mods', 'no') == 'yes');    		
     	$showRIS = ($params->get('show_export_ris', 'no') == 'yes');    	
     	
-    	$this->_setFilters();
-    	
-    	$pageTitle = $params->get('page_title', JText::_('JRESEARCH_PUBLICATIONS'));
-    	$doc->setTitle($pageTitle);
-    	$pageHeader = $params->get('publications_header', JText::_('JRESEARCH_PUBLICATIONS'));
+    	$this->_setFilters();    	
+    	$pageHeader = $params->get('page_heading', JText::_('JRESEARCH_PUBLICATIONS'));
+    	$showHeader = $params->get('show_page_heading', 1);
     	    	    	
     	// Bind variables used in layout
     	$this->assignRef('items', $groupedItems);
@@ -167,6 +165,7 @@ class JResearchViewPublications extends JResearchView
     	$this->assignRef('showMODS', $showMODS);	
     	$this->assignRef('showRIS', $showRIS);    	
     	$this->assignRef('header', $pageHeader);
+    	$this->assignRef('showHeader', $showHeader);
     	
         $eArguments = array('publications', $this->getLayout());
         $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);

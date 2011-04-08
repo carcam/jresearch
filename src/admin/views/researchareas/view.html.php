@@ -28,13 +28,15 @@ class JResearchAdminViewResearchAreas extends JResearchView
 
         $model = $this->getModel();
         $items = $model->getItems();
+        
 
         // Filters and pagination
         $lists = array();
-        $filter_order = $mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_order', 'filter_order', 'ordering');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_order', 'filter_order_Dir', 'ASC');
-        $filter_state = $mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_state', 'filter_state');
-        $filter_search = $mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_search', 'filter_search');
+        $this->state = $this->get('State');
+        $filter_order = $this->state->get('com_jresearch.researchareas.filter_order');
+        $filter_order_Dir = $this->state->get('com_jresearch.researchareas.filter_order_Dir');
+        $filter_state = $this->state->get('com_jresearch.researchareas.filter_state');
+        $filter_search = $this->state->get('com_jresearch.researchareas.filter_search');
 
         $lists['order_Dir'] = $filter_order_Dir;
         $lists['order'] = $filter_order;
@@ -43,9 +45,6 @@ class JResearchAdminViewResearchAreas extends JResearchView
         $js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
         $lists['search'] = $filter_search;
         
-        //Ordering allowed ?
-        $ordering = ($lists['order'] == 'ordering');
-
         $this->assignRef('items', $items);
         $this->assignRef('lists', $lists );
         $this->assignRef('page', $model->getPagination());

@@ -9,7 +9,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-<h2 class="componentheading"><?php echo $this->header; ?></h2>
+<?php if($this->showHeader): ?>
+<h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
+<?php endif; ?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publicationslist&amp;task=list&amp;modelkey=default">
 	<div style="text-align: left;">
 		<?php echo $this->filter; ?>

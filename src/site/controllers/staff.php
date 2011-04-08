@@ -35,13 +35,9 @@ class JResearchStaffController extends JResearchFrontendController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 		$this->registerTask('autoSuggestMembers', 'autoSuggestMembers');		
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'staff');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'member_position');
+		$this->addModelPath(JRESEARCH_COMPONENT_SITE.DS.'models'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
-		
-		$this->addPathwayItem(JText::_('JRESEARCH_STAFF'), 'index.php?option=com_jresearch&view=staff');
 	}
 
 	/**
@@ -49,32 +45,15 @@ class JResearchStaffController extends JResearchFrontendController
 	 *
 	 * @access public
 	 */
-
 	function display(){
-            global $mainframe;
-		
-            //Layout
-            $layout = JRequest::getVar('layout','default');
-		
-		//Get and use configuration
-            $params = $mainframe->getPageParameters('com_jresearch');
-            $limit = $params->get('staff_entries_per_page');
-            JRequest::setVar('limit', $limit);
-            $limitstart = JRequest::getVar('limitstart', null);
-            if($limitstart === null)
-                JRequest::setVar('limitstart', 0);
+        $limitstart = JRequest::getVar('limitstart', null);
+        if($limitstart === null)
+        	JRequest::setVar('limitstart', 0);
 
-
-            $model =& $this->getModel('Staff', 'JResearchModel');
-            $areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-            $positionsModel = $this->getModel('member_positionList', 'JResearchModel');
-            $view =& $this->getView('Staff', 'html', 'JResearchView');
-            $view->setModel($model, true);
-            $view->setModel($areaModel);
-            $view->setLayout($layout);
-            $view->setModel($positionsModel);
-
-            $view->display();
+	    $model = $this->getModel('Staff', 'JResearchModel');
+        $view = $this->getView('Staff', 'html', 'JResearchView');
+        $view->setModel($model, true);
+        $view->display();
 	}
 
 	/**
@@ -102,11 +81,9 @@ class JResearchStaffController extends JResearchFrontendController
 	* Invoked when the visitant has decided to see a member's profile
 	*/
 	function show(){
-		$model =& $this->getModel('Member', 'JResearchModel');
-		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-		$view =& $this->getView('Member', 'html', 'JResearchView');
+		$model = $this->getModel('Member', 'JResearchModel');
+		$view = $this->getView('Member', 'html', 'JResearchView');
 		$view->setModel($model, true);
-		$view->setModel($areaModel);
 		$view->display();				
 	}	
 	

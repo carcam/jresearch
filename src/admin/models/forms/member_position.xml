@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+        <fields>
+                <field
+                        id="id"
+                        name="id"
+                        type="hidden"
+                />
+                <field
+                        id="position"
+                        name="position"
+                        type="text"
+                        size="40"
+                        maxlength="50"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_MEMBER_POSITION"
+                        required="true"
+                />
+                <field id="published" name="published" type="radio"
+			label="Published"
+			default="1"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+	</fields>
+</form>

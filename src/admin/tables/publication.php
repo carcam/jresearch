@@ -15,9 +15,8 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-jimport('joomla.utilities.date');
-
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'activity.php');
+jresearchimport('joomla.utilities.date');
+jresearchimport('tables.activity', 'jresearch.admin');
 
 /**
  * This class defines the base for all types of publications managed by JResearch.
@@ -168,57 +167,6 @@ class JResearchPublication extends JResearchActivity{
 		return $result;
 	}
 		
-	/**
-	 * Returns the publication with the citekey provided. The citekey is
-	 * the label used for tools like Bibtex to identify a record in the database
-	 * when citing.
-	 * @param string $citekey
-	 * @return JResearchPublication
-	 */
-
-	public static function getByCitekey($citekey){
-		$result = null;
-		$db = JFactory::getDBO();
-		$citekeyName = $db->nameQuote('citekey');
-		$citekeyQ = $db->Quote($citekey, false);
-		$query = "SELECT * FROM ".$db->nameQuote('#__jresearch_publication')." WHERE $citekeyName = $citekeyQ";
-		$db->setQuery($query);
-		$result = $db->loadAssoc();
-		$publication = new JResearchPublication();
-
-		if(!empty($result)){
-			$publication->bind($result);
-			$publication->_loadAuthors();
-			return $publication;
-		}else{
-			return null;
-		}
-
-	}
-	
-	/**
-	 * Returns the publication with the database integer id provided. 
-	 *
-	 * @param int $id
-	 * @return JResearchPublication or null.
-	 * 
-	 */
-	public static function getById($id){
-		$result = null;
-		$db = JFactory::getDBO();
-		$idQ = $db->Quote($id, false);
-		$query = "SELECT * FROM ".$db->nameQuote('#__jresearch_publication')." WHERE id = $idQ";
-		$db->setQuery($query);
-		$result = $db->loadAssoc();
-		$publication = JTable::getInstance('Publication', 'JResearch');
-
-		if(!empty($result)){
-			$publication->bind($result, array(), true);
-			return $publication;
-		}else{
-			return null;
-		}	
-	}		
 	
 	
 	/**
@@ -231,29 +179,9 @@ class JResearchPublication extends JResearchActivity{
 		$k = $this->_tbl_key;
 		if(!parent::load($oid))
 			return false;
-        
-        if ($oid === null) {
-           return false;
-        }        
-        
-        $this->$k = $oid;
-        
-        $db =& $this->getDBO();
-        $table = $db->nameQuote($this->_tbl);
+ 
 		$this->_loadAuthors();
-
-        $query = 'SELECT * '
-        . ' FROM '.$db->nameQuote($this->_tbl)
-        . ' WHERE '.$db->nameQuote($this->_tbl_key).' = '.$db->Quote($oid);        
-        $db->setQuery($query);
-        
-        if (($result = $db->loadAssoc( ))) {
-            return $this->bind($result);
-        }else{
-            $this->setError( $db->getErrorMsg() );
-            return false;
-        }
-			
+		return true;			
 	}
 	
 	
@@ -368,32 +296,34 @@ class JResearchPublication extends JResearchActivity{
 		$orderField = $db->nameQuote('order');
 		$idPubField = $db->nameQuote('id_publication');
        
-		foreach($this->_internalAuthors as $author){			
-			$id_staff_member = $db->Quote($author['id_staff_member']);
-			$idStaffField = $db->nameQuote('id_staff_member');
-			$order = $db->Quote($author['order']);
-			$tableName = $db->nameQuote('#__jresearch_publication_internal_author');
-			$insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField) VALUES ($this->id, $id_staff_member,$order)";
-			$db->setQuery($insertInternalQuery);			
-			if(!$db->query()){
-				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
-				return false;
-			}
-		}
-
-		foreach($this->_externalAuthors as $author){
-			$order = $db->Quote($author['order'], false);
-			$authorName = $db->Quote($db->getEscaped($author['author_name'], true), false);
+		$authorsArray = explode(',', $this->authors);
+		$order = 0;
+		foreach($authorsArray as $author){
+			$idPubField = $db->nameQuote('id_publication');
+			$idValue = $db->Quote($this->id);
+			$orderField = $db->nameQuote('order');
+			$orderValue = $db->Quote($order);
 			
-			$authorField = $db->nameQuote('author_name');
-			$tableName = $db->nameQuote('#__jresearch_publication_external_author');
-			$insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField) VALUES($this->id, $authorName, $order)";			
-			$db->setQuery($insertExternalQuery);
+			if(is_numeric($author)){
+				$id_staff_member = $db->Quote($author);
+				$idStaffField = $db->nameQuote('id_staff_member');
+				$tableName = $db->nameQuote('#__jresearch_publication_internal_author');
+				$query = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField) VALUES ($idValue, $id_staff_member, $orderValue)";				
+			}else{
+				$authorField = $db->nameQuote('author_name');
+				$tableName = $db->nameQuote('#__jresearch_publication_external_author');
+				$authorName = $db->Quote($author);
+				$query = "INSERT INTO $tableName($idPubField, $authorField, $orderField) VALUES($idValue, $authorName, $orderValue)";				
+			}			
+			
+			$db->setQuery($query);			
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 				return false;
 			}
-		}     	
+			
+			$order++;
+		}
 
 		//Time to remove research areas too
 		$researchareaRemoveQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_researcharea').' WHERE id_publication = '.$db->Quote($this->id);

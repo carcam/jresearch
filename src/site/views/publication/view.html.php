@@ -28,8 +28,7 @@ class JResearchViewPublication extends JResearchView
 
         switch($layout){
         	case 'new':
-        		$result = $this->_displayNewPublicationForm();
-        		
+        		$result = $this->_displayNewPublicationForm();        		
         		$mainframe->triggerEvent('onBeforeNewJResearchPublication', $arguments);
         		break;
         	case 'edit':
@@ -39,7 +38,8 @@ class JResearchViewPublication extends JResearchView
         		break;
         		
         	case 'default': default:
-        		$this->_displayPublication();
+        		if(!$this->_displayPublication($tpl))
+        			parent::display($tpl);
         		break;
         		
         }
@@ -49,7 +49,7 @@ class JResearchViewPublication extends JResearchView
     /**
     * Display the information of a publication.
     */
-    private function _displayPublication(){
+    private function _displayPublication($tpl = null){
     	jresearchimport('helpers.publications', 'jresearch.admin');
     	
       	$mainframe = JFactory::getApplication();
@@ -61,7 +61,7 @@ class JResearchViewPublication extends JResearchView
    		
     	if(empty($id)){
             JError::raiseError(404, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		return;
+    		return false;
     	}
     	
     	//Get the model
@@ -70,7 +70,7 @@ class JResearchViewPublication extends JResearchView
     	
         if($publication === false){
             JError::raiseError(404, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));        	
-			return;
+			return false;
         }
 
         $pathway->addItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
@@ -111,7 +111,9 @@ class JResearchViewPublication extends JResearchView
 
     	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);        
        	parent::display($tpl);       	
-       	$mainframe->triggerEvent('onAfterRenderJResearchEntity', $arguments);
+       	$mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);
+
+       	return true;
     }
     
     private function _editPublication()

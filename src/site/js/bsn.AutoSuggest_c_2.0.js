@@ -50,7 +50,7 @@ _bsn.AutoSuggest = function (fldID, param)
 	//
 	this.fld = _bsn.DOM.getElement(fldID);
 	this.fldresults = _bsn.DOM.getElement(fldID+'result');
-	this.fldnresults = _bsn.DOM.getElement('n'+fldID);
+	this.fldnresults = _bsn.DOM.getElement('jform[n'+fldID+']');
 
 	if (!this.fld)
 		return false;
@@ -674,8 +674,8 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 			
 	hiddenInput = document.createElement('input');
 	hiddenInput.setAttribute('type', 'hidden');		
-	hiddenInput.setAttribute('id', this.fld.name+nResults);
-	hiddenInput.setAttribute('name', this.fld.name+nResults);
+	hiddenInput.setAttribute('id', 'jform[' + this.fld.name+nResults + ']');
+	hiddenInput.setAttribute('name', 'jform[' + this.fld.name+nResults + ']');
 	if(isInternal)
 		hiddenInput.setAttribute('value', this.aSuggestions[ this.iHighlighted-1 ].id);
 	else
@@ -711,7 +711,7 @@ function removeAuthor(controlName){
 function moveUp(controlName){
 	var ili = document.getElementById(controlName);
 	var suffix = controlName.substring(2, controlName.length); 
-	var inputHidden = document.getElementById(suffix);
+	var inputHidden = document.getElementById('jform[' + suffix + ']');
 	var nameSpan = document.getElementById('span'+suffix);
 	
 	if(ili){
@@ -719,7 +719,7 @@ function moveUp(controlName){
 		var iliPrevious = ili.previousSibling;
 		if(iliPrevious){			
 			var previousSuffix = iliPrevious.id.substring(2, iliPrevious.id.length);			
-			var previousInput = document.getElementById(previousSuffix);
+			var previousInput = document.getElementById('jform['+previousSuffix+']');
 			var namePreviousSpan = document.getElementById('span'+previousSuffix);
 
 			// Intercambio del valor de los inputs
@@ -737,7 +737,7 @@ function moveUp(controlName){
 function moveDown(controlName){
 	var ili = document.getElementById(controlName);
 	var suffix = controlName.substring(2, controlName.length); 
-	var inputHidden = document.getElementById(suffix);
+	var inputHidden = document.getElementById('jform['+ suffix + ']');
 	var nameSpan = document.getElementById('span'+suffix);
 	
 	if(ili){
@@ -745,7 +745,7 @@ function moveDown(controlName){
 		var iliNext = ili.nextSibling;
 		if(iliNext){			
 			var nextSuffix = iliNext.id.substring(2, iliNext.id.length);			
-			var nextInput = document.getElementById(nextSuffix);
+			var nextInput = document.getElementById('jform['+nextSuffix+']');
 			var nameNextSpan = document.getElementById('span'+nextSuffix);
 
 			// Intercambio del valor de los inputs y etiquetas

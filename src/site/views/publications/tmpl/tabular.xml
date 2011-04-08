@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-	<layout title="JRESEARCH_PUBLICATIONS_LIST" option="com_content_article_view_default_option">
+	<layout title="JRESEARCH_PUBLICATIONS_TABULAR_VIEW" option="com_content_article_view_default_option">
 		<help
-			key = "JRESEARCH_PUBLICATIONS_LIST_VIEW_MESSAGE"
+			key = "JRESEARCH_PUBLICATIONS_TABULAR_VIEW_MESSAGE"
 		/>
 		<message>
-			<![CDATA[JRESEARCH_PUBLICATIONS_LIST_VIEW_MESSAGE]]>
+			<![CDATA[JRESEARCH_PUBLICATIONS_TABULAR_VIEW_MESSAGE]]>
 		</message>
 	</layout>
 	<fields name="params">
 		<!-- Basic options. -->
 		<fieldset name="basic"
 			label="JRESEARCH_VIEW_WHICH_PUBLICATIONS">
-
+			<field name="layout" value="tabular" type="hidden" />
 			<field name="filter_show" type="list" default="0" label="JRESEARCH_PUBLICATIONS_SHOW" description="JRESEARCH_PUBLICATIONS_SHOW_DESCRIPTION">
 				<option value="all">All publications</option>
 				<option value="my">Only my publications</option>

@@ -109,24 +109,11 @@ class JResearchActivity extends JTable{
 	public $authors;
 	
 	/**
-	 * Array of internal authors ids
+	 * Cache for list of authors 
 	 *
 	 * @var array
 	 */
-	protected $_internalAuthors;
-
-	/**
-	 * Array of internal members (JResearchMember)
-	 *
-	 * @var array
-	 */
-	protected $_internalAuthorsObjects = null;
-	
-	/**
-	 * Array of external authors names
-	 * @var array
-	 */
-	protected $_externalAuthors;
+	protected $_authorsArray;
 	
 	/**
 	 * Name used by subtypes.
@@ -145,9 +132,6 @@ class JResearchActivity extends JTable{
 
 	public function __construct($table, $key, $db ){
 	 	parent::__construct($table, $key, $db);
-	 	$this->_internalAuthors = array();
-		$this->_externalAuthors = array();
-		$this->_internalAuthorsObjects = null;
 	}
 	
 		 
@@ -158,69 +142,18 @@ class JResearchActivity extends JTable{
 	protected function _loadAuthors(){
         $db = $this->getDBO();
 
-        $internalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_internal_author');
-        $idActivity = $db->nameQuote('id_'.$this->_type);
-        $qoid = $db->Quote($this->id);
-        $externalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_external_author');
+		$query = 'SELECT '.$db->nameQuote('id').' FROM 
+		(SELECT '.$db->nameQuote('id_staff_member').' as id, '.$db->nameQuote('order').' FROM #__jresearch_publication_internal_author 
+		WHERE '.$db->nameQuote("id_".$this->_type).' = '.$db->Quote($this->id).' UNION 
+		(SELECT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('order').' FROM #__jresearch_publication_external_author
+		WHERE '.$db->nameQuote("id_".$this->_type).' = '.$db->Quote($this->id).')) R1 order by R1.'.$db->nameQuote('order');
 		
-		// Get internal authors
-        $internalAuthorsQuery = "SELECT * FROM $internalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
-        $db->setQuery($internalAuthorsQuery);
-        if(($result = $db->loadAssocList())){
-            $this->_internalAuthors = $result;
-        }else{
-            $this->_internalAuthors = array();
-        }
-
-        // Get external authors
-        $externalAuthorsQuery = "SELECT * FROM $externalTable WHERE $idActivity = $qoid ORDER by ".$db->nameQuote('order');
-        $db->setQuery($externalAuthorsQuery);
-        if(($result = $db->loadAssocList())){
-            $this->_externalAuthors = $result;
-        }else{
-            $this->_externalAuthors = array();
-        }
-
+		$db->setQuery($query);
+		$result = $db->loadResultArray();
+		
+		$this->authors = implode(',', $result);
    }
 	
-
-	/**
-	* Sets an author. 
-	* 
-	* @param mixed $member. It has two interpretations depending on the $internal parameter. If $internal
-	* is true, $member must be a member database integer id, otherwise it will be a name.
-	* @param int $order. The order of the author in the publication. Order is important in publications
-	* as it shows the relevance of author's participation. Small numbers indicate more relevance. It must be
-	* a non negative number.
-	* @param boolean $internal If true, the author is part of staff and $member is the id, otherwise
-	* the author is not part of the center. 
-	* 
-	* @return true If the author could be correctly added (order is >= 0 and there is not any other author associated
-	* to the order number), false otherwise.
-	*/	
-	function setAuthor($member, $order, $internal=false){		
-		$newEntry = array();
-		
-		if($order < 0)
-			return false;
-			
-		// Another author is using the same order number						
-		if($this->getAuthor($order) != null)
-			return false;
-
-		$newEntry['id'] = $this->id;					
-		$newEntry['order'] = $order;
-		
-		if($internal){
-			$newEntry['id_staff_member'] = $member;
-			$this->_internalAuthors[] = $newEntry;
-		}else{
-			$newEntry['author_name'] = $member;  
-			$this->_externalAuthors[] = $newEntry;
-		}
-		
-		return true;
-	}
 	
 	/**
 	 * Returns the complete list of authors (internal and externals) suitably ordered. 
@@ -231,19 +164,55 @@ class JResearchActivity extends JTable{
 	 * External ones are strings.
 	 */
 	public function getAuthors(){
-		$nAuthors = $this->countAuthors();
-		$result = array();
-		$i = 0;
-		
-		while($i < $nAuthors){
-			$auth = $this->getAuthor($i);
-			if($auth !== null){
-				$result[] = $auth;
+		if(empty($this->_authorsArray)){
+			$this->_authorsArray = array();
+			
+			if(!empty($this->authors))
+				$tmpAuthorsArray = explode(',', $this->authors);
+			else
+				$tmpAuthorsArray = array();	
+			
+			foreach($tmpAuthorsArray as $author){
+				if(is_numeric($author)){
+					$member = JTable::getInstance('Member', 'JResearch');
+					$member->load((int)$author);
+					$this->_authorsArray[] = $member;
+				}else{
+					$this->_authorsArray[] = $author;
+				}
 			}
-			$i++;
 		}
 		
-		return $result;
+		return $this->_authorsArray;
+	}
+	
+	/**
+	 * 
+	 * Adds an author to the activity
+	 * @param mixed If $author is a integer or numeric string it is consider as the id
+	 * of a J!Research member, otherwise it is considered as an external author.
+	 * If it is a JResearchMember, only its id is taken.
+	 */
+	public function addAuthor($author){		
+		$textToAppend = '';
+		$this->_authorsArray = null;
+		
+		if($author instanceof JResearchMember){
+			$textToAppend = (string)$author->id;
+		}elseif(is_numeric($author)){
+			$textToAppend = (string)$author;
+		}elseif(is_string($author)){
+			$textToAppend = $author;
+		}else{
+			return false;
+		}
+
+		if(!empty($this->authors))
+			$this->authors .= ','.$textToAppend;
+		else
+			$this->authors = $textToAppend;	
+		
+		return true;	
 	}
 	
 	/**
@@ -255,22 +224,9 @@ class JResearchActivity extends JTable{
 	 * JResearchMember instance when the author is internal.
 	 * null when the index does not make sense (e.g the publication has 3 authors and $index=4 or $index<0)
 	 */
-	public function getAuthor($index){
-		$n = $this->countAuthors();
-		if($index < 0 || $index >= $n){
-			return null;		
-		}else{
-			$internalAuthors = $this->getInternalAuthors();
-			if(isset($internalAuthors[$index]))
-				return $internalAuthors[$index];
-			else{
-				$externalAuthors = $this->getExternalAuthors();
-				if(isset($externalAuthors[$index]))
-					return $externalAuthors[$index];
-
-				return null;
-			}
-		}
+	public function getAuthor($index){		
+		$this->getAuthors();
+		return $this->_authorsArray[$index];
 	}
 	
 	/**
@@ -281,16 +237,19 @@ class JResearchActivity extends JTable{
 	 * as key.
 	 */
 	public function getInternalAuthors(){
-		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');		
-		$db = $this->getDBO();
-		if($this->_internalAuthorsObjects == null){
-			foreach($this->_internalAuthors as $member){
-				$memberObject = new JResearchMember($db);
-				$memberObject->load($member['id_staff_member']);
-				$this->_internalAuthorsObjects[$member['order']] = $memberObject;
-			}
-		}		
-		return $this->_internalAuthorsObjects;
+		$this->getAuthors();
+		
+		$internalsArray = array();
+		$index = 0;
+		
+		foreach($this->_authorsArray as $author){
+			if($author instanceof JResearchMember){
+				$internalsArray[$index] = $author; 
+			}			
+			$index++;
+		}
+		
+		return $internalsArray;		
 	}
 	
 	/**
@@ -299,11 +258,19 @@ class JResearchActivity extends JTable{
 	 * @return array Associative array, where the order is the key and the author's name, the value.
 	 */
 	public function getExternalAuthors(){
-		$result = array();
-		foreach($this->_externalAuthors as $author){
-			$result[$author['order']] = $author['author_name'];
+		$this->getAuthors();
+		
+		$externalsArray = array();
+		$index = 0;
+		
+		foreach($this->_authorsArray as $author){
+			if(is_string($author)){
+				$externalsArray[$index] = $author; 
+			}			
+			$index++;
 		}
-		return $result;
+		
+		return $externalsArray;
 	}
 	
 	/**
@@ -312,9 +279,8 @@ class JResearchActivity extends JTable{
 	 */
 	public function reset(){
 		parent::reset();
-		$this->_externalAuthors = array();
-		$this->_internalAuthors = array();
-		$this->_internalAuthorsObjects = null;
+		$this->_authorsArray = null;
+		$this->_areas = null;
 	}
 	
 	/**
@@ -323,7 +289,11 @@ class JResearchActivity extends JTable{
 	 * @return int
 	 */
 	public function countAuthors(){
-		return count($this->_internalAuthors) + count($this->_externalAuthors);
+		if(!empty($this->_authorsArray)){
+			return count($this->_authorsArray);
+		}else{
+			return count(explode(',', $this->authors));
+		}	
 	}
 	
 	/**
@@ -333,35 +303,6 @@ class JResearchActivity extends JTable{
 	 * invalid author names are provided.
 	 */
 	public function checkAuthors(){
-		// Verify there are not repeated authors
-		// First, internal ones
-		$n = count($this->_internalAuthors);
-		for($i=0; $i<$n; $i++){
-			for($j=$i+1; $j<$n; $j++){
-				if($this->_internalAuthors[$i]['id_staff_member'] == $this->_internalAuthors[$j]['id_staff_member']){
-					$this->setError(JText::sprintf('The member with id %d appears more than once as author', $this->_internalAuthors[$i]['id_staff_member']));
-					return false;
-				}
-			}			
-		}
-		// External ones
-		$n = count($this->_externalAuthors);
-		for($i=0; $i<$n; $i++){
-			// Verify content
-			$name_pattern = '/\w[-_\w\s.]+/';
-			if(!preg_match($name_pattern, $this->_externalAuthors[$i]['author_name'])){
-				$this->setError(JText::_('Authors names can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
-				return false;
-			}
-			
-			for($j=$i+1; $j<$n; $j++){
-				if($this->_externalAuthors[$i]['author_name'] == $this->_externalAuthors[$j]['author_name']){
-					$this->setError(JText::sprintf('%s appears more than once as author', $this->_externalAuthors[$i]['author_name']));
-					return false;
-				}
-			}			
-		}
-		
 		return true;
 	} 
 	
@@ -376,7 +317,7 @@ class JResearchActivity extends JTable{
 			$filesArr = explode(';', trim($this->files));
 			if(!empty($filesArr[$i])){
 				$params = JComponentHelper::getParams('com_jresearch'); 
-				return  JURI::base().'administrator/components/com_jresearch/'.str_replace(DS, '/', $params->get('files_root_path', 'files'))."/$controller/".$filesArr[$i];
+				return  JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, '/', $params->get('files_root_path', 'files'))."/$controller/".$filesArr[$i];
 			}else
 				return null;
 		}else

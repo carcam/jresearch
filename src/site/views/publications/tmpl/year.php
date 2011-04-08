@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 <?php
     $digitalVersion = '';
 	foreach($this->items as $year=>$publications): ?>
-	<h3 class="frontendheader"><?php echo $year; ?></h3>
+	<h2 class="frontendheader"><?php echo $this->escape($year); ?></h2>
     <ul>
     
 	<?php

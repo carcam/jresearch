@@ -11,8 +11,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
 jresearchimport( 'joomla.application.component.model' );
-
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelList.php');
+jresearchimport('models.modelList', 'jresearch.admin');
 
 /**
 * Model class for holding lists of research areas records.
@@ -40,45 +39,45 @@ class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
         }
         
         
-        protected function getListQuery() {
-            // Create a new query object.
-            $db = JFactory::getDBO();
-            $whereClauses = $this->_buildQueryWhere();
-            $orderColumns = $this->_buildQueryOrderBy();
-            $query = $db->getQuery(true);
+	protected function getListQuery() {
+    	// Create a new query object.
+        $db = JFactory::getDBO();
+        $whereClauses = $this->_buildQueryWhere();
+        $orderColumns = $this->_buildQueryOrderBy();
+        $query = $db->getQuery(true);
 
-            $query->select('*');
-            $query->from('#__jresearch_research_area');
-            if(!empty($whereClauses))
-                $query->where($whereClauses);
+        $query->select('*');
+        $query->from('#__jresearch_research_area');
+        if(!empty($whereClauses))
+        	$query->where($whereClauses);
 
-            $query->order($orderColumns);
-            return $query;
-        }
+        $query->order($orderColumns);
+        return $query;
+    }
 	
 	
 	/**
 	* Build the ORDER part of a query.
 	*/
 	private function _buildQueryOrderBy(){
-            //Array of allowable order fields
-            $mainframe = JFactory::getApplication();
-            $orders = array('name', 'published', 'ordering');
-            $columns = array();
+		//Array of allowable order fields
+        $mainframe = JFactory::getApplication();
+        $orders = array('name', 'published', 'ordering');
+        $columns = array();
 
-            $filter_order = $mainframe->getUserStateFromRequest('com_jresearch.researchareas.filter_order', 'filter_order', 'ordering');
-            $filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('com_jresearch.researchareas.filter_order_Dir', 'filter_order_Dir', 'ASC'));
+        $filter_order = $this->getState('com_jresearch.researchareas.filter_order');
+        $filter_order_Dir = $this->getState('com_jresearch.researchareas.filter_order_Dir');
 
-            //Validate order direction
-            if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
-                    $filter_order_Dir = 'ASC';
+        //Validate order direction
+        if($filter_order_Dir != 'asc' && $filter_order_Dir != 'desc')
+        	$filter_order_Dir = 'asc';
 
-            if(!in_array($filter_order, $orders))
-            	$filter_order = 'ordering';        
+        if(!in_array($filter_order, $orders))
+        	$filter_order = 'ordering';        
                     
-            $columns[] = $filter_order.' '.$filter_order_Dir;
+        $columns[] = $filter_order.' '.$filter_order_Dir;
 
-            return $columns;
+        return $columns;
 	}	
 	
 	/**
@@ -87,8 +86,8 @@ class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
 	private function _buildQueryWhere(){
             $db = JFactory::getDBO();
             $mainframe = JFactory::getApplication();
-            $filter_state = $mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_state', 'filter_state');
-            $filter_search = $mainframe->getUserStateFromRequest('com_jresearch.researchAreas.filter_search', 'filter_search');
+            $filter_state = $this->getState('com_jresearch.researchareas.filter_state');
+            $filter_search = $this->getState('com_jresearch.researchareas.filter_search');
 
             // prepare the WHERE clause
             $where = array();
@@ -105,6 +104,25 @@ class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
             }
 
             return $where;			
+	}
+
+	/**
+    * Method to auto-populate the model state.
+    *
+    * This method should only be called once per instantiation and is designed
+    * to be called on the first call to the getState() method unless the model
+    * configuration flag to ignore the request is set.
+    *
+    * @return      void
+    */
+	protected function populateState(){
+		$app = JFactory::getApplication();
+		$this->setState($this->_context.'.filter_order', $app->getUserStateFromRequest($this->_context . '.filter_order', 'filter_order', 'ordering'));
+        $this->setState($this->_context.'.filter_order_Dir', $app->getUserStateFromRequest($this->_context . '.filter_order_Dir', 'filter_order_Dir', 'desc'));        		
+        $this->setState($this->_context.'.filter_search', $app->getUserStateFromRequest($this->_context . '.filter_search', 'filter_search'));
+        $this->setState($this->_context.'.filter_state', $app->getUserStateFromRequest($this->_context . '.filter_state', 'filter_state'));
+        
+        parent::populateState();
 	}
 }
 ?>
