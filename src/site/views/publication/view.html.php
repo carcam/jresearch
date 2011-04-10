@@ -92,7 +92,7 @@ class JResearchViewPublication extends JResearchView
     	
     	$arguments = array('publication', $publication);
     	
-		$pageTitle = $params->get('page_title', JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title);
+		$pageTitle = JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title;
         $doc->setTitle($pageTitle);
     	
         // Bind variables for layout

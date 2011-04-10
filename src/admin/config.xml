@@ -28,6 +28,10 @@
 			<option value="yes">JYES</option>
 			<option value="no">JNO</option>
 		</field>
+		<field name="enable_strict_bibtex" type="radio" default="yes" label="JRESEARCH_CONFIG_ENABLE_STRICT_BIBTEX" description="JRESEARCH_CONFIG_ENABLE_STRICT_BIBTEX_DESCRIPTION">
+			<option value="yes">JYES</option>
+			<option value="no">JNO</option>
+		</field>
 		<field name="make_internal" type="radio" default="no" label="JRESEARCH_CONFIG_MAKE_INTERNAL" description="JRESEARCH_CONFIG_MAKE_INTERNAL_DESCRIPTION">
 			<option value="yes">JYES</option>
 			<option value="no">JNO</option>

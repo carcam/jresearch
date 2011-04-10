@@ -196,9 +196,6 @@ class JResearchResearcharea extends JTable{
             
             $this->modified = $dateObj->toMySQL();
             $this->modified_by = $author;
-            if(empty($this->alias))
-                $this->alias = JFilterOutput::stringURLSafe($this->name);
-
             $result = parent::store();
             
             // If the item is unpublished, unpublished all its children

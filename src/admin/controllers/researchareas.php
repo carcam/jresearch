@@ -45,29 +45,34 @@ class JResearchAdminResearchareasController extends JController
 	* Invoked when saving the information about a research area.
 	*/	
 	function save(){
-             $model = $this->getModel('Researcharea', 'JResearchAdminModel');
-             $app = JFactory::getApplication();
-             if ($model->save()){
-                $task = JRequest::getVar('task');
-                $area = $model->getItem();
-                if($task == 'save'){
-                    $this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
-                    $app->setUserState('com_jresearch.edit.researcharea.data', array());
-                }elseif($task == 'apply'){
-                    $this->setRedirect('index.php?option=com_jresearch&controller=researchareas&task=edit&cid[]='.$area->id, JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
-             	}
-             }else{
-                $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
-                $type = 'error';
-                $app = JFactory::getApplication();
-                $app->enqueueMessage($msg, $type);
-                $view = $this->getView('Researcharea','html', 'JResearchAdminView');
-                $view->setModel($model, true);
-				$view->setLayout('default');
-                $view->display();
-            }
+		if(!JRequest::checkToken()){
+        	$this->setRedirect('index.php?option=com_jresearch');
+            return;
+        }
+		
+		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
+        $app = JFactory::getApplication();
+        if ($model->save()){
+        	$task = JRequest::getVar('task');
+            $area = $model->getItem();
+            if($task == 'save'){
+            	$this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
+                $app->setUserState('com_jresearch.edit.researcharea.data', array());                    
+            }elseif($task == 'apply'){
+                $this->setRedirect('index.php?option=com_jresearch&controller=researchareas&task=edit&cid[]='.$area->id, JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
+         	}             	
+         }else{
+            $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
+            $type = 'error';
+            $app = JFactory::getApplication();
+            $app->enqueueMessage($msg, $type);
+            $view = $this->getView('Researcharea','html', 'JResearchAdminView');
+            $view->setModel($model, true);
+			$view->setLayout('default');
+            $view->display();
+         }
             
-            return true;
+         return true;
 	}
 
 	/**
@@ -77,17 +82,22 @@ class JResearchAdminResearchareasController extends JController
 	 */
 
 	function display(){
-            $view = $this->getView('researchareas', 'html', 'JResearchAdminView');
-            $model = $this->getModel('researchareas', 'JResearchAdminModel');
-            $view->setModel($model, true);
-            $view->setLayout('default');
-            $view->display();
+        $view = $this->getView('researchareas', 'html', 'JResearchAdminView');
+        $model = $this->getModel('researchareas', 'JResearchAdminModel');
+        $view->setModel($model, true);
+        $view->setLayout('default');
+        $view->display();
 	}
 
 	/**
 	* Invoked when the user has published a set of research areas items.
 	*/	
-	function publish(){		
+	function publish(){
+		if(!JRequest::checkToken()){
+        	$this->setRedirect('index.php?option=com_jresearch');
+            return;
+        }
+		
 		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
         if(!$model->publish()){
         	JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
@@ -102,7 +112,12 @@ class JResearchAdminResearchareasController extends JController
 	* @access	public
 	*/ 
 	function unpublish(){		
-        $model = $this->getModel('Researcharea', 'JResearchAdminModel');
+		if(!JRequest::checkToken()){
+        	$this->setRedirect('index.php?option=com_jresearch');
+            return;
+        }
+		
+		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
         if(!$model->unpublish()){
         	JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
         	$this->setRedirect('index.php?option=com_jresearch&controller=researchareas');
@@ -168,6 +183,11 @@ class JResearchAdminResearchareasController extends JController
 	 *
 	 */
 	function cancel(){
+		if(!JRequest::checkToken()){
+        	$this->setRedirect('index.php?option=com_jresearch');
+            return;
+        }
+		
 		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
         $app = JFactory::getApplication();
         if(!$model->checkin()){            	
@@ -178,7 +198,7 @@ class JResearchAdminResearchareasController extends JController
         $this->setRedirect('index.php?option=com_jresearch&controller=researchareas');
 	}
 
-        	/**
+ 	/**
 	* Save the item(s) to the menu selected
 	*/
 	function orderup()
@@ -272,6 +292,5 @@ class JResearchAdminResearchareasController extends JController
             $this->setRedirect( 'index.php?option=com_jresearch&controller=researchareas', $msg );
 	}
 
-	
 }
 ?>

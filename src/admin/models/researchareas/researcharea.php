@@ -44,14 +44,13 @@ class JResearchAdminModelResearchArea extends JModelForm{
                     $query->from('#__jresearch_research_area');
                     $query->where('id = ' . (int)$selected[0]);
                     $db->setQuery((string)$query);
-                    $data = & $db->loadAssoc();
+                    $data =& $db->loadAssoc();
                 }
 
                 if (empty($data))
                 {
                     // Check the session for previously entered form data.
                     $data = $app->getUserState('com_jresearch.edit.researcharea.data', array());
-                    unset($data['id']);
                 }
 
                 // Store the state as an array of values
@@ -84,24 +83,29 @@ class JResearchAdminModelResearchArea extends JModelForm{
          */
         function save()
         {
-                $app = JFactory::getApplication();
+			$app = JFactory::getApplication();
                 
-                $data =& $this->getData();
+            $data =& $this->getData();
                 
-                $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
-                $data['description'] = $form['description'];
+            $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
+            $data['description'] = $form['description'];
+			//Alias generation
+			if(empty($data['alias'])){
+				$data['alias'] = JFilterOutput::stringURLSafe($data['name']);
+			}
+          
+            $row =& $this->getTable('Researcharea', 'JResearch');
 
-                $row =& $this->getTable('Researcharea', 'JResearch');
+            if (!$row->save($data))
+            {
+            	$this->setError($row->getError());
+                return false;
+            }
 
-                if (!$row->save($data))
-                {
-                    $this->setError($row->getError());
-                    return false;
-                }
+            $data['id'] = $row->id;
+            $app->setUserState('com_jresearch.edit.researcharea.data', $data);
 
-                $app->setUserState('com_jresearch.edit.researcharea.data', $data);
-
-                return true;
+            return true;
         }
 
         /**
@@ -183,6 +187,7 @@ class JResearchAdminModelResearchArea extends JModelForm{
         public function getItem(){
             $row = $this->getTable('Researcharea', 'JResearch');
             $data =& $this->getData();
+            JError::raiseWarning(1, var_export($data, true));
             $row->bind($data);
             return $row;
         }

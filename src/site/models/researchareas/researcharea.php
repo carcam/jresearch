@@ -86,15 +86,16 @@ class JResearchModelResearchArea extends JResearchModelItem{
             $areaId = $row->id;
             $db = JFactory::getDBO();
 
-            $query = "SELECT * FROM ".$db->nameQuote('#__jresearch_publication').' WHERE '.$db->nameQuote('published').' = 1 AND '.$db->nameQuote('internal').' = 1'
-                             .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY year DESC, created DESC';
+            $query = "SELECT p.* FROM ".$db->nameQuote('#__jresearch_publication').' p JOIN '.$db->nameQuote('#__jresearch_publication_researcharea').' pa'
+            		.' WHERE p.id = pa.id_publication AND p.published = 1 AND p.internal = 1 AND pa.id_research_area = '.$db->Quote($areaId)
+            		.' ORDER BY year DESC, created DESC';
 
             if($n > 0){
                     $query .= ' LIMIT 0, '.$n;
             }
 
             $db->setQuery($query);
-            $result = $db->loadResultArray();
+            $result = $db->loadAssocList();
             foreach($result as $r){
                 $publication = JTable::getInstance('Publication', 'JResearch');
                 $publication->bind($r);

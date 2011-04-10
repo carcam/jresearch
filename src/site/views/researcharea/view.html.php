@@ -23,6 +23,8 @@ class JResearchViewResearchArea extends JResearchView
      	$arguments = array('researcharea');
     	$doc = JFactory::getDocument();
         $mainframe = JFactory::getApplication('site');
+        $id = JRequest::getVar('id');
+        $pathway = $mainframe->getPathway();
     	
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);
     	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
@@ -44,7 +46,7 @@ class JResearchViewResearchArea extends JResearchView
             return;
         }
         
-        $this->addPathwayItem($area->alias, 'index.php?option=com_jresearch&view=researcharea&id='.$area->id);
+        $pathway->addItem($area->alias, 'index.php?option=com_jresearch&view=researcharea&id='.$area->id);
         $arguments[] = $area;
         $latestPublications = $params->get('area_number_last_publications', 5);
         if($publications_view_all == 0)	

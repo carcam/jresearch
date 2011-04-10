@@ -53,9 +53,8 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('save', 'save');
 		$this->registerTask('cancel', 'cancel');
-		$this->registerTask('filtered', 'filtered');
 		$this->registerTask('changeType', 'changeType');
-		$this->registerTask('export', 'export');
+		$this->registerTask('exportSingle', 'export');
 		$this->registerTask('exportAll', 'exportAll');
 		$this->registerTask('executeImport', 'executeImport');
 				
@@ -85,7 +84,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		// Sort parameters
 		if($format == 'html'){
 			// For publications page, take configuration parameters
-			$limit = $params->get('publications_entries_per_page');			
+			$limit = $params->get('publications_entries_per_page', 25);			
 			$filter_order_Dir = $params->get('publications_order', 'DESC');
 			$filter_order = $params->get('publications_default_sorting', 'year');
 			$limitstart = JRequest::getVar('limitstart', null);		
@@ -95,7 +94,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 			// For feeds, sort desc by year.
 			$filter_order_Dir = 'DESC';
 			$filter_order = 'year';	
-			$limit = $params->get('publications_items_in_feed');
+			$limit = $params->get('publications_items_in_feed', 10);
 			$limitstart = 0;
 		}
 		
@@ -104,10 +103,10 @@ class JResearchPublicationsController extends JResearchFrontendController
 		JRequest::setVar('filter_order_Dir', $filter_order_Dir);
 					
 		// Set the view and the model
-		$model =& $this->getModel('Publications', 'JResearchModel');
-		$view =& $this->getView('Publications', $format, 'JResearchView');
+		$model = $this->getModel('Publications', 'JResearchModel');
+		$view = $this->getView('Publications', $format, 'JResearchView');
 		$view->setModel($model, true);
-		
+		$view->setLayout(JRequest::getVar('layout', 'default'));		
 		$view->display();
 	}
 
@@ -548,39 +547,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		
 		$this->setRedirect('index.php?option=com_jresearch&controller=publications'.$ItemidText.$viewText);
 	}
-	
-
-	function filtered(){
-            global $mainframe;
-            //Get and use configuration
-            $params = $mainframe->getPageParameters('com_jresearch');
-
-            // Use configuration parameters
-            $limit = $params->get('publications_entries_per_page');
-            $filter_order_Dir = $params->get('publications_order', 'DESC');
-            $filter_order = $params->get('publications_default_sorting', 'title');
-
-            JRequest::setVar('limitstart', JRequest::getInt('limitstart', 0));
-            JRequest::setVar('limit', $limit);
-            JRequest::setVar('filter_order', $filter_order);
-            JRequest::setVar('filter_order_Dir', $filter_order_Dir);
-
-
-            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');
-            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
-            $view = &$this->getView('PublicationsList', 'html', 'JResearchView');
-            $pubModel = $this->getModel('PublicationsList', 'JResearchModel');
-            $areaModel = $this->getModel('ResearchAreasList', 'JResearchModel');
-            $teamsModel = $this->getModel('Teams', 'JResearchModel');
-
-            $view->setModel($pubModel, true);
-            $view->setModel($areaModel);
-            $view->setModel($teamsModel);
-            $view->setLayout('filtered');
-            $view->display();
 		
-	}
-	
 	/**
 	* Invoked when an administrator has decided to remove one or more items
 	* @access	public
@@ -750,42 +717,43 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 * @return
 	 */
 	function export(){
-            global $mainframe;
-            $params = $mainframe->getPageParameters('com_jresearch');
-            $exportEnabled = $params->get('enable_export_frontend', 'no');
-            $document =& JFactory::getDocument();
-            $format = JRequest::getVar('format');
+		$mainframe = JFactory::getApplication();
+        $params = $mainframe->getPageParameters('com_jresearch');
+        $exportEnabled = $params->get('enable_export_frontend', 'yes');
+		$strictBibtex = $params->get('enable_strict_bibtex', 'yes');		    
+        $document = JFactory::getDocument();
+        $format = JRequest::getVar('format', 'bibtex');
 
-            if($exportEnabled == 'yes'){
-                    $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
-                    require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');
-                    $id = JRequest::getInt('id');
-                    $model = $this->getModel('Publication', 'JResearchModel');
-                    $publication = $model->getItem($id);
-
-                    if($publication == null){
-                            $output = JText::_('JRESEARCH_ITEM_NOT_FOUND');
-                    }elseif($publication->published){
-                            $exporter = JResearchPublicationExporterFactory::getInstance($format);
-                            $output = $exporter->parse($publication);
-                            $document->setMimeEncoding($exporter->getMimeEncoding());
-                    }else{
-                            $output = JText::_('JRESEARCH_ITEM_NOT_FOUND');
-                    }
-
+        if($exportEnabled == 'yes'){
+            jresearchimport('helpers.exporters.factory', 'jresearch.admin');
+            $id = JRequest::getInt('id');
+            $model = $this->getModel('Publication', 'JResearchModel');
+            $publication = $model->getItem();
+  			if($publication == null){
+            	$output = JText::_('JRESEARCH_ITEM_NOT_FOUND');
+            }elseif($publication->published && $publication->internal){
+    			$exportOptions = array();
+            	$exportOptions['strict_bibtex'] = ($strictBibtex ==  'yes');                	
+            	$exporter = JResearchPublicationExporterFactory::getInstance($format);
+                $output = $exporter->parse($publication, $exportOptions);
+                $document->setMimeEncoding($exporter->getMimeEncoding());
             }else{
-                    $output = JText::_('JRESEARCH_ENABLE_EXPORT_FROM_FRONTEND');
-                    $document->setMimeEncoding('text/plain');
+	            $output = JText::_('JRESEARCH_ITEM_NOT_FOUND');
             }
 
-            if($format == 'bibtex')
-                    $ext = 'bib';
-            else
-                    $ext = $format;
+        }else{
+                $output = JText::_('JRESEARCH_ENABLE_EXPORT_FROM_FRONTEND');
+                $document->setMimeEncoding('text/plain');
+        }
 
-            $tmpfname = "jresearch_output.$ext";
-            header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
-            echo $output;
+        if($format == 'bibtex')
+            $ext = 'bib';
+        else
+            $ext = $format;
+
+        $tmpfname = "jresearch_output.$ext";
+        header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
+        echo $output;
 	}
 	
 	/**
@@ -794,35 +762,35 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 */
 	function exportAll(){
             //Do the export only if export from frontend is enabled
-            $exportOptions = array();
-            global $mainframe;
-            $params = $mainframe->getPageParameters('com_jresearch');
-            $exportEnabled = $params->get('enable_export_frontend', 'no');
-            $document = JFactory::getDocument();
-            $format = JRequest::getVar('format', 'bibtex');
+		$exportOptions = array();
+        $mainframe = JFactory::getApplication();
+        $params = $mainframe->getPageParameters('com_jresearch');
+        $exportEnabled = $params->get('enable_export_frontend', 'yes');
+        $strictBibtex = $params->get('enable_strict_bibtex', 'yes');
+        $document = JFactory::getDocument();
+        $format = JRequest::getVar('format', 'bibtex');
 
-            if($exportEnabled == 'yes'){
-                    $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
-                    require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');
-                    $model = $this->getModel('PublicationsList', 'JResearchModel');
-                    $publicationsArray = $model->getData(null, true, false);
-                    $exportOptions['strict_bibtex'] = false;
-                    $exporter =& JResearchPublicationExporterFactory::getInstance($format);
-                    $output = $exporter->parse($publicationsArray, $exportOptions);
-                    $document->setMimeEncoding($exporter->getMimeEncoding());
-            }else{
-                    $output = JText::_('JRESEARCH_ENABLE_EXPORT_FROM_FRONTEND');
-                    $document->setMimeEncoding('text/plain');
-            }
+        if($exportEnabled == 'yes'){
+            jresearchimport('helpers.exporters.factory', 'jresearch.admin');
+			$model = $this->getModel('Publications', 'JResearchModel');
+            $publicationsArray = $model->getItems();
+            $exportOptions['strict_bibtex'] = ($strictBibtex ==  'yes');
+            $exporter = JResearchPublicationExporterFactory::getInstance($format);
+            $output = $exporter->parse($publicationsArray, $exportOptions);
+            $document->setMimeEncoding($exporter->getMimeEncoding());
+        }else{
+        	$output = JText::_('JRESEARCH_ENABLE_EXPORT_FROM_FRONTEND');
+            $document->setMimeEncoding('text/plain');
+        }
 
-            if($format == 'bibtex')
-                    $ext = 'bib';
-            else
-                    $ext = $format;
+        if($format == 'bibtex')
+        	$ext = 'bib';
+        else
+        	$ext = $format;
 
-            $tmpfname = "jresearch_output.$ext";
-            header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
-            echo $output;
+        $tmpfname = "jresearch_output.$ext";
+        header ("Content-Disposition: attachment; filename=\"$tmpfname\"");
+        echo $output;
 	}
 	
 	/**
