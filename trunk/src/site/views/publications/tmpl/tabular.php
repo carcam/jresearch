@@ -7,39 +7,77 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
 ?>
-<h1 class="componentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h1>
-<form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publicationslist&amp;layout=filtered&amp;task=filtered&amp;modelkey=tabular">
+<?php if($this->showHeader): ?>
+<h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
+<?php endif; 
+$nCols = 2;
+if($this->showResearchAreas) $nCols++;
+if($this->showYear) $nCols++;
+if($this->showScore) $nCols++;
+$exportColumn = false;
+if($this->showBibtex || $this->showRis || $this->showMods){ $nCols++; $exportColumn = true; }
+if($this->showAuthors) $nCols++;	
+if($this->showHits) $nCols++;
+
+?>
+<?php if($this->exportAll): ?>
+<div style="text-align: right;">
+<?php 		
+		echo '<span>'.JText::_('JRESEARCH_PUBLICATIONS_EXPORT_ALL').': </span>';
+		echo '<span>';
+?>
+<?php if($this->exportAllFormat == 'all'): 
+		$exportAllLinks = array();
+		$exportAllLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportAll&format=bibtex'), 'Bibtex');
+		$exportAllLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportAll&format=ris'), 'RIS');
+		$exportAllLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportAll&format=mods'), JText::_('MODS'));		
+		echo implode(', ', $exportAllLinks);
+		echo '</span>';
+	else:
+		echo '<span>'.JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportAll&format='.$this->exportAllFormat), $this->exportAllFormat == 'bibtex'? JString::ucfirst($this->exportAllFormat) : JString::strtoupper($this->exportAllFormat)).'</span>';		
+	endif;
+?>
+</div>
+<?php endif; ?>
+<form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publications&amp;layout=tabular">
 	<div style="text-align:left">
 		<?php echo $this->filter; ?>
-		<div>&nbsp;<?php echo JHTML::_('jresearchfrontend.icon','add','publications'); ?></div>						
 	</div>
-	<?php $label = JText::_('JRESEARCH_PUNCTUATION_AVERAGE'); ?>
-	<?php if(!empty($this->average))
-		printf("<div><h2>%s:&nbsp;%.2f</h2></div>", $label, $this->average); 
-	?>
-	<table style="clear: both;">
+	<table style="clear: both;width:100%;">
 		<thead>
 		<tr>		
 			<th style="width:3%;">#</th>
-			<th style="text-align:center;width:40%;"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
-			<th style="text-align:center;width:35%;"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
-			<th style="text-align:center;width:10%;"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
-			<?php if($this->showScore): ?>
-			<th style="text-align:center;width:10%;"><?php echo $this->punctuationField == 'journal_acceptance_rate'?JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'):JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR'); ?></th>
+			<th style="text-align:center;width:25%;"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
+			<?php if($this->showAuthors): ?>
+				<th style="text-align:center;width:25%;"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
 			<?php endif; ?>
+			<?php if($this->showYear): ?>
+				<th style="text-align:center;width:10%;"><?php echo JText::_('JRESEARCH_YEAR'); ?></th>
+			<?php endif; ?>
+			<?php if($this->showResearchAreas): ?>
+				<th style="text-align:center;width:20%;"><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></th>			
+			<?php endif; ?>
+			<?php if($this->showScore): ?>
+				<th style="text-align:center;width:10%;"><?php echo $this->fieldForPunctuation == 'journal_acceptance_rate'?JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE'):JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR'); ?></th>
+			<?php endif; ?>
+			<?php if($this->showHits): ?>
+				<th style="text-align:center;width:5%;"><?php echo JText::_('JRESEARCH_HITS'); ?></th>
+			<?php endif;?>
 			<?php $user = JFactory::getUser(); 
-				  if(!$user->guest): ?>
-						<th style="width:2%;"></th>
+				  if(!$user->guest): 
+				  		$nCols++; ?>
+						<th style="width:2%;"></th>						
 			<?php endif; ?>			
+			<?php if($exportColumn): ?>
+			<th><?php $nCols++; ?></th>
+			<?php endif?>
 		</tr>
 		</thead>
 		
 		<tfoot>
 			<tr>
-				<td colspan="6">
-					<div>&nbsp;</div>
+				<td colspan="<?php echo $nCols; ?>">
 					<div style="text-align:center;"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>
 				</td>
 			</tr>
@@ -53,30 +91,60 @@ require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
 			$Itemid = JRequest::getVar('Itemid');
 			$outIndex = JRequest::getInt('limitstart', 0) + 1;
 			for($i=0; $i<$n; $i++){
-	          		$authors = $this->items[$i]->getAuthors();
-    	      			$text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->format);
+	          		if($this->showAuthors){
+						$authors = $this->items[$i]->getAuthors();
+	        	  		$text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->format);
+	          		}
 		?>
 				<tr class="<?php $k = i%2; echo "row$k"; ?>">
-					<td><?php echo $outIndex; ?></td>
-					<td><?php echo JHTML::_('jresearchfrontend.link', $publication->title ,'publication', 'show', $publication->id); ?></td>
-					<td style="text-align:center"><?php echo $text; ?></td>
-					<td style="text-align:center"><?php echo $this->items[$i]->year; ?></td>
-					<?php if($this->showScore): ?>
-					<td style="text-align:center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
+					<td style="text-align:center;"><?php echo $outIndex; ?></td>
+					<td><?php echo JHTML::_('jresearchfrontend.link', $this->items[$i]->title ,'publication', 'show', $this->items[$i]->id); ?></td>
+					<?php if($this->showAuthors): ?>
+						<td style="text-align:center"><?php echo $text; ?></td>
 					<?php endif; ?>
+					<?php if($this->showYear): ?>
+						<td style="text-align:center"><?php echo $this->items[$i]->year; ?></td>
+					<?php endif; ?>	
+					<?php if($this->showResearchAreas): ?>
+						<td style="text-align:center"><?php echo JHTML::_('jresearchfrontend.researchareaslinks', $this->items[$i]->getResearchAreas('names'), 'inline'); ?></td>
+					<?php endif; ?>
+					<?php if($this->showScore): ?>
+						<td style="text-align:center"><?php echo !empty($this->items[$i]->journal_acceptance_rate)?$this->items[$i]->journal_acceptance_rate:'--'; ?></td>
+					<?php endif; ?>
+					<?php if($this->showHits): ?>
+						<td style="text-align:center"><?php echo $this->items[$i]->hits; ?></td>					
+					<?php endif;?>
 					<?php if(!$user->guest): ?>
 						<td><?php JHTML::_('jresearchfrontend.icon', 'edit', 'publications', $this->items[$i]->id); ?></td>
-					<?php endif; ?>			
+					<?php endif; ?>
+					<?php if($exportColumn): ?>
+						<td style="text-align:center;">
+						<?php 
+							$exportLinks = array();
+							if($this->showBibtex):
+								$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=bibtex&id='.$this->items[$i]->id), 'Bibtex');	
+							endif;						
+							
+							if($this->showRis):
+								$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=mods&id='.$this->items[$i]->id), 'MODS');	
+							endif;
+								
+							if($this->showMods):
+								$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=ris&id='.$this->items[$i]->id), 'RIS');
+							endif;
+
+							echo implode(' , ', $exportLinks);
+						?>
+						</td>			
+					<?php endif; ?>
 				</tr>
 				<?php $outIndex++; ?>
 			<?php
 			}
-			else:
+		else:
 			?>
-			<tr><td colspan="5">&nbsp;</td></tr>
-			<?php 
-			endif;
-			?>
+			<tr><td colspan="<?php echo $nCols; ?>" ></td>
+		<?php endif;?>
 		</tbody>
 	</table>
 	<input type="hidden" name="option" value="com_jresearch" />

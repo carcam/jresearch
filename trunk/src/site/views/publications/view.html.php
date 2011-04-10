@@ -35,7 +35,7 @@ class JResearchViewPublications extends JResearchView
              case 'generatebibliography':
                 $this->_displayGenerateBibliographyDialog();
                 break;
-            case 'filtered':
+            case 'tabular':
                 $this->_displayTabularList($tpl);
                 break;
             default:
@@ -51,39 +51,55 @@ class JResearchViewPublications extends JResearchView
      * and calculating the average per group.
      */
     private function _displayTabularList($tpl = null){
-    	$mainframe = JFactory::getApplication();    	
-    	
+    	$mainframe = JFactory::getApplication();    	    	
     	$doc = JFactory::getDocument();
+    	$params = $mainframe->getParams('com_jresearch');    	
     	$doc->addStyleDeclaration(".title{text-align:center;}");
-    	
-    	$teamId = JRequest::getVar('teamid');
+    	    	    	
+    	$user = JFactory::getUser();
     	$model = $this->getModel();
-    	$lists = array();    	
-
-    	$items = $model->getData(null, true, true);
+    	$items = $model->getItems();
     	$page = $model->getPagination();
-    	$params = $mainframe->getParams('com_jresearch'); 
-		$field = $params->get('field_for_average');    	
+    	    	       
+    	$this->_setFilters();
     	
-    	if($params->get('show_average') == 'yes'){
-            $average = $model->getAverage($field);
-            $this->assignRef('average', $average);
-    	}
-    	
-    	
-    	$format = $params->get('staff_format') == 'last_first'?1:0;
-    	$showScore = $params->get('show_score');
-    	
-    	$doc->setTitle(JText::_('JRESEARCH_PUBLICATIONS'));
-    
-    	$this->_setFilter();
-    	
+    	$pageHeader = $params->get('page_heading', JText::_('JRESEARCH_PUBLICATIONS'));
+    	$showHeader = $params->get('show_page_heading', 1);
+    	$showYear = ($params->get('show_year', 'yes') == 'yes');
+    	$showResearchAreas = ($params->get('show_research_areas', 'yes') == 'yes');
+    	$showBibtex = ($params->get('show_export_bibtex', 'no') == 'yes');
+    	$showRis = ($params->get('show_export_ris', 'no') == 'yes');
+    	$showMods = ($params->get('show_export_mods', 'no') == 'yes');
+    	$showHits = ($params->get('show_hits', 'no') == 'yes');
+    	$format = $params->get('staff_format', 'last_first');
+    	$showScore = ($params->get('show_score', 'no') == 'yes');
+    	$showAuthors = ($params->get('show_authors', 'yes') == 'yes');
+		$field = $params->get('field_for_score', 'impact_factor');    	    	    	
+		$exportAll = ($params->get('show_export_all', 'no') == 'yes');
+    	$exportAllFormat = $params->get('show_export_all_format', 'bibtex');
+
+    	$this->assignRef('exportAll', $exportAll);
+    	$this->assignRef('exportAllFormat', $exportAllFormat);
+    	$this->assignRef('header', $pageHeader);
+    	$this->assignRef('showHeader', $showHeader);    	
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $page);
     	$this->assignRef('lists', $lists);
     	$this->assignRef('showScore', $showScore);
-    	$this->assignRef('punctuationField', $field);
     	$this->assignRef('format', $format);
+    	$this->assignRef('showYear', $showYear);
+    	$this->assignRef('showRis', $showRis);
+    	$this->assignRef('showHits', $showHits);
+    	$this->assignRef('showBibtex', $showBibtex);
+    	$this->assignRef('showResearchAreas', $showResearchAreas);
+    	$this->assignRef('showAuthors', $showAuthors);
+    	$this->assignRef('fieldForPunctuation', $field);
+
+        $eArguments = array('publications', $this->getLayout());
+        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+        parent::display($tpl);
+        $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
+    	
     }
     
     /**
@@ -96,30 +112,8 @@ class JResearchViewPublications extends JResearchView
     	
     	$doc = JFactory::getDocument();
     	$params = $mainframe->getParams('com_jresearch');    	
-    	$filter_pubtype = $params->get('filter_pubtype', 'all');
     	
-    	if($filter_pubtype != 'all')
-    	{
-    		JRequest::setVar('filter_pubtype', $filter_pubtype);
-    	}
-    	
-    	$user = JFactory::getUser();
-    	$filter_show = $params->get('filter_show', 'all');
-    	
-    	//My publications
-    	$id_member = -1;
-    	
-    	if($filter_show == "my")
-    	{
-    		//Only in this case, force the model (ignore the filters)	    	
-    		$member = JTable::getInstance('Member', 'JResearch');
-    		$member->bindFromUsername($user->username);
-    		$id_member = $member->id;    	
-   		    JRequest::setVar('filter_author', $id_member); 			
-    	}
-    	
-    	$document =& JFactory::getDocument();    	
-    	//$document->setTitle('Publications');
+    	$document =& JFactory::getDocument();
     	$feed = 'index.php?option=com_jresearch&amp;view=publicationslist&amp;format=feed';
 		$rss = array(
 			'type' => 'application/rss+xml',
@@ -346,10 +340,11 @@ class JResearchViewPublications extends JResearchView
 		
 		$lists = array();
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
+		$this->state = $this->get('State');
 		
 		if($bSearch === true)
         {
-    		$filter_search = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_search', 'filter_search');
+    		$filter_search = $this->state->get('com_jresearch.publications.filter_search');
      		$lists['search'] = JText::_('Filter').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search).'" class="text_area" onchange="document.adminForm.submit();" />
 								<button onclick="document.adminForm.submit();">'.JText::_('Go').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
 								.JText::_('Reset').'</button>';
@@ -360,10 +355,10 @@ class JResearchViewPublications extends JResearchView
     		// Publication type filter
     		$typesHTML = array();
     		
-			$filter_pubtype = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_pubtype', 'filter_pubtype');    		
+			$filter_pubtype =  $this->state->get('com_jresearch.publications.filter_pubtype');
 			$types = JResearchPublicationsHelper::getPublicationsSubtypes();
 			
-			$typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
+			$typesHTML[] = JHTML::_('select.option', 'all', JText::_('JRESEARCH_PUBLICATION_TYPE'));
 			foreach($types as $type)
 			{
 				$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
@@ -377,7 +372,7 @@ class JResearchViewPublications extends JResearchView
 			$yearsHTML = array();
 
 			
-			$filter_year = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_year', 'filter_year');			
+			$filter_year = $this->state->get('com_jresearch.publications.filter_year');			
 			
 			$db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
 			$years = $db->loadResultArray();
@@ -394,7 +389,7 @@ class JResearchViewPublications extends JResearchView
     	if($bAuthors === true)
     	{
 			$authorsHTML = array();
-    		$filter_author = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_author', 'filter_author');
+    		$filter_author = $this->state->get('com_jresearch.publications.filter_author');
 			$authors = JResearchPublicationsHelper::getAllAuthors();
 
 			$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
@@ -409,7 +404,7 @@ class JResearchViewPublications extends JResearchView
 		{
 			//Team filter
 			$teamsOptions = array();  
-	    	$filter_team = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_team', 'filter_team');    		
+	    	$filter_team = $this->state->get('com_jresearch.publications.filter_team');;    		
     		$teams = JResearchTeamsHelper::getTeams();
         	      
 	        $teamsOptions[] = JHTML::_('select.option', -1 ,JText::_('JRESEARCH_ALL_TEAMS'));
@@ -425,7 +420,7 @@ class JResearchViewPublications extends JResearchView
     		//Researchareas filter
     		$areasOptions = array();
     		
-			$filter_area = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_area', 'filter_area');    		
+			$filter_area = $this->state->get('com_jresearch.publications.filter_area');    		
     		$areas = JResearchResearchareasHelper::getResearchAreas();        
 	        $areasOptions[] = JHTML::_('select.option', 0 ,JText::_('JRESEARCH_RESEARCH_AREAS'));
 	        foreach($areas as $a)

@@ -18,7 +18,7 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-global $mainframe;
+$mainframe = JFactory::getApplication();
 
 // Common needed files
 require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'init.php');
@@ -30,9 +30,14 @@ $controller = JRequest::getVar('controller', null);
 if($controller === null)
 	$controller = __mapViewToController();
 else{
-	$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchAreas');
+	$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchareas');
 	if(!in_array($controller, $availableControllers))
-		$controller = 'researchAreas';
+		$controller = '';
+}
+
+if(empty($controller)){
+	JError::raiseError(404, JText::_('Controller undefined'));
+	return;
 }
 
 require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
@@ -42,13 +47,6 @@ $session =& JFactory::getSession();
 
 if($session->get('citedRecords', null, 'jresearch') == null){
 	$session->set('citedRecords', array(), 'jresearch');
-}
-
-//Pathway
-if(!JRequest::getVar('Itemid'))
-{
-    $pathway = &$mainframe->getPathway();
-    $pathway->addItem('J!Research', 'index.php?option=com_jresearch');
 }
 
 // Make an instance of the controller
@@ -97,9 +95,12 @@ function __mapViewToController(){
 		case 'teams': case 'team';
 			$value = 'teams';
 			break;
-		default:
-			$value = 'researchAreas';			
+		case 'researchareas': case 'researcharea':
+			$value = 'researchareas';			
 			break;
+		default:
+			$value = '';
+			break;	
 	}
 	
 	JRequest::setVar('controller', $value);

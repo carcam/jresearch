@@ -116,7 +116,7 @@ class JHTMLjresearchfrontend
 					if($display == 'list')
 						$linksText .= '<li>'.$area->name.'</li>';
 					else
-						$linksText .= ', '.$link;							
+						$linksText .= ', '.$area->name;							
 				}
 			}
 		}

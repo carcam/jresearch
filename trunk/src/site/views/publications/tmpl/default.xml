@@ -44,8 +44,8 @@
 			<field name="publications_entries_per_page" default="25" label="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE" type="text" description="JRESEARCH_CONFIG_PUBLICATIONS_PER_PAGE_DESCRIPTION" ></field>
 			<field name="publications_default_sorting" default="year" label="JRESEARCH_ORDER_BY" type="list">
 				<option value="year">JRESEARCH_YEAR</option>
-				<option value="alphabetical">Title</option>
-				<option value="type">JRESEARCH_TYPE</option>
+				<option value="title">Title</option>
+				<option value="pubtype">JRESEARCH_TYPE</option>
 			</field>
 			<field name="publications_order" label="JRESEARCH_SORT_DIRECTION" type="list" default="DESC">
 				<option value="ASC">JRESEARCH_ASCENDING</option>

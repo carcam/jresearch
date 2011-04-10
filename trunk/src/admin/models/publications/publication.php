@@ -51,8 +51,8 @@ class JResearchAdminModelPublication extends JModelForm{
                     }
                     if (empty($data))
                     {
-                            // Check the session for previously entered form data.
-                            $data = $app->getUserState('com_jresearch.edit.publication.data', array());
+						// Check the session for previously entered form data.
+                        $data = $app->getUserState('com_jresearch.edit.publication.data', array());
                     }
                     
                     //Once the data is retrieved, time to fix it
@@ -131,6 +131,11 @@ class JResearchAdminModelPublication extends JModelForm{
 				//Citekey generation
 				$data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
 				
+				//Alias generation
+				if(empty($data['alias'])){
+					$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
+				}
+				
 				//Checking of research areas
 				if(!empty($data['id_research_area'])){
 					if(in_array('1', $data['id_research_area'])){
@@ -149,6 +154,7 @@ class JResearchAdminModelPublication extends JModelForm{
                     return false;
                 }
 
+                $data['id'] = $row->id;
                 $app->setUserState('com_jresearch.edit.publication.data', $data);
 
                 return true;

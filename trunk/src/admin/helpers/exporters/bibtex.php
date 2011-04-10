@@ -44,7 +44,7 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 	function parse($publications, $options = array()){
 		$output = "";
 		if(!is_array($publications))
-			return $this->parseSingle($publications);
+			return $this->parseSingle($publications, $options);
 		else{
 			foreach($publications as $pub){
 				$output .= $this->parseSingle($pub, $options)."\n";
@@ -65,7 +65,7 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 	*/
 	private function parseSingle($publication, $options = array()){
 		$output = null;
-		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');	
+		jresearchimport('helpers.publications', 'jresearch.admin');
 
 		if($publication instanceof JResearchPublication){
 			$properties = $publication->__toArray();
