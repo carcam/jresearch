@@ -42,7 +42,7 @@ class JFormFieldAuthorsselector extends JFormField
 		$urlBase = JURI::root();
 		$baseName = $this->element['name'];
 
-		$doc->addScript($urlBase.'components/com_jresearch/js/bsn.AutoSuggest_c_2.0.js');
+		$doc->addScript($urlBase.'administrator/components/com_jresearch/models/fields/authorsselector/bsn.AutoSuggest_c_2.0.js');
 		$upImage = $urlBase.'administrator/components/com_jresearch/assets/up_16.png';
 		$downImage = $urlBase.'administrator/components/com_jresearch/assets/down_16.png';		
 		$textField = $baseName.'field';
@@ -51,7 +51,7 @@ class JFormFieldAuthorsselector extends JFormField
 		$repeatedAuthors = JText::_('JRESEARCH_AUTHOR_ADDED_BEFORE');
 		$minAuthorLengthMessage = JText::_('JRESEARCH_MIN_AUTHOR_LENGTH_MESSAGE');   	
 		$noResults = JText::_('JRESEARCH_NO_RESULTS');
-		$values = explode(',', $this->value);
+		$values = explode(';', $this->value);
 
 		$doc->addScriptDeclaration("
 	        	var options_xml1_$baseName;
@@ -86,7 +86,7 @@ class JFormFieldAuthorsselector extends JFormField
 		$output = "<div class=\"divTdl\"><input type=\"text\" name=\"$textField\" id=\"$textField\" class=\"validate-integrante\" size=\"15\" />$button</div>";
 		
 		// Here we verify if there are authors
-		$output .= "<input type=\"hidden\" id=\"jform[$baseName]\" value=\"".$this->element['value']."\" />";
+		$output .= "<input type=\"hidden\" id=\"jform[$baseName]\" value=\"".$this->value."\" />";
 		if(empty($values)){
 			$output .= "<input type=\"hidden\" id=\"jform[n$textField]\" name=\"jform[n$textField]\" value=\"0\" />";
 			$output .= "<div class=\"divTdl\"><ul id=\"".$textField."result\"></ul></div>";
@@ -106,10 +106,10 @@ class JFormFieldAuthorsselector extends JFormField
 				
 				if(!empty($authorText)){
 					$output .= "<span id=\"span$textField$j\" style=\"padding: 2px;\">$authorText</span>";
-					$output .= "<input type=\"hidden\" id=\"jform[$textField".$j."]\" name=\"jform[$textField".$j."]\" value=\"$authorValue\" />";
+					$output .= "<input type=\"hidden\" id=\"jform[$textField".$j."]\" name=\"jform[$textField".$j."]\" value=\"$author\" />";
 					$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:removeAuthor('li$textField$j')\">$delete</a></span>";
-					$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveUp('li$textField$j')\"><img style=\"width:16px;height:16px\" src=\"$upImage\" alt=\"\" /></a></span>";
-					$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveDown('li$textField$j')\"><img style=\"width:16px;height:16px\" src=\"$downImage\" alt=\"\" /></a></span>";				
+					$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveUp('li$textField$j')\"><img style=\"width:16px;height:16px;float:none\" src=\"$upImage\" alt=\"\" /></a></span>";
+					$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveDown('li$textField$j')\"><img style=\"width:16px;height:16px;float:none\" src=\"$downImage\" alt=\"\" /></a></span>";				
 					if(false){
 						if($isPrincipalsArray != null)
 							$onText = $isPrincipalsArray[$j]?'value="on" checked="checked"':''; 

@@ -25,11 +25,13 @@ class JResearchViewResearchArea extends JResearchView
         $mainframe = JFactory::getApplication('site');
         $id = JRequest::getVar('id');
         $pathway = $mainframe->getPathway();
+    	$params = $mainframe->getPageParameters('com_jresearch');
     	
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);
     	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
     	$theses_view_all = JRequest::getVar('theses_view_all', 0);
-
+    	$showMembers = $params->get('area_show_members', 'yes');
+    	
         // The uncategorized view is not retrieved
     	if($id == 1 || empty($id)){
             JError::raiseError(404, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
@@ -38,14 +40,16 @@ class JResearchViewResearchArea extends JResearchView
 
         $model = $this->getModel();
         $area = $model->getItem();
-        $members = $model->getStaffMembers();
-        //Get and use configuration
-    	$params = $mainframe->getPageParameters('com_jresearch');
         if($area === false){
             JError::raiseWarning(1, JText::_('JRESEARCH_AREA_NOT_FOUND'));
             return;
         }
         
+        if($showMembers == 'yes'){
+	        $members = $model->getStaffMembers('all');
+	        $this->assignRef('members', $members);
+        }    
+               
         $pathway->addItem($area->alias, 'index.php?option=com_jresearch&view=researcharea&id='.$area->id);
         $arguments[] = $area;
         $latestPublications = $params->get('area_number_last_publications', 5);
@@ -78,6 +82,8 @@ class JResearchViewResearchArea extends JResearchView
     		
     	$applyStyle = ($params->get('publications_apply_style') == 'yes');
     	$configuredCitationStyle = $params->get('citationStyle', 'APA');
+    	$format = $params->get('staff_format', 'last_first');
+    	
     	if($applyStyle){
             // Require publications lang package
             $lang = JFactory::getLanguage();
@@ -86,17 +92,16 @@ class JResearchViewResearchArea extends JResearchView
     		    	    		
     	$this->assignRef('theses', $theses);
     	$this->assignRef('ntheses', $model->countTheses());    	
-
     	$this->assignRef('facilities', $facilities);
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
-    	$this->assignRef('theses_view_all', $theses_view_all);    	
-        $this->assignRef('members', $members);
+    	$this->assignRef('theses_view_all', $theses_view_all);
         $this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
         $this->assignRef('description', $description);
         $this->assignRef('applyStyle', $applyStyle);        
     	$this->assignRef('style', $configuredCitationStyle);
     	$this->assignRef('format', $format); 
+    	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement', 'horizontal'));    	
         
         $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		

@@ -68,6 +68,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `online_source_type` enum('website', 'video', 'audio', 'image', 'blog') NOT NULL default 'website',
   `digital_source_type` enum('cdrom', 'film') NOT NULL default 'cdrom',
   `access_date` date default NULL,
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
+  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   PRIMARY KEY  (`id`),
   FULLTEXT INDEX `#__jresearch_publication_title_index`(`title`),
   FULLTEXT INDEX `#__jresearch_publication_title_keywords_index`(`title`, `keywords`),
@@ -234,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `title` varchar(10) NOT NULL,
   `email` varchar(256) NULL,
   `username` varchar(150) default NULL,
-  `id_research_area` int(10) unsigned NOT NULL default '1',
+  `id_research_area` text NOT NULL,
   `position` int(10) unsigned default '0',
   `location` varchar(256) default NULL,
   `url_personal_page` varchar(256) default NULL,
@@ -250,6 +252,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `created_by` int(10) default NULL,
   `modified` datetime NULL,
   `modified_by` int(10) default NULL,
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
+  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   PRIMARY KEY  (`id`),
   INDEX `name` (`lastname`,`firstname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

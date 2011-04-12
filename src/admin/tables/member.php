@@ -148,6 +148,18 @@ class JResearchMember extends JTable{
 	 */
 	public $_areas;
 
+	
+	/**
+	* Access rules
+	*/
+	public $access;
+	
+	/**
+	 * 
+	 * Link to the entry with the access rules
+	 * @var int
+	 */
+	public $asset_id;
 
 	/**
 	 * Class constructor. Maps the class to a Joomla table.
@@ -172,24 +184,22 @@ class JResearchMember extends JTable{
 	* are imported into the object. Used for impòrting members from Joomla tables.
 	*/	
 	function bindFromUser($username){
-            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
+		jresearchimport('helpers.publications', 'jresearch.admin');
+        $db =& JFactory::getDBO();
+        $query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('username').' = '.$db->Quote($username);
+        $db->setQuery($query);
 
-            $db =& JFactory::getDBO();
-            $query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('username').' = '.$db->Quote($username);
-            $db->setQuery($query);
+        $result = $db->loadAssoc();
+        $this->username = $result['username'];
+        $this->email = $result['email'];
+        $arrayName = JResearchPublicationsHelper::getAuthorComponents($result['name']);
+        if(isset($arrayName['firstname'])){
+        	$this->firstname = trim($arrayName['firstname']);
+            $this->firstname .= (isset($arrayName['jr'])?' '.$arrayName['jr']:'');
+        }
 
-            $result = $db->loadAssoc();
-            $this->username = $result['username'];
-            $this->email = $result['email'];
-            $arrayName = JResearchPublicationsHelper::getAuthorComponents($result['name']);
-            if(isset($arrayName['firstname'])){
-                $this->firstname = trim($arrayName['firstname']);
-                $this->firstname .= (isset($arrayName['jr'])?' '.$arrayName['jr']:'');
-            }
-
-            $this->lastname = (isset($arrayName['von'])?$arrayName['von'].' ':'');
-            $this->lastname .= $arrayName['lastname'];
-			
+        $this->lastname = (isset($arrayName['von'])?$arrayName['von'].' ':'');
+        $this->lastname .= $arrayName['lastname'];	
 	}
 	
 	/**
@@ -247,14 +257,14 @@ class JResearchMember extends JTable{
 	 */
 	function bindFromUsername($username)
 	{
-            $db =& JFactory::getDBO();
+		$db =& JFactory::getDBO();
 
-            $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('username').' = '.$db->quote($username);
-            $db->setQuery($query);
+        $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('username').' = '.$db->quote($username);
+        $db->setQuery($query);
 
-            $result = $db->loadAssoc();
+        $result = $db->loadAssoc();
 
-            $this->bind($result);
+        $this->bind($result);
 	}
 	
 	/**
@@ -262,38 +272,37 @@ class JResearchMember extends JTable{
 	* @return boolean. True if all fields of the object have a valid content.
 	*/	
 	function check(){
-            $name_pattern = '/\w[-_\w\s.]*/';
-            $phone_pattern = '/\d[-\d]+/';
-            $email_pattern = '/^(\w[-\w.]*)@([-a-z0-9]+(\.[-a-z0-9]+)*\.(com|edu|infocom|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z]))$/i';
+        $name_pattern = '/\w[-_\w\s.]*/';
+        $phone_pattern = '/\d[-\d]+/';
+        $email_pattern = '/^(\w[-\w.]*)@([-a-z0-9]+(\.[-a-z0-9]+)*\.(com|edu|infocom|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z]))$/i';
 
-            // Validate first and lastname
-            if(!preg_match($name_pattern, $this->lastname)){
-                    $this->setError(JText::_('Lastname can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
-                    return false;
+        // Validate first and lastname
+        if(!preg_match($name_pattern, $this->lastname)){
+        	$this->setError(JText::_('Lastname can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
+            return false;
+        }
+
+        if(!preg_match($name_pattern, $this->firstname)){
+            $this->setError(JText::_('First name can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
+            return false;
+        }
+
+		if($this->phone_or_fax){
+        	if(!preg_match($phone_pattern, $this->phone_or_fax)){
+            	$this->setError(JText::_('Phone numbers can only contain digits and scores'));
+                return false;
             }
 
-            if(!preg_match($name_pattern, $this->firstname)){
-                    $this->setError(JText::_('First name can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
-                    return false;
+        }
+
+        if($this->email){
+        	if(!preg_match($email_pattern, $this->email)){
+            	$this->setError(JText::_('Please provide a valid e-mail address'));
+                return false;
             }
+        }
 
-            if($this->phone_or_fax){
-                    if(!preg_match($phone_pattern, $this->phone_or_fax)){
-                            $this->setError(JText::_('Phone numbers can only contain digits and scores'));
-                            return false;
-                    }
-
-            }
-
-            if($this->email){
-                    if(!preg_match($email_pattern, $this->email)){
-                            $this->setError(JText::_('Please provide a valid e-mail address'));
-                            return false;
-                    }
-
-            }
-
-            return true;		
+		return true;		
 	}
 	
 	/**
@@ -341,21 +350,44 @@ class JResearchMember extends JTable{
 		return $teams;
 	}
 
-        /**
-         * This function binds a member from an array of name components.
-         * @param array $authorComps Associative array containing values for keys:
-         * first, last, von and jr corresponding to the components of an author name
-         * in the bibtex standard.
-         */
-        function bindFromArray(array $authorComps){
-            $lastname = strtolower($authorComps['last']);           
-            $firstname = strtolower($authorComps['first']);
-            $changedlast = false;
-            $changedfirst = false;
-            $db = JFactory::getDBO();
+    /**
+    * This function binds a member from an array of name components.
+    * @param array $authorComps Associative array containing values for keys:
+    * first, last, von and jr corresponding to the components of an author name
+    * in the bibtex standard.
+    */
+    function bindFromArray(array $authorComps){
+        $lastname = strtolower($authorComps['last']);           
+        $firstname = strtolower($authorComps['first']);
+        $changedlast = false;
+        $changedfirst = false;
+        $db = JFactory::getDBO();
 
-            $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '
+        $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '
                      .' LOWER(lastname) = '.$db->Quote($lastname).' AND LOWER(firstname) = '.$db->Quote($firstname);
+
+        $db->setQuery($query);
+		$result = $db->loadAssoc();
+        if(!empty($result)){
+        	$this->bind($result);
+            return true;
+        }
+
+        //Now try the full name
+        if(!empty($authorComps['von'])){
+            $lastname = strtoupper($authorComps['von']).' '.$lastname;
+            $changedlast = true;
+        }
+
+        if(!empty($authorComps['jr'])){
+        	$firstname = $firstname.' '.strtoupper($authorComps['jr']);
+            $changedfirst = true;
+        }
+
+        //Try to run the query again
+        if($changedfirst || $changedlast){
+        	$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '
+                         .' LOWER(lastname) = '.$db->Quote($lastname).' AND LOWER(firstname) = '.$db->Quote($firstname);
 
             $db->setQuery($query);
             $result = $db->loadAssoc();
@@ -364,34 +396,11 @@ class JResearchMember extends JTable{
                 return true;
             }
 
-            //Now try the full name
-             if(!empty($authorComps['von'])){
-                $lastname = strtoupper($authorComps['von']).' '.$lastname;
-                $changedlast = true;
-             }
+		}
 
-             if(!empty($authorComps['jr'])){
-                $firstname = $firstname.' '.strtoupper($authorComps['jr']);
-                $changedfirst = true;
-             }
+        return false;
 
-             //Try to run the query again
-            if($changedfirst || $changedlast){
-                $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '
-                         .' LOWER(lastname) = '.$db->Quote($lastname).' AND LOWER(firstname) = '.$db->Quote($firstname);
-
-                $db->setQuery($query);
-                $result = $db->loadAssoc();
-                if(!empty($result)){
-                    $this->bind($result);
-                    return true;
-                }
-
-            }
-
-            return false;
-
-        }
+    }
         
         /**
          * (non-PHPdoc)

@@ -60,21 +60,7 @@
                         default=""
                         label="JRESEARCH_RESEARCH_AREAS"
                         multiple="true"
-                />                
-				<field id="published" name="published" type="radio"
-					label="Published"
-					default="1"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field id="former_member" name="former_member" type="radio"
-					label="JRESEARCH_FORMER_MEMBER"
-					default="1"
-				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>                
+                />				
 				<field
                         id="position"
                         name="position"
@@ -128,7 +114,7 @@
                         default=""
                         label="JRESEARCH_URL_PERSONAL_PAGE"
                         required="false"
-                />                
+                />
 				<field
                         id="url_photo"
                         name="url_photo"
@@ -142,14 +128,9 @@
 					label="JRESEARCH_DESCRIPTION"
 					filter="safehtml" buttons="true"
                 />
-			<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-				description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
-			<field name="created_by" type="user"
-				label="JRESEARCH_PROFILE_OWNER" description="JRESEARCH_PROFILE_OWNER" />				
-			<field name="rules" type="rules" class="inputbox" filter="rules"
-				component="com_jresearch" section="staff" validate="rules"
-			/>
-			<field name="asset_id" type="hidden" filter="unset" />
-				
+				<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
+					description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+				<field name="created_by" type="user"
+					label="JRESEARCH_PROFILE_OWNER" description="JRESEARCH_PROFILE_OWNER" />                
         </fields>
 </form>

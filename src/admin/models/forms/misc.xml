@@ -109,18 +109,13 @@
 			<option value="1">JYES</option>
 		</field>
                 <field
-                        id="authorsControl"
-                        name="authorsControl"
+                        id="authors"
+                        name="authors"
                         type="authorsselector"
                         class="inputbox"
                         allowPrincipals="true"
                         default=""
                         label="JRESEARCH_AUTHORS"
-                />
-                <field
-                        id="authors"
-                        name="authors"
-                        type="hidden"
                 />
                 <field
                         id="abstract"

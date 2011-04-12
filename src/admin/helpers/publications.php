@@ -382,7 +382,7 @@ class JResearchPublicationsHelper{
 	 */
 	public static function formatAuthorsArray($authors, $format = null){
 	    if(!class_exists('JResearchMember'))
-	      jresearchimport('tables.member');
+	      jresearchimport('tables.member', 'jresearch.admin');
 	      
 	    $text = '';
 	    foreach($authors as $author){
@@ -411,7 +411,7 @@ class JResearchPublicationsHelper{
 	 */
 	public static function formatAuthor($author, $format){
 		$authorComponents = self::getAuthorComponents($author);
-		if($format == LASTNAME_FIRSTNAME){
+		if($format == LASTNAME_FIRSTNAME || $format == 'last_first'){
 			$text = (isset($authorComponents['von'])?$authorComponents['von'].' ':'').$authorComponents['lastname'].', '.(isset($authorComponents['firstname'])?' '.$authorComponents['firstname']:'').(isset($authorComponents['jr'])?' '.$authorComponents['jr']:''); 
 		}else{
 			$text = (isset($authorComponents['firstname'])?$authorComponents['firstname'].' ':'').(isset($authorComponents['jr'])?$authorComponents['jr'].' ':'').(isset($authorComponents['von'])?$authorComponents['von'].' ':'').$authorComponents['lastname'];			

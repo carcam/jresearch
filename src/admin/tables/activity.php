@@ -109,11 +109,27 @@ class JResearchActivity extends JTable{
 	public $authors;
 	
 	/**
+	 * 
+	 * ACL rules mask
+	 * @var int
+	 */
+	public $access;
+	
+	/**
+	 * 
+	 * Link to the entry with the access rules
+	 * @var int
+	 */
+	public $asset_id;
+	
+	
+	/**
 	 * Cache for list of authors 
 	 *
 	 * @var array
 	 */
 	protected $_authorsArray;
+	
 	
 	/**
 	 * Name used by subtypes.
@@ -127,7 +143,7 @@ class JResearchActivity extends JTable{
 	 * Cache for the list of research areas associated to the
 	 * object
 	 */
-	protected $_areas;
+	protected $_areas;	
 	
 
 	public function __construct($table, $key, $db ){
@@ -168,7 +184,7 @@ class JResearchActivity extends JTable{
 			$this->_authorsArray = array();
 			
 			if(!empty($this->authors))
-				$tmpAuthorsArray = explode(',', $this->authors);
+				$tmpAuthorsArray = explode(';', $this->authors);
 			else
 				$tmpAuthorsArray = array();	
 			
@@ -208,7 +224,7 @@ class JResearchActivity extends JTable{
 		}
 
 		if(!empty($this->authors))
-			$this->authors .= ','.$textToAppend;
+			$this->authors .= ';'.$textToAppend;
 		else
 			$this->authors = $textToAppend;	
 		
@@ -292,7 +308,7 @@ class JResearchActivity extends JTable{
 		if(!empty($this->_authorsArray)){
 			return count($this->_authorsArray);
 		}else{
-			return count(explode(',', $this->authors));
+			return count(explode(';', $this->authors));
 		}	
 	}
 	

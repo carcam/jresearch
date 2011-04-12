@@ -66,38 +66,38 @@ class JResearchResearcharea extends JTable{
 	 */
 	public $checked_out_time;
 
-        /**
-         * @var datetime
-         */
+	/**
+    * @var datetime
+    */
 
-        public $created;
+    public $created;
 
-        /**
-         * @var datetime
-         */
+    /**
+     * @var datetime
+    */
 
-        public $modified;
-
-
-        /**
-         *
-         * @var int
-         */
-        public $created_by;
-
-        /**
-         *
-         * @var int
-         */
-        public $modified_by;
+    public $modified;
 
 
-        /**
-         *
-         * @var int
-         */
-        public $ordering;
-	
+    /**
+    *
+    * @var int
+    */
+    public $created_by;
+
+    /**
+    *
+    * @var int
+    */
+    public $modified_by;
+
+
+    /**
+    *
+    * @var int
+    */
+    public $ordering;
+    
 	
 	/**
 	 * Class constructor. Maps the entity to the appropiate table.
@@ -105,7 +105,7 @@ class JResearchResearcharea extends JTable{
 	 * @param JDatabase $db
 	 */
 	function __construct(&$db){
-            parent::__construct('#__jresearch_research_area', 'id', $db);
+    	parent::__construct('#__jresearch_research_area', 'id', $db);
 	}
 	
 
@@ -116,12 +116,12 @@ class JResearchResearcharea extends JTable{
 	* otherwise. 
 	*/
 	function check(){
-            if(empty($this->name)){
-                 $this->setError(JText::_('JRESEARCH_PROVIDE_VALID_TITLE'));
-                 return false;
-            }
+    	if(empty($this->name)){
+        	$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_TITLE'));
+            return false;
+        }
 
-            return true;
+        return true;
 	}
 	
 	/**
@@ -133,23 +133,23 @@ class JResearchResearcharea extends JTable{
 	* @return true if successful
 	*/
 	function publish( $cid=null, $publish=1, $user_id=0 ){
-            $db = JFactory::getDBO();
-            $result = parent::publish($cid, $publish, $user_id);
+        $db = JFactory::getDBO();
+        $result = parent::publish($cid, $publish, $user_id);
 
-            if($result && $publish == 0){
-                $this->_unpublishChildren($cid);
-            }
+        if($result && $publish == 0){
+            $this->_unpublishChildren($cid);
+        }
 
-            return $result;
+        return $result;
 	}
 	
-        /**
-        * Default delete method. It can be overloaded/supplemented by the child class
-        *
-        * @access public
-        * @return true if successful otherwise returns and error message
-        */
-       function delete($oid=null){
+    /**
+    * Default delete method. It can be overloaded/supplemented by the child class
+    *
+    * @access public
+    * @return true if successful otherwise returns and error message
+    */
+    function delete($oid=null){
             $db = JFactory::getDBO();
             $booleanResult = parent::delete($oid);
 
@@ -289,11 +289,11 @@ class JResearchResearcharea extends JTable{
                 $db->query();
             }
 
-        }
+    }
         
-        function __toString(){
-        	return $this->title;
-        }
+	function __toString(){
+    	return $this->title;
+    }
 }	
 
 ?>
