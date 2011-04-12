@@ -48,8 +48,13 @@ class JResearchAdminModelMember extends JModelForm{
                 {
                     // Check the session for previously entered form data.
                     $data = $app->getUserState('com_jresearch.edit.member.data', array());
-                    unset($data['id']);
                 }
+                
+               	//Once the data is retrieved, time to fix it
+                if(is_string($data['id_research_area'])){
+                	$data['id_research_area'] = explode(',', $data['id_research_area']);
+                }
+                
 
                 // Store the state as an array of values
                 $app->setUserState('com_jresearch.edit.member.data', $data);

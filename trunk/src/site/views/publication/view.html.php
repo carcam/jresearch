@@ -96,7 +96,7 @@ class JResearchViewPublication extends JResearchView
         $doc->setTitle($pageTitle);
     	
         // Bind variables for layout
-    	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement'));
+    	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement', 'horizontal'));
     	$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('showHits', $showHits);
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);

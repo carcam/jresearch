@@ -6,12 +6,47 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access'); 
+
+jresearchimport('helpers.publications', 'jresearch.admin');
+
+?>
 
 <h1 class="componentheading"><?php echo $this->escape($this->area->name); ?></h1>
+<?php if(isset($this->members)): ?>
+<h2><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
+	<?php if($this->staff_list_arrangement == 'horizontal'): ?>
+		<div>
+				<?php $n = count($authors); 
+					  $i = 0; ?>
+				<?php foreach($this->members as $auth): ?>
+					<?php if($auth->published): ?>
+						<?php echo JHTML::_('jresearchfrontend.link', JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format), 'member', 'show', $auth->id)?><?php echo $i == $n - 1?'':';' ?>
+					<?php else: ?>
+						<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
+					<?php endif; ?>	
+					<?php $i++; ?>
+				<?php endforeach; ?>
+		</div>		
+	<?php else: ?>
+		<div>
+			<ul>
+				<?php foreach($this->members as $auth): ?>
+					<li style="list-style:none;">
+						<?php if($auth->published): ?>
+							<?php echo JHTML::_('jresearchfrontend.link', JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format), 'member', 'show', $auth->id)?>
+						<?php else: ?>
+							<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
+						<?php endif; ?>	
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+		<?php endif; ?>
+<?php endif; ?>
 <h2 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h2>
 <?php echo $this->description;  ?>
-<div>&nbsp;&nbsp;</div>
+
 <?php if(!empty($this->facilities)): ?>
 <h2 class="contentheading"><?php echo JText::_('JRESEARCH_FACILITIES'); ?></h2>
 <ul class="float">
@@ -21,18 +56,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</li>
 <?php endforeach; ?>
 </ul>
-<div>&nbsp;&nbsp;</div>
 <?php endif; ?>
 <?php $itemId = JRequest::getVar('Itemid'); ?>
-<?php if(!empty($this->members)): ?>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
-<ul>
-<?php foreach($this->members as $member): ?>
-	<li><?php echo JHTML::_('jresearchfrontend.link', $member, 'member', 'show', $member->id); ?></li>
-<?php endforeach; ?>
-</ul>
-<?php endif; ?>
-
 <?php if(!empty($this->publications)): ?>
 <div>&nbsp;&nbsp;</div>
 <h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>

@@ -45,6 +45,10 @@
             <field name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
             <field name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />
             <field name="area_number_last_theses" label="JRESEARCH_CONFIG_LAST_THESES_IN_AREA" default="5" type="text" />
+			<field name="area_show_members" label="JRESEARCH_CONFIG_SHOW_MEMBERS_IN_AREA" default="yes" type="list">
+				<option value="yes">JYES</option>
+				<option value="no">JNO</option>
+			</field>            
         </fieldset>
         <fieldset name="staff" label="JRESEARCH_STAFF" >
 		<field name="staff_list_arrangement" type="list" default="vertical" label="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT" description="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT_DESCRIPTION">

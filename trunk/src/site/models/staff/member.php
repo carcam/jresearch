@@ -18,6 +18,13 @@ jresearchimport('models.modelitem', 'jresearch.site');
 class JResearchModelMember extends JResearchModelItem{
     
 	/**
+	 * 
+	 * Cache for form data
+	 * @var array
+	 */
+	protected $_data;
+	
+	/**
     * Returns the model data store in the user state as a table
     * object
     */
@@ -28,14 +35,59 @@ class JResearchModelMember extends JResearchModelItem{
             	if($row->published)
                 	return $row;
                 else
-                    return false;
+                return false;
             }else
-            	return false;                
-       	}
+            return false;
+    	}
 
-        return $this->_row;
+    	return $this->_row;
     }
-        
+
+    /**
+     * Method to get the data.
+     *
+     * @access      public
+     * @return      array of string
+     * @since       1.0
+     */
+    public function &getData()
+    {
+    	if(!isset($this->data)){
+	    	$app = & JFactory::getApplication();
+	    	$data = & JRequest::getVar('jform');
+	    	if (empty($data))
+	    	{
+	    		// For new items
+	    		$selected = & JRequest::getVar('cid', 0, '', 'array');
+	    		$db = JFactory::getDBO();
+	    		$query = $db->getQuery(true);
+	    		$query->select('*');
+	    		$query->from('#__jresearch_member');
+	    		$query->where('id = ' . (int)$selected[0]);
+	    		$db->setQuery((string)$query);
+	    		$data = & $db->loadAssoc();
+	    	}
+	
+	    	if (empty($data))
+	    	{
+	    		// Check the session for previously entered form data.
+	    		$data = $app->getUserState('com_jresearch.edit.member.data', array());
+	    	}
+	
+	    	//Once the data is retrieved, time to fix it
+	    	if(is_string($data['id_research_area'])){
+	    		$data['id_research_area'] = explode(',', $data['id_research_area']);
+	    	}
+	
+	
+	    	// Store the state as an array of values
+	    	$app->setUserState('com_jresearch.edit.member.data', $data);
+	        $this->data = $data;
+	    }
+
+        return $this->data;
+    }    
+            
 	/**
 	 * Returns an array with the n latest internal and published publications 
 	 * in which the member collaborated.
@@ -189,7 +241,58 @@ class JResearchModelMember extends JResearchModelItem{
 
 		return (int)$db->loadResult();
 	}
+	
+	/**
+    * Method to get the HelloWorld form.
+    *
+    * @access      public
+    * @return      mixed   JForm object on success, false on failure.
+    * @since       1.0
+    */
+    public function getForm($data = array(), $loadData = true)
+    {
+        $form = $this->loadForm('com_jresearch.member', 'member', array('control' => 'jform', 'load_data' => $loadData));
+        return $form;
+    }
 
+
+        /**
+         * Method to save a record
+         *
+         * @access      public
+         * @return      boolean True on success
+         */
+    function save()
+    {
+        $app = JFactory::getApplication();
+
+        $data = &$this->getData();
+
+        $row = $this->getTable('Member', 'JResearch');
+            
+        //Checking of research areas
+		if(!empty($data['id_research_area'])){
+			if(in_array('1', $data['id_research_area'])){
+				$data['id_research_area'] = '1';
+			}else{
+				$data['id_research_area'] = implode(',', $data['id_research_area']);
+			}
+		}else{
+			$data['id_research_area'] = '1';
+		}            
+
+        // Bind the form fields to the hello table
+        if (!$row->save($data))
+        {
+            $this->setError($row->getError());
+            return false;
+        }
+
+        $app->setUserState('com_jresearch.edit.member.data', $data);
+        $this->_row = $row;
+
+    	return true;
+    }
 }
 
 ?>

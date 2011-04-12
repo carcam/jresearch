@@ -39,38 +39,6 @@ class JResearchModelResearchArea extends JResearchModelItem{
         }
 
 	/**
-	 * Returns the staff members that work in a specific research
-	 * area.
-	 *
-	 * @param int $id_area Research area id
-	 *
-	 */
-	public function getStaffMembers(){
-            $members = array();
-            $row = $this->getItem();
-            if($row === false)
-                return $members;
-
-            $id_area = $row->id;            
-            $db = JFactory::getDBO();
-            $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').'WHERE '.$db->nameQuote('published').' = 1'
-                             .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($id_area).' ORDER BY '.$db->nameQuote('ordering').' ASC';
-
-            $db->setQuery($query);
-            $result = $db->loadAssocList();
-
-            foreach($result as $r){
-                    $newMember = JTable::getInstance('Member', 'JResearch');
-                    $newMember->bind($r);
-                    $members[] = $newMember;
-            }
-
-            return $members;
-
-	}
-
-
-	/**
 	 * Returns an array with the n latest publications associated to the
 	 * research area.
 	 *
@@ -78,32 +46,33 @@ class JResearchModelResearchArea extends JResearchModelItem{
 	 * @return array Array of JResearchPublicationObjects
 	 */
 	function getLatestPublications($n = 0){
-            $latestPub = array();
-            $row = $this->getItem();
-            if($row === false)
-                return $latestPub;
+    	$latestPub = array();
+        $row = $this->getItem();
+        if($row === false)
+        	return $latestPub;
 
-            $areaId = $row->id;
-            $db = JFactory::getDBO();
+        $areaId = $row->id;
+        $db = JFactory::getDBO();
 
-            $query = "SELECT p.* FROM ".$db->nameQuote('#__jresearch_publication').' p JOIN '.$db->nameQuote('#__jresearch_publication_researcharea').' pa'
+        $query = "SELECT p.* FROM ".$db->nameQuote('#__jresearch_publication').' p JOIN '.$db->nameQuote('#__jresearch_publication_researcharea').' pa'
             		.' WHERE p.id = pa.id_publication AND p.published = 1 AND p.internal = 1 AND pa.id_research_area = '.$db->Quote($areaId)
             		.' ORDER BY year DESC, created DESC';
 
-            if($n > 0){
-                    $query .= ' LIMIT 0, '.$n;
-            }
+        if($n > 0){
+        	$query .= ' LIMIT 0, '.$n;
+        }
 
-            $db->setQuery($query);
-            $result = $db->loadAssocList();
-            foreach($result as $r){
-                $publication = JTable::getInstance('Publication', 'JResearch');
-                $publication->bind($r);
-                $latestPub[] = $publication;
-            }
+        $db->setQuery($query);
+        $result = $db->loadAssocList();
+        foreach($result as $r){
+        	$publication = JTable::getInstance('Publication', 'JResearch');
+            $publication->bind($r);
+            $latestPub[] = $publication;
+        }
 
-            return $latestPub;
+        return $latestPub;
 	}
+	
 
 
 	/**
@@ -226,6 +195,44 @@ class JResearchModelResearchArea extends JResearchModelItem{
             $db->setQuery($query);
             return (int)$db->loadResult();
 
+	}
+	
+	/**
+	 * 
+	 * Returns the list of staff members associated to the area, sorted
+	 * by lastname.
+	 * @param $whatInfo "all" means the entire JResearchMember objects, 
+	 * "names" retrieves lastnames and firstnames as stdclass objects.
+	 */
+	function getStaffMembers($whatInfo = 'all'){
+		$db = JFactory::getDBO();
+		$orderBy = 'lastname';
+		$orderDir = 'ASC';
+		$area = $this->getItem();
+		
+		if($whatInfo == 'all'){
+			$members = array();
+			$query = 'SELECT DISTINCT m.* FROM #__jresearch_member m JOIN #__jresearch_member_researcharea mra WHERE '
+					.'mra.id_member = m.id AND mra.id_research_area = '.$db->Quote($area->id)
+					.' ORDER BY '.$db->nameQuote('m').'.'.$db->nameQuote($orderBy).' '.$orderDir;
+			$db->setQuery($query);				
+			$result = $db->loadAssocList();
+			foreach($result as $row){
+				$member = JTable::getInstance('Member', 'JResearch');
+				$member->bind($row);
+				$members[] = $member;
+			}
+			
+			return $members;			
+		}elseif($whatInfo == 'names'){
+			$query = 'SELECT DISTINCT m.id, m.firstname, m.lastname, m.published FROM #__jresearch_research_area WHERE '
+					.'mra.id_member = m.id AND mra.id_research_area = '.$db->Quote($this->id)
+					.' ORDER BY '.$db->nameQuote('m').'.'.$db->nameQuote($orderBy).' '.$orderDir;
+			$db->setQuery($query);				
+			return $db->loadObjectList();
+		}else{
+			return null;
+		}				
 	}
 
 

@@ -94,12 +94,13 @@
 			<filename>toolbar.jresearch.html.php</filename>
 			<filename>controller.php</filename>
 			<filename>config.xml</filename>
+			<filename>access.xml</filename>
 			<folder>assets</folder>
 			<folder>contentelements</folder>
 			<folder>controllers</folder>
 			<folder>css</folder>
 			<folder>includes</folder>
-                        <folder>install</folder>
+            <folder>install</folder>
 			<folder>elements</folder>
 			<folder>files</folder>			
 			<folder>helpers</folder>
