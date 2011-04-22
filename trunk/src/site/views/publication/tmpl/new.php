@@ -8,8 +8,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if(JHTML::_('Jresearch.authorize','add', 'publications'))
+if(true)
 {
+$mainframe = JFactory::getApplication();
 $params = $mainframe->getPageParameters('com_jresearch');
 $bibtex = $params->get('enable_bibtex_frontend_import');
 ?>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-        <fields>
+    <fields>
+		<fieldset name="request"
+			addfieldpath="/administrator/components/com_jresearch/models/fields">
                 <field
                         id="id"
                         name="id"
@@ -60,17 +62,7 @@
                         default=""
                         label="JRESEARCH_RESEARCH_AREAS"
                         multiple="true"
-                />				
-				<field
-                        id="position"
-                        name="position"
-                        type="memberpositionslist"
-                        class="inputbox"
-                        default="0"
-                        size="1"                        
-                        label="JRESEARCH_MEMBER_POSITION"
-                        multiple="false"
-                />                             
+                />                
 				<field
                         id="location"
                         name="location"
@@ -114,23 +106,13 @@
                         default=""
                         label="JRESEARCH_URL_PERSONAL_PAGE"
                         required="false"
-                />
-				<field
-                        id="url_photo"
-                        name="url_photo"
-                        type="media"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_URL_PHOTO"
-                        required="false"
                 />                
 				<field name="description" type="editor" class="inputbox"
 					label="JRESEARCH_DESCRIPTION"
 					filter="safehtml" buttons="true"
                 />
-				<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-					description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
-				<field name="created_by" type="user"
-					label="JRESEARCH_PROFILE_OWNER" description="JRESEARCH_PROFILE_OWNER" />                
-        </fields>
+			<field name="username" type="text" class="readonly"
+			label="JRESEARCH_USERNAME" size="20" readonly="true" />
+		</fieldset>					
+    </fields>
 </form>

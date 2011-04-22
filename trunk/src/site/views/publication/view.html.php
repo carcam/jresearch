@@ -28,11 +28,11 @@ class JResearchViewPublication extends JResearchView
 
         switch($layout){
         	case 'new':
-        		$result = $this->_displayNewPublicationForm();        		
+        		$result = $this->_displayNewPublicationForm($tpl);        		
         		$mainframe->triggerEvent('onBeforeNewJResearchPublication', $arguments);
         		break;
         	case 'edit':
-        		$result = $this->_editPublication();
+        		$result = $this->_editPublication($tpl);
         		
         		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
         		break;
@@ -118,79 +118,36 @@ class JResearchViewPublication extends JResearchView
     
     private function _editPublication()
     {
-    	JHTML::addIncludePath(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'html');
-	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');
-	JHTML::_('jresearchhtml.validation');		
-	$user = JFactory::getUser();
-	$cid = JRequest::getVar('id', 0);	
-	$this->assignRef('id', $cid);
-	$doc = JFactory::getDocument();
-	$isNew = ($cid == 0); 
-	$doc->addScriptDeclaration('
-		function msubmitform(pressbutton){
-			if (pressbutton) {
-				document.adminForm.task.value=pressbutton;
-			}
-			if (typeof document.adminForm.onsubmit == "function") {
-				if(!document.adminForm.onsubmit())
-				{
-					return;
-				}
-				else
-				{
-					document.adminForm.submit();
-				}
-		}
-		else
-		{
-			document.adminForm.submit();
-		}
-	}');
-			
-	if($isNew){
-		$this->addPathwayItem(JText::_('Add'));
-		$pubtype = JRequest::getVar('pubtype');					
-	}else{
-            $publication = JResearchPublication::getById($cid);
-            $pubtype = $publication->pubtype;
-            $this->addPathwayItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
-            $this->addPathwayItem(JText::_('Edit'));
-            $publicationTypes = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
-            $this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
-            $this->assignRef('changeType', $publicationTypes, JResearchFilter::OBJECT_XHTML_SAFE);
-	}
+        JHtml::_('jresearchhtml.validation');
+        $mainframe = JFactory::getApplication();
+        $user = JFactory::getUser();
+        
+    	//Get the model
+    	$model = $this->getModel();
 
-	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));
- 	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => !$isNew?$publication->id_research_area:null)); 
-	$internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => !$isNew?$publication->published:1));			
-	$authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors' , !$isNew?$publication->getAuthors():array());
-						
-	$params = $this->getParams();
-	if(!empty($publication->files))
-		$uploadedFiles = explode(';', trim($publication->files));
-	else
-		$uploadedFiles = array();	
-	$files = JHTML::_('JResearchhtml.fileUpload', 'url', $params->get('files_root_path', 'files').DS.'publications','size="30" maxlength="255" class="validate-url"', true, $uploadedFiles);
-	
-	$this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
-	$this->assignRef('pubtype', $pubtype);
-	$this->assignRef('areasList', $researchAreasHTML);
-	$this->assignRef('publishedRadio', $publishedRadio);
-	$this->assignRef('internalRadio', $internalRadio );
-	$this->assignRef('authors', $authorsControl);
-	$this->assignRef('files', $files);
-	
-	return true;
+    	$form = $this->get('Form');
+        // get the Data
+        $data = &$this->get('Data');
+           
+        // Bind the Data
+        $form->bind($data);
+
+        $this->assignRef('form', $form);
+        $this->assignRef('data', $data);
+
+        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('publication', $data['id']));        
+        parent::display($tpl);        
+        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('publication', $data['id']));
+    	
     }
     
 	/**
 	* Binds the variables for the form used to select the type 
 	* for a new publication.
 	*/
-	private function _displayNewPublicationForm(){
-		JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'html');
-		JHTML::addIncludePath(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'html');
-		$subtypes = JResearchPublication::getPublicationsSubtypes();
+	private function _displayNewPublicationForm($tpl = null){
+		jresearchimport('helpers.publications', 'jresearch.admin');
+		$subtypes = JResearchPublicationsHelper::getPublicationsSubtypes();
 		$typesOptions = array();
 		
 		foreach($subtypes as $type){
@@ -202,7 +159,7 @@ class JResearchViewPublication extends JResearchView
 		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
 		
 		$this->assignRef('types', $typesList);
-		return true;
+		parent::display($tpl);
 	}
 }
 

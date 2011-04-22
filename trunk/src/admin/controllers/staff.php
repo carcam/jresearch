@@ -175,29 +175,32 @@ class JResearchAdminStaffController extends JController
 	* Apply in the edit profile form.
 	*/
 	function save(){
-            JRequest::checkToken() or jexit( 'JInvalid_Token' );
-            $model = $this->getModel('Member', 'JResearchAdminModel');
-            $app = JFactory::getApplication();
-            if ($model->save()){
-               $task = JRequest::getVar('task');
-               $member = $model->getItem();
-               if($task == 'save'){
-                   $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
-                   $app->setUserState('com_jresearch.edit.member.data', array());
-                }elseif($task == 'apply')
-                   $this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
-            }else{
-               $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
-               $type = 'error';
-               $app = JFactory::getApplication();
-               $app->enqueueMessage($msg, $type);
-               $view = &$this->getView('Member','html', 'JResearchAdminView');
-               $view->setModel($model, true);
-               $view->setLayout('default');
-               $view->display();
-            }
+		JRequest::checkToken() or jexit( 'JInvalid_Token' );
+        $model = $this->getModel('Member', 'JResearchAdminModel');
+        $app = JFactory::getApplication();
+        $form = JRequest::getVar('jform', array(), '', 'array');        
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'JResearchMember'));                
+        
+        if ($model->save()){
+        	$task = JRequest::getVar('task');
+            $member = $model->getItem();
+	        $app->triggerEvent('OnAfterSaveJResearchEntity', array($member, 'JResearchMember'));            
+            if($task == 'save'){
+            	$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+                $app->setUserState('com_jresearch.edit.member.data', array());
+            }elseif($task == 'apply')
+            	$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+        }else{
+           	$msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
+           	$type = 'error';
+            $app->enqueueMessage($msg, $type);
+            $view = &$this->getView('Member','html', 'JResearchAdminView');
+            $view->setModel($model, true);
+            $view->setLayout('default');
+            $view->display();
+        }
 
-            return true;
+        return true;
 	}
 	
 	/**
@@ -206,12 +209,17 @@ class JResearchAdminStaffController extends JController
 	 *
 	 */
 	function cancel(){
-            JRequest::checkToken() or jexit( 'JInvalid_Token' );
-            $model = $this->getModel('Member', 'JResearchAdminModel');
-            if(!$model->checkin()){
-                JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
-            }
-            $this->setRedirect('index.php?option=com_jresearch&controller=staff');
+        JRequest::checkToken() or jexit( 'JInvalid_Token' );
+        $model = $this->getModel('Member', 'JResearchAdminModel');
+        $data =& $model->getData();
+        
+        if(!empty($data['id'])){
+	        if(!$model->checkin()){
+    	    	JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+        	}
+        }
+        
+        $this->setRedirect('index.php?option=com_jresearch&controller=staff');
 	}
 
 	/**

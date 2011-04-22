@@ -52,9 +52,14 @@ class JResearchAdminResearchareasController extends JController
 		
 		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
         $app = JFactory::getApplication();
+        $form = JRequest::getVar('jform', array(), '', 'array');        
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'JResearchResearcharea'));                
+                
         if ($model->save()){
         	$task = JRequest::getVar('task');
             $area = $model->getItem();
+        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($area, 'JResearchResearcharea'));
+        	            
             if($task == 'save'){
             	$this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
                 $app->setUserState('com_jresearch.edit.researcharea.data', array());                    

@@ -136,10 +136,13 @@ class JResearchAdminMember_positionsController extends JController
 		
 		$model = $this->getModel('Member_position', 'JResearchAdminModel');
         $app = JFactory::getApplication();
-
+        $form = JRequest::getVar('jform', array(), '', 'array');        
+        $app->triggerEvent('OnAfterSaveJResearchEntity', array($form['id'], 'JResearchMember_position'));                
+        
         if ($model->save()){
         	$task = JRequest::getVar('task');
             $position = $model->getItem();
+        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($position, 'JResearchMember_position'));                            
             if($task == 'save'){
             	$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
                 $app->setUserState('com_jresearch.edit.member_position.data', array());

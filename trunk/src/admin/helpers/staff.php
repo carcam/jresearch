@@ -34,6 +34,20 @@ class JResearchStaffHelper{
 				
 		return $member;		
 	}
+	
+	/**
+	 * 
+	 * Returns the row the staff table associated to the provided username
+	 * @param string $username
+	 */
+	public static function getMemberArrayFromUsername($username){
+        $db = JFactory::getDBO();
+        $query = 'SELECT m.* FROM '.$db->nameQuote('#__users').' u JOIN '.$db->nameQuote('#__jresearch_member').' m'
+        .' WHERE m.username = '.$db->Quote($username).' AND m.username = u.username';
+        $db->setQuery($query);
+        $result = $db->loadAssoc();
+        return $result;
+	}
 }
 
 ?>

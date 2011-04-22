@@ -104,7 +104,7 @@ class JResearchAdminModelMember extends JModelForm{
 			}            
 
             // Bind the form fields to the hello table
-            if (!$row->save($data))
+            if (!$row->save($data, '' ,array('username')))
             {
                 $this->setError($row->getError());
                 return false;
