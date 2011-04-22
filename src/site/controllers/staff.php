@@ -46,6 +46,12 @@ class JResearchStaffController extends JResearchFrontendController
 	 * @access public
 	 */
 	function display(){
+		$layout = JRequest::getVar('layout');
+		if($layout == 'edit'){
+			$this->edit();
+			return;	
+		}		
+		
         $limitstart = JRequest::getVar('limitstart', null);
         if($limitstart === null)
         	JRequest::setVar('limitstart', 0);
@@ -68,11 +74,9 @@ class JResearchStaffController extends JResearchFrontendController
 			return;
 		}	
 		
-		$model =& $this->getModel('Member', 'JResearchModel');
-		$areaModel =& $this->getModel('ResearchAreasList', 'JResearchModel');
-		$view =& $this->getView('Member', 'html', 'JResearchView');				
+		$model = $this->getModel('Member', 'JResearchModel');
+		$view = $this->getView('Member', 'html', 'JResearchView');				
 		$view->setModel($model, true);
-		$view->setModel($areaModel);
 		$view->setLayout('edit');
 		$view->display();						
 	}
@@ -92,72 +96,23 @@ class JResearchStaffController extends JResearchFrontendController
 	* Apply in the edit profile form.
 	*/
 	function save(){
-            global $mainframe;            
-            if(!JRequest::checkToken())
-            {
-                $this->setRedirect('index.php?option=com_jresearch');
-                return;
-            }
-            
-            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');
+        JRequest::checkToken() or jexit( 'JInvalid_Token' );
+        $model = $this->getModel('Member', 'JResearchModel');
+        $app = JFactory::getApplication();
+        $form = JRequest::getVar('jform', array(), '', 'array');        
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'JResearchMember'));                
 
-            $task = JRequest::getVar('task');
-
-            $db =& JFactory::getDBO();
-
-            $params = JComponentHelper::getParams('com_jresearch');
-            $imageWidth = $params->get('member_image_width', _MEMBER_IMAGE_MAX_WIDTH_);
-            $imageHeight = $params->get('member_image_height', _MEMBER_IMAGE_MAX_HEIGHT_);
-
-            $member = JTable::getInstance('Table', 'JResearchMember');
-
-            // Bind request variables to publication attributes
-            $post = JRequest::get('post');
-
-            $member->bind($post);
-            $member->firstname = trim($member->firstname);
-            $member->lastname = trim($member->lastname);
-            $member->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
-            //Image upload
-            $fileArray = JRequest::getVar('inputfile', null, 'FILES');
-            $delete = JRequest::getVar('delete');
-
-            JResearch::uploadImage(	$member->url_photo, 	//Image string to save
-                                                            $fileArray, 			//Uploaded File array
-                                                            'assets'.DS.'members'.DS, //Relative path from administrator folder of the component
-                                                            ($delete == 'on')?true:false,	//Delete?
-                                                             $imageWidth, //Max Width
-                                                             $imageHeight //Max Height
-            );
-
-            $itemText = '';
-            if($itemId != null)
-                    $itemText = '&Itemid='.$itemId;
-            if($member->check()){
-                    if($member->store()){
-                            $itemId = JRequest::getVar('Itemid');
-
-                            if($task == 'save')
-                                    $this->setRedirect('index.php?option=com_jresearch&view=staff'.$itemText, JText::_('The profile was successfully saved.'));
-                            else
-                                    $this->setRedirect('index.php?option=com_jresearch&view=member&task=edit&layout=edit'.$itemText, JText::_('The profile was successfully saved.'));
-                            // Trigger event
-                            $arguments = array('member', $member->id);
-                            $mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
-                    }else{
-                            $this->setRedirect('index.php?option=com_jresearch&view=member&task=edit&layout=edit'.$itemText, JText::_('The profile could not be saved.').' '.$member->getError());
-                    }
-            }else{
-                    JError::raiseWarning(1, $member->getError());
-                    $this->setRedirect('index.php?option=com_jresearch&view=member&task=edit&layout=edit'.$itemText);
-            }
-            // Uncheck element
-            $user =& JFactory::getUser();
-            if(!$member->isCheckedOut($user->get('id'))){
-                    if(!$member->checkin())
-                            JError::raiseWarning(1, JText::_('The record could not be unlocked.'));
-            }
+        if ($model->save()){
+	        $app->triggerEvent('OnAfterSaveJResearchEntity', array($model->getItem(), 'JResearchMember'));        	
+       	    $msg = JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED');            
+       	    $type = 'message';
+        }else{
+            $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
+            $type = 'error';
+        }
+        
+        $app->enqueueMessage($msg, $type);
+        $this->edit();		
 	}
 	
 	/**
@@ -167,14 +122,14 @@ class JResearchStaffController extends JResearchFrontendController
 	function cancel(){
 		$user = JFactory::getUser();
 		$username = $user->get('username');
-		$model = &$this->getModel('Member', 'JResearchModel');		
-		
-		if($id != null){
-			$member = $model->getByUsername($username);			
-			if(!$member->checkin()){
-				JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
-			}
-		}
+		$model = $this->getModel('Member', 'JResearchModel');		
+		$data =& $model->getData();
+        
+        if(!empty($data['id'])){
+	        if(!$model->checkin()){
+    	    	JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+        	}
+        }
 		
 		$this->setRedirect('index.php?option=com_jresearch&view=staff');		
 	}

@@ -134,8 +134,15 @@ class JResearchToolbar
 	* Toolbar printed when editing a staff member profile.
 	*/
 	public static function editMemberAdminToolbar(){		
-            JToolBarHelper::title(JText::_('JRESEARCH_EDIT_MEMBER_PROFILE'));
-            self::editItemAdminToolbar();
+		$cid = JRequest::getVar('cid');
+		
+		if($cid)
+			$title = JText::_('JRESEARCH_EDIT_MEMBER_PROFILE');
+		else
+			$title = JText::_('JRESEARCH_NEW_MEMBER_PROFILE');	
+		
+        JToolBarHelper::title($title);
+        self::editItemAdminToolbar();
 	}
 	
 	/**

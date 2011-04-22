@@ -524,17 +524,20 @@ class JResearchPublicationsHelper{
    	public static function generateCitekey($data){
    		//First trial: first author + year
    		$db = JFactory::getDBO();
-   		$authorsArray = explode(',', $data['authors']);
+   		$authorsArray = explode(';', trim($data['authors']));
    		$citekey = '';
-   		if(!empty($authorsArray)){
+   		
+   		if(!empty($authorsArray) && !empty($authorsArray[0])){
 	   		$citekey = $authorsArray[0].$data['year'];
    		}elseif(!empty($data['institute'])){
    			//Look for some institution
 	   		$citekey = $data['institute'].$data['year'];   			
+   		}elseif(!empty($data['year'])){
+   			$citekey = rand().''.$data['year'];
    		}else{
-   			$citekey = rand().$data['year'];
+			$citekey = rand().''.JFilterOutput::stringURLSafe($data['title']);   						
    		}
-   		
+   		   		   		
    		$noSuccess = true;
    		$next = 1;
    		$citekey2 = $citekey;

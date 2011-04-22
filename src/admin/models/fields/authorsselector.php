@@ -51,7 +51,13 @@ class JFormFieldAuthorsselector extends JFormField
 		$repeatedAuthors = JText::_('JRESEARCH_AUTHOR_ADDED_BEFORE');
 		$minAuthorLengthMessage = JText::_('JRESEARCH_MIN_AUTHOR_LENGTH_MESSAGE');   	
 		$noResults = JText::_('JRESEARCH_NO_RESULTS');
-		$values = explode(';', $this->value);
+
+		if(!empty($this->value))
+			$values = explode(';', trim($this->value));
+		else
+			$values = array();	
+			
+		
 
 		$doc->addScriptDeclaration("
 	        	var options_xml1_$baseName;

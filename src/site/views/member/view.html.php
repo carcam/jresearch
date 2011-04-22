@@ -27,7 +27,7 @@ class JResearchViewMember extends JResearchView
         
         switch($layout){
         	case 'edit':
-        		$value = $this->_displayEditProfile($tpl);
+        		$this->_displayEditProfile($tpl);
         		break;
         	case 'default':
         		$this->_displayProfile($tpl);
@@ -46,10 +46,20 @@ class JResearchViewMember extends JResearchView
     private function _displayEditProfile($tpl = null){
         JHtml::_('jresearchhtml.validation');
         $mainframe = JFactory::getApplication();
+        $user = JFactory::getUser();
         
-        $form = $this->get('Form');
+    	//Get the model
+    	$model = $this->getModel();
+    	
+    	$form = $this->get('Form');
         // get the Data
         $data = &$this->get('Data');
+
+        if(empty($data)){
+        	JError::raiseWarning(1, JText::_('JRESEARCH_NOT_EXISTING_PROFILE'));
+        	return;
+        }
+        
         // Bind the Data
         $form->bind($data);
 

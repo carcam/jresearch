@@ -214,14 +214,16 @@ class JResearchMember extends JTable{
  		$user = JFactory::getUser();
 		$now = new JDate(); 		
 
+		
 		if(isset($this->id)){
 			$this->created = $now->toMySQL();
-            $author = JRequest::getVar('created_by', $user->get('id'));
-            $this->created_by = $author;
+ 			if(empty($this->created_by)){
+            	$this->created_by = $user->get('id');
+ 			}
 		}
 		
         $this->modified = $now->toMySQL();
-        $this->modified_by = $author;	
+        $this->modified_by = $user->get('id');	
 		
 		$result = parent::store();
 		if(!$result)
@@ -249,7 +251,63 @@ class JResearchMember extends JTable{
 		return true;
 
 	}
+	
+	
+	/**
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form `table_name.id`
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return	string
+	 * @since	1.6
+	 */
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+		return 'com_jresearch.member.'.(int) $this->$k;
+	}
 
+	/**
+	 * Method to return the title to use for the asset table.
+	 *
+	 * @return	string
+	 * @since	1.6
+	 */
+	protected function _getAssetTitle()
+	{
+		return $this->__toString();
+	}
+
+	/**
+	 * Get the parent asset id for the record
+	 *
+	 * @return	int
+	 * @since	1.6
+	 */
+	protected function _getAssetParentId($table = null, $id = null)
+	{
+		// Initialise variables.
+		$assetId = null;
+		$db = $this->getDbo();
+		$query	= $db->getQuery(true);
+		$query->select('asset_id');
+		$query->from('#__assets');
+		$query->where('name = '.$db->Quote('com_jresearch'));
+
+		// Get the asset id from the database.
+		$this->_db->setQuery($query);
+		if ($result = $this->_db->loadResult()) {
+			$assetId = (int) $result;
+		}
+
+		// Return the asset id.
+		if ($assetId) {
+			return $assetId;
+		} else {
+			return parent::_getAssetParentId($table, $id);
+		}
+	}
+	
 	/**
 	 * Binds data from the member table if the username exists in the member-table
 	 *
@@ -486,6 +544,28 @@ class JResearchMember extends JTable{
 			return null;
 		}		
 	}        
+	
+	/**
+	 * Overloaded bind function
+	 *
+	 * @param	array		$hash named array
+	 *
+	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see		JTable:bind
+	 * @since	1.5
+	 */
+	public function bind($array, $ignore = ''){
+		// Bind the rules.
+		if (is_array($array) && isset($array['rules'])){
+			$rules = new JRules($array['rules']);
+			$this->setRules($rules);
+		}elseif(is_object($array) && isset($array->rules)){
+			$rules = new JRules($array->rules);
+			$this->setRules($rules);			
+		}
+
+		return parent::bind($array, $ignore);
+	}
 	
 }
 

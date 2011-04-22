@@ -70,7 +70,7 @@
 				</field>
 				<field id="former_member" name="former_member" type="radio"
 					label="JRESEARCH_FORMER_MEMBER"
-					default="1"
+					default="0"
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -150,6 +150,7 @@
 				component="com_jresearch" section="staff" validate="rules"
 			/>
 			<field name="asset_id" type="hidden" filter="unset" />
-				
+			<field name="username" type="text" class="readonly"
+			label="JRESEARCH_USERNAME" size="20" readonly="true" />				
         </fields>
 </form>

@@ -9,20 +9,13 @@
 
 defined('JPATH_BASE') or die;
 
-jresearchimport('models.modelitem', 'jresearch.site');
+jresearchimport('models.modelform', 'jresearch.site');
 
 /**
 * Model class for holding a single research area record.
 *
 */
-class JResearchModelMember extends JResearchModelItem{
-    
-	/**
-	 * 
-	 * Cache for form data
-	 * @var array
-	 */
-	protected $_data;
+class JResearchModelMember extends JResearchModelForm{	
 	
 	/**
     * Returns the model data store in the user state as a table
@@ -33,7 +26,7 @@ class JResearchModelMember extends JResearchModelItem{
         	$row = $this->getTable('Member', 'JResearch');
             if($row->load(JRequest::getInt('id'))){
             	if($row->published)
-                	return $row;
+                	$this->_row = $row;
                 else
                 return false;
             }else
@@ -52,20 +45,16 @@ class JResearchModelMember extends JResearchModelItem{
      */
     public function &getData()
     {
-    	if(!isset($this->data)){
+    	if(!isset($this->_data)){
 	    	$app = & JFactory::getApplication();
 	    	$data = & JRequest::getVar('jform');
 	    	if (empty($data))
 	    	{
 	    		// For new items
+	    		jresearchimport('helpers.staff', 'jresearch.admin');
 	    		$selected = & JRequest::getVar('cid', 0, '', 'array');
-	    		$db = JFactory::getDBO();
-	    		$query = $db->getQuery(true);
-	    		$query->select('*');
-	    		$query->from('#__jresearch_member');
-	    		$query->where('id = ' . (int)$selected[0]);
-	    		$db->setQuery((string)$query);
-	    		$data = & $db->loadAssoc();
+	    		$user = JFactory::getUser();
+	    		$data = JResearchStaffHelper::getMemberArrayFromUsername($user->get('username'));
 	    	}
 	
 	    	if (empty($data))
@@ -78,14 +67,13 @@ class JResearchModelMember extends JResearchModelItem{
 	    	if(is_string($data['id_research_area'])){
 	    		$data['id_research_area'] = explode(',', $data['id_research_area']);
 	    	}
-	
-	
+
 	    	// Store the state as an array of values
 	    	$app->setUserState('com_jresearch.edit.member.data', $data);
-	        $this->data = $data;
+	        $this->_data = $data;
 	    }
 
-        return $this->data;
+        return $this->_data;
     }    
             
 	/**
@@ -256,12 +244,12 @@ class JResearchModelMember extends JResearchModelItem{
     }
 
 
-        /**
-         * Method to save a record
-         *
-         * @access      public
-         * @return      boolean True on success
-         */
+	 /**
+    * Method to save a record
+    *
+    * @access      public
+    * @return      boolean True on success
+    */
     function save()
     {
         $app = JFactory::getApplication();

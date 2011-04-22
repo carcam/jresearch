@@ -65,6 +65,7 @@ class JResearchAdminModelPublication extends JModelForm{
             }
             return $this->data;
         }
+
         /**
          * Method to get the HelloWorld form.
          *
@@ -150,6 +151,8 @@ class JResearchAdminModelPublication extends JModelForm{
 				
                 if (!$row->save($data, '', $omittedFields))
                 {
+                	//Since the save routine modifies the array data
+        			JRequest::setVar('jform', $data);                	
                     $this->setError($row->getError());
                     return false;
                 }

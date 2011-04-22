@@ -40,7 +40,18 @@
 			<option value="yes">JYES</option>
 			<option value="no">JNO</option>
 		</field>
+		<field
+             name="rules_publications"
+             type="rules"
+             label="JCONFIG_PERMISSIONS_LABEL"
+             class="inputbox"
+             validate="rules"
+             filter="rules"
+             component="com_jresearch"
+             section="publications"
+        />		
         </fieldset>
+        
         <fieldset name="researchareas" label="JRESEARCH_RESEARCH_AREAS">
             <field name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
             <field name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />
@@ -49,7 +60,19 @@
 				<option value="yes">JYES</option>
 				<option value="no">JNO</option>
 			</field>            
+		<field
+             name="rules_researchareas"
+             type="rules"
+             label="JCONFIG_PERMISSIONS_LABEL"
+             class="inputbox"
+             validate="rules"
+             filter="rules"
+             component="com_jresearch"
+             section="researchareas"
+        />						        
+			
         </fieldset>
+        
         <fieldset name="staff" label="JRESEARCH_STAFF" >
 		<field name="staff_list_arrangement" type="list" default="vertical" label="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT" description="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT_DESCRIPTION">
 			<option value="vertical">JRESEARCH_VERTICAL</option>
@@ -77,7 +100,17 @@
 			<option value="yes">Yes</option>
 			<option value="no">No</option>
 		</field>
-		<field name="staff_number_last_theses" label="JRESEARCH_CONFIG_PROFILES_NUMBER_THESES" default="5" type="text" />		
+		<field name="staff_number_last_theses" label="JRESEARCH_CONFIG_PROFILES_NUMBER_THESES" default="5" type="text" />	
+		<field
+             name="rules_staff"
+             type="rules"
+             label="JCONFIG_PERMISSIONS_LABEL"
+             class="inputbox"
+             validate="rules"
+             filter="rules"
+             component="com_jresearch"
+             section="staff"
+        />			
 	</fieldset>
 	 <fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
         <field
