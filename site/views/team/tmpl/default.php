@@ -30,7 +30,8 @@ table.teamdescription th{
 			<th><?php echo JText::_('JRESEARCH_TEAM_LEADER');?>:</th>
 			<td>
 				<?php if(!empty($this->leader)): ?>
-					<?php echo $this->leader->published? JHTML::_('jresearch.link', $this->leader, 'member', 'show', $this->leader->id) : $this->leader->__toString(); ?>
+					<?php $textLeader = JResearchPublicationsHelper::formatAuthor($this->leader->__toString(), $this->format); ?>
+					<?php echo $this->leader->published? JHTML::_('jresearch.link', $this->leader, 'member', 'show', $textLeader) : $textLeader; ?>
 				<?php endif; ?>
 			</td>	
 			<td rowspan="3">

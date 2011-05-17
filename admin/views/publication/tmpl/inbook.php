@@ -8,10 +8,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="divTR">
-	<div class="divTd"><label for="month"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></label></div>
-	<div class="divTdl divTdl2"><input name="month" id="month" type="text" size="15" maxlength="20" value="<?php echo isset($this->publication)?$this->publication->month:'' ?>" /></div>
 	<div class="divTd"><label for="isbn"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></label></div>
-	<div class="divTdl">		
+	<div class="divTdl divTdl2">		
             <input type="text" name="isbn" id="isbn" size="20" maxlength="32" value="<?php echo isset($this->publication)?$this->publication->isbn:''; ?>" />
         </div>
 	<div class="divEspacio" ></div>	

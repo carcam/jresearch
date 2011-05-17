@@ -33,7 +33,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
 			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort',  JText::_('JRESEARCH_TITLE'), 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Published'), 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Internal'), 'internal', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>			
+			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_INTERNAL'), 'internal', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>			
+			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_FEATURED'), 'featured', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>						
 			<th style="width: 22%;"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
 			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_YEAR'), 'year', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_CITEKEY'), 'citekey', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
@@ -77,6 +78,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_internal')" title="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>">
 						<img src="images/<?php echo ( $this->items[$i]->internal ) ? 'tick.png' : 'publish_x.png'; ?>" width="16" height="16" border="0" alt="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
 					</td>					
+					<td class="center">
+						<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_featured')" title="<?php echo ( $this->items[$i]->featured ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>">
+						<img src="images/<?php echo ( $this->items[$i]->featured ) ? 'tick.png' : 'publish_x.png'; ?>" width="16" height="16" border="0" alt="<?php echo ( $this->items[$i]->featured ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
+					</td>										
 					<td class="center"><?php echo $text; ?></td>
 					<td class="center"><?php echo $this->items[$i]->year; ?></td>
 					<td class="center"><?php echo $this->items[$i]->citekey; ?></td>

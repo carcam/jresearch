@@ -44,18 +44,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <div class="divTR">
 	<div class="divTd"><label for="address"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></label></div>
 	<div class="divTdl divTdl2"><input type="text" name="address" id="address" size="15" maxlength="255" value="<?php echo isset($this->publication)?$this->publication->address:'' ?>" /></div>
-	<div class="divTd"><label for="month"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></label></div>
-	<div class="divTdl"><input type="text" name="month" id="number" size="15" maxlength="20" value="<?php echo isset($this->publication)?$this->publication->month:'' ?>" /></div>
-	<div class="divEspacio" ></div>	
-</div>
-<div class="divTR">
 	<div class="divTd"><label for="publisher"><?php echo JText::_('Publisher').': ' ?></label></div>		
-	<div class="divTdl divTdl2"><input name="publisher" id="publisher" type="text" size="15" maxlength="60" value="<?php echo isset($this->publication)?$this->publication->publisher:'' ?>" /></div>
-	<div class="divTd"><label for="organization"><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></label></div>		
-	<div class="divTdl"><input name="organization" id="organization" type="text" size="15" maxlength="255" value="<?php echo isset($this->publication)?$this->publication->organization:'' ?>" /></div>
+	<div class="divTdl"><input name="publisher" id="publisher" type="text" size="15" maxlength="60" value="<?php echo isset($this->publication)?$this->publication->publisher:'' ?>" /></div>	
 	<div class="divEspacio" ></div>	
 </div>
 <div class="divTR">
+	<div class="divTd"><label for="organization"><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></label></div>		
+	<div class="divTdl divTdl2"><input name="organization" id="organization" type="text" size="15" maxlength="255" value="<?php echo isset($this->publication)?$this->publication->organization:'' ?>" /></div>
 	<div class="divTd"><label for="crossref"><?php echo JText::_('JRESEARCH_CROSS_REFERENCE').': ' ?></label></div>
 	<div class="divTdl"><input type="text" name="crossref" id="crossref" size="15" maxlength="255" value="<?php echo isset($this->publication)?$this->publication->crossref:''; ?>" /></div>
+	<div class="divEspacio" ></div>	
 </div>

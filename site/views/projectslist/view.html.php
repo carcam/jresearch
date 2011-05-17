@@ -45,7 +45,7 @@ class JResearchViewProjectsList extends JResearchView
     */
     private function _displayDefaultList(){
      	global $mainframe;
-    	
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');    	
       	$doc = JFactory::getDocument();
       	$params = $this->getParams();
       	$Itemid = JRequest::getVar('Itemid');
@@ -67,7 +67,9 @@ class JResearchViewProjectsList extends JResearchView
         }else{
             $mainframe->setUserState('projectsfilter_status'.$Itemid, null);
         }
-
+        
+    	$format = $params->get('staff_format', 'last_first') == 'last_first'? 1 : 0;
+        
         $defaultSorting = $params->get('projects_default_sorting', 'start_date');
         JRequest::setVar('filter_order', $defaultSorting);
 
@@ -81,7 +83,7 @@ class JResearchViewProjectsList extends JResearchView
     	$this->assignRef('items', $projects);
     	$this->assignRef('areaModel', $areaModel);
     	$this->assignRef('page', $model->getPagination());
-    	
+    	$this->assignRef('format', $format);
     }
 }
 

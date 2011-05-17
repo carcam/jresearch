@@ -47,6 +47,7 @@ class JResearchAdminPublicationsController extends JController
             $this->registerTask('apply', 'save');
             $this->registerTask('cancel', 'cancel');
             $this->registerTask('toggle_internal', 'toggle_internal');
+            $this->registerTask('toggle_featured', 'toggle_featured');            
             $this->registerTask('changeType', 'changeType');
             $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
             JResearchPluginsHelper::verifyPublicationPluginsInstallation();
@@ -533,6 +534,32 @@ class JResearchAdminPublicationsController extends JController
 			$this->setRedirect('index.php?option=com_jresearch&controller=publications');			
 		}		
 	}
+	
+	/**
+	 * Invoked when the user has pressed the toggle button for change a publication's 
+	 * internal status.
+	 *
+	 */
+	function toggle_featured(){
+		$cid = JRequest::getVar('cid');
+		$user = JFactory::getUser();
+		$publication =& JResearchPublication::getById($cid[0]);
+
+		if(!$publication->isCheckedOut($user->get('id'))){		
+			$publication->featured = !$publication->featured;
+		
+			if($publication->store())
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_TOGGLE_FEATURED_SUCCESSFULLY'));
+			else{
+				JError::raiseWarning(1, JText::_('JRESEARCH_TOGGLE_FEATURED_FAILED'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications');
+			}
+		}else{
+			JError::raiseWarning(1, JText::_('JRESEARCH_TOGGLE_FEATURED_FAILED'));
+			$this->setRedirect('index.php?option=com_jresearch&controller=publications');			
+		}		
+	}
+	
 	
 	/**
 	 * Invoked when the user has decided to change the type of a publication.

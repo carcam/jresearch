@@ -51,11 +51,11 @@ class JResearchAdminViewTeam extends JResearchView
             {
                $selectedMemberOptions[] = $member['id_member'];
             }
-            $memberList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'members[]', 'attributes' => 'class="inputbox" multiple="multiple" size="5"', 'selected' => $selectedMemberOptions));
+            $memberList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'members[]', 'attributes' => 'class="inputbox" multiple="multiple" size="10"', 'selected' => $selectedMemberOptions));
     	}else{
             $arguments[] = null;
             //Leader and members list
-            $memberList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'members[]', 'attributes' => 'class="inputbox" multiple="multiple" size="5"', 'selected' => array()));
+            $memberList = JHTML::_('jresearchhtml.staffmemberslist', array('name' => 'members[]', 'attributes' => 'class="inputbox" multiple="multiple" size="10"', 'selected' => array()));
     	}
         
     	$researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => !empty($team)?$team->id_research_area:null));    	    	

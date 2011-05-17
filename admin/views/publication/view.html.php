@@ -75,6 +75,14 @@ class JResearchAdminViewPublication extends JResearchView
             $researchAreasHTML = JHTML::_('jresearchhtml.researchareas', array('name' => 'id_research_area', 'attributes' => 'class="inputbox" size="1"', 'selected' => $publication?$publication->id_research_area:null));
             $internalRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'internal', 'attributes' => 'class="inputbox"', 'selected' => $publication?$publication->published:1));
 
+			$months = array('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec');            
+			$monthsOptions = array();
+			$monthsOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_MONTH'));
+			foreach($months as $month){
+				$monthsOptions[] = JHTML::_('select.option', $month, JText::_('JRESEARCH_'.strtoupper($month)));
+			}
+            $monthsList = JHTML::_('select.genericlist', $monthsOptions, 'month', 'class="inputbox" size="1"' ,'value', 'text' , isset($publication)?$publication->month : '0');
+
             $params = JComponentHelper::getParams('com_jresearch');
             $authorsControl = JHTML::_('jresearchhtml.autoSuggest', 'authors', $authors);
 
@@ -92,7 +100,7 @@ class JResearchAdminViewPublication extends JResearchView
             $this->assignRef('authors', $authorsControl);
             $this->assignRef('files', $files);
             $this->assignRef('hierarchy', $hierarchy);
-            
+            $this->assignRef('monthsList', $monthsList);            
             parent::display($tpl);
 
             $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', $arguments);

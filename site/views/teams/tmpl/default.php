@@ -26,7 +26,7 @@ if(count($this->items) > 0):
 				<?php $leader = $team->getLeader(); ?>				
 				<?php if(!empty($leader)): ?>
 					<div>
-						<h4><?php echo JText::_('JRESEARCH_TEAM_LEADER');?></h4> <?php echo !empty($leader)?$leader->__toString():'';?>
+						<h4><?php echo JText::_('JRESEARCH_TEAM_LEADER');?></h4> <?php echo !empty($leader)?JResearchPublicationsHelper::formatAuthor($leader->__toString(), $this->format):'';?>
 					</div>
 				<?php endif; ?>
 				<div style="text-align:left">

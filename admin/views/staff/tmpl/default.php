@@ -70,7 +70,8 @@ defined('_JEXEC') or die('Restricted access');
 						<?php $disabled = $this->ordering ?  '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>
-					<td class="center"><?php echo $this->items[$i]->getPosition(); ?></td>
+					<?php $position = $this->items[$i]->getPosition(); ?>	
+					<td class="center"><?php echo ($position)? $position->__toString() : ''; ?></td>
 					<td class="center"><?php echo $researchArea->name; ?></td>
 					<td class="center"><a href="mailto:<?php echo $this->items[$i]->email; ?>"><?php echo $this->items[$i]->email ?></a></td>
 				</tr>

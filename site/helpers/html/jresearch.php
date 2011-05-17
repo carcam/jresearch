@@ -169,7 +169,7 @@ class JHTMLJresearch
 	 * @param bool $bAuthors
 	 * @return string
 	 */
-	public static function publicationfilter($layout, $bTeams = true, $bAreas = true, $bYear = true, $bSearch = true, $bType = true, $bAuthors = true)
+	public static function publicationfilter($layout, $bTeams = true, $bAreas = true, $bYear = true, $bSearch = true, $bType = true, $bAuthors = true, $bMonths = true)
 	{
 		global $mainframe;
 		
@@ -272,6 +272,19 @@ class JHTMLJresearch
 	    		$areasOptions[] = JHTML::_('select.option', $a->id, $a->name);
 	    	}    		
 	    	$lists['areas'] = JHTML::_('select.genericlist',  $areasOptions, 'filter_area', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_area );
+    	}
+    	
+    	if($bMonths === true){
+			$months = array('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec');    		
+			$monthsOptions = array();
+			$monthsOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_MONTH'));
+
+			$filter_month = $mainframe->getUserStateFromRequest($layout.'publicationsfilter_month', 'filter_month');    		
+			
+			foreach($months as $month){
+				$monthsOptions[] = JHTML::_('select.option', $month, JText::_('JRESEARCH_'.strtoupper($month)));
+			}
+            $lists['month'] = JHTML::_('select.genericlist', $monthsOptions, 'filter_month', 'class="inputbox" size="1" '.$js ,'value', 'text' , $filter_month);
     	}
     	
     	return '<div style="float: left">'.implode('</div><div style="float: left;">', $lists).'</div>';

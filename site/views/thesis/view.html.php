@@ -72,7 +72,7 @@ class JResearchViewThesis extends JResearchView
     	$area = $areaModel->getItem($thesis->id_research_area);
     	$params = $mainframe->getPageParameters('com_jresearch');    	
         $showHits = ($params->get('show_hits') == 'yes');
-    	$format = $params->get('staff_format') == 'last_first'?1:0;
+    	$format = $params->get('staff_format') == 'last_first'?1 : 0;
     	$description = str_replace('<hr id="system-readmore" />', '', trim($thesis->description));
         $arguments = array('thesis', $thesis);
         $mainframe->triggerEvent('onPrepareJResearchContent', $arguments);

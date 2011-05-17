@@ -12,6 +12,10 @@
 				<option value="asc">JRESEARCH_ASCENDING</option>
 				<option value="desc">JRESEARCH_DESCENDING</option>
 			</param>
+			<param name="sort_criteria" default="mp.ordering" label="JRESEARCH_CONFIG_STAFF_SORT_CRITERIA" type="radio">
+				<option value="mp.ordering">JRESEARCH_POSITION</option>
+				<option value="lastname">JRESEARCH_LASTNAME</option>			
+			</param>
             <param name="staff_list_header" default="Staff" label="JRESEARCH_CONFIG_STAFF_HEADER" type="text" />
             <param name="staff_filter" label="JRESEARCH_CONFIG_STAFF_FILTER" default="only_current" type="radio">
 				<option value="only_current">JRESEARCH_ONLY_CURRENT</option>

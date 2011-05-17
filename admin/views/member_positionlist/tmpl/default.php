@@ -27,7 +27,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 1%;">#</th>
 			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
 			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort', 'Position', 'position', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 10%;" nowrap="nowrap">
+				<?php echo JHTML::_('grid.sort', 'Order by', 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHTML::_('grid.order', $this->items ); ?>
+			</th>			
+			<th style="width: 10%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 		</tr>
 		</thead>
 		
@@ -51,6 +55,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>
 					<td><?php echo $checked; ?></td>
 					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->position;  ?></a></td>
+					<td class="order" nowrap="nowrap">
+						<span><?php echo $this->page->orderUpIcon( $i, $this->items[$i]->ordering > 1, 'orderup', 'Move Up', $this->ordering); ?></span>
+						<span><?php echo $this->page->orderDownIcon( $i, $n, $this->items[$i]->ordering < ($this->items[$i]->getNextOrder()-1), 'orderdown', 'Move Down', $this->ordering ); ?></span>
+						<?php $disabled = $this->ordering ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
+					</td>					
 					<td class="center"><?php echo $published; ?></td>
 				</tr>
 			<?php

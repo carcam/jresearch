@@ -15,6 +15,7 @@ class JResearchViewTeams extends JResearchView
 	 **/
 	function display($tpl = null)
 	{
+		require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php';		
 		global $mainframe;
 		
 		$doc = JFactory::getDocument();
@@ -24,12 +25,14 @@ class JResearchViewTeams extends JResearchView
 		$model = &$this->getModel();
 		$items = $model->getData(null, true, true);
 		$params = $mainframe->getParams();
-		
+    	$format = $params->get('staff_format', 'last_first') == 'last_first'? 1 : 0;
+    			
 		$doc->setTitle(JText::_('JRESEARCH_TEAMS'));		
 		
 		$this->assignRef('params', $params);
 		$this->assignRef('items', $items, JResearchFilter::ARRAY_OBJECT_XHTML_SAFE, array('exclude_keys' => array('description')));
 		$this->assignRef('page', $model->getPagination());	
+		$this->assignRef('format', $format);
 
 		$eArguments = array('teams', $layout);
 		

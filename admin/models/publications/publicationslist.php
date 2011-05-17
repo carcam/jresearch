@@ -221,7 +221,8 @@ class JResearchModelPublicationsList extends JResearchModelList{
             $filter_area = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_area'.$Itemid, 'filter_area');
             $filter_author = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_author'.$Itemid, 'filter_author');
             $filter_team = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_team'.$Itemid, 'filter_team');
-
+            $filter_month = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_month'.$Itemid, 'filter_month');
+            
             // prepare the WHERE clause
             $where = array();
             if(!$published){
@@ -268,6 +269,10 @@ class JResearchModelPublicationsList extends JResearchModelList{
                             else
                                     $where[] = '0 = 1';
                     }
+            }
+            
+            if(!empty($filter_month) && $filter_month != '0'){
+                $where[] = $db->nameQuote('month').' = '.$db->Quote($filter_month);
             }
 
             if(!$mainframe->isAdmin()){

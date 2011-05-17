@@ -85,6 +85,10 @@
 				<option value="yes">Yes</option>
 				<option value="no">No</option>			
 			</param>
+			<param name="filter_month" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_MONTH" description="JRESEARCH_PUBLICATIONS_FILTER_MONTH_DESCRIPTION">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>			
+			</param>			
 			<param name="show_export_all" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_ALL" description="JRESEARCH_PUBLICATION_EXPORT_ALL_DESCRIPTION">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>						

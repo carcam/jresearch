@@ -72,10 +72,10 @@ class JResearchModelStaff extends JResearchModelList{
 	*/
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
-		$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
+		$resultQuery = 'SELECT m.* FROM '.$db->nameQuote($this->_tableName).' m JOIN '.$db->nameQuote('#__jresearch_member_position').' mp ';
 		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy(); 	
 		
-		// Deal with pagination issues
+		// Deal with pagination issues 
 		if($paginate){
 			$limit = (int)$this->getState('limit');
 			if($limit != 0)
@@ -94,20 +94,29 @@ class JResearchModelStaff extends JResearchModelList{
             $db =& JFactory::getDBO();
             $Itemid = JRequest::getVar('Itemid');
             //Array of allowable order fields
-            $orders = array('lastname', 'published', 'id_research_area', 'ordering');
+            $orders = array('lastname', 'published', 'id_research_area', 'ordering', 'position');
 
-            $filter_order = $mainframe->getUserStateFromRequest('stafffilter_order'.$Itemid, 'filter_order', 'ordering');
+            if($mainframe->isAdmin())
+	            $filter_order = $mainframe->getUserStateFromRequest('stafffilter_order'.$Itemid, 'filter_order', 'ordering');
+	        else
+	 			$filter_order = $mainframe->getUserStateFromRequest('stafffilter_order'.$Itemid, 'filter_order', 'mp.ordering');    
+
+            if($filter_order != 'mp.ordering')
+            	$filter_order_text = 'm.'.$filter_order;
+            else
+            	$filter_order_text = $filter_order;	
+
+			$secondOrder = '';                    
+			if($filter_order != 'lastname')			                    
+				$secondOrder = ', m.lastname ASC';
+            		            
             $filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('stafffilter_order_Dir'.$Itemid, 'filter_order_Dir', 'ASC'));
 
             //Validate order direction
             if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
                     $filter_order_Dir = 'ASC';
-
-            //if order column is unknown, use the default
-            if(!in_array($filter_order, $orders))
-                    $filter_order = $db->nameQuote('lastname');
-
-            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', former_member ASC' ;
+				
+            return ' ORDER BY '.$filter_order_text.' '.$filter_order_Dir.', m.former_member ASC'.$secondOrder;
 	}	
 	
 		/**
@@ -124,33 +133,35 @@ class JResearchModelStaff extends JResearchModelList{
 
             // prepare the WHERE clause
             $where = array();
+            
+            $where[] = "m.position = mp.id";
 
             if(!$published){
                     if($filter_state == 'P')
-                            $where[] = $db->nameQuote('published').' = 1 ';
+                            $where[] = 'm.published = 1 ';
                     elseif($filter_state == 'U')
-                            $where[] = $db->nameQuote('published').' = 0 ';
+                            $where[] = 'm.published = 0 ';
             }else
-                    $where[] = $db->nameQuote('published').' = 1 ';
+                    $where[] = 'm.published = 1 ';
 
             //Added former member for where clause
             if($filter_former != 0)
             {
                     if($filter_former > 0)
-                            $where[] = $db->nameQuote('former_member').' = 1 ';
+                            $where[] = 'm.former_member = 1 ';
                     elseif($filter_former < 0)
-                            $where[] = $db->nameQuote('former_member').' = 0 ';
+                            $where[] = 'm.former_member = 0 ';
             }
 
             if($filter_area)
             {
-                    $where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
+                    $where[] = 'm.id_research_area = '.$db->Quote($filter_area);
             }
 
             if(($filter_search = trim($filter_search))){
                     $filter_search = JString::strtolower($filter_search);
                     $filter_search = $db->getEscaped($filter_search);
-                    $where[] = 'LOWER('.$db->nameQuote('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
+                    $where[] = 'LOWER(m.lastname) LIKE '.$db->Quote('%'.$filter_search.'%');
             }
 
             return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
@@ -164,7 +175,7 @@ class JResearchModelStaff extends JResearchModelList{
 	*/	
 	protected function _buildCountQuery(){
 		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName).' m JOIN '.$db->nameQuote('#__jresearch_member_position'); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
 	}

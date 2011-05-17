@@ -37,6 +37,7 @@ class JResearchViewResearchArea extends JResearchView
         $area = $model->getItem($id);
         //Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
+    	$format = $params->get('staff_format', 'last_first') == 'last_first'? 1 : 0;		    	
         if(empty($area) || !$area->published){
             JError::raiseWarning(1, JText::_('JRESEARCH_AREA_NOT_FOUND'));
             return;
