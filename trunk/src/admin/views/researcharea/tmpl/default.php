@@ -6,7 +6,7 @@ $fields = array('id', 'name', 'alias', 'published');
 
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-    <div class="width-70">
+    <div class="width-60">
         <fieldset class="panelform">
                 <ul class="adminformlist">
                 <?php foreach($fields as $fieldName):  ?>
@@ -28,6 +28,13 @@ $fields = array('id', 'name', 'alias', 'published');
             <div><?php echo $description->input; ?></div>
             <div class="clr"></div>
         </fieldset>
+    </div>
+    <div class="width-30">
+    	<fieldset class="panelform">
+    	<?php $field = $this->form->getField('rules'); 
+		      echo $field->input;
+    	?>
+		</fieldset>    
     </div>
     <input type="hidden" name="task" value="edit" />
     <input type="hidden" name="controller" value="researchareas" />    

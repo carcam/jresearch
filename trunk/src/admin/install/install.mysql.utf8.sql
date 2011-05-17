@@ -263,6 +263,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member_position` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `position` varchar(50) NOT NULL,
   `published` tinyint(4) NOT NULL default '1',
+  `ordering` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 

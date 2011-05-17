@@ -14,18 +14,13 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jresearchimport('tables.table', 'jresearch.admin');
+
 /**
  * This class represents a staff member.
  *
  */
-class JResearchMember extends JTable{
-	/**
-	 * Database integer id
-	 *
-	 * @var int
-	 */
-	public $id;
-	
+class JResearchMember extends JResearchTable{	
 	/**
 	 * Is it a former member?
 	 *
@@ -85,14 +80,7 @@ class JResearchMember extends JTable{
 	* @var string
 	*/
 	public $location;
-	
-	/**
-	 * Published status
-	 *
-	 * @var boolean
-	 */
-	public $published;
-	
+		
 	/**
 	 * Ordering number
 	 * @var int
@@ -265,47 +253,6 @@ class JResearchMember extends JTable{
 	{
 		$k = $this->_tbl_key;
 		return 'com_jresearch.member.'.(int) $this->$k;
-	}
-
-	/**
-	 * Method to return the title to use for the asset table.
-	 *
-	 * @return	string
-	 * @since	1.6
-	 */
-	protected function _getAssetTitle()
-	{
-		return $this->__toString();
-	}
-
-	/**
-	 * Get the parent asset id for the record
-	 *
-	 * @return	int
-	 * @since	1.6
-	 */
-	protected function _getAssetParentId($table = null, $id = null)
-	{
-		// Initialise variables.
-		$assetId = null;
-		$db = $this->getDbo();
-		$query	= $db->getQuery(true);
-		$query->select('asset_id');
-		$query->from('#__assets');
-		$query->where('name = '.$db->Quote('com_jresearch'));
-
-		// Get the asset id from the database.
-		$this->_db->setQuery($query);
-		if ($result = $this->_db->loadResult()) {
-			$assetId = (int) $result;
-		}
-
-		// Return the asset id.
-		if ($assetId) {
-			return $assetId;
-		} else {
-			return parent::_getAssetParentId($table, $id);
-		}
 	}
 	
 	/**
@@ -545,27 +492,7 @@ class JResearchMember extends JTable{
 		}		
 	}        
 	
-	/**
-	 * Overloaded bind function
-	 *
-	 * @param	array		$hash named array
-	 *
-	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
-	 * @see		JTable:bind
-	 * @since	1.5
-	 */
-	public function bind($array, $ignore = ''){
-		// Bind the rules.
-		if (is_array($array) && isset($array['rules'])){
-			$rules = new JRules($array['rules']);
-			$this->setRules($rules);
-		}elseif(is_object($array) && isset($array->rules)){
-			$rules = new JRules($array->rules);
-			$this->setRules($rules);			
-		}
 
-		return parent::bind($array, $ignore);
-	}
 	
 }
 

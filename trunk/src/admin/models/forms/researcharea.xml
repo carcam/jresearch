@@ -39,5 +39,9 @@
 			label="JRESEARCH_DESCRIPTION"
 			filter="safehtml" buttons="true"
                         />
+		<field name="rules" type="rules" class="inputbox" filter="rules"
+				component="com_jresearch" section="member" validate="rules"
+		/>
+                        
         </fields>
 </form>

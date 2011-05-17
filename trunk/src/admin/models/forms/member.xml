@@ -147,7 +147,7 @@
 			<field name="created_by" type="user"
 				label="JRESEARCH_PROFILE_OWNER" description="JRESEARCH_PROFILE_OWNER" />				
 			<field name="rules" type="rules" class="inputbox" filter="rules"
-				component="com_jresearch" section="staff" validate="rules"
+				component="com_jresearch" section="member" validate="rules"
 			/>
 			<field name="asset_id" type="hidden" filter="unset" />
 			<field name="username" type="text" class="readonly"

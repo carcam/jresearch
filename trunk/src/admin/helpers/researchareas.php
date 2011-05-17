@@ -33,4 +33,20 @@ class JResearchResearchareasHelper{
 		
 		return $areas;
 	}
+	
+	/**
+	 * Return a researcharea given its id
+	 * @param int $id
+	 */
+	public static function getResearchArea($id){
+		jresearchimport('tables.researcharea', 'jresearch.admin');
+		$area = JTable::getInstance('Researcharea', 'JResearch');
+		
+		if($area->load($id)){
+			return $area;
+		}else{
+			return null;
+		}
+		
+	}
 }

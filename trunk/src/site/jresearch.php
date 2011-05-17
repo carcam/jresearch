@@ -23,7 +23,7 @@ $mainframe = JFactory::getApplication();
 // Common needed files
 require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'init.php');
 require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
-
+jresearchimport('helpers.access', 'jresearch.admin');
 
 $controller = JRequest::getVar('controller', null);
 // Verify if view parameter is set (usually for frontend requests and map to a controller
@@ -41,7 +41,6 @@ if(empty($controller)){
 }
 
 require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
-
 //Session
 $session =& JFactory::getSession();
 

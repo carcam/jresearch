@@ -697,6 +697,21 @@ class JResearchPublicationsHelper{
 		
 		return $records;
 	}
+	
+	/**
+	 * Returns a publication given its id.
+	 * @param int $id
+	 */
+	public static function getPublication($id){
+		jresearchimport('tables.publication', 'jresearch.admin');
+		
+		$publication = JTable::getInstance('Publication', 'JResearch');
+		if($publication->load($id)){
+			return $publication;
+		}else{
+			return null;
+		}
+	}
    
 }
 ?>

@@ -8,49 +8,21 @@
 defined('_JEXEC') or die('Restricted access'); 
 
 jimport('joomla.html.pane');
+$user = JFactory::getUser();
 ?>
 <div class="cpanel-left">
 <div id="cpanel">
+	<?php if($user->authorise('core.admin', 'com_jresearch')):  ?>
 	<div class="icon-wrapper">
 		<div class="icon">
-			<a class="modal" rel="{handler: 'iframe', size: {x: 750, y: 500}}" href="index.php?option=com_config&amp;tmpl=component&amp;component=com_jresearch&amp;view=component&amp;path=">
+			<a class="modal" rel="{handler: 'iframe', size: {x: 1024, y: 500}}" href="index.php?option=com_config&amp;tmpl=component&amp;component=com_jresearch&amp;view=component&amp;path=">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/config.png" alt="<?php echo JText::_('JRESEARCH_CONFIGURATION'); ?>" />
 				<span><?php echo JText::_('JRESEARCH_CONFIGURATION'); ?></span>
 			</a>
 		</div>
 	</div>
-	<div class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=cooperations">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/cooperations.png" alt="<?php echo JText::_('JRESEARCH_COOPERATIONS'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_COOPERATIONS'); ?></span>
-			</a>
-		</div>
-	</div>
-	<div  class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=facilities">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/facilities.png" alt="<?php echo JText::_('JRESEARCH_FACILITIES'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_FACILITIES'); ?></span>
-			</a>
-		</div>
-	</div>
-	<div  class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=financiers">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/financier.png" alt="<?php echo JText::_('JRESEARCH_FINANCIERS'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_FINANCIERS'); ?></span>
-			</a>
-		</div>
-	</div>
-	<div  class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=projects">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/projects.png" alt="<?php echo JText::_('JRESEARCH_PROJECTS'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_PROJECTS'); ?></span>
-			</a>
-		</div>
-	</div>
+	<?php endif; ?>
+	<?php if($user->authorise('core.manage', 'com_jresearch')): ?>
 	<div  class="icon-wrapper">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=publications">
@@ -74,22 +46,15 @@ jimport('joomla.html.pane');
 			</a>
 		</div>
 	</div>
-	<div  class="icon-wrapper">
+    <div  class="icon-wrapper">
 		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=teams">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/teams.png" alt="<?php echo JText::_('JRESEARCH_TEAMS'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_TEAMS'); ?></span>
+			<a href="index.php?option=com_jresearch&amp;mode=upgrader">
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/versionupgrade.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
+				<span><?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?></span>
 			</a>
 		</div>
-	</div>
-	<div  class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=theses">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/theses.png" alt="<?php echo JText::_('JRESEARCH_THESES'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_THESES'); ?></span>
-			</a>
-		</div>
-	</div>
+	</div>	
+	<?php endif; ?>
 	<div  class="icon-wrapper">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;task=help">
@@ -98,15 +63,6 @@ jimport('joomla.html.pane');
 			</a>
 		</div>
 	</div>
-    	<div  class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;mode=upgrader">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/versionupgrade.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?></span>
-			</a>
-		</div>
-	</div>
-
 </div>
 </div>
 <div class="cpanel-right">

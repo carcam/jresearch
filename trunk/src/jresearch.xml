@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.6.0" method="install">
+<extension type="component" version="1.6.0" method="install">
 	<name>J!Research</name>
 	<creationDate>June 2008</creationDate>
 	<author>Luis Galárraga and Florian Prinz</author>
@@ -50,13 +50,6 @@
 		<folder>helpers</folder>
 		<folder>includes</folder>
 		<folder>js</folder>
-		<folder>legacy_automatic_citation</folder>		
-		<folder>plg_jresearch</folder>
-		<folder>plg_jresearch_automatic_bibliography_generation</folder>
-		<folder>plg_jresearch_automatic_citation</folder>
-		<folder>plg_jresearch_load_cited_records</folder>
-		<folder>plg_jresearch_persistent_cited_records</folder>
-		<folder>plg_jresearch_native_plugins</folder>
 		<folder>views</folder>
 		<folder>models</folder>
 	</files>
@@ -125,4 +118,16 @@
 			<language tag="en-GB">en-GB-jresearch_help.html</language>
 		</languages>
 	</administration>
-</install>
+	<modules>
+		<module folder="modules" module="mod_helloworld" name="Hello World Module"/>
+	</modules>
+	<plugins>
+		<plugin folder="plugins/plg_jresearch_search" plugin="search_jresearch" name="Search - JResearch" group="search"/>
+		<plugin folder="plugins/plg_jresearch_persistent_cited_records" plugin="jresearch_persistent_cited_records" name="JResearch Persistent Cited Records" group="content"/>
+		<plugin folder="plugins/plg_jresearch_native_plugins" plugin="jresearch_entities_save_cited_records" name="JResearch Save Cited Records" group="jresearch" />
+		<plugin folder="plugins/plg_jresearch_native_plugins" plugin="jresearch_entities_load_cited_records" name="JResearch Load Cited Records" group="jresearch" />
+		<plugin folder="plugins/plg_jresearch_load_cited_records" plugin="jresearch_load_cited_records"	name="JResearch Content Load Cited Records" group="system" />
+		<plugin folder="plugins/plg_jresearch_automatic_citation" plugin="jresearch_automatic_citation" name="JResearch Automatic Citation" group="editors-xtd" /> 
+		<plugin folder="plugins/plg_jresearch_automatic_bibliography_generation" plugin="jresearch_automatic_bibliography_generation" name="JResearch Automatic Bibliography Generation" group="editors-xtd" /> 		
+	</plugins>
+</extension>

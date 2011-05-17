@@ -9,7 +9,7 @@
     <version>1.5</version>
     <description>Plugin for searching research areas, projects, publications, cooperations, facilitie, theses and staff members.</description>
     <files>
-        <filename plugin="jresearch">jresearch.php</filename>
+        <filename plugin="jresearch_search">jresearch_search.php</filename>
     </files>
     <params>
 	<param name="search_limit" type="text" size="5" default="50" label="Search Limit" description="Number of Search items to return"/>

@@ -12,7 +12,7 @@
 */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
+jresearchimport('tables.table', 'jresearch.admin');
 
 /**
  * This class defines the base for all sources of activity in a center 
@@ -20,14 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * groups of members.
  *
  */
-class JResearchActivity extends JTable{
-	/**
-	 * Integer database id
-	 *
-	 * @var int
-	 */
-	public $id;
-	
+class JResearchActivity extends JResearchTable{	
 	/**
 	 * String for alias
 	 *
@@ -40,10 +33,6 @@ class JResearchActivity extends JTable{
 	*/
 	public $title;
 	
-	/**
-	* @var boolean
-	*/
-	public $published;
 	
 	/**
 	 * Date of creation
@@ -427,6 +416,42 @@ class JResearchActivity extends JTable{
 			return null;
 		}		
 	}
+	
+	
+	/**
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form `table_name.id`
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return	string
+	 * @since	1.6
+	 */
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+		return 'com_jresearch.'.$this->_type.'.'.(int) $this->$k;
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.
+	 *
+	 * @return	string
+	 * @since	1.6
+	 */
+	protected function _getAssetTitle()
+	{
+		return $this->__toString();
+	}
+
+	
+	/**
+	 * String representation
+	 * @see trunk/src/admin/tables/JResearchTable::__toString()
+	 */
+	public function __toString(){
+		return $this->title;
+	}
+	
 }
 
 ?>

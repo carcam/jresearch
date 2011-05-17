@@ -13,17 +13,14 @@
 */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
+jresearchimport('tables.table', 'jresearch.admin');
+
 /**
  * This class represents a research area.
  *
  */
-class JResearchResearcharea extends JTable{
-	/**
-	 * Database integer id
-	 *
-	 * @var int
-	 */
-	public $id;
+class JResearchResearcharea extends JResearchTable{
 	
 	/**
 	 * String for alias
@@ -44,15 +41,7 @@ class JResearchResearcharea extends JTable{
 	 *
 	 * @var string
 	 */
-	public $description;
-	
-	/**
-	 * Published state
-	 * 
-	 * @var boolean
-	 */
-	public $published;
-	
+	public $description;	
 		
 	/**
 	 * User id of the person who blocked the item. 0 if the item is not blocked.
@@ -294,6 +283,20 @@ class JResearchResearcharea extends JTable{
 	function __toString(){
     	return $this->title;
     }
+    
+	/**
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form `table_name.id`
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return	string
+	 * @since	1.6
+	 */
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+		return 'com_jresearch.researcharea.'.(int) $this->$k;
+	}
 }	
 
 ?>

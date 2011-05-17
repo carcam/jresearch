@@ -50,11 +50,14 @@ class JResearchAdminViewPublication extends JResearchView
     	$form->bind($data);
 			
         $pubtype = JRequest::getVar('pubtype', $data['pubtype'], 'jform');
+        
+        $changeType = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
             
         $this->assignRef('form', $form);
         $this->assignRef('data', $data);
         $this->assignRef('pubtype', $pubtype);
-            
+        $this->assignRef('changeType', $changeType);    
+        
         $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('publication'));
         parent::display($tpl);
         $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('publication'));            

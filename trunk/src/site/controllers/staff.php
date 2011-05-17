@@ -68,17 +68,25 @@ class JResearchStaffController extends JResearchFrontendController
 	* @access public
 	*/
 	function edit(){
-		$user =& JFactory::getUser();
-		if($user->guest){
-			JError::raiseWarning(1, JText::_('JRESEARCH_ACCESS_NOT_ALLOWED'));
-			return;
-		}	
+		$user = JFactory::getUser();
+		$memberInfo = JResearchStaffHelper::getMemberArrayFromUsername($user->username);		
+		if(empty($memberInfo)){
+        	JError::raiseWarning(1, JText::_('JRESEARCH_NOT_EXISTING_PROFILE'));
+        	return;		
+		}
 		
-		$model = $this->getModel('Member', 'JResearchModel');
-		$view = $this->getView('Member', 'html', 'JResearchView');				
-		$view->setModel($model, true);
-		$view->setLayout('edit');
-		$view->display();						
+		//Rules at staff level
+		$canDoStaff = JResearchAccessHelper::getActions();
+		
+		if($canDoStaff->get('core.staff.edit.own')){
+			$model = $this->getModel('Member', 'JResearchModel');
+			$view = $this->getView('Member', 'html', 'JResearchView');				
+			$view->setModel($model, true);
+			$view->setLayout('edit');
+			$view->display();									
+		}else{
+			JError::raiseWarning(1, JText::_('JRESEARCH_ACCESS_NOT_ALLOWED'));			
+		}
 	}
 
 	/**
@@ -102,17 +110,33 @@ class JResearchStaffController extends JResearchFrontendController
         $form = JRequest::getVar('jform', array(), '', 'array');        
         $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'JResearchMember'));                
 
-        if ($model->save()){
-	        $app->triggerEvent('OnAfterSaveJResearchEntity', array($model->getItem(), 'JResearchMember'));        	
-       	    $msg = JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED');            
-       	    $type = 'message';
-        }else{
-            $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
-            $type = 'error';
-        }
+		//Rules at staff level
+		$canDoStaff = JResearchAccessHelper::getActions();
+		$allowedToContinue = false;
+		
+		if(empty($form['id'])){
+			//check if creation is allowed
+			$allowedToContinue = $canDoStaff->get('core.staff.create');
+		}else{
+			//Check if edition is allowed
+			$allowedToContinue = $canDoStaff->get('core.staff.edit.own');
+		}
+                
+		if($allowedToContinue){
+	        if ($model->save()){
+		        $app->triggerEvent('OnAfterSaveJResearchEntity', array($model->getItem(), 'JResearchMember'));        	
+       		    $msg = JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED');            
+       	    	$type = 'message';
+	        }else{
+    	        $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
+        	    $type = 'error';
+        	}
         
-        $app->enqueueMessage($msg, $type);
-        $this->edit();		
+	        $app->enqueueMessage($msg, $type);
+    	    $this->edit();		
+		}else{
+			JError::raiseWarning(1, JText::_('JRESEARCH_ACCESS_NOT_ALLOWED'));			
+		}
 	}
 	
 	/**

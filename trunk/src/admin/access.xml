@@ -3,38 +3,32 @@
         <section name="component">
                 <action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
                 <action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+            	<action name="core.publications.create" title="JRESEARCH_ACTION_PUBLICATIONS_CREATE" />
+        		<action name="core.publications.edit" title="JRESEARCH_ACTION_PUBLICATIONS_EDIT" />
+				<action name="core.publications.edit.own" title="JRESEARCH_ACTION_PUBLICATIONS_EDIT" />        
+            	<action name="core.publications.delete" title="JRESEARCH_ACTION_PUBLICATIONS_DELETE" />                
+	            <action name="core.staff.create" title="JRESEARCH_ACTION_STAFF_CREATE"  />
+				<action name="core.staff.edit.state" title="JRESEARCH_ACTION_STAFF_EDITSTATE" />
+				<action name="core.staff.edit.own" title="JRESEARCH_ACTION_STAFF_EDITOWN"  />        
+            	<action name="core.staff.delete" title="JRESEARCH_ACTION_STAFF_DELETE"  />			
+	            <action name="core.researchareas.create" title="JRESEARCH_ACTION_RESEARCHAREAS_CREATE"  />
+				<action name="core.researchareas.edit.state" title="JRESEARCH_ACTION_RESEARCHAREAS_EDITSTATE" />
+				<action name="core.researchareas.edit.own" title="JRESEARCH_ACTION_RESEARCHAREAS_EDITOWN"  />        
+            	<action name="core.researchareas.delete" title="JRESEARCH_ACTION_RESEARCHAREAS_DELETE"  />			            	
         </section>
         <section name="publication">
-			<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
-			<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />        
-            <action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
-        </section>
-        <section name="publications">        
-            <action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
-			<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
-			<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />        
-            <action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />			
+        		<action name="core.publications.edit" title="JRESEARCH_ACTION_PUBLICATIONS_EDIT" />
+				<action name="core.publications.edit.state" title="JRESEARCH_ACTION_PUBLICATIONS_EDIT" />        
+            	<action name="core.publications.delete" title="JRESEARCH_ACTION_PUBLICATIONS_DELETE" />                
         </section>
         <section name="member">
-			<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
-			<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />        
-            <action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
-        </section>
-        <section name="staff">        
-            <action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
-			<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
-			<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />        
-            <action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />			
+			<action name="core.staff.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+			<action name="core.staff.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />        
+            <action name="core.staff.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
         </section>
         <section name="researcharea">
-			<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
-			<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />        
-            <action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
-        </section>
-        <section name="researchareas">        
-            <action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
-			<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
-			<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />        
-            <action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />			
+			<action name="core.researchareas.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+			<action name="core.researchareas.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />        
+            <action name="core.researchareas.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
         </section>
 </access>
