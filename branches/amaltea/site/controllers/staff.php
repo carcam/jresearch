@@ -58,8 +58,10 @@ class JResearchStaffController extends JResearchFrontendController
 		
 			//Get and use configuration
             $params = $mainframe->getPageParameters('com_jresearch');
-            $limit = $params->get('staff_entries_per_page');
+            $limit = $params->get('staff_entries_per_page', 25);
+            JRequest::setVar('filter_order', $params->get('sort_criteria', 'mp.ordering'));
             JRequest::setVar('limit', $limit);
+
             $limitstart = JRequest::getVar('limitstart', null);
             if($limitstart === null)
                 JRequest::setVar('limitstart', 0);

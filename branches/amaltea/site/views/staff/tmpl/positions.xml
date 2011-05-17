@@ -6,6 +6,9 @@
 	<state>
 		<name>JRESEARCH_POSITION_STAFF_LIST</name>
 		<description>JRESEARCH_POSITION_STAFF_LIST_MESSAGE</description>
+		<url>
+             <param type="hidden" name="filter_order" default="position" />
+        </url>
 		<params />
 	</state>
 </metadata>

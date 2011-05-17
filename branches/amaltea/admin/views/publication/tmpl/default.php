@@ -56,11 +56,12 @@ $abstract_rows = $params->get('abstract_rows');
 		</div>	
 	<div class="divTR">
 	        <div class="divTd">
-	            <label for="year"><?php echo JText::_('JRESEARCH_YEAR').': '?></label>
+	            <label for="year"><?php echo JText::_('JRESEARCH_YEAR').'/'.JText::_('JRESEARCH_MONTH').': '?></label>
 	        </div>
 	        <div class="divTdl divTdl2">
 				<input maxlength="4" size="5" name="year" id="year" value="<?php echo isset($this->publication)?$this->publication->year:'' ?>" class="validate-year" />
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'year', JText::_('JRESEARCH_PROVIDE_VALID_YEAR')); ?>
+				<?php echo $this->monthsList; ?>
 	        </div>
     		<div class="divTd">
 	            <label for="id_research_area"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '?></label>

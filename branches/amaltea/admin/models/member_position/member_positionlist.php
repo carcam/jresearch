@@ -137,9 +137,9 @@ class JResearchModelMember_positionList extends JResearchModelList
 		global $mainframe;
 		$db =& JFactory::getDBO();
 		//Array of allowable order fields
-		$orders = array('position', 'published');
+		$orders = array('position', 'published', 'ordering');
 		
-		$filter_order = $mainframe->getUserStateFromRequest('member_positionfilter_order', 'filter_order', 'position');
+		$filter_order = $mainframe->getUserStateFromRequest('member_positionfilter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('member_positionfilter_order_Dir', 'filter_order_Dir', 'ASC'));
 		
 		//Validate order direction
@@ -147,9 +147,59 @@ class JResearchModelMember_positionList extends JResearchModelList
 			$filter_order_Dir = 'ASC';
 		//if order column is unknown, use the default
 		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('position');	
+			$filter_order = $db->nameQuote('ordering');	
 		
 		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
 	}
+
+	/**
+	 * Ordering item
+	*/
+	function orderItem($item, $movement)
+	{
+		$db =& JFactory::getDBO();
+		$row = JTable::getInstance('Member_position', 'JResearch');
+		$row->load($item);
+		
+		if (!$row->move($movement))
+		{
+			$this->setError($row->getError());
+			return false;
+		}
+
+		return true;
+	}
+	
+	/**
+	 * Set ordering
+	*/
+	function setOrder($items)
+	{
+		$db 		=& JFactory::getDBO();
+		$total		= count($items);
+		$row		= JTable::getInstance('Member_position', 'JResearch');
+
+		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
+		JArrayHelper::toInteger($order);
+
+		// update ordering values
+		for( $i=0; $i < $total; $i++ )
+		{
+			$row->load( $items[$i] );
+			
+			if ($row->ordering != $order[$i])
+			{
+				$row->ordering = $order[$i];
+				if (!$row->store())
+				{
+					$this->setError($row->getError());
+					return false;
+				}
+			} // if
+		} // for
+
+		return true;
+	}
+	
 }
 ?>

@@ -15,6 +15,7 @@ class JResearchViewTeam extends JResearchView
 	 **/
 	function display($tpl = null)
 	{	
+		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');		
 		global $mainframe;
 		
 		$id = JRequest::getInt('id');
@@ -60,7 +61,8 @@ class JResearchViewTeam extends JResearchView
 		$show_cooperations = $params->get('team_show_cooperations', 'yes');
 		$applyStyles = $params->get('publications_apply_style', 'no');
 		$style = $params->get('citationStyle', 'APA');
-
+    	$format = $params->get('staff_format') == 'last_first'?1 : 0;
+    	
 		if($show_publications == "yes")
 		{
 			$pub_view_all = JRequest::getVar('publications_view_all', 0);
@@ -132,9 +134,9 @@ class JResearchViewTeam extends JResearchView
 			$position = $member->getPosition();
 						
 			if($member->published)
-				$text = JHTML::_('jresearch.link', (!empty($member->title)?$member->title.' ':'').$member, 'member', 'show', $member->id);
+				$text = JHTML::_('jresearch.link', (!empty($member->title)?$member->title.' ':'').JResearchPublicationsHelper::formatAuthor($member->__toString(), $format), 'member', 'show', $member->id);
 			else
-				$text = (!empty($member->title)?$member->title.' ':'').$member->__toString();
+				$text = (!empty($member->title)?$member->title.' ':'').JResearchPublicationsHelper::formatAuthor($member->__toString(), $format);
 
 			if(!empty($position) && !empty($position))	
 				$links[] = $text.' | '.$position->position;				
@@ -174,6 +176,7 @@ class JResearchViewTeam extends JResearchView
 		$this->assignRef('applyStyles', $applyStyles);
 		$this->assignRef('style', $style);
 		$this->assignRef('enableThumbnails', $enableThumbnails);
+		$this->assignRef('format', $format);
 		$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
 		
        	parent::display($tpl);

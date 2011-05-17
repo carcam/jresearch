@@ -116,6 +116,7 @@ class JResearchPublication extends JResearchActivity{
 	public $extra;
 	public $online_source_type;
 	public $digital_source_type;
+	public $featured;
 
 
 	/**

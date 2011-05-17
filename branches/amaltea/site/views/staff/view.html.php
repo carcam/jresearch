@@ -87,6 +87,7 @@ class JResearchViewStaff extends JResearchView
                 break;
         }
 
+        
       	
       	$members =  $model->getData(null, true, true);   
     	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));

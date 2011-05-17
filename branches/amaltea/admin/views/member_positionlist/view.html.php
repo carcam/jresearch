@@ -29,10 +29,10 @@ class JResearchAdminViewMember_positionList extends JResearchView
 
       	// Filters and pagination
 		$lists = array();    	
-    	$filter_order = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order', 'position');
-    	$filter_order_Dir = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order_Dir', 'ASC');
-		$filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
-    	$filter_search = $mainframe->getUserStateFromRequest('projectsfilter_search', 'filter_search');
+    	$filter_order = $mainframe->getUserStateFromRequest('member_positionfilter_order', 'filter_order', 'ordering');
+    	$filter_order_Dir = $mainframe->getUserStateFromRequest('member_positionfilter_order', 'filter_order_Dir', 'ASC');
+		$filter_state = $mainframe->getUserStateFromRequest('member_positionfilter_state', 'filter_state');
+    	$filter_search = $mainframe->getUserStateFromRequest('member_positionfilter_search', 'filter_search');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
@@ -40,10 +40,13 @@ class JResearchAdminViewMember_positionList extends JResearchView
 		$lists['state'] = JHTML::_('grid.state', $filter_state);
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
-
+        //Ordering allowed ?
+        $ordering = ($lists['order'] == 'ordering');
+		
      	$this->assignRef('items', $items);
      	$this->assignRef('lists', $lists );
      	$this->assignRef('page', $model->getPagination());
+     	$this->assignRef('ordering', $ordering);
 
      	$eArguments = array('member_positionlist');
 		$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);

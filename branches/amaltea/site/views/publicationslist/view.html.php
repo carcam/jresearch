@@ -193,7 +193,8 @@ class JResearchViewPublicationsList extends JResearchView
     		($params->get('filter_year', 'yes') == 'yes'),
     		($params->get('filter_search', 'yes') == 'yes'),
     		($params->get('filter_type', 'yes') == 'yes'),
-    		($params->get('filter_authors', 'yes') == 'yes')
+    		($params->get('filter_authors', 'yes') == 'yes'),
+    		($params->get('filter_month', 'yes') == 'yes')
     	);
     	
     	$this->assignRef('filter', $filter);

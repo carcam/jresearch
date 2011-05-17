@@ -358,9 +358,9 @@ class JResearchPublicationsHelper{
                     $piece = trim($piece);
                     if(preg_match("/^($monthsText)$/i", $piece)){
                             if($abbreviate)
-                                    $content = JText::_('JRESEARCH_ABB_'.strtoupper($piece));
+                                $content = JText::_('JRESEARCH_ABB_'.strtoupper($piece));
                             else
-                                    $content = JText::_('JRESEARCH_'.strtoupper($piece));
+                                $content = JText::_('JRESEARCH_'.strtoupper($piece));
                     }elseif(preg_match('/^[{"](.+)[}"]$/', $piece, $matches)){
                             $content = $matches[1];
                     }else{

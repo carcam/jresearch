@@ -19,7 +19,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<th><?php echo JText::_('Published').': '; ?></th>
-		<td colspan="3"><?php echo $this->publishedRadio; ?></td>
+		<td><?php echo $this->publishedRadio; ?></td>
+		<th><?php echo JText::_('Order').': '; ?></th>
+		<td><?php echo $this->orderList; ?></td>
 	</tr>
 </tbody>
 </table>

@@ -17,13 +17,12 @@ if(count($this->items) > 0):
 <?php foreach($this->items as $project): ?>
 	<?php $researchArea = $this->areaModel->getItem($project->id_research_area); ?>
 	<li class="liresearcharea">
-		<div>
 			<?php $contentArray = explode('<hr id="system-readmore" />', $project->description); ?>
 			<?php $itemId = JRequest::getVar('Itemid'); ?>
 			<h3 class="contentheading"><?php echo $project->title; ?></h3>
 			<?php 
 			//Show research area?
-			if($this->params->get('show_researcharea') == 1):
+			if($this->params->get('show_researcharea', 1) == 1):
 			?>		
 			<div>
 				<div><strong><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '; ?></strong>
@@ -37,8 +36,8 @@ if(count($this->items) > 0):
 			endif;
 			
 			//Show members?
-			if($this->params->get('show_members') == 1):
-				$members = implode(', ',$project->getPrincipalInvestigators());
+			if($this->params->get('show_members', 1) == 1):
+				$members = JResearchPublicationsHelper::formatAuthorsArray($project->getPrincipalInvestigators(), $this->format);
 			?>			
 			<div>
         		<h4><?php echo JText::_('JRESEARCH_PROJECT_LEADERS')?></h4>

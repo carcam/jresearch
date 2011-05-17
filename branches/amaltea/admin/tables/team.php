@@ -321,6 +321,7 @@ class JResearchTeam extends JTable
 		$db = JFactory::getDBO();
 		$table1 = $db->nameQuote('#__jresearch_team_member');
 		$table2 = $db->nameQuote('#__jresearch_member');
+		$table3 = $db->nameQuote('#__jresearch_member_position');
 		$idTeam = $db->nameQuote('id_team');
 		$title = $db->nameQuote('title');
 		$profesor = $db->Quote('Prof. Dr.');
@@ -328,12 +329,25 @@ class JResearchTeam extends JTable
 		$qoid = $db->Quote($oid);
 		
 		// Get internal authors
-		$membersQuery = "SELECT $table1.* FROM $table1, $table2 WHERE $table1.id_member = $table2.id AND $table1.$idTeam = $qoid AND title = $profesor 
-		UNION (SELECT $table1.* FROM $table1, $table2 WHERE $table1.id_member = $table2.id AND $table1.$idTeam = $qoid AND title != $profesor ORDER BY lastname)
-		UNION (SELECT $table1.* FROM $table1, $table2 WHERE $table1.id_member = $table2.id AND $table1.$idTeam = $qoid AND title IS NULL ORDER BY lastname)";
-		$db->setQuery($membersQuery);
-        
-		if(($result = $db->loadAssocList()))
+/*		$membersQuery1 = "SELECT $table1.* FROM $table1, $table2 WHERE $table1.id_member = $table2.id AND $table1.$idTeam = $qoid AND title = $profesor ORDER BY lastname ASC"; 
+		$membersQuery2 = "SELECT $table1.* FROM $table1, $table2 WHERE $table1.id_member = $table2.id AND $table1.$idTeam = $qoid AND title != $profesor AND title != '' ORDER BY lastname ASC";
+		$membersQuery3 = "SELECT $table1.* FROM $table1, $table2 WHERE $table1.id_member = $table2.id AND $table1.$idTeam = $qoid AND (title IS NULL OR title = '') ORDER BY position ASC, lastname ASC";
+		$db->setQuery($membersQuery1);
+		$result = $db->loadAssocList();
+		
+		$db->setQuery($membersQuery2);		
+		$result = array_merge($result, $db->loadAssocList());
+		
+		$db->setQuery($membersQuery3);		
+		$result = array_merge($result, $db->loadAssocList());
+		*/
+		
+		$query = "SELECT tm.* FROM $table1 tm JOIN $table2 m JOIN $table3 mp WHERE tm.id_member = m.id AND tm.id_team = $qoid
+		 AND m.position = mp.id ORDER BY mp.ordering ASC, m.lastname ASC";
+		$db->setQuery($query);
+		$result = $db->loadAssocList();
+		
+		if($result)
         {
         	$this->_members = $result;
         }
@@ -341,6 +355,7 @@ class JResearchTeam extends JTable
         {
         	$this->_members = array();	
         }
+        
 	}
 	
 	public function __toString()
