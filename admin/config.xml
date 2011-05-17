@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<params>
+		<param name="thumbnail_enable" type="radio" default="1" label="JRESEARCH_THUMBNAIL_ENABLE" description="JRESEARCH_THUMBNAIL_ENABLE_DESCRIPTION">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="show_hits" type="radio" default="yes" label="JRESEARCH_SHOW_HITS" description="JRESEARCH_SHOW_HITS_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+		<param type="spacer" />
+				
+		<param name="citationStyle" type="list" default="APA" label="JRESEARCH_CITATION_STYLE" description="JRESEARCH_CITATION_STYLE_DESCRIPTION">
+			<option value="APA">APA</option>
+			<option value="IEEE">IEEE</option>
+			<option value="MLA">MLA</option>
+			<option value="CSE">CSE</option>
+			<option value="Chicago">Chicago (Author-Date system)</option>
+			<option value="Vancouver">Vancouver</option>
+		</param>
+		<param name="enable_export_frontend" type="radio" default="yes" label="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT" description="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>			
+		</param>
+		<param name="enable_bibtex_frontend_import" type="radio" default="yes" label="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>		
+		<param name="make_internal" type="radio" default="no" label="JRESEARCH_CONFIG_MAKE_INTERNAL" description="JRESEARCH_CONFIG_MAKE_INTERNAL_DESCRIPTION">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>		
+		
+		<param name="publications_apply_style" type="radio" label="JRESEARCH_PUBLICATIONS_APPLY_STYLE" description="JRESEARCH_PUBLICATIONS_APPLY_STYLE_DESCRIPTION" default="no">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</param>
+
+        <param name="publications_allow_comentaries" label="JRESEARCH_CONFIG_ALLOW_COMENTARIES" type="radio" default="no">
+            <option value="yes">Yes</option>
+        	<option value="no">No</option>
+        </param>
+        <param name="publications_allow_comentaries_from" label="JRESEARCH_CONFIG_ALLOW_COMENTARIES_FROM" type="radio" default="users">
+          	<option value="everyone">JRESEARCH_EVERYONE</option>
+			<option value="users">JRESEARCH_AUTHENTICATED</option>
+        </param>
+		<param name="show_bibtex" type="radio" default="yes" label="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_SHOW_BIBTEX_FRONTEND_DESCRIPTION">
+		    <option value="yes">Yes</option>
+        	<option value="no">No</option>
+         </param>
+         <param name="show_export_bibtex" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_BIBTEX" description="JRESEARCH_PUBLICATION_EXPORT_BIBTEX_DESCRIPTION">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+         </param>
+         <param name="show_export_ris" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_RIS" description="JRESEARCH_PUBLICATION_EXPORT_RIS_DESCRIPTION">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </param>
+          <param name="show_export_mods" type="radio" default="no" label="JRESEARCH_PUBLICATION_EXPORT_MODS" description="JRESEARCH_PUBLICATION_EXPORT_MODS_DESCRIPTION">
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+          </param>	
+		<param type="spacer" />
+		<param name="staff_list_arrangement" type="list" default="vertical" label="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT" description="JRESEARCH_CONFIG_STAFF_LIST_ARRANGEMENT_DESCRIPTION">
+			<option value="vertical">JRESEARCH_VERTICAL</option>
+			<option value="horizontal">JRESEARCH_HORIZONTAL</option>
+		</param>
+		<param name="staff_format" type="list" default="last_first" label="JRESEARCH_CONFIG_STAFF_FORMAT" description="JRESEARCH_CONFIG_STAFF_FORMAT_DESCRIPTION">
+			<option value="last_first">JRESEARCH_LASTNAME_FIRSTNAME</option>
+			<option value="first_last">JRESEARCH_FIRSTNAME_LASTNAME</option>			
+		</param>				
+		<param name="categorize_by" type="list" default="team" label="JRESEARCH_CONFIG_CATEGORIZE" description="JRESEARCH_CONFIG_CATEGORIZE_DESCRIPTION">
+			<option value="team">JRESEARCH_TEAM</option>
+			<option value="researcharea">JRESEARCH_RESEARCH_AREA</option>			
+		</param>						
+        <param name="abstract_rows" default="5" label="JRESEARCH_ABSTRACT_ROWS" type="text" />
+		<param name="member_image_width" default="1024" label="JRESEARCH_MEMBER_IMAGE_WIDTH" type="text" />
+		<param name="member_image_height" default="768" label="JRESEARCH_MEMBER_IMAGE_HEIGHT" type="text" />
+		
+		<param type="spacer" />
+
+		<param name="files_root_path" type="hidden" default="files" />			
+	</params>
+</config>
