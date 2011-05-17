@@ -133,9 +133,14 @@ class JResearchPublicationsController extends JResearchFrontendController
 	*/
 	function add()
 	{
-		$view = $this->getView('Publication', 'html', 'JResearchView');		
-		$view->setLayout('new');
-		$view->display();
+		$canDo = JResearchAccessHelper::getActions();
+		if($canDo->get('core.publications.create')){
+			$view = $this->getView('Publication', 'html', 'JResearchView');		
+			$view->setLayout('new');
+			$view->display();
+		}else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));		
+		}
 	}
 	
 	/**
@@ -148,20 +153,36 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$view = $this->getView('Publication', 'html', 'JResearchView');
 		$pubModel = $this->getModel('Publication', 'JResearchModel');	
 		$task = $this->getTask();
+		$user = JFactory::getUser();
+		$canDoPublications = JResearchAccessHelper::getActions();
 		
 		if($task == 'edit'){
-			$publication = $pubModel->getItem();			
+			$publication = $pubModel->getItem();
+			
 			if(!empty($publication)){
-				$user = JFactory::getUser();
-				// Verify if it is checked out
-				if($publication->isCheckedOut($user->get('id'))){
-					$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-					return;
+				$canDo = JResearchAccessHelper::getActions('member', $publication->id);
+				if($canDo->get('core.publications.edit') || 
+				($canDoPublications->get('core.publications.edit.own') && $publication->createdBy == $user->get('id'))
+				){				
+					$user = JFactory::getUser();
+					// Verify if it is checked out
+					if($publication->isCheckedOut($user->get('id'))){
+						$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+						return;
+					}else{
+						$publication->checkout($user->get('id'));	
+					}
 				}else{
-					$publication->checkout($user->get('id'));	
+					JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));					
+					return;
 				}
 			}else{
 				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+				return;
+			}
+		}else{
+			if(!$canDoPublications->get('core.publications.create')){
+				JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 				return;
 			}
 		}
@@ -409,7 +430,24 @@ class JResearchPublicationsController extends JResearchFrontendController
         $task = JRequest::getVar('task');		
         $form = JRequest::getVar('jform', array(), '', 'array');        
         $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'JResearchPublication'));
-
+		$canDoPubs = JResearchAccessHelper::getActions();
+		$canProceed = false;	
+                
+		// Permissions check
+		if(empty($form['id'])){
+			$canProceed = $canDoPubs->get('core.publications.create');
+		}else{
+			$canDoPub = JResearchAccessHelper::getActions('publication', $form['id']);
+			$publication = JResearchPublicationsHelper::getPublication($form['id']);
+			$canProceed = $canDoPub->get('core.publication.edit') ||
+     			($canDoStaff->get('core.publications.edit.own') && $publication->createdBy == $user->get('id'));
+		}
+        
+		if(!$canProceed){
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
+			return;
+		}
+        
         if ($model->save()){
         	$app->triggerEvent('OnAfterSaveJResearchEntity', array($model->getItem(), 'JResearchPublication'));
             $data &= $model->getData();
@@ -488,135 +526,6 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 * It is only applied to existing items.
 	 */
 	function changeType(){	
-            global $mainframe;
-
-            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
-
-            $db = JFactory::getDBO();
-            $type = JRequest::getVar('change_type');
-            JRequest::setVar('pubtype', $type, 'POST', true);
-            $post = JRequest::get('post');
-            $publication = JTable::getInstance('Publication', 'JResearch');
-            $publication->pubtype = $type;
-            $user = JFactory::getUser();
-            $id = JRequest::getInt('id');
-            $keepOld = JRequest::getVar('keepold', false);
-            $itemIdText = '';
-            $Itemid = JRequest::getVar('Itemid');
-            if(!empty($Itemid))
-                    $itemIdText = '&Itemid='.$Itemid;
-
-
-            if(empty($id)){
-                $this->setRedirect('index.php?option=com_jresearch');
-                return;
-            }
-
-            // Get old publication
-            $oldPublication = JResearchPublication::getById($id);
-
-            // Get extra parameters
-            $delete = JRequest::getVar('delete_url_0');
-            if($delete === 'on'){
-                if(!empty($publication->files)){
-                    $filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$publication->files;
-                    @unlink($filetoremove);
-                    $publication->files = '';
-                    $oldPublication->files = '';
-                }
-            }else{
-                $publication->files = $oldPublication->files;
-            }
-	   
-	    $publication->bind($post, array('id'));	    
-	    
-	    $countUrl = JRequest::getInt('count_url', 0);
-	    $file = JRequest::getVar('file_url_'.$countUrl, null, 'FILES');
-	    if(!empty($file['name'])){	    	
-	    	$publication->files = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'publications');
-	    }
-	    
-	    $reset = JRequest::getVar('resethits', false);
-	    if($reset == 'on'){
-	    	$publication->hits = 0;
-	    }else{
-	    	$publication->hits = $oldPublication->hits;
-	    }
-
-            // Validate publication
-            $check = $publication->check();
-            if(!$check){
-                for($i=0; $i<count($publication->getErrors()); $i++)
-                    JError::raiseWarning(1, $publication->getError($i));
-
-                $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&id='.$oldPublication->id.'&pubtype='.$oldPublication->pubtype.$itemIdText);
-            }else{
-                //Time to set the authors
-                $maxAuthors = JRequest::getInt('nauthorsfield');
-                $k = 0;
-
-                for($j=0; $j<=$maxAuthors; $j++){
-                        $value = JRequest::getVar("authorsfield".$j);
-                        if(!empty($value)){
-                                if(is_numeric($value)){
-                                        // In that case, we are talking about a staff member
-                                        $publication->setAuthor($value, $k, true);
-                                }else{
-                                        // For external authors
-                                        $publication->setAuthor($value, $k);
-                                }
-
-                                $k++;
-                        }
-                }
-
-                // Change created by
-                $publication->created_by = $user->get('id');
-
-                //Remove previous publication if user has not stated it must be backup
-                if($keepOld !== 'on'){
-                        if(!$oldPublication->delete($id))
-                                JError::raiseWarning(1, JText::sprintf('JRESEARCH_PUBLICATION_NOT_DELETED', $id));
-                }else{
-                        //Rename unique fields like title and citekey
-                        $oldSuffix = JText::_('JRESEARCH_OLD');
-                        $oldPublication->title .= ' ('.$oldSuffix.')';
-                        $oldPublication->citekey .= $oldSuffix;
-
-                        // Duplicate files if they have not been removed
-                        if(!empty($oldPublication->files)){
-                                $source = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$oldPublication->files;
-                                $dest = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.'old_'.$oldPublication->files;
-                                if(!@copy($source, $dest))
-                                        JError::raiseWarning(1, JText::_('JRESEARCH_FILE_NOT_BACKUP'));
-                                $oldPublication->files = 'old_'.$oldPublication->files;
-                        }
-
-                        if(!$oldPublication->store(true)){
-                                $idText = '&id='.$oldPublication->id;
-                                JError::raiseWarning(1, JText::_('JRESEARCH_OLD_PUBLICATION_NOT_SAVED'));
-                                $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$itemIdText);
-                                return;
-                        }
-                }
-
-                // Now, save the record
-                if($publication->store(true)){
-                        $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&id='.$publication->id.'&pubtype='.$publication->pubtype.$itemIdText, JText::_('JRESEARCH_PUBLICATION_SUCCESSFULLY_SAVED'));
-                        // Trigger event
-                        $arguments = array('publication', $publication->id);
-                        $mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
-                }else{
-                        $idText = '&id='.$oldPublication->id;
-
-                        if($db->getErrorNum() == 1062)
-                                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD').' '.$db->getErrorMsg());
-                        else
-                                JError::raiseWarning(1, JText::_('JRESEARCH_PUBLICATION_NOT_SAVED').': '.$db->getErrorMsg());
-
-                        $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit'.$idText.'&pubtype='.$publication->pubtype.$itemIdText);
-                }
-            }
 	}
 	
 	/**

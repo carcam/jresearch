@@ -44,23 +44,24 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
                         $type = strtolower($type);
 						$newPub->pubtype = ($type == 'inproceedings') ? 'conference' : $type;
 						if(!empty($data['author'])){
-                                                        foreach($data['author'] as $auth){
-                                                            $j++;
-                                                            if($mapToStaff == 'on'){
-                                                                $member = JTable::getInstance('Member', 'JResearch');
-                                                                //First determine if this author can be mapped to a member in the staff                                                                
-                                                                if($member->bindFromArray(JResearchPublicationsHelper::bibCharsToUtf8FromArray($auth))){
-                                                                    $newPub->setAuthor($member->id, $j, true);
-                                                                    continue;
-                                                                }
-                                                            }
-                                                            if(empty($auth['von']))
-                                                                $authorName = $auth['first'].' '.$auth['last'];
-                                                            elseif(!empty($auth['jr']))
-                                                                $authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
-                                                            else
-                                                                $authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
-                                                            $newPub->setAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);                                                            
+                        	foreach($data['author'] as $auth){
+                            	$j++;
+                                if($mapToStaff == 'on'){
+                                	$member = JTable::getInstance('Member', 'JResearch');
+                                    //First determine if this author can be mapped to a member in the staff                                                                
+                                    if($member->bindFromArray(JResearchPublicationsHelper::bibCharsToUtf8FromArray($auth))){
+                                    	$newPub->addAuthor($member->id, $j, true);
+                                        continue;
+                                    }
+                                }
+                                
+                                if(empty($auth['von']))
+                                	$authorName = $auth['first'].' '.$auth['last'];
+                                elseif(!empty($auth['jr']))
+                                	$authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
+                                else
+                                	$authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
+                                    $newPub->addAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);                                                            
 							}
 						}
 						// Normalize the data, bibtex entities are not stored in database
@@ -81,7 +82,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 
 						$newPub->published = true;
 						$newPub->created_by = $user->get('id');	
-						$newPub->alias = JResearch::alias($newPub->title);
+						$newPub->alias = JFilterOutput::stringURLSafe($newPub->title);
 						$newPub->title = JResearchPublicationsHelper::formatBibtexTitleForImport($newPub->title);
 						
 						$resultArray[] = $newPub;

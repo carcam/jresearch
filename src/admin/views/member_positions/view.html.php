@@ -41,6 +41,9 @@ class JResearchAdminViewMember_positions extends JResearchView
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
 		$lists['search'] = $filter_search;
 
+        //Ordering allowed ?
+        $ordering = ($lists['order'] == 'ordering');
+		
      	$this->assignRef('items', $items);
      	$this->assignRef('lists', $lists );
      	$this->assignRef('page', $model->getPagination());

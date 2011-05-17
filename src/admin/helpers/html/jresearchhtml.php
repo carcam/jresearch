@@ -918,7 +918,8 @@ class JHTMLjresearchhtml
 	 */
 	public static function publicationstypeslist($name, $options = '', $value=''){	
             // Publication type filter
-            $types = JResearchPublication::getPublicationsSubtypes();
+            jresearchimport('helpers.publications', 'jresearch.admin');
+            $types = JResearchPublicationsHelper::getPublicationsSubtypes();
             $typesHTML = array();
             $typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
             foreach($types as $type){
@@ -943,6 +944,7 @@ class JHTMLjresearchhtml
 		$result = '<span class="hits"><span>'.$value.'</span><span><label for="'.$name.'">(';
 		$result .= JText::_('Reset').': </label></span><span><input type="checkbox" name="'.$name.'" id="'.$name.'" />)</span></span>';
 		return $result;
-	}        
+	}
+
 }
 ?>

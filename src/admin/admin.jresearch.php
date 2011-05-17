@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // Common needed files
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'includes'.DS.'init.php');
-
+jresearchimport('helpers.access', 'jresearch.admin');
 // Handle upgrade case
 $mode = JRequest::getVar('mode');
 if($mode == 'upgrader'){

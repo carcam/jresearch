@@ -50,9 +50,9 @@ class JResearchAdminModelMember extends JModelForm{
                     $data = $app->getUserState('com_jresearch.edit.member.data', array());
                 }
                 
-               	//Once the data is retrieved, time to fix it
+               //Once the data is retrieved, time to fix it
                 if(is_string($data['id_research_area'])){
-                	$data['id_research_area'] = explode(',', $data['id_research_area']);
+                $data['id_research_area'] = explode(',', $data['id_research_area']);
                 }
                 
 
@@ -115,30 +115,66 @@ class JResearchAdminModelMember extends JModelForm{
             return true;
         }
 
-
+        /**
+         * Publish a set of items
+         */        
         function publish(){
            $selected = & JRequest::getVar('cid', 0, '', 'array');
-           $area = JTable::getInstance('Member', 'JResearch');
-           return $area->publish($selected, 1);
+	       $member = JTable::getInstance('Member', 'JResearch');           
+	       $allOk = true;
+           foreach($selected as $id){
+           	   $action = JResearchAccessHelper::getActions('member', $id);           	
+           	   if($action->get('core.staff.edit.state')){
+	    	       $allOk = $allOk && $member->publish($id, 1);
+           	   }else{
+           	   	   $allOk = false;
+           		   $this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id));           	   	   
+           	   }
+           }
+           
+           return $allOk;
         }
 
+        /**
+         * Unpublish a set of items
+         */
         function unpublish(){
            $selected = & JRequest::getVar('cid', 0, '', 'array');
-           $area = JTable::getInstance('Member', 'JResearch');
-           return $area->publish($selected, 0);
+	       $member = JTable::getInstance('Member', 'JResearch');           
+	       $allOk = true;
+           foreach($selected as $id){
+           	   $action = JResearchAccessHelper::getActions('member', $id);           	
+           	   if($action->get('core.staff.edit.state')){
+	    	       $allOk = $allOk && $member->publish($id, 0);
+           	   }else{
+           	   	   $allOk = false;
+           		   $this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id));           	   	   
+           	   }
+           }
+           
+           return $allOk;
         }
-
+        
+        /**
+         * Delete a set of items
+         */        
         function delete(){
            $n = 0;
            $selected = & JRequest::getVar('cid', 0, '', 'array');
            $area = JTable::getInstance('Member', 'JResearch');
            foreach($selected as $id){
-                if(!$area->delete($id)){
-                    JError::raiseWarning(1, JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id));
-                }else{
-                    $n++;
-                }
+           		$action = JResearchAccessHelper::getActions('member', $id);
+           		if($action->get('core.staff.delete')){
+	                if(!$area->delete($id)){
+    	                $this->setError(JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id));
+                	}else{
+                    	$n++;
+                	}
+           		}else{
+           			$this->setError(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id));
+           		}
            }
+           
            return $n;
         }
 

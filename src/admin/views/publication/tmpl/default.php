@@ -87,16 +87,24 @@ defined('_JEXEC') or die('Restricted access');
                 <div class="divChangeType">
                         <?php echo $this->changeType; ?>
                         <input type="button" onclick="
-                        if(document.adminForm.change_type.value == '0'){
+                        if(document.forms['adminForm'].change_type.value == '0'){
                                 alert('<?php echo JText::_('JRESEARCH_SELECT_PUBTYPE'); ?>')
                         }
-                        if(document.adminForm.change_type.value != '0' && document.adminForm.change_type.value != document.adminForm.pubtype.value && confirm('<?php echo JText::_('JRESEARCH_SURE_CHANGE_PUBTYPE')?>') ){
-                                msubmitform('changeType');
+                        if(document.forms['adminForm'].change_type.value != '0' && document.forms['adminForm'].change_type.value != '<?php echo $this->pubtype; ?>' && confirm('<?php echo JText::_('JRESEARCH_SURE_CHANGE_PUBTYPE')?>') ){
+                               Joomla.submitbutton('changeType');
                         }"
                         value="<?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE'); ?>" />
                         <label for="keepold"><?php echo JText::_('JRESEARCH_KEEP_OLD_PUBLICATION').': '; ?><input type="checkbox" name="keepold" id="keepold" /></label>
                 </div>
         <?php endif; ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('JCONFIG_PERMISSIONS_LABEL'), 'permissions'); ?>        
+	    <div>
+    		<fieldset class="panelform">
+    	<?php $field = $this->form->getField('rules'); 
+		      echo $field->input;
+    	?>
+		</fieldset>    	
+    	</div>
 
         <?php echo JHtml::_('sliders.end'); ?>
 	    <input type="hidden" name="task" value="edit" />

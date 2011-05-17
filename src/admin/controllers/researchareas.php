@@ -45,16 +45,30 @@ class JResearchAdminResearchareasController extends JController
 	* Invoked when saving the information about a research area.
 	*/	
 	function save(){
-		if(!JRequest::checkToken()){
-        	$this->setRedirect('index.php?option=com_jresearch');
-            return;
-        }
+		JRequest::checkToken() or jexit( 'JInvalid_Token' );		
 		
 		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
         $app = JFactory::getApplication();
         $form = JRequest::getVar('jform', array(), '', 'array');        
         $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'JResearchResearcharea'));                
-                
+		$canDoAreas = JResearchAccessHelper::getActions();
+		$canProceed = false;	
+        
+		// Permissions check
+		if(empty($form['id'])){
+			$canProceed = $canDoPubs->get('core.researchareas.create');
+		}else{
+			$canDoArea = JResearchAccessHelper::getActions('researcharea', $form['id']);
+			$area = JResearchResearchareasHelper::getResearchArea($form['id']);
+			$canProceed = $canDoArea->get('core.researchareas.edit') ||
+     			($canDoStaff->get('core.researchareas.edit.own') && $area->createdBy == $user->get('id'));
+		}
+        
+		if(!$canProceed){
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
+			return;
+		}		
+        
         if ($model->save()){
         	$task = JRequest::getVar('task');
             $area = $model->getItem();
@@ -85,23 +99,25 @@ class JResearchAdminResearchareasController extends JController
 	 *
 	 * @access public
 	 */
-
 	function display(){
-        $view = $this->getView('researchareas', 'html', 'JResearchAdminView');
-        $model = $this->getModel('researchareas', 'JResearchAdminModel');
-        $view->setModel($model, true);
-        $view->setLayout('default');
-        $view->display();
+		//Check permissions
+		$user = JFactory::getUser();
+		if($user->authorise('core.manage', 'com_jresearch')){
+	        $view = $this->getView('researchareas', 'html', 'JResearchAdminView');
+    	    $model = $this->getModel('researchareas', 'JResearchAdminModel');
+        	$view->setModel($model, true);
+        	$view->setLayout('default');
+        	$view->display();
+		}else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+		}
 	}
 
 	/**
 	* Invoked when the user has published a set of research areas items.
 	*/	
 	function publish(){
-		if(!JRequest::checkToken()){
-        	$this->setRedirect('index.php?option=com_jresearch');
-            return;
-        }
+		JRequest::checkToken() or jexit( 'JInvalid_Token' );
 		
 		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
         if(!$model->publish()){
@@ -117,11 +133,8 @@ class JResearchAdminResearchareasController extends JController
 	* @access	public
 	*/ 
 	function unpublish(){		
-		if(!JRequest::checkToken()){
-        	$this->setRedirect('index.php?option=com_jresearch');
-            return;
-        }
-		
+		JRequest::checkToken() or jexit( 'JInvalid_Token' );
+				
 		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
         if(!$model->unpublish()){
         	JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
@@ -136,14 +149,14 @@ class JResearchAdminResearchareasController extends JController
 	* @access	public
 	*/ 
 	function remove(){
-		if(!JRequest::checkToken()){
-        	$this->setRedirect('index.php?option=com_jresearch');
-            return;
-        }
-	
+		JRequest::checkToken() or jexit( 'JInvalid_Token' );
         $model = $this->getModel('Researcharea', 'JResearchAdminModel');
         $n = $model->delete();
         $this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::sprintf('JRESEARCH_AREA_SUCCESSFULLY_DELETED', $n));
+        $errors = $model->getErrors();
+        if(!empty($errors)){
+        	JError::raiseWarning(1, explode('<br />', $errors));
+        }
 	}
 
 
@@ -156,30 +169,39 @@ class JResearchAdminResearchareasController extends JController
         $cid = JRequest::getVar('cid');
         $view = $this->getView('ResearchArea', 'html', 'JResearchAdminView');
         $model = $this->getModel('ResearchArea', 'JResearchAdminModel');
-				
-        if($cid){
+		$user = JFactory::getUser();		
+        
+		if(!empty($cid)){
         	$area = $model->getItem();
-            if(!empty($area->id)){
-            	$user = JFactory::getUser();
-                // Verify if it is checked out
-                if($area->isCheckedOut($user->get('id'))){
-                	$this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-                }else{
-                	$area->checkout($user->get('id'));
-                    $view->setLayout('default');
-                    $view->setModel($model, true);
-                    $view->display();
-                }
+            if(!empty($area)){
+    			$canDoArea = JResearchAccessHelper::getActions('researcharea', $cid[0]);
+            	if($canDoArea->get('core.researchareas.edit') ||
+     			($canDoPub->get('core.researchareas.edit.own') && $area->createdBy == $user->get('id'))){  	
+	                // Verify if it is checked out
+	                if($area->isCheckedOut($user->get('id'))){
+	                	$this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+	                }else{
+	                	$area->checkout($user->get('id'));
+	                    $view->setLayout('default');
+	                    $view->setModel($model, true);
+	                    $view->display();
+	                }
+     			}else{
+					JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));     				
+     			}
             }else{
             	JError::raiseError(404, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
                 $this->setRedirect('index.php?option=com_jresearch&controller=researchareas');
             }
         }else{
-        	$session = JFactory::getSession();
-            $session->set('citedRecords', array(), 'jresearch');
-            $view->setLayout('default');
-            $view->setModel($model, true);
-            $view->display();
+			$canDoAreas = JResearchAccessHelper::getActions();        		
+        	if($canDoAreas->get('core.researchareas.create')){
+	        	$session = JFactory::getSession();
+    	        $session->set('citedRecords', array(), 'jresearch');
+        	    $view->setLayout('default');
+            	$view->setModel($model, true);
+            	$view->display();
+        	}
         }
 	}
 	

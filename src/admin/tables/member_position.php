@@ -12,14 +12,21 @@
 */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class JResearchMember_position extends JTable 
+jresearchimport('tables.table', 'jresearch.admin');
+
+class JResearchMember_position extends JResearchTable 
 {
-	public $id;
-	public $position;
-	public $published;
 	
-	public function __construct(&$db)
-	{
+	public $position;
+	
+	public $ordering;
+	
+	/**
+	 * 
+	 * Constructor
+	 * @param JDatabase $db
+	 */
+	public function __construct(&$db){
 		parent::__construct('#__jresearch_member_position', 'id', $db);
 	}
 	

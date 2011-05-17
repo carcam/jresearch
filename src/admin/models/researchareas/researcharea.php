@@ -112,28 +112,40 @@ class JResearchAdminModelResearchArea extends JModelForm{
          * Publishes the set of selected items
          */
         function publish(){
-           $selected = & JRequest::getVar('cid', 0, '', 'array');
-           $area = JTable::getInstance('Researcharea', 'JResearch');
-           return $area->publish($selected, 1);
+		  	$selected = & JRequest::getVar('cid', 0, '', 'array');
+	       	$area = JTable::getInstance('Researcharea', 'JResearch');           
+	       	$allOk = true;
+           	foreach($selected as $id){
+           	   $action = JResearchAccessHelper::getActions('researcharea', $id);           	
+           	   if($action->get('core.researchareas.edit.state')){
+	    	       $allOk = $allOk && $area->publish($id, 1);
+           	   }else{
+           	   	   $allOk = false;
+           		   $this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id));           	   	   
+           	   }
+           	}
+           
+           	return $allOk;
         }
 
         /**
          * Unpublishes the set of selected items
          */
         function unpublish(){
-           $selected = & JRequest::getVar('cid', 0, '', 'array');
-			
-           $uncatId = array_search('1', $selected);
-           if($uncatId !== false){
-           		unset($selected[$uncatId]);
-                $this->setError(JText::_('JRESEARCH_UNCATEGORIZED_AREA_NEITHER_UNPUBLISHED_NOR_REMOVED'));
-                if(empty($selected))
-                	return false;           		
-           }
+			$selected = & JRequest::getVar('cid', 0, '', 'array');
+	       	$area = JTable::getInstance('Researcharea', 'JResearch');           
+	       	$allOk = true;
+           	foreach($selected as $id){
+           	   $action = JResearchAccessHelper::getActions('researcharea', $id);           	
+           	   if($action->get('core.researchareas.edit.state')){
+	    	       $allOk = $allOk && $area->publish($id, 0);
+           	   }else{
+           	   	   $allOk = false;
+           		   $this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id));           	   	   
+           	   }
+           	}
            
-           $area = JTable::getInstance('Researcharea', 'JResearch');
-           return $area->publish($selected, 0);
-
+           	return $allOk;
         }
 
         /**
@@ -148,16 +160,21 @@ class JResearchAdminModelResearchArea extends JModelForm{
            $user = JFactory::getUser();
            foreach($selected as $id){
                 $area->load($id);
-                if($id > 1){
-		           	if(!$area->isCheckedOut($user->get('id'))){	
-    	            	if($area->delete($id)){
-        	    	        $n++;
-            	    	}
-	           		}
-                }else{
-                	JError::raiseNotice(1, JText::_('JRESEARCH_UNCATEGORIZED_AREA_NEITHER_UNPUBLISHED_NOR_REMOVED'));
-                }
-           }
+           		$action = JResearchAccessHelper::getActions('researcharea', $id);
+           		if($action->get('core.researchareas.delete')){                
+	                if($id > 1){                	
+			           	if(!$area->isCheckedOut($user->get('id'))){	
+    		            	if($area->delete($id)){
+        		    	        $n++;
+            		    	}
+	           			}
+	                }else{
+ 	          			$this->setError(JText::_('JRESEARCH_UNCATEGORIZED_AREA_NEITHER_UNPUBLISHED_NOR_REMOVED'));	                	
+        	        }
+           		}else{
+           			$this->setError(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id));           			
+           		}
+           	}
                                  
            return $n;           
         }
@@ -187,7 +204,6 @@ class JResearchAdminModelResearchArea extends JModelForm{
         public function getItem(){
             $row = $this->getTable('Researcharea', 'JResearch');
             $data =& $this->getData();
-            JError::raiseWarning(1, var_export($data, true));
             $row->bind($data);
             return $row;
         }
