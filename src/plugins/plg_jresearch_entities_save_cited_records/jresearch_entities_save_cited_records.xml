@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.6" type="plugin" group="system">
+	<name>JResearch Entities Save Cited Records</name>
+	<author>Luis Gal&#225;rraga</author>
+	<creationDate>May 2011</creationDate>
+	<copyright>Copyright (C) 2011 - Luis Gal&#225;rraga</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>shamantobi@gmail.com</authorEmail>
+	<authorUrl></authorUrl>
+	<version>2.0</version>
+	<description>Saves cited publications when saving a JResearch entity</description>
+	<files>
+		<filename plugin="jresearch_entities_save_cited_records">jresearch_entities_save_cited_records.php</filename>
+	</files>
+	<params />
+</install>
