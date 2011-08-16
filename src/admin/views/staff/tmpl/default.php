@@ -33,7 +33,7 @@ defined('_JEXEC') or die('Restricted access');
 			<th style="width: 1%; text-align: center;"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_FORMER_MEMBER'), 'former_member', $this->lists['order_Dir'], $this->lists['order'] );?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>			
 			<th style="width: 1%;" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort', 'Order by', 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort', JText::_('JGRID_HEADING_ORDERING'), 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 				<?php echo JHTML::_('grid.order', $this->items ); ?>
 			</th>
 			<th style="width: 20%; text-align: center;"><?php echo JText::_('JRESEARCH_POSITION'); ?></th>
@@ -63,8 +63,8 @@ defined('_JEXEC') or die('Restricted access');
 					<td class="center"><input type="checkbox" name="former_member" value="1" disabled="disabled" <?php echo (($this->items[$i]->former_member == 1) ? 'checked="checked"' : "")?> /></td>
 					<td class="center"><?php echo $published; ?></td>
 					<td class="order" nowrap="nowrap">
-						<span><?php echo $this->page->orderUpIcon( $i, $this->items[$i]->ordering > 1, 'orderup', 'Move Up', $this->ordering); ?></span>
-						<span><?php echo $this->page->orderDownIcon( $i, $n, $this->items[$i]->ordering < ($this->items[$i]->getNextOrder()-1), 'orderdown', 'Move Down', $this->ordering ); ?></span>
+						<span><?php echo $this->page->orderUpIcon( $i, $this->items[$i]->ordering > 1, 'orderup', 'JLIB_HTML_MOVE_UP', $this->ordering); ?></span>
+						<span><?php echo $this->page->orderDownIcon( $i, $n, $this->items[$i]->ordering < ($this->items[$i]->getNextOrder()-1), 'orderdown', 'JLIB_HTML_MOVE_DOWN', $this->ordering ); ?></span>
 						<?php $disabled = $this->ordering ?  '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>

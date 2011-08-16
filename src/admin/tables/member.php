@@ -135,12 +135,6 @@ class JResearchMember extends JResearchTable{
 	 * @var arry
 	 */
 	public $_areas;
-
-	
-	/**
-	* Access rules
-	*/
-	public $access;
 	
 	/**
 	 * 

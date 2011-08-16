@@ -1,15 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <metadata>
-	<layout title="JRESEARCH_MEMBER_PROFILE">
-		<message>JRESEARCH_MEMBER_PROFILE_VIEW_INFORMATION</message>
+	<layout title="JRESEARCH_MEMBER_PROFILE" option="com_content_article_view_default_option">
+		<help
+			key = "JRESEARCH_MEMBER_PROFILE_VIEW_INFORMATION"
+		/>
+		<message>
+			<![CDATA[JRESEARCH_MEMBER_PROFILE_VIEW_INFORMATION]]>
+		</message>
 	</layout>
-	<state>
-		<name>JRESEARCH_MEMBER_PROFILE</name>
-		<description>JRESEARCH_MEMBER_PROFILE_VIEW_INFORMATION</description>
-		<url>
-			<param type="sql" name="id" label="JRESEARCH_MEMBER" 
-			description="JRESEARCH_MEMBER_PROFILE_DISPLAYED" query="SELECT id as value, CONCAT_WS(' ', firstname, lastname) as id FROM #__jresearch_member WHERE published = 1" />	
-			<param type="hidden" name="task" default="show" />
-		</url>
-	</state>
+	<fields name="request">
+		<fieldset name="request">
+			<field type="sql" name="id" label="JRESEARCH_MEMBER" translate="no" required="true"
+				description="JRESEARCH_MEMBER_PROFILE_DISPLAYED" query="SELECT id as value, CONCAT_WS(' ', firstname, lastname) as id FROM #__jresearch_member WHERE published = 1" />
+			<field name="task" type="hidden" default="show" />	
+		</fieldset>	
+	</fields>
 </metadata>

@@ -492,19 +492,37 @@ class JResearchPublicationsHelper{
 
 
 	/**
-	* Returns an array with the supported publications datatypes.
-	*
+	* Returns an array with the supported publications datatypes. 
+	* @param $type native retrieves types supported originally by J!Research,
+        * extended, only the ones available as plugins.
+        *
 	* @return array
-	*/
-	public static function getPublicationsSubtypes(){
-       $db = JFactory::getDBO();
+	*/	
+	public static function getPublicationsSubtypes($mode = 'all'){
+        $db = JFactory::getDBO();
+        $result1 = array();
+        $result2 = array();
 
-       $query = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');
-       $db->setQuery($query);
+        if($mode == 'all'){
+        	$query1 = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');
+            $db->setQuery($query1);
+            $result1 = $db->loadResultArray();
+            $query2 = 'SELECT '.$db->nameQuote('element').' FROM '.$db->nameQuote('#__extensions').' WHERE folder = '.$db->Quote('jresearch-pubtypes').' AND '.$db->nameQuote('enabled').' = 1';
+            $db->setQuery($query2);
+            $result2 = $db->loadResultArray();
+        }elseif($mode == 'native'){
+            $query1 = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');
+            $db->setQuery($query1);
+            $result1 = $db->loadResultArray();                
+        }elseif($mode == 'extended'){
+            $query2 = 'SELECT '.$db->nameQuote('element').' FROM '.$db->nameQuote('#__extensions').' WHERE folder = '.$db->Quote('jresearch-pubtypes').' AND '.$db->nameQuote('enabled').' = 1';
+            $db->setQuery($query2);
+            $result2 = $db->loadResultArray();                
+        }
 
-       return $db->loadResultArray();
+        return array_merge($result1, $result2);
 	}
-
+        
 	/**
 	 * Gets a list of all years used for publications
 	 */

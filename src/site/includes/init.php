@@ -37,10 +37,6 @@ JHTML::addIncludePath(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 //Citation factory
 require_once(JRESEARCH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
 
-//Needed plugins
-require_once(JRESEARCH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_load_cited_records.php');
-require_once(JRESEARCH_COMPONENT_SITE.DS.'plg_jresearch_native_plugins'.DS.'plg_jresearch_entities_save_cited_records.php');
-
 // Plugin management
 JPluginHelper::importPlugin('jresearch');
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'plugins.php');

@@ -119,16 +119,18 @@ class JResearchAdminModelMember extends JModelForm{
          * Publish a set of items
          */        
         function publish(){
-           $selected = & JRequest::getVar('cid', 0, '', 'array');
+           $selected = JRequest::getVar('cid', 0, '', 'array');
 	       $member = JTable::getInstance('Member', 'JResearch');           
 	       $allOk = true;
+	       $user = JFactory::getUser();
            foreach($selected as $id){
            	   $action = JResearchAccessHelper::getActions('member', $id);           	
-           	   if($action->get('core.staff.edit.state')){
-	    	       $allOk = $allOk && $member->publish($id, 1);
+           	   if($action->get('core.staff.edit')){
+	    	       $allOk = $allOk && $member->publish(array($id), 1, $user->get('id'));
+	    	       if(!$allOk) $this->setError($member->getError());
            	   }else{
            	   	   $allOk = false;
-           		   $this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id));           	   	   
+           		   $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
            	   }
            }
            
@@ -139,16 +141,18 @@ class JResearchAdminModelMember extends JModelForm{
          * Unpublish a set of items
          */
         function unpublish(){
-           $selected = & JRequest::getVar('cid', 0, '', 'array');
-	       $member = JTable::getInstance('Member', 'JResearch');           
+           $selected = JRequest::getVar('cid', array(), '', 'array');
+	       $member = JTable::getInstance('Member', 'JResearch');    
+	       $user = JFactory::getUser();       
 	       $allOk = true;
            foreach($selected as $id){
            	   $action = JResearchAccessHelper::getActions('member', $id);           	
-           	   if($action->get('core.staff.edit.state')){
-	    	       $allOk = $allOk && $member->publish($id, 0);
+           	   if($action->get('core.staff.edit')){
+	    	       $allOk = $allOk && $member->publish(array($id), 0, $user->get('id'));
+           		   $this->setError($member->getError());	    	       
            	   }else{
            	   	   $allOk = false;
-           		   $this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id));           	   	   
+           		   $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
            	   }
            }
            
@@ -166,12 +170,12 @@ class JResearchAdminModelMember extends JModelForm{
            		$action = JResearchAccessHelper::getActions('member', $id);
            		if($action->get('core.staff.delete')){
 	                if(!$area->delete($id)){
-    	                $this->setError(JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id));
+    	                $this->setError(new JException(JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id)));
                 	}else{
                     	$n++;
                 	}
            		}else{
-           			$this->setError(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id));
+           			$this->setError(new JException(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id)));
            		}
            }
            

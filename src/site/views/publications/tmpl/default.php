@@ -15,7 +15,12 @@ defined('_JEXEC') or die('Restricted access');
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publicationslist&amp;task=list&amp;modelkey=default">
 	<div style="text-align: left;">
 		<?php echo $this->filter; ?>
-		<div><?php echo JHTML::_('jresearchfrontend.icon','add','publications'); ?></div>						
+		<?php 
+			$actions = JResearchAccessHelper::getActions('publications', $this->publication->id);
+			if($actions->get('core.publications.create')):
+		?>
+				<div><?php echo JHTML::_('jresearchfrontend.icon','new','publications'); ?></div>						
+			<?php endif; ?>
 	</div>
 	
 	<input type="hidden" name="option" value="com_jresearch" />

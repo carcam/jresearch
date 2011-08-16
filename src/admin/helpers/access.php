@@ -31,14 +31,38 @@ class JResearchAccessHelper{
  
         $actions = array('core.admin', 'core.manage', 'core.publications.create', 'core.publications.edit'
         , 'core.publications.delete', 'core.publications.edit.own', 'core.publications.edit.state'
-        , 'core.staff.create', 'core.staff.edit', 'core.staff.delete', 
-        'core.staff.edit.own', 'core.staff.edit.state', 'core.researchareas.create', 'core.researchareas.edit', 
-        'core.researchareas.delete', 'core.researchareas.edit.own', 'core.researchareas.edit.state');
+        , 'core.staff.create', 'core.staff.edit', 'core.staff.delete', 'core.staff.edit.own', 
+        'core.researchareas.create', 'core.researchareas.edit', 'core.researchareas.edit.own', 
+        'core.researchareas.delete');
  
         foreach ($actions as $action) {
         	$result->set($action, $user->authorise($action, $assetName));
         }
  
 		return $result;
+    }
+    
+    
+    /**
+     * 
+     * Verify whether the user sent as argument is allowed to access this element.
+     * Access means to see it from frontend.
+     * @param string $type
+     * @param JResearchTable $item
+     * @param int $userId
+     */
+    public static function itemAccessAllowed($item, $userId = null){
+    	$user = JFactory::getUser($userId);
+    	$levels = $user->getAuthorisedViewLevels();
+    	
+    	if($item != null){
+    		if(property_exists($item, $item->access))
+	    		return in_array($item->access, $levels);
+	    	else 
+	    		return true;	
+    	}
+    	
+    	return true;
+    	
     }
 }

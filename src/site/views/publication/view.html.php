@@ -29,14 +29,10 @@ class JResearchViewPublication extends JResearchView
         switch($layout){
         	case 'new':
         		$result = $this->_displayNewPublicationForm($tpl);        		
-        		$mainframe->triggerEvent('onBeforeNewJResearchPublication', $arguments);
         		break;
-        	case 'edit':
+        	case 'edit':        		
         		$result = $this->_editPublication($tpl);
-        		
-        		$mainframe->triggerEvent('onBeforeEditJResearchEntity', $arguments);
-        		break;
-        		
+        		break;        		
         	case 'default': default:
         		if(!$this->_displayPublication($tpl))
         			parent::display($tpl);
@@ -63,7 +59,7 @@ class JResearchViewPublication extends JResearchView
             JError::raiseError(404, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
     		return false;
     	}
-    	
+    	    	
     	//Get the model
     	$model = $this->getModel();
     	$publication = $model->getItem();
@@ -73,6 +69,11 @@ class JResearchViewPublication extends JResearchView
 			return false;
         }
 
+    	if(!JResearchAccessHelper::itemAccessAllowed($publication, $user->get('id'))){
+    		JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+    		return false;
+    	}
+        
         $pathway->addItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
 
         //If the publication was visited in the same session, do not increment the hit counter
@@ -90,7 +91,7 @@ class JResearchViewPublication extends JResearchView
     	$showMODS = ($params->get('show_export_mods', 'no') == 'yes');    		
     	$showRIS = ($params->get('show_export_ris', 'no') == 'yes');    	
     	
-    	$arguments = array('publication', $publication);
+    	$arguments = array($publication, 'publication');
     	
 		$pageTitle = JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title;
         $doc->setTitle($pageTitle);
@@ -135,9 +136,9 @@ class JResearchViewPublication extends JResearchView
         $this->assignRef('form', $form);
         $this->assignRef('data', $data);
 
-        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('publication', $data['id']));        
+        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array($data, 'publication'));        
         parent::display($tpl);        
-        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('publication', $data['id']));
+        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array($data, 'publication'));
     	
     }
     

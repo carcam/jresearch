@@ -7,7 +7,10 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
-$digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
+$digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); 
+$user = JFactory::getUser();
+$canDoPublications = JResearchAccessHelper::getActions(); 
+?>
 <?php foreach($this->items as $type=>$publications): ?>
 	<h3 class="frontendheader"><?php echo $type; ?></h3>
 	<ul>
@@ -50,6 +53,18 @@ $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); ?>
 			echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id='.$pub->id, '[MODS]').'</span>';		
 		 endif;?>	 	
 		<span><?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $pub->id); ?> <?php echo JHTML::_('jresearchfrontend.icon','remove', 'publications', $pub->id); ?></span>	
+		 <?php 		
+			$canDo = JResearchAccessHelper::getActions('publication', $pub->id);
+			if($canDo->get('core.publications.edit') || ($canDoPublications->get('core.publications.edit.own') && $pub->created_by == $user->get('id'))):	 
+		 ?>	 	
+		 	<span>	
+				<?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $pub->id); ?> 
+			</span>
+		 <?php endif; ?>
+		<?php if($canDoPublications->get('core.publications.delete')): ?>
+				<?php echo JHTML::_('jresearchfrontend.icon','remove', 'publications', $pub->id); ?>
+		<?php endif; ?>	
+		
 		</li>
 	<?php endforeach; ?>
 	</ul>

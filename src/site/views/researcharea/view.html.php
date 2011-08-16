@@ -30,7 +30,8 @@ class JResearchViewResearchArea extends JResearchView
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);
     	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
     	$theses_view_all = JRequest::getVar('theses_view_all', 0);
-    	$showMembers = $params->get('area_show_members', 'yes');
+    	$showMembers = ($params->get('area_show_members', 'yes') == 'yes');
+    	$showPublications = ($params->get('area_show_publications', 'yes') == 'yes');
     	
         // The uncategorized view is not retrieved
     	if($id == 1 || empty($id)){
@@ -89,7 +90,9 @@ class JResearchViewResearchArea extends JResearchView
             $lang = JFactory::getLanguage();
             $lang->load('com_jresearch.publications');
     	}
-    		    	    		
+
+    	$this->assignRef('showMembers', $showMembers);
+    	$this->assignRef('showPublications', $showPublications);
     	$this->assignRef('theses', $theses);
     	$this->assignRef('ntheses', $model->countTheses());    	
     	$this->assignRef('facilities', $facilities);

@@ -3,7 +3,10 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 <div style="text-align:center;"><h3><?php echo JText::_('JRESEARCH_'.strtoupper($this->pubtype).'_DEFINITION'); ?></h3></div>
+<?php 
+	$actions = JResearchAccessHelper::getActions();
 
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
    
     <div class="width-60 fltlft">
@@ -11,6 +14,11 @@ defined('_JEXEC') or die('Restricted access');
                 <legend><?php echo JText::_( 'JRESEARCH_BASIC' ); ?></legend>
                 <ul>
                 <?php foreach($this->form->getFieldset('basic') as $field): ?>
+                	<?php 
+                		if(($field->name == 'published' || $field->name == 'internal')
+                		&& !$actions->get('core.publications.edit.state'))
+                			continue;
+                	?>
                     <li>
                         <?php if (!$field->hidden): ?>
                                 <?php echo $field->label; ?>

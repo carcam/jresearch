@@ -50,6 +50,7 @@ class JResearchModelPublications extends JResearchModelList{
                 $query->where($whereClauses);
                 
             $query->order($orderColumns);
+            
             return $query;
     }
 
@@ -82,6 +83,7 @@ class JResearchModelPublications extends JResearchModelList{
 	private function _buildQueryWhere(){
         $db = JFactory::getDBO();
         $mainframe = JFactory::getApplication();
+        $user = JFactory::getUser();
             
         // prepare the WHERE clause
         $where = array();
@@ -121,7 +123,7 @@ class JResearchModelPublications extends JResearchModelList{
         if(!empty($filter_team) && $filter_team != -1){
         	$where[] = 'LOWER('.$db->nameQuote('id_team').') LIKE '.$db->Quote('%'.$filter_team.'%');            	
         }
-           
+                   
 		return $where;
 	}
 	

@@ -165,19 +165,110 @@ class JResearchAdminModelPublication extends JModelForm{
         }
         
         /**
+         * Changes the type of a publication based on the request
+         * arguments
+         * 
+         */
+        function changeType(){
+			$app = JFactory::getApplication();
+			jresearchimport('helpers.publications', 'jresearch.admin');
+			$params = JComponentHelper::getParams('com_jresearch');
+			$omittedFields = array();
+                
+            $data =& $this->getData();                
+            $row =& $this->getTable('Publication', 'JResearch');
+
+            //Time to upload the file
+            $delete = $data['delete_url'];
+	    	if($delete == 1){
+	    		if(!empty($data['files'])){
+		    		$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$row->files;
+		    		$data['files'] = '';
+		    		@unlink($filetoremove);
+	    		}
+		    }
+		    		    
+	    	$files = JRequest::getVar('jform', array(), 'FILES');
+			if(!empty($files['name']['file_url'])){	    	
+		    	$data['files'] = JResearchUtilities::uploadDocument($files, 'file_url', $params->get('files_root_path', 'files').DS.'publications');
+	    	}
+	    		
+	    	if($data['resethits'] == 1){
+				$data['hits'] = 0;
+			}else{
+				$omittedFields[] = 'hits';			    	
+			}
+			    			    			    
+			//Now time for the authors
+			$maxAuthors = (int)$data['nauthorsfield'];
+			$authorsArray = array();
+			for($j = 0; $j < $maxAuthors; $j++){
+				$value = $data["authorsfield".$j];
+				if(!empty($value)){
+					$row->addAuthor($value);
+				}
+			}
+				
+			$data['authors'] = $row->authors;
+			$data['pubtype'] = JRequest::getVar('change_type', 'article');
+			$keepOld = JRequest::getVar('keepold', null);
+			
+			//Store it as a new publication
+			if($keepOld == 'on'){
+				unset($data['id']);
+				$data['title'] = $data['title'].' (Copy)'; 
+			}
+			
+				
+			//Citekey generation
+			$data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
+				
+			//Alias generation
+			if(empty($data['alias'])){
+				$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
+			}
+				
+			//Checking of research areas
+			if(!empty($data['id_research_area'])){
+				if(in_array('1', $data['id_research_area'])){
+					$data['id_research_area'] = '1';
+				}else{
+					$data['id_research_area'] = implode(',', $data['id_research_area']);
+				}
+			}else{
+				$data['id_research_area'] = '1';
+			}
+							
+            if (!$row->save($data, '', $omittedFields))
+            {
+            	//Since the save routine modifies the array data
+        		JRequest::setVar('jform', $data);                	
+                $this->setError($row->getError());
+                return false;
+            }
+
+            $data['id'] = $row->id;
+            $app->setUserState('com_jresearch.edit.publication.data', $data);
+
+            return true;        	
+        }
+        
+        /**
          * Publishes the set of selected items
          */
         function publish(){
-           $selected = & JRequest::getVar('cid', 0, '', 'array');
+           $selected = JRequest::getVar('cid', 0, '', 'array');
 	       $publication = JTable::getInstance('Publication', 'JResearch');           
 	       $allOk = true;
+	       $user = JFactory::getUser();
            foreach($selected as $id){
            	   $action = JResearchAccessHelper::getActions('publication', $id);           	
            	   if($action->get('core.publications.edit.state')){
-	    	       $allOk = $allOk && $publication->publish($id, 1);
+	    	       $allOk = $allOk && $publication->publish($id, 1, $user->get('id'));
+	    	       if(!$allOk) $this->setError($publication->getError());
            	   }else{
            	   	   $allOk = false;
-           		   $this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id));           	   	   
+           		   $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
            	   }
            }
            
@@ -189,16 +280,18 @@ class JResearchAdminModelPublication extends JModelForm{
          * Unpublishes the set of selected items
          */
         function unpublish(){
-		   $selected = & JRequest::getVar('cid', 0, '', 'array');
-	       $publication = JTable::getInstance('Publication', 'JResearch');           
+		   $selected = JRequest::getVar('cid', 0, '', 'array');
+	       $publication = JTable::getInstance('Publication', 'JResearch');
+	       $user = JFactory::getUser();           
 	       $allOk = true;
            foreach($selected as $id){
            	   $action = JResearchAccessHelper::getActions('publication', $id);           	
            	   if($action->get('core.publications.edit.state')){
-	    	       $allOk = $allOk && $publication->publish($id, 0);
+	    	       $allOk = $allOk && $publication->publish(array($id), 0, $user->get('id'));
+	    	       if(!$allOk) $this->setError($publication->getError());	    	       
            	   }else{
            	   	   $allOk = false;
-           		   $this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id));           	   	   
+           		   $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
            	   }
            }
            
@@ -212,11 +305,11 @@ class JResearchAdminModelPublication extends JModelForm{
          * selected items
          */
         function delete(){
-           $n = 0;
-           $selected =& JRequest::getVar('cid', 0, '', 'array');
-           $publication = JTable::getInstance('Publication', 'JResearch');
-           $user = JFactory::getUser();           
-           foreach($selected as $id){
+           	$n = 0;
+           	$selected = JRequest::getVar('cid', 0, '', 'array');
+           	$publication = JTable::getInstance('Publication', 'JResearch');
+           	$user = JFactory::getUser();           
+           	foreach($selected as $id){
         		$actions = JResearchAccessHelper::getActions('publication', $id);
         		if($actions->get('core.publications.delete')){           	
 	                $publication->load($id);
@@ -226,11 +319,11 @@ class JResearchAdminModelPublication extends JModelForm{
                 		}
 	           		}
         		}else{
-        			$this->setError(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id));
+        			$this->setError(new JException(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id)));
         		}
-           }
+           	}
                                  
-           return $n;           
+           	return $n;           
         }
         
 		/**
@@ -278,7 +371,7 @@ class JResearchAdminModelPublication extends JModelForm{
     	    			$n++;
         			}
         		}else{
-        			$this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id));
+        			$this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
         		}
         	}
         	
