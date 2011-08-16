@@ -13,7 +13,7 @@ jresearchimport('helpers.publications', 'jresearch.admin');
 ?>
 
 <h1 class="componentheading"><?php echo $this->escape($this->area->name); ?></h1>
-<?php if(isset($this->members)): ?>
+<?php if($this->showMembers && !empty($this->members)): ?>
 <h2><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h2>
 	<?php if($this->staff_list_arrangement == 'horizontal'): ?>
 		<div>
@@ -58,9 +58,9 @@ jresearchimport('helpers.publications', 'jresearch.admin');
 </ul>
 <?php endif; ?>
 <?php $itemId = JRequest::getVar('Itemid'); ?>
-<?php if(!empty($this->publications)): ?>
+<?php if($this->showPublications && !empty($this->publications)): ?>
 <div>&nbsp;&nbsp;</div>
-<h2 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
+<h2 class="contentheading" id="pubslist"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
 <ul>
 <?php foreach($this->publications as $publication): ?>
 	<?php if($this->applyStyle): ?>
@@ -80,10 +80,10 @@ jresearchimport('helpers.publications', 'jresearch.admin');
 </ul>
 <div>
   	<?php if($this->npublications > count($this->publications)): ?>
-  			<a href="index.php?option=com_jresearch&amp;publications_view_all=1&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;projects_view_all=<?php echo $this->projects_view_all; ?>&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_VIEW_ALL'); ?></a>
+  			<a href="index.php?option=com_jresearch&amp;publications_view_all=1&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;projects_view_all=<?php echo $this->projects_view_all; ?>&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>#pubslist"><?php echo JText::_('JRESEARCH_VIEW_ALL'); ?></a>
   	<?php else: ?>
   			<?php if($this->publications_view_all): ?>		
-  				<a href="index.php?option=com_jresearch&amp;publications_view_all=0&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;projects_view_all=<?php echo $this->projects_view_all; ?>&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>"><?php echo JText::_('JRESEARCH_VIEW_LESS'); ?></a>
+  				<a href="index.php?option=com_jresearch&amp;publications_view_all=0&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;projects_view_all=<?php echo $this->projects_view_all; ?>&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>#pubslist"><?php echo JText::_('JRESEARCH_VIEW_LESS'); ?></a>
   			<?php endif; ?>
   	<?php endif; ?>
 </div>

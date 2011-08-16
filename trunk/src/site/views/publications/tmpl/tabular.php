@@ -7,6 +7,8 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
+$canDoPublications = JResearchAccessHelper::getActions(); 
+$user = JFactory::getUser();
 ?>
 <?php if($this->showHeader): ?>
 <h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
@@ -98,7 +100,21 @@ if($this->showHits) $nCols++;
 		?>
 				<tr class="<?php $k = i%2; echo "row$k"; ?>">
 					<td style="text-align:center;"><?php echo $outIndex; ?></td>
-					<td><?php echo JHTML::_('jresearchfrontend.link', $this->items[$i]->title ,'publication', 'show', $this->items[$i]->id); ?></td>
+					<td>					
+						<?php echo JHTML::_('jresearchfrontend.link', $this->items[$i]->title ,'publication', 'show', $this->items[$i]->id); ?>
+					 <?php 		
+						$canDo = JResearchAccessHelper::getActions('publication', $this->items[$i]->id);
+						if($canDo->get('core.publications.edit') || ($canDoPublications->get('core.publications.edit.own') && $this->items[$i]->created_by == $user->get('id'))):	 
+					 ?>	 	
+					 	<span>	
+							<?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $this->items[$i]->id); ?> 
+						</span>
+					 <?php endif; ?>
+					<?php if($canDoPublications->get('core.publications.delete')): ?>
+							<?php echo JHTML::_('jresearchfrontend.icon','remove', 'publications', $this->items[$i]->id); ?>
+					<?php endif; ?>	
+					
+					</td>
 					<?php if($this->showAuthors): ?>
 						<td style="text-align:center"><?php echo $text; ?></td>
 					<?php endif; ?>

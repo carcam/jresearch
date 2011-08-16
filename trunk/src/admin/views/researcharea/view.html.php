@@ -35,9 +35,9 @@ class JResearchAdminViewResearchArea extends JResearchView
         $this->assignRef('form', $form);
         $this->assignRef('data', $data);
 
-        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('researcharea'));
+        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array($data, 'researcharea'));
         parent::display($tpl);
-        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('researcharea'));
+        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array($data, 'researcharea'));
      }
 }
 

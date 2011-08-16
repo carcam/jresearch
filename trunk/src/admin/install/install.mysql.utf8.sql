@@ -7,7 +7,7 @@
 DROP TABLE IF EXISTS `#__jresearch_publication`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `id_research_area` text NOT NULL,
+  `id_research_area` VARCHAR( 1024 ) NOT NULL DEFAULT  '1',
   `id_team` text NULL,
   `alias` varchar(256) NOT NULL,
   `authors` text,
@@ -68,7 +68,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `online_source_type` enum('website', 'video', 'audio', 'image', 'blog') NOT NULL default 'website',
   `digital_source_type` enum('cdrom', 'film') NOT NULL default 'cdrom',
   `access_date` date default NULL,
-  `access` int(10) unsigned NOT NULL DEFAULT '0',
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   PRIMARY KEY  (`id`),
   FULLTEXT INDEX `#__jresearch_publication_title_index`(`title`),
@@ -236,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `title` varchar(10) NOT NULL,
   `email` varchar(256) NULL,
   `username` varchar(150) default NULL,
-  `id_research_area` text NOT NULL,
+  `id_research_area` VARCHAR( 1024 ) NOT NULL DEFAULT  '1',
   `position` int(10) unsigned default '0',
   `location` varchar(256) default NULL,
   `url_personal_page` varchar(256) default NULL,

@@ -16,6 +16,8 @@ if(!class_exists('JResearchFrontendController'))
 	require_once(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
 }
 
+jresearchimport('helpers.publications', 'jresearch.admin');
+
 /**
 * JResearch Component Publications Controller
 *
@@ -160,9 +162,9 @@ class JResearchPublicationsController extends JResearchFrontendController
 			$publication = $pubModel->getItem();
 			
 			if(!empty($publication)){
-				$canDo = JResearchAccessHelper::getActions('member', $publication->id);
+				$canDo = JResearchAccessHelper::getActions('publication', $publication->id);
 				if($canDo->get('core.publications.edit') || 
-				($canDoPublications->get('core.publications.edit.own') && $publication->createdBy == $user->get('id'))
+				($canDoPublications->get('core.publications.edit.own') && $publication->created_by == $user->get('id'))
 				){				
 					$user = JFactory::getUser();
 					// Verify if it is checked out
@@ -209,7 +211,6 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 * an editor.
 	 */
 	function cite(){
-		jresearchimport('helpers.publications', 'jresearch.admin');
 		$output = '';
 		// Search the citekey
 		$citekeys = JRequest::getVar('citekeys', '');		
@@ -279,7 +280,6 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 *
 	 */
 	function removeCitedRecord(){
-		jresearchimport('helpers.publications', 'jresearch.admin');		
 		$citekey = JRequest::getVar('citekey', null);
 		$document = JFactory::getDocument();
 		$document->setMimeEncoding("text/xml");		
@@ -324,7 +324,6 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 *
 	 */
 	function searchByPrefix(){
-		jresearchimport('helpers.publications', 'jresearch.admin');
 		$writer = new XMLWriter;
 		$writer->openMemory();
 		$writer->startDocument('1.0');
@@ -378,9 +377,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 * button.
 	 *
 	 */
-	function ajaxGenerateBibliography(){
-		jresearchimport('helpers.publications', 'jresearch.admin');
-		
+	function ajaxGenerateBibliography(){		
 		$document = JFactory::getDocument();
 		$document->setMimeEncoding("text/plain");
 		
@@ -421,6 +418,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	*/	
 	function save(){
         $app = JFactory::getApplication();		
+        $user = JFactory::getUser();
 		if(!JRequest::checkToken()){
            $this->setRedirect('index.php?option=com_jresearch');
            return;
@@ -429,33 +427,39 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$model = $this->getModel('Publication', 'JResearchModel');
         $task = JRequest::getVar('task');		
         $form = JRequest::getVar('jform', array(), '', 'array');        
-        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'JResearchPublication'));
 		$canDoPubs = JResearchAccessHelper::getActions();
 		$canProceed = false;	
+		$params = JComponentHelper::getParams('com_jresearch');
                 
 		// Permissions check
 		if(empty($form['id'])){
 			$canProceed = $canDoPubs->get('core.publications.create');
+			if(!isset($form['published']))
+				$form['published'] = $params->get('publications_default_published_status', 1);
+			if(!isset($form['internal']))
+				$form['internal'] = $params->get('publications_default_internal_status', 1);			
 		}else{
 			$canDoPub = JResearchAccessHelper::getActions('publication', $form['id']);
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);
-			$canProceed = $canDoPub->get('core.publication.edit') ||
-     			($canDoStaff->get('core.publications.edit.own') && $publication->createdBy == $user->get('id'));
+			
+			$canProceed = $canDoPubs->get('core.publication.edit') ||
+     			($canDoPub->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
 		}
         
 		if(!$canProceed){
 			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
 			return;
 		}
-        
+
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'publication'));		
         if ($model->save()){
-        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($model->getItem(), 'JResearchPublication'));
-            $data &= $model->getData();
+            $publication = $model->getItem();        	
+        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'publication'));
             if($task == 'save'){
             	$this->setRedirect('index.php?option=com_jresearch&view=publication&layout=new&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
                 $app->setUserState('com_jresearch.edit.publication.data', array());
             }elseif($task == 'apply'){
-            	$this->setRedirect('index.php?option=com_jresearch&view=publication&layout=edit&id='.$data['id'].'&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+            	$this->setRedirect('index.php?option=com_jresearch&view=publication&layout=edit&id='.$publication->id.'&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
             }
         }else{
             $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
@@ -492,41 +496,62 @@ class JResearchPublicationsController extends JResearchFrontendController
         $Itemid = JRequest::getVar('Itemid', 0);
         $this->setRedirect('index.php?option=com_jresearch&view=publications&layout=new&Itemid='.$Itemid);		
 	}
-		
-	/**
-	* Invoked when an administrator has decided to remove one or more items
-	* @access	public
-	*/ 
-	function remove()
-	{
-            $db =& JFactory::getDBO();
-            $cid = JRequest::getVar('id');
-            $n = 0;
-            $publication = new JResearchPublication($db);
-
-            $modelkey = JRequest::getVar('modelkey');
-            if(!empty($modelkey) && $modelkey == 'tabular')
-                    $viewText = '&task=filtered&layout=filtered';
-
-            $Itemid = JRequest::getVar('Itemid');
-            if(!empty($Itemid))
-                    $itemIdText = '&Itemid='.$Itemid;
-
-
-            if(!$publication->delete($cid))
-                    JError::raiseWarning(1, JText::sprintf('JRESEARCH_PUBLICATION_NOT_DELETED', $cid));
-            else
-                    $n++;
-
-            $this->setRedirect('index.php?option=com_jresearch&controller=publications'.$itemIdText.$viewText, JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', 1));
-	}
-	
+			
 	/**
 	 * Invoked when the user has decided to change the type of a publication.
 	 * It is only applied to existing items.
 	 */
 	function changeType(){	
-	}
+	    $app = JFactory::getApplication();		
+        $user = JFactory::getUser();
+		if(!JRequest::checkToken()){
+           $this->setRedirect('index.php?option=com_jresearch');
+           return;
+        }
+		
+		$model = $this->getModel('Publication', 'JResearchModel');
+        $task = JRequest::getVar('task');		
+        $form = JRequest::getVar('jform', array(), '', 'array');        
+		$canDoPubs = JResearchAccessHelper::getActions();
+		$canProceed = false;	
+		$params = JComponentHelper::getParams('com_jresearch');
+                
+		// Permissions check
+		$keepOld = JRequest::getVar('keepold', null);
+		if(empty($form['id']) || $keepOld == 'on'){
+			$canProceed = $canDoPubs->get('core.publications.create');
+			if(!isset($form['published']))
+				$form['published'] = $params->get('publications_default_published_status', 1);
+			if(!isset($form['internal']))
+				$form['internal'] = $params->get('publications_default_internal_status', 1);			
+		}else{
+			$canDoPub = JResearchAccessHelper::getActions('publication', $form['id']);
+			$publication = JResearchPublicationsHelper::getPublication($form['id']);
+			
+			$canProceed = $canDoPubs->get('core.publication.edit') ||
+     			($canDoPub->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
+		}
+        
+		if(!$canProceed){
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
+			return;
+		}
+
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'publication'));		
+        if ($model->changeType()){
+            $publication = $model->getItem();        	
+        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'publication'));
+            $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=edit&id='.$publication->id.'&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+        }else{
+            $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
+            $type = 'error';
+            $app->enqueueMessage($msg, $type);                
+            $view = $this->getView('Publication','html', 'JResearchView');
+            $view->setLayout('edit');
+            $view->setModel($model, true);
+            $view->display();
+        }		
+	}	
 	
 	/**
 	 * Invoked when a user has decided to export a publication from frontend
@@ -615,52 +640,69 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 * 
 	 */
 	function executeImport(){
-            global $mainframe;
-            $params = $mainframe->getPageParameters('com_jresearch');
-            $bibtex = $params->get('enable_bibtex_frontend_import', 'no');
+		$mainframe = JFactory::getApplication();
+        $params = $mainframe->getPageParameters('com_jresearch');
+        $bibtex = $params->get('enable_bibtex_frontend_import', 'no');
 
-            if($bibtex == "yes"){
-                    $fileArray = JRequest::getVar('inputfile', null, 'FILES');
-                    $format = JRequest::getVar('formats');
-                    $texto = JRequest::getVar('bibtex');
-                    $idResearchArea = JRequest::getVar('researchAreas');
-                    $uploadedFile = $fileArray['tmp_name'];
+        if($bibtex == "yes"){
+        	$fileArray = JRequest::getVar('inputfile', null, 'FILES');
+            $format = JRequest::getVar('formats');
+            $texto = JRequest::getVar('bibtex');
+            $idResearchArea = JRequest::getInt('researchAreas', 0);
+            $uploadedFile = $fileArray['tmp_name'];
 
-                    require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
-                    $importer = JResearchPublicationImporterFactory::getInstance("bibtex");
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
+            $importer = JResearchPublicationImporterFactory::getInstance("bibtex");
 
-                    if($fileArray == null || $uploadedFile == null){
-                            $n = 0;
-                            if($texto != null){
-                                    $parsedPublications = $importer->parseText($texto);
-                                    foreach($parsedPublications as $p){
-                                            $p->id_research_area = $idResearchArea;
-                                            if(!$p->store()){
-                                                    JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
-                                            }else{
-                                                    $n++;
-                                            }
-                                    }
-                            }
-                    }else{
-                            $parsedPublications = $importer->parseFile($uploadedFile);
-                            $n = 0;
-                            foreach($parsedPublications as $p){
-                                    $p->id_research_area = $idResearchArea;
-                                    if(!$p->store()){
-                                            JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
-                                    }else{
-                                            $n++;
-                                    }
-                            }
-
+            if($fileArray == null || $uploadedFile == null){
+            	$n = 0;
+                if($texto != null){
+                	$parsedPublications = $importer->parseText($texto);
+                    foreach($parsedPublications as $p){
+                    	$p->id_research_area = array($idResearchArea);
+                    	$p->internal = $params->get('publications_default_internal_status', 1);
+                    	$p->published = $params->get('publications_default_published_status', 1);                    	
+                        if(!$p->save()){
+                        	JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
+                        }else{
+                        	$n++;
+                        }
                     }
-                    $mainframe->enqueueMessage(JText::_('JRESEARCH_IMPORTED_ITEMS').': '.$n);
+                }
             }else{
-                    JError::raiseWarning(1, JText::_('JRESEARCH_IMPORT_FROM_FRONTEND_NOT_ENABLED'));
-            }
+            	$parsedPublications = $importer->parseFile($uploadedFile);
+                $n = 0;
+                foreach($parsedPublications as $p){
+                	$p->id_research_area = $idResearchArea;
+                    if(!$p->store()){
+                    	JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
+                    }else{
+                    	$n++;
+                    }
+                }
 
-            $this->add();
+             }
+             $mainframe->enqueueMessage(JText::_('JRESEARCH_IMPORTED_ITEMS').': '.$n);
+        }else{
+            JError::raiseWarning(1, JText::_('JRESEARCH_IMPORT_FROM_FRONTEND_NOT_ENABLED'));
+        }
+
+        $this->add();
+	}
+	
+	/**
+	* Invoked when an administrator has decided to remove one or more items
+	* @access	public
+	*/ 
+	function remove(){
+        $model = $this->getModel('Publication', 'JResearchModel');
+        $n = $model->delete();
+        $Itemid = JRequest::getInt('Itemid', 0);
+        $this->setRedirect('index.php?option=com_jresearch&controller=publications&Itemid='.$Itemid, JText::sprintf('JRESEARCH_ITEM_SUCCESSFULLY_DELETED', $n));
+        $errors = $model->getErrors();
+        if(!empty($errors)){
+        	JError::raiseWarning(1, explode('<br />', $errors));
+        }        
 	}
 }
 ?>

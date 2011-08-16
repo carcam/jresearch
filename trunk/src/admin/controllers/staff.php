@@ -10,6 +10,8 @@
 */
 
 jimport('joomla.application.component.controller');
+jresearchimport('helpers.staff', 'jresearch.admin');
+
 /**
  * Staff Backend Controller
  * @package		JResearch
@@ -182,6 +184,7 @@ class JResearchAdminStaffController extends JController
         JRequest::checkToken() or jexit( 'JInvalid_Token' );
         $n = JRequest::getInt('staffCount');
         $count = 0;
+        $actions = JResearchAccessHelper::getActions();
 	    if($actions->get('core.staff.create')){
     		for($i=0; $i<= $n; $i++){
         	$username = JRequest::getVar('member'.$i);
@@ -296,7 +299,7 @@ class JResearchAdminStaffController extends JController
 
          if ($model->orderItem($id, -1))
          {
-            $msg = JText::_( 'Member Item Moved Up' );
+            $msg = JText::_( 'JRESEARCH_ITEM_MOVED_UP' );
          }
          else
          {
@@ -330,7 +333,7 @@ class JResearchAdminStaffController extends JController
         $model = $this->getModel('Staff', 'JResearchAdminModel');
         if ($model->orderItem($id, 1))
         {
-            $msg = JText::_( 'Member Item Moved Up' );
+            $msg = JText::_( 'JRESEARCH_ITEM_MOVED_DOWN' );
         }
         else
         {
@@ -355,7 +358,7 @@ class JResearchAdminStaffController extends JController
 
          if ($model->setOrder($cid))
          {
-                $msg = JText::_( 'New ordering saved' );
+                $msg = JText::_( 'JRESEARCH_NEW_ORDERING_SAVED' );
          }
          else
          {

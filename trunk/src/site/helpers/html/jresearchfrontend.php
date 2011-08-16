@@ -13,9 +13,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jresearchimport('tables.member', 'jresearch.admin');
 jresearchimport('tables.publication', 'jresearch.admin');
 
-
-class JHTMLjresearchfrontend
-{
+class JHTMLjresearchfrontend{
 	/**
 	 * Renders task icon for specific item, if user is authorized for it
 	 *
@@ -26,51 +24,23 @@ class JHTMLjresearchfrontend
 	 */
 	public static function icon($task, $controller, $itemid=0, $userid=null)
 	{
-		$authorized = false;
 		$availableController = array('publications');
+		$availableTasks = array('edit', 'remove', 'delete', 'add', 'new');
 		// Menu ID retention
-		$Menuid = JRequest::getVar('Itemid');
-		$MenuidText = !empty($Menuid)?'&Itemid='.$Menuid:'';
+		$menuId = JRequest::getVar('Itemid', 0);
+		$menuIdText = !empty($Menuid)? '&Itemid='.$Menuid : '';
 
-		$modelKey = JRequest::getVar('modelkey');
-		$modelKeyText = !empty($modelKey)?'&modelkey='.$modelKey:'';
-				
-		if(in_array($controller, $availableController))
-		{
-			$authorized = self::authorize($task, $controller, $itemid, $userid);
-
-			if($authorized) //Changes by Pablo Moncada
-			{
-				switch($controller)
-				{
-					case 'publications':
-						$task = ($task == 'add')?'new':$task;
-						return '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$modelKeyText.$MenuidText.'" title="Edit publication">'
-						.(($task == 'new')?JText::_(ucfirst($task)).' ':'').'<img src="'.JURI::base().'/components/com_jresearch/assets/'.$task.'.png" alt="'.ucfirst($task).' '.$controller.' Image"/>'
-						.'</a>';
-						break;
-					default:
-						break;
-				}
-			}
+		if(in_array($controller, $availableController) && in_array($task, $availableTasks)){
+			$text = JText::_('JRESEARCH_'.ucfirst($task));
+			
+			return '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$MenuidText.'" title="'.$text.'">'
+			.$text.'<img src="'.JURI::root().'components/com_jresearch/assets/'.$task.'.png" />'
+			.'</a>';			
 		}
-		
+
 		return '';
-	}
-	
-	/**
-	 * Returns true if user is authorized to do specific task, otherwise false
-	 *
-	 * @param string $task
-	 * @param string $controller
-	 * @param int $itemid
-	 * @param int $userid
-	 * @return bool
-	 */
-	public static function authorize($task, $controller, $itemid=0, $userid=null)
-	{
-		return true;
-	}
+		
+	}	
 	
 	/**
 	 * Creates a frontend link for com_jresearch with view, task, id and itemid parameter

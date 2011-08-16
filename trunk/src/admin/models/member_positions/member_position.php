@@ -104,7 +104,9 @@ class JResearchAdminModelMember_position extends JModelForm
         function publish(){
            	$selected = & JRequest::getVar('cid', 0, '', 'array');
            	$position = JTable::getInstance('Member_position', 'JResearch');
-           	return $position->publish($selected, 1);
+           	$result = $position->publish($selected, 1); 
+           	if(!$result) $this->setError($position->getError());           	
+           	return $result;
         }
 
         /**
@@ -113,7 +115,9 @@ class JResearchAdminModelMember_position extends JModelForm
         function unpublish(){
            $selected = & JRequest::getVar('cid', 0, '', 'array');
            $position = JTable::getInstance('Member_position', 'JResearch');
-           return $position->publish($selected, 0);
+           $result = $position->publish($selected, 0);
+           if(!$result) $this->setError($position->getError());           	
+           return $result;
         }
 
         /**

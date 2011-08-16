@@ -75,10 +75,10 @@ $saveOrder = ($this->lists['order'] == 'ordering');
 					</td>
 					<td class="order" nowrap="nowrap">
 						<?php if ($saveOrder) :?>
-							<?php if ($this->lists['order_Dir'] == 'asc') : ?>
+							<?php if ($this->lists['order_Dir'] == 'ASC') : ?>
 								<span><?php echo $this->page->orderUpIcon($i, true, 'orderup', 'JLIB_HTML_MOVE_UP', $saveOrder); ?></span>
 								<span><?php echo $this->page->orderDownIcon($i, $this->page->total, true, 'orderdown', 'JLIB_HTML_MOVE_DOWN', $saveOrder); ?></span>
-							<?php elseif ($this->lists['order_Dir'] == 'desc') : ?>
+							<?php elseif ($this->lists['order_Dir'] == 'DESC') : ?>
 								<span><?php echo $this->page->orderUpIcon($i, true, 'orderdown', 'JLIB_HTML_MOVE_UP', $saveOrder); ?></span>
 								<span><?php echo $this->page->orderDownIcon($i, $this->pagination->total, true, 'orderup', 'JLIB_HTML_MOVE_DOWN', $saveOrder); ?></span>
 							<?php endif; ?>

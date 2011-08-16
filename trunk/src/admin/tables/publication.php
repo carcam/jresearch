@@ -115,7 +115,6 @@ class JResearchPublication extends JResearchActivity{
 	public $online_source_type;
 	public $digital_source_type;
 
-
 	/**
 	* Associative array with supported records types and their printable names.
 	*/

@@ -50,12 +50,15 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
 
             $query->select('*');
             $query->from('#__jresearch_publication');
-            if(!empty($whereClauses))
+            
+			if(!empty($whereClauses))
                 $query->where($whereClauses);
 
             $query->order($orderColumns);
-            return $query;
+            
+         	return $query;
         }
+               
         
         /**
 		* Build the ORDER part of a query.
@@ -66,8 +69,8 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             $orders = array('title', 'published', 'internal', 'year', 'citekey', 'pubtype');
             $columns = array();
 
-            $filter_order = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_order', 'filter_order', 'year');
-            $filter_order_Dir = strtoupper($mainframe->getUserStateFromRequest('com_jresearch.publications.filter_order_Dir', 'filter_order_Dir', 'DESC'));
+            $filter_order = $this->getState($this->_context.'.filter_order');
+            $filter_order_Dir = strtoupper($this->getState($this->_context.'.filter_order_Dir'));
             
             //Validate order direction
             if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -90,12 +93,17 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
 
             $db = JFactory::getDBO();
 
-            $filter_state = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_state', 'filter_state');
-            $filter_year = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_year', 'filter_year');
-            $filter_search = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_search', 'filter_search');
-            $filter_pubtype = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_pubtype', 'filter_pubtype');
-            $filter_author = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_author', 'filter_author');            
+            $filter_state = $this->getState('com_jresearch.publications.filter_state');
+            $filter_year = $this->getState('com_jresearch.publications.filter_year');
+            $filter_search = $this->getState('com_jresearch.publications.filter_search');
+            $filter_pubtype = $this->getState('com_jresearch.publications.filter_pubtype');
+            $filter_author = $this->getState('com_jresearch.publications.filter_author');
+            $filter_area = $this->getState('com_jresearch.publications.filter_area');                  
 
+            if(!empty($filter_area) && $filter_area != -1){
+        		$where[] = 'LOWER('.$db->nameQuote('id_research_area').') LIKE '.$db->Quote('%'.$filter_area.'%');            	
+        	}
+            
             // prepare the WHERE clause
             $where = array();
             if($filter_state == 'P')
@@ -150,5 +158,29 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             $result = $db->loadResultArray();
             return $result;
 		}
+
+	/**
+    * Method to auto-populate the model state.
+    *
+    * This method should only be called once per instantiation and is designed
+    * to be called on the first call to the getState() method unless the model
+    * configuration flag to ignore the request is set.
+    *
+    * @return      void
+    */
+    protected function populateState() {
+    	$mainframe = JFactory::getApplication();
+        $this->setState('com_jresearch.publications.filter_search', $mainframe->getUserStateFromRequest($this->_context.'.filter_search', 'filter_search'));
+        $this->setState('com_jresearch.publications.filter_author', $mainframe->getUserStateFromRequest($this->_context.'.filter_author', 'filter_author'));        
+        $this->setState('com_jresearch.publications.filter_year', $mainframe->getUserStateFromRequest($this->_context.'.filter_year', 'filter_year'));        
+        $this->setState('com_jresearch.publications.filter_area', $mainframe->getUserStateFromRequest($this->_context.'.filter_area', 'filter_area'));                
+        $this->setState('com_jresearch.publications.filter_pubtype', $mainframe->getUserStateFromRequest($this->_context.'.filter_pubtype', 'filter_pubtype'));        
+        $this->setState('com_jresearch.publications.filter_team', $mainframe->getUserStateFromRequest($this->_context.'.filter_team', 'filter_team'));        
+        $this->setState('com_jresearch.publications.filter_order', $mainframe->getUserStateFromRequest($this->_context.'.filter_order', 'filter_order', 'year'));        
+        $this->setState('com_jresearch.publications.filter_order_Dir', $mainframe->getUserStateFromRequest($this->_context.'.filter_order_Dir', 'filter_order_Dir', 'DESC'));                
+		
+        parent::populateState();        
+    }		
+		
 }
 ?>

@@ -96,14 +96,7 @@ class JResearchActivity extends JResearchTable{
 	 * @var string
 	 */
 	public $authors;
-	
-	/**
-	 * 
-	 * ACL rules mask
-	 * @var int
-	 */
-	public $access;
-	
+		
 	/**
 	 * 
 	 * Link to the entry with the access rules
@@ -410,7 +403,7 @@ class JResearchActivity extends JResearchTable{
 			
 			return $this->_areas;			
 		}elseif($whatInfo == 'names'){
-			$db->setQuery('SELECT id, name, published FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');				
+			$db->setQuery('SELECT id, name, published FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');							
 			return $db->loadObjectList();
 		}else{
 			return null;

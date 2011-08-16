@@ -16,9 +16,15 @@ defined('_JEXEC') or die('Restricted access');
 	$format = "bibtex";		
 	$exporter =& JResearchPublicationExporterFactory::getInstance($format);		
 	$output2 = $exporter->parse($this->publication);				
-	  	
-?>
-<div style="float: right;"><?php echo JHTML::_('jresearchfrontend.icon','edit','publications', $this->publication->id); ?></div>
+ 	$canDoPublications = JResearchAccessHelper::getActions(); 
+	$canDo = JResearchAccessHelper::getActions('publication', $this->publication->id);
+	$user = JFactory::getUser();
+	if($canDo->get('core.publications.edit') || ($canDoPublications->get('core.publications.edit.own') && $this->publication->created_by == $user->get('id'))):	 
+?>	 	
+	<span>	
+		<?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $this->publication->id); ?> 
+	</span>
+<?php endif; ?>
 <h1 class="componentheading"><?php echo $this->escape($this->publication->title); ?></h1>
 <?php if($this->showHits): ?>
 <div class="jresearchhits"><?php echo JText::_('Hits').': '.$this->publication->hits; ?></div>

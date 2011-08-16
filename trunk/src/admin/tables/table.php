@@ -10,6 +10,8 @@
 
 defined('JPATH_BASE') or die;
 
+jresearchimport('joomla.access.rules');
+
 class JResearchTable extends JTable{
 	/**
 	 * Integer database id

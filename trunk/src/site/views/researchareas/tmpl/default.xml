@@ -19,7 +19,7 @@
                         label="JRESEARCH_VIEW_HEADER_PAGE"
                         description="JRESEARCH_VIEW_HEADER_PAGE_DESCRIPTION" />
 
-                <field
+                	<field
                         name="researchareas_list_limit"
                         type="text"
                         default="10"
@@ -37,8 +37,8 @@
                             filter="safehtml"
                             label="JRESEARCH_CONFIG_LINK_IN_TITLE"
                     >
-                    <option value="1">JYES</option>
-                    <option value="0">JNO</option>
+                    	<option value="1">JYES</option>
+                    	<option value="0">JNO</option>
                     </field>
                     <field name="researchareas_default_sorting" default="ordering" label="JRESEARCH_ORDER_BY" type="list">
                             <option value="name">JRESEARCH_TITLE</option>
@@ -48,6 +48,28 @@
                             <option value="ASC">JRESEARCH_ASCENDING</option>
                             <option value="DESC">JRESEARCH_DESCENDING</option>
                     </field>
+                </fieldset>
+                <fieldset name="singleitem">
+	            	<field name="area_show_members" type="list"
+	            		description="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_MEMBERS_DESC"
+	                	filter="safehtml"
+	                	label="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_MEMBERS"
+	            	>
+	 	           		<option value="1">JYES</option>
+	                	<option value="0">JNO</option>
+    	        	</field>
+        	    	<field name="area_show_publications" type="list"
+                            description="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_PUBLICATIONS_DESC"
+                            filter="safehtml"
+                            label="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_PUBLICATIONS"
+            		>
+            			<option value="1">JYES</option>
+                		<option value="0">JNO</option>
+            		</field>
+                
+					<field name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
+					<field name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />			
+					<field name="area_number_last_theses" label="JRESEARCH_CONFIG_LAST_THESES_IN_AREA" default="5" type="text" />					
                 </fieldset>
             </fields>
 </metadata>

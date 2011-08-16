@@ -23,7 +23,7 @@
    * @link       http://pear.php.net/package/Structures_BibTex
    */
 
-jimport('pear.PEAR');
+include_once "PEAR.php";
 
 /**
  * Structures_BibTex

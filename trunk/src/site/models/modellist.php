@@ -26,10 +26,10 @@ class JResearchModelList extends JModelList{
 	* Class constructor.
 	*/
 	public function __construct(){
-            $option = JRequest::getVar('controller');
-            $Itemid = JRequest::getInt('Itemid', 0);
-            $this->_context = 'com_jresearch.'.$option.($Itemid > 0? '.'.$Itemid : '');
-            parent::__construct();
+        $option = JRequest::getVar('controller');
+        $Itemid = JRequest::getInt('Itemid', 0);
+        $this->_context = 'com_jresearch.'.$option.($Itemid > 0? '.'.$Itemid : '');
+        parent::__construct();
 	}
 
 	/**
@@ -49,7 +49,7 @@ class JResearchModelList extends JModelList{
 
         // Load the list state.
         $this->setState('list.start', $app->getUserStateFromRequest($this->_context . '.list.start', 'limitstart', 0, 'int'));
-        $this->setState('list.limit', $params->get($controller.'_list_limit', 25));
+        $this->setState('list.limit', $params->get($controller.'_entries_per_page', 25));
     }
 }
 ?>

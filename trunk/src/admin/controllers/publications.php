@@ -104,7 +104,7 @@ class JResearchAdminPublicationsController extends JController
             if(!empty($publication)){
             	$canDoPub = JResearchAccessHelper::getActions('publication', $cid[0]);
             	if($canDoPub->get('core.publications.edit') ||
-     			($canDoPub->get('core.publications.edit.own') && $publication->createdBy == $user->get('id'))){
+     			($canDoPub->get('core.publications.edit.own') && $publication->created_by == $user->get('id'))){
                 	// Verify if it is checked out
                 	if($publication->isCheckedOut($user->get('id'))){
                 		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
@@ -255,6 +255,7 @@ class JResearchAdminPublicationsController extends JController
 	 */
 	function executeImport(){
 		$actions = JResearchAccessHelper::getActions();
+		$params = JComponentHelper::getParams();
 		if($actions->get('core.publications.create')){
             jresearchimport('helpers.importers.factory', 'jresearch.admin');
             $fileArray = JRequest::getVar('inputfile', null, 'FILES');
@@ -271,6 +272,8 @@ class JResearchAdminPublicationsController extends JController
                 $n = 0;
                 foreach($parsedPublications as $p){
                     $p->id_research_area = array($idResearchArea);
+                    $p->internal = $params->get('publications_default_internal_status', 1);
+                    $p->published = $params->get('publications_default_published_status', 1);                    
                     if(!$p->store()){
                         JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
                     }else{
@@ -312,31 +315,37 @@ class JResearchAdminPublicationsController extends JController
 					
 		$model = $this->getModel('Publication', 'JResearchAdminModel');
         $app = JFactory::getApplication();
-		$form = JRequest::getVar('jform', array(), '', 'array');        
-        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'JResearchPublication'));
+		$form &= $model->getData();
 		$canDoPubs = JResearchAccessHelper::getActions();
 		$canProceed = false;	
 		$user = JFactory::getUser();
+		$params = JComponentHelper::getParams('com_jresearch');
+		
 		
 		// Permissions check
 		if(empty($form['id'])){
 			$canProceed = $canDoPubs->get('core.publications.create');
+			if(!isset($form['published']))
+				$form['published'] = $params->get('publications_default_published_status');
+			if(!isset($form['internal']))
+				$form['internal'] = $params->get('publications_default_internal_status');
 		}else{
 			$canDoPub = JResearchAccessHelper::getActions('publication', $form['id']);
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);
 			$canProceed = $canDoPub->get('core.publication.edit') ||
-     			($canDoPubs->get('core.publications.edit.own') && $publication->createdBy == $user->get('id'));
+     			($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
 		}
         
 		if(!$canProceed){
 			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
 			return;
 		}
-                
+		
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'publication'));		                
         if ($model->save()){
             $task = JRequest::getVar('task');             	
             $publication = $model->getItem();
-//        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'JResearchPublication'));        
+        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'publication'));        
              
             if($task == 'save'){
                 $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
@@ -427,36 +436,35 @@ class JResearchAdminPublicationsController extends JController
 		
 		$model = $this->getModel('Publication', 'JResearchAdminModel');
         $app = JFactory::getApplication();
-		$form = JRequest::getVar('jform', array(), '', 'array');        
-        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'JResearchPublication'));
+		$form &= $model->getData();
 		$canDoPubs = JResearchAccessHelper::getActions();
 		$canProceed = false;	
 		$user = JFactory::getUser();
 		
 		// Permissions check
-		if(empty($form['id'])){
+		$keepOld = JRequest::getVar('keepold', null);
+		if(empty($form['id']) || $keepOld == 'on'){
 			$canProceed = $canDoPubs->get('core.publications.create');
+			if(!isset($form['published']))
+				$form['published'] = $params->get('publications_default_published_status', 1);
+			if(!isset($form['internal']))
+				$form['internal'] = $params->get('publications_default_internal_status', 1);			
 		}else{
 			$canDoPub = JResearchAccessHelper::getActions('publication', $form['id']);
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);
 			$canProceed = $canDoPub->get('core.publication.edit') ||
-     			($canDoPubs->get('core.publications.edit.own') && $publication->createdBy == $user->get('id'));
+     			($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
 		}
 		
-		$form['pubtype'] = JRequest::getVar('change_type');
-		$keepOld = JRequest::getVar('keepold', null);
-		if(!keepOld !== 'on'){
-			unset($form['id']);
-		}
-        
 		if(!$canProceed){
 			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
 			return;
-		}
-                
-        if ($model->save()){             	
+		}        
+
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'publication'));		
+        if ($model->changeType()){             	
             $publication = $model->getItem();
-        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'JResearchPublication'));        
+        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'publication'));        
             $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
         }else{
             $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());

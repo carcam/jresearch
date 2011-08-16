@@ -32,14 +32,19 @@
 			<option value="yes">JYES</option>
 			<option value="no">JNO</option>
 		</field>
-		<field name="make_internal" type="radio" default="no" label="JRESEARCH_CONFIG_MAKE_INTERNAL" description="JRESEARCH_CONFIG_MAKE_INTERNAL_DESCRIPTION">
-			<option value="yes">JYES</option>
-			<option value="no">JNO</option>
-		</field>		
 		<field name="publications_apply_style" type="radio" label="JRESEARCH_PUBLICATIONS_APPLY_STYLE" description="JRESEARCH_PUBLICATIONS_APPLY_STYLE_DESCRIPTION" default="no">
 			<option value="yes">JYES</option>
 			<option value="no">JNO</option>
 		</field>
+		<field name="publications_default_internal_status" type="radio" label="JRESEARCH_PUBLICATIONS_DEFAULT_INTERNAL_STATUS" description="JRESEARCH_PUBLICATIONS_DEFAULT_INTERNAL_STATUS_DESCRIPTION" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="publications_default_published_status" type="radio" label="JRESEARCH_PUBLICATIONS_DEFAULT_PUBLISHED_STATUS" description="JRESEARCH_PUBLICATIONS_DEFAULT_PUBLISHED_STATUS_DESCRIPTION" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
         </fieldset>
         
         <fieldset name="researchareas" label="JRESEARCH_RESEARCH_AREAS">

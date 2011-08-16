@@ -25,11 +25,11 @@ class JResearchAdminViewPublication extends JResearchView
 
             switch($layout){
                     case 'new':
-                            $this->_displayNewPublicationForm();
-                            break;
+                    	$this->_displayNewPublicationForm();
+                        break;
                     case 'default':
-                            $this->_displayPublicationForm();
-                            break;
+                        $this->_displayPublicationForm();
+                        break;
             }
 	}
 	
@@ -58,9 +58,9 @@ class JResearchAdminViewPublication extends JResearchView
         $this->assignRef('pubtype', $pubtype);
         $this->assignRef('changeType', $changeType);    
         
-        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('publication'));
+        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array($data, 'publication'));
         parent::display($tpl);
-        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('publication'));            
+        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array($data, 'publication'));            
 	}
 	
 	/**

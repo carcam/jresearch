@@ -22,24 +22,23 @@ $mainframe->registerEvent('onAfterSaveJResearchEntity', 'plgJResearchOnAfterSave
 /**
  * Saves the records that were cited during a JResearch entity edition. Must be invoked
  *
- * @param string $entityType The type of records. JResearch entities include projects (project),
- * publications (publication), theses (thesis), staff members (member) and research areas (researcharea).
- * @param int $recordId The id of the record.
+ * @param string $record 
+ * @param string $recordType
  */
 
-function plgJResearchOnAfterSaveEntity($entityType, $recordId){
+function plgJResearchOnAfterSaveEntity($record, $recordType){
 	$mainframe = JFactory::getApplication();
 	
 	$db = JFactory::getDBO();	
 	$session = JFactory::getSession() ;
 	$citedRecords = $session->get('citedRecords', array(), 'jresearch');
 	
-	if($recordId == null)
+	if(empty($record) || empty($record->id))
 		return false;
 	
 	// Clear the table
-	$query = 'DELETE FROM '.$db->nameQuote('#__jresearch_cited_records').' WHERE '.$db->nameQuote('id_record').' = '.$db->Quote($recordId)
-				.' AND '.$db->nameQuote('record_type').'='.$db->Quote($entityType);
+	$query = 'DELETE FROM '.$db->nameQuote('#__jresearch_cited_records').' WHERE '.$db->nameQuote('id_record').' = '.$db->Quote($record->id)
+				.' AND '.$db->nameQuote('record_type').'='.$db->Quote($recordType);
 	$db->setQuery($query);
 	$db->query();		
 	
@@ -48,7 +47,7 @@ function plgJResearchOnAfterSaveEntity($entityType, $recordId){
 
 		$query = 'INSERT INTO '.$db->nameQuote('#__jresearch_cited_records')
 					.'('.$db->nameQuote('id_record').','.$db->nameQuote('record_type').','.$db->nameQuote('citekey').')'
-					.' VALUES('.$recordId.','.$db->Quote($entityType).','.$db->Quote($key).')';
+					.' VALUES('.$record->id.','.$db->Quote($recordType).','.$db->Quote($key).')';
 		$db->setQuery($query);
 		
 		if(!$db->query()){

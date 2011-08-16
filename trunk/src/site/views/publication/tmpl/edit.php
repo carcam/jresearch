@@ -4,6 +4,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <h1 class="componentheading">
 	<?php 
+	$actions = JResearchAccessHelper::getActions();
 	$task = JRequest::getVar('task');
 	if($task != 'new' && $task != 'edit')
 		$task = 'edit';
@@ -16,17 +17,33 @@ defined('_JEXEC') or die('Restricted access');
 </div>
 <div style="clear: right;"></div>
 <div style="text-align:center;"><?php echo JText::_('JRESEARCH_'.JRequest::getVar('pubtype', 'article').'_DEFINITION'); ?></div>
-<?php 
-$id = JRequest::getVar('id', 0);
-if(!empty($id)): ?>
-<div class="divChangeType">
-</div>
-<?php endif; ?>
 <div class="frontendform">
 <form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
+	<?php 
+	$id = JRequest::getVar('id', 0);
+	if(!empty($id)): ?>
+	<div style="float: right;">
+	 	<?php echo JHTML::_('jresearchhtml.publicationstypeslist', 'change_type'); ?>
+	    <input type="button" onclick="
+	                        if(document.forms['adminForm'].change_type.value == '0'){
+	                                alert('<?php echo JText::_('JRESEARCH_SELECT_PUBTYPE'); ?>')
+	                        }
+	                        if(document.forms['adminForm'].change_type.value != '0' && document.forms['adminForm'].change_type.value != '<?php echo $this->pubtype; ?>' && confirm('<?php echo JText::_('JRESEARCH_SURE_CHANGE_PUBTYPE')?>') ){
+	                               Joomla.submitbutton('changeType');
+	                        }"
+	    value="<?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE'); ?>" />
+		<label for="keepold"><?php echo JText::_('JRESEARCH_KEEP_OLD_PUBLICATION').': '; ?><input type="checkbox" name="keepold" id="keepold" /></label>
+	</div>
+	<?php endif; ?>
+	<div style="clear: right;"></div>
 	<fieldset class="panelform">
     	<h2><?php echo JText::_( 'JRESEARCH_BASIC' ); ?></h2>
                 <?php foreach($this->form->getFieldset('basic') as $field): ?>
+                	<?php 
+                		if(($field->name == 'published' || $field->name == 'internal')
+                		&& !$actions->get('core.publications.edit.state'))
+                			continue;
+                	?>                	                
                 	<?php if($field->fieldname != 'authors'): ?>
 	                    <div class="formelm">
     	                    <?php if (!$field->hidden): ?>

@@ -112,26 +112,7 @@ class JResearchResearcharea extends JResearchTable{
 
         return true;
 	}
-	
-	/**
-	* Publish/Unpublish method.
-	*
-	* @param $cid Ids of the items to publish/unpublish
-	* @param $publish If 1 the items are published, if 0 are unpublished
-	* @param $user_id The id of the user performing the operation
-	* @return true if successful
-	*/
-	function publish( $cid=null, $publish=1, $user_id=0 ){
-        $db = JFactory::getDBO();
-        $result = parent::publish($cid, $publish, $user_id);
-
-        if($result && $publish == 0){
-            $this->_unpublishChildren($cid);
-        }
-
-        return $result;
-	}
-	
+		
     /**
     * Default delete method. It can be overloaded/supplemented by the child class
     *
@@ -139,149 +120,100 @@ class JResearchResearcharea extends JResearchTable{
     * @return true if successful otherwise returns and error message
     */
     function delete($oid=null){
-            $db = JFactory::getDBO();
-            $booleanResult = parent::delete($oid);
+    	$db = JFactory::getDBO();
+        $booleanResult = parent::delete($oid);
 
-            if($booleanResult){
-                    // Set as uncategorized any item related to this research area
-                    $queryPub = 'UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
-                                            .' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);
+        if($booleanResult){
+            $booleanResult = booleanResult && $this->_keepIntegrity('publication', $oid);
+            $booleanResult = booleanResult && $this->_keepIntegrity('project', $oid);
+            $booleanResult = booleanResult && $this->_keepIntegrity('member', $oid);
+            $booleanResult = booleanResult && $this->_keepIntegrity('thesis', $oid);
+                    	
+        	// Set as uncategorized any item related to this research area
+            $queryPub = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_researcharea')
+                        .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
 
-                    $queryProj = 'UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
-                                            .' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);
+            $queryProj = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_researcharea')
+                         .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
 
-                    $queryStaff = 'UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
-                                            .' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);
+            $queryStaff = 'DELETE FROM '.$db->nameQuote('#__jresearch_member_researcharea')
+                          .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
 
-                    $queryThes = 'UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
-                                            .' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);
-
-                    $db->setQuery($queryPub);
-                    $db->query();
-                    $db->setQuery($queryProj);
-                    $db->query();
-                    $db->setQuery($queryStaff);
-                    $db->query();
-                    $db->setQuery($queryThes);
-                    $db->query();
-
-            }
-
-            return $booleanResult;
-        }
-        
-
-        public function store(){
-            jresearchimport('joomla.utilities.date');
-            $dateObj = new JDate();
-            $user = JFactory::getUser();
-
-            if(isset($this->id)){
-                $created = JRequest::getVar('created', $dateObj->toMySQL());
-                $this->created = $created;
-                $author = JRequest::getVar('created_by', $user->get('id'));
-                $this->created_by = $author;
-            }
-            
-            $this->modified = $dateObj->toMySQL();
-            $this->modified_by = $author;
-            $result = parent::store();
-            
-            // If the item is unpublished, unpublished all its children
-            if($this->published == 0 && !empty($this->id) && $result){
-                $this->_unpublishChildren($this->id);
-            }
-
-            return $result;
-
-        }
-
-        /**
-         * Invoked when a research area is unpublished. All items belonging ONLY to this researcharea
-         * are unpublished.
-         * @param mixed $cid Area id or array of them
-         */
-        private function _unpublishChildren($cid){
-            if(!is_array($cid)){
-                $this->_unpublishChildrenFromSingle($cid);
-            }else{
-                foreach($cid as $id){
-                    $this->_unpublishChildrenFromSingle($id);
-                }
-            }
-        }
-
-        /**
-         * Invoked when a research area is unpublished. All items belonging ONLY to this researcharea
-         * are unpublished.
-         * @param mixed $cid Area id or array of them
-         */
-        private function _unpublishChildrenFromSingle($id){
-            $unpublishPub = false;
-            $unpublishProj = false;
-            $unpublishThes = false;
-            $unpublishMem = false;
-            $db = JFactory::getDBO();
-
-
-            $queryPub = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_researcharea');
-            $queryPub.= ' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id);
-
-            $queryProj = 'SELECT '.$db->nameQuote('id_project').' FROM '.$db->nameQuote('#__jresearch_project_researcharea');
-            $queryProj.= ' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id);
-
-            $queryThes = 'SELECT '.$db->nameQuote('id_thesis').' FROM '.$db->nameQuote('#__jresearch_thesis_researcharea');
-            $queryThes.= ' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id);
-
-            $queryMem = 'SELECT '.$db->nameQuote('id_member').' FROM '.$db->nameQuote('#__jresearch_member_researcharea');
-            $queryMem.= ' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id);
-
+            $queryThes = 'DELETE FROM '.$db->nameQuote('#__jresearch_thesis_researcharea')
+                          .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
 
             $db->setQuery($queryPub);
-            $resultPub = $db->loadResultArray();
-            if(count($resultPub) == 1)
-                $unpublishPub = true;
-
+            $db->query();
             $db->setQuery($queryProj);
-            $resultProj = $db->loadResultArray();
-            if(count($resultProj) == 1)
-                $unpublishProj = true;
-
+            $db->query();
+            $db->setQuery($queryStaff);
+            $db->query();
             $db->setQuery($queryThes);
-            $resultThes = $db->loadResultArray();
-            if(count($resultThes) == 1)
-                $unpublishThes = true;
-
-            $db->setQuery($queryMem);
-            $resultMem = $db->loadResultArray();
-            if(count($resultMem) == 1)
-                $unpublishMem = true;
-
-
-            if($unpublishPub){
-                $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id').' IN ('.implode(',', $resultPub).')');
-                $db->query();
-            }
-
-            if($unpublishProj){
-                $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id').' IN ('.implode(',', $resultProj).')');
-                $db->query();
-            }
-
-            if($unpublishThes){
-                $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id').' IN ('.implode(',', $resultThes).')');
-                $db->query();
-            }
-
-            if($unpublishMem){
-                $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id').' IN ('.implode(',', $resultMem).')');
-                $db->query();
-            }
-
+            $db->query();
+        }        
+        
+        return $booleanResult;
+    }
+    
+    /**
+     * Fixes the id_research_area column of all entities referencing the current area
+     * @return boolean
+     */
+    function keepIntegrity($tableSuffix, $oid){
+    	$db = JFactory::getDbo();
+    	$booleanResult = true;
+    	$query = $db->getQuery(true);
+    	$primaryTable = '#__jresearch_'.$tableSuffix;
+    	$query->select('t.id, t.id_research_area');
+    	$query->from("$primaryTable t");
+    	$query->join('', "#__jresearch_".$tableSuffix."_researcharea tr");
+    	$query->where("t.id = tr.id_$tableSuffix");
+    	$db->setQuery($query);
+		$result = $db->loadAssocList();
+		foreach($result as $row){
+			$elements = explode(',', $row['id_research_area']);
+			for($i = 0; $i < count($elements); $i++){
+				if($elements[$i] == $oid){
+					unset($elements[$i]);
+					break;
+				}
+			}
+			$db->setQuery("UPDATE $primaryTable SET id_research_area = ".$db->Quote(implode(',', $elements)));
+			$booleanResult = $booleanResult && $db->query();						
+		}
+		
+		return $booleanResult;
     }
         
+
+    public function store(){
+        jresearchimport('joomla.utilities.date');
+        $dateObj = new JDate();
+        $user = JFactory::getUser();
+
+        if(isset($this->id)){
+        	$created = JRequest::getVar('created', $dateObj->toMySQL());
+            $this->created = $created;
+            $author = JRequest::getVar('created_by', $user->get('id'));
+            $this->created_by = $author;
+        }
+            
+        $this->modified = $dateObj->toMySQL();
+        $this->modified_by = $author;
+        $result = parent::store();
+            
+        // If the item is unpublished, unpublished all its children
+        if($this->published == 0 && !empty($this->id) && $result){
+            $this->_unpublishChildren($this->id);
+        }
+
+        return $result;
+
+     }
+
+        
 	function __toString(){
-    	return $this->title;
+    	return isset($this->title) ? $this->title : "";
     }
     
 	/**

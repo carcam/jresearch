@@ -16,31 +16,29 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $mainframe = JFactory::getApplication();
-$mainframe->registerEvent('onBeforeEditJResearchEntity', 'plgJResearchOnBeforeEditEntity');
+$mainframe->registerEvent('onBeforeRenderJResearchEntityForm', 'plgJResearchOnBeforeEditEntity');
 
 
 /**
  * Saves the records that were cited during a JResearch entity edition. Must be invoked
  *
- * @param string $entityType The type of records. JResearch entities include projects (project),
- * publications (publication), theses (thesis), staff members (member) and research areas (researcharea).
- * @param int $recordId The id of the record.
+ * @param array $data
+ * @param string $recordType
  */
 
-function plgJResearchOnBeforeEditEntity($entityType, $recordId){
+function plgJResearchOnBeforeEditEntity($data, $recordType){
 	$mainframe = JFactory::getApplication();
-	$db =& JFactory::getDBO();
-	$session =& JFactory::getSession();
+	$db = JFactory::getDBO();
+	$session = JFactory::getSession();
 	
-	if($recordId != null){
+	if(!empty($data) && !empty($data['id'])){
 		$query = 'SELECT '.$db->nameQuote('citekey').' FROM '.$db->nameQuote('#__jresearch_cited_records')
-				.' WHERE '.$db->nameQuote('id_record').'='.$db->Quote($recordId).' AND '.$db->nameQuote('record_type').'='.$db->Quote($entityType);
+				.' WHERE '.$db->nameQuote('id_record').'='.$db->Quote($data['id']).' AND '.$db->nameQuote('record_type').'='.$db->Quote($recordType);
 		
 		$db->setQuery($query);
 		$citedRecords = $db->loadResultArray();
 		$session->set('citedRecords', $citedRecords, 'jresearch');			
-	}
-			
+	}			
 }
 
 ?>

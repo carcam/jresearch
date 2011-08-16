@@ -10,6 +10,7 @@
 */
 
 jresearchimport('joomla.application.component.controller');
+jresearchimport('helpers.researchareas', 'jresearch.admin');
 
 /**
  * Research Areas Backend Controller
@@ -56,7 +57,7 @@ class JResearchAdminResearchareasController extends JController
         
 		// Permissions check
 		if(empty($form['id'])){
-			$canProceed = $canDoPubs->get('core.researchareas.create');
+			$canProceed = $canDoAreas->get('core.researchareas.create');
 		}else{
 			$canDoArea = JResearchAccessHelper::getActions('researcharea', $form['id']);
 			$area = JResearchResearchareasHelper::getResearchArea($form['id']);
@@ -250,7 +251,7 @@ class JResearchAdminResearchareasController extends JController
 
 		if ($model->orderItem($id, -1))
 		{
-			$msg = JText::_( 'Member Item Moved Up' );
+			$msg = JText::_( 'JRESEARCH_ITEM_MOVED_UP' );
 		}
 		else
 		{
@@ -284,7 +285,7 @@ class JResearchAdminResearchareasController extends JController
 		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
 		if ($model->orderItem($id, 1))
 		{
-			$msg = JText::_( 'Item Moved Up' );
+			$msg = JText::_( 'JRESEARCH_ITEM_MOVED_DOWN' );
 		}
 		else
 		{
@@ -309,7 +310,7 @@ class JResearchAdminResearchareasController extends JController
 
             if ($model->setOrder($cid))
             {
-                    $msg = JText::_( 'New ordering saved' );
+                    $msg = JText::_( 'JRESEARCH_NEW_ORDERING_SAVED' );
             }
             else
             {

@@ -114,11 +114,13 @@ class JResearchAdminModelResearchArea extends JModelForm{
         function publish(){
 		  	$selected = & JRequest::getVar('cid', 0, '', 'array');
 	       	$area = JTable::getInstance('Researcharea', 'JResearch');           
+	       	$user = JFactory::getUser();
 	       	$allOk = true;
            	foreach($selected as $id){
            	   $action = JResearchAccessHelper::getActions('researcharea', $id);           	
-           	   if($action->get('core.researchareas.edit.state')){
-	    	       $allOk = $allOk && $area->publish($id, 1);
+           	   if($action->get('core.researchareas.edit')){
+	    	       $allOk = $allOk && $area->publish(array($id), 1, $user->get('id'));
+	    	       if(!$allOk) $this->setError($area->getError());	    	       
            	   }else{
            	   	   $allOk = false;
            		   $this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id));           	   	   
@@ -135,13 +137,15 @@ class JResearchAdminModelResearchArea extends JModelForm{
 			$selected = & JRequest::getVar('cid', 0, '', 'array');
 	       	$area = JTable::getInstance('Researcharea', 'JResearch');           
 	       	$allOk = true;
+	       	$user = JFactory::getUser();
            	foreach($selected as $id){
            	   $action = JResearchAccessHelper::getActions('researcharea', $id);           	
-           	   if($action->get('core.researchareas.edit.state')){
-	    	       $allOk = $allOk && $area->publish($id, 0);
+           	   if($action->get('core.researchareas.edit')){
+	    	       $allOk = $allOk && $area->publish(array($id), 0, $user->get('id'));
+	    	       if(!$allOk) $this->setError($area->getError());	    	       
            	   }else{
            	   	   $allOk = false;
-           		   $this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id));           	   	   
+           		   $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
            	   }
            	}
            

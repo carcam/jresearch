@@ -142,7 +142,7 @@ class JResearchAdminMember_positionsController extends JController
 	function save(){
 		JRequest::checkToken() or jexit( 'JInvalid_Token' );
 
-		$user = JFactory::getDbo();
+		$user = JFactory::getUser();
 		if(!$user->authorise('core.manage', 'com_jresearch')){
             $this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('JERROR_ALERTNOAUTHOR'));			
 			return;
