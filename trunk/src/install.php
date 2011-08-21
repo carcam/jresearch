@@ -113,9 +113,11 @@ class com_jresearchInstallerScript
 
 		$automaticCitationFolder = 	JPATH_SITE.DS.'media'.DS.'editors'.DS.'tinymce'.DS.'jscripts'.DS.'tiny_mce'.DS.'plugins'.DS.'jresearch';
 			
-		if(!deleteDirectory($automaticCitationFolder)){
+		if(!JFolder::delete($automaticCitationFolder)){
 			echo "Warning: Directory $automaticCitationFolder could not be deleted. Please do it manually.";
 		}
+		
+		JFolder::delete($path);
 		
 		$oldFile = JPATH_PLUGINS.DS.'editors'.DS.'tinymce'.DS.'tinymce.php';
 		$backupFile = $oldFile.'.bak';		
