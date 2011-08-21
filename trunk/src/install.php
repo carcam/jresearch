@@ -9,32 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
-/**
- * Tries to delete a non-empty directory. The function deletes files or subfolders when possible. 
- * If any of the items in the directory hierachy cannot be deleted or the directory does not exist,
- * the method returns false.
- *
- * @param string $directory Name of a directory.
- * @return boolean True if the operation is completely successful.
- */
-function deleteDirectory($directory){
-	if(!file_exists($directory))
-		return false;
 
-	$contents = scandir($directory);
 
-	foreach($contents as $entry){
-		if($entry != "." && $entry != ".."){
-			if(is_dir($directory.DS.$entry)){
-				deleteDirectory($directory.DS.$entry);
-			}else{
-				@unlink($directory.DS.$entry);
-			}
-		}
-	}
-	
-	return rmdir($directory);
-}
 
 /**
  * Script file of HelloWorld component
