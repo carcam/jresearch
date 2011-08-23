@@ -176,6 +176,8 @@ class JHTMLJresearch
 		$lists = array();
 		$layout = JFilterInput::clean($layout);
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
+		$js_for_month = 'onchange="document.adminForm.limitstart.value=0;if(this.value != \'0\'){document.adminForm.filter_order_2.value=\'month\';}else{
+document.adminForm.filter_order_2.value=\'none\';} document.adminForm.submit();"'; 
 		
 		if($bSearch === true)
         {
@@ -220,7 +222,18 @@ class JHTMLJresearch
 				
 			$lists['years'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
     	}
-    	
+    	if($bMonths === true){
+			$months = array('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec');    		
+			$monthsOptions = array();
+			$monthsOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_MONTH'));
+
+			$filter_month = $mainframe->getUserStateFromRequest($layout.'publicationsfilter_month', 'filter_month');    		
+			
+			foreach($months as $month){
+				$monthsOptions[] = JHTML::_('select.option', $month, JText::_('JRESEARCH_'.strtoupper($month)));
+			}
+            $lists['month'] = JHTML::_('select.genericlist', $monthsOptions, 'filter_month', 'class="inputbox" size="1" '.$js_for_month ,'value', 'text' , $filter_month);
+    	}
     	if($bAuthors === true)
     	{
     		JModel::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
@@ -274,18 +287,6 @@ class JHTMLJresearch
 	    	$lists['areas'] = JHTML::_('select.genericlist',  $areasOptions, 'filter_area', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_area );
     	}
     	
-    	if($bMonths === true){
-			$months = array('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec');    		
-			$monthsOptions = array();
-			$monthsOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_MONTH'));
-
-			$filter_month = $mainframe->getUserStateFromRequest($layout.'publicationsfilter_month', 'filter_month');    		
-			
-			foreach($months as $month){
-				$monthsOptions[] = JHTML::_('select.option', $month, JText::_('JRESEARCH_'.strtoupper($month)));
-			}
-            $lists['month'] = JHTML::_('select.genericlist', $monthsOptions, 'filter_month', 'class="inputbox" size="1" '.$js ,'value', 'text' , $filter_month);
-    	}
     	
     	return '<div style="float: left">'.implode('</div><div style="float: left;">', $lists).'</div>';
 	}

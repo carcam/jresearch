@@ -218,9 +218,9 @@ class JResearchViewStaff extends JResearchView
       	$doc = JFactory::getDocument();
       	$params = $mainframe->getPageParameters('com_jresearch');
 
-      	$members =  $model->getData(null, true, true);
+      	$members =  $model->getData(null, true, false);
         $positionModelList = $this->getModel('member_positionList');
-        $positions = $positionModelList->getData(null, true, true);
+        $positions = $positionModelList->getPublishedPositions(null, true, false);
     	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));
     	
     	$format = $params->get('staff_format') == 'last_first'?1:0;

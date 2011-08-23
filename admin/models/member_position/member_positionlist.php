@@ -96,7 +96,7 @@ class JResearchModelMember_positionList extends JResearchModelList
 	
 			$db->setQuery($query);
 			$rows = $db->loadAssocList();
-			$this->_items = array();			
+			$this->_items = array();	
 			foreach($rows as $row)
 			{
 				$position = JTable::getInstance('Member_position', 'JResearch');
@@ -130,6 +130,21 @@ class JResearchModelMember_positionList extends JResearchModelList
 			$where[] = $db->nameQuote('published').' = 1 ';
 			
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
+	}
+
+	public function getPublishedPositions(){
+
+		$db = JFactory::getDBO();
+		$db->setQuery('SELECT * FROM #__jresearch_member_position WHERE published = 1 ORDER BY ordering ASC');
+		$result = $db->loadAssocList();
+		$positions = array();		
+		foreach($result as $row){
+			$position = JTable::getInstance('Member_position', 'JResearch');
+			$position->bind($row);
+			$positions[] = $position;
+		}
+
+		return $positions;	
 	}
 	
 	private function _buildQueryOrderBy()
