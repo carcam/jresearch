@@ -66,6 +66,27 @@ class JResearchViewCooperation extends JResearchView
 	private function _editCooperation(&$coop)
 	{
             JHTML::addIncludePath(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'html');
+            $doc = JFactory::getDocument();
+			$doc->addScriptDeclaration('
+				function msubmitform(pressbutton){
+					if (pressbutton) {
+						document.adminForm.task.value=pressbutton;
+					}
+					if (typeof document.adminForm.onsubmit == "function") {
+						if(!document.adminForm.onsubmit())
+						{
+							return;
+						}
+						else
+						{
+							document.adminForm.submit();
+						}
+				}
+				else
+				{
+					document.adminForm.submit();
+				}
+			}');            
 		
             //Published options
             $publishedOptions = array();
@@ -76,10 +97,12 @@ class JResearchViewCooperation extends JResearchView
             $orderOptions = array();
             $orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, name AS text FROM #__jresearch_cooperations ORDER by ordering ASC');
             $orderList = JHTML::_('select.genericlist', $orderOptions ,'ordering', 'class="inputbox"' ,'value', 'text' , $coop->ordering);
+	    	$categoryList = JHTML::_('list.category', 'catid', 'com_jresearch_cooperations', $coop->catid);            
 
             $this->addPathwayItem(JText::_('Edit'));
 
-            $this->assignRef('publishedRadio', $publishedRadio);
+	    	$this->assignRef('categoryList', $categoryList);            
+            $this->assignRef('publishedList', $publishedRadio);
             $this->assignRef('orderList', $orderList);
 	}
 }

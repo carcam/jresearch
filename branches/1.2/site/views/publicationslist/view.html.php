@@ -128,7 +128,7 @@ class JResearchViewPublicationsList extends JResearchView
             $member = JTable::getInstance('Member', 'JResearch');
             $member->bindFromUsername($user->username);
             $id_member = $member->id;
-                JRequest::setVar('filter_author', $id_member);
+            JRequest::setVar('filter_author', $id_member);
     	}
     	
     	$document =& JFactory::getDocument();    	

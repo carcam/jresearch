@@ -31,7 +31,7 @@ class JResearchViewProject extends JResearchView
         switch($layout){
             case 'default':
             default:
-                $this->_displayProject();
+                $this->_displayProject($tpl);
                 break;
         }
 
@@ -40,14 +40,14 @@ class JResearchViewProject extends JResearchView
     /**
     * Display the information of a project.
     */
-    private function _displayProject(){
+    private function _displayProject($tpl){
       	global $mainframe;
       	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
         $arguments = array('project');
       	
     	$id = JRequest::getInt('id');
-	$doc =& JFactory::getDocument();
-	$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
+		$doc =& JFactory::getDocument();
+		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
 
         if(empty($id)){
             JError::raiseWarning(1, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));

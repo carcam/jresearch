@@ -162,13 +162,15 @@ class JResearchResearcharea extends JTable{
 	* @return true if successful
 	*/
 	function publish( $cid=null, $publish=1, $user_id=0 ){
-            $db = JFactory::getDBO();
+			$db = JFactory::getDBO();
             
             // Just to prevent uncategorized area for being unpublished
             if($publish == 0){
                 if(is_array($cid)){
                     $index = array_search('1', $cid);
-                    unset($cid[$index]);
+                    if($index !== false)
+	                    unset($cid[$index]);
+                    
                     if(empty($cid))
                         return false;
                 }elseif($cid == '1'){
@@ -177,32 +179,6 @@ class JResearchResearcharea extends JTable{
             }
 
             $result = parent::publish($cid, $publish, $user_id);
-
-            if($result && $publish == 0){
-                    if(!is_array($cid)){
-                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
-                            $db->query();
-                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
-                            $db->query();
-                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
-                            $db->query();
-                            $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($cid));
-                            $db->query();
-                    }else{
-                            foreach($cid as $id){
-                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
-                                    $db->query();
-                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
-                                    $db->query();
-                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
-                                    $db->query();
-                                    $db->setQuery('UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('published').' = '.$db->Quote(0).' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($id));
-                                    $db->query();
-                            }
-                    }
-            }
-
-            return $result;
 	}
 	
 	/**
@@ -212,35 +188,40 @@ class JResearchResearcharea extends JTable{
     * @return true if successful otherwise returns and error message
     */
    function delete($oid=null){
-   	$db =& JFactory::getDBO();
-   	$booleanResult = parent::delete($oid);
+		$db =& JFactory::getDBO();
+   		$booleanResult = parent::delete($oid);
    	
-   	if($booleanResult){
-   		// Set as uncategorized any item related to this research area
-   		$queryPub = 'UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
-   					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);
-   					
-   		$queryProj = 'UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
-   					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);
-   		
-   		$queryStaff = 'UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
-   					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);						
-   					
-   		$queryThes = 'UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
-   					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);			
-   					
-   		$db->setQuery($queryPub);
-   		$db->query();
-   		$db->setQuery($queryProj);			
-   		$db->query();
-   		$db->setQuery($queryStaff);			
-   		$db->query();
-   		$db->setQuery($queryThes);			
-   		$db->query();
-
-   	}
-   	
-   	return $booleanResult;
+	   	if($booleanResult){
+	   		// Set as uncategorized any item related to this research area
+	   		$queryPub = 'UPDATE '.$db->nameQuote('#__jresearch_publication').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
+	   					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);
+	   					
+	   		$queryProj = 'UPDATE '.$db->nameQuote('#__jresearch_project').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
+	   					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);
+	   		
+	   		$queryStaff = 'UPDATE '.$db->nameQuote('#__jresearch_member').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
+	   					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);						
+	   					
+	   		$queryThes = 'UPDATE '.$db->nameQuote('#__jresearch_thesis').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
+	   					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);			
+	
+	   		$queryFac = 'UPDATE '.$db->nameQuote('#__jresearch_facilities').' SET '.$db->nameQuote('id_research_area').' = '.$db->Quote(1)
+	   					.' WHERE '.$db->nameQuote('id_research_area').' = '.$db->Quote($oid);			
+	   					
+	   					
+	   		$db->setQuery($queryPub);
+	   		$db->query();
+	   		$db->setQuery($queryProj);			
+	   		$db->query();
+	   		$db->setQuery($queryStaff);			
+	   		$db->query();
+	   		$db->setQuery($queryThes);			
+	   		$db->query();
+	   		$db->setQuery($queryFac);			
+	   		$db->query();   		
+	   	}
+	   	
+	   	return $booleanResult;
     }
 	
 }	

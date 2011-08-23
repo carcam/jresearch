@@ -6,7 +6,9 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access'); 
+require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'publications.php');
+?>
 <h2 class="componentheading"><?php echo $this->area->name; ?></h2>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_DESCRIPTION'); ?></h3>
 <?php echo $this->description;  ?>
@@ -27,7 +29,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <h3 class="contentheading"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></h3>
 <ul>
 <?php foreach($this->members as $member): ?>
-	<li><?php echo JHTML::_('jresearch.link', $member, 'member', 'show', $member->id); ?></li>
+	<li><?php echo JHTML::_('jresearch.link', JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format), 'member', 'show', $member->id); ?></li>
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>

@@ -466,7 +466,7 @@ class JResearchPublication extends JResearchActivity{
             if(isset($this->editor)){
                 $editor = trim($this->editor);
                 if(!empty($editor))
-                        return preg_split("/and|,|;/",$editor);
+                        return preg_split('/\sand\s|,|;/',$editor);
                 else
                         return array();
             }else

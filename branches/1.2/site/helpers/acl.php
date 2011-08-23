@@ -62,5 +62,19 @@ function setACL()
 	$acl->addACL('com_jresearch', 'edit', 'users', 'manager', 'theses', 'all');
 	$acl->addACL('com_jresearch', 'edit', 'users', 'administrator', 'theses', 'all');
 	$acl->addACL('com_jresearch', 'edit', 'users', 'super administrator', 'theses', 'all');
+	
+	$acl->addACL('com_jresearch', 'add', 'users', 'author', 'cooperations', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'editor', 'cooperations', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'publisher', 'cooperations', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'manager', 'cooperations', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'administrator', 'cooperations', 'all');
+	$acl->addACL('com_jresearch', 'add', 'users', 'super administrator', 'cooperations', 'all');
+	
+	$acl->addACL('com_jresearch', 'edit', 'users', 'author', 'cooperations', 'own');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'editor', 'cooperations', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'publisher', 'cooperations', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'manager', 'cooperations', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'administrator', 'cooperations', 'all');
+	$acl->addACL('com_jresearch', 'edit', 'users', 'super administrator', 'cooperations', 'all');
 }
 ?>

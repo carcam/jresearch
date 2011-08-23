@@ -249,7 +249,7 @@ function downloadFile_new($url,$target)
 				</tr>
 				<tr>
 					<th scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_COPYRIGHT').': '; ?></th>
-					<td>Copyright 2008, Luis Galárraga</td>
+					<td>Copyright 2011, Luis Galárraga</td>
 				</tr>
 				<tr>
 					<th scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_LICENSE').': '; ?></th>
@@ -292,9 +292,6 @@ function downloadFile_new($url,$target)
 					<li><strong>Spanish Translation:</strong> Carlos Cámara Mora, (<?php echo JHTML::_('email.cloak', 'cmcamara@gmail.com')?>)</li>
 					<li><strong>German Translation:</strong> Florian Prinz</li>
 					<li><strong>Web site:</strong> Nereyda Valentin-Macias</li>
-					<li><strong>sf404sef Integration:</strong> Carlos Cámara Mora</li>
-					<li><strong>Several improvements 1.2 Beta: </strong>Pablo Moncada, (<?php echo JHTML::_('email.cloak', 'pmoncadaisla@gmail.com')?>)</li>
-					<li><strong>Tracker management and logistic: </strong>Iulian Dudita, (<?php echo JHTML::_('email.cloak', 'iulydj@yahoo.com'); ?>)</li>					
 				</ul>
 			</td>					
 		</tr>																		

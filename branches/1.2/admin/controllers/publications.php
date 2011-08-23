@@ -661,6 +661,5 @@ class JResearchAdminPublicationsController extends JController
 			}	
 		}
 	}	
-
 }
 ?>

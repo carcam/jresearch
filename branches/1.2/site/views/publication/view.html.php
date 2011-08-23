@@ -139,7 +139,7 @@ class JResearchViewPublication extends JResearchView
         }
 		
         $showHits = ($params->get('show_hits') == 'yes');
-    	$format = $params->get('staff_format') == 'last_first'?0:1;		
+    	$format = $params->get('staff_format') == 'last_first'?1:0;		
     	$showBibtex = ($params->get('show_export_bibtex') == 'yes');
     	$showMODS = ($params->get('show_export_mods') == 'yes');    		
     	$showRIS = ($params->get('show_export_ris') == 'yes');
