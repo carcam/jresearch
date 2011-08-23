@@ -478,15 +478,14 @@ class JResearchPublicationsHelper{
 		return $result;		
 	}
 
-        /*
-         * Takes an issn an 8 digits number and introduces a hash in the middle.
-         */
-        public static function formatISSN($issn){
-            if($issn{4} != '-')
-                return substr($issn, 0, 4).'-'.substr($issn, 4, 4);
-            else
-                return $issn;
-        }
-
+    /*
+     * Takes an issn an 8 digits number and introduces a hash in the middle.
+     */
+    public static function formatISSN($issn){
+        if($issn{4} != '-')
+            return substr($issn, 0, 4).'-'.substr($issn, 4, 4);
+        else
+            return $issn;
+    }
 }
 ?>

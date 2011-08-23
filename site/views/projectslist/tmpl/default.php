@@ -23,7 +23,7 @@ if(count($this->items) > 0):
 			<h3 class="contentheading"><?php echo $project->title; ?></h3>
 			<?php 
 			//Show research area?
-			if($this->params->get('show_researcharea') == 1):
+			if($this->params->get('show_researcharea', 1) == 1):
 			?>		
 			<div>
 				<div><strong><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': '; ?></strong>
@@ -37,7 +37,7 @@ if(count($this->items) > 0):
 			endif;
 			
 			//Show members?
-			if($this->params->get('show_members') == 1):
+			if($this->params->get('show_members', 1) == 1):
 				$members = implode(', ',$project->getPrincipalInvestigators());
 			?>			
 			<div>

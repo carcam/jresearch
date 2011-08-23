@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `howpublished` varchar(255) default NULL,
   `booktitle` varchar(255) default NULL,
   `organization` varchar(255) default NULL,
-  `chapter` varchar(10) default NULL,
+  `chapter` varchar(255) default NULL,
   `type` varchar(20) default NULL,
   `key` varchar(255) default NULL,
   `patent_number` varchar(10) NOT NULL,

@@ -42,8 +42,10 @@ class JResearchCitationStyleFactory{
                 if(!in_array($publicationType, $extendedtypes))
                     $filename = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.$citationStyleFolder.DS.strtolower($citationStyle.'_'.$publicationType).'.php';
                 else
-                    $filename = JPATH_PLUGINS.DS.'jresearch-pubtypes'.DS.strtolower($publicationType).'_styles'.DS.$citationStyleFolder.DS.strtolower($citationStyle.'_'.$publicationType).'.php';
+                    $filename = JPATH_PLUGINS.DS.'jresearch-pubtypes'.DS.$publicationType.'_styles'.DS.$citationStyleFolder.DS.strtolower($citationStyle).'_'.$publicationType.'.php'; 
+
             }
+            
             if(!isset($instances[$classname])){
                     if(!class_exists($classname)){
                             if(!file_exists($filename))

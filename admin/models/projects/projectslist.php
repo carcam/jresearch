@@ -127,7 +127,7 @@ class JResearchModelProjectsList extends JResearchModelList{
 			$this->_items = array();
 			foreach($rows as $row){
 				$proj = JTable::getInstance('Project', 'JResearch');
-				$proj->bind($row, array(), true);
+				$proj->bind($row, array(), true, true, true);
 				$this->_items[] = $proj;
 			}
 			if($paginate)

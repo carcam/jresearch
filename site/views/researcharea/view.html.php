@@ -88,6 +88,7 @@ class JResearchViewResearchArea extends JResearchView
     	$doc->setTitle(JText::_('JRESEARCH_RESEARCH_AREA').' - '.$area->name);
         $arguments = array('researcharea', $area);
         $mainframe->triggerEvent('onPrepareJResearchContent', $arguments);
+		$format = $params->get('staff_format') == 'last_first'?1:0;
     		
     	$this->assignRef('theses', $theses);
     	$this->assignRef('ntheses', $model->countTheses($area->id));    	

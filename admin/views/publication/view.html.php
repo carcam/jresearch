@@ -27,7 +27,7 @@ class JResearchAdminViewPublication extends JResearchView
 
             switch($layout){
                 case 'new':
-                    $this->_displayNewPublicationForm();
+                    $this->_displayNewPublicationForm($tpl);
                     break;
                 case 'default':
                     $this->_displayPublicationForm();
@@ -39,7 +39,7 @@ class JResearchAdminViewPublication extends JResearchView
 	* Binds the variables useful for displaying the form for editing/creating
 	* publications.
 	*/
-	private function _displayPublicationForm(){
+	private function _displayPublicationForm($tpl){
             require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');
             global $mainframe;
             $arguments = array();
@@ -100,7 +100,7 @@ class JResearchAdminViewPublication extends JResearchView
 	* Binds the variables for the form used to select the type 
 	* for a new publication.
 	*/
-	private function _displayNewPublicationForm(){
+	private function _displayNewPublicationForm($tpl){
             JResearchToolbar::importPublicationsToolbar();
             $subtypes = JResearchPublication::getPublicationsSubtypes();
             $typesOptions = array();

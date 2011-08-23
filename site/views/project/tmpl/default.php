@@ -194,7 +194,10 @@ JHTML::_('behavior.modal');
 		<td>
 			<?php 
 			$financiers = $this->project->getFinanciers();
-			echo implode('<br />', $financiers);
+			foreach($financiers as $financier){
+				echo $financier->__toString();
+				echo '<br />';
+			}
                         ?>
 		</td>
 		<td width="20%" class="field"><?php echo JText::_('JRESEARCH_PROJECT_FUNDING').': '; ?></td>
