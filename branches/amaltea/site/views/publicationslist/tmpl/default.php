@@ -22,6 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 	<input type="hidden" name="limitstart" value="0" />
 	<input type="hidden" name="modelkey" value="default" />
 	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />	
+	<input type="hidden" id="filter_order_2" name="filter_order_2" value="" />
 </form>
 <div style="clear: both;">
 <?php if($this->exportAll): ?>

@@ -218,7 +218,7 @@ class JResearchMember extends JTable{
 	function check(){
 		$name_pattern = '/\w[-_\w\s.]*/';
 		$phone_pattern = '/\d[-\d]+/';
-		$email_pattern = '/^(\w[-\w.]*)@([-a-z0-9]+(\.[-a-z0-9]+)*\.(com|edu|infocom|edu|gov|int|mil|net|org|biz|info|name|museum|coop|aero|[a-z][a-z]))$/i';
+		$email_pattern = '/^(\w[-\w.]*)@([-a-z0-9]+(\.[-a-z0-9]+)*\.(com|edu|infocom|edu|gov|int|mil|net|org|biz|info|name|museum|coop|cat|aero|[a-z][a-z]))$/i';
 		
 		// Validate first and lastname
 		if(!preg_match($name_pattern, $this->lastname)){
@@ -362,7 +362,6 @@ class JResearchMember extends JTable{
 			$projectsTable = $db->nameQuote('#__jresearch_project_internal_author');
 			$thesesTable = $db->nameQuote('#__jresearch_thesis_internal_author');
 			$teamsTable = $db->nameQuote('#__jresearch_team_member');
-			$teams = $db->nameQuote('#__jresearch_team');			
 
 			$db->setQuery('DELETE FROM '.$publicationsTable.' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($oid));		
 			if(!$db->query()){
@@ -387,13 +386,6 @@ class JResearchMember extends JTable{
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 				return false;
 			}	
-
-		    $db->setQuery('UPDATE '.$teams.' SET id_leader = NULL WHERE '.$db->nameQuote('id_leader').' = '.$db->Quote($oid));			
-			if(!$db->query()){
-				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
-				return false;
-			}
-			
 						
 			return true;		        	
         }
