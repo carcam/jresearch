@@ -18,11 +18,6 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 $user = JFactory::getUser();
-// Access check.
-if (!$user->authorise('core.manage', 'com_jresearch')) 
-{
-	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-}
 
 // Common needed files
 require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'init.php');
