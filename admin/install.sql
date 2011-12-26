@@ -209,6 +209,7 @@ DROP TABLE IF EXISTS `#__jresearch_member`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `title` varchar(10) default NULL,
+  `tagline` varchar(256) default NULL,
   `former_member` tinyint(1) NOT NULL,
   `firstname` varchar(30) NOT NULL,
   `lastname` varchar(30) NOT NULL,
@@ -237,6 +238,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member_position` (
   `position` varchar(50) NOT NULL,
   `published` tinyint(4) NOT NULL default '1',
   `ordering` int(11) unsigned NOT NULL default '0',
+  `show_always` tinyint(4) NOT NULL default '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 

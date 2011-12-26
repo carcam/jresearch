@@ -41,6 +41,7 @@ class JResearchAdminViewMember_position extends JResearchView
     		$arguments[] = null;
 
     	$publishedRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'published', 'attributes' => 'class="inputbox"', 'selected' => $position?$position->published:1));
+    	$showAlwaysRadio = JHTML::_('jresearchhtml.publishedlist', array('name' => 'show_always', 'attributes' => 'class="inputbox"', 'selected' => $position?$position->show_always:1));
     	
     	$orderOptions = array();
     	$orderOptions = JHTML::_('list.genericordering','SELECT ordering AS value, position AS text FROM #__jresearch_member_position ORDER by ordering ASC');
@@ -50,6 +51,7 @@ class JResearchAdminViewMember_position extends JResearchView
     	$this->assignRef('item', $position, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('publishedRadio', $publishedRadio);
     	$this->assignRef('orderList', $orderList);    	
+    	$this->assignRef('showAlwaysRadio', $showAlwaysRadio);
  		
        	parent::display($tpl);
        	
