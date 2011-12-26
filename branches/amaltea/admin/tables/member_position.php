@@ -18,6 +18,7 @@ class JResearchMember_position extends JTable
 	public $position;
 	public $published;
 	public $ordering;
+	public $show_always;
 	
 	public function __construct(&$db)
 	{

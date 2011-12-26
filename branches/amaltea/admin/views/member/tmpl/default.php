@@ -27,9 +27,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<div class="divTR">
 		<div class="divTd"><label for="title"><?php echo JText::_('JRESEARCH_MEMBER_TITLE').': '; ?></label></div>
 		<div class="divTdl divTdl2"><input name="title" id="title" size="10" maxlength="10" value="<?php echo isset($this->member)?$this->member->title:''; ?>" type="text" /></div>			
+		<div class="divTd"><label for="tagline"><?php echo JText::_('JRESEARCH_TAGLINE').': '; ?></label></div>
+		<div class="divTdl"><input name="tagline" id="tagline" size="20" maxlength="255" value="<?php echo isset($this->member)?$this->member->tagline:''; ?>" /></div>
+	    <div class="divEspacio" ></div>		
+	</div>
+	<div>		
 		<div class="divTd"><label for="published"><?php echo JText::_('Published').': '; ?></label></div>
 		<div class="divTdl"><?php echo $this->publishedRadio; ?></div>
-	    <div class="divEspacio" ></div>		
+	    <div class="divEspacio" ></div>			
 	</div>
 	<div class="divTR">	
 		<div class="divTd"><label for="id_research_area"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></label></div>

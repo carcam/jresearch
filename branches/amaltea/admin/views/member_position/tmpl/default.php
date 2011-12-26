@@ -23,6 +23,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<th><?php echo JText::_('Order').': '; ?></th>
 		<td><?php echo $this->orderList; ?></td>
 	</tr>
+	<tr>
+		<th><?php echo JText::_('JRESEARCH_SHOW_ALWAYS').': '; ?></th>
+		<td colspan="3"><?php echo $this->showAlwaysRadio; ?></td>
+	</tr>
+	
 </tbody>
 </table>
 

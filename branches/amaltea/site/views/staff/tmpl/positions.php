@@ -19,7 +19,7 @@ $itemId = JRequest::getVar('Itemid');
 	    <?php
 		if(count($this->positions) > 0):
 			foreach($this->positions as $position):
-				if($position->published == 1):
+				if($position->published == 1 && $position->show_always == 1):
 				?>
 					<h2 class="contentheading"><?php echo $position->position; ?></h2>
 					<p>
@@ -29,7 +29,10 @@ $itemId = JRequest::getVar('Itemid');
 					foreach($this->items as $member):
 						if($member->position == $position->id):
 						?>
-						<a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a><br />
+						<span><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>">
+						<?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?>
+						</a></span><?php echo !empty($member->tagline)? '<span>('.$member->tagline.')</span>' : '';   ?>
+						<br />
 						
 						<?php
 						else:
@@ -54,7 +57,11 @@ $itemId = JRequest::getVar('Itemid');
 				foreach($this->items as $member):
 					if(empty($member->position)):
 						?>
-						<a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a><br />
+						<span>
+						<a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a>
+						</span>
+						<?php echo !empty($member->tagline)? '<span>('.$member->tagline.')</span>' : '';   ?>
+						<br />
 						<?php
 					endif;			
 				endforeach;

@@ -31,7 +31,8 @@ table.teamdescription th{
 			<td>
 				<?php if(!empty($this->leader)): ?>
 					<?php $textLeader = JResearchPublicationsHelper::formatAuthor($this->leader->__toString(), $this->format); ?>
-					<?php echo $this->leader->published? JHTML::_('jresearch.link', $this->leader, 'member', 'show', $textLeader) : $textLeader; ?>
+					<span><?php echo $this->leader->published? JHTML::_('jresearch.link', $this->leader, 'member', 'show', $textLeader) : $textLeader; ?></span>
+					<?php echo !empty($this->leader->tagline)? '<span>('.$this->leader->tagline.')</span>' : '';   ?>					
 				<?php endif; ?>
 			</td>	
 			<td rowspan="3">

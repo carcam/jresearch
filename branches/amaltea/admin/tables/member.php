@@ -150,6 +150,11 @@ class JResearchMember extends JTable{
 	*/
 
 	public $title;
+	
+	/**
+	 * An extra tagline describing the group this member works for
+	 */
+	public $tagline;
 
 	/**
 	 * Class constructor. Maps the class to a Joomla table.
