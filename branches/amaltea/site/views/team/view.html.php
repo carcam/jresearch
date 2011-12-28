@@ -53,7 +53,8 @@ class JResearchViewTeam extends JResearchView
 				break;
 		}
 		
-		$members = $model->getMembers($id);
+		$members = $model->getMembers($id, 'current');
+		$formerMembers = $model->getMembers($id, 'former');
 		$show_publications = $params->get('team_show_publications', 'yes');
 		$show_projects = $params->get('team_show_projects', 'yes');
 		$show_theses = $params->get('team_show_theses', 'yes');
@@ -134,7 +135,7 @@ class JResearchViewTeam extends JResearchView
 			$position = $member->getPosition();
 						
 			if($member->published)
-				$text = JHTML::_('jresearch.link', (!empty($member->title)?$member->title.' ':'').JResearchPublicationsHelper::formatAuthor($member->__toString(), $format), 'member', 'show', $member->id);
+				$text = JHTML::_('jresearch.link', (!empty($member->title)?$member->title.' ':'').JResearchPublicationsHelper::formatAuthor($member->__toString(), $format), 'member', 'show', $member->id, true);
 			else
 				$text = (!empty($member->title)?$member->title.' ':'').JResearchPublicationsHelper::formatAuthor($member->__toString(), $format);
 
@@ -142,6 +143,22 @@ class JResearchViewTeam extends JResearchView
 				$links[] = $text.' | '.$position->position;				
 			else
 				$links[] = $text;	
+		}
+		
+		$formerLinks = array();
+		foreach($formerMembers as $member)
+		{
+			$position = $member->getPosition();
+						
+			if($member->published)
+				$text = JHTML::_('jresearch.link', (!empty($member->title)?$member->title.' ':'').JResearchPublicationsHelper::formatAuthor($member->__toString(), $format), 'member', 'show', $member->id, true);
+			else
+				$text = (!empty($member->title)?$member->title.' ':'').JResearchPublicationsHelper::formatAuthor($member->__toString(), $format);
+
+			if(!empty($position) && !empty($position))	
+				$formerLinks[] = $text.' | '.$position->position;				
+			else
+				$formerLinks[] = $text;	
 		}
 		
 		$doc->addStyleDeclaration('
@@ -159,6 +176,7 @@ class JResearchViewTeam extends JResearchView
 
 		$this->assignRef('item', $item, JResearchFilter::OBJECT_XHTML_SAFE);
 		$this->assignRef('memberLinks', $links);
+		$this->assignRef('formerMemberLinks', $formerLinks);
 		$this->assignRef('memberModel', $memberModel);
 		$this->assignRef('publications', $publications);
 		$this->assignRef('projects', $projects);

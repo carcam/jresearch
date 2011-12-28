@@ -94,17 +94,9 @@ $abstract_rows = $params->get('abstract_rows');
 	        <div class="divTdl">
 				<input name="keywords" id="keywords" size="30" maxlength="255" class="validate-keywords" value="<?php echo isset($this->publication)?$this->publication->keywords:'' ?>" /><span class="information"><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_SEPARATED_BY_COMMAS'))?></span>
 				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'keywords', JText::_('JRESEARCH_PROVIDE_KEYWORDS')); ?>				
-	        </div>
+        		<input name="citekey" id="citekey" type="hidden" value="<?php echo isset($this->publication)?$this->publication->citekey:'' ?>" /><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_CITEKEY_TOOLTIP')); ?>				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'citekey', JText::_('JRESEARCH_PROVIDE_CITEKEY')); ?>												
+	        </div>	        
 		  <div class="divEspacio" ></div>		        
-		</div>
-		<div class="divTR">
-			<div class="divTd">
-	        <label for="citekey"><?php echo JText::_('JRESEARCH_CITEKEY').': '?></label> 
-	        </div> 
-	        <div class="divTdl divTdl2">
-				<input size="15" maxlength="255" name="citekey" id="citekey" class="required" value="<?php echo isset($this->publication)?$this->publication->citekey:'' ?>" /><?php echo JHTML::_('tooltip', JText::_('JRESEARCH_CITEKEY_TOOLTIP')); ?>				<?php echo JHTML::_('jresearchhtml.formWarningMessage', 'citekey', JText::_('JRESEARCH_PROVIDE_CITEKEY')); ?>								
-	        </div>
-	  		<div class="divEspacio" ></div>		        
 		</div>
 		<div class="divTR">	        
 			<div class="divTd"><label for="doi"><?php echo JText::_('JRESEARCH_DOI').': '?></label></div>

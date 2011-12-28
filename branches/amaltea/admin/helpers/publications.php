@@ -478,15 +478,59 @@ class JResearchPublicationsHelper{
 		return $result;		
 	}
 
-        /*
-         * Takes an issn an 8 digits number and introduces a hash in the middle.
-         */
-        public static function formatISSN($issn){
-            if($issn{4} != '-')
-                return substr($issn, 0, 4).'-'.substr($issn, 4, 4);
-            else
-                return $issn;
-        }
+    /*
+    * Takes an issn an 8 digits number and introduces a hash in the middle.
+    */
+    public static function formatISSN($issn){
+        if($issn{4} != '-')
+            return substr($issn, 0, 4).'-'.substr($issn, 4, 4);
+        else
+            return $issn;
+    }
 
+   	/**
+   	 * 
+   	 * Generates a citekey based on the input data. It uses authors information as well as 
+   	 * year of publication
+   	 * @param array $data
+   	 */
+   	public static function generateCitekey($publication){
+   		//First trial: first author + year
+   		$db = JFactory::getDBO();
+   		$authorsArray = $publication->getAuthors();
+   		$citekey = '';
+   		
+   		JError::raiseWarning(1, var_export($authorsArray, true));
+   		if(!empty($authorsArray) && !empty($authorsArray[0])){
+	   		$citekey = JFilterOutput::stringURLSafe($authorsArray[0]).':'.$publication->year;
+   		}elseif(!empty($publication->institute)){
+   			//Look for some institution
+	   		$citekey = $publication->institute.':'.$publication->year;   			
+   		}elseif(!empty($publication->year)){
+   			$citekey = rand().':'.$publication->year;
+   		}else{
+			$citekey = rand().':'.JFilterOutput::stringURLSafe($publication->title);   						
+   		}
+   		   		   		
+   		$noSuccess = true;
+   		$next = 1;
+   		$citekey2 = $citekey;
+   		while($noSuccess){
+   			$query = 'SELECT citekey FROM #__jresearch_publication WHERE citekey = '.$db->Quote($citekey2);
+   			if(!empty($publication->id))
+	   			$query .= ' AND id != '.$db->Quote($publication->id);
+
+   			$db->setQuery($query);
+   			$result = $db->loadResult();
+   			if(empty($result)){
+   				$noSuccess = false;
+   			}else{
+   				$citekey2 = $citekey.$next;
+   				$next++;
+   			}
+   		}
+   		
+   		return $citekey2;
+   	}
 }
 ?>

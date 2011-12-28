@@ -201,6 +201,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   `published` tinyint(4) NOT NULL default '1',
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL,
+  `id_team` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

@@ -293,13 +293,6 @@ class JResearchPublication extends JResearchActivity{
             if(!parent::checkAuthors())
                     return false;
 
-
-            if(empty($this->citekey)){
-                    $this->citekey = trim($this->citekey);
-                    $this->setError(JText::_('JRESEARCH_PROVIDE_CITEKEY'));
-                    $withoutErrors = false;
-            }
-
             // Verify if title is not empty
             if(empty($this->title)){
                     $this->title = trim($this->title);

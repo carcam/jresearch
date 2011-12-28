@@ -329,6 +329,7 @@ class JResearchAdminPublicationsController extends JController
             }
 
             require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
 
             $db = JFactory::getDBO();
 
@@ -370,9 +371,7 @@ class JResearchAdminPublicationsController extends JController
 		    if($reset == 'on'){
 	    		$publication->hits = 0;
 	    	}
-		
-            $check = $publication->check();
-
+	    	
             //Generate an alias if needed
             $alias = trim(JRequest::getVar('alias'));
             if(empty($alias)){
@@ -380,6 +379,8 @@ class JResearchAdminPublicationsController extends JController
             }else{
                 $publication->alias = JResearch::alias($publication->alias);
             }
+	    			
+            $check = $publication->check();
 
             // Validate publication
             if(!$check){
@@ -387,9 +388,9 @@ class JResearchAdminPublicationsController extends JController
                         JError::raiseWarning(1, $publication->getError($i));
 
                 if($publication->id)
-                        $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype);
+                    $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype);
                 else
-                        $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);
+                    $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&pubtype='.$publication->pubtype);
             }else{
                 //Time to set the authors
                 $maxAuthors = JRequest::getInt('nauthorsfield');
@@ -410,6 +411,13 @@ class JResearchAdminPublicationsController extends JController
                         }
                 }
 
+                	    	
+            	//Citekey generation
+            	$oldCitekey = JRequest::getVar('citekey');
+            	if(empty($oldCitekey))
+					$publication->citekey = JResearchPublicationsHelper::generateCitekey($publication);
+                        
+                
                 // Set the id of the author if the item is new
                 if(empty($publication->id))
                         $publication->created_by = $user->get('id');
