@@ -42,6 +42,8 @@ class JResearchTeam extends JTable
   	public $id_research_area;
 	
 	protected $_members = array();
+	protected $_formerMembers = array();
+	protected $_currentMembers = array();
 	
 	public function __construct(&$db)
 	{
@@ -58,8 +60,11 @@ class JResearchTeam extends JTable
 	{
 		$result = parent::load($oid);
 		
-		if($oid != null)
+		if($oid != null){
 			$this->_loadMembers($oid);
+			$this->_loadCurrentMembers($oid);
+			$this->_loadFormerMembers($oid);
+		}
 		
 		return $result;
 	}
@@ -136,6 +141,21 @@ class JResearchTeam extends JTable
 	{
 		return $this->_members;
 	}
+	
+	/**
+	 * Gets all members, an array of member objects
+	 *
+	 * @return array
+	 */
+	public function getFormerMembers()
+	{
+		return $this->_formerMembers;
+	}
+	
+	public function getCurrentMembers(){
+		return $this->_currentMembers;
+	}
+	
 	
 	/**
 	 * Gets leader from the team as a member object
@@ -357,6 +377,63 @@ class JResearchTeam extends JTable
         }
         
 	}
+	
+	private function _loadFormerMembers($oid)
+	{
+		$db = JFactory::getDBO();
+		$table1 = $db->nameQuote('#__jresearch_team_member');
+		$table2 = $db->nameQuote('#__jresearch_member');
+		$table3 = $db->nameQuote('#__jresearch_member_position');
+		$idTeam = $db->nameQuote('id_team');
+		$title = $db->nameQuote('title');
+		$profesor = $db->Quote('Prof. Dr.');
+		
+		$qoid = $db->Quote($oid);
+				
+		$query = "SELECT tm.* FROM $table1 tm JOIN $table2 m JOIN $table3 mp WHERE tm.id_member = m.id AND tm.id_team = $qoid AND m.former_member = 1 
+		 AND m.position = mp.id ORDER BY mp.ordering ASC, m.lastname ASC";
+		$db->setQuery($query);
+		$result = $db->loadAssocList();
+		
+		if($result)
+        {
+        	$this->_formerMembers = $result;
+        }
+        else
+        {
+        	$this->_formerMembers = array();	
+        }
+        
+	}
+	
+	private function _loadCurrentMembers($oid)
+	{
+		$db = JFactory::getDBO();
+		$table1 = $db->nameQuote('#__jresearch_team_member');
+		$table2 = $db->nameQuote('#__jresearch_member');
+		$table3 = $db->nameQuote('#__jresearch_member_position');
+		$idTeam = $db->nameQuote('id_team');
+		$title = $db->nameQuote('title');
+		$profesor = $db->Quote('Prof. Dr.');
+		
+		$qoid = $db->Quote($oid);
+				
+		$query = "SELECT tm.* FROM $table1 tm JOIN $table2 m JOIN $table3 mp WHERE tm.id_member = m.id AND tm.id_team = $qoid AND m.former_member = 0 
+		 AND m.position = mp.id ORDER BY mp.ordering ASC, m.lastname ASC";
+		$db->setQuery($query);
+		$result = $db->loadAssocList();
+		
+		if($result)
+        {
+        	$this->_currentMembers = $result;
+        }
+        else
+        {
+        	$this->_currentMembers = array();	
+        }
+        
+	}
+	
 	
 	public function __toString()
 	{

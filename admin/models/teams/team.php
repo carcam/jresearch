@@ -32,12 +32,17 @@ class JResearchModelTeam extends JResearchModelSingleRecord
 		
 		return ($result) ? $team : null;
 	}
-	
-	public function getMembers($itemId)
+				
+	public function getMembers($itemId, $key = 'all')
 	{
 		$item = $this->getItem($itemId);
-		$members = $item->getMembers();
-		
+		if($key == 'all')
+			$members = $item->getMembers();
+		else if($key == 'former') 
+			$members = $item->getFormerMembers();
+		else if($key == 'current')
+			$members = $item->getCurrentMembers();	
+					
 		$db = JFactory::getDBO();
 		$memberObjects = array(); 
 		

@@ -535,6 +535,12 @@ class JResearchPublicationsController extends JResearchFrontendController
                             }
                     }
 
+            		//Citekey generation
+            		$oldCitekey = JRequest::getVar('citekey');
+            		if(empty($oldCitekey))
+						$publication->citekey = JResearchPublicationsHelper::generateCitekey($publication);
+                    
+                    
                     // Set the id of the author if the item is new
                     if(empty($publication->id))
                         $publication->created_by = $user->get('id');

@@ -32,17 +32,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php echo JHTML::_('grid.order', $this->items ); ?>
 			</th>			
 			<th style="width: 10%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 10%;"><?php echo JText::_('JRESEARCH_SHOW_ALWAYS'); ?></th>			
 		</tr>
-		</thead>
-		
+		</thead>		
 		<tfoot>
 			<tr>
-				<td colspan="7">
+				<td colspan="8">
 					<?php echo $this->page->getListFooter(); ?>
 				</td>
 			</tr>
-		</tfoot>
-		
+		</tfoot>		
 		<tbody>
 		<?php 
 			$n = count($this->items);
@@ -62,6 +61,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 						<input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 					</td>					
 					<td class="center"><?php echo $published; ?></td>
+					<td class="center">
+						<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_show_always')" title="<?php echo ( $this->items[$i]->show_always ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>">
+						<img src="images/<?php echo ( $this->items[$i]->show_always ) ? 'tick.png' : 'publish_x.png'; ?>" width="16" height="16" border="0" alt="<?php echo ( $this->items[$i]->show_always ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
+					</td>										
 				</tr>
 			<?php
 			endfor;

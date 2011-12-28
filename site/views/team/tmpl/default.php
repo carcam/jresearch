@@ -31,7 +31,7 @@ table.teamdescription th{
 			<td>
 				<?php if(!empty($this->leader)): ?>
 					<?php $textLeader = JResearchPublicationsHelper::formatAuthor($this->leader->__toString(), $this->format); ?>
-					<span><?php echo $this->leader->published? JHTML::_('jresearch.link', $this->leader, 'member', 'show', $textLeader) : $textLeader; ?></span>
+					<span><?php echo $this->leader->published? JHTML::_('jresearch.link',$textLeader, 'member', 'show', $this->leader->id, true) : $textLeader; ?></span>
 					<?php echo !empty($this->leader->tagline)? '<span>('.$this->leader->tagline.')</span>' : '';   ?>					
 				<?php endif; ?>
 			</td>	
@@ -98,13 +98,23 @@ table.teamdescription th{
 				<?php 
 				endif;
 				?>
-		<?php endif;?>		
+		<?php endif;?>	
+		<?php if(!empty($this->memberLinks)): ?>	
 		<tr>
 			<th><?php echo JText::_('JRESEARCH_TEAM_MEMBERS');?>:</th>
 			<td colspan="2">
 				<ul><li><?php echo implode("</li><li> ", $this->memberLinks)?></li></ul>
 			</td>
 		</tr>
+		<?php endif; ?>
+		<?php if(!empty($this->formerMemberLinks)): ?>
+		<tr>
+			<th><?php echo JText::_('JRESEARCH_FORMER_TEAM_MEMBERS');?>:</th>
+			<td colspan="2">
+				<ul><li><?php echo implode("</li><li> ", $this->formerMemberLinks)?></li></ul>
+			</td>
+		</tr>
+		<?php endif; ?>
 		<?php
 		//Show description only if description exists
 		if(count($this->description) > 0 && !empty($this->description[0])):

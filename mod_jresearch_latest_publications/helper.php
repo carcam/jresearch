@@ -32,7 +32,7 @@ class modJResearchPapersHelper
 			$orderBy = "STR_TO_DATE('month day, year', '%M %d, %Y'), created";
 		}
 		
-		$query = "SELECT * FROM #__jresearch_publication WHERE published = 1 AND internal = 1 ORDER by featured DESC, $orderBy DESC LIMIT 0, $limit";		
+		$query = "SELECT * FROM #__jresearch_publication WHERE published = 1 AND internal = 1 AND featured = 1 ORDER by $orderBy DESC LIMIT 0, $limit";		
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		foreach($result as $item){

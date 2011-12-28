@@ -205,10 +205,39 @@ class JResearchAdminMember_positionsController extends JController
             $user =& JFactory::getUser();
             if(!$position->isCheckedOut($user->get('id')))
             {
-                    if(!$position->checkin())
-                            JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
+                if(!$position->checkin())
+                	JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
             }
 	}
+	
+	/**
+	 * Invoked when the user has pressed the toggle button for changing the "show always"
+	 * status in the list of member positions.
+	 *
+	 */
+	function toggle_show_always(){
+		$user = JFactory::getUser();		
+		// Array of ids
+		$cid = JRequest::getVar('cid');
+		$memp = JTable::getInstance('Member_position', 'JResearch');		
+		
+		$memp->load($cid[0]);
+
+		if(!$memp->isCheckedOut($user->get('id'))){		
+			$memp->show_always = !$memp->show_always;
+		
+			if($memp->store())
+				$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('JRESEARCH_TOOGLE_SHOW_ALWAYS_SUCCESSFUL'));
+			else{
+				JError::raiseWarning(1, JText::_('JRESEARCH_TOOGLE_SHOW_ALWAYS_FAILED'));
+				$this->setRedirect('index.php?option=com_jresearch&controller=member_positions');
+			}
+		}else{
+			JError::raiseWarning(1, JText::_('JRESEARCH_TOOGLE_SHOW_ALWAYS_FAILED'));
+			$this->setRedirect('index.php?option=com_jresearch&controller=member_positions');			
+		}		
+	}
+	
 
 	function cancel()
 	{
