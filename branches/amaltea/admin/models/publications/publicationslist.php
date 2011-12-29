@@ -125,8 +125,7 @@ class JResearchModelPublicationsList extends JResearchModelList{
 	* specified team.
 	* @return 	array
 	*/
-	public function getData($memberId = null, $onlyPublished = false, $paginate = false){
-	
+	public function getData($memberId = null, $onlyPublished = false, $paginate = false){	
 		if($memberId !== $this->_memberId || $onlyPublished !== $this->_onlyPublished || $this->_paginate !== $this->_paginate || empty($this->_items)){
 			$this->_memberId = $memberId;
 			$this->_onlyPublished = $onlyPublished;
@@ -182,10 +181,10 @@ class JResearchModelPublicationsList extends JResearchModelList{
             global $mainframe;
             $modelKey = JRequest::getVar('modelkey', '');
             $secondSort = '';
-	    $thirdSort = '';
+	    	$thirdSort = '';
             $db = JFactory::getDBO();
             //Array of allowable order fields
-            $orders = array('title', 'published', 'year', 'citekey', 'pubtype', 'id_research_area', 'month');
+            $orders = array('title', 'published', 'year', 'citekey', 'pubtype', 'id_research_area', 'month', 'impact_factor');
             $Itemid = JRequest::getVar('Itemid');
 
             $filter_order = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_order'.$Itemid, 'filter_order', 'title');
@@ -196,23 +195,22 @@ class JResearchModelPublicationsList extends JResearchModelList{
                   $filter_order_Dir = 'ASC';
             //if order column is unknown, use the default
             if($filter_order == 'type')
-                  $filter_order = $db->nameQuote('pubtype');
+            	$filter_order = $db->nameQuote('pubtype');
             elseif($filter_order == 'alphabetical' || !in_array($filter_order, $orders))
-                  $filter_order = $db->nameQuote('title');
+                $filter_order = $db->nameQuote('title');
 	        elseif($filter_order == 'year'){
-				 $filter_order_2 = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_order_2'.$Itemid, 'filter_order_2', 'none');
-				 if($filter_order_2 == 'month'){
-		         	$thirdSort .= ', impact_factor DESC';
-		         	$secondSort .= ', STR_TO_DATE(month, \'%M\' ) '.$filter_order_Dir;				 
+				$filter_order_2 = $mainframe->getUserStateFromRequest($modelKey.'publicationsfilter_order_2'.$Itemid, 'filter_order_2', 'none');
+				if($filter_order_2 == 'month'){
+			        $thirdSort .= ', impact_factor DESC';
+			        $secondSort .= ', STR_TO_DATE(month, \'%M\' ) '.$filter_order_Dir;				 
 				}else{
-		         	$secondSort .= ', impact_factor DESC';
-		         	$thirdSort .= ', STR_TO_DATE(month, \'%M\' ) '.$filter_order_Dir;
-
-				 }
-	     	}        
+			        $secondSort .= ', impact_factor DESC';
+			        $thirdSort .= ', STR_TO_DATE(month, \'%M\' ) '.$filter_order_Dir;
+				}
+	    	}        
 				
                                                            
-            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.$secondSort.$thirdSort.', '.$db->nameQuote('created').' DESC';
+        return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.$secondSort.$thirdSort.', '.$db->nameQuote('created').' DESC';
 	}	
 	
 	/**

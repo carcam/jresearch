@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>		
 			<th style="width: 1%;">#</th>
 			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort',  JText::_('JRESEARCH_TITLE'), 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 25%;" class="title"><?php echo JHTML::_('grid.sort',  JText::_('JRESEARCH_TITLE'), 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('Published'), 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_INTERNAL'), 'internal', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>			
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_FEATURED'), 'featured', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>						
@@ -40,14 +40,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_CITEKEY'), 'citekey', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_TYPE'), 'pubtype', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 10%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 5%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR'), 'impact_factor', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 5%;"><?php echo JText::_('Hits'); ?></th>
-			<th style="width: 10%;"><?php echo JText::_('JRESEARCH_EXPORT'); ?></th>
+			<th style="width: 8%;"><?php echo JText::_('JRESEARCH_EXPORT'); ?></th>
 		</tr>
 		</thead>
 		
 		<tfoot>
 			<tr>
-				<td colspan="12">
+				<td colspan="13">
 					<?php echo $this->page->getListFooter(); ?>
 				</td>
 			</tr>
@@ -87,6 +88,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td class="center"><?php echo $this->items[$i]->citekey; ?></td>
 					<td class="center"><?php echo JText::_('JRESEARCH_'.strtoupper($this->items[$i]->pubtype)); ?></td>
 					<td class="center"><?php echo $researchArea->name ;?></td>
+					<td class="center"><?php echo $this->items[$i]->impact_factor ;?></td>					
 					<td class="center"><?php echo $this->items[$i]->hits; ?></td>
 					<td class="center"><?php echo implode(' , ', $exportLinks); ?></td>
 				</tr>
