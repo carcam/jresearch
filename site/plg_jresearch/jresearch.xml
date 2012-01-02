@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="search">
+    <name>Search - JResearch</name>
+    <creationDate>June 2008</creationDate>
+    <author>Luis Gal&#225;rraga</author>
+    <copyright>(C) 2008 Luis Galarraga</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <authorEmail>shamantobi@gmail.com</authorEmail>
+    <version>1.5</version>
+    <description>Plugin for searching research areas, projects, publications, cooperations, facilitie, theses and staff members.</description>
+    <files>
+        <filename plugin="jresearch">jresearch.php</filename>
+    </files>
+    <params>
+	<param name="search_limit" type="text" size="5" default="50" label="Search Limit" description="Number of Search items to return"/>
+    </params>
+</install>
