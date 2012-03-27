@@ -149,7 +149,7 @@ class JResearchActivity extends JResearchTable{
 		$db->setQuery($query);
 		$result = $db->loadResultArray();
 		
-		$this->authors = implode(',', $result);
+		$this->authors = implode(';', $result);
    }
 	
 	

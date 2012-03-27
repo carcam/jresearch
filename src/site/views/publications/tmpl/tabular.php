@@ -42,7 +42,7 @@ if($this->showHits) $nCols++;
 ?>
 </div>
 <?php endif; ?>
-<form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publications&amp;layout=tabular">
+<form name="adminForm" method="post" id="adminForm" action=".">
 	<div style="text-align:left">
 		<?php echo $this->filter; ?>
 	</div>
@@ -168,6 +168,7 @@ if($this->showHits) $nCols++;
 	<input type="hidden" name="controller" value="publications"  />
 	<input type="hidden" name="limitstart" value="0" />
 	<input type="hidden" name="modelkey" value="tabular" />
+	<input type="hidden" name="layout" value="tabular" />	
 	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />	
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

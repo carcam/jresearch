@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 <?php if($this->showHeader): ?>
 <h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
 <?php endif; ?>
-<form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch&amp;view=publicationslist&amp;task=list&amp;modelkey=default">
+<form name="adminForm" method="post" id="adminForm" action=".">
 	<div style="text-align: left;">
 		<?php echo $this->filter; ?>
 		<?php 
@@ -24,7 +24,8 @@ defined('_JEXEC') or die('Restricted access');
 	</div>
 	
 	<input type="hidden" name="option" value="com_jresearch" />
-	<input type="hidden" name="task" value="display" />
+	<input type="hidden" name="task" value="list" />
+	<input type="hidden" name="view" value="publications"  />	
 	<input type="hidden" name="controller" value="publications"  />
 	<input type="hidden" name="limitstart" value="0" />
 	<input type="hidden" name="modelkey" value="default" />
