@@ -204,18 +204,20 @@ table.editpublication{
 
 /* CSS Document */
 .divTdl{
-float: left;
-margin:0px;
-padding:0px;
-text-align:left;
+	float: left;
+	margin:0px;
+/*	padding:0px; */
+	text-align:left;
 }
 
 .divTd{
 	float: left;
-	width:70px;
-	margin:0px;
-	padding:0px 5px 0px 0px;
+	width:15%;
+/*	margin:0px; */
+/*	padding:0px 5px 0px 0px;  */
+	padding-right: 8px;
 	text-align:right;
+	font-weight: bold;
 }
 .divPagination{
 	padding-top:10px;
@@ -231,6 +233,13 @@ text-align:left;
 	margin:0px;
 	padding:5px;
 }
+
+.divTdl ul{
+	margin: 0px !important;
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+}
+
 .divTable{
 	margin:0px;
 	padding:0px;
@@ -242,7 +251,7 @@ text-align:left;
 }
 
 div.divTdl2{
-	width: 200px;
+	width: 35%;
 	overflow: visible;
 }
 
@@ -254,8 +263,11 @@ div.divTdl2{
 
 div.jresearchhits{
 	font-size: 10px;
-	margin-bottom: 1px;
-	margin-top: 1px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	height: 10px;
+	text-align: right;
+	width: 100%;
 }
 
 .frontendform{

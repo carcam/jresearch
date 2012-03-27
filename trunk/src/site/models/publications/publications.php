@@ -117,10 +117,12 @@ class JResearchModelPublications extends JResearchModelList{
         }
             
 		if(!empty($filter_area) && $filter_area != -1){
+        	$filter_area = $db->getEscaped($filter_area);
         	$where[] = 'LOWER('.$db->nameQuote('id_research_area').') LIKE '.$db->Quote('%'.$filter_area.'%');            	
         }
             
         if(!empty($filter_team) && $filter_team != -1){
+        	$filter_team = $db->getEscaped($filter_team);
         	$where[] = 'LOWER('.$db->nameQuote('id_team').') LIKE '.$db->Quote('%'.$filter_team.'%');            	
         }
                    
@@ -145,17 +147,15 @@ class JResearchModelPublications extends JResearchModelList{
         
 		//My publications
     	$filter_show = $params->get('filter_show', 'all');		
-    	$id_member = -1;    	
     	$user = JFactory::getUser();
     	if($filter_show == "my" && !$user->guest)
     	{
     		//Only in this case, force the model (ignore the filters)	    	
     		$member = JTable::getInstance('Member', 'JResearch');
     		$member->bindFromUsername($user->username);
-    		$id_member = $member->id;    	 			
+    		JRequest::setVar('filter_author', $member->id);    	 			
     	}    	
         
-    	JRequest::setVar('filter_author', $id_member);
         $this->setState('com_jresearch.publications.filter_author', $mainframe->getUserStateFromRequest($this->_context.'.filter_author', 'filter_author'));        
         
         

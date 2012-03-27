@@ -108,16 +108,13 @@ class com_jresearchInstallerScript
     * @return void
     */
     function uninstall($parent) {
-		// Uninstall TinyMCE native automatic citation plugin
-		// This has been added since 1.1.4 to ensure compatibility with Joomla! < 1.5.12
-
 		$automaticCitationFolder = 	JPATH_SITE.DS.'media'.DS.'editors'.DS.'tinymce'.DS.'jscripts'.DS.'tiny_mce'.DS.'plugins'.DS.'jresearch';
 			
-		if(!JFolder::delete($automaticCitationFolder)){
-			echo "Warning: Directory $automaticCitationFolder could not be deleted. Please do it manually.";
+		if(JFolder::exists($automaticCitationFolder)){
+			if(!JFolder::delete($automaticCitationFolder))
+				echo "Warning: Directory $automaticCitationFolder could not be deleted. Please do it manually.\n";
 		}
 		
-		JFolder::delete($path);
 		
 		$oldFile = JPATH_PLUGINS.DS.'editors'.DS.'tinymce'.DS.'tinymce.php';
 		$backupFile = $oldFile.'.bak';		
@@ -133,5 +130,4 @@ class com_jresearchInstallerScript
 			echo "Error: File $backupFile does not exist. This file is used to restore TinyMCE plugin file to ommit automatic citation plugin. Please solve the problem manually.";
 		}
     }
-    
 }
