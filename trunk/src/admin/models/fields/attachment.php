@@ -26,25 +26,44 @@ class JFormFieldAttachment extends JFormField{
 	 * @return	string	The field input markup.
 	 */
 	protected function getInput()
-	{	  
-		$params = JComponentHelper::getParams('com_jresearch');
-		$filename = $this->value;
+	{	
+		$mainframe = JFactory::getDbo();
+		$doc = JFactory::getDocument();
+		$url = JURI::root();
+		$doc->addScript($url."components/com_jresearch/js/fileuploader.js");
 		$name = $this->element['name'];
-		$extension = explode('.', $this->element['value']);
-		$supportedExtensions = array('doc', 'docx', 'pdf', 'ps', 'odt', 'txt');
-		$assetsUrl = 'administrator/components/com_jresearch/assets/extensions/';
-		$url = JURI::root().'administrator/components/com_jresearch/'.$params->get('files_root_path', 'files').'/'.$this->element['controller'].'/'.$filename;
-	
-		if(in_array($extension[1], $supportedExtensions)){
-			$img = JURI::root().$assetsUrl.$extension[1].'.png';
-		}else{
-			$img = JURI::root().$assetsUrl.'default.png';				
-		}
+		$singleFile = $this->element['singleFile'];
+		$params = JComponentHelper::getParams('com_jresearch');
+
+		if(!empty($this->value))
+			$uploadedFiles = explode(';', $this->value);
+		else
+			$uploadedFiles = array();
 		
-		$input = "<a href=\"$url\" ><img style=\"border: 0px;\" align=\"left\" src=\"$img\" />$filename</a>";
-		$input .= "<input name=\"jform[$name]\" type=\"hidden\" id=\"jform_$name\" value=\"$filename\" />";	
-		return $input;
-	
+		$k = count($uploadedFiles);
+		$textFields = '<input type="hidden" name="jform[count_'.$name.']" id="jform[count_'.$name.']" value="'.$k.'" />';
+				
+		$uploadField = '<div class="divTdl">';	
+		if($singleFile != 'true')
+			$uploadField .= '<a id="add_'.$name.'" href="javascript:addUploader(\''.$name.'\', \''.JText::_('Delete').'\')">'.JText::_('Add').'</a>';
+
+		$uploadField .= '<ul id="div_upload_'.$name.'">';	
+		$uploadField .= '<li><input id="jform[file_'.$name.'_'.$k.']" name="jform[file_'.$name.'_'.$k.']" type="file" /></li>';	
+		//Render the uploaded files
+		$baseUrl = $url.'administrator/components/com_jresearch/'.$params->get('files_root_path', 'files').'/projects';
+		$n = 0;
+		
+		foreach($uploadedFiles as $file){	
+			if(!empty($file)){		
+				$result .= '<li><a href="'.$baseUrl.'/'.$file.'">'.$file.'</a>&nbsp;&nbsp;<label for="jform[delete_'.$name.'_'.$n.']">'.JText::_('Delete').'</label><input type="checkbox" name="jform[delete_'.$name.'_'.$n.']" id="jform[delete_'.$name.'_'.$n.']" />';
+				$result .= '<input type="hidden" name="jform[old_'.$name.'_'.$n.']" id="jform[old_'.$name.'_'.$n.']" value="'.$file.'" />';
+				$result .= '</li>';
+				$n++;
+			}
+		}
+		$result .= '</ul></div>';
+		
+		return ' '.$uploadField.' '.$textFields.$result;	
 	}
 }
 

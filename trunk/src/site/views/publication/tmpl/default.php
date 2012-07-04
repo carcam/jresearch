@@ -105,14 +105,14 @@ defined('_JEXEC') or die('Restricted access');
 	<?php $colspan=4; ?>
 	<?php $acceptance = trim($this->publication->journal_acceptance_rate); ?>
 	<?php $impact_factor = trim($this->publication->impact_factor); ?>
-	<?php if(!empty($acceptance) && ($this->params->get('show_journal_acceptance_rate') == 'yes')): ?>
+	<?php if(!empty($acceptance) && ($this->params->get('show_journal_acceptance_rate') == 1)): ?>
 		<?php $colspan = 2; ?>
 		<div class="divTd"><?php echo JText::_('JRESEARCH_JOURNAL_ACCEPTANCE_RATE').': ' ?></div>		
 		<div class="divTdl"><?php echo $acceptance; ?>%</div>
 	<?php else: ?>
 			<span></span>
 	<?php endif; ?>
-	<?php if(!empty($impact_factor) && ($this->params->get('show_journal_impact_factor') == 'yes')): ?>
+	<?php if(!empty($impact_factor) && ($this->params->get('show_journal_impact_factor') == 1)): ?>
 		<?php $colspan -= 2; ?>	
 		<div class="divTd"><?php echo JText::_('JRESEARCH_JOURNAL_IMPACT_FACTOR').': ' ?></div>		
 		<div class="divTdl"><?php echo $impact_factor; ?></div>			
@@ -124,7 +124,7 @@ defined('_JEXEC') or die('Restricted access');
 	</div>
 		
 	<?php $awards = trim($this->publication->awards); ?>
-	<?php if(!empty($awards) && ($this->params->get('show_awards') == 'yes')): ?>
+	<?php if(!empty($awards) && ($this->params->get('show_awards') == 1)): ?>
 	<div class="divTR">
 		<div class="divTd"><?php echo JText::_('JRESEARCH_AWARDS').': '; ?></div>
 		<div class="divTdl"><div style="text-align:justify;"><?php echo $awards; ?></div></div>
@@ -132,8 +132,8 @@ defined('_JEXEC') or die('Restricted access');
 	</div>	
 	<?php endif; ?>	
 	
-	<?php if($this->params->get('enable_export_frontend') == 'yes'): ?>	
-		<?php if($this->params->get('show_bibtex') == "yes"): ?>
+	<?php if($this->params->get('enable_export_frontend') == 1): ?>	
+		<?php if($this->params->get('show_bibtex') == 1): ?>
 		<div class="divTR">
 			<div class="divTd"><div style="text-align:justify;"><?php echo JText::_('BibTex').': '; ?></div></div>
 		</div>

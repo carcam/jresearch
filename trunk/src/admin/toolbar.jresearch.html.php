@@ -184,7 +184,7 @@ class JResearchToolbar
 	/**
 	* Toolbar printed when listing JResearch projects admin list.
 	*/
-	public static function projectsListToolbar(){
+	public static function projectsAdminListToolbar(){
         JToolBarHelper::title(JText::_('JRESEARCH_PROJECTS'));
 
         self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));

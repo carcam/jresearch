@@ -560,12 +560,12 @@ class JResearchPublicationsController extends JResearchFrontendController
 	function export(){
 		$mainframe = JFactory::getApplication();
         $params = $mainframe->getPageParameters('com_jresearch');
-        $exportEnabled = $params->get('enable_export_frontend', 'yes');
-		$strictBibtex = $params->get('enable_strict_bibtex', 'yes');		    
+        $exportEnabled = $params->get('enable_export_frontend', 1);
+		$strictBibtex = $params->get('enable_strict_bibtex', 1);		    
         $document = JFactory::getDocument();
         $format = JRequest::getVar('format', 'bibtex');
 
-        if($exportEnabled == 'yes'){
+        if($exportEnabled == 1){
             jresearchimport('helpers.exporters.factory', 'jresearch.admin');
             $id = JRequest::getInt('id');
             $model = $this->getModel('Publication', 'JResearchModel');
@@ -606,12 +606,12 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$exportOptions = array();
         $mainframe = JFactory::getApplication();
         $params = $mainframe->getPageParameters('com_jresearch');
-        $exportEnabled = $params->get('enable_export_frontend', 'yes');
-        $strictBibtex = $params->get('enable_strict_bibtex', 'yes');
+        $exportEnabled = $params->get('enable_export_frontend', 1);
+        $strictBibtex = $params->get('enable_strict_bibtex', 1);
         $document = JFactory::getDocument();
         $format = JRequest::getVar('format', 'bibtex');
 
-        if($exportEnabled == 'yes'){
+        if($exportEnabled == 1){
             jresearchimport('helpers.exporters.factory', 'jresearch.admin');
 			$model = $this->getModel('Publications', 'JResearchModel');
             $publicationsArray = $model->getItems();
@@ -642,9 +642,9 @@ class JResearchPublicationsController extends JResearchFrontendController
 	function executeImport(){
 		$mainframe = JFactory::getApplication();
         $params = $mainframe->getPageParameters('com_jresearch');
-        $bibtex = $params->get('enable_bibtex_frontend_import', 'no');
+        $bibtex = $params->get('enable_bibtex_frontend_import', 0);
 
-        if($bibtex == "yes"){
+        if($bibtex == 1){
         	$fileArray = JRequest::getVar('inputfile', null, 'FILES');
             $format = JRequest::getVar('formats');
             $texto = JRequest::getVar('bibtex');

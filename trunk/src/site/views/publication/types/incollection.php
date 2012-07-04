@@ -8,82 +8,60 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<tr>
-	<?php $colspan = 4; ?>
+<div class="divTR">
 	<?php $booktitle = trim($this->publication->booktitle);  ?>
 	<?php if(!empty($journal)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_BOOK_TITLE').': ' ?></th>		
-	<td><?php echo $booktitle; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_BOOK_TITLE').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $booktitle; ?></div>
 	<?php endif; ?>
 	<?php $publisher = trim($this->publication->publisher); ?>
 	<?php if(!empty($publisher)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('Publisher').': ' ?></th>
-	<td><?php echo $publisher; ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('Publisher').': ' ?></div>
+	<div class="divTdl divTdl2"><?php echo $publisher; ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
-
-<tr>
-	<?php $colspan = 4; ?>
+	<div class="divEspacio"></div>	
+</div>
+<div class="divTR">
 	<?php $editor = trim($this->publication->editor);  ?>
 	<?php if(!empty($editor)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></th>		
-	<td><?php echo $editor; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $editor; ?></div>
 	<?php endif; ?>
 	<?php $organization = trim($this->publication->organization); ?>
 	<?php if(!empty($organization)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></th>
-	<td><?php echo $organization; ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></div>
+	<div class="divTdl divTdl2"><?php echo $organization; ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
+	<div class="divEspacio"></div>	
+</div>
 
-<tr>
-	<?php $colspan = 4; ?>
+<div class="divTR">
 	<?php $address = trim($this->publication->address);  ?>
 	<?php if(!empty($address)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></th>		
-	<td><?php echo $address; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $address; ?></div>
 	<?php endif; ?>
 	<?php $month = trim($this->publication->month); ?>
 	<?php if(!empty($month)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>
-	<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></div>
+	<div class="divTdl"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
-<tr>
-	<?php $colspan = 4; ?>
+	<div class="divEspacio"></div>	
+</div>
+<div class="divTR">
 	<?php $pages = str_replace('--', '-', trim($this->publication->pages)); ?>
 	<?php if(!empty($pages)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_PAGES').': ' ?></th>		
-	<td><?php echo $pages; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_PAGES').': ' ?></div>		
+	<div class="divTdl"><?php echo $pages; ?></div>
 	<?php endif; ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
-</tr>
+	<div class="divEspacio"></div>	
+</div>
 <?php $isbn = trim($this->publication->isbn);  ?>
 <?php if(!empty($isbn)): ?>
-<tr>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></th>		
-	<td><?php echo $isbn; ?></td>
-	<td colspan="2"></td>	
-</tr>
+<div class="divTR">
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $isbn; ?></div>
+	<div class="divEspacio"></div>	
+</div>
 <?php endif; ?>
-
 <?php echo isset($this->reference)?$this->reference:''; ?>

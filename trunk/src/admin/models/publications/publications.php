@@ -26,6 +26,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         public function getItems(){
             if(!isset($this->_items)){
                 $items = parent::getItems();
+                $db = JFactory::getDBO();
                 if($items !== false){
                     foreach($items as $item){
                         $publication = $this->getTable('Publication', 'JResearch');
@@ -48,8 +49,10 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             $orderColumns = $this->_buildQueryOrderBy();
             $query = $db->getQuery(true);
 
-            $query->select('*');
-            $query->from('#__jresearch_publication');
+            $query->select('DISTINCT pub.*');
+            $query->from('#__jresearch_publication pub');
+            $query->leftJoin('#__jresearch_publication_researcharea AS ra ON pub.id = ra.id_publication');
+            $query->innerJoin('#__jresearch_all_publication_authors AS apa ON pub.id = apa.pid');
             
 			if(!empty($whereClauses))
                 $query->where($whereClauses);
@@ -90,7 +93,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
 		*/
 		private function _buildQueryWhere(){
            	$mainframe = JFactory::getApplication();
-
+            $where = array();
             $db = JFactory::getDBO();
 
             $filter_state = $this->getState('com_jresearch.publications.filter_state');
@@ -100,12 +103,13 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             $filter_author = $this->getState('com_jresearch.publications.filter_author');
             $filter_area = $this->getState('com_jresearch.publications.filter_area');                  
 
+            
             if(!empty($filter_area) && $filter_area != -1){
-        		$where[] = 'LOWER('.$db->nameQuote('id_research_area').') LIKE '.$db->Quote('%'.$filter_area.'%');            	
+        		$where[] = 'ra.id_research_area = '.$db->Quote($filter_area);            	
         	}
             
             // prepare the WHERE clause
-            $where = array();
+            echo $filter_state;
             if($filter_state == 'P')
                   $where[] = $db->nameQuote('published').' = 1 ';
             elseif($filter_state == 'U')
@@ -118,25 +122,18 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             if(($filter_search = trim($filter_search))){
                   $filter_search = JString::strtolower($filter_search);
                   $filter_search = $db->getEscaped($filter_search);
-        		  $where[] = '(LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%')." OR LOCATE(".$db->Quote($filter_search).", LOWER(keywords)) > 0)";
+        		  $where[] = 'MATCH(title, keywords, abstract) AGAINST ('.$db->Quote($db->getEscaped($filter_search, true)).' IN BOOLEAN MODE)';
             }
-
+                  
             if($filter_pubtype){
                  $where[] = $db->nameQuote('pubtype').' = '.$db->Quote($filter_pubtype);
             }
 
-
-            if(!empty($filter_author) && $filter_author != -1){
-                    $ids = $this->_getAuthorPublicationIds(trim($filter_author));
-                    if(count($ids) > 0)
-                            $where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
-                    else
-                            $where[] = '0 = 1';
+            if(!empty($filter_author) && $filter_author != '-1'){
+            	$where[] = $db->nameQuote('apa').'.'.$db->nameQuote('mid').' = '.$db->Quote($filter_author);
             }
-
-
-            return $where;
-		
+                        
+            return $where;		
 		}        
 	
 	
@@ -171,6 +168,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
     protected function populateState() {
     	$mainframe = JFactory::getApplication();
         $this->setState('com_jresearch.publications.filter_search', $mainframe->getUserStateFromRequest($this->_context.'.filter_search', 'filter_search'));
+        $this->setState('com_jresearch.publications.filter_state', $mainframe->getUserStateFromRequest($this->_context.'.filter_state', 'filter_state'));        
         $this->setState('com_jresearch.publications.filter_author', $mainframe->getUserStateFromRequest($this->_context.'.filter_author', 'filter_author'));        
         $this->setState('com_jresearch.publications.filter_year', $mainframe->getUserStateFromRequest($this->_context.'.filter_year', 'filter_year'));        
         $this->setState('com_jresearch.publications.filter_area', $mainframe->getUserStateFromRequest($this->_context.'.filter_area', 'filter_area'));                

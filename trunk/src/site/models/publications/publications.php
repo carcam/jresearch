@@ -12,46 +12,49 @@ defined('JPATH_BASE') or die;
 jresearchimport('models.modellist', 'jresearch.site');
 
 /**
-* Model class for holding lists of research areas records.
+* Model class for holding lists of publication records.
 *
 */
 class JResearchModelPublications extends JResearchModelList{
 
 
-        public function getItems(){
-            if(!isset($this->_items)){
-                $items = parent::getItems();
-                if($items !== false){
-					$this->_items = array();
-                    foreach($items as $item){
-                        $publication = $this->getTable('Publication', 'JResearch');
-                        $publication->bind($item);
-                        $this->_items[] = $publication;
-                    }
-                }else{
-                    return $items;
+    public function getItems(){
+    	if(!isset($this->_items)){
+        	$items = parent::getItems();
+            if($items !== false){
+				$this->_items = array();
+                foreach($items as $item){
+                    $publication = $this->getTable('Publication', 'JResearch');
+                    $publication->bind($item);
+                    $this->_items[] = $publication;
                 }
+            }else{
+                return $items;
             }
-
-            return $this->_items;
         }
+
+        return $this->_items;
+    }
 
 
     protected function getListQuery() {
-            // Create a new query object.
-            $db = JFactory::getDBO();
-            $whereClauses = $this->_buildQueryWhere();
-            $orderColumns = $this->_buildQueryOrderBy();
-            $query = $db->getQuery(true);
+        // Create a new query object.
+        $db = JFactory::getDBO();
+        $whereClauses = $this->_buildQueryWhere();
+        $orderColumns = $this->_buildQueryOrderBy();
+        $query = $db->getQuery(true);
 
-            $query->select('*');
-            $query->from('#__jresearch_publication');
-            if(!empty($whereClauses))
-                $query->where($whereClauses);
-                
-            $query->order($orderColumns);
+        $query->select('DISTINCT pub.*');
+        $query->from('#__jresearch_publication pub');
+        $query->leftJoin('#__jresearch_publication_researcharea AS ra ON pub.id = ra.id_publication');
+        $query->innerJoin('#__jresearch_all_publication_authors AS apa ON pub.id = apa.pid');
             
-            return $query;
+		if(!empty($whereClauses))
+            $query->where($whereClauses);
+
+        $query->order($orderColumns);
+            
+        return $query;
     }
 
 
@@ -59,22 +62,25 @@ class JResearchModelPublications extends JResearchModelList{
 	* Build the ORDER part of a query.
 	*/
 	private function _buildQueryOrderBy(){
-		//Array of allowable order fields
+        //Array of allowable order fields
         $mainframe = JFactory::getApplication('site');
         $params = $mainframe->getParams('com_jresearch');
-        $columns = array();
-
-        // Read those from configuration
+            
         $filter_order = $params->get('publications_default_sorting', 'year');
         $filter_order_Dir = $params->get('publications_order', 'ASC');
-
+            
+            
         //Validate order direction
         if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
-        	$filter_order_Dir = 'ASC';
-
+            $filter_order_Dir = 'ASC';
+            
+        if(!in_array($filter_order, $orders))
+        	$filter_order = 'year';        
+                
         $columns[] = $filter_order.' '.$filter_order_Dir;
+		$columns[] = 'created DESC';            
 
-        return $columns;
+        return $columns;        
 	}
 
 	/**
@@ -98,9 +104,9 @@ class JResearchModelPublications extends JResearchModelList{
         $filter_area = $this->getState('com_jresearch.publications.filter_area');
 		$filter_team = $this->getState('com_jresearch.publications.filter_team');
 
-        if($filter_year != null && $filter_year != -1 )
+        if($filter_year != null && $filter_year != -1 ){
         	$where[] = $db->nameQuote('year').' = '.$db->Quote($filter_year);
-
+        }
 
         if(($filter_search = trim($filter_search))){
         	$filter_search = $db->getEscaped($filter_search);
@@ -111,14 +117,12 @@ class JResearchModelPublications extends JResearchModelList{
         	$where[] = $db->nameQuote('pubtype').' = '.$db->Quote($filter_pubtype);
         }
 
-        if(!empty($filter_author) && $filter_author != -1){
-        	$filter_author = $db->getEscaped($filter_author);            	
-        	$where[] = 'LOWER('.$db->nameQuote('authors').') LIKE '.$db->Quote('%'.$filter_author.'%');            	
+	    if(!empty($filter_author) && $filter_author != '-1'){
+           	$where[] = $db->nameQuote('apa').'.'.$db->nameQuote('mid').' = '.$db->Quote($filter_author);
         }
             
 		if(!empty($filter_area) && $filter_area != -1){
-        	$filter_area = $db->getEscaped($filter_area);
-        	$where[] = 'LOWER('.$db->nameQuote('id_research_area').') LIKE '.$db->Quote('%'.$filter_area.'%');            	
+        	$where[] = 'ra.id_research_area = '.$db->Quote($filter_area);            	
         }
             
         if(!empty($filter_team) && $filter_team != -1){
@@ -157,8 +161,6 @@ class JResearchModelPublications extends JResearchModelList{
     	}    	
         
         $this->setState('com_jresearch.publications.filter_author', $mainframe->getUserStateFromRequest($this->_context.'.filter_author', 'filter_author'));        
-        
-        
         $this->setState('com_jresearch.publications.filter_year', $mainframe->getUserStateFromRequest($this->_context.'.filter_year', 'filter_year'));        
         $this->setState('com_jresearch.publications.filter_area', $mainframe->getUserStateFromRequest($this->_context.'.filter_area', 'filter_area'));        
         
@@ -172,6 +174,5 @@ class JResearchModelPublications extends JResearchModelList{
         
 		parent::populateState();        
     }
-	
 }
 ?>

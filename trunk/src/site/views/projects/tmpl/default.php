@@ -6,16 +6,30 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<h2 class="componentheading"><?php echo JText::_('JRESEARCH_PROJECTS'); ?></h2>
-
+defined('_JEXEC') or die('Restricted access'); 
+jresearchimport('helpers.html.jresearchfrontend', 'jresearch.site');
+?>
+<?php if($this->showHeader): ?>
+<h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
+<?php endif; ?>
+<div style="text-align: left;">
+	<?php echo $this->filter; ?>
+</div>
 <?php
 if(count($this->items) > 0):
 ?>
 <ul style="padding-left:0px;">
  
 <?php foreach($this->items as $project): ?>
-	<?php $researchArea = $this->areaModel->getItem($project->id_research_area); ?>
+	<?php $researchAreas = $project->getResearchAreas();
+		$researchAreasNames = array();
+		foreach($researchAreas as $area){
+			if($area->published)
+				$researchAreasNames[] = $area->name;
+			else
+				$researchAreasNames[] = JHTML::_('jresearchfrontend.link', $area->name, 'researcharea', 'display', $area->id, $itemId);
+		} 
+	?>
 	<li class="liresearcharea">
 		<div>
 			<?php $contentArray = explode('<hr id="system-readmore" />', $project->description); ?>
@@ -27,11 +41,7 @@ if(count($this->items) > 0):
 			?>		
 			<div>
 				<h4><?php echo JText::_('JRESEARCH_RESEARCH_AREA')?></h4>
-				<?php if($researchArea->id > 1): ?>
-					<span><a href="index.php?option=com_jresearch&amp;view=researcharea&amp;id=<?php echo $researchArea->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $researchArea->name;  ?></a></span>
-				<?php else: ?>
-					<span><?php echo $researchArea->name;  ?></span>
-				<?php endif; ?>	
+				<span><?php echo implode(', ', $researchAreas); ?></span>
 			</div>
 			<?php 
 			endif;
@@ -45,34 +55,7 @@ if(count($this->items) > 0):
         		<span><?php echo $members; ?></span>
 			</div>
 			<?php 
-			endif;
-			
-			//Get values and financiers for project
-                  	$financiers = implode(', ', $project->getFinanciers());
-                        var_dump($financiers);
-          	
-			$value = str_replace(array(",00",".00"), ",-", $project->finance_value); //Replace ,/.00 with ,-
-			
-			//Convert value to format 1.000.000,xx
-			$aFloat = substr($value, strpos($value, ","));
-			$cValue = array_reverse(str_split(strrev(substr($value, 0, strpos($value, ","))), 3));
-			
-			$convertedArray = array();
-			foreach($cValue as $val)
-			{
-				$convertedArray[] = strrev($val);
-			}
-			
-			$value = implode(".",$convertedArray).$aFloat;
-			
-			if($project->finance_value > 0):
-			?>
-			<div>
-				<h4><?php echo JText::_('JRESEARCH_PROJECT_FUNDING')?></h4>
-				<span><?php echo $financiers ?></span>, <h4><?php echo $project->finance_currency." ".$value ?></h4>
-			</div>
-			<?php
-			endif;
+			endif;			
 			
 			if(!empty($contentArray[0])):
 			?>
@@ -82,7 +65,7 @@ if(count($this->items) > 0):
 			endif;
 			?>
 			<div style="text-align:left">
-				<?php echo JHTML::_('jresearch.link', JText::_('JRESEARCH_READ_MORE'), 'project', 'show', $project->id); ?>
+				<?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_READ_MORE'), 'project', 'show', $project->id); ?>
 			</div>
 		</div>
 

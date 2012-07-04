@@ -165,8 +165,6 @@ class JResearchAdminPublicationsController extends JController
         }else{
 	        $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));    	
         }
-        
-		
 	}
 
 	/**
@@ -328,7 +326,7 @@ class JResearchAdminPublicationsController extends JController
 			if(!isset($form['published']))
 				$form['published'] = $params->get('publications_default_published_status');
 			if(!isset($form['internal']))
-				$form['internal'] = $params->get('publications_default_internal_status');
+				$form['internal'] = $params->get('publications_default_internal_status', 1);
 		}else{
 			$canDoPub = JResearchAccessHelper::getActions('publication', $form['id']);
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);

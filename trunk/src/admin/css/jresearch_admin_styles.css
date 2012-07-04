@@ -281,3 +281,7 @@ div.staffcontrol{
     margin-left:auto;
     margin-right:auto;
 }
+
+ul#div_upload_files li{
+	height: 30px;
+}

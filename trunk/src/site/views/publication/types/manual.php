@@ -7,42 +7,29 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<tr>
-	<?php $colspan = 4; ?>
+<div class="divTR">
 	<?php $organization = trim($this->publication->organization);  ?>
 	<?php if(!empty($organization)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></th>		
-	<td><?php echo $organization; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $organization; ?></div>
 	<?php endif; ?>
 	<?php $address = trim($this->publication->address); ?>
 	<?php if(!empty($address)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></th>
-	<td><?php echo $address; ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></div>
+	<div class="divTdl"><?php echo $address; ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
-<tr>
-	<?php $colspan = 4; ?>
+	<div class="divEspacio"></div>		
+</div>
+<div class="divTR">
 	<?php $edition = trim($this->publication->edition);  ?>
 	<?php if(!empty($edition)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_EDITION').': ' ?></th>		
-	<td><?php echo $edition; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_EDITION').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $edition; ?></div>
 	<?php endif; ?>
 	<?php $month = trim($this->publication->month); ?>
 	<?php if(!empty($month)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>
-	<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></div>
+	<div class="divTdl"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
-
+	<div class="divEspacio"></div>		
+</div>

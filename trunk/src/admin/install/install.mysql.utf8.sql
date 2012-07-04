@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `chapter` varchar(10) default NULL,
   `type` varchar(20) default NULL,
   `key` varchar(256) default NULL,
-  `patent_number` varchar(10) NOT NULL,
+  `patent_number` varchar(20) NOT NULL,
   `filing_date` date DEFAULT NULL,
   `issue_date` date DEFAULT NULL,
   `claims` longtext DEFAULT NULL,
@@ -79,15 +79,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `#__jresearch_citing_style`;
-CREATE TABLE IF NOT EXISTS `#__jresearch_citing_style` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `name` varchar(20) NOT NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-
 DROP TABLE IF EXISTS `#__jresearch_financier`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_financier` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -106,6 +97,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `alias` varchar(256) NOT NULL,
   `title` varchar(256) NOT NULL,
+  `authors` text,
   `id_research_area` int(10) unsigned NOT NULL default '1',
   `published` tinyint(4) NOT NULL default '1',
   `url` varchar(256) default NULL,
@@ -113,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `status` enum('not_started','in_progress','finished') NOT NULL default 'not_started',
   `start_date` date default NULL,
   `end_date` date default NULL,
-  `url_project_image` varchar(256) default NULL,
+  `logo` varchar(256) default NULL,
   `description` text,
   `finance_value` decimal(12,2) default NULL,
   `finance_currency` varchar(5) default NULL,
@@ -121,10 +113,17 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `checked_out_time` datetime NOT NULL,
   `created` datetime NULL,
   `created_by` int(10) default NULL,
+  `modified` datetime NULL,
+  `modified_by` int(10) default NULL,
   `hits` int(10) default 0,
+  `keywords` varchar(256) default NULL,
+  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`),
-  INDEX `id_research_area` (`id_research_area`)
+  INDEX `id_research_area` (`id_research_area`),
+  FULLTEXT INDEX `#__jresearch_project_title_index`(`title`),
+  FULLTEXT INDEX `#__jresearch_project_title_keywords_index`(`title`, `keywords`),
+  FULLTEXT INDEX `#__jresearch_project_full_index`(`title`, `description`, `keywords`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `#__jresearch_project_external_author`;
@@ -159,17 +158,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_internal_author` (
   `order` smallint(5) unsigned NOT NULL,
   PRIMARY KEY  (`id_project`,`id_staff_member`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `#__jresearch_publication_config_custom_citing_style`;
-CREATE TABLE IF NOT EXISTS `#__jresearch_publication_config_custom_citing_style` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `publication_type` varchar(20) NOT NULL,
-  `cite_format` text,
-  `complete_reference_format` text,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `publication_type` (`publication_type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `#__jresearch_publication_external_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication_external_author` (
@@ -213,18 +201,19 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   PRIMARY KEY  (`id_research_area`, `id_team`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_publication_keyword`;
-CREATE TABLE IF NOT EXISTS `#__jresearch_publication_keyword` (
-  `id_publication` int(10) unsigned NOT NULL,
-  `keyword` varchar(256) NOT NULL,
-  PRIMARY KEY  (`id_publication`, `keyword`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `#__jresearch_keyword`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_keyword` (
   `keyword` varchar(256) NOT NULL,
   PRIMARY KEY  (`keyword`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `#__jresearch_project_keyword`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_project_keyword` (
+  `id_project` int(10) unsigned NOT NULL,
+  `keyword` varchar(256) NOT NULL,
+  PRIMARY KEY  (`id_project`, `keyword`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS `#__jresearch_member`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
@@ -483,4 +472,11 @@ VALUES
 (NULL, '0', '1', '0', '0', '1', '', 'com_jresearch', 'J!Research', 'com_jresearch', 'J!Research parent content category', 'J!Research parent content category', '1', '0', '0000-00-00 00:00:00', '0', '{}', '', '', '', '42', '0000-00-00 00:00:00', '0', '0000-00-00 00:00:00', '0', '*'),
 (NULL, '0', LAST_INSERT_ID(), '0', '0', '1', '', 'com_jresearch', 'J!Research Cooperations', 'com_jresearch.cooperations', 'J!Research cooperations categories', 'J!Research cooperations categories', '1', '0', '0000-00-00 00:00:00', '0', '{}', '', '', '', '42', '0000-00-00 00:00:00', '0', '0000-00-00 00:00:00', '0', '*');
 
+CREATE VIEW `#__jresearch_all_project_authors` AS SELECT DISTINCT `ia`.`id_staff_member` AS `mid`, `ia`.`id_project` AS `pid`, `ia`.`is_principal` AS `is_principal`, `ia`.`order` AS `order`, CONCAT(', ', `m`.`lastname`, `m`.`firstname`) as `member_name` 
+FROM `#__jresearch_project_internal_author` `ia` JOIN `#__jresearch_member` `m` WHERE `m`.`id` = `ia`.`id_staff_member`  
+UNION SELECT DISTINCT `ea`.`author_name` AS `mid`, `ea`.`id_project` AS `pid`, `ea`.`is_principal` AS `is_principal`, `ea`.`order` AS `order`, `ea`.`author_name` as `member_name`
+FROM `#__jresearch_project_external_author` `ea` ORDER BY `member_name` ASC;
 
+CREATE VIEW `#__jresearch_all_publication_authors` AS SELECT DISTINCT `ia`.`id_staff_member` AS `mid`, `ia`.`id_publication` AS `pid`, CONCAT(', ', `m`.`lastname`, `m`.`firstname`) as `member_name` FROM `#__jresearch_publication_internal_author` `ia` JOIN `#__jresearch_member` `m` WHERE `m`.`id` = `ia`.`id_staff_member`  
+UNION SELECT DISTINCT `ea`.`author_name` AS `mid`, `ea`.`id_publication` AS `pid`, `ea`.`author_name` as `member_name`
+FROM `#__jresearch_publication_external_author` `ea` ORDER BY `member_name` ASC;

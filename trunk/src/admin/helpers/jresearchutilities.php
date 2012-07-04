@@ -79,6 +79,7 @@ class JResearchUtilities
 		$availableTypes = array('application/msword'=>'doc','application/vnd.openxmlformats-officedocument.wordprocessingml.document'=>'docx',
 		'application/pdf'=>'pdf', 'application/x-pdf' => 'pdf', 'application/postscript'=>'ps', 
 		'application/vnd.oasis.opendocument.text'=>'odt', 'text/plain'=>'txt');
+		JError::raiseWarning(1, var_export($uploadedFile, true));
 		if($uploadedFile != null){
 			$mimetype = self::_getUploadMimeType($uploadedFile);
 			if(empty($mimetype))

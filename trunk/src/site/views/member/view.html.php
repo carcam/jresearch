@@ -66,11 +66,11 @@ class JResearchViewMember extends JResearchView
         $this->assignRef('form', $form);
         $this->assignRef('data', $data);
 
-        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('member'));
+        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array($data, 'member'));
         
         parent::display($tpl);
         
-        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('member'));
+        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array($data, 'member'));
     }
     
     /**
@@ -112,7 +112,7 @@ class JResearchViewMember extends JResearchView
     	//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
     	
-    	if($params->get('staff_show_publications', 'yes') == 'yes'){
+    	if($params->get('staff_show_publications', 1) == 1){
     		if($publications_view_all == 0){
     			$latestPublications = $params->get('staff_number_last_publications', 5);
     			$publications = $model->getLatestPublications($latestPublications);
@@ -124,7 +124,7 @@ class JResearchViewMember extends JResearchView
     		$this->assignRef('npublications', $model->countPublications($member->id));    		    		
     	}
     	
-    	if($params->get('staff_show_projects', 'yes') == 'yes'){
+    	if($params->get('staff_show_projects', 1) == 1){
     		if($projects_view_all == 0){
 	    		$latestProjects = $params->get('staff_number_last_projects', 5);
     			$projects = $model->getLatestProjects($latestProjects);
@@ -136,7 +136,7 @@ class JResearchViewMember extends JResearchView
     		$this->assignRef('nprojects', $model->countProjects($member->id));    		    		
     	}
     	
-    	if($params->get('staff_show_theses', 'yes') == 'yes'){
+    	if($params->get('staff_show_theses', 1) == 1){
     		if($theses_view_all == 0){
 	    		$latestTheses = $params->get('staff_number_last_theses', 5);
     			$theses = $model->getLatestTheses($latestTheses);
@@ -147,7 +147,7 @@ class JResearchViewMember extends JResearchView
     		$this->assignRef('ntheses', $model->countTheses($member->id));
     	}
     	
-    	$applyStyle = ($params->get('publications_apply_style') == 'yes');
+    	$applyStyle = $params->get('publications_apply_style', 1);
     	$configuredCitationStyle = $params->get('citationStyle', 'APA');
     	if($applyStyle){
     		// Require publications lang package

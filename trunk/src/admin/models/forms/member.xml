@@ -148,6 +148,7 @@
 				component="com_jresearch" section="member" validate="rules"
 			/>
 			<field name="asset_id" type="hidden" filter="unset" />
+			<field name="catid" type="hidden" filter="unset" />
 			<field name="username" type="text" class="readonly"
 			label="JRESEARCH_USERNAME" size="20" readonly="true" />				
         </fields>

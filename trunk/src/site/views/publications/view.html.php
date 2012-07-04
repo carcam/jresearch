@@ -65,17 +65,17 @@ class JResearchViewPublications extends JResearchView
     	
     	$pageHeader = $params->get('page_heading', JText::_('JRESEARCH_PUBLICATIONS'));
     	$showHeader = $params->get('show_page_heading', 1);
-    	$showYear = ($params->get('show_year', 'yes') == 'yes');
-    	$showResearchAreas = ($params->get('show_research_areas', 'yes') == 'yes');
-    	$showBibtex = ($params->get('show_export_bibtex', 'no') == 'yes');
-    	$showRis = ($params->get('show_export_ris', 'no') == 'yes');
-    	$showMods = ($params->get('show_export_mods', 'no') == 'yes');
-    	$showHits = ($params->get('show_hits', 'no') == 'yes');
+    	$showYear = $params->get('show_year', 1);
+    	$showResearchAreas = $params->get('show_research_areas', 1);
+    	$showBibtex = $params->get('show_export_bibtex', 0);
+    	$showRis = $params->get('show_export_ris', 0);
+    	$showMods = $params->get('show_export_mods', 0);
+    	$showHits = $params->get('show_hits', 0);
     	$format = $params->get('staff_format', 'last_first');
-    	$showScore = ($params->get('show_score', 'no') == 'yes');
-    	$showAuthors = ($params->get('show_authors', 'yes') == 'yes');
+    	$showScore = $params->get('show_score', 0);
+    	$showAuthors = $params->get('show_authors', 1);
 		$field = $params->get('field_for_score', 'impact_factor');    	    	    	
-		$exportAll = ($params->get('show_export_all', 'no') == 'yes');
+		$exportAll = $params->get('show_export_all', 0);
     	$exportAllFormat = $params->get('show_export_all_format', 'bibtex');
 
     	$this->assignRef('exportAll', $exportAll);
@@ -132,14 +132,14 @@ class JResearchViewPublications extends JResearchView
     	//Now time to sort the data for presentation
     	$groupedItems = $this->_group($publications, $filter_order);
     	    	
-    	$showmore = ($params->get('show_more', 'yes') == 'yes');
-    	$showdigital = ($params->get('show_digital', 'yes') == 'yes');
+    	$showmore = $params->get('show_more', 1);
+    	$showdigital = $params->get('show_digital', 1);
     	$layout = $params->get('publications_default_sorting', 'year');
-    	$exportAll = ($params->get('show_export_all', 'no') == 'yes');
+    	$exportAll = $params->get('show_export_all', 0);
     	$showAllFormat = $params->get('show_export_all_format', 'bibtex');
-    	$showBibtex = ($params->get('show_export_bibtex', 'no') == 'yes');
-    	$showMODS = ($params->get('show_export_mods', 'no') == 'yes');    		
-    	$showRIS = ($params->get('show_export_ris', 'no') == 'yes');    	
+    	$showBibtex = $params->get('show_export_bibtex', 0);
+    	$showMODS = $params->get('show_export_mods', 0);    		
+    	$showRIS = $params->get('show_export_ris', 0);    	
     	
     	$this->_setFilters();    	
     	$pageHeader = $params->get('page_heading', JText::_('JRESEARCH_PUBLICATIONS'));
@@ -165,8 +165,6 @@ class JResearchViewPublications extends JResearchView
         $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
         parent::display($tpl);
         $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
-    	
-        	
     }
     
     private function _setFilters()
@@ -176,12 +174,12 @@ class JResearchViewPublications extends JResearchView
     	$layout = $this->getLayout();
     	
     	$filter = $this->_publicationsFilter($layout,
-    		($params->get('filter_teams', 'yes') == 'yes'),
-    		($params->get('filter_areas', 'yes') == 'yes'),
-    		($params->get('filter_year', 'yes') == 'yes'),
-    		($params->get('filter_search', 'yes') == 'yes'),
-    		($params->get('filter_type', 'yes') == 'yes'),
-    		($params->get('filter_authors', 'yes') == 'yes')
+    		$params->get('filter_teams', 1),
+    		$params->get('filter_areas', 1),
+    		$params->get('filter_year', 1),
+    		$params->get('filter_search', 1),
+    		$params->get('filter_type', 1),
+    		$params->get('filter_authors', 1)
     	);
     	
     	$this->assignRef('filter', $filter);

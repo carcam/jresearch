@@ -8,83 +8,59 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<tr>
-	<?php $colspan = 4; ?>
+<div class="divTR">
 	<?php $patent_number = trim($this->publication->patent_number);  ?>
 	<?php if(!empty($patent_number)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_PATENT_NUMBER').': ' ?></th>		
-	<td style="width:35%;"><?php echo $patent_number; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_PATENT_NUMBER').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $patent_number; ?></div>
 	<?php endif; ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
-	<?php endif; ?>
-</tr>
-<tr>
-	<?php $colspan = 4; ?>
+	<div class="divEspacio"></div>		
+</div>
+<div class="divTR">
 	<?php $filing_date = trim($this->publication->filing_date);  ?>
 	<?php if(!empty($filing_date)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_FILING_DATE').': ' ?></th>		
-	<td><?php echo $filing_date; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_FILING_DATE').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $filing_date; ?></div>
 	<?php endif; ?>
 	<?php $issue_date = trim($this->publication->issue_date); ?>
 	<?php if(!empty($issue_date)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ISSUE_DATE').': ' ?></th>
-	<td><?php echo $issue_date; ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ISSUE_DATE').': ' ?></div>
+	<div class="divTdl"><?php echo $issue_date; ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
-<tr>
-	<?php $colspan = 4; ?>
+	<div class="divEspacio"></div>		
+</div>
+<div class="divTR">
 	<?php $filing_date = trim($this->publication->filing_date);  ?>
 	<?php if(!empty($filing_date)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_FILING_DATE').': ' ?></th>		
-	<td><?php echo $filing_date; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_FILING_DATE').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $filing_date; ?></div>
 	<?php endif; ?>
 	<?php $issue_date = trim($this->publication->issue_date); ?>
 	<?php if(!empty($issue_date)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ISSUE_DATE').': ' ?></th>
-	<td><?php echo $issue_date; ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ISSUE_DATE').': ' ?></div>
+	<div class="divTdl"><?php echo $issue_date; ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
-<tr>
-	<?php $colspan = 4; ?>
+	<div class="divEspacio"></div>		
+</div>
+<div class="divTR">
 	<?php $country = trim($this->publication->address);  ?>
 	<?php if(!empty($address)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></th>		
-	<td><?php echo $address; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $address; ?></div>
 	<?php endif; ?>
 	<?php $office = trim($this->publication->office); ?>
 	<?php if(!empty($office)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_PATENT_OFFICE').': ' ?></th>
-	<td><?php echo $office; ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_PATENT_OFFICE').': ' ?></div>
+	<div class="divTdl"><?php echo $office; ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
-<tr>
-	<?php $colspan = 4; ?>
+	<div class="divEspacio"></div>		
+</div>
+<div class="divTR">
 	<?php $claims = trim($this->publication->claims);  ?>
 	<?php if(!empty($claims)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_CLAIMS').': ' ?></th>		
-	<td><?php echo $claims; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_CLAIMS').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $claims; ?></div>
 	<?php endif; ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
-</tr>
+	<div class="divEspacio"></div>	
+</div>
 <?php echo isset($this->reference)?$this->reference:''; ?>

@@ -13,7 +13,7 @@ define('_PROJECT_IMAGE_MAX_HEIGHT_', 768);
 define('_MEMBER_IMAGE_MAX_WIDTH_', 1024);
 define('_MEMBER_IMAGE_MAX_HEIGHT_', 768);
 
-define('_JRESEARCH_VERSION_', '2.0 Alpha 1');
+define('_JRESEARCH_VERSION_', '2.0 Alpha 2');
 define('_JRESEARCH_BIBUTILS_VERSION_', '4.8 for Unix, 4.2 for Windows, 4.9 for Unix x86/64');
 define('_JRESEARCH_UPGRADER_SUPPORT_', true);
 

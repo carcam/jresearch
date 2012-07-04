@@ -31,30 +31,29 @@ class JFormFieldResearchareaslist extends JFormFieldList
 	{
 		// Initialize variables.
 		$options = array();
-                $db = JFactory::getDBO();
-                $query = $db->getQuery(true);
-                $query->select('*');
-                $query->from('#__jresearch_research_area');
-                $query->where('published = 1');
-                $db->setQuery((string)$query);
+        $db = JFactory::getDBO();
+        $query = $db->getQuery(true);
+        $query->select('*');
+        $query->from('#__jresearch_research_area');
+        $query->where('published = 1');
+        $db->setQuery((string)$query);
 
-                $areas = $db->loadAssocList();
+        $areas = $db->loadAssocList();
 
-                $options[] = JHtml::_('select.option', 1, JText::_('JRESEARCH_UNCATEGORIZED'), 'value', 'text', ((string) $option['disabled']=='true'));                
+        $options[] = JHtml::_('select.option', 1, JText::_('JRESEARCH_UNCATEGORIZED'), 'value', 'text', ((string) $option['disabled']=='true'));                
 
-                foreach($areas as $area){
-                    // Only add <option /> elements.
-                    if ($area['id'] == 1) {
-                        continue;
-                    }
+        foreach($areas as $area){
+        	// Only add <option /> elements.
+            if ($area['id'] == 1) {
+            	continue;
+            }
 
-                    $tmp = JHtml::_('select.option', $area['id'], $area['name'], 'value', 'text', ((string) $option['disabled']=='true'));
+            $tmp = JHtml::_('select.option', $area['id'], $area['name'], 'value', 'text', ((string) $option['disabled']=='true'));
 
-                    // Add the option object to the result set.
-                    $options[] = $tmp;
-                }
-
-
+            // Add the option object to the result set.
+            $options[] = $tmp;
+        }
+        
 		reset($options);
 
 		return $options;

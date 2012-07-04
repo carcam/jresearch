@@ -11,11 +11,13 @@
 	            <action name="core.staff.create" title="JRESEARCH_ACTION_STAFF_CREATE"  />
 				<action name="core.staff.edit" title="JRESEARCH_ACTION_STAFF_EDIT"  />        	            
 				<action name="core.staff.edit.own" title="JRESEARCH_ACTION_STAFF_EDITOWN"  />        
-            	<action name="core.staff.delete" title="JRESEARCH_ACTION_STAFF_DELETE"  />			
+            	<action name="core.staff.delete" title="JRESEARCH_ACTION_STAFF_DELETE"  />
+            	<action name="core.staff.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />			
 	            <action name="core.researchareas.create" title="JRESEARCH_ACTION_RESEARCHAREAS_CREATE"  />
 				<action name="core.researchareas.edit" title="JRESEARCH_ACTION_RESEARCHAREAS_EDIT"  />	            
 				<action name="core.researchareas.edit.own" title="JRESEARCH_ACTION_RESEARCHAREAS_EDITOWN"  />        
             	<action name="core.researchareas.delete" title="JRESEARCH_ACTION_RESEARCHAREAS_DELETE"  />			            	
+				<action name="core.researchareas.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />            	
         </section>
         <section name="publication">
         		<action name="core.publications.edit" title="JRESEARCH_ACTION_PUBLICATIONS_EDIT" />

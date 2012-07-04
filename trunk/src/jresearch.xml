@@ -66,10 +66,11 @@
 		<language tag="en-GB">en-GB.plg_search_jresearch.ini</language>		
 	</languages>
 	<administration>
-		<menu img="../administrator/components/com_jresearch/assets/jresearch_logomini.png">J!Research</menu>
+		<menu img="../administrator/components/com_jresearch/assets/jresearch_logomini.png">J\!Research</menu>
 		<submenu>
 			<menu controller="member_positions">COM_JRESEARCH_JRESEARCH_MEMBER_POSITIONS</menu>
 			<menu controller="publications" img="../administrator/components/com_jresearch/assets/publications_mini.png">COM_JRESEARCH_JRESEARCH_PUBLICATIONS</menu>
+			<menu controller="projects" img="../administrator/components/com_jresearch/assets/projects_mini.png">COM_JRESEARCH_JRESEARCH_PROJECTS</menu>			
 			<menu controller="researchareas" img="../administrator/components/com_jresearch/assets/jresearch_logomini.png">COM_JRESEARCH_JRESEARCH_RESEARCH_AREAS</menu>
 			<menu controller="staff" img="../administrator/components/com_jresearch/assets/staff_mini.png">COM_JRESEARCH_JRESEARCH_STAFF</menu>
 		</submenu>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+        <fieldset name="basic">
+			<field
+            	id="id"
+                name="id"
+                type="hidden"
+            />
+            <field
+                id="title"
+                name="title"
+                type="text"
+                size="40"
+                maxlength="255"
+                class="inputbox"
+                default=""
+                label="JRESEARCH_TITLE"
+                required="true"
+            />
+            <field
+                id="alias"
+                name="alias"
+                type="text"
+                size="40"
+                maxlength="255"
+                class="inputbox"
+                default=""
+                label="JFIELD_ALIAS_LABEL"
+                description="JFIELD_ALIAS_DESC"
+             />
+             <field
+                  id="id_research_area"
+                  name="id_research_area"
+                  type="researchareaslist"
+                  size="5"
+                  class="inputbox"
+                  default=""
+                  label="JRESEARCH_RESEARCH_AREAS"
+                  multiple="true"
+               />
+                <field
+                        id="url"
+                        name="url"
+                        type="text"
+                        size="50"
+                        maxlength="255"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_PROJECT_PAGE"
+                />
+                <field
+                        id="keywords"
+                        name="keywords"
+                        type="text"
+                        size="30"
+                        maxlength="255"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_KEYWORDS"
+                />
+                <field id="published" name="published" type="radio" label="JRESEARCH_PUBLISHED" default="1" >
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>				
+                <field id="status" name="status" type="radio" label="JRESEARCH_STATUS" default="not_started" >
+						<option value="not_started">JRESEARCH_NOT_STARTED</option>
+						<option value="in_progress">JRESEARCH_IN_PROGRESS</option>
+						<option value="finished">JRESEARCH_FINISHED</option>						
+				</field>
+				<field
+					id="start_date"
+					name="start_date"
+					type="calendar"
+					label="JRESEARCH_START_DATE"
+					class="inputbox"
+					format="%Y-%m-%d"
+					size="22"
+					filter="user_utc" 
+				/>
+				<field
+					id="end_date"
+					name="end_date"
+					type="calendar"
+					label="JRESEARCH_DEADLINE"
+					class="inputbox"
+					format="%Y-%m-%d"
+					size="22"
+					filter="user_utc" 
+				/>				
+                <field
+                	id="files"
+                    name="files"
+                    type="attachment"
+                    class="inputbox"
+                    singleFile="false"
+                    default=""
+                    label="JRESEARCH_FILE"
+                />
+				<field
+                     id="authors"
+                     name="authors"
+                     type="authorsselector"
+                     class="inputbox"
+                     allowPrincipals="true"
+                     default=""
+                     label="JRESEARCH_AUTHORS"
+                />
+                <field
+                	id="logo"
+					name="logo"
+					type="media"
+					label="JRESEARCH_PROJECT_IMAGE"
+				/>
+        </fieldset>
+        <fieldset name="conditional">
+				<field name="description" type="editor" class="inputbox" label="JRESEARCH_DESCRIPTION"
+					filter="safehtml" buttons="true"
+                />        
+        		<field name="hits" 
+        			id="hits"
+        			type="hidden"
+        			default="0" 
+        		/>
+				<field name="publications" 
+        			id="publications"
+        			type="publicationsselector"
+        			label="JRESEARCH_RELATED_PUBLICATIONS"
+        		/>        		
+                <field
+                	id="resethits"
+                	name="resethits"
+                	label="JRESEARCH_RESET_HITS"
+                	type="radio"
+                	default="0"                	
+                >
+                	<option value="0">JNO</option>
+					<option value="1">JYES</option>
+           	 	</field> 
+				<field name="rules" type="rules" class="inputbox" filter="rules"
+					component="com_jresearch" section="project" validate="rules"
+				/>
+				<field name="asset_id" type="hidden" filter="unset" />                
+        </fieldset>        
+</form>
