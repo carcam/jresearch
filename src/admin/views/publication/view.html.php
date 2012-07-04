@@ -25,7 +25,7 @@ class JResearchAdminViewPublication extends JResearchView
 
             switch($layout){
                     case 'new':
-                    	$this->_displayNewPublicationForm();
+                    $this->_displayNewPublicationForm();
                         break;
                     case 'default':
                         $this->_displayPublicationForm();

@@ -7,33 +7,28 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<tr>
+<div class="divTR">
 	<?php $colspan = 4; ?>
 	<?php $howpublished = trim($this->publication->howpublished);  ?>
 	<?php if(!empty($howpublished)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_HOW_PUBLISHED').': ' ?></th>		
-	<td style="width:35%;"><?php echo $howpublished; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_HOW_PUBLISHED').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $howpublished; ?></div>
 	<?php endif; ?>
 	<?php $address = trim($this->publication->address); ?>
 	<?php if(!empty($address)): ?>
 	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></th>
-	<td style="width:35%;"><?php echo $address ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></div>
+	<div class="divTdl"><?php echo $address ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
-
-<tr>
+	<div class="divEspacio"></div>	
+</div>
+<div>
 	<?php $colspan = 4; ?>
 	<?php $month = trim($this->publication->month);  ?>
 	<?php if(!empty($month)): ?>
 	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>		
-	<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></div>		
+	<div class="divTdl"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></div>
 	<?php endif; ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
-</tr>
+	<div class="divEspacio"></div>		
+</div>

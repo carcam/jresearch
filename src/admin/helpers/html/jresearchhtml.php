@@ -616,6 +616,38 @@ class JHTMLjresearchhtml
 	}
 	
 	/**
+	 * 
+	 * Renders a drop-down list of authors
+	 * @param array $data
+	 * @param array $attributes
+	 * @param array $additional
+	 */
+	public static function authors(array $data, array $attributes=array()){
+        //Add research areas
+        $authOptions = array();
+        
+        $authOptions[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_AUTHORS'));
+                
+		foreach($data as $author){
+        	$authOptions[] = JHTML::_('select.option', $author['mid'], $author['member_name']);
+        }
+
+		return self::htmllist($authOptions, $attributes);
+	}
+	
+	public static function years(array $data, array $attributes=array()){
+        $yearOptions = array();
+        
+        $yearOptions[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
+                
+		foreach($data as $y){
+        	$yearOptions[] = JHTML::_('select.option', $y, $y);
+        }
+
+		return self::htmllist($yearOptions, $attributes);		
+	}
+	
+	/**
 	 * Renders a HTML generic select list with member positions
 	 */
 	public static function memberpositions(array $attributes=array(), array $additional=array())
@@ -687,8 +719,9 @@ class JHTMLjresearchhtml
 	public static function publishedlist(array $attributes=array())
 	{
 		$publishedOptions = array();
-    	$publishedOptions[] = JHTML::_('select.option', '1', JText::_('Yes'));
-    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('No'));
+    	$publishedOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_STATE'));		
+    	$publishedOptions[] = JHTML::_('select.option', 'P', JText::_('JRESEARCH_PUBLISHED'));
+    	$publishedOptions[] = JHTML::_('select.option', 'U', JText::_('JRESEARCH_UNPUBLISHED'));
     	
     	return self::htmllist($publishedOptions, $attributes);
 	}
@@ -702,7 +735,7 @@ class JHTMLjresearchhtml
     	$statusOptions = array();
     	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
     	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
-    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('Finished'));
+    	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));
     	
     	return self::htmllist($statusOptions, $attributes);
 	}
@@ -833,21 +866,6 @@ class JHTMLjresearchhtml
 		return $str;
 	}
 	
-	/**
-	 * Renders a list of available authors ordered by last name.
-	 *
-	 * @param array $authors
-	 */
-	public static function authors(array $attributes = array()){
-		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications'.DS.'publicationslist.php');
-		
-		$model = new JResearchModelPublicationsList();
-		$result = $model->getAllAuthors();
-		
-		return self::htmllist($result, $attributes);
-		
-		
-	}
 	
     public static function input($name, $value='', $type='text', array $attributes = array())
     {
@@ -918,19 +936,16 @@ class JHTMLjresearchhtml
 	 */
 	public static function publicationstypeslist($name, $options = '', $value=''){	
             // Publication type filter
-            jresearchimport('helpers.publications', 'jresearch.admin');
-            $types = JResearchPublicationsHelper::getPublicationsSubtypes();
-            $typesHTML = array();
-            $typesHTML[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_PUBLICATION_TYPE'));
-            foreach($types as $type){
-                $text = JText::_('JRESEARCH_'.strtoupper($type));
-                if($type == 'conference')
-                    $text .= '/'.JText::_('JRESEARCH_INPROCEEDINGS');
-                $typesHTML[] = JHTML::_('select.option', $type, $text);
-            }
+		jresearchimport('helpers.publications', 'jresearch.admin');
+        $types = JResearchPublicationsHelper::getPublicationsSubtypes();
+        $typesHTML = array();
+        $typesHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_PUBLICATION_TYPE'));
+        foreach($types as $type){
+        	$text = JText::_('JRESEARCH_'.strtoupper($type));
+            $typesHTML[] = JHTML::_('select.option', $type, $text);
+        }
 
-            return JHTML::_('select.genericlist', $typesHTML, $name, $options, 'value','text', $value);
-		
+        return JHTML::_('select.genericlist', $typesHTML, $name, $options, 'value','text', $value);
 	}
 	
 	/**

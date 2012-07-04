@@ -71,11 +71,11 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 								$data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
 						}
 						$params = &JComponentHelper::getParams( 'com_jresearch' );
-						$mi = $params->get('make_internal');
+						$mi = $params->get('publications_default_internal_status', 1);
 						
 						$newPub->bind($data);
 						//Auto make internal when uploading from bibtex file
-						if($mi == "yes")
+						if($mi == 1)
 							$newPub->internal = true;
 						else
 							$newPub->internal = false;

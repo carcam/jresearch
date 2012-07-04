@@ -25,6 +25,7 @@ class JResearchTable extends JTable{
 	*/
 	public $published;
 	
+	
 	/**
 	 * Overloaded bind function
 	 *
@@ -53,22 +54,20 @@ class JResearchTable extends JTable{
 	 * @return	int
 	 * @since	1.6
 	 */
-	protected function _getAssetParentId($table = null, $id = null)
-	{
+	protected function _getAssetParentId($table = null, $id = null){
 		// Initialise variables.
 		$assetId = null;
 		$db = $this->getDbo();
 		$query	= $db->getQuery(true);
-		$query->select('asset_id');
+		$query->select('id');
 		$query->from('#__assets');
 		$query->where('name = '.$db->Quote('com_jresearch'));
 
 		// Get the asset id from the database.
-		$this->_db->setQuery($query);
-		if ($result = $this->_db->loadResult()) {
-			$assetId = (int) $result;
+		$db->setQuery($query);
+		if ($result = $db->loadResult()) {
+			$assetId = (int) $result;			
 		}
-
 		// Return the asset id.
 		if ($assetId) {
 			return $assetId;
@@ -108,5 +107,4 @@ class JResearchTable extends JTable{
 		$k = $this->_tbl_key;
 		return 'com_jresearch.table.'.(int) $this->$k;
 	}
-
 }

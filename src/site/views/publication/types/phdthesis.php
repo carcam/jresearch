@@ -7,42 +7,29 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-
-<tr>
-	<?php $colspan = 4; ?>
+<div class="divTR">
 	<?php $school = trim($this->publication->school);  ?>
 	<?php if(!empty($school)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_SCHOOL').': ' ?></th>		
-	<td><?php echo $school; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_SCHOOL').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $school; ?></div>
 	<?php endif; ?>
 	<?php $type = trim($this->publication->type); ?>
 	<?php if(!empty($type)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
-	<td><?php echo $type; ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></div>
+	<div class="divTdl divTdl2"><?php echo $type; ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
-<tr>
-	<?php $colspan = 4; ?>
+	<div class="divEspacio"></div>	
+</div>
+<div class="divTR">
 	<?php $address = trim($this->publication->address);  ?>
 	<?php if(!empty($address)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></th>		
-	<td><?php echo $address; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $address; ?></div>
 	<?php endif; ?>
 	<?php $type = trim($this->publication->month); ?>
 	<?php if(!empty($month)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>
-	<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></div>
+	<div class="divTdl"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
+	<div class="divEspacio"></div>	
+</div>

@@ -1,7 +1,7 @@
 <?php
 /**
 * @package		JResearch
-* @subpackage	
+* @subpackage	Frontend.Models
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL v2
 * Description

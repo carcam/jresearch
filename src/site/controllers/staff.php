@@ -9,7 +9,7 @@
 * of staff members.
 */
 
-
+jresearchimport('helpers.staff', 'jresearch.admin');
 
 /**
  * JResearch Staff Component Controller
@@ -76,8 +76,7 @@ class JResearchStaffController extends JResearchFrontendController
 		}
 		
 		//Rules at staff level
-		$canDoStaff = JResearchAccessHelper::getActions();
-		
+		$canDoStaff = JResearchAccessHelper::getActions('member', $memberInfo['id']);
 		if($canDoStaff->get('core.staff.edit.own')){
 			$model = $this->getModel('Member', 'JResearchModel');
 			$view = $this->getView('Member', 'html', 'JResearchView');				

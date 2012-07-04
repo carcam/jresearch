@@ -34,9 +34,9 @@ class JResearchAdminViewMember extends JResearchView
         $this->assignRef('form', $form);
         $this->assignRef('data', $data);
 
-        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('member'));
+        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array($data, 'member'));
         parent::display($tpl);
-        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('member'));    	
+        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array($data, 'member'));    	
     }
 }
 

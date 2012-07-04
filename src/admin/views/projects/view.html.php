@@ -17,54 +17,61 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  *
  */
 
-class JResearchAdminViewProjectsList extends JResearchView
+class JResearchAdminViewProjects extends JResearchView
 {
     function display($tpl = null)
     {
-     	global $mainframe;	
-        JResearchToolbar::projectsListToolbar();
-    	 	
-       	$model = &$this->getModel();
-      	$items = $model->getData(null, false, true);
-      	$areaModel =& $this->getModel('researcharea');
+    	$mainframe = JFactory::getApplication();
+        $option = JRequest::getVar('option');
+		jresearchimport('helpers.projects', 'jresearch.admin');    	
+		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+		
+    	JResearchToolbar::projectsAdminListToolbar();
+    	
+        $db = JFactory::getDBO();
+    	JHTML::_('behavior.tooltip');
+		
+        // Get the default model
+    	$model = $this->getModel();
+    	$items = $model->getItems();
+    	
+    	// Ordering variables
+    	$lists = array();    	
 
-      	// Filters and pagination
-        $lists = array();
-    	$filter_order = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order', 'title');
-    	$filter_order_Dir = $mainframe->getUserStateFromRequest('projectsfilter_order', 'filter_order_Dir', 'ASC');
-        $filter_state = $mainframe->getUserStateFromRequest('projectsfilter_state', 'filter_state');
-    	$filter_search = $mainframe->getUserStateFromRequest('projectsfilter_search', 'filter_search');
-        $filter_author = $mainframe->getUserStateFromRequest('projectsfilter_author', 'filter_author');
-        $filter_area = $mainframe->getUserStateFromRequest('projectsfilter_area', 'filter_area');
+    	// Get the user state of the order and direction 
+    	$filter_order = $model->getState('com_jresearch.projects.filter_order', 'published');
+    	$filter_order_Dir = $model->getState('com_jresearch.projects.filter_order_Dir', 'ASC');
+        $filter_state = $model->getState('com_jresearch.projects.filter_state');
+        $filter_status = $model->getState('com_jresearch.projects.filter_status');        
+        $filter_start_date = $model->getState('com_jresearch.projects.filter_start_date');
+        $filter_area = $model->getState('com_jresearch.projects.filter_area');
+    	$filter_search = $model->getState('com_jresearch.projects.filter_search');
+        $filter_author = $model->getState('com_jresearch.projects.filter_author');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
         $lists['order'] = $filter_order;
-        // State filter
-        $lists['state'] = JHTML::_('grid.state', $filter_state);
         $js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
+        
+        // State filter
+        $lists['state'] = JHTML::_('jresearchhtml.publishedlist', array('name' => 'filter_state', 'selected' => $filter_state, 'attributes' => $js));
         $lists['search'] = $filter_search;
-        $lists['area'] = JHTML::_('jresearchhtml.researchareas', array('name' => 'filter_area', 'selected' => $filter_area, 'attributes' => 'onchange="document.adminForm.submit();"'), array(array('id' => null, 'name' => JText::_('JRESEARCH_RESEARCH_AREA'))));
 		
-		// Authors filter
-		$authors = $model->getAllAuthors();
-		$authorsHTML = array();
-		$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_MEMBERS'));	
-		foreach($authors as $auth){
-			$authorsHTML[] = JHTML::_('select.option', $auth['id'], $auth['name']); 
-		}
-		$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);
+        // Year filter
+        $years = JResearchProjectsHelper::getYears();
+        $lists['year'] = JHTML::_('jresearchhtml.years', $years, array('name' => 'filter_start_date', 'selected' => $filter_start_date, 'attributes' => $js));
 
-     	$this->assignRef('items', $items);
-     	$this->assignRef('lists', $lists );
-     	$this->assignRef('page', $model->getPagination());
-     	$this->assignRef('area', $areaModel);
-     	
-		$eArguments = array('projects');
-		$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);
-		
-		parent::display($tpl);
-		
-		$mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
+        // Research Area filter
+        $lists['area'] = JHTML::_('jresearchhtml.researchareas', array('name' => 'filter_area', 'selected' => $filter_area, 'attributes' => $js), array(array('id' => '-1', 'name' => JText::_('JRESEARCH_RESEARCH_AREA'))));
+        
+        $authors = JResearchProjectsHelper::getAllAuthors();
+        $lists['authors'] = JHTML::_('jresearchhtml.authors', $authors, array('name' => 'filter_author', 'selected' => $filter_author, 'attributes' => $js));
+
+        $lists['status'] = JHTML::_('jresearchhtml.statuslist', array('name' => 'filter_status', 'selected' => $filter_status, 'attributes' => $js) );
+
+        $this->assignRef('lists', $lists);        
+    	$this->assignRef('items', $items);
+    	$this->assignRef('page', $model->getPagination());
+    	parent::display($tpl);
     }
 }
 

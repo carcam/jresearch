@@ -85,11 +85,11 @@ class JResearchViewPublication extends JResearchView
     	//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
     			
-        $showHits = ($params->get('show_hits', 'yes') == 'yes');
+        $showHits = $params->get('show_hits', 1);
     	$format = $params->get('staff_format', 'last_first') == 'last_first'?1:0;		
-    	$showBibtex = ($params->get('show_export_bibtex', 'no') == 'yes');
-    	$showMODS = ($params->get('show_export_mods', 'no') == 'yes');    		
-    	$showRIS = ($params->get('show_export_ris', 'no') == 'yes');    	
+    	$showBibtex = $params->get('show_export_bibtex', 0);
+    	$showMODS = $params->get('show_export_mods', 0);    		
+    	$showRIS = $params->get('show_export_ris', 0);    	
     	
     	$arguments = array($publication, 'publication');
     	

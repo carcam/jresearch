@@ -191,7 +191,7 @@ class JResearchActivity extends JResearchTable{
 	 * of a J!Research member, otherwise it is considered as an external author.
 	 * If it is a JResearchMember, only its id is taken.
 	 */
-	public function addAuthor($author){		
+	public function addAuthor($author, $principalFlag = null){		
 		$textToAppend = '';
 		$this->_authorsArray = null;
 		
@@ -203,6 +203,10 @@ class JResearchActivity extends JResearchTable{
 			$textToAppend = $author;
 		}else{
 			return false;
+		}
+		
+		if($principalFlag != null){
+			$textToAppend .= '|'.$principalFlag;
 		}
 
 		if(!empty($this->authors))
@@ -435,8 +439,7 @@ class JResearchActivity extends JResearchTable{
 	{
 		return $this->__toString();
 	}
-
-	
+		
 	/**
 	 * String representation
 	 * @see trunk/src/admin/tables/JResearchTable::__toString()

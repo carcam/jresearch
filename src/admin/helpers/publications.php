@@ -582,22 +582,9 @@ class JResearchPublicationsHelper{
 	* @return array
 	*/
 	public static function getAllAuthors(){
-		$db = JFactory::getDBO();
-		$query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_publication_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
-		$db->setQuery($query);
-		$result =  $db->loadAssocList();
-		$mdresult = array();
-		$name = array();
-		// First, bring them to the form lastname, firstname.
-		foreach($result as $key => $author){
-			$components = self::getAuthorComponents($author['name']);
-			$value = (isset($components['von'])?$components['von'].' ':'').$components['lastname'].(isset($components['firstname'])?', '.$components['firstname']:'').(isset($components['jr'])?' '.$components['jr']:'');
-			$mdresult[] = array('id'=>$author['id'], 'name'=>$value);
-			$name[$key] = $value;
-			
-		}
-		array_multisort($name, SORT_ASC, $mdresult);
-		return $mdresult;
+   		$db = JFactory::getDBO();
+   		$db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_all_publication_authors'));
+   		return $db->loadAssocList();		
 	}
 	
 	/**

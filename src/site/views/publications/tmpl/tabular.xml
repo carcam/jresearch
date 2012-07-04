@@ -51,51 +51,51 @@
 				<option value="ASC">JRESEARCH_ASCENDING</option>
 				<option value="DESC">JRESEARCH_DESCENDING</option>
 			</field>
-			<field name="publications_activate_sindication" label="JRESEARCH_CONFIG_ACTIVATE_SINDICATION" type="list" default="yes">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="publications_activate_sindication" label="JRESEARCH_CONFIG_ACTIVATE_SINDICATION" type="list" default="1">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="publications_items_in_feed" default="10" label="JRESEARCH_CONFIG_ITEMS_IN_RSS_FEED" type="text" />
 
-			<field name="show_score" type="list" default="yes" label="JRESEARCH_CONFIG_SHOW_SCORE" description="JRESEARCH_CONFIG_SHOW_SCORE_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="show_score" type="list" default="1" label="JRESEARCH_CONFIG_SHOW_SCORE" description="JRESEARCH_CONFIG_SHOW_SCORE_DESCRIPTION">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>			
 			<field name="field_for_score" type="list" default="impact_factor" label="JRESEARCH_PUBLICATIONS_FIELD_FOR_PUNCTUATION" description="JRESEARCH_PUBLICATIONS_FIELD_FOR_PUNCTUATION_DESCRIPTION">
 				<option value="impact_factor">JRESEARCH_JOURNAL_IMPACT_FACTOR</option>
 				<option value="journal_acceptance_rate">JRESEARCH_JOURNAL_ACCEPTANCE_RATE</option>
 			</field>					
-			<field name="show_authors" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_AUTHORS">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="show_authors" type="list" default="1" label="JRESEARCH_PUBLICATIONS_SHOW_AUTHORS">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
-			<field name="show_research_areas" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_RESEARCH_AREAS">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="show_research_areas" type="list" default="1" label="JRESEARCH_PUBLICATIONS_SHOW_RESEARCH_AREAS">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>			
-			<field name="show_year" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_SHOW_YEAR">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="show_year" type="list" default="1" label="JRESEARCH_PUBLICATIONS_SHOW_YEAR">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
-			<field name="show_hits" type="list" default="no" label="JRESEARCH_PUBLICATIONS_SHOW_HITS" >
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="show_hits" type="list" default="0" label="JRESEARCH_PUBLICATIONS_SHOW_HITS" >
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>			
-			<field name="show_export_bibtex" type="list" default="no" label="JRESEARCH_PUBLICATION_EXPORT_BIBTEX" description="JRESEARCH_PUBLICATION_EXPORT_BIBTEX_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>						
+			<field name="show_export_bibtex" type="list" default="0" label="JRESEARCH_PUBLICATION_EXPORT_BIBTEX" description="JRESEARCH_PUBLICATION_EXPORT_BIBTEX_DESCRIPTION">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>						
 			</field>
-			<field name="show_export_ris" type="list" default="no" label="JRESEARCH_PUBLICATION_EXPORT_RIS" description="JRESEARCH_PUBLICATION_EXPORT_RIS_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>						
+			<field name="show_export_ris" type="list" default="0" label="JRESEARCH_PUBLICATION_EXPORT_RIS" description="JRESEARCH_PUBLICATION_EXPORT_RIS_DESCRIPTION">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>						
 			</field>			
-			<field name="show_export_mods" type="list" default="no" label="JRESEARCH_PUBLICATION_EXPORT_MODS" description="JRESEARCH_PUBLICATION_EXPORT_MODS_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>						
+			<field name="show_export_mods" type="list" default="0" label="JRESEARCH_PUBLICATION_EXPORT_MODS" description="JRESEARCH_PUBLICATION_EXPORT_MODS_DESCRIPTION">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>						
 			</field>
-			<field name="show_export_all" type="list" default="no" label="JRESEARCH_PUBLICATION_EXPORT_ALL" description="JRESEARCH_PUBLICATION_EXPORT_ALL_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>						
+			<field name="show_export_all" type="list" default="0" label="JRESEARCH_PUBLICATION_EXPORT_ALL" description="JRESEARCH_PUBLICATION_EXPORT_ALL_DESCRIPTION">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>						
 			</field>
 			<field name="show_export_all_format" type="list" default="bibtex" label="JRESEARCH_PUBLICATION_EXPORT_ALL_FORMAT" description="JRESEARCH_PUBLICATION_EXPORT_ALL_FORMAT_DESCRIPTION">
 				<option value="all">JRESEARCH_ALL</option>
@@ -103,29 +103,29 @@
 				<option value="mods">MODS</option>
 				<option value="ris">RIS</option>
 			</field>										
-			<field name="filter_teams" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="filter_teams" type="list" default="1" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TEAM_DESCRIPTION">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
-			<field name="filter_areas" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="filter_areas" type="list" default="1" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AREA_DESCRIPTION">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
-			<field name="filter_year" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR" description="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="filter_year" type="list" default="1" label="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR" description="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR_DESCRIPTION">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
-			<field name="filter_type" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="filter_type" type="list" default="1" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE" description="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE_DESCRIPTION">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
-			<field name="filter_authors" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="filter_authors" type="list" default="1" label="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS" description="JRESEARCH_PUBLICATIONS_FILTER_BY_AUTHORS_DESCRIPTION">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
-			<field name="filter_search" type="list" default="yes" label="JRESEARCH_PUBLICATIONS_FILTER_TEXT" description="JRESEARCH_PUBLICATIONS_FILTER_TEXT_DESCRIPTION">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>			
+			<field name="filter_search" type="list" default="1" label="JRESEARCH_PUBLICATIONS_FILTER_TEXT" description="JRESEARCH_PUBLICATIONS_FILTER_TEXT_DESCRIPTION">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>			
 			</field>												
 		</fieldset>
 	</fields>

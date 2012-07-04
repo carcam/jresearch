@@ -15,7 +15,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<button onclick="this.form.submit();"><?php echo JText::_('Go'); ?></button>
 					<button onclick="document.adminForm.filter_search.value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
 				</td>
-				<td nowrap="nowrap">
+				<td nowrap="nowrap">					
+					<?php echo $this->lists['year']; ?>
 					<?php echo $this->lists['state']?>
 					<?php echo $this->lists['authors']?>
 					<?php echo $this->lists['area']?>
@@ -31,7 +32,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort', 'Title', 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="text-align: center; width: 32%;"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></th>
-			<th style="text-align: center; width: 32%;"><?php echo JHTML::_('grid.sort',   JText::_('JRESEARCH_RESEARCH_AREA'), 'id_research_area', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 5%;"><?php echo JText::_('Hits'); ?></th>
 		</tr>
 		</thead>
@@ -53,7 +53,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
 					$members = $this->items[$i]->getAuthors();
-					$researchArea = $this->area->getItem((int)$this->items[$i]->id_research_area);
 		          	foreach($members as $member){ 
 		             	if($member instanceof JResearchMember)
 		             	 	$text .= ' '.$member->__toString().',';
@@ -69,7 +68,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td class="center"><?php echo $published; ?></td>
 					<td class="center"><?php echo $text; ?></td>
-					<td class="center"><?php echo $researchArea->name ;?></td>
 					<td class="center"><?php echo $this->items[$i]->hits ;?></td>
 				</tr>
 			<?php

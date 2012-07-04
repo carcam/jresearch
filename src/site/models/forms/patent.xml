@@ -185,6 +185,16 @@
                 />
         </fieldset>
         <fieldset name="specific">
+        		<field
+                        id="patent_number"
+                        name="patent_number"
+                        type="text"
+                        size="20"
+                        maxlength="20"
+                        class="inputbox"
+                        default=""
+                        label="JRESEARCH_PATENT_NUMBER"        		
+        		/>        
                 <field
                         id="filing_date"
                         name="filing_date"

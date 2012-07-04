@@ -38,20 +38,20 @@
 				<option value="only_former">JRESEARCH_ONLY_FORMER</option>
                 <option value="all">JRESEARCH_ALL</option>
 			</field>
-			<field name="staff_show_location" label="JRESEARCH_STAFF_SHOW_LOCATION" default="yes" type="radio">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="staff_show_location" label="JRESEARCH_STAFF_SHOW_LOCATION" default="1" type="radio">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
-			<field name="staff_show_phone" label="JRESEARCH_STAFF_SHOW_PHONE" default="yes" type="radio">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="staff_show_phone" label="JRESEARCH_STAFF_SHOW_PHONE" default="1" type="radio">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
-			<field name="staff_show_research_area" label="JRESEARCH_STAFF_SHOW_RESEARCH_AREAS" default="yes" type="radio">
-				<option value="yes">Yes</option>
-				<option value="no">No</option>
+			<field name="staff_show_research_area" label="JRESEARCH_STAFF_SHOW_RESEARCH_AREAS" default="1" type="radio">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="staff_show_title" label="JRESEARCH_STAFF_SHOW_TITLE" default="no" type="radio" >
-				<option value="no">No</option>			
+				<option value="no">JNO</option>			
 				<option value="next_to_name">JRESEARCH_NEXT_TO_NAME</option>
 				<option value="own_column">JRESEARCH_OWN_COLUMN</option>
 			</field>			

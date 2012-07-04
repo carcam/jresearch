@@ -8,88 +8,61 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<tr>
-	<?php $colspan = 4; ?>
+<div class="divTR">
 	<?php $publisher = trim($this->publication->publisher);  ?>
 	<?php if(!empty($publisher)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('Publisher').': ' ?></th>		
-	<td><?php echo $publisher; ?></td>
+	<div class="divTd"><?php echo JText::_('Publisher').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $publisher; ?></div>
 	<?php endif; ?>
 	<?php $editor = trim($this->publication->editor); ?>
 	<?php if(!empty($editor)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></th>
-	<td><?php echo $editor ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></div>
+	<div class="divTdl"><?php echo $editor ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
+	<div class="divEspacio"></div>	
+</div>
 
-<tr>
-	<?php $colspan = 4; ?>
+<div class="divTR">
 	<?php $volume = trim($this->publication->volume);  ?>
 	<?php if(!empty($volume)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_VOLUME').': ' ?></th>		
-	<td><?php echo $volume; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_VOLUME').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $volume; ?></div>
 	<?php endif; ?>
 	<?php $number = trim($this->publication->number); ?>
 	<?php if(!empty($number)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_NUMBER').': ' ?></th>
-	<td><?php echo $number ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_NUMBER').': ' ?></div>
+	<div class="divTdl"><?php echo $number ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
-<tr>
-	<?php $colspan = 4; ?>
+</div>
+<div class="divTR">
 	<?php $series = trim($this->publication->series);  ?>
 	<?php if(!empty($series)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_SERIES').': ' ?></th>		
-	<td><?php echo $series; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_SERIES').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $series; ?></div>
 	<?php endif; ?>
 	<?php $address = trim($this->publication->address); ?>
 	<?php if(!empty($address)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></th>
-	<td><?php echo $address ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></div>
+	<div class="divTdl"><?php echo $address ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
-<tr>
-	<?php $colspan = 4; ?>
+	<div class="divEspacio"></div>	
+</div>
+<div class="divTR">
 	<?php $edition = trim($this->publication->edition);  ?>
 	<?php if(!empty($edition)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_EDITION').': ' ?></th>		
-	<td><?php echo $edition; ?></td>
+	<div class="divTd"><?php echo JText::_('JRESEARCH_EDITION').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $edition; ?></div>
 	<?php endif; ?>
 	<?php $month = trim($this->publication->month); ?>
 	<?php if(!empty($month)): ?>
-	<?php $colspan -= 2; ?>
-	<th scope="row"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></th>
-	<td><?php echo JResearchPublicationsHelper::formatMonth($month); ?></td>
-	<?php else: ?>
-	<?php if($colspan > 0): ?>
-	<td colspan="<?php echo $colspan; ?>"></td>	
+	<div class="divTd"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></div>
+	<div class="divTld"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></div>
 	<?php endif; ?>
-	<?php endif; ?>
-</tr>
+</div>
 <?php $isbn = trim($this->publication->isbn);  ?>
 <?php if(!empty($isbn)): ?>
-<tr>
-	<th scope="row"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></th>		
-	<td><?php echo $isbn; ?></td>
-	<td colspan="2"></td>	
-</tr>
+<div class="divTR">
+	<div class="divTd"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></div>		
+	<div class="divTdl divTdl2"><?php echo $isbn; ?></div>
+</div>
 <?php endif; ?>

@@ -53,9 +53,9 @@ class JResearchViewTeam extends JResearchView
 		
 		$members = $model->getMembers($id);
 		
-		$show_publications = $params->get('team_show_publications', 'yes');
-		$show_projects = $params->get('team_show_projects', 'yes');
-		$show_theses = $params->get('team_show_theses', 'yes');
+		$show_publications = $params->get('team_show_publications', 1);
+		$show_projects = $params->get('team_show_projects', 1);
+		$show_theses = $params->get('team_show_theses', 1);
 		
 		if($show_publications == "yes")
 		{

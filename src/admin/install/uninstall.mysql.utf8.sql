@@ -3,7 +3,8 @@
 -- Author: Luis Galarraga
 -- Date: 28-05-2008 19:43:00
 
-DROP TABLE IF EXISTS `#__jresearch_citing_style`;
+DROP VIEW IF EXISTS `#__jresearch_all_project_authors`;
+DROP VIEW IF EXISTS `#__jresearch_all_publication_authors`;
 DROP TABLE IF EXISTS `#__jresearch_cooperations`;
 DROP TABLE IF EXISTS `#__jresearch_facilities`;
 DROP TABLE IF EXISTS `#__jresearch_financier`;
@@ -13,8 +14,6 @@ DROP TABLE IF EXISTS `#__jresearch_project_external_author`;
 DROP TABLE IF EXISTS `#__jresearch_project_financier`;
 DROP TABLE IF EXISTS `#__jresearch_project_internal_author`;
 DROP TABLE IF EXISTS `#__jresearch_publication`;
-DROP TABLE IF EXISTS `#__jresearch_publication_comment`;
-DROP TABLE IF EXISTS `#__jresearch_publication_config_custom_citing_style`;
 DROP TABLE IF EXISTS `#__jresearch_publication_external_author`;
 DROP TABLE IF EXISTS `#__jresearch_publication_internal_author`;
 DROP TABLE IF EXISTS `#__jresearch_research_area`;
@@ -29,4 +28,5 @@ DROP TABLE IF EXISTS `#__jresearch_thesis_researcharea`;
 DROP TABLE IF EXISTS `#__jresearch_member_researcharea`;
 DROP TABLE IF EXISTS `#__jresearch_research_area_team`;
 DROP TABLE IF EXISTS `#__jresearch_publication_keyword`;
+DROP TABLE IF EXISTS `#__jresearch_project_keyword`;
 DROP TABLE IF EXISTS `#__jresearch_keyword`;

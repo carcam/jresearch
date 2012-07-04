@@ -31,9 +31,9 @@ class JResearchAccessHelper{
  
         $actions = array('core.admin', 'core.manage', 'core.publications.create', 'core.publications.edit'
         , 'core.publications.delete', 'core.publications.edit.own', 'core.publications.edit.state'
-        , 'core.staff.create', 'core.staff.edit', 'core.staff.delete', 'core.staff.edit.own', 
-        'core.researchareas.create', 'core.researchareas.edit', 'core.researchareas.edit.own', 
-        'core.researchareas.delete');
+        , 'core.staff.create', 'core.staff.edit', 'core.staff.delete', 'core.staff.edit.own'
+        , 'core.researchareas.create', 'core.researchareas.edit', 'core.researchareas.edit.own', 'core.researchareas.delete'
+        , 'core.projects.create', 'core.projects.edit', 'core.projects.delete', 'core.projects.edit.state');
  
         foreach ($actions as $action) {
         	$result->set($action, $user->authorise($action, $assetName));

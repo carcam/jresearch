@@ -9,8 +9,8 @@
 * of research projects in the backend interface.
 */
 
-jimport('joomla.application.component.controller');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'project.php');
+jresearchimport('joomla.application.component.controller');
+jresearchimport('helpers.access', 'jresearch.admin');
 
 /**
 * Projects Backend Controller
@@ -47,15 +47,16 @@ class JResearchAdminProjectsController extends JController
 	 */
 
 	function display(){
-		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'projectslist');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
-		$view = &$this->getView('ProjectsList', 'html', 'JResearchAdminView');
-		$model = &$this->getModel('ProjectsList', 'JResearchModel');
-		$areaModel = &$this->getModel('ResearchArea', 'JResearchModel');
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
-		$view->display();
-
+		$user = JFactory::getUser();
+		if($user->authorise('core.manage', 'com_jresearch')){		
+			$view = $this->getView('Projects', 'html', 'JResearchAdminView');
+    	    $model = $this->getModel('Projects', 'JResearchAdminModel');
+        	$view->setModel($model, true);
+        	$view->setLayout('default');
+        	$view->display();
+		}else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+		}
 	}
 
 	/**
@@ -64,44 +65,46 @@ class JResearchAdminProjectsController extends JController
 	* @access public
 	*/
 	function edit(){
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'financiers');
-		
-		$cid = JRequest::getVar('cid', array());
-		
-		$view = &$this->getView('Project', 'html', 'JResearchAdminView');	
-		
-		$finModel = &$this->getModel('Financiers', 'JResearchModel');
-		$coopModel = &$this->getModel('Cooperations', 'JResearchModel');
-		$areaModel = &$this->getModel('ResearchAreasList', 'JResearchModel');
-		$model =& $this->getModel('Project', 'JResearchModel');
-
-		if(!empty($cid)){
-			$project = $model->getItem($cid[0]);
-			if(!empty($project)){
-				$user =& JFactory::getUser();
-				// Verify if it is checked out
-				if($project->isCheckedOut($user->get('id'))){
-					$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
-				}else{
-					$project->checkout($user->get('id'));
-				}
-			}else{
-				JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
-				$this->setRedirect('index.php?option=com_jresearch&controller=projects');
-			}	
+		$app = JFactory::getApplication();
+        $cid = JRequest::getVar('cid', array());
+        $view = $this->getView('Project', 'html', 'JResearchAdminView');
+        $projModel = $this->getModel('Project', 'JResearchAdminModel');
+        $user = JFactory::getUser();
+        
+        if(!empty($cid)){
+        	$project = $projModel->getItem();
+            if(!empty($project)){
+            	$canDoProj = JResearchAccessHelper::getActions('project', $cid[0]);
+            	if($canDoProj->get('core.publications.edit') ||
+     			($canDoProj->get('core.publications.edit.own') && $project->created_by == $user->get('id'))){
+                	// Verify if it is checked out
+                	if($project->isCheckedOut($user->get('id'))){
+                		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_BLOCKED_ITEM_MESSAGE'));
+                	}else{
+                		$project->checkout($user->get('id'));
+                    	$view->setLayout('default');
+                    	$view->setModel($projModel, true);
+                    	$view->display();
+                	}
+	            }else{
+					JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+        	        $this->setRedirect('index.php?option=com_jresearch&controller=projects');
+            	}
+        	}else{
+    	        JError::raiseWarning(1, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
+        	    $this->setRedirect('index.php?option=com_jresearch&controller=projects');
+        	}
 		}else{
-			$session =& JFactory::getSession();
-			$session->set('citedRecords', array(), 'jresearch');
-		}
-		
-		//Set models
-		$view->setModel($model, true);
-		$view->setModel($areaModel);
-		$view->setModel($finModel);
-		$view->setModel($coopModel);
-		$view->display();
+			$canDoProjs = JResearchAccessHelper::getActions();        		
+        	if($canDoProjs->get('core.projects.create')){
+	        	$app->setUserState('com_jresearch.edit.project.data', array());            	
+    	        $view->setLayout('default');
+        	    $view->setModel($projModel, true);
+            	$view->display();
+        	}else{
+				JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));        		
+        	}
+		}		
 	}
 	
 	/**
@@ -109,14 +112,15 @@ class JResearchAdminProjectsController extends JController
 	* @access	public
 	*/ 
 	function publish(){
-		// Array of ids
-		$db =& JFactory::getDBO();
-		$cid = JRequest::getVar('cid');
-
-		$project = new JResearchProject($db);
-		$project->publish($cid, 1);
-		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));
-		
+		JRequest::checkToken() or jexit( 'JInvalid_Token' );
+				
+        $model = $this->getModel('Project', 'JResearchAdminModel');
+        if(!$model->publish()){
+            JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));   
+	        $this->setRedirect('index.php?option=com_jresearch&controller=projects');       
+        }else{
+	        $this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));        	
+        }				
 	}
 
 	/**
@@ -124,14 +128,15 @@ class JResearchAdminProjectsController extends JController
 	* @access	public
 	*/ 
 	function unpublish(){
-		// Array of ids
-		$db =& JFactory::getDBO();
-		$cid = JRequest::getVar('cid');
-				
-		$project = new JResearchProject($db);
-		$project->publish($cid, 0);
-		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));		
+		JRequest::checkToken() or jexit( 'JInvalid_Token' );
 		
+        $model = $this->getModel('Project', 'JResearchAdminModel');
+        if(!$model->unpublish()){
+            JError::raiseWarning(1, JText::_('JRESEARCH_UNPUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
+        	$this->setRedirect('index.php?option=com_jresearch&controller=projects');            
+        }else{
+	        $this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));    	
+        }				
 	}
 
 	/**
@@ -139,20 +144,14 @@ class JResearchAdminProjectsController extends JController
 	* @access	public
 	*/ 
 	function remove(){
-		$db =& JFactory::getDBO();
-		$cid = JRequest::getVar('cid');
-		$n = 0;
-		
-		$project = new JResearchProject($db);
-		foreach($cid as $id){
-			if(!$project->delete($id)){
-				JError::raiseWarning(1, JText::sprintf('JRESEARCH_PROJECT_NOT_DELETED', $id));
-			}else{
-				$n++;
-			}
-		}
-		$this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', $n));
-		
+        JRequest::checkToken() or jexit( 'JInvalid_Token' );	
+        $model = $this->getModel('Project', 'JResearchAdminModel');
+        $n = $model->delete();
+        $this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::sprintf('JRESEARCH_ITEM_SUCCESSFULLY_DELETED', $n));
+        $errors = $model->getErrors();
+        if(!empty($errors)){
+        	JError::raiseWarning(1, explode('<br />', $errors));
+        }        
 	}
 
 	/**
@@ -160,169 +159,60 @@ class JResearchAdminProjectsController extends JController
 	 *
 	 */
 	function save(){
-            global $mainframe;
-
-            if(!JRequest::checkToken())
-            {
-                $this->setRedirect('index.php?option=com_jresearch');
-                return;
-            }
-
-            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
-
-            $db = JFactory::getDBO();
-
-            $params = JComponentHelper::getParams('com_jresearch');
-            $imageWidth = $params->get('project_image_width', _PROJECT_IMAGE_MAX_WIDTH_);
-            $imageHeight = $params->get('project_image_height', _PROJECT_IMAGE_MAX_HEIGHT_);
-
-            $project = JTable::getInstance('Project', 'JResearch');
-            $user = JFactory::getUser();
-            $id = JRequest::getInt('id');
-            $post = JRequest::get('post');
-
-            $filesCount = JRequest::getInt('count_attachments');
-            $filesResults = array();
-            $projectFiles = array();
-
-            // Construct array with previously attached files
-            for($k = 0; $k <= $filesCount; $k++){
-                    $oldFile = JRequest::getVar('old_attachments_'.$k, null);
-                    if($oldFile != null)
-                            $projectFiles[] =  $oldFile;
-            }
-
-            // Verify new attached files
-            for($k = 0; $k <= $filesCount; $k++){
-                    $file = JRequest::getVar('file_attachments_'.$k, null, 'FILES');
-                    $params = JComponentHelper::getParams('com_jresearch');
-                    if(!empty($file['name'])){
-                             $result = JResearch::uploadDocument($file, $params->get('files_root_path', 'files').DS.'projects');
-                             if($result != null)
-                                     $filesResults[$k] = $result;
-                    }else{
-                            $delete = JRequest::getVar('delete_attachments_'.$k, null);
-                            if($delete != null){
-                                    if($delete == 'on'){
-                                            if(!empty($projectFiles[$k])){
-                                                    $path = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'projects'.DS.$projectFiles[$k];
-                                                    @unlink($path);
-                                                    unset($projectFiles[$k]);
-                                            }
-                                    }
-                            }
-                    }
-            }
-            $project->files = implode(';', array_merge($projectFiles, $filesResults));
-
-            // Bind request variables to publication attributes
-            $project->bind($post);
-            $project->title = trim(JRequest::getVar('title','','post','string',JREQUEST_ALLOWHTML));
-            $project->description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
-            //Upload photo
-            $fileArr = JRequest::getVar('inputfile', null, 'FILES');
-            $delete = JRequest::getVar('delete');
-
-            JResearch::uploadImage(	$project->url_project_image, 	//Image string to save
-                                                            $fileArr, 			//Uploaded File array
-                                                            'assets'.DS.'projects'.DS, //Relative path from administrator folder of the component
-                                                            ($delete == 'on')?true:false,	//Delete?
-                                                             $imageWidth, //Max Width
-                                                             $imageHeight //Max Height
-            );
-
-            //Time to set the authors
-            $maxAuthors = JRequest::getInt('nmembersfield');
-            $k = 0;
-
-            for($j=0; $j<=$maxAuthors; $j++){
-                    $value = JRequest::getVar("membersfield".$j);
-                    $flagValue = JRequest::getVar("check_membersfield".$j);
-                    $flag = $flagValue == 'on'?true:false;
-                    if(!empty($value)){
-                            $project->setAuthor(trim($value), $k, is_numeric($value), $flag);
-                            $k++;
-                    }
-            }
-
-            //Set financiers for the project
-            $financiers = JRequest::getVar('id_financier', array());
-            if(is_array($financiers))
-            {
-                    foreach($financiers as $fin)
-                    {
-                            $id = (int) $fin;
-                            $project->setFinancier($id);
-                    }
-            }
-
-            //Set cooperations for the project
-            $cooperations = JRequest::getVar('id_cooperation', array());
-
-            if(is_array($cooperations))
-            {
-                    foreach($cooperations as $coop)
-                    {
-                            $project->setCooperation(intval($coop));
-                    }
-            }
-
-            // Set the id of the author if the item is new
-            if(empty($project->id))
-                    $project->created_by = $user->get('id');
-
-            $reset = JRequest::getVar('resethits', false);
-            if($reset == 'on'){
-                $project->hits = 0;
-            }
-
-            //Generate an alias if needed
-            $alias = trim(JRequest::getVar('alias'));
-            if(empty($alias)){
-                    $project->alias = JResearch::alias($project->title);
-            }else{
-                    $project->alias = JResearch::alias($project->alias);
-            }
-
-            // Validate and save
-            $task = JRequest::getVar('task');
-            if($project->check()){
-                    if($project->store()){
-                            if($task == 'save')
-                                    $this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_PROJECT_SUCCESSFULLY_SAVED'));
-                            elseif($task == 'apply')
-                                    $this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$project->id, JText::_('JRESEARCH_PROJECT_SUCCESSFULLY_SAVED'));
-
-                            // Trigger event
-                            $arguments = array('project', $project->id);
-                            $mainframe->triggerEvent('onAfterSaveJResearchEntity', $arguments);
-
-                    }else{
-                            if($db->getErrorNum() == 1062){
-                                    JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.JText::_('JRESEARCH_DUPLICATED_RECORD').': '.$db->getErrorMsg());
-                            }else
-                                    JError::raiseWarning(1, JText::_('JRESEARCH_SAVE_FAILED').': '.$db->getErrorMsg());
-
-                            $idText = !empty($project->id) && $task == 'apply'?'&cid[]='.$project->id:'';
-                            $this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit'.$idText);
-                    }
-            }else{
-                    for($i=0; $i<count($project->getErrors()); $i++)
-                            JError::raiseWarning(1, $project->getError($i));
-
-                    $idText = !empty($project->id)?'&cid[]='.$project->id:'';
-                    $this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit'.$idText);
-            }
-
-            if(!empty($project->id)){
-                    $user =& JFactory::getUser();
-                    if(!$project->isCheckedOut($user->get('id'))){
-                            if(!$project->checkin())
-                                    JError::raiseWarning(1, JText::_('JRESEARCH_UNLOCK_FAILED'));
-                    }
-            }
+		JRequest::checkToken() or jexit( 'JInvalid_Token' );	
+			
+		jresearchimport('helpers.projects', 'jresearch.admin');	
+		jresearchimport('helpers.access', 'jresearch.admin');		
+					
+		$model = $this->getModel('Project', 'JResearchAdminModel');
+        $app = JFactory::getApplication();
+		$form &= $model->getData();
+		$canDoPubs = JResearchAccessHelper::getActions();
+		$canProceed = false;	
+		$user = JFactory::getUser();
+		$params = JComponentHelper::getParams('com_jresearch');
 		
+		
+		// Permissions check
+		if(empty($form['id'])){
+			$canProceed = $canDoPubs->get('core.projects.create');
+			if(!isset($form['published'])){
+				$form['published'] = $params->get('projects_default_published_status', 1);
+			}
+		}else{
+			$canDoProj = JResearchAccessHelper::getActions('project', $form['id']);
+			$publication = JResearchProjectsHelper::getProject($form['id']);
+			$canProceed = $canDoPub->get('core.project.edit') ||
+     			($canDoPubs->get('core.projects.edit.own') && $publication->created_by == $user->get('id'));
+		}
+        
+		if(!$canProceed){
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
+			return;
+		}
+		
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'project'));		                
+        if ($model->save()){
+            $task = JRequest::getVar('task');             	
+            $project = $model->getItem();
+        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($project, 'project'));        
+             
+            if($task == 'save'){
+                $this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+             	$app->setUserState('com_jresearch.edit.project.data', array());
+            }elseif($task == 'apply'){
+             	$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$project->id, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+            }
+        }else{
+            $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
+            $type = 'error';
+            $app = JFactory::getApplication();
+            $app->enqueueMessage($msg, $type);                
+            $view = $this->getView('Project','html', 'JResearchAdminView');
+            $view->setLayout('default');
+            $view->setModel($model, true);
+            $view->display();
+        }
 	}
 	
 	/**

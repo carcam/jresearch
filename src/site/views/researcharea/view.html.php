@@ -30,8 +30,8 @@ class JResearchViewResearchArea extends JResearchView
     	$publications_view_all = JRequest::getVar('publications_view_all', 0);
     	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
     	$theses_view_all = JRequest::getVar('theses_view_all', 0);
-    	$showMembers = ($params->get('area_show_members', 'yes') == 'yes');
-    	$showPublications = ($params->get('area_show_publications', 'yes') == 'yes');
+    	$showMembers = $params->get('area_show_members', 1);
+    	$showPublications = $params->get('area_show_publications', 1);
     	
         // The uncategorized view is not retrieved
     	if($id == 1 || empty($id)){
@@ -46,7 +46,7 @@ class JResearchViewResearchArea extends JResearchView
             return;
         }
         
-        if($showMembers == 'yes'){
+        if($showMembers == 1){
 	        $members = $model->getStaffMembers('all');
 	        $this->assignRef('members', $members);
         }    
@@ -81,7 +81,7 @@ class JResearchViewResearchArea extends JResearchView
     		
     	$description = str_replace('<hr id="system-readmore" />', '', $area->description);	
     		
-    	$applyStyle = ($params->get('publications_apply_style') == 'yes');
+    	$applyStyle = $params->get('publications_apply_style');
     	$configuredCitationStyle = $params->get('citationStyle', 'APA');
     	$format = $params->get('staff_format', 'last_first');
     	

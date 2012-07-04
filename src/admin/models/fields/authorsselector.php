@@ -51,6 +51,7 @@ class JFormFieldAuthorsselector extends JFormField
 		$repeatedAuthors = JText::_('JRESEARCH_AUTHOR_ADDED_BEFORE');
 		$minAuthorLengthMessage = JText::_('JRESEARCH_MIN_AUTHOR_LENGTH_MESSAGE');   	
 		$noResults = JText::_('JRESEARCH_NO_RESULTS');
+		$allowPrincipals = ($this->element['allowPrincipals'] == 'true');
 
 		if(!empty($this->value))
 			$values = explode(';', trim($this->value));
@@ -99,7 +100,9 @@ class JFormFieldAuthorsselector extends JFormField
 		}else{
 			$output .= "<div class=\"divTdl\"><ul id=\"".$textField."result\">";			
 			$j = 0;
-			foreach($values as $author){
+			foreach($values as $authorEntry){
+				$authorEntryArray = explode('|', $authorEntry);
+				$author = $authorEntryArray[0]; 
 				$output .= "<li id=\"li".$textField.$j."\">";
 				$authorText = null;
 				if(is_numeric($author)){
@@ -116,14 +119,12 @@ class JFormFieldAuthorsselector extends JFormField
 					$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:removeAuthor('li$textField$j')\">$delete</a></span>";
 					$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveUp('li$textField$j')\"><img style=\"width:16px;height:16px;float:none\" src=\"$upImage\" alt=\"\" /></a></span>";
 					$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveDown('li$textField$j')\"><img style=\"width:16px;height:16px;float:none\" src=\"$downImage\" alt=\"\" /></a></span>";				
-					if(false){
-						if($isPrincipalsArray != null)
-							$onText = $isPrincipalsArray[$j]?'value="on" checked="checked"':''; 
-						else
-							$onText = '';	
+					if($allowPrincipals)
+						$onText = isset($authorEntryArray[1]) && $authorEntryArray[1] == 'on'?'value="on" checked="checked"':''; 
+					else
+						$onText = '';	
 	
-						$output .= "<label for=\"check_".$textField."$j\">$projectLeader</label><input type=\"checkbox\" id=\"check_".$textField."$j\" name=\"check_".$textField."$j\" ".$onText."  />";
-					}
+					$output .= "<label for=\"jform[check_".$textField."$j]\">$projectLeader</label><input type=\"checkbox\" id=\"jform[check_".$textField."$j]\" name=\"jform[check_".$textField."$j]\" ".$onText."  />";
 					$output .= "</li>";
 					$j++;
 				}

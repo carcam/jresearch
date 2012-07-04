@@ -30,10 +30,8 @@ class JResearchProjectsController extends JResearchFrontendController
 		
 		$this->registerTask('show', 'show');
 		// Add models paths
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'projects');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
-		
-		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'projectslist');
+		$this->addModelPath(JPATH_COMPONENT.DS.'models'.DS.'projects');		
+		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'projects');
 		$this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'project');		
 		
 		$this->addPathwayItem(JText::_('JRESEARCH_PROJECTS'), 'index.php?option=com_jresearch&view=projectslist');
@@ -46,7 +44,7 @@ class JResearchProjectsController extends JResearchFrontendController
 	 */
 
 	function display(){
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 		
 		//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
@@ -65,52 +63,23 @@ class JResearchProjectsController extends JResearchFrontendController
 		JRequest::setVar('filter_order_Dir', $order_Dir);
 		
 		// Set the view and the model
-		$model =& $this->getModel('ProjectsList', 'JResearchModel');
-		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-		$view =& $this->getView('ProjectsList', 'html', 'JResearchView');
+		$model =& $this->getModel('Projects', 'JResearchModel');
+		$view =& $this->getView('Projects', 'html', 'JResearchView');
 		$view->setModel($model, true);
-		$view->setModel($areaModel);
 		$view->display();		
 	}
-
-	/**
-	* Invoked when an authenticated user decides to create/edit a project he/she is part of
-	* 
-	* @access public
-	*/
-	function edit(){
-		
-		JRequest::setVar('view', 'projects');
-		JRequest::serVar('layout', 'edit');
-		parent::display();
-	}
-
+	
 	/**
 	* Invoked when the visitant has decided to see the detailed description of
-	* a research project.
+	* a publication.
 	* @access public
 	*/
 	function show(){
-		require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html'.DS.'jresearch.php');
-		$model =& $this->getModel('Project', 'JResearchModel');
-		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
-		
-		$view =& $this->getView('Project', 'html', 'JResearchView');
+		$model = $this->getModel('Project', 'JResearchModel');
+		$view = $this->getView('Project', 'html', 'JResearchView');
 		$view->setModel($model, true);
-		$view->setModel($areaModel);
-
-		$view->display();
+		$view->display();				
 	}
-
-	/**
-	* Invoked when an authenticated user sees the list of his/her projects
-	* in an administrator form.
-	*
-	*/
-	function administer(){
-		JRequest::setVar('view', 'projects');
-		JRequest::setVar('layout', 'admin');
-		parent::display();
-	}
+	
 }
 ?>
