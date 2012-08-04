@@ -83,7 +83,7 @@ class JResearchViewProject extends JResearchView
     	$this->assignRef('coops', $coops);
     	$this->assignRef('description', $description);
     	$this->assignRef('enableThumbnails', $params->get('thumbnail_enable', 1));
-        $this->assignRef('showHits', $params->get('show_hits'));
+        $this->assignRef('showHits', $params->get('show_hits', 'yes') == 'yes');
         $this->assignRef('format', $format);
     	
         parent::display($tpl);

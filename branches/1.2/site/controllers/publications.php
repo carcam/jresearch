@@ -114,6 +114,10 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$model =& $this->getModel('PublicationsList', 'JResearchModel');
 		$areaModel =& $this->getModel('ResearchArea', 'JResearchModel');
 		$view =& $this->getView('PublicationsList', $format, 'JResearchView');
+		$layout = JRequest::getVar('layout');
+		if(!empty($layout))
+			$view->setLayout($layout);
+		
 		$view->setModel($model, true);
 		$view->setModel($areaModel);
 		$view->display();

@@ -175,7 +175,7 @@ $extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
 	<?php endif; ?>	
 	
 	<tr><td colspan="4" style="padding-left: 0px;">
-	<?php $url = str_replace('&', '&amp;', trim($this->publication->url));
+	<?php $url = trim($this->publication->url);
               $n = $this->publication->countAttachments();
         ?>
         <?php if($n == 1):
@@ -188,13 +188,13 @@ $extendedTypes = JResearchPublication::getPublicationsSubtypes('extended');
 		<div><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_ONLINE_VERSION')); ?></div>
         <?php endif ?>
 	<?php if($this->showBibtex): 
-		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$this->publication->id, '[Bibtex]').'</span>';		
+		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&controller=publications&task=export&format=bibtex&id='.$this->publication->id, '[Bibtex]').'</span>';		
 	 endif;?>	
 	<?php if($this->showRIS): 
-		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=ris&amp;id='.$this->publication->id, '[RIS]').'</span>';		
+		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&controller=publications&task=export&format=ris&id='.$this->publication->id, '[RIS]').'</span>';		
 	 endif;?>
 	 <?php if($this->showMODS): 
-		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id='.$this->publication->id, '[MODS]').'</span>';		
+		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&controller=publications&task=export&format=mods&id='.$this->publication->id, '[MODS]').'</span>';		
 	 endif;?>				
 	</td></tr>			
 	

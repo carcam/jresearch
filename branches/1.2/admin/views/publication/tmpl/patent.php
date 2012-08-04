@@ -8,6 +8,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="divTR">
+	<div class="divTd"><label for="patent_number"><?=JText::_('JRESEARCH_PATENT_NUMBER').': ' ?></label></div>
+	<?php $patent_number = isset($this->publication)?$this->publication->patent_number:''; ?>
+
+	<div class="divTdl">
+		<input name="patent_number" id="patent_number" type="text" value="<?php echo $patent_number ?>" size="20" /><br />
+	</div>	
+<div class="divEspacio" >
+</div>
+<div class="divTR">
 	<div class="divTd"><label for="filing_date"><?=JText::_('JRESEARCH_FILING_DATE').': ' ?></label></div>
 	<?php $filDate = isset($this->publication)?$this->publication->filing_date:''; ?>
 	<div class="divTdl divTdl2">
