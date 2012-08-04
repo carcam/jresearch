@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_FACILITY">
+		<message>JRESEARCH_FACILITY_VIEW_MESSAGE</message>
+	</layout>
+	<state>
+		<name>JRESEARCH_FACILITY</name>
+		<description>JRESEARCH_FACILITY_VIEW_MESSAGE</description>
+		<url>
+			<param type="sql" name="id" label="JRESEARCH_FACILITY" 
+			description="JRESEARCH_ITEM_DISPLAYED" query="SELECT id as value, alias as id FROM #__jresearch_facilities WHERE published = 1" />	
+			<param type="hidden" name="task" default="show" />
+		</url>
+		<params>
+			<param name="facility_image_width" default="1024" label="JRESEARCH_FACILITY_IMAGE_WIDTH" type="text" />
+			<param name="facility_image_height" default="768" label="JRESEARCH_FACILITY_IMAGE_HEIGHT" type="text" />		
+		</params>		
+	</state>
+</metadata>
