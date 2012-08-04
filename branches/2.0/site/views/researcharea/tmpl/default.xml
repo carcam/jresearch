@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<metadata>
+	<layout title="JRESEARCH_RESEARCH_AREA" option="JRESEARCH_AREA_VIEW_INFORMATION">
+		<help
+			key = "JRESEARCH_AREA_VIEW_INFORMATION"
+		/>
+		<message>
+			<![CDATA[JRESEARCH_AREA_VIEW_INFORMATION]]>
+		</message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request">
+			<field type="sql" name="id" label="JRESEARCH_RESEARCH_AREA" translate="yes"
+			       description="JRESEARCH_RESEARCH_AREA_DISPLAYED" query="SELECT id as value, alias as id FROM #__jresearch_research_area" />	
+			<field type="hidden" name="task" default="show" />
+		</fieldset>	
+	</fields>
+	<fields name="params">
+		<fieldset name="params">
+            <field name="area_show_members" type="list"
+            	description="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_MEMBERS_DESC"
+                filter="safehtml"
+                label="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_MEMBERS"
+            >
+            	<option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="area_show_publications" type="list"
+                            description="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_PUBLICATIONS_DESC"
+                            filter="safehtml"
+                            label="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_PUBLICATIONS"
+            >
+            	<option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>		
+			<field name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
+			<field name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />			
+			<field name="area_number_last_theses" label="JRESEARCH_CONFIG_LAST_THESES_IN_AREA" default="5" type="text" />	
+		</fieldset>
+	</fields>
+</metadata>
