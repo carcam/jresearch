@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="content">
+	<name>JResearch Persistent Cited Records</name>
+	<author>Luis Gal&#225;rraga</author>
+	<creationDate>July 2008</creationDate>
+	<copyright>Copyright (C) 2008 - Luis Gal&#225;rraga</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>shamantobi@gmail.com</authorEmail>
+	<authorUrl></authorUrl>
+	<version>1.5</version>
+	<description>Store cited records associated to article entries</description>
+	<files>
+		<filename plugin="jresearch_persistent_cited_records">jresearch_persistent_cited_records.php</filename>
+	</files>
+	<params />
+</install>
