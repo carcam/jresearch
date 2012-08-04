@@ -100,14 +100,14 @@ JHTML::_('behavior.modal');
 	  	<ul>
 		  	<?php foreach($this->publications as $pub): ?>
 		  		<?php if(!$this->applyStyle): ?>
-	  				<li><a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $pub->id ?><?php echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo $pub->title; ?></a></li>
+	  				<li><?php echo JHTML::_('jresearch.link', $pub->title, 'publication', 'show', $pub->id); ?></li>
 	  			<?php else: ?>
 	  				<li>
 	  					<?php  
 	  						$styleObj =& JResearchCitationStyleFactory::getInstance($this->style, $pub->pubtype);
 	  						echo $styleObj->getReferenceHTMLText($pub, true); 
-	  					?>
-	  					<a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $pub->id; ?><?php $Itemid = JRequest::getVar('Itemid'); echo !empty($Itemid)?'&amp;Itemid='.$Itemid:''; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a>&nbsp;
+	  					    echo JHTML::_('jresearch.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $pub->id); 
+						?>
 	  				</li>
 	  			<?php endif; ?>	
 	  		<?php endforeach; ?>
