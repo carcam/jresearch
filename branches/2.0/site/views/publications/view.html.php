@@ -172,14 +172,13 @@ class JResearchViewPublications extends JResearchView
     	$mainframe = JFactory::getApplication();    	
     	$params = $mainframe->getParams('com_jresearch');  
     	$layout = $this->getLayout();
-    	
     	$filter = $this->_publicationsFilter($layout,
-    		$params->get('filter_teams', 1),
-    		$params->get('filter_areas', 1),
-    		$params->get('filter_year', 1),
-    		$params->get('filter_search', 1),
-    		$params->get('filter_type', 1),
-    		$params->get('filter_authors', 1)
+    		$params->get('filter_teams', 1) == 1,
+    		$params->get('filter_areas', 1) == 1,
+    		$params->get('filter_year', 1)  == 1,
+    		$params->get('filter_search', 1)  == 1,
+    		$params->get('filter_type', 1)  == 1,
+    		$params->get('filter_authors', 1)  == 1
     	);
     	
     	$this->assignRef('filter', $filter);
@@ -389,13 +388,7 @@ class JResearchViewPublications extends JResearchView
 			$authorsHTML = array();
     		$filter_author = $this->state->get('com_jresearch.publications.filter_author');
 			$authors = JResearchPublicationsHelper::getAllAuthors();
-
-			$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
-			foreach($authors as $auth)
-			{
-				$authorsHTML[] = JHTML::_('select.option', $auth['id'], $auth['name']); 
-			}
-			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
+        	$lists['authors'] = JHTML::_('jresearchhtml.authors', $authors, array('name' => 'filter_author', 'selected' => $filter_author, 'attributes' => $js)); 
     	}
 		
 		if($bTeams === true)

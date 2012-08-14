@@ -282,6 +282,9 @@ class JResearchProject extends JResearchActivity{
 			$orderValue = $db->Quote($order);
 			$principal = $db->Quote((isset($authorEntryArray[1]) && $authorEntryArray[1] == '1'), false);
 			
+			if(empty($author))
+				continue;
+			
 			if(is_numeric($author)){
 				$id_staff_member = $db->Quote($author);
 				$idStaffField = $db->nameQuote('id_staff_member');

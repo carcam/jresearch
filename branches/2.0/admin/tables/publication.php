@@ -82,8 +82,8 @@ class JResearchPublication extends JResearchActivity{
 	 */
 	public $doi;	
 	public $issn;
-    public $isbn;
-    public $volume;
+   	public $isbn;
+    	public $volume;
 	public $number;
 	public $pages;
 	public $month;	    
@@ -218,8 +218,7 @@ class JResearchPublication extends JResearchActivity{
 			$this->doi = trim($this->doi);
 			jresearchimport('helpers.charsets', 'jresearch.admin');
 			$extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());	
-					
-			if(!preg_match("/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/", $this->keywords)){
+			if(!preg_match("/^[-_'\w$extra\s\d]+([,][-_'\w$extra\s\d]+)*[,]?$/", $this->keywords)){
 				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_KEYWORDS'));
 				$withoutErrors = false;
 			}
@@ -298,6 +297,11 @@ class JResearchPublication extends JResearchActivity{
 		$authorsArray = explode(';', $this->authors);
 		$order = 0;
 		foreach($authorsArray as $author){
+			$authorEntryArray = explode('|', $authorsArray);
+			$author = $authorEntryArray[0];
+			if(empty($author))
+				continue;
+			
 			$idValue = $db->Quote($this->id);
 			$orderValue = $db->Quote($order);
 			
@@ -307,7 +311,7 @@ class JResearchPublication extends JResearchActivity{
 				$tableName = $db->nameQuote('#__jresearch_publication_internal_author');
 				$query = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField) VALUES ($idValue, $id_staff_member, $orderValue)";				
 			}else{
-				$authorField = $db->nameQuote('author_name');
+				$authorField = $db->nameQuote('author_name');				
 				$tableName = $db->nameQuote('#__jresearch_publication_external_author');
 				$authorName = $db->Quote($author);
 				$query = "INSERT INTO $tableName($idPubField, $authorField, $orderField) VALUES($idValue, $authorName, $orderValue)";				
