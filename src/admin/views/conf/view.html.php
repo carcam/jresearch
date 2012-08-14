@@ -22,7 +22,7 @@ class JResearchAdminViewConf extends JResearchView
     	
     	if($this->getLayout() == 'help'){
     		JResearchToolbar::helpToolbar();
-		$langObj =  JFactory::getLanguage();
+			$langObj =  JFactory::getLanguage();
     		$this->assignRef('langtag', $langObj->_lang);
     	}else	
     		JResearchToolbar::controlPanelToolbar();

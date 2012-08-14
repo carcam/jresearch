@@ -8,48 +8,46 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.modal');
+jresearchimport('helpers.publications', 'jresearch.admin')
 ?>
 <?php $Itemid = JRequest::getVar('Itemid'); 
 	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  	
 ?>
-<h2 class="componentheading"><?php echo $this->project->title; ?></h2>
+<h1 class="componentheading"><?php echo $this->project->title; ?></h1>
 <?php if($this->showHits): ?>
-<div class="small"><?php echo JText::_('Hits').': '.$this->project->hits; ?></div>
+<div class="small"><?php echo JText::_('JRESEARCH_HITS').': '.$this->project->hits; ?></div>
 <?php endif; ?>
-<table cellspacing="2" cellpadding="2" width="100%">
-<tbody>
-	<tr>
-		<td style="width:20%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></td>
-		<td>
-			<?php if($this->area->id > 1): ?>
-				<a href="index.php?option=com_jresearch&amp;controller=researchAreas&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $ItemidText ?>"><?php echo $this->area->name; ?></a>
-			<?php else: ?>
-				<?php echo $this->area->name; ?>	
-			<?php endif; ?>	
-		</td>
-	   	<?php
-	   	if(empty($this->project->url_project_image)): 
-	   	?>
-    		<td colspan="2"></td>
-       	<?php 
-       	else: 
-       		$url = JResearch::getUrlByRelative($this->project->url_project_image);
-       		$thumb = ($this->enableThumbnails == 1)?JResearch::getThumbUrlByRelative($this->project->url_project_image):$url;
-       	?>		
-    		<td colspan="2">
-    			<a href="<?php echo $url?>" class="modal" rel="{handler: 'image'}">
-    				<img src="<?php echo $thumb; ?>" border="0" alt="<?php echo $this->project->title; ?>" />
-    			</a>
-    		</td>
-    	<?php endif; ?>	
-	</tr>
-	<tr>
-		<?php $status = $this->statusArray[$this->project->status]; ?>
-		<td style="width:20%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_STATUS').': ' ?></td>
-		<td style="width:30%;"><?php echo $status; ?></td>
-		<td colspan="2">&nbsp;</td>
-	</tr>
+<dl class="jresearchitem">
+	<?php 
+		$researchAreas = $this->project->getResearchAreas();
+		$researchAreasNames = array();
+		foreach($researchAreas as $area){
+			if($area->id > 1){
+				if($area->published)
+					$researchAreasNames[] = $area->name;
+				else
+					$researchAreasNames[] = JHTML::_('jresearchfrontend.link', $area->name, 'researcharea', 'display', $area->id, $itemId);
+			}
+		} 
+	?>
+	<?php if(!empty($researchAreasNames)) : ?>			
+	<dt><?php echo JText::_('JRESEARCH_RESEARCH_AREA').': ' ?></dt>		
+		<dd>					
+			<span><?php echo implode(', ', $researchAreasNames); ?></span>
+		</dd>
+   <?php endif; ?> 			
+   	<?php
+   	if(!empty($this->project->logo)): 
+       ?>		
+    	<dd class="projectlogo">
+    		<img src="<?php echo $this->project->logo; ?>" border="0" alt="<?php echo $this->project->title; ?>" />
+    	</dd>
+    <?php endif; ?>	
+
+	<?php $status = $this->statusArray[$this->project->status]; ?>
+	<dt><?php echo JText::_('JRESEARCH_STATUS').': ' ?></dt>
+	<dd><?php echo $status; ?></dd>
 	
 	<?php $authors = $this->project->getPrincipalInvestigators(); ?>
 	<?php $label = JText::_('JRESEARCH_PROJECT_LEADERS'); ?>
@@ -61,13 +59,52 @@ JHTML::_('behavior.modal');
 		<?php $flag = false; ?>
 	<?php endif; ?>	
 	<?php if(!empty($authors)): ?>
-		<tr>
-			<td style="width:20%;" class="publicationlabel"><?php echo $label.': ' ?></td>
-			<?php if($this->staff_list_arrangement == 'horizontal'): ?>
-				<td style="width:30%;">
-						<?php $n = count($authors); 
+	<dt><?php echo $label.': ' ?></dt>
+		<?php if($this->staff_list_arrangement == 'horizontal'): ?>
+		<dd>
+			<?php $n = count($authors); 
+				  $i = 0; ?>
+			<?php foreach($authors as $auth): ?>
+					<?php if($auth instanceof JResearchMember): ?>
+						<?php if($auth->published): ?>
+							<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
+						<?php else: ?>
+							<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
+						<?php endif; ?>	
+					<?php else: ?>
+							<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?><?php echo $i == $n - 1?'':';' ?>
+					<?php endif; ?>
+					<?php $i++; ?>
+			<?php endforeach; ?>
+		</dd>		
+		<?php else: ?>
+			<dd>
+				<ul style="margin:0px;padding:0px;">
+					<?php foreach($authors as $auth): ?>
+						<li style="list-style:none;">
+							<?php if($auth instanceof JResearchMember): ?>
+								<?php if($auth->published): ?>
+									<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
+								<?php else: ?>
+									<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
+								<?php endif; ?>	
+							<?php else: ?>
+									<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?>
+							<?php endif; ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</dd>
+			<?php endif; ?>	
+			<?php if($flag): ?>
+			<?php $nonleaders = $this->project->getNonPrincipalInvestigators(); ?>
+			<?php if(!empty($nonleaders)): ?>
+				<dt><?php echo JText::_('JRESEARCH_PROJECT_COLLABORATORS').': ' ?></dt>
+				<?php if($this->staff_list_arrangement == 'horizontal'): ?>
+					<dd>
+						<?php $n = count($nonleaders); 
 							  $i = 0; ?>
-						<?php foreach($authors as $auth): ?>
+						<?php foreach($nonleaders as $auth): ?>
 								<?php if($auth instanceof JResearchMember): ?>
 									<?php if($auth->published): ?>
 										<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
@@ -79,49 +116,9 @@ JHTML::_('behavior.modal');
 								<?php endif; ?>
 								<?php $i++; ?>
 						<?php endforeach; ?>
-				</td>		
-			<?php else: ?>
-				<td style="width:30%;">
-					<ul style="margin:0px;padding:0px;">
-						<?php foreach($authors as $auth): ?>
-							<li style="list-style:none;">
-								<?php if($auth instanceof JResearchMember): ?>
-									<?php if($auth->published): ?>
-										<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
-									<?php else: ?>
-										<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
-									<?php endif; ?>	
-								<?php else: ?>
-										<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?>
-								<?php endif; ?>
-							</li>
-						<?php endforeach; ?>
-					</ul>
-				</td>
-			<?php endif; ?>	
-			<?php if($flag): ?>
-			<?php $nonleaders = $this->project->getNonPrincipalInvestigators(); ?>
-			<?php if(!empty($nonleaders)): ?>
-				<td style="width:20%;" class="publicationlabel"><?php echo JText::_('JRESEARCH_PROJECT_COLLABORATORS').': ' ?></td>
-				<?php if($this->staff_list_arrangement == 'horizontal'): ?>
-					<td style="width:30%;">
-							<?php $n = count($nonleaders); 
-								  $i = 0; ?>
-							<?php foreach($nonleaders as $auth): ?>
-									<?php if($auth instanceof JResearchMember): ?>
-										<?php if($auth->published): ?>
-											<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
-										<?php else: ?>
-											<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
-										<?php endif; ?>	
-									<?php else: ?>
-											<?php echo JResearchPublicationsHelper::formatAuthor($auth, $this->format); ?><?php echo $i == $n - 1?'':';' ?>
-									<?php endif; ?>
-									<?php $i++; ?>
-							<?php endforeach; ?>
-					</td>
+					</dd>
 				<?php else: ?>
-					<td style="width:30%;">
+					<dd>
 						<ul style="margin:0px;padding:0px;">
 							<?php foreach($nonleaders as $auth): ?>
 								<li style="list-style:none;">
@@ -137,95 +134,70 @@ JHTML::_('behavior.modal');
 								</li>
 							<?php endforeach; ?>
 						</ul>
-					</td>
-				<?php endif; ?>
-			<?php else: ?>
-				<td colspan="2">&nbsp;</td>			
+					</dd>
+				<?php endif; ?>			
 			<?php endif; ?>				
-			<?php else: ?>
-				<td colspan="2">&nbsp;</td>
-			<?php endif; ?>	
-		</tr>	
-	<?php endif; ?>
-	
-	<?php 
-	if(!empty($this->coops)):
-	?>
-	<tr>
-		<th class="field"><?php echo JText::_('JRESEARCH_COOPERATION_WITH'); ?></th>
-		<td colspan="3">
-			<ul>
-				<?php
-				foreach($this->coops as $coop):
-				?>
-					<li>
-						<?php echo $coop->name; ?>
-					</li>
-				<?php
-				endforeach;
-				?>
-			</ul>
-		</td>
-	</tr>
-	<?php
-	endif;
-	?>
-	<tr>
-		<?php $startDate = trim($this->project->start_date); ?>
-		<?php $colspan = 4; ?>
-		<?php if(!empty($startDate) && $startDate != '0000-00-00'): ?>
-		<?php $colspan = 2; ?>
-	  	<td width="20%" class="field"><?php echo JText::_('JRESEARCH_START_DATE').': ' ?></td>
-	  	<td><?php echo $this->project->start_date; ?></td>
-	  	<?php endif; ?>
-		<?php $endDate = trim($this->project->end_date); ?>
-		<?php if(!empty($endDate) && $endDate != '0000-00-00'):  ?>  	
-		<td width="20%" class="field"><?php echo JText::_('JRESEARCH_DEADLINE').': '; ?></td>
-		<td><?php echo $this->project->end_date; ?></td>  	
-		<?php else: ?>
-		<td colspan="<?php echo $colspan; ?>">&nbsp;</td>
 		<?php endif; ?>	
-	</tr>
-	<?php
-	if($this->project->countFinanciers() > 0):
-	?>
-	<tr>
-		<td width="20%" class="field"><?php echo JText::_('JRESEARCH_FUNDED_BY').': '; ?></td>
-		<td>
-			<?php 
-			$financiers = $this->project->getFinanciers();
-			echo implode('<br />', $financiers);
-                        ?>
-		</td>
-		<td width="20%" class="field"><?php echo JText::_('JRESEARCH_PROJECT_FUNDING').': '; ?></td>
-                <td><?php echo $this->project->finance_value.' '.$this->project->finance_currency; ?>
-</td>
-	</tr>
-	<?php
-	endif;
-	?>
-	<?php $url = str_replace('&', '&amp;', trim($this->project->url)); ?>
-	<?php if(!empty($url)): ?>
-		<tr><td colspan="4"><span><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></span></td></tr>
+	<?php endif; ?>
+	<?php $startDate = trim($this->project->start_date); ?>
+	<?php if(!empty($startDate) && $startDate != '0000-00-00'): ?>
+	  	<dt><?php echo JText::_('JRESEARCH_START_DATE').': ' ?></dt>
+	  	<dd><?php echo $this->project->start_date; ?></dd>
+	<?php endif; ?>
+	<?php $endDate = trim($this->project->end_date); ?>
+	<?php if(!empty($endDate) && $endDate != '0000-00-00'):  ?>  	
+		<dt><?php echo JText::_('JRESEARCH_DEADLINE').': '; ?></dt>
+		<dd><?php echo $this->project->end_date; ?></dd>  	
 	<?php endif; ?>	
 	<?php $n = $this->project->countAttachments(); ?>
 	<?php if($n > 0): ?>
-		<tr><td class="publicationlabel"><?php echo JText::_('JRESEARCH_FILES').': ' ?></td><td colspan="3"><ul style="list-style:none;">
+		<dt><?php echo JText::_('JRESEARCH_FILES').': ' ?></dt>
+		<dd><ul>
 		<?php for($i=0; $i<$n; $i++): ?>
 			<?php $attach = $this->project->getAttachment($i, 'projects'); ?>
 			<?php echo !empty($attach)?'<li>'.JHTML::_('JResearchhtml.attachment', $attach).'</li>':''; ?>
 		<?php endfor; ?>
-		</ul>
-		</td></tr>
+		</ul></dd>
 	<?php endif; ?>	
+	<?php $url = str_replace('&', '&amp;', trim($this->project->url)); ?>
+	<?php if(!empty($url)): ?>
+		<dd><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></dd>
+	<?php endif; ?>		
+	<?php $itemId = JRequest::getVar('Itemid'); ?>
+	<?php if(!empty($this->publications)): ?>
+</dl>	
+	<h2 class="contentheading" id="pubslist"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
+	<ul>
+	<?php foreach($this->publications as $publication): ?>
+		<?php if($this->applyStyle): ?>
+	  	<li>
+	  		<?php  
+	  			$styleObj =& JResearchCitationStyleFactory::getInstance($this->style, $publication->pubtype);
+	  			echo $styleObj->getReferenceHTMLText($publication, true); 
+	  		?>
+	  		<?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $publication->id); ?>&nbsp;
+	  	</li>
+		<?php else: ?>
+		<li>
+			<?php echo JHTML::_('jresearchfrontend.link', $publication->title, 'publication', 'show', $publication->id); ?>
+		</li>
+		<?php endif; ?>
+	<?php endforeach; ?>
+	</ul>
+	<div>
+	  	<?php if($this->npublications > count($this->publications)): ?>
+	  			<a href="index.php?option=com_jresearch&amp;publications_view_all=1&amp;task=show&amp;view=project&amp;id=<?php echo $this->project->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>#pubslist"><?php echo JText::_('JRESEARCH_VIEW_ALL'); ?></a>
+	  	<?php else: ?>
+	  			<?php if($this->publications_view_all): ?>		
+	  				<a href="index.php?option=com_jresearch&amp;publications_view_all=0&amp;task=show&amp;view=project&amp;id=<?php echo $this->project->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>#pubslist"><?php echo JText::_('JRESEARCH_VIEW_LESS'); ?></a>
+	  			<?php endif; ?>
+	  	<?php endif; ?>
+	</div>
+	<?php endif; ?>
 	<?php if(!empty($this->description)): ?>
-	<tr>
-		<td colspan="4" align="left" class="publicationlabel"><?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?></td>
-	</tr>
-	<tr>
-		<td colspan="4" align="left" ><div style="text-align:justify"><?php echo $this->description; ?></div></td>
-	</tr>
+	<h2 class="contentheading">
+		<?php echo JText::_('JRESEARCH_DESCRIPTION').': '; ?>
+	</h2>
+	<div><?php echo $this->description; ?></div>
 	<?php endif; ?>	
-</tbody>
-</table>
 <div><a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a></div>

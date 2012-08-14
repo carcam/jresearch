@@ -1,10 +1,3 @@
-<?php 
-/**
- * @package JResearch
- * @subpackage Publications
- * View for showing the citing
- */
-?>
 <script type="text/javascript">
 var citedRecordsList = null;
 var selectedCitekeys = new Array();
@@ -234,24 +227,11 @@ function makeCitation(command){
 	}
 		
 	var citekeys = selectedCitekeys.join(",");		
-	var queryString = "option=com_jresearch&controller=publications&task=cite&command="+command+"&citekeys="+encodeURIComponent(citekeys)+"&format=text";
-	citeRequest = new Request({method: 'get', async: true , onSuccess: onCiteSuccessful, onFailure: onCiteFailure});
-	citeRequest.send(queryString, null);		
-}
-
-function onCiteSuccessful(response){
-	window.parent.jInsertEditorText(response, '<?php echo preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', JRequest::getVar('e_name') ); ?>');
+	window.parent.document.getElementById('jform_publications').value = citekeys;
 	list = getCitedRecordsList();
 	clean(list);
-	selectedCitekeys = new Array();
-	alert("<?php echo JText::_('JRESEARCH_CITE_SUCCESSFUL')?>");	
-}
-
-/**
-* Invoked when the cite request fails. 
-*/
-function onCiteFailure(){
-	alert("<?php echo JText::_('JRESEARCH_CITE_FAILED')?>");	
+	selectedCitekeys = new Array();	
+	window.parent.SqueezeBox.close();
 }
 
 /**
@@ -283,7 +263,6 @@ function removeSelectedRecord(){
 }
 
 </script>
-
 <div style="text-align:center; width:100%;">
 	<label for="citedRecords"><?php echo JText::_('JRESEARCH_CITED_RECORDS').':'; ?></label>
 	<?php echo $this->citedRecords; ?>
@@ -292,13 +271,9 @@ function removeSelectedRecord(){
 <div>&nbsp;</div>
 <div style="float: right;">
 	<?php echo $this->citeButton; ?>
-	<?php echo $this->citeParentheticalButton; ?>
-	<?php echo $this->citeYearButton; ?>
-	<?php echo $this->noCiteButton; ?>
-	<?php echo $this->closeButton; ?>
 </div>
 <div style="width:100%">
-	<label for="title"><?php echo JText::_('Search').': '; ?></label> <input id="title" name="title" type="text" onkeyup="javascript:limitstart=0;startPublicationSearch(this.value);" />
+	<label for="title"><?php echo JText::_('JSEARCH').': '; ?></label> <input id="title" name="title" type="text" onkeyup="javascript:limitstart=0;startPublicationSearch(this.value);" />
 	<table style="width: 100%">
 		<tr>
 			<td><label for="all"><?php echo JText::_('JRESEARCH_ALL').':' ?></label><input name="criteria" id="allRadio" value="all" type="radio" /></td>

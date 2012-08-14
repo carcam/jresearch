@@ -17,17 +17,10 @@ class JResearchAccessHelper{
     * the item referenced in the arguments.
     * @return JObject
     */
-	public static function getActions($category = '', $itemId = 0){
+	public static function getActions(){
     	$user  = JFactory::getUser();
         $result = new JObject;
- 
-        if(empty($category) && empty($itemId)){
-        	$assetName = 'com_jresearch';
-        }elseif(empty($itemId)){
-        	$assetName = 'com_jresearch.'.$category;
-        }else{
-            $assetName = 'com_jresearch.'.$category.'.'.(int)$itemId;        	
-        }
+        $assetName = 'com_jresearch';
  
         $actions = array('core.admin', 'core.manage', 'core.publications.create', 'core.publications.edit'
         , 'core.publications.delete', 'core.publications.edit.own', 'core.publications.edit.state'

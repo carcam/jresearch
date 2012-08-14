@@ -219,7 +219,7 @@ class JResearchPublication extends JResearchActivity{
 			jresearchimport('helpers.charsets', 'jresearch.admin');
 			$extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());	
 					
-			if(!preg_match("/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/", $this->keywords)){
+			if(!preg_match("/^[-_'\w$extra\s\d]+(,[-_'\w$extra\s\d]+)*[,]?$/", $this->keywords)){
 				$this->setError(JText::_('JRESEARCH_PROVIDE_VALID_KEYWORDS'));
 				$withoutErrors = false;
 			}
@@ -350,7 +350,7 @@ class JResearchPublication extends JResearchActivity{
 		
 		
 		//Time to insert keywords
-		$keywords = explode(';', trim($this->keywords));
+		$keywords = explode(',', trim($this->keywords));
 		$keywords = array_unique($keywords);
 		foreach($keywords as $keyword){
 			if(!empty($keyword)){

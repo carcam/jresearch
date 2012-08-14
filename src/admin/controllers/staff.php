@@ -94,12 +94,12 @@ class JResearchAdminStaffController extends JController
         $view = $this->getView('Member', 'html', 'JResearchAdminView');
         $model = $this->getModel('Member', 'JResearchAdminModel');
         $view->setLayout('default');		
+        $canDoStaff = JResearchAccessHelper::getActions();
 				        
         if(!empty($cid)){
 		    $member = $model->getItem();        	        	
 	        if(!empty($member)){
-				$canDoMember = JResearchAccessHelper::getActions('member', $cid[0]);	        	
-	        	if($canDoMember->get('core.staff.edit') ||
+	        	if($canDoStaff->get('core.staff.edit') ||
      			($canDoStaff->get('core.staff.edit.own') && 
      			($member->createdBy == $user->get('id') || $member->username == $user->get('username')))){	            	
 		        	if($member->isCheckedOut($user->get('id'))){
@@ -116,8 +116,7 @@ class JResearchAdminStaffController extends JController
 	        	JError::raiseWarning(404, JText::_('JRESEARCH_ITEM_NOT_FOUND'));
 	        	$this->setRedirect('index.php?option=com_jresearch&controller=staff');
 	        }
-     	}else{
-			$canDoStaff = JResearchAccessHelper::getActions();     		
+     	}else{     		
      		if($canDoStaff->get('core.staff.create')){ 
 		        $app = JFactory::getApplication();
     		    $app->setUserState('com_jresearch.edit.member.data', array());            	
@@ -136,13 +135,18 @@ class JResearchAdminStaffController extends JController
 	*/ 
 	function publish(){
     	JRequest::checkToken() or jexit( 'JInvalid_Token' );
-        $model = $this->getModel('Member', 'JResearchAdminModel');
-        if(!$model->publish()){
-        	$this->setRedirect('index.php?option=com_jresearch&controller=staff');        	
-        	JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
-        }else{
-	        $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));    	
-        }
+    	$canDoStaff = JResearchAccessHelper::getActions();
+	    if($canDoStaff->get('core.staff.edit.state')){    
+    		$model = $this->getModel('Member', 'JResearchAdminModel');
+	        if(!$model->publish()){
+	        	$this->setRedirect('index.php?option=com_jresearch&controller=staff');        	
+	        	JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
+	        }else{
+		        $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_PUBLISHED_SUCCESSFULLY'));    	
+	        }
+	    }else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));	    	
+	    }
 	}
 
 	/**
@@ -151,13 +155,19 @@ class JResearchAdminStaffController extends JController
 	*/ 
 	function unpublish(){
         JRequest::checkToken() or jexit( 'JInvalid_Token' );
-        $model = $this->getModel('Member', 'JResearchAdminModel');
-        if(!$model->unpublish()){
-        	JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
-        	$this->setRedirect('index.php?option=com_jresearch&controller=staff');        	
-        }else{
-        	$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));        	
-        }
+    	
+        $canDoStaff = JResearchAccessHelper::getActions();
+	    if($canDoStaff->get('core.staff.edit.state')){    	        
+	        $model = $this->getModel('Member', 'JResearchAdminModel');
+	        if(!$model->unpublish()){
+	        	JError::raiseWarning(1, JText::_('JRESEARCH_PUBLISHED_FAILED').': '.implode('<br />', $model->getErrors()));
+	        	$this->setRedirect('index.php?option=com_jresearch&controller=staff');        	
+	        }else{
+	        	$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEMS_UNPUBLISHED_SUCCESSFULLY'));        	
+	        }
+	    }else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));	    	
+	    }
 	}
 
 	/**
@@ -166,13 +176,19 @@ class JResearchAdminStaffController extends JController
 	*/ 
 	function remove(){
 		JRequest::checkToken() or jexit( 'JInvalid_Token' );
-        $model = $this->getModel('Member', 'JResearchAdminModel');
-        $n = $model->delete();
-       	$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', $n));
-        $errors = $model->getErrors();
-        if(!empty($errors)){
-        	JError::raiseWarning(1, explode('<br />', $errors));
-        }       	
+		
+        $canDoStaff = JResearchAccessHelper::getActions();
+	    if($canDoStaff->get('core.staff.delete')){			
+	        $model = $this->getModel('Member', 'JResearchAdminModel');
+	        $n = $model->delete();
+	       	$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', $n));
+	        $errors = $model->getErrors();
+	        if(!empty($errors)){
+	        	JError::raiseWarning(1, explode('<br />', $errors));
+	        }
+	    }else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));	    	
+	    }
 	}
 	
 	/**
@@ -216,7 +232,7 @@ class JResearchAdminStaffController extends JController
         $app = JFactory::getApplication();
         $form = JRequest::getVar('jform', array(), '', 'array');   
         $user = JFactory::getUser();     
-        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'JResearchMember'));                
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchMember'));                
 		$canDoStaff = JResearchAccessHelper::getActions();
 		$canProceed = false;	
 		

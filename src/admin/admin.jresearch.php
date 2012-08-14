@@ -49,7 +49,7 @@ if($controller == null || !in_array($controller, $availableControllers)){
 		$classname = $prefix;
 	}else{				
 		require_once (JRESEARCH_COMPONENT_ADMIN.DS.'controllers'.DS.$controller.'.php');
-		$inlineCitingTasks = array('cite', 'citeFromDialog', 'generateBibliography', 'searchByPrefix', 'ajaxRemoveAll', 'ajaxGenerateBibliography', 'removeCitedRecord' ); 
+		$inlineCitingTasks = array('cite', 'citeFromDialog', 'generateBibliography', 'searchByPrefix', 'ajaxRemoveAll', 'ajaxGenerateBibliography', 'removeCitedRecord', 'citeFromForm' ); 
 		
 		// If the task is related to cite records, request the frontend controller
 		if(in_array($task, $inlineCitingTasks)){

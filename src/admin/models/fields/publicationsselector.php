@@ -113,11 +113,12 @@ class JFormFieldPublicationsselector extends JFormField
 		// The button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '	<div class="blank">';
+		//option=com_jresearch&controller=publications&task=citeFromDialog&tmpl=component&e_name=jform_description
 		$html[] = '		<a class="modal" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '"' . ' href="'
 			. ($this->element['readonly'] ? ''
 			: ($link ? $link
-				: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
-				. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
+				: 'index.php?option=com_jresearch&amp;controller=publications&amp;task=citeFromForm&amp;tmpl=component&amp;'
+				. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id) . '"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 		$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
 		$html[] = '	</div>';

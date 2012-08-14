@@ -733,6 +733,7 @@ class JHTMLjresearchhtml
 	{
 		//Status options
     	$statusOptions = array();
+    	$statusOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_STATUS'));
     	$statusOptions[] = JHTML::_('select.option', 'not_started', JText::_('JRESEARCH_NOT_STARTED'));
     	$statusOptions[] = JHTML::_('select.option', 'in_progress', JText::_('JRESEARCH_IN_PROGRESS'));
     	$statusOptions[] = JHTML::_('select.option', 'finished', JText::_('JRESEARCH_FINISHED'));

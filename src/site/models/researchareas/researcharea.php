@@ -81,17 +81,18 @@ class JResearchModelResearchArea extends JResearchModelItem{
 	 * @param int $memberId
 	 */
 	function countPublications(){
-            $row = $this->getItem();
-            if($row === false)
-                return -1;
+    	$row = $this->getItem();
+        if($row === false)
+           	return -1;
 
-            $areaId = $row->id;
+        $areaId = $row->id;
 
-            $db = JFactory::getDBO();
-            $query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_publication').' WHERE '.$db->nameQuote('published').' =  1 AND '.$db->nameQuote('internal').' = 1'
-                            .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId);
-            $db->setQuery($query);
-            return (int)$db->loadResult();
+        $db = JFactory::getDBO();
+        $query = "SELECT count(p.*) FROM ".$db->nameQuote('#__jresearch_publication').' p JOIN '.$db->nameQuote('#__jresearch_publication_researcharea').' pa'
+        .' WHERE p.id = pa.id_publication AND p.published = 1 AND p.internal = 1 AND pa.id_research_area = '.$db->Quote($areaId);
+        
+        $db->setQuery($query);
+        return (int)$db->loadResult();
 	}
 
 	/**
@@ -100,29 +101,29 @@ class JResearchModelResearchArea extends JResearchModelItem{
 	 * @param int $n
 	 */
 	function getLatestProjects($n = 0){
-            $latestProj = array();
-            $row = $this->getItem();
-            if($row === false)
-                return $latestProj;
+    	$latestProj = array();
+        $row = $this->getItem();
+        if($row === false)
+        	return $latestProj;
 
-            $areaId = $row->id;
-            $db = JFactory::getDBO();
-            $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_project').' WHERE '.$db->nameQuote('published').' = 1'
-                            .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, created DESC';
+        $areaId = $row->id;
+        $db = JFactory::getDBO();
+        $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_project').' WHERE '.$db->nameQuote('published').' = 1'
+        .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, created DESC';
 
-            if($n > 0){
-                    $query .= ' LIMIT 0, '.$n;
-            }
+        if($n > 0){
+        	$query .= ' LIMIT 0, '.$n;
+        }
 
-            $db->setQuery($query);
-            $result = $db->loadAssocList();
-            foreach($result as $r){
-                $project = JTable::getInstance('Project', 'JResearch');
-                $project->bind($r);
-                $latestProj[] = $project;
-            }
+        $db->setQuery($query);
+        $result = $db->loadAssocList();
+        foreach($result as $r){
+            $project = JTable::getInstance('Project', 'JResearch');
+            $project->bind($r);
+            $latestProj[] = $project;
+        }
 
-            return $latestProj;
+        return $latestProj;
 	}
 
 
@@ -131,18 +132,17 @@ class JResearchModelResearchArea extends JResearchModelItem{
 	 * @param int $areaId
 	 */
 	function countProjects(){
-            $row = $this->getItem();
-            if($row === false)
-                return -1;
+        $row = $this->getItem();
+        if($row === false)
+        	return -1;
 
-            $areaId = $row->id;
-            $db = JFactory::getDBO();
+        $areaId = $row->id;
+        $db = JFactory::getDBO();
 
-            $query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_project').' WHERE '.$db->nameQuote('published').' =  1'
+        $query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_project').' WHERE '.$db->nameQuote('published').' =  1'
                             .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId);
-            $db->setQuery($query);
-            return (int)$db->loadResult();
-
+        $db->setQuery($query);
+        return (int)$db->loadResult();
 	}
 
 	/**
@@ -151,30 +151,30 @@ class JResearchModelResearchArea extends JResearchModelItem{
 	 * @param int $n
 	 */
 	function getLatestTheses($n = 0){
-            $latestThes = array();
-            $row = $this->getItem();
-            if($row === false)
-                return $latestThes;
+        $latestThes = array();
+        $row = $this->getItem();
+        if($row === false)
+            return $latestThes;
 
-            $areaId = $row->id;
+        $areaId = $row->id;
 
-            $db = JFactory::getDBO();
-            $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_thesis').' WHERE '.$db->nameQuote('published').' = 1'
+        $db = JFactory::getDBO();
+        $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_thesis').' WHERE '.$db->nameQuote('published').' = 1'
                             .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, created DESC';
 
-            if($n > 0){
-                    $query .= ' LIMIT 0, '.$n;
-            }
+       	if($n > 0){
+        	$query .= ' LIMIT 0, '.$n;
+        }
 
-            $db->setQuery($query);
-            $result = $db->loadAssocList();
-            foreach($result as $r){
-                $thesis = JTable::getInstance('Thesis', 'JResearch');
-                $thesis->bind($r);
-                $latestThes[] = $thesis;
-            }
+        $db->setQuery($query);
+        $result = $db->loadAssocList();
+        foreach($result as $r){
+            $thesis = JTable::getInstance('Thesis', 'JResearch');
+            $thesis->bind($r);
+            $latestThes[] = $thesis;
+        }
 
-            return $latestThes;
+        return $latestThes;
 	}
 
 
@@ -184,17 +184,16 @@ class JResearchModelResearchArea extends JResearchModelItem{
 	 * @param int $areaId
 	 */
 	function countTheses(){
-            $row = $this->getItem();
-            if($row === false)
-                return -1;
+        $row = $this->getItem();
+        if($row === false)
+            return -1;
 
-            $db = JFactory::getDBO();
+        $db = JFactory::getDBO();
 
-            $query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_thesis').' WHERE '.$db->nameQuote('published').' =  1'
+        $query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_thesis').' WHERE '.$db->nameQuote('published').' =  1'
                             .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId);
-            $db->setQuery($query);
-            return (int)$db->loadResult();
-
+        $db->setQuery($query);
+    	return (int)$db->loadResult();
 	}
 	
 	/**
@@ -236,8 +235,7 @@ class JResearchModelResearchArea extends JResearchModelItem{
 	}
 
 
-	public function getFacilities($n=0)
-	{
+	public function getFacilities($n=0){
             $facilities = array();
             $row = $this->getItem();
             if($row === false)

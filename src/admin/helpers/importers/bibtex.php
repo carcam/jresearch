@@ -18,6 +18,7 @@ jresearchimport('helpers.importers.importer', 'jresearch.admin');
 jresearchimport('includes.BibTex', 'jresearch.admin');
 jresearchimport('helpers.publications', 'jresearch.admin');
 jresearchimport('tables.publication', 'jresearch.admin');
+jresearchimport('tables.member', 'jresearch.admin');
 
 class JResearchBibtexImporter extends JResearchPublicationImporter{
 	
@@ -48,7 +49,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
                             	$j++;
                                 if($mapToStaff == 'on'){
                                 	$member = JTable::getInstance('Member', 'JResearch');
-                                    //First determine if this author can be mapped to a member in the staff                                                                
+                                    //First determine if this author can be mapped to a member in the staff
                                     if($member->bindFromArray(JResearchPublicationsHelper::bibCharsToUtf8FromArray($auth))){
                                     	$newPub->addAuthor($member->id, $j, true);
                                         continue;

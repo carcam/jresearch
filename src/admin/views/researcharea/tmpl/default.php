@@ -2,7 +2,11 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-$fields = array('id', 'name', 'alias', 'published');
+$fields = array('id', 'name', 'alias');
+$user = JFactory::getUser();
+if($user->authorise('core.researchareas.edit.state', 'com_jresearch')){
+	$fields[] = 'published';
+}
 
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">

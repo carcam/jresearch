@@ -57,6 +57,7 @@
                         class="inputbox"
                         default=""
                         label="JRESEARCH_KEYWORDS"
+                        description="JRESEARCH_FIELD_KEYWORDS_DESC"
                 />
                 <field id="published" name="published" type="radio" label="JRESEARCH_PUBLISHED" default="1" >
 						<option value="0">JNO</option>

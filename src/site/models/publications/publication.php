@@ -36,7 +36,7 @@ class JResearchModelPublication extends JResearchModelForm{
         return $this->_row;
     }
 
-        /**
+    /**
      * Method to get the data.
      *
      * @access      public

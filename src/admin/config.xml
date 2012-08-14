@@ -32,7 +32,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		<field name="publications_apply_style" type="radio" label="JRESEARCH_PUBLICATIONS_APPLY_STYLE" description="JRESEARCH_PUBLICATIONS_APPLY_STYLE_DESCRIPTION" default="no">
+		<field name="publications_apply_style" type="radio" label="JRESEARCH_PUBLICATIONS_APPLY_STYLE" description="JRESEARCH_PUBLICATIONS_APPLY_STYLE_DESCRIPTION" default="0">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -45,15 +45,7 @@
 			<option value="0">JNO</option>
 		</field>
 		
-        </fieldset>
-        
-        <fieldset name="staff" label="JRESEARCH_STAFF" >
-        	<field name="projects_default_published_status" type="radio" label="JRESEARCH_PROJECTS_DEFAULT_PUBLISHED_STATUS" description="JRESEARCH_PROJECTS_DEFAULT_PUBLISHED_STATUS_DESCRIPTION" default="1">
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>        
-        </fieldset>
-        
+        </fieldset>        
         <fieldset name="researchareas" label="JRESEARCH_RESEARCH_AREAS">
             <field name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
             <field name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />

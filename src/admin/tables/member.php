@@ -363,7 +363,8 @@ class JResearchMember extends JResearchTable{
         $db = JFactory::getDBO();
 
         $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '
-                     .' LOWER(lastname) = '.$db->Quote($lastname).' AND LOWER(firstname) = '.$db->Quote($firstname);
+                 .' LOWER(lastname) = '.$db->Quote($lastname) .'  AND (LOWER(firstname) = '.$db->Quote($firstname)
+                 .' OR LOWER(LEFT('.$db->Quote($firstname).', 1)) = LEFT(LOWER(firstname), 1))';
 
         $db->setQuery($query);
 		$result = $db->loadAssoc();

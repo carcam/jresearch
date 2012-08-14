@@ -7,7 +7,7 @@
 	<authorUrl>http://joomla-research.com</authorUrl>
 	<copyright>Copyright (C) 2011 Luis Galárraga</copyright>
 	<license>GPL</license>
-	<version>2.0 Alpha 1</version>
+	<version>2.1 Alpha 1</version>
 	<description><![CDATA[
 	<div align="center">
 		<img src="components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" />
@@ -119,6 +119,7 @@
 		<plugin folder="plugins/plg_jresearch_entities_save_cited_records" plugin="jresearch_entities_save_cited_records" name="JResearch Entities Save Cited Records" group="jresearch" />
 		<plugin folder="plugins/plg_jresearch_load_cited_records" plugin="jresearch_load_cited_records"	name="JResearch Content Load Cited Records" group="system" />
 		<plugin folder="plugins/plg_jresearch_automatic_citation" plugin="jresearch_automatic_citation" name="JResearch Automatic Citation" group="editors-xtd" /> 
-		<plugin folder="plugins/plg_jresearch_automatic_bibliography_generation" plugin="jresearch_automatic_bibliography_generation" name="JResearch Automatic Bibliography Generation" group="editors-xtd" /> 		
+		<plugin folder="plugins/plg_jresearch_automatic_bibliography_generation" plugin="jresearch_automatic_bibliography_generation" name="JResearch Automatic Bibliography Generation" group="editors-xtd" />
+		<plugin folder="plugins/plg_jresearch_offline_citation" plugin="jresearch_offline_citation" name="JResearch Offline Citation Plugin" group="content" />	 		
 	</plugins>
 </extension>

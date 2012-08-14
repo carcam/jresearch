@@ -30,3 +30,5 @@ DROP TABLE IF EXISTS `#__jresearch_research_area_team`;
 DROP TABLE IF EXISTS `#__jresearch_publication_keyword`;
 DROP TABLE IF EXISTS `#__jresearch_project_keyword`;
 DROP TABLE IF EXISTS `#__jresearch_keyword`;
+DROP TABLE IF EXISTS `#__jresearch_project_publication`;
+
