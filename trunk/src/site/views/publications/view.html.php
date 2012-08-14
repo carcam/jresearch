@@ -32,6 +32,9 @@ class JResearchViewPublications extends JResearchView
 		     case 'cite':
 		        $this->_displayCiteDialog();
 		        break;
+		     case 'cite2':
+		        $this->_displayCiteFromFormDialog();
+		        break;		        
              case 'generatebibliography':
                 $this->_displayGenerateBibliographyDialog();
                 break;
@@ -269,7 +272,6 @@ class JResearchViewPublications extends JResearchView
         $this->assignRef('removeButton', $removeButton);
         $this->assignRef('citeButton', $citeButton);
         $this->assignRef('citeParentheticalButton', $citeParentheticalButton);
-        $this->assignRef('closeButton', $closeButton);
         $this->assignRef('citeYearButton', $citeYearButton);
         $this->assignRef('noCiteButton', $noCiteButton);
         $this->assignRef('url', $url);
@@ -315,6 +317,42 @@ class JResearchViewPublications extends JResearchView
         
     }
     
+    /**
+     * Displayed when linking publications to other data
+     * items.
+     * 
+     */
+    private function _displayCiteFromFormDialog(){
+    	$citedRecordsOptionsHTML = array();
+    	$url = JURI::root();
+    	
+    	// Prepare the HTML document
+    	$document = JFactory::getDocument();
+        $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
+        $document->addScript($url.'components/com_jresearch/js/cite.js');
+        $document->addScriptDeclaration("window.addEvent('domready',
+                function(){
+                        var searchRequest = new Request({method: 'get', async: true, onSuccess: addSearchResults, onFailure: onSearchFailure});
+                        searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
+                 }
+        );");
+        $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:200px;" ');
+        JHTML::_('behavior.mootools');
+
+        // Remove button
+        $removeButton = '<button onclick="javascript:removeSelectedRecord()">'.JText::_('JRESEARCH_REMOVE').'</button>';
+        $citeButton = '<button onclick="javascript:makeCitation(\'cite\')">'.JText::_('JRESEARCH_CITE').'</button>';
+
+        // Put the variables into the template
+        $this->assignRef('citedRecords', $citedRecordsListHTML);
+        $this->assignRef('removeButton', $removeButton);
+        $this->assignRef('citeButton', $citeButton);
+        $this->assignRef('url', $url);
+        
+        parent::display();
+    	
+    }
+    
 	/**
 	 * Returns div-container with publication filters, can be activated with given parameter switches
 	 *
@@ -343,9 +381,9 @@ class JResearchViewPublications extends JResearchView
 		if($bSearch === true)
         {
     		$filter_search = $this->state->get('com_jresearch.publications.filter_search');
-     		$lists['search'] = JText::_('Filter').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search).'" class="text_area" onchange="document.adminForm.submit();" />
-								<button onclick="document.adminForm.submit();">'.JText::_('Go').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
-								.JText::_('Reset').'</button>';
+     		$lists['search'] = JText::_('JFILTER').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search).'" class="text_area" onchange="document.adminForm.submit();" />
+								<button onclick="document.adminForm.submit();">'.JText::_('JGO').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
+								.JText::_('JRESET').'</button>';
     	}
     	
 		if($bType === true)

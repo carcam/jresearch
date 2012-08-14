@@ -66,6 +66,7 @@
                         class="inputbox"
                         default=""
                         label="JRESEARCH_KEYWORDS"
+                        description="JRESEARCH_FIELD_KEYWORDS_DESC"                        
                 />
                 <field
                         id="citekey"

@@ -31,6 +31,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<th style="width: 1%; text-align: center;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
 			<th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort', 'Title', 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 			<th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 10%;">
+				<?php echo JHTML::_('grid.sort', JText::_('JGRID_HEADING_ORDERING'), 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+					<?php if ($saveOrder) :
+					?>
+						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'saveorder'); ?>
+					<?php endif; ?>				
+			</th>						
 			<th style="text-align: center; width: 32%;"><?php echo JText::_('JRESEARCH_MEMBERS'); ?></th>
 			<th style="width: 5%;"><?php echo JText::_('Hits'); ?></th>
 		</tr>
@@ -67,6 +74,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<td><?php echo $checked; ?></td>
 					<td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo $this->items[$i]->title;  ?></a></td>
 					<td class="center"><?php echo $published; ?></td>
+					<td class="order" nowrap="nowrap">
+						<?php if ($saveOrder) :?>
+							<?php if ($this->lists['order_Dir'] == 'ASC') : ?>
+								<span><?php echo $this->page->orderUpIcon($i, true, 'orderup', 'JLIB_HTML_MOVE_UP', $saveOrder); ?></span>
+								<span><?php echo $this->page->orderDownIcon($i, $this->page->total, true, 'orderdown', 'JLIB_HTML_MOVE_DOWN', $saveOrder); ?></span>
+							<?php elseif ($this->lists['order_Dir'] == 'DESC') : ?>
+								<span><?php echo $this->page->orderUpIcon($i, true, 'orderdown', 'JLIB_HTML_MOVE_UP', $saveOrder); ?></span>
+								<span><?php echo $this->page->orderDownIcon($i, $this->pagination->total, true, 'orderup', 'JLIB_HTML_MOVE_DOWN', $saveOrder); ?></span>
+							<?php endif; ?>
+						<?php endif; ?>
+						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering;?>" <?php echo $disabled ?> class="text-area-order" />					
+					</td>					
 					<td class="center"><?php echo $text; ?></td>
 					<td class="center"><?php echo $this->items[$i]->hits ;?></td>
 				</tr>

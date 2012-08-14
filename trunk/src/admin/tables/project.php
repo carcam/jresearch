@@ -76,6 +76,18 @@ class JResearchProject extends JResearchActivity{
 	public $finance_currency;
 	
 	/**
+	 * 
+	 * Comma separated list of publications
+	 */
+	public $publications;
+	
+    /**
+    *
+    * @var int
+    */
+    public $ordering;	
+	
+	/**
 	 * Holds financiers of the project
 	 * @var array
 	 */
@@ -96,7 +108,7 @@ class JResearchProject extends JResearchActivity{
 	 * Holds an array with the non-principal investigators
 	 */
 	protected $_nonprincipals = array();
-	
+		
 	
 	/**
 	 * Class constructor. Maps the class to a Joomla table.
@@ -164,19 +176,7 @@ class JResearchProject extends JResearchActivity{
             return true;
 
 	}
-	
-	/**
-	 * Loads a row from the database and binds the fields to the object properties.
-	 *
-	 * @param int $oid
-	 * @return True if successful
-	 */
-	public function load($oid = null){
-    	$result = parent::load($oid);
-        $this->_loadAuthors($oid);
-        return $result;
-	}
-	
+		
 	/**
 	 * Returns the complete list of authors (internal and externals) suitably ordered. 
 	 * Internal authors are displayed in format [lastname, firstname].
@@ -225,6 +225,7 @@ class JResearchProject extends JResearchActivity{
 	 */
 	public function store($updateNulls = false){
 		// Time to insert the information of the publication per se			
+		jresearchimport('helpers.publications', 'jresearch.admin');
  		$db = JFactory::getDBO();
  		$user = JFactory::getUser();
 		$now = new JDate(); 		
@@ -248,20 +249,25 @@ class JResearchProject extends JResearchActivity{
 		// Delete the information about internal and external references
 	    $deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_internal_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->id);
 		$deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_external_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->id);
+		$deletePublicationsQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_publication').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->id);
 			
 		$db->setQuery($deleteInternalQuery);
-		JError::raiseWarning(1, $deleteInternalQuery);
 		if(!$db->query()){
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 			return false;
 		}	
 		
 		$db->setQuery($deleteExternalQuery);
-		JError::raiseWarning(1, $deleteExternalQuery);		
 		if(!$db->query()){			
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 			return false;
-		}		
+		}
+
+		$db->setQuery($deletePublicationsQuery);
+		if(!$db->query()){			
+			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+			return false;
+		}
 		
         // Insert members' information
         $orderField = $db->nameQuote('order');
@@ -295,7 +301,6 @@ class JResearchProject extends JResearchActivity{
 			}			
 			
 			$db->setQuery($query);
-			JError::raiseWarning(1, $query);			
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 				return false;
@@ -333,7 +338,7 @@ class JResearchProject extends JResearchActivity{
 		
 		
 		//Time to insert keywords
-		$keywords = explode(';', trim($this->keywords));
+		$keywords = explode(',', trim($this->keywords));
 		$keywords = array_unique($keywords);
 		foreach($keywords as $keyword){
 			if(!empty($keyword)){
@@ -356,6 +361,20 @@ class JResearchProject extends JResearchActivity{
 					return false;
 				}								
 			}		
+		}
+		
+		//Time to insert the publications
+		$publicationsArray = explode(',', $this->publications);
+		foreach($publicationsArray as $citekey){
+			$pubid = JResearchPublicationsHelper::getIdFromCitekey($citekey);
+			if(!empty($pubid)){
+				$pubQuery = 'INSERT INTO '.$db->nameQuote('#__jresearch_project_publication').' VALUES('.$db->Quote($this->id).', '.$db->Quote($pubid).')';
+				$db->setQuery($pubQuery);
+				if(!$db->query()){
+					$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
+					return false;				
+				}
+			}
 		}
 		     
 	    return true;			
@@ -400,6 +419,18 @@ class JResearchProject extends JResearchActivity{
 		}
 				
 		return $this->_nonprincipals;
+	}
+	
+	/**
+	 * 
+	 * Gets an array with the list of publications associated to the project
+	 * according to some sort criteria
+	 */
+	function getPublications($order = null){
+		$citekeysArray = explode(',', $this->publications);
+		foreach($citekeysArray as $citekeys){
+			
+		}
 	}
 }
 

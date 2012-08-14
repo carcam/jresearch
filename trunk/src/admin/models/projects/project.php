@@ -269,5 +269,59 @@ class JResearchAdminModelProject extends JModelForm{
         	return $result;
         }
         
+        /**
+		* Ordering item
+		*/
+		function orderItem($item, $movement)
+		{
+            $row = JTable::getInstance('Project', 'JResearch');
+            $row->load($item);
+
+            if (!$row->move($movement))
+            {
+                $this->setError($row->getError());
+                return false;
+            }
+
+            return true;
+		}
+
+		/**
+		 * Set ordering
+		*/
+		function setOrder($items)
+		{
+			$total = count($items);
+            $row = JTable::getInstance('Project', 'JResearch');
+
+			$order = JRequest::getVar( 'order', array(), 'post', 'array' );
+			JArrayHelper::toInteger($order);
+
+			// update ordering values
+			for( $i=0; $i < $total; $i++ )
+			{
+				$row->load( $items[$i] );
+
+				$groupings[] = $row->former_member;
+				if ($row->ordering != $order[$i])
+				{
+					$row->ordering = $order[$i];
+					if (!$row->store())
+					{
+						$this->setError($row->getError());
+						return false;
+					}
+				} // if
+			} // for
+
+			// execute updateOrder
+			$groupings = array_unique($groupings);
+			foreach ($groupings as $group)
+			{
+				$row->reorder(' AND published >= 0');
+			}
+
+			return true;
+		}
 }
 ?>

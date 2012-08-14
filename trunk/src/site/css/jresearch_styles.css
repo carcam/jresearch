@@ -272,3 +272,16 @@ div.jresearchhits{
 
 .frontendform{
 }
+
+dl.jresearchitem{
+	margin-bottom: 5px;
+}
+
+.jresearchitem dt{
+	font-weight: bold;
+	margin-top: 5px;
+}
+
+.jresearchitem dd{
+	margin-top: 5px;
+}

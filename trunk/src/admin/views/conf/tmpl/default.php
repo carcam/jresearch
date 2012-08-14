@@ -54,6 +54,7 @@ $user = JFactory::getUser();
 			</a>
 		</div>
 	</div>	
+	<?php if($user->authorise('core.admin', 'com_jresearch')): ?>
     <div  class="icon-wrapper">
 		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;mode=upgrader">
@@ -62,6 +63,7 @@ $user = JFactory::getUser();
 			</a>
 		</div>
 	</div>	
+	<?php endif; ?>
 	<?php endif; ?>
 	<div  class="icon-wrapper">
 		<div class="icon">

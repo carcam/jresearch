@@ -27,6 +27,6 @@ class JResearchProjectsHelper{
    		$db = JFactory::getDBO();
    		$db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_all_project_authors'));
    		return $db->loadAssocList();
-   	}	
+   	}
 }
 ?>

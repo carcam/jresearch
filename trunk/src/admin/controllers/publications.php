@@ -98,6 +98,7 @@ class JResearchAdminPublicationsController extends JController
         $view = $this->getView('Publication', 'html', 'JResearchAdminView');
         $pubModel = $this->getModel('Publication', 'JResearchAdminModel');
         $user = JFactory::getUser();
+        $canDoPubs = JResearchAccessHelper::getActions();        		
         
         if(!empty($cid)){
         	$publication = $pubModel->getItem();
@@ -123,7 +124,6 @@ class JResearchAdminPublicationsController extends JController
         	    $this->setRedirect('index.php?option=com_jresearch&controller=publications');
         	}
 		}else{
-			$canDoPubs = JResearchAccessHelper::getActions();        		
         	if($canDoPubs->get('core.publications.create')){
 	        	$app->setUserState('com_jresearch.edit.publication.data', array());            	
     	        $view->setLayout('default');
@@ -253,7 +253,7 @@ class JResearchAdminPublicationsController extends JController
 	 */
 	function executeImport(){
 		$actions = JResearchAccessHelper::getActions();
-		$params = JComponentHelper::getParams();
+		$params = JComponentHelper::getParams('com_jresearch');
 		if($actions->get('core.publications.create')){
             jresearchimport('helpers.importers.factory', 'jresearch.admin');
             $fileArray = JRequest::getVar('inputfile', null, 'FILES');
@@ -324,13 +324,12 @@ class JResearchAdminPublicationsController extends JController
 		if(empty($form['id'])){
 			$canProceed = $canDoPubs->get('core.publications.create');
 			if(!isset($form['published']))
-				$form['published'] = $params->get('publications_default_published_status');
+				$form['published'] = $params->get('publications_default_published_status', 1);
 			if(!isset($form['internal']))
 				$form['internal'] = $params->get('publications_default_internal_status', 1);
 		}else{
-			$canDoPub = JResearchAccessHelper::getActions('publication', $form['id']);
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);
-			$canProceed = $canDoPub->get('core.publication.edit') ||
+			$canProceed = $canDoPubs->get('core.publication.edit') ||
      			($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
 		}
         
@@ -338,12 +337,12 @@ class JResearchAdminPublicationsController extends JController
 			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
 			return;
 		}
-		
-        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'publication'));		                
+
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchPublication'));		                
         if ($model->save()){
             $task = JRequest::getVar('task');             	
             $publication = $model->getItem();
-        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'publication'));        
+        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'JResearchPublication'));        
              
             if($task == 'save'){
                 $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
@@ -389,23 +388,27 @@ class JResearchAdminPublicationsController extends JController
 	 */
 	function changeInternalStatus(){
 		JRequest::checkToken() or jexit( 'JInvalid_Token' );		
-	
+
 		$actions = JResearchAccessHelper::getActions();
-        $model = $this->getModel('Publication', 'JResearchAdminModel');
-        $task = JRequest::getVar('task');
-        $value = false;
-        if($task == 'makeinternal'){
-        	$key = 'JRESEARCH_NITEMS_TURNED_INTERNAL'; 
-        	$value = true;
-        }else{
-			$key = 'JRESEARCH_NITEMS_TURNED_NON_INTERNAL';        	
-        }
-        
-        $n = $model->setInternalValue($value);
-		$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_NITEMS_TURNED_INTERNAL', $n));
-        $errors = $model->getErrors();
-		if(!empty($errors))
-			JError::raiseWarning(1, explode('<br />', $errors));        	
+		if($actions->get('core.publications.edit.state')){		
+	        $model = $this->getModel('Publication', 'JResearchAdminModel');
+	        $task = JRequest::getVar('task');
+	        $value = false;
+	        if($task == 'makeinternal'){
+	        	$key = 'JRESEARCH_NITEMS_TURNED_INTERNAL'; 
+	        	$value = true;
+	        }else{
+				$key = 'JRESEARCH_NITEMS_TURNED_NON_INTERNAL';        	
+	        }
+	        
+	        $n = $model->setInternalValue($value);
+			$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_NITEMS_TURNED_INTERNAL', $n));
+	        $errors = $model->getErrors();
+			if(!empty($errors))
+				JError::raiseWarning(1, explode('<br />', $errors));
+		}else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+		}
 	}	
 	
 	/**
@@ -415,12 +418,18 @@ class JResearchAdminPublicationsController extends JController
 	 */
 	function toggle_internal(){
 		JRequest::checkToken() or jexit( 'JInvalid_Token' );		
-        $model = $this->getModel('Publication', 'JResearchAdminModel');
-
-        if($model->toggleInternal())
-	        $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));		
-		else
-			$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_TOGGLE_INTERNAL_UNSUCCESSFULLY'));	        
+		$actions = JResearchAccessHelper::getActions();
+        
+		if($actions->get('core.publications.edit.state')){
+			$model = $this->getModel('Publication', 'JResearchAdminModel');
+	
+	        if($model->toggleInternal())
+		        $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_TOGGLE_INTERNAL_SUCCESSFULLY'));		
+			else
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_TOGGLE_INTERNAL_UNSUCCESSFULLY'));
+		}else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
+		}
 	}
 	
 	/**
@@ -448,9 +457,8 @@ class JResearchAdminPublicationsController extends JController
 			if(!isset($form['internal']))
 				$form['internal'] = $params->get('publications_default_internal_status', 1);			
 		}else{
-			$canDoPub = JResearchAccessHelper::getActions('publication', $form['id']);
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);
-			$canProceed = $canDoPub->get('core.publication.edit') ||
+			$canProceed = $canDoPubs->get('core.publication.edit') ||
      			($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
 		}
 		
@@ -459,10 +467,10 @@ class JResearchAdminPublicationsController extends JController
 			return;
 		}        
 
-        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'publication'));		
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchPublication'));		
         if ($model->changeType()){             	
             $publication = $model->getItem();
-        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'publication'));        
+        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'JResearchPublication'));        
             $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
         }else{
             $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());

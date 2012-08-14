@@ -52,7 +52,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             $query->select('DISTINCT pub.*');
             $query->from('#__jresearch_publication pub');
             $query->leftJoin('#__jresearch_publication_researcharea AS ra ON pub.id = ra.id_publication');
-            $query->innerJoin('#__jresearch_all_publication_authors AS apa ON pub.id = apa.pid');
+            $query->leftJoin('#__jresearch_all_publication_authors AS apa ON pub.id = apa.pid');
             
 			if(!empty($whereClauses))
                 $query->where($whereClauses);

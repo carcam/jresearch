@@ -197,31 +197,36 @@ class JResearchAdminMember_positionsController extends JController
          // Check for request forgeries
          JRequest::checkToken() or jexit( 'JInvalid_Token' );
 
-         $cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-         JArrayHelper::toInteger($cid);
-
-         if (isset($cid[0]) && $cid[0])
-         {
-         	$id = $cid[0];
+         $user = JFactory::getUser();
+         if($user->authorise('core.manage', 'com_jresearch')){
+	         $cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+	         JArrayHelper::toInteger($cid);
+	
+	         if (isset($cid[0]) && $cid[0])
+	         {
+	         	$id = $cid[0];
+	         }
+	         else
+	         {
+	            $this->setRedirect( 'index.php?option=com_jresearch&controller=member_positions', JText::_('JRESEARCH_NO_ITEMS_SELECTED') );
+	            return false;
+	         }
+	
+	         $model = $this->getModel('Member_positions', 'JResearchAdminModel');
+	
+	         if ($model->orderItem($id, -1))
+	         {
+	            $msg = JText::_( 'JRESEARCH_ITEM_MOVED_UP' );
+	         }
+	         else
+	         {
+	         	$msg = $model->getError();
+	         }
+	
+	         $this->setRedirect( 'index.php?option=com_jresearch&controller=member_positions', $msg );
+         }else{
+			 JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));         	
          }
-         else
-         {
-            $this->setRedirect( 'index.php?option=com_jresearch&controller=member_positions', JText::_('JRESEARCH_NO_ITEMS_SELECTED') );
-            return false;
-         }
-
-         $model = $this->getModel('Member_positions', 'JResearchAdminModel');
-
-         if ($model->orderItem($id, -1))
-         {
-            $msg = JText::_( 'JRESEARCH_ITEM_MOVED_UP' );
-         }
-         else
-         {
-         	$msg = $model->getError();
-         }
-
-         $this->setRedirect( 'index.php?option=com_jresearch&controller=member_positions', $msg );
 	}
 
 	/**
@@ -232,30 +237,31 @@ class JResearchAdminMember_positionsController extends JController
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'JInvalid_Token' );
 
-        $cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-        JArrayHelper::toInteger($cid);
-
-        if (isset($cid[0]) && $cid[0])
-        {
-            $id = $cid[0];
+        $user = JFactory::getUser();
+        if($user->authorise('core.manage', 'com_jresearch')){        
+	        $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+	        JArrayHelper::toInteger($cid);
+	
+	        if (isset($cid[0]) && $cid[0])
+	        {
+	            $id = $cid[0];
+	        }
+	        else
+	        {
+	            $this->setRedirect( 'index.php?option=com_jresearch&controller=member_positions', JText::_('JRESEARCH_NO_ITEMS_SELECTED') );
+	        	return false;
+	        }
+	
+	        $model = $this->getModel('Member_positions', 'JResearchAdminModel');
+	        if ($model->orderItem($id, 1)){
+	            $msg = JText::_( 'JRESEARCH_ITEM_MOVED_DOWN' );
+	        }else{
+	            $msg = $model->getError();
+	        }
+	        $this->setRedirect( 'index.php?option=com_jresearch&controller=member_positions', $msg );
+        }else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
         }
-        else
-        {
-            $this->setRedirect( 'index.php?option=com_jresearch&controller=member_positions', JText::_('JRESEARCH_NO_ITEMS_SELECTED') );
-        	return false;
-        }
-
-        $model = $this->getModel('Member_positions', 'JResearchAdminModel');
-        if ($model->orderItem($id, 1))
-        {
-            $msg = JText::_( 'JRESEARCH_ITEM_MOVED_DOWN' );
-        }
-        else
-        {
-            $msg = $model->getError();
-        }
-
-        $this->setRedirect( 'index.php?option=com_jresearch&controller=member_positions', $msg );
 	}
 
 	/**
@@ -266,23 +272,19 @@ class JResearchAdminMember_positionsController extends JController
          // Check for request forgeries
          JRequest::checkToken() or jexit( 'JInvalid_Token' );
 
-         $cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-         JArrayHelper::toInteger($cid);
-
-         $model = $this->getModel('Member_positions', 'JResearchAdminModel');
-
-         if ($model->setOrder($cid))
-         {
-                $msg = JText::_( 'JRESEARCH_NEW_ORDERING_SAVED' );
+         if($user->authorise('core.manage', 'com_jresearch')){         
+	         $cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+	         JArrayHelper::toInteger($cid);
+	         $model = $this->getModel('Member_positions', 'JResearchAdminModel');
+	         if ($model->setOrder($cid)){
+	         	$msg = JText::_( 'JRESEARCH_NEW_ORDERING_SAVED' );
+	         }else{
+	            $msg = $model->getError();
+	         }
+	         $this->setRedirect( 'index.php?option=com_jresearch&controller=member_positions', $msg );
+         }else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));         	
          }
-         else
-         {
-                $msg = $model->getError();
-         }
-
-         $this->setRedirect( 'index.php?option=com_jresearch&controller=member_positions', $msg );
 	}
-	
-	
 }
 ?>

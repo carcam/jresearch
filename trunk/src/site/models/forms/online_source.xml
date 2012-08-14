@@ -70,6 +70,7 @@
                         default=""
                         label="JRESEARCH_KEYWORDS"
                         validate="keywords"
+                        description="JRESEARCH_FIELD_KEYWORDS_DESC"                        
                 />
                 <field
                         id="citekey"

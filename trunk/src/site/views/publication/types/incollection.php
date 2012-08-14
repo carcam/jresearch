@@ -8,60 +8,45 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<div class="divTR">
-	<?php $booktitle = trim($this->publication->booktitle);  ?>
-	<?php if(!empty($journal)): ?>
-	<div class="divTd"><?php echo JText::_('JRESEARCH_BOOK_TITLE').': ' ?></div>		
-	<div class="divTdl divTdl2"><?php echo $booktitle; ?></div>
-	<?php endif; ?>
-	<?php $publisher = trim($this->publication->publisher); ?>
-	<?php if(!empty($publisher)): ?>
-	<div class="divTd"><?php echo JText::_('Publisher').': ' ?></div>
-	<div class="divTdl divTdl2"><?php echo $publisher; ?></div>
-	<?php endif; ?>
-	<div class="divEspacio"></div>	
-</div>
-<div class="divTR">
-	<?php $editor = trim($this->publication->editor);  ?>
-	<?php if(!empty($editor)): ?>
-	<div class="divTd"><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></div>		
-	<div class="divTdl divTdl2"><?php echo $editor; ?></div>
-	<?php endif; ?>
-	<?php $organization = trim($this->publication->organization); ?>
-	<?php if(!empty($organization)): ?>
-	<div class="divTd"><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></div>
-	<div class="divTdl divTdl2"><?php echo $organization; ?></div>
-	<?php endif; ?>
-	<div class="divEspacio"></div>	
-</div>
+<?php $booktitle = trim($this->publication->booktitle);  ?>
+<?php if(!empty($journal)): ?>
+	<dt><?php echo JText::_('JRESEARCH_BOOK_TITLE').': ' ?></dt>		
+	<dd><?php echo $booktitle; ?></dd>
+<?php endif; ?>
+<?php $publisher = trim($this->publication->publisher); ?>
+<?php if(!empty($publisher)): ?>
+	<dt><?php echo JText::_('Publisher').': ' ?></dt>
+	<dd><?php echo $publisher; ?></dd>
+<?php endif; ?>
+<?php $editor = trim($this->publication->editor);  ?>
+<?php if(!empty($editor)): ?>
+	<dt><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></dt>		
+	<dd><?php echo $editor; ?></dd>
+<?php endif; ?>
+<?php $organization = trim($this->publication->organization); ?>
+<?php if(!empty($organization)): ?>
+	<dt><?php echo JText::_('JRESEARCH_ORGANIZATION').': ' ?></dt>
+	<dd><?php echo $organization; ?></dd>
+<?php endif; ?>
+<?php $address = trim($this->publication->address);  ?>
+<?php if(!empty($address)): ?>
+	<dt><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></dt>		
+	<dd><?php echo $address; ?></dd>
+<?php endif; ?>
+<?php $month = trim($this->publication->month); ?>
+<?php if(!empty($month)): ?>
+	<dt><?php echo JText::_('JRESEARCH_MONTH').': ' ?></dt>
+	<dd><?php echo JResearchPublicationsHelper::formatMonth($month); ?></dd>
+<?php endif; ?>
+<?php $pages = str_replace('--', '-', trim($this->publication->pages)); ?>
+<?php if(!empty($pages)): ?>
+	<dt><?php echo JText::_('JRESEARCH_PAGES').': ' ?></dt>		
+	<dd><?php echo $pages; ?></dd>
+<?php endif; ?>
 
-<div class="divTR">
-	<?php $address = trim($this->publication->address);  ?>
-	<?php if(!empty($address)): ?>
-	<div class="divTd"><?php echo JText::_('JRESEARCH_ADDRESS').': ' ?></div>		
-	<div class="divTdl divTdl2"><?php echo $address; ?></div>
-	<?php endif; ?>
-	<?php $month = trim($this->publication->month); ?>
-	<?php if(!empty($month)): ?>
-	<div class="divTd"><?php echo JText::_('JRESEARCH_MONTH').': ' ?></div>
-	<div class="divTdl"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></div>
-	<?php endif; ?>
-	<div class="divEspacio"></div>	
-</div>
-<div class="divTR">
-	<?php $pages = str_replace('--', '-', trim($this->publication->pages)); ?>
-	<?php if(!empty($pages)): ?>
-	<div class="divTd"><?php echo JText::_('JRESEARCH_PAGES').': ' ?></div>		
-	<div class="divTdl"><?php echo $pages; ?></div>
-	<?php endif; ?>
-	<div class="divEspacio"></div>	
-</div>
 <?php $isbn = trim($this->publication->isbn);  ?>
 <?php if(!empty($isbn)): ?>
-<div class="divTR">
-	<div class="divTd"><?php echo JText::_('JRESEARCH_ISBN').': ' ?></div>		
-	<div class="divTdl divTdl2"><?php echo $isbn; ?></div>
-	<div class="divEspacio"></div>	
-</div>
+	<dt><?php echo JText::_('JRESEARCH_ISBN').': ' ?></dt>		
+	<dd><?php echo $isbn; ?></dd>
 <?php endif; ?>
 <?php echo isset($this->reference)?$this->reference:''; ?>

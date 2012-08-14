@@ -118,6 +118,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `hits` int(10) default 0,
   `keywords` varchar(256) default NULL,
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
+  `publications` TEXT,
+  `ordering` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`),
   INDEX `id_research_area` (`id_research_area`),
@@ -158,6 +160,14 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_internal_author` (
   `order` smallint(5) unsigned NOT NULL,
   PRIMARY KEY  (`id_project`,`id_staff_member`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `#__jresearch_project_publication`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_project_publication` (
+  `id_project` int(10) unsigned NOT NULL,
+  `id_publication` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id_project`,`id_publication`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS `#__jresearch_publication_external_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication_external_author` (
@@ -212,6 +222,13 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_keyword` (
   `id_project` int(10) unsigned NOT NULL,
   `keyword` varchar(256) NOT NULL,
   PRIMARY KEY  (`id_project`, `keyword`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `#__jresearch_publication_keyword`;
+CREATE TABLE IF NOT EXISTS `#__jresearch_publication_keyword` (
+  `id_publication` int(10) unsigned NOT NULL,
+  `keyword` varchar(256) NOT NULL,
+  PRIMARY KEY  (`id_publication`, `keyword`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 

@@ -73,10 +73,7 @@ class JResearchModelPublications extends JResearchModelList{
         //Validate order direction
         if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
             $filter_order_Dir = 'ASC';
-            
-        if(!in_array($filter_order, $orders))
-        	$filter_order = 'year';        
-                
+                            
         $columns[] = $filter_order.' '.$filter_order_Dir;
 		$columns[] = 'created DESC';            
 

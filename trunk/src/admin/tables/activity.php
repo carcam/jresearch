@@ -171,12 +171,21 @@ class JResearchActivity extends JResearchTable{
 				$tmpAuthorsArray = array();	
 			
 			foreach($tmpAuthorsArray as $author){
-				if(is_numeric($author)){
+				$authorText = null;
+				//Search for the position separator
+				if(strpos($author, '|') !== false){
+					$tmpArray = explode('|', $author);
+					$authorText = $tmpArray[0];
+				}else{
+					$authorText = $author;
+				}
+				
+				if(is_numeric($authorText)){
 					$member = JTable::getInstance('Member', 'JResearch');
-					$member->load((int)$author);
+					$member->load((int)$authorText);
 					$this->_authorsArray[] = $member;
 				}else{
-					$this->_authorsArray[] = $author;
+					$this->_authorsArray[] = $authorText;
 				}
 			}
 		}

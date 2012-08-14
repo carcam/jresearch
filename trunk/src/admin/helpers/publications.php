@@ -717,6 +717,35 @@ class JResearchPublicationsHelper{
 			return null;
 		}
 	}
+	
+	/**
+	 * 
+	 * Returns a publication id given its citekey
+	 * @param string $citekey
+	 */
+	public static function getIdFromCitekey($citekey){
+		$db = JFactory::getDBO();
+		$db->setQuery("SELECT id FROM #__jresearch_publication WHERE citekey LIKE ".$db->Quote($citekey));
+		return $db->loadResult();
+	}
+	
+	/**
+	 * 
+	 * Enter description here ...
+	 * @param $citekey
+	 */
+	public static function getPublicationFromCitekey($citekey){
+		$publication = null;
+		$db = JFactory::getDBO();
+		$db->setQuery("SELECT * FROM #__jresearch_publication WHERE citekey LIKE ".$db->Quote($citekey));
+		$result = $db->loadAssoc();
+		if(!empty($result)){
+			$publication = new JResearchPublication();
+			$publication->bind($result);
+		}
+			
+		return $publication;
+	}
    
 }
 ?>

@@ -285,7 +285,7 @@ function removeSelectedRecord(){
 </script>
 
 <div style="text-align:center; width:100%;">
-	<label for="citedRecords"><?php echo JText::_('Cited Records').':'; ?></label>
+	<label for="citedRecords"><?php echo JText::_('JRESEARCH_CITED_RECORDS').':'; ?></label>
 	<?php echo $this->citedRecords; ?>
 	<?php echo $this->removeButton; ?>
 </div>

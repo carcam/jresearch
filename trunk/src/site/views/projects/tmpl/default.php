@@ -12,9 +12,11 @@ jresearchimport('helpers.html.jresearchfrontend', 'jresearch.site');
 <?php if($this->showHeader): ?>
 <h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
 <?php endif; ?>
+<form name="adminForm" method="post" id="adminForm" action="./<?php echo '?Itemid='.JRequest::getVar('Itemid'); ?>">
 <div style="text-align: left;">
 	<?php echo $this->filter; ?>
 </div>
+<div style="clear: both;" ></div>
 <?php
 if(count($this->items) > 0):
 ?>
@@ -24,10 +26,12 @@ if(count($this->items) > 0):
 	<?php $researchAreas = $project->getResearchAreas();
 		$researchAreasNames = array();
 		foreach($researchAreas as $area){
-			if($area->published)
-				$researchAreasNames[] = $area->name;
-			else
-				$researchAreasNames[] = JHTML::_('jresearchfrontend.link', $area->name, 'researcharea', 'display', $area->id, $itemId);
+			if($area->id > 1){
+				if($area->published)
+					$researchAreasNames[] = $area->name;
+				else
+					$researchAreasNames[] = JHTML::_('jresearchfrontend.link', $area->name, 'researcharea', 'display', $area->id, $itemId);
+			}
 		} 
 	?>
 	<li class="liresearcharea">
@@ -39,16 +43,18 @@ if(count($this->items) > 0):
 			//Show research area?
 			if($this->params->get('show_researcharea') == 1):
 			?>		
+			<?php if(count($researchAreasNames) > 0): ?>
 			<div>
-				<h4><?php echo JText::_('JRESEARCH_RESEARCH_AREA')?></h4>
-				<span><?php echo implode(', ', $researchAreas); ?></span>
+				<h4><?php echo JText::_('JRESEARCH_RESEARCH_AREAS')?></h4>
+				<span><?php echo implode(', ', $researchAreasNames); ?></span>
 			</div>
+			<?php endif; ?>
 			<?php 
 			endif;
 			
 			//Show members?
 			if($this->params->get('show_members') == 1):
-				$members = implode(', ',$project->getPrincipalInvestigators());
+				$members = implode('; ',$project->getPrincipalInvestigators());
 			?>			
 			<div>
         		<h4><?php echo JText::_('JRESEARCH_PROJECT_LEADERS')?></h4>
@@ -72,6 +78,14 @@ if(count($this->items) > 0):
 	</li>	
 <?php endforeach; ?>
 </ul>
+<input type="hidden" name="option" value="com_jresearch" />
+<input type="hidden" name="task" value="list" />
+<input type="hidden" name="view" value="projects"  />	
+<input type="hidden" name="controller" value="projects"  />
+<input type="hidden" name="limitstart" value="0" />
+<input type="hidden" name="modelkey" value="default" />
+<input type="hidden" name="Itemid" id="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />	
+</form>
 
 <?php
 endif;

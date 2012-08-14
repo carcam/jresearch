@@ -30,7 +30,6 @@ class JResearchStaffController extends JResearchFrontendController
 		// Task for edition of profile
 		$this->registerTask('edit', 'edit');
 		$this->registerTask('show', 'show');
-		$this->registerTask('displayflow', 'displayflow');
 		$this->registerTask('save', 'save');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
@@ -76,7 +75,7 @@ class JResearchStaffController extends JResearchFrontendController
 		}
 		
 		//Rules at staff level
-		$canDoStaff = JResearchAccessHelper::getActions('member', $memberInfo['id']);
+		$canDoStaff = JResearchAccessHelper::getActions();
 		if($canDoStaff->get('core.staff.edit.own')){
 			$model = $this->getModel('Member', 'JResearchModel');
 			$view = $this->getView('Member', 'html', 'JResearchView');				
@@ -107,8 +106,7 @@ class JResearchStaffController extends JResearchFrontendController
         $model = $this->getModel('Member', 'JResearchModel');
         $app = JFactory::getApplication();
         $form = JRequest::getVar('jform', array(), '', 'array');        
-        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form['id'], 'JResearchMember'));                
-
+ 
 		//Rules at staff level
 		$canDoStaff = JResearchAccessHelper::getActions();
 		$allowedToContinue = false;
@@ -122,6 +120,7 @@ class JResearchStaffController extends JResearchFrontendController
 		}
                 
 		if($allowedToContinue){
+			$app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchMember'));
 	        if ($model->save()){
 		        $app->triggerEvent('OnAfterSaveJResearchEntity', array($model->getItem(), 'JResearchMember'));        	
        		    $msg = JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED');            

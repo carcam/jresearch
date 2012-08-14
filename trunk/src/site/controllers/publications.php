@@ -46,6 +46,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$this->registerTask('show', 'show');
 		$this->registerTask('cite', 'cite');
 		$this->registerTask('citeFromDialog', 'citeFromDialog');
+		$this->registerTask('citeFromForm', 'citeFromForm');
 		$this->registerTask('generateBibliography', 'generateBibliography');
 		$this->registerTask('removeCitedRecord', 'removeCitedRecord');
 		$this->registerTask('searchByPrefix', 'searchByPrefix');
@@ -162,8 +163,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 			$publication = $pubModel->getItem();
 			
 			if(!empty($publication)){
-				$canDo = JResearchAccessHelper::getActions('publication', $publication->id);
-				if($canDo->get('core.publications.edit') || 
+				if($canDoPublications->get('core.publications.edit') || 
 				($canDoPublications->get('core.publications.edit.own') && $publication->created_by == $user->get('id'))
 				){				
 					$user = JFactory::getUser();
@@ -260,6 +260,18 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$this->addViewPath(JRESEARCH_COMPONENT_SITE.DS.'views');
 		$view = $this->getView('Publications', 'html', 'JResearchView');
 		$view->setLayout('cite');
+		$view->display();
+	}
+	
+	/**
+	 * Invoked when the user wants to cite a record using the dialog provided via editors-xtd
+	 * plugin.
+	 */
+	function citeFromForm(){
+		// Add explicitly the view path (useful when requesting from the backend)
+		$this->addViewPath(JRESEARCH_COMPONENT_SITE.DS.'views');
+		$view = $this->getView('Publications', 'html', 'JResearchView');
+		$view->setLayout('cite2');
 		$view->display();
 	}
 	
@@ -439,11 +451,10 @@ class JResearchPublicationsController extends JResearchFrontendController
 			if(!isset($form['internal']))
 				$form['internal'] = $params->get('publications_default_internal_status', 1);			
 		}else{
-			$canDoPub = JResearchAccessHelper::getActions('publication', $form['id']);
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);
 			
 			$canProceed = $canDoPubs->get('core.publication.edit') ||
-     			($canDoPub->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
+     			($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
 		}
         
 		if(!$canProceed){
@@ -525,11 +536,10 @@ class JResearchPublicationsController extends JResearchFrontendController
 			if(!isset($form['internal']))
 				$form['internal'] = $params->get('publications_default_internal_status', 1);			
 		}else{
-			$canDoPub = JResearchAccessHelper::getActions('publication', $form['id']);
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);
 			
 			$canProceed = $canDoPubs->get('core.publication.edit') ||
-     			($canDoPub->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
+     			($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
 		}
         
 		if(!$canProceed){
@@ -537,10 +547,10 @@ class JResearchPublicationsController extends JResearchFrontendController
 			return;
 		}
 
-        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'publication'));		
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchPublication'));		
         if ($model->changeType()){
             $publication = $model->getItem();        	
-        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'publication'));
+        	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'JResearchPublication'));
             $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=edit&id='.$publication->id.'&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
         }else{
             $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
@@ -640,54 +650,59 @@ class JResearchPublicationsController extends JResearchFrontendController
 	 * 
 	 */
 	function executeImport(){
-		$mainframe = JFactory::getApplication();
-        $params = $mainframe->getPageParameters('com_jresearch');
-        $bibtex = $params->get('enable_bibtex_frontend_import', 0);
-
-        if($bibtex == 1){
-        	$fileArray = JRequest::getVar('inputfile', null, 'FILES');
-            $format = JRequest::getVar('formats');
-            $texto = JRequest::getVar('bibtex');
-            $idResearchArea = JRequest::getInt('researchAreas', 0);
-            $uploadedFile = $fileArray['tmp_name'];
-
-            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
-            $importer = JResearchPublicationImporterFactory::getInstance("bibtex");
-
-            if($fileArray == null || $uploadedFile == null){
-            	$n = 0;
-                if($texto != null){
-                	$parsedPublications = $importer->parseText($texto);
-                    foreach($parsedPublications as $p){
-                    	$p->id_research_area = array($idResearchArea);
-                    	$p->internal = $params->get('publications_default_internal_status', 1);
-                    	$p->published = $params->get('publications_default_published_status', 1);                    	
-                        if(!$p->save()){
-                        	JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
-                        }else{
-                        	$n++;
-                        }
-                    }
-                }
-            }else{
-            	$parsedPublications = $importer->parseFile($uploadedFile);
-                $n = 0;
-                foreach($parsedPublications as $p){
-                	$p->id_research_area = $idResearchArea;
-                    if(!$p->store()){
-                    	JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
-                    }else{
-                    	$n++;
-                    }
-                }
-
-             }
-             $mainframe->enqueueMessage(JText::_('JRESEARCH_IMPORTED_ITEMS').': '.$n);
-        }else{
-            JError::raiseWarning(1, JText::_('JRESEARCH_IMPORT_FROM_FRONTEND_NOT_ENABLED'));
-        }
-
-        $this->add();
+		$canDoPubs = JResearchAccessHelper::getActions();
+		if($canDoPubs->get('core.publications.create')){	
+			$mainframe = JFactory::getApplication();
+	        $params = $mainframe->getPageParameters('com_jresearch');
+	        $bibtex = $params->get('enable_bibtex_frontend_import', 0);
+	
+	        if($bibtex == 1){
+	        	$fileArray = JRequest::getVar('inputfile', null, 'FILES');
+	            $format = JRequest::getVar('formats');
+	            $texto = JRequest::getVar('bibtex');
+	            $idResearchArea = JRequest::getInt('researchAreas', 0);
+	            $uploadedFile = $fileArray['tmp_name'];
+	
+	            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
+	            $importer = JResearchPublicationImporterFactory::getInstance("bibtex");
+	
+	            if($fileArray == null || $uploadedFile == null){
+	            	$n = 0;
+	                if($texto != null){
+	                	$parsedPublications = $importer->parseText($texto);
+	                    foreach($parsedPublications as $p){
+	                    	$p->id_research_area = array($idResearchArea);
+	                    	$p->internal = $params->get('publications_default_internal_status', 1);
+	                    	$p->published = $params->get('publications_default_published_status', 1);                    	
+	                        if(!$p->save()){
+	                        	JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
+	                        }else{
+	                        	$n++;
+	                        }
+	                    }
+	                }
+	            }else{
+	            	$parsedPublications = $importer->parseFile($uploadedFile);
+	                $n = 0;
+	                foreach($parsedPublications as $p){
+	                	$p->id_research_area = $idResearchArea;
+	                    if(!$p->store()){
+	                    	JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
+	                    }else{
+	                    	$n++;
+	                    }
+	                }
+	
+	             }
+	             $mainframe->enqueueMessage(JText::_('JRESEARCH_IMPORTED_ITEMS').': '.$n);
+	        }else{
+	            JError::raiseWarning(1, JText::_('JRESEARCH_IMPORT_FROM_FRONTEND_NOT_ENABLED'));
+	        }
+	
+	        $this->add();
+		}else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
+		}
 	}
 	
 	/**
@@ -695,14 +710,19 @@ class JResearchPublicationsController extends JResearchFrontendController
 	* @access	public
 	*/ 
 	function remove(){
-        $model = $this->getModel('Publication', 'JResearchModel');
-        $n = $model->delete();
-        $Itemid = JRequest::getInt('Itemid', 0);
-        $this->setRedirect('index.php?option=com_jresearch&controller=publications&Itemid='.$Itemid, JText::sprintf('JRESEARCH_ITEM_SUCCESSFULLY_DELETED', $n));
-        $errors = $model->getErrors();
-        if(!empty($errors)){
-        	JError::raiseWarning(1, explode('<br />', $errors));
-        }        
+		$canDoPubs = JResearchAccessHelper::getActions();
+		if($canDoPubs->get('core.publications.delete')){		
+	        $model = $this->getModel('Publication', 'JResearchModel');
+	        $n = $model->delete();
+	        $Itemid = JRequest::getInt('Itemid', 0);
+	        $this->setRedirect('index.php?option=com_jresearch&controller=publications&Itemid='.$Itemid, JText::sprintf('JRESEARCH_ITEM_SUCCESSFULLY_DELETED', $n));
+	        $errors = $model->getErrors();
+	        if(!empty($errors)){
+	        	JError::raiseWarning(1, explode('<br />', $errors));
+	        }        
+		}else{
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
+		}
 	}
 }
 ?>
