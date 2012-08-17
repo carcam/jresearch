@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension version="2.5" type="plugin" group="content">
+	<name>JResearch Offline Citation</name>
+	<author>Luis Galárraga</author>
+	<creationDate>August 2012</creationDate>
+	<copyright>Copyright (C) 2012 - Luis Galárraga</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>shamantobi@gmail.com</authorEmail>
+	<authorUrl>joomla-research.com</authorUrl>
+	<version>1.0</version>
+	<description>PLG_LOADMODULE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="jresearch_offline_citation">jresearch_offline_citation.php</filename>
+	</files>
+	<languages>
+	</languages>
+	<config>
+	</config>
+</extension>
