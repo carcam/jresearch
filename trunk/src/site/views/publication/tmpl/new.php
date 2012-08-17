@@ -8,11 +8,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if(true)
-{
 $mainframe = JFactory::getApplication();
 $params = $mainframe->getPageParameters('com_jresearch');
-$bibtex = $params->get('enable_bibtex_frontend_import');
+$bibtex = $params->get('enable_bibtex_frontend_import', 1);
 ?>
 	<h1><?php echo JText::_('JRESEARCH_NEW_PUBLICATION'); ?></h1>
 	<form name="adminForm" id="adminForm" method="post" action="index.php">
@@ -37,7 +35,7 @@ $bibtex = $params->get('enable_bibtex_frontend_import');
 		<?php endif; ?>		
 		<input type="hidden" name="id" value="0" />
 	</form>
-	<?php if($bibtex == "yes") {?>
+	<?php if($bibtex) {?>
 	<?php 
 		jresearchimport('helpers.researchareas', 'jresearch.admin');
 	    $researchAreas = JResearchResearchareasHelper::getResearchAreas();
@@ -85,11 +83,3 @@ $bibtex = $params->get('enable_bibtex_frontend_import');
 		<input type="hidden" name="option" id="option" value="com_jresearch" />		
 	</form>
 	<?php } ?>
-<?php
-}else{
-?>
-	<div style="clear: both;">&nbsp;</div>
-	<div style="text-align:center;"><?php echo JText::_('JRESEARCH_ACCESS_NOT_ALLOWED')?></div>
-<?php
-}
-?>

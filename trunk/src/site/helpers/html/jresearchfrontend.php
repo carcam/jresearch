@@ -28,12 +28,12 @@ class JHTMLjresearchfrontend{
 		$availableTasks = array('edit', 'remove', 'delete', 'add', 'new');
 		// Menu ID retention
 		$menuId = JRequest::getVar('Itemid', 0);
-		$menuIdText = !empty($Menuid)? '&Itemid='.$Menuid : '';
+		$menuIdText = !empty($menuId)? '&Itemid='.$menuId : '';
 
 		if(in_array($controller, $availableController) && in_array($task, $availableTasks)){
 			$text = JText::_('JRESEARCH_'.ucfirst($task));
 			
-			return '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$MenuidText.'" title="'.$text.'">'
+			return '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$menuIdText.'" title="'.$text.'">'
 			.$text.'<img src="'.JURI::root().'components/com_jresearch/assets/'.$task.'.png" />'
 			.'</a>';			
 		}
