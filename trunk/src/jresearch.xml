@@ -38,10 +38,7 @@
 	<files folder="site">
 		<filename>index.html</filename>
 		<filename>jresearch.php</filename>
-		<filename>tinymce.php</filename>
-		<filename>tinymce.legacy.php</filename>		
 		<folder>assets</folder>
-		<folder>automatic_citation</folder>
 		<folder>bibutils</folder>
 		<folder>citationStyles</folder>
 		<folder>controllers</folder>
