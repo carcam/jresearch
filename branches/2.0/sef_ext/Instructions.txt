@@ -1,6 +1,0 @@
-Once you have installed the sh404sef component, you have to:
-
-1. Move the com_jresearch.php file to [...]/components/com_sh404sef/sef_ext/
-2. Move the file inside the plugins directory to [...]/administrator/components/com_sh404sef/language/plugins
-
-Where [...] is the Joomla Root Directory.
