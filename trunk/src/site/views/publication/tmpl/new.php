@@ -46,7 +46,7 @@ $bibtex = $params->get('enable_bibtex_frontend_import', 1);
     	foreach($researchAreas as $r){
             $researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
     	}    	
-    	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'researchAreas', 'class="inputbox" id="researchAreas" size="1"');	
+    	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'researchAreas[]', 'class="inputbox" id="researchAreas" multiple="multiple" size="5"');	
 	?>
 	<h1><?php echo JText::_('JRESEARCH_IMPORT_PUBLICATIONS'); ?></h1>
 	<form name="upload" enctype="multipart/form-data" method="post" >

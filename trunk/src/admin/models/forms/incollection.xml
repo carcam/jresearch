@@ -307,9 +307,5 @@
                         controller="publications"
                         class="inputbox"
                 />
-				<field name="rules" type="rules" class="inputbox" filter="rules"
-					component="com_jresearch" section="publication" validate="rules"
-				/>
-				<field name="asset_id" type="hidden" filter="unset" />                                
         </fieldset>
 </form>
