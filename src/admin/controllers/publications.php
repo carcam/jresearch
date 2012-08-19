@@ -258,9 +258,14 @@ class JResearchAdminPublicationsController extends JController
             jresearchimport('helpers.importers.factory', 'jresearch.admin');
             $fileArray = JRequest::getVar('inputfile', null, 'FILES');
             $format = JRequest::getVar('formats');
-            $idResearchArea = JRequest::getVar('researchAreas');
             $uploadedFile = $fileArray['tmp_name'];
-
+	        $researchAreas = JRequest::getVar('researchAreas', array(), '', 'array');
+	        if(in_array('1', $researchAreas)){
+				$researchAreasText = '1';
+			}else{
+				$researchAreasText = implode(',', $researchAreas);
+			}
+            
             if($fileArray == null || $uploadedFile == null){
                 JError::raiseWarning(1, JText::_('JRESEARCH_NO_INPUT_FILE'));
                 $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=import');
@@ -269,9 +274,10 @@ class JResearchAdminPublicationsController extends JController
                 $parsedPublications = $importer->parseFile($uploadedFile);
                 $n = 0;
                 foreach($parsedPublications as $p){
-                    $p->id_research_area = array($idResearchArea);
-                    $p->internal = $params->get('publications_default_internal_status', 1);
-                    $p->published = $params->get('publications_default_published_status', 1);                    
+					//Auto make internal when uploading from bibtex file
+                    $p->id_research_area = $researchAreasText;
+                    $p->internal = $params->get('publications_default_internal_status', 1) == 1;
+                    $p->published = $params->get('publications_default_published_status', 1) == 1;                    
                     if(!$p->store()){
                         JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
                     }else{

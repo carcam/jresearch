@@ -114,7 +114,7 @@ class JResearchAdminViewPublications extends JResearchView
     	foreach($researchAreas as $r){
             $researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
     	}    	
-    	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'researchAreas', 'class="inputbox" id="researchAreas" size="5"');
+    	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'researchAreas[]', 'class="inputbox" multiple="multiple" id="researchAreas" size="5"');
     	
     	// Supported input formats
     	$formatsOptions[] = JHTML::_('select.option', 'bibtex', 'Bibtex');
@@ -135,12 +135,12 @@ class JResearchAdminViewPublications extends JResearchView
         $task = JRequest::getVar('task');
 
         if($task == 'export'){
-                $cid = JRequest::getVar('cid', null);
-                $exportCompleteDatabase = false;
-                $session->set('markedRecords', $cid, 'com_jresearch.publications');
+        	$cid = JRequest::getVar('cid', null);
+            $exportCompleteDatabase = false;
+            $session->set('markedRecords', $cid, 'com_jresearch.publications');
         }elseif($task == 'exportAll'){
-                $exportCompleteDatabase = true;
-                $session->set('markedRecords', 'all', 'com_jresearch.publications');
+            $exportCompleteDatabase = true;
+            $session->set('markedRecords', 'all', 'com_jresearch.publications');
         }
 		      	
       

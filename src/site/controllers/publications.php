@@ -655,12 +655,16 @@ class JResearchPublicationsController extends JResearchFrontendController
 			$mainframe = JFactory::getApplication();
 	        $params = $mainframe->getPageParameters('com_jresearch');
 	        $bibtex = $params->get('enable_bibtex_frontend_import', 0);
-	
+	        $researchAreas = JRequest::getVar('researchAreas', array(), '', 'array');
+	        if(in_array('1', $researchAreas)){
+				$researchAreasText = '1';
+			}else{
+				$researchAreasText = implode(',', $researchAreas);
+			}	        
 	        if($bibtex == 1){
 	        	$fileArray = JRequest::getVar('inputfile', null, 'FILES');
 	            $format = JRequest::getVar('formats');
 	            $texto = JRequest::getVar('bibtex');
-	            $idResearchArea = JRequest::getInt('researchAreas', 0);
 	            $uploadedFile = $fileArray['tmp_name'];
 	
 	            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
@@ -671,9 +675,9 @@ class JResearchPublicationsController extends JResearchFrontendController
 	                if($texto != null){
 	                	$parsedPublications = $importer->parseText($texto);
 	                    foreach($parsedPublications as $p){
-	                    	$p->id_research_area = array($idResearchArea);
-	                    	$p->internal = $params->get('publications_default_internal_status', 1);
-	                    	$p->published = $params->get('publications_default_published_status', 1);                    	
+	                    	$p->id_research_area = $researchAreasText;
+	                    	$p->internal = $params->get('publications_default_internal_status', 1) == 1;
+	                    	$p->published = $params->get('publications_default_published_status', 1) == 1;                    	
 	                        if(!$p->save()){
 	                        	JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
 	                        }else{
@@ -685,7 +689,9 @@ class JResearchPublicationsController extends JResearchFrontendController
 	            	$parsedPublications = $importer->parseFile($uploadedFile);
 	                $n = 0;
 	                foreach($parsedPublications as $p){
-	                	$p->id_research_area = $idResearchArea;
+	                	$p->id_research_area = $researchAreasText;
+	                    $p->internal = $params->get('publications_default_internal_status', 1) == 1;
+	                    $p->published = $params->get('publications_default_published_status', 1) == 1;                    	
 	                    if(!$p->store()){
 	                    	JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
 	                    }else{

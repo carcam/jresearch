@@ -61,8 +61,8 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
                                 elseif(!empty($auth['jr']))
                                 	$authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
                                 else
-                                	$authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
-                                    $newPub->addAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);                                                            
+                                $authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
+                                $newPub->addAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);                                                            
 							}
 						}
 						// Normalize the data, bibtex entities are not stored in database
@@ -71,25 +71,11 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
 							if($key != 'author')
 								$data[$key] = JResearchPublicationsHelper::bibCharsToUtf8FromString($info);
 						}
-						$params = &JComponentHelper::getParams( 'com_jresearch' );
-						$internalStatus = $params->get('publications_default_internal_status', 1);
-						$publishedStatus = $params->get('publications_default_published_status', 1);
 						$newPub->bind($data);
-						//Auto make internal when uploading from bibtex file
-						if($internalStatus == 1)
-							$newPub->internal = true;
-						else
-							$newPub->internal = false;
-						
-						if($publishedStatus == 1)
-							$newPub->published = true;							
-						else
-							$newPub->published = false;
-
+						$params = &JComponentHelper::getParams( 'com_jresearch' );
 						$newPub->created_by = $user->get('id');	
 						$newPub->alias = JFilterOutput::stringURLSafe($newPub->title);
-						$newPub->title = JResearchPublicationsHelper::formatBibtexTitleForImport($newPub->title);
-						
+						$newPub->title = JResearchPublicationsHelper::formatBibtexTitleForImport($newPub->title);						
 						$resultArray[] = $newPub;
 					}
 				}

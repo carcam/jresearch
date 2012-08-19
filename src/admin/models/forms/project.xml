@@ -136,10 +136,6 @@
                 >
                 	<option value="0">JNO</option>
 					<option value="1">JYES</option>
-           	 	</field> 
-				<field name="rules" type="rules" class="inputbox" filter="rules"
-					component="com_jresearch" section="project" validate="rules"
-				/>
-				<field name="asset_id" type="hidden" filter="unset" />                
+           	 	</field>
         </fieldset>        
 </form>

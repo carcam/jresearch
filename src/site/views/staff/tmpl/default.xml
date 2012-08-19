@@ -14,7 +14,7 @@
         <fieldset name="basic">
              <field name="staff_introtext" type="textarea"
              	cols="60" rows="5"
-                description="JRESEARCH_CONFIG_INTRO_TEXT"
+                description="JRESEARCH_CONFIG_INTRO_TEXT_DESCRIPTION"
                 label="JRESEARCH_CONFIG_INTRO_TEXT" filter="nofilter"
              />
 			<field name="staff_entries_per_page" default="25" label="JRESEARCH_CONFIG_MEMBERS_PER_PAGE" type="text" ></field>									
