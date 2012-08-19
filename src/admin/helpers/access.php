@@ -24,7 +24,7 @@ class JResearchAccessHelper{
  
         $actions = array('core.admin', 'core.manage', 'core.publications.create', 'core.publications.edit'
         , 'core.publications.delete', 'core.publications.edit.own', 'core.publications.edit.state'
-        , 'core.staff.create', 'core.staff.edit', 'core.staff.delete', 'core.staff.edit.own'
+        , 'core.staff.create', 'core.staff.edit', 'core.staff.delete', 'core.staff.edit.own', 'core.staff.edit.state'
         , 'core.researchareas.create', 'core.researchareas.edit', 'core.researchareas.edit.own', 'core.researchareas.delete'
         , 'core.projects.create', 'core.projects.edit', 'core.projects.delete', 'core.projects.edit.state');
  

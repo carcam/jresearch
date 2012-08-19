@@ -155,7 +155,6 @@ class JResearchAdminStaffController extends JController
 	*/ 
 	function unpublish(){
         JRequest::checkToken() or jexit( 'JInvalid_Token' );
-    	
         $canDoStaff = JResearchAccessHelper::getActions();
 	    if($canDoStaff->get('core.staff.edit.state')){    	        
 	        $model = $this->getModel('Member', 'JResearchAdminModel');

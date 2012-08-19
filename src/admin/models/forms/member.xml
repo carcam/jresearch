@@ -41,14 +41,14 @@
                 />                
                 <field
                         id="email"
-                        name="alias"
+                        name="email"
                         type="text"
                         size="40"
                         maxlength="255"
                         class="inputbox"
                         default=""
                         validate="email"
-                        label="JRESEARCH_EMAIL"
+                        label="JRESEARCH_CONTACT"
                         required="false"
                 />
                 <field
@@ -143,12 +143,7 @@
 					filter="safehtml" buttons="true"
                 />
 			<field name="created_by" type="user"
-				label="JRESEARCH_PROFILE_OWNER" description="JRESEARCH_PROFILE_OWNER" />				
-			<field name="rules" type="rules" class="inputbox" filter="rules"
-				component="com_jresearch" section="member" validate="rules"
-			/>
-			<field name="asset_id" type="hidden" filter="unset" />
-			<field name="catid" type="hidden" filter="unset" />
+				label="JRESEARCH_PROFILE_OWNER" description="JRESEARCH_PROFILE_OWNER" />
 			<field name="username" type="text" class="readonly"
 			label="JRESEARCH_USERNAME" size="20" readonly="true" />				
         </fields>

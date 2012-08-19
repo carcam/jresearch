@@ -89,7 +89,8 @@ class JResearchAdminModelMember extends JModelForm{
             $app = JFactory::getApplication();
 
             $data = &$this->getData();
-
+            $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
+            $data['description'] = $form['description'];
             $row = $this->getTable('Member', 'JResearch');
             
         	//Checking of research areas
