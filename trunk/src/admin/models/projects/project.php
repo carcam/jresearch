@@ -88,10 +88,13 @@ class JResearchAdminModelProject extends JModelForm{
 			jresearchimport('helpers.projects', 'jresearch.admin');
 			$params = JComponentHelper::getParams('com_jresearch');
 			$omittedFields = array();
+			$form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
                 
             $data =& $this->getData();                
             $row =& $this->getTable('Project', 'JResearch');
-	    		
+
+            $data['description'] = $form['description'];
+            
 	    	if($data['resethits'] == 1){
 				$data['hits'] = 0;
 			}else{
