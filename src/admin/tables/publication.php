@@ -297,7 +297,7 @@ class JResearchPublication extends JResearchActivity{
        
 		$authorsArray = explode(';', $this->authors);
 		$order = 0;
-		foreach($authorsArray as $author){
+		foreach($authorsArray as $authorEntry){
 			$idValue = $db->Quote($this->id);
 			$orderValue = $db->Quote($order);
 			

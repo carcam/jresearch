@@ -52,13 +52,10 @@ class JFormFieldAuthorsselector extends JFormField
 		$minAuthorLengthMessage = JText::_('JRESEARCH_MIN_AUTHOR_LENGTH_MESSAGE');   	
 		$noResults = JText::_('JRESEARCH_NO_RESULTS');
 		$allowPrincipals = ($this->element['allowPrincipals'] == 'true');
-
 		if(!empty($this->value))
 			$values = explode(';', trim($this->value));
 		else
 			$values = array();	
-			
-		
 
 		$doc->addScriptDeclaration("
 	        	var options_xml1_$baseName;
@@ -119,7 +116,7 @@ class JFormFieldAuthorsselector extends JFormField
 					$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:removeAuthor('li$textField$j')\">$delete</a></span>";
 					$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveUp('li$textField$j')\"><img style=\"width:16px;height:16px;float:none\" src=\"$upImage\" alt=\"\" /></a></span>";
 					$output .= "<span style=\"padding: 2px;\"><a href=\"javascript:moveDown('li$textField$j')\"><img style=\"width:16px;height:16px;float:none\" src=\"$downImage\" alt=\"\" /></a></span>";				
-				if($allowPrincipals){
+					if($allowPrincipals){
 						$onText = isset($authorEntryArray[1]) && $authorEntryArray[1] == 'on'?'value="on" checked="checked"':'';
 						$output .= "<label for=\"jform[check_".$textField."$j]\">$projectLeader</label><input type=\"checkbox\" id=\"jform[check_".$textField."$j]\" name=\"jform[check_".$textField."$j]\" ".$onText."  />"; 
 					}

@@ -114,7 +114,7 @@ class JResearchViewPublications extends JResearchView
     	$mainframe = JFactory::getApplication();
     	
     	$doc = JFactory::getDocument();
-    	$params = $mainframe->getParams('com_jresearch');    	
+    	$params = $mainframe->getParams('com_jresearch');
     	
     	$document =& JFactory::getDocument();
     	$feed = 'index.php?option=com_jresearch&amp;view=publicationslist&amp;format=feed';
@@ -177,12 +177,12 @@ class JResearchViewPublications extends JResearchView
     	$layout = $this->getLayout();
     	
     	$filter = $this->_publicationsFilter($layout,
-    		$params->get('filter_teams', 1),
-    		$params->get('filter_areas', 1),
-    		$params->get('filter_year', 1),
-    		$params->get('filter_search', 1),
-    		$params->get('filter_type', 1),
-    		$params->get('filter_authors', 1)
+    		$params->get('filter_teams', 1) == 1,
+    		$params->get('filter_areas', 1) == 1,
+    		$params->get('filter_year', 1) == 1,
+    		$params->get('filter_search', 1) == 1,
+    		$params->get('filter_type', 1) == 1,
+    		$params->get('filter_authors', 1) == 1
     	);
     	
     	$this->assignRef('filter', $filter);
@@ -381,9 +381,9 @@ class JResearchViewPublications extends JResearchView
 		if($bSearch === true)
         {
     		$filter_search = $this->state->get('com_jresearch.publications.filter_search');
-     		$lists['search'] = JText::_('JFILTER').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search).'" class="text_area" onchange="document.adminForm.submit();" />
-								<button onclick="document.adminForm.submit();">'.JText::_('JGO').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
-								.JText::_('JRESET').'</button>';
+     		$lists['search'] = JText::_('JRESEARCH_FILTER').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search).'" class="text_area" onchange="document.adminForm.submit();" />
+								<button onclick="document.adminForm.submit();">'.JText::_('JRESEARCH_GO').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
+								.JText::_('JRESEARCH_RESET').'</button>';
     	}
     	
 		if($bType === true)
@@ -409,10 +409,8 @@ class JResearchViewPublications extends JResearchView
 
 			
 			$filter_year = $this->state->get('com_jresearch.publications.filter_year');			
-			
-			$db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
-			$years = $db->loadResultArray();
-			
+
+			$years = JResearchPublicationsHelper::getYears();			
 			$yearsHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
 			foreach($years as $y)
 			{
@@ -431,7 +429,7 @@ class JResearchViewPublications extends JResearchView
 			$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
 			foreach($authors as $auth)
 			{
-				$authorsHTML[] = JHTML::_('select.option', $auth['id'], $auth['name']); 
+				$authorsHTML[] = JHTML::_('select.option', $auth['mid'], $auth['member_name']); 
 			}
 			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
     	}
