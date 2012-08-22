@@ -46,7 +46,7 @@ class JResearchModelProjects extends JResearchModelList{
         $query->select('DISTINCT proj.*');
         $query->from('#__jresearch_project proj');
         $query->leftJoin('#__jresearch_project_researcharea AS ra ON proj.id = ra.id_project');
-        $query->innerJoin('#__jresearch_all_project_authors AS apa ON proj.id = apa.pid');
+        $query->leftJoin('#__jresearch_all_project_authors AS apa ON proj.id = apa.pid');
             
 		if(!empty($whereClauses))
             $query->where($whereClauses);

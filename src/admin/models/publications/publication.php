@@ -264,7 +264,7 @@ class JResearchAdminModelPublication extends JModelForm{
            foreach($selected as $id){
            	   $action = JResearchAccessHelper::getActions('publication', $id);           	
            	   if($action->get('core.publications.edit.state')){
-	    	       $allOk = $allOk && $publication->publish($id, 1, $user->get('id'));
+	    	       $allOk = $allOk && $publication->publish(array($id), 1, $user->get('id'));
 	    	       if(!$allOk) $this->setError($publication->getError());
            	   }else{
            	   	   $allOk = false;
