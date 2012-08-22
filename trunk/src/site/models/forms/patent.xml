@@ -124,6 +124,15 @@
                         label="JRESEARCH_AUTHORS"
                 />
                 <field
+                        id="files"
+                        name="files"
+                        type="attachment"
+                        controller="publications"
+                        class="inputbox"
+                        singleFile="true"
+                        label="JRESEARCH_FILE"
+                />                
+                <field
                         id="abstract"
                         name="abstract"
                         type="textarea"
@@ -132,8 +141,7 @@
                         class="inputbox"
                         default=""
                         label="JRESEARCH_ABSTRACT"
-                 />                
-                 
+                 />
         </fieldset>
         <fieldset name="extra">
                 <field
@@ -268,23 +276,6 @@
 			default="0">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
-			</field>                
-                <field
-                        id="file_url"
-                        name="file_url"
-                        type="file"
-                        rows="5"
-                        cols="50"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_FILE"
-                />       
-                <field
-                        id="files"
-                        name="files"
-                        type="attachment"
-                        controller="publications"
-                        class="inputbox"
-                />
+			</field>
         </fieldset>
 </form>

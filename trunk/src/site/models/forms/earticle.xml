@@ -115,7 +115,7 @@
 			<option value="*">JALL</option>
 		</field>				
 		
-        <field
+        		<field
                         id="authors"
                         name="authors"
                         type="authorsselector"
@@ -124,6 +124,15 @@
                         default=""
                         label="JRESEARCH_AUTHORS"
                 />
+                <field
+                        id="files"
+                        name="files"
+                        type="attachment"
+                        controller="publications"
+                        class="inputbox"
+                        singleFile="true"
+                        label="JRESEARCH_FILE"
+                />                
                 <field
                         id="abstract"
                         name="abstract"

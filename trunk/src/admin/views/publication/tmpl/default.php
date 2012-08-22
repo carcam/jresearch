@@ -26,24 +26,6 @@ defined('_JEXEC') or die('Restricted access');
                         <?php echo $field->input; ?>
                     </li>
                 <?php endforeach; ?>
-                <?php
-            		$fileInputField = $this->form->getField('file_url');
-            		$filesField = $this->form->getField('files');
-     			?> 
-     				<li>
-                        <?php if (!$fileInputField->hidden): ?>
-                                <?php echo $fileInputField->label; ?>
-                        <?php endif; ?>
-                        <?php echo $fileInputField->input; ?>
-                    </li>
-     			 <?php 
-     			 	$attachment = $filesField->value;
-            		if(!empty($attachment)){
-            			$deleteAttachField = $this->form->getField('delete_url'); 
-            			echo '<li>'.$filesField->input.$deleteAttachField->label.' '.$deleteAttachField->input.'</li>';
-            		}	
-            	?>
-                
                 </ul>
         </fieldset>
     </div>
