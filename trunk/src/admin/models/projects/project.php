@@ -174,7 +174,6 @@ class JResearchAdminModelProject extends JModelForm{
          */
         function publish(){
            $selected = JRequest::getVar('cid', 0, '', 'array');
-           JError::raiseWarning(1, var_export($selected, true));
 	       $project = JTable::getInstance('Project', 'JResearch');           
 	       $allOk = true;
 	       $user = JFactory::getUser();
