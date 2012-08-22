@@ -124,6 +124,15 @@
                         label="JRESEARCH_AUTHORS"
                 />
                 <field
+                        id="files"
+                        name="files"
+                        type="attachment"
+                        controller="publications"
+                        class="inputbox"
+                        singleFile="true"
+                        label="JRESEARCH_FILE"
+                />                
+                <field
                         id="abstract"
                         name="abstract"
                         type="textarea"

@@ -34,6 +34,7 @@ class JFormFieldAttachment extends JFormField{
 		$name = $this->element['name'];
 		$singleFile = $this->element['singleFile'];
 		$params = JComponentHelper::getParams('com_jresearch');
+		$controller = $this->element['controller'];
 
 		if(!empty($this->value))
 			$uploadedFiles = explode(';', $this->value);
@@ -50,7 +51,7 @@ class JFormFieldAttachment extends JFormField{
 		$uploadField .= '<ul id="div_upload_'.$name.'">';	
 		$uploadField .= '<li><input id="jform[file_'.$name.'_'.$k.']" name="jform[file_'.$name.'_'.$k.']" type="file" /></li>';	
 		//Render the uploaded files
-		$baseUrl = $url.'administrator/components/com_jresearch/'.$params->get('files_root_path', 'files').'/projects';
+		$baseUrl = $url.'administrator/components/com_jresearch/'.$params->get('files_root_path', 'files').'/'.$controller;
 		$n = 0;
 		
 		foreach($uploadedFiles as $file){	
