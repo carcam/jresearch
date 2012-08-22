@@ -652,7 +652,6 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	
 	upDownSpan.appendChild(aUp);
 	upDownSpan.appendChild(aDown);
-	
 	if(this.projectLeaders){
 		checkSpan = document.createElement('span');
 		checkSpan.style.padding = '2px';		

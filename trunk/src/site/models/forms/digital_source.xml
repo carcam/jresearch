@@ -119,7 +119,7 @@
                         name="authors"
                         type="authorsselector"
                         class="inputbox"
-                        allowPrincipals="true"
+                        allowPrincipals="false"
                         default=""
                         label="JRESEARCH_AUTHORS"
                 />

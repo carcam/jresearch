@@ -124,7 +124,7 @@ class JResearchAdminModelPublication extends JModelForm{
 			for($j = 0; $j < $maxAuthors; $j++){
 				$value = $data["authorsfield".$j];
 				if(!empty($value)){
-					$row->addAuthor($value);
+					$row->addAuthor($value, null);
 				}
 			}
 				

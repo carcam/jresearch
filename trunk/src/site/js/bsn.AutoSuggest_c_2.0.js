@@ -638,7 +638,7 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	aUp.setAttribute('href', 'javascript:moveUp(\'li'+this.fld.name+nResults+'\')');
 	imgUp = document.createElement('img');
 	imgUp.setAttribute('src', this.lbl_up_image);
-  imgUp.style.width = '16px';
+	imgUp.style.width = '16px';
 	imgUp.style.height = '16px';		
 	imgUp.setAttribute('alt', 'Go up');
 	aUp.appendChild(imgUp);
@@ -654,7 +654,6 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	
 	upDownSpan.appendChild(aUp);
 	upDownSpan.appendChild(aDown);
-	
 	if(this.projectLeaders){
 		checkSpan = document.createElement('span');
 		checkSpan.style.padding = '2px';		
