@@ -58,7 +58,6 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
                 $query->where($whereClauses);
 
             $query->order($orderColumns);
-            
          	return $query;
         }
                
@@ -109,7 +108,6 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         	}
             
             // prepare the WHERE clause
-            echo $filter_state;
             if($filter_state == 'P')
                   $where[] = $db->nameQuote('published').' = 1 ';
             elseif($filter_state == 'U')
@@ -122,10 +120,10 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             if(($filter_search = trim($filter_search))){
                   $filter_search = JString::strtolower($filter_search);
                   $filter_search = $db->getEscaped($filter_search);
-        		  $where[] = 'MATCH(title, keywords, abstract) AGAINST ('.$db->Quote($db->getEscaped($filter_search, true)).' IN BOOLEAN MODE)';
+        		  $where[] = 'MATCH(title, keywords, abstract) AGAINST ('.$db->Quote($filter_search, true).' IN BOOLEAN MODE)';
             }
                   
-            if($filter_pubtype){
+            if(!empty($filter_pubtype) && $filter_pubtype != '-1'){
                  $where[] = $db->nameQuote('pubtype').' = '.$db->Quote($filter_pubtype);
             }
 

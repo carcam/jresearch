@@ -80,7 +80,7 @@ if($this->showHits) $nCols++;
 		<tfoot>
 			<tr>
 				<td colspan="<?php echo $nCols; ?>">
-					<div style="text-align:center;"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>
+					<div class="frontendPagination"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>
 				</td>
 			</tr>
 		</tfoot>

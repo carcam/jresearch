@@ -201,7 +201,9 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   `modified` datetime NULL,
   `modified_by` int(10) default NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`)
+  UNIQUE KEY `name` (`name`),
+  FULLTEXT INDEX `#__jresearch_researcharea_name`(`name`),
+  FULLTEXT INDEX `#__jresearch_researcharea_full`(`name`, `description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `#__jresearch_research_area_team`;
@@ -260,7 +262,8 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `access` int(10) unsigned NOT NULL DEFAULT '0',
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   PRIMARY KEY  (`id`),
-  INDEX `name` (`lastname`,`firstname`)
+  INDEX `#__jresearch_member_name` (`lastname`,`firstname`),
+  FULLTEXT INDEX `#__jresearch_member_desc`(`description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `#__jresearch_member_position`;

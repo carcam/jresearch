@@ -19,7 +19,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="projects_number_publications" default="5" label="JRESEARCH_CONFIG_PROJECTS_NUMBER_PUBLICATIONS" type="text" ></field>							
+			<field name="projects_number_publications" default="5" label="JRESEARCH_PROJECTS_NUMBER_PUBLICATIONS" description="JRESEARCH_PROJECTS_NUMBER_PUBLICATIONS_DESCRIPTION" type="text" ></field>							
 			<field name="projects_entries_per_page" default="10" label="JRESEARCH_CONFIG_PROJECTS_PER_PAGE" type="text" ></field>				
 			<field name="projects_default_sorting" default="date" label="JRESEARCH_ORDER_BY" type="radio">
 				<option value="start_date">JRESEARCH_DATE</option>
@@ -45,7 +45,7 @@
 			</field>
 		    <field type="sql" name="projects_area_filter" label="JRESEARCH_RESEARCH_AREA"
 			description="JRESEARCH_RESEARCH_AREA" query="SELECT id as value, alias as projects_area_filter FROM #__jresearch_research_area WHERE published = 1" />
-			<field type="radio" name="projects_filterby_year" label="JRESEARCH_FILTER_YEAR" default="0">
+			<field type="radio" name="projects_filterby_year" label="JRESEARCH_FILTER_BY_YEAR" default="0">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>				
 			</field>
@@ -67,7 +67,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>				
 			</field>
-			<field name="projects_show_filterby_search" type="radio" default="1" label="JRESEARCH_SHOW_FILTER_TEXT" description="JRESEARCH_SHOW_FILTER_TEXT_DESCRIPTION">
+			<field name="projects_show_filterby_search" type="radio" default="1" label="JRESEARCH_SHOW_FILTER_BY_TEXT" description="JRESEARCH_SHOW_FILTER_BY_TEXT_DESCRIPTION">
 				<option value="0">JNO</option>			
 				<option value="1">JYES</option>				
 			</field>

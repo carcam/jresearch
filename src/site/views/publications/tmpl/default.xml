@@ -66,15 +66,15 @@
 				<option value="0">JNO</option>
 			</field>
 			
-			<field name="filter_teams" type="list" default="1" label="JRESEARCH_FILTER_BY_TEAM" description="JRESEARCH_FILTER_BY_TEAM_DESCRIPTION">
+			<field name="filter_teams" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_TEAM" description="JRESEARCH_SHOW_FILTER_BY_TEAM_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="filter_areas" type="list" default="1" label="JRESEARCH_FILTER_BY_AREA" description="JRESEARCH_FILTER_BY_AREA_DESCRIPTION">
+			<field name="filter_areas" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_AREA" description="JRESEARCH_SHOW_FILTER_BY_AREA_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="filter_year" type="list" default="1" label="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR" description="JRESEARCH_PUBLICATIONS_FILTER_BY_YEAR_DESCRIPTION">
+			<field name="filter_year" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_YEAR" description="JRESEARCH_SHOW_FILTER_BY_YEAR_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
@@ -82,11 +82,11 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="filter_authors" type="list" default="1" label="JRESEARCH_FILTER_BY_AUTHORS" description="JRESEARCH_FILTER_BY_AUTHORS_DESCRIPTION">
+			<field name="filter_authors" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_AUTHOR" description="JRESEARCH_SHOW_FILTER_BY_AUTHOR_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="filter_search" type="list" default="1" label="JRESEARCH_FILTER_TEXT" description="JRESEARCH_FILTER_TEXT_DESCRIPTION">
+			<field name="filter_search" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_TEXT" description="JRESEARCH_SHOW_FILTER_BY_TEXT_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>			
 			</field>
