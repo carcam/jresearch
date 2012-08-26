@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.event.plugin');
 
 $lang = JFactory::getLanguage();
-$lang->load('plg_search_jresearch');
+$lang->load('plg_search_jresearch_search');
 
 define('COOPERATIONS', JText::_('JRESEARCH_COOPERATIONS'));
 define('FACILITIES', JText::_('JRESEARCH_FACILITIES'));
@@ -35,37 +35,22 @@ define('STAFF', JText::_('JRESEARCH_STAFF'));
  *
  * @license    GNU/GPL
  */
-class plgSearchJResearch extends JPlugin{
-
+class plgSearchJResearch_Search extends JPlugin{
+	
 	/**
-	 * Maximum number of items this plugin can retreive.
-	 *
-	 * @var int 
+	 * Search limit 
 	 */
 	private $limit;
-
-	/**
-	 * Class Constructor
-	 *
-	 * @param The object to observe
-	 */
-	function plgSearchJResearch(& $subject) {
-        parent::__construct($subject);
-        $this->limit = 0;	
-    }
-    
+	
 	/**
 	 * Used to obtain the array of entity categories managed by this plugin.
 	 * @return array An array of search areas
 	 */
-	function &onSearchAreas()
+	function onContentSearchAreas()
 	{
 		static $areas = array(
-			'cooperations' => COOPERATIONS,
-			'facilities' => FACILITIES,
 			'projects' => PROJECTS,
 			'publications' => PUBLICATIONS,
-			'theses' => THESES,
 			'researchAreas' => RESEARCHAREAS,
 			'staff' => STAFF
 		);
@@ -82,20 +67,18 @@ class plgSearchJResearch extends JPlugin{
 	* @param string mathcing option, exact|any|all
 	* @param string ordering option, newest|oldest|popular|alpha|category
 	*/
-	function onSearch( $text, $phrase='', $ordering='', $areas=null ){
+	function onContentSearch( $text, $phrase='', $ordering='', $areas=null ){
 		$results = array();
 		$finalResult = array();
 	
 		if (is_array( $areas )) {
-			if (!array_intersect( $areas, array_keys( $this->onSearchAreas() ) )) {
+			if (!array_intersect( $areas, array_keys( $this->onContentSearchAreas() ) )) {
 				return array();
 			}
 		}
 	
 		// load plugin params info
-	 	$plugin =& JPluginHelper::getPlugin('search', 'jresearch');
-	 	$pluginParams = new JParameter( $plugin->params );
-	
+	 	$pluginParams = $this->params;
 		$this->limit = $pluginParams->def( 'search_limit', 50 );
 	
 		// If the search text is empty, return nothing
@@ -157,50 +140,41 @@ class plgSearchJResearch extends JPlugin{
 		$db = &JFactory::getDBO();
 	
 		// Section name	
-		$section = JText::_( 'Research Area' );
+		$section = JText::_( 'JRESEARCH_RESEARCH_AREA' );
 		switch ( $ordering ) {
 			case 'alpha':
 				$order = 'r.name ASC';
 				break;
-			case 'category':
-			case 'popular':
 			case 'newest':
+				$order = 'r.created DESC';
+				break;
 			case 'oldest':
+				$order = 'r.created ASC';
+				break;
 			default:
-				$order = 'r.name DESC';
+				$order = 'r.name ASC';
 		}
 		
+		$key = $db->Quote($text, true );
 		switch($phrase){
 			case 'exact':
-				$key = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
-				$whereClause = "published = 1 AND (LOWER( description) LIKE $key OR LOWER( name ) LIKE $key)";
+				$whereClause = "published = 1 AND MATCH(name, description) AGAINST (".$key." )";
 				break;
 			case 'all':
+				$allKey = $db->Quote(preg_replace('/(\\s+|^)/', " +", $text), true);
+				$whereClause = "published = 1 AND MATCH(name, description) AGAINST (".$allKey." IN BOOLEAN MODE )";
+				break;
 			case 'any':
-				// Get the words that compound the text
-				$words = explode( ' ', $text );
-				$whereClause = "published = 1 AND (";
-				// Depending of the phrase we get a different behaviour
-				$operator = ($phrase == 'all'? 'AND':'OR');
-				$i = 0;
-				$n = count($words);
-				foreach($words as $word){
-					$word = $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
-					$whereClause.= " (LOWER(description) LIKE $word OR LOWER( name ) LIKE $word) ";
-					if($i <= $n-2)
-						$whereClause .= $operator;
-					$i++;
-				}
-				$whereClause .= ' )';
+				$whereClause = "published = 1 AND MATCH(name, description) AGAINST (".$key." IN BOOLEAN MODE )";
 		}
 		$section = $db->Quote($section, false);
-		$query = "SELECT r.id AS id, r.name AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, SUBSTRING_INDEX(r.description, '<hr id=\"system-readmore\" />', 1) AS text FROM #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
-		$results = $db->setQuery( $query, 0, $this->limit );
+		$query = "SELECT r.id AS id, '' AS metadesc, '' AS metakey, r.name AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, SUBSTRING_INDEX(r.description, '<hr id=\"system-readmore\" />', 1) AS text FROM #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
+		$db->setQuery( $query, 0, $this->limit );
 		$results = $db->loadObjectList();
-	
+		$itemId = JRequest::getVar('Itemid');
 		if(isset($results)){
 			foreach($results as $key => $item){
-				$results[$key]->href = "index.php?option=com_jresearch&view=researcharea&task=show&id=".$results[$key]->id;
+				$results[$key]->href = "index.php?option=com_jresearch&view=researcharea&task=show&id=".$results[$key]->id.'&Itemid='.$itemId;
 			}
 		}
 		// We just reduce the limit
@@ -220,7 +194,7 @@ class plgSearchJResearch extends JPlugin{
 	* @param string ordering option, newest|oldest|popular|alpha|category
 	*/
 	private function searchProjects($text, $phrase='', $ordering=''){
-		$section = JText::_( 'Project' );
+		$section = JText::_( 'JRESEARCH_PROJECT' );
 		// Get the database object
 		$db = &JFactory::getDBO();
 	
@@ -232,52 +206,47 @@ class plgSearchJResearch extends JPlugin{
 				$order = 'p.title ASC';
 				break;
 			case 'category':
-				$order = 'r.id ASC, p.title ASC';
+				$order = 'r.name ASC';
 				break;
 			case 'popular':
+				$order = 'p.hits DESC';
+				break;
 			case 'newest':
-				$order = 'p.start_date DESC';
+				$order = 'p.start_date DESC, p.created DESC';
 				break;
 			case 'oldest':
-				$order = 'p.start_date ASC';
+				$order = 'p.start_date ASC, p.created ASC';
 				break;
 			default:
-				$order = 'p.title DESC';
+				$order = 'p.title ASC';
 		}
 	
+		$key = $db->Quote($text, true);		
 		switch($phrase){
 			case 'exact':
-				$key = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
-				$whereClause = "p.id_research_area = r.id AND p.published = 1 AND ( LOWER( p.description ) LIKE $key OR LOWER( p.title ) LIKE $key)";
+				$whereClause = "p.published = 1 AND MATCH( p.title, p.description, p.keywords ) AGAINST ($key)";
 				break;
 			case 'all':
+				$allKey = $db->Quote(preg_replace('/(\\s+|^)/', " +", $text), true);
+				$whereClause = "p.published = 1 AND MATCH( p.title, p.description, p.keywords ) AGAINST ($allKey IN BOOLEAN MODE)";				
+				break;
 			case 'any':
-				// Get the words that compound the text
-				$words = explode( ' ', $text );
-				$whereClause = "p.id_research_area = r.id AND p.published = 1 AND (";
-				// Depending of the phrase we get a different behaviour
-				$operator = ($phrase == 'all'? 'AND':'OR');
-				$i = 0;
-				$n = count($words);
-				foreach($words as $word){
-					$word = $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
-					$whereClause.= " ( LOWER( p.description ) LIKE $word OR LOWER( p.title ) LIKE $word) ";
-					if($i <= $n-2)
-						$whereClause .= $operator;
-					$i++;
-				}
-				$whereClause .= ' )';
+				$whereClause = "p.published = 1 AND MATCH( p.title, p.description, p.keywords ) AGAINST ($key IN BOOLEAN MODE)";
+				break;
 		}
 	
 		$section = $db->Quote($section, false);
-		$query = "SELECT p.id AS id, p.title AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, SUBSTRING_INDEX(p.description, '<hr id=\"system-readmore\" />', 1) AS text FROM #__jresearch_project p INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
+		$query = "SELECT p.id AS id, '' AS metadesc, p.keywords AS metakey, p.title AS title, CONCAT_WS( '/', r.name, $section ) AS section, 
+		p.created AS created, '2' AS browsernav,  SUBSTRING_INDEX(p.description, '<hr id=\"system-readmore\" />', 1) AS text FROM 
+		#__jresearch_project p LEFT JOIN #__jresearch_project_researcharea pr ON p.id = pr.id_project 
+		LEFT JOIN #__jresearch_research_area r ON r.id = pr.id_research_area WHERE $whereClause ORDER BY $order";
 		
-		$results = $db->setQuery( $query, 0, $this->limit );
+		$db->setQuery( $query, 0, $this->limit );
 		$results = $db->loadObjectList();
-
+		$itemId = JRequest::getVar('Itemid');
 		if(isset($results)){
 			foreach($results as $key => $item){
-				$results[$key]->href = "index.php?option=com_jresearch&view=project&task=show&id=".$results[$key]->id;
+				$results[$key]->href = "index.php?option=com_jresearch&view=project&task=show&id=".$results[$key]->id.'&Itemid='.$itemId;
 			}
 		}
 		// We just reduce the limit
@@ -299,7 +268,7 @@ class plgSearchJResearch extends JPlugin{
 		if($this->limit <= 0)
 			return array();
 		
-		$section = JText::_( 'Publication' );
+		$section = JText::_( 'JRESEARCH_PUBLICATION' );
 		// Get the database object
 		$db = &JFactory::getDBO();
 	
@@ -308,59 +277,54 @@ class plgSearchJResearch extends JPlugin{
 				$order = 'p.title ASC';
 				break;
 			case 'category':
-				$order = 'r.id ASC, p.title ASC';
+				$order = 'r.title ASC';
 				break;
 			case 'newest':
-				$order = 'p.year DESC, p.title ASC';
+				$order = 'p.year DESC, p.created DESC';
 				break;
 			case 'oldest':
-				$order = 'p.year ASC, p.title ASC';
+				$order = 'p.year ASC, p.created ASC';
 				break;
 			case 'popular':
+				$order = 'p.hits DESC';
+				break;
 			default:
 				$order = 'p.title DESC';
 		}
 		
 		//Array of publications ids where the author has participated.
-		$pubIds = $this->_getAuthorPublicationIds($text);
-		$authorsCondition = null;
-		if(!empty($pubIds))
-			$authorsCondition = 'OR p.id IN ('.implode(',', $pubIds).')';		
-	
+		$whereArray = array();
+		$authorsCondition = 'apa.mid LIKE '.$db->quote($text, true);		
 		switch($phrase){
 			case 'exact':
-				$key = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
-				$qtext = strtolower($db->Quote($text));
-				$whereClause = "r.id = p.id_research_area AND p.published = 1 AND p.internal = 1 AND (LOWER( p.title ) LIKE $key OR LOWER( p.abstract ) LIKE $key OR LOWER( p.comments ) LIKE $key OR LOCATE($qtext, LOWER(p.keywords)) > 0 $authorsCondition)";
+				$key = $db->quote($text, true);
+				$whereArray[] = "(p.published = 1 AND p.internal = 1 AND MATCH(title, keywords, abstract) AGAINST (".$key.")) OR ".$authorsCondition;
 				break;
-			case 'all':
+			case 'all':				
+				$key = $db->quote(preg_replace('/(\\s+|^)/', " +", $text), true);
+				$whereArray[] = "(p.published = 1 AND p.internal = 1 AND MATCH(title, keywords, abstract) AGAINST (".$key." IN BOOLEAN MODE)) OR ".$authorsCondition;
+				break;				
 			case 'any':
-				// Get the words that compound the text
-				$words = explode( ' ', $text );
-				$whereClause = "r.id = p.id_research_area AND p.published = 1 AND p.internal = 1 AND (";
-				// Depending of the phrase we get a different behaviour
-				$operator = ($phrase == 'all'? 'AND':'OR');
-				$i = 0;
-				$n = count($words);
-				foreach($words as $word){
-					$unscapedWord = $word;
-					$qtext = $db->Quote(strtolower($unscapedWord));
-					$word = $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
-					$whereClause.= " (LOWER(p.title) LIKE $word OR LOWER( p.abstract ) LIKE $word OR LOWER( p.comments ) LIKE $word OR LOCATE($qtext, LOWER(p.keywords)) > 0 $authorsCondition)";
-					if($i <= $n-2)
-						$whereClause .= $operator;
-					$i++;
-				}
-				$whereClause .= ' )';
+				$key = $db->quote($text, true);
+				$whereArray[] = "(p.published = 1 AND p.internal = 1 AND MATCH(title, keywords, abstract) AGAINST (".$key." IN BOOLEAN MODE)) OR ".$authorsCondition;
+				break;	
 		}
+
+		$whereClause = implode(' AND ', $whereArray);
 		$section = $db->Quote($section, false);
-		$query = "SELECT p.id as id, p.title AS title, CONCAT_WS( '/', r.name, $section) AS section, '' AS created, '2' AS browsernav, CONCAT_WS('\n', p.abstract, p.comments) AS text FROM #__jresearch_publication p INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
+		$query = "SELECT p.id as id, '' AS metadesc, p.keywords AS metakey, p.title AS title, CONCAT_WS( '/', r.name, $section) AS section, 
+		p.created AS created, '2' AS browsernav, CONCAT_WS('\n', p.abstract) AS text 
+		FROM #__jresearch_publication p LEFT JOIN #__jresearch_publication_researcharea ra ON p.id = ra.id_publication 
+		LEFT JOIN #__jresearch_all_publication_authors AS apa ON p.id = apa.pid LEFT JOIN #__jresearch_research_area r ON ra.id_research_area = r.id 
+		WHERE $whereClause ORDER BY $order";
+		
+		
 		$db->setQuery( $query, 0, $this->limit );
 		$results = $db->loadObjectList();
-
+		$itemId = JRequest::getVar('Itemid');
 		if(isset($results)){
 			foreach($results as $key => $item){
-				$results[$key]->href = "index.php?option=com_jresearch&view=publication&task=show&id=".$results[$key]->id;
+				$results[$key]->href = "index.php?option=com_jresearch&view=publication&task=show&id=".$results[$key]->id.'&Itemid='.$itemId;
 			}
 		}
 		// We just reduce the limit
@@ -452,52 +416,49 @@ class plgSearchJResearch extends JPlugin{
 	* @param string ordering option, newest|oldest|popular|alpha|category
 	*/
 	private function searchStaff($text, $phrase='', $ordering=''){
-		$section = JText::_( 'Staff Member' );
+		$section = JText::_( 'JRESEARCH_MEMBER' );
 		$db = &JFactory::getDBO();
 		switch ( $ordering ) {
-			case 'alpha':
+			case 'alpha':				
 				$order = 'm.lastname ASC, m.name ASC';
 				break;
 			case 'category':
-				$order = 'r.id ASC, m.lastname ASC, m.name ASC';
-			case 'popular':
+				$order = 'r.name ASC';
+				break;
 			case 'newest':
+				$order = 'r.created DESC';
+				break;				
 			case 'oldest':
+				$order = 'r.created ASC';
+				break;				
 			default:
-				$order = 'm.lastname DESC';
+				$order = 'm.lastname ASC';
 		}
 		
+		$key = $db->Quote($text, true);
 		switch($phrase){
 			case 'exact':
-				$key = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
-				$whereClause = "m.id_research_area = r.id AND m.published = 1 AND (LOWER( m.firstname ) LIKE $key OR LOWER( m.lastname ) LIKE $key OR LOWER( m.description ) LIKE $key)";
+				$whereClause = "m.published = 1 AND (LOWER( m.firstname ) LIKE $key OR LOWER( m.lastname ) LIKE $key OR MATCH(m.description) AGAINST($key))";
 				break;
 			case 'all':
+				$allKey = $db->Quote(preg_replace('/(\\s+|^)/', " +", $text), true);
+				$whereClause = "m.published = 1 AND (LOWER( m.firstname ) LIKE $key OR LOWER( m.lastname ) LIKE $key OR MATCH(m.description) AGAINST($allKey IN BOOLEAN MODE))";				
+				break;
 			case 'any':
-				// Get the words that compound the text
-				$words = explode( ' ', $text );
-				$whereClause = "m.id_research_area = r.id AND m.published = 1 AND (";
-				// Depending of the phrase we get a different behaviour
-				$operator = ($phrase == 'all'? 'AND':'OR');
-				$i = 0;
-				$n = count($words);
-				foreach($words as $word){
-					$word = $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
-					$whereClause.= " (LOWER(m.firstname) LIKE $word OR LOWER( m.lastname ) LIKE $word OR LOWER(m.description) LIKE $word) ";
-					if($i <= $n-2)
-						$whereClause .= $operator;
-					$i++;
-				}
-				$whereClause .= ' )';
+				$whereClause = "m.published = 1 AND (LOWER( m.firstname ) LIKE $key OR LOWER( m.lastname ) LIKE $key OR MATCH(m.description) AGAINST($key IN BOOLEAN MODE))";				
 		}
+
 		$section = $db->Quote($section, false);
-		$query = "SELECT m.id as id, CONCAT_WS(' ', m.firstname, m.lastname) AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, m.description AS text FROM #__jresearch_member m INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
-		$results = $db->setQuery( $query, 0, $this->limit );
+		$query = "SELECT m.id as id, CONCAT_WS(' ', m.firstname, m.lastname) AS title, '' AS metadesc, '' AS metakey, CONCAT_WS( '/', r.name, $section ) AS section, 
+		m.created AS created, '2' AS browsernav, m.description AS text FROM #__jresearch_member m 
+		LEFT JOIN #__jresearch_member_researcharea mr ON m.id = mr.id_member 
+		LEFT JOIN #__jresearch_research_area r ON r.id = mr.id_research_area WHERE $whereClause ORDER BY $order";
+		$db->setQuery( $query, 0, $this->limit );
 		$results = $db->loadObjectList();
-		
+		$itemId = JRequest::getVar('Itemid');
 		if(isset($results)){
 			foreach($results as $key => $item){
-				$results[$key]->href = "index.php?option=com_jresearch&view=member&task=show&id=".$results[$key]->id;
+				$results[$key]->href = "index.php?option=com_jresearch&view=member&task=show&id=".$results[$key]->id.'&Itemid='.$itemId;
 			}
 		}
 		// We just reduce the limit
@@ -645,32 +606,5 @@ class plgSearchJResearch extends JPlugin{
 		$this->limit -= $n;
 		return $results;
 	}
-	
-	/**
-	* Returns the ids of the publications where the author has participated. 
-	* @param $author Author name depending if the author is member
-	* of the center or not.
-	*/
-	private function _getAuthorPublicationIds($author){
-		$db = JFactory::getDBO();
-
-		$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote( '%'.$db->getEscaped( $author, true ).'%', false ).' ';
-		$query .= 'UNION SELECT pa.id_publication FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' pa, ';
-		$query .= $db->nameQuote('#__jresearch_member').' m WHERE m.id = pa.id_staff_member AND (m.lastname LIKE '.$db->Quote( '%'.$db->getEscaped( $author, true ).'%', false ).' OR m.firstname LIKE '.$db->Quote( '%'.$db->getEscaped( $author, true ).'%', false ).')';
-		$db->setQuery($query);
-		
-		$result = $db->loadResultArray();
-		
-		return $result;
-	}
-	
-	private function debugQuery($query){
-		$test = fopen('debug', 'a+');
-		fwrite($test, $query."\n");
-		fclose($test);
-	}
-	
-
-	
 }
 ?>

@@ -62,7 +62,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
                                 	$authorName = $auth['von'].' '.$auth['last'].', '.$auth['jr'].', '.$auth['first'];
                                 else
                                 $authorName = $auth['von'].' '.$auth['last'].', '.$auth['first'];
-                                $newPub->addAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName), $j);                                                            
+                                $newPub->addAuthor(JResearchPublicationsHelper::bibCharsToUtf8FromString($authorName));                                                            
 							}
 						}
 						// Normalize the data, bibtex entities are not stored in database

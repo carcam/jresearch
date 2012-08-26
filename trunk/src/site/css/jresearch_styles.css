@@ -285,3 +285,13 @@ dl.jresearchitem{
 .jresearchitem dd{
 	margin-top: 5px;
 }
+
+.frontendPagination{
+	text-align: center;
+}
+
+.frontendPagination ul li{
+	display: inline;
+	margin-right: 3px;
+	list-style: none;
+}
