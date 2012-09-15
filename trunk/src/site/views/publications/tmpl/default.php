@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 <?php if($this->showHeader): ?>
 <h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
 <?php endif; ?>
-<form name="adminForm" method="post" id="adminForm" action=".">
+<form name="adminForm" method="post" id="adminForm" action="<?php echo JURI::current(); ?>">
 	<div style="text-align: left;">
 		<?php echo $this->filter; ?>
 		<?php 

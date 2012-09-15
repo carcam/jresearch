@@ -260,7 +260,7 @@ class JResearchAdminPublicationsController extends JController
             $format = JRequest::getVar('formats');
             $uploadedFile = $fileArray['tmp_name'];
 	        $researchAreas = JRequest::getVar('researchAreas', array(), '', 'array');
-	        if(in_array('1', $researchAreas)){
+	        if(empty($researchAreas) || in_array('1', $researchAreas)){
 				$researchAreasText = '1';
 			}else{
 				$researchAreasText = implode(',', $researchAreas);

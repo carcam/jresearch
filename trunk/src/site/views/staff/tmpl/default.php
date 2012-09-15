@@ -60,11 +60,14 @@ $showPhone = $this->params->get('staff_show_phone', 1);
 	</tfoot>
     <?php
     $itemId = JRequest::getVar('Itemid');
+    $twoGroups = $this->params->get('staff_former_grouping') == 1 && $this->params->get('staff_filter') == 'all';
+    $previousMember = null;
     ?>
 	<tbody>
-	    <?php
-	    foreach($this->items as $member): 
-	    ?>
+	    <?php foreach($this->items as $member): ?>
+	    <?php if($twoGroups && $previousMember != null && $previousMember->former_member != $member->former_member): ?>
+	    	<tr><th colspan="<?php echo $nCols;?>"><?php echo JText::_('JRESEARCH_FORMER_MEMBERS'); ?></th></tr>
+	    <?php endif; ?>
 		<tr>
 			<?php if($showTitle == 'own_column'): ?>
 				<td><?php echo $member->title; ?></td>
@@ -87,6 +90,7 @@ $showPhone = $this->params->get('staff_show_phone', 1);
                 <?php endif; ?>
 		</tr>
         <?php
+        $previousMember = $member;
         endforeach;        
         ?>
 	</tbody>

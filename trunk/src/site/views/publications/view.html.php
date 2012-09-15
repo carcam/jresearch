@@ -80,6 +80,8 @@ class JResearchViewPublications extends JResearchView
 		$field = $params->get('field_for_score', 'impact_factor');    	    	    	
 		$exportAll = $params->get('show_export_all', 0);
     	$exportAllFormat = $params->get('show_export_all_format', 'bibtex');
+    	$showFulltext = $params->get('show_fulltext', 0);
+    	$showDigitalVersion = $params->get('show_digital_version', 0);
 
     	$this->assignRef('exportAll', $exportAll);
     	$this->assignRef('exportAllFormat', $exportAllFormat);
@@ -95,8 +97,10 @@ class JResearchViewPublications extends JResearchView
     	$this->assignRef('showHits', $showHits);
     	$this->assignRef('showBibtex', $showBibtex);
     	$this->assignRef('showResearchAreas', $showResearchAreas);
-    	$this->assignRef('showAuthors', $showAuthors);
+    	$this->assignRef('showAuthors', $showAuthors);    	
     	$this->assignRef('fieldForPunctuation', $field);
+    	$this->assignRef('showFulltext', $showFulltext);
+    	$this->assignRef('showDigitalVersion', $showDigitalVersion);
 
         $eArguments = array('publications', $this->getLayout());
         $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
@@ -136,7 +140,8 @@ class JResearchViewPublications extends JResearchView
     	$groupedItems = $this->_group($publications, $filter_order);
     	    	
     	$showmore = $params->get('show_more', 1);
-    	$showdigital = $params->get('show_digital', 1);
+    	$showFulltext = $params->get('show_fulltext', 0);
+    	$showDigitalVersion = $params->get('show_digital_version', 0);
     	$layout = $params->get('publications_default_sorting', 'year');
     	$exportAll = $params->get('show_export_all', 0);
     	$showAllFormat = $params->get('show_export_all_format', 'bibtex');
@@ -153,7 +158,8 @@ class JResearchViewPublications extends JResearchView
     	$this->assignRef('page', $model->getPagination());
     	$this->assignRef('user', $user);
     	$this->assignRef('showmore', $showmore);
-    	$this->assignRef('showdigital', $showdigital);
+    	$this->assignRef('showDigital', $showDigitalVersion);
+    	$this->assignRef('showFulltext', $showFulltext);
     	$this->assignRef('style', $style);
     	$this->assignRef('layout', $layout);
     	$this->assignRef('exportAll', $exportAll);

@@ -60,7 +60,6 @@
 		<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.teams.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
-		<language tag="en-GB">en-GB.plg_search_jresearch.ini</language>		
 	</languages>
 	<administration>
 		<menu img="../administrator/components/com_jresearch/assets/jresearch_logomini.png">J\!Research</menu>
