@@ -61,11 +61,14 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="show_digital" type="list" default="1" label="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL" description="JRESEARCH_PUBLICATIONS_SHOW_DIGITAL_DESCRIPTION">
+			<field name="show_fulltext" type="list" default="0" label="JRESEARCH_PUBLICATION_SHOW_FULLTEXT">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			
+			<field name="show_digital_version" type="list" default="0" label="JRESEARCH_PUBLICATION_SHOW_ONLINE_VERSION" >
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>			
 			<field name="filter_teams" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_TEAM" description="JRESEARCH_SHOW_FILTER_BY_TEAM_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>

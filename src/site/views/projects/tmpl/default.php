@@ -12,7 +12,7 @@ jresearchimport('helpers.html.jresearchfrontend', 'jresearch.site');
 <?php if($this->showHeader): ?>
 <h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
 <?php endif; ?>
-<form name="adminForm" method="post" id="adminForm" action="./<?php echo '?Itemid='.JRequest::getVar('Itemid'); ?>">
+<form name="adminForm" method="post" id="adminForm" action="<?php echo JURI::current(); ?>/<?php echo '?Itemid='.JRequest::getVar('Itemid'); ?>">
 <div style="text-align: left;">
 	<?php echo $this->filter; ?>
 </div>

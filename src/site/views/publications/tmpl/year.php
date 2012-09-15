@@ -29,21 +29,21 @@ defined('_JEXEC') or die('Restricted access');
 	<?php if($this->showmore): ?>
 		<span><?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $pub->id); ?></span>
 	<?php endif; ?>
-	<?php if($this->showdigital): ?>
-		<?php 
+	<?php 
+		if($this->showDigital){
 			  if(!empty($url)){
 				$link = str_replace('&', '&amp;', $url);
                 $digitalVersion = JText::_('JRESEARCH_ONLINE_VERSION');
-             }elseif(!empty($attach)){
-			  	$link = $attach;
+               	echo "<span><a href=\"$link\">[$digitalVersion]</a></span>";
+             }
+		}
+		if($this->showFulltext){
+             if(!empty($attach)){
                 $digitalVersion = JText::_('JRESEARCH_FULLTEXT');
-             }else
-			 $link = '';				  	
-		 ?>
-		<?php if(!empty($link)): ?>
-			<?php echo "<span><a href=\"$link\">[$digitalVersion]</a></span>"; ?>			
-		<?php endif; ?>
-	<?php endif; ?>	
+                echo "<span><a href=\"$attach\">[$digitalVersion]</a></span>";
+             }	
+		} 
+	?>	
 	<?php if($this->showBibtex): 
 		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$pub->id, '[Bibtex]').'</span>';		
 	 endif;?>	

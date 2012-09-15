@@ -18,25 +18,32 @@
                 label="JRESEARCH_CONFIG_INTRO_TEXT" filter="nofilter"
              />
 			<field name="staff_entries_per_page" default="25" label="JRESEARCH_CONFIG_MEMBERS_PER_PAGE" type="text" ></field>									
-			<field name="staff_sort_criteria1" label="JRESEARCH_STAFF_SORT_CRITERIA" type="radio" default="ordering">
+			<field name="staff_sort_criteria1" label="JRESEARCH_STAFF_SORT_CRITERIA" type="radio" default="lastname">
 				<option value="lastname">JRESEARCH_LAST_NAME</option>
 				<option value="ordering">JRESEARCH_ORDERING</option>
 				<option value="title">JRESEARCH_MEMBER_TITLE</option>
 			</field>
-			<field name="staff_sort_criteria2" label="JRESEARCH_STAFF_SECOND_SORT_CRITERIA" type="radio" default="lastname">
+			<field name="staff_sort_criteria2" label="JRESEARCH_STAFF_SECOND_SORT_CRITERIA" type="radio" default="ordering">
 				<option value="lastname">JRESEARCH_LAST_NAME</option>
 				<option value="ordering">JRESEARCH_ORDERING</option>
 				<option value="title">JRESEARCH_MEMBER_TITLE</option>
 			</field>			
-			<field name="staff_order" label="JRESEARCH_SORT_DIRECTION" type="radio" default="ASC">
+			<field name="staff_order1" label="JRESEARCH_SORT_DIRECTION1" type="radio" default="ASC">
 				<option value="ASC">JRESEARCH_ASCENDING</option>
 				<option value="DESC">JRESEARCH_DESCENDING</option>
 			</field>
-            
+			<field name="staff_order2" label="JRESEARCH_SORT_DIRECTION2" type="radio" default="ASC">
+				<option value="ASC">JRESEARCH_ASCENDING</option>
+				<option value="DESC">JRESEARCH_DESCENDING</option>
+			</field>            
             <field name="staff_filter" label="JRESEARCH_CONFIG_FILTER_CRITERIA" default="only_current" type="radio">
 				<option value="only_current">JRESEARCH_ONLY_CURRENT</option>
 				<option value="only_former">JRESEARCH_ONLY_FORMER</option>
                 <option value="all">JRESEARCH_ALL</option>
+			</field>
+			<field name="staff_former_grouping" label="JRESEARCH_STAFF_FORMER_GROUPING" description="JRESEARCH_STAFF_FORMER_GROUPING_DESCRIPTION" default="0" type="radio">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="staff_show_location" label="JRESEARCH_STAFF_SHOW_LOCATION" default="1" type="radio">
 				<option value="1">JYES</option>

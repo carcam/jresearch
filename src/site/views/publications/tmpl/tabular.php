@@ -18,7 +18,7 @@ if($this->showResearchAreas) $nCols++;
 if($this->showYear) $nCols++;
 if($this->showScore) $nCols++;
 $exportColumn = false;
-if($this->showBibtex || $this->showRis || $this->showMods){ $nCols++; $exportColumn = true; }
+if($this->showBibtex || $this->showRis || $this->showMods || $this->showDigitalVersion || $this->showFulltext){ $nCols++; $exportColumn = true; }
 if($this->showAuthors) $nCols++;	
 if($this->showHits) $nCols++;
 
@@ -42,7 +42,7 @@ if($this->showHits) $nCols++;
 ?>
 </div>
 <?php endif; ?>
-<form name="adminForm" method="post" id="adminForm" action=".">
+<form name="adminForm" method="post" id="adminForm" action="<?php echo JURI::current(); ?>">
 	<div style="text-align:left">
 		<?php echo $this->filter; ?>
 	</div>
@@ -147,6 +147,16 @@ if($this->showHits) $nCols++;
 								
 							if($this->showMods):
 								$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=ris&id='.$this->items[$i]->id), 'RIS');
+							endif;
+							
+							if($this->showDigitalVersion && !empty($this->items[$i]->url)):							
+								$exportLinks[] = JHTML::_('link', str_replace('&', '&amp;', $this->items[$i]->url), JText::_('JRESEARCH_ONLINE_VERSION'));
+							endif;
+							
+							if($this->showFulltext):
+								$attach = $this->items[$i]->getAttachment(0, 'publications');
+								if(!empty($attach))
+									$exportLinks[] = JHTML::_('link', $attach, JText::_('JRESEARCH_FULLTEXT'));
 							endif;
 
 							echo implode(' , ', $exportLinks);

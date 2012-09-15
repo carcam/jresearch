@@ -656,7 +656,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	        $params = $mainframe->getPageParameters('com_jresearch');
 	        $bibtex = $params->get('enable_bibtex_frontend_import', 0);
 	        $researchAreas = JRequest::getVar('researchAreas', array(), '', 'array');
-	        if(in_array('1', $researchAreas)){
+	        if(empty($researchAreas) || in_array('1', $researchAreas)){
 				$researchAreasText = '1';
 			}else{
 				$researchAreasText = implode(',', $researchAreas);
