@@ -92,7 +92,7 @@
 			<folder>scripts</folder>
 		</files>		
 		<languages folder="languages/admin">
-			<language tag="en-GB">en-GB.com_jresearch.ini</language>
+			<language tag="en-GB">en-GB.ctrom_jresearch.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.sys.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.cooperations.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.facilities.ini</language>

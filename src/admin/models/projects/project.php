@@ -153,7 +153,7 @@ class JResearchAdminModelProject extends JModelForm{
 			}else{
 				$data['id_research_area'] = '1';
 			}
-				
+			
             if (!$row->save($data, '', $omittedFields))
             {
             	//Since the save routine modifies the array data

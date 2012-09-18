@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `alias` varchar(256) NOT NULL,
   `title` varchar(256) NOT NULL,
   `authors` text,
-  `id_research_area` int(10) unsigned NOT NULL default '1',
+  `id_research_area` VARCHAR( 1024 ) NOT NULL DEFAULT  '1',
   `published` tinyint(4) NOT NULL default '1',
   `url` varchar(256) default NULL,
   `files` text default NULL,
