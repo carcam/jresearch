@@ -25,9 +25,9 @@ jresearchimport('helpers.publications', 'jresearch.admin')
 		foreach($researchAreas as $area){
 			if($area->id > 1){
 				if($area->published)
-					$researchAreasNames[] = $area->name;
-				else
 					$researchAreasNames[] = JHTML::_('jresearchfrontend.link', $area->name, 'researcharea', 'display', $area->id, $itemId);
+				else
+					$researchAreasNames[] = $area->name;
 			}
 		} 
 	?>
