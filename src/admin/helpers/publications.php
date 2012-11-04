@@ -16,9 +16,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jresearchimport('helpers.charsets', 'jresearch.admin');
 
-define('LASTNAME_FIRSTNAME', 1);
-define('FIRSTNAME_LASTNAME', 0);
-
 /**
  * This class holds useful methods for dealing with publications records.
  *
@@ -411,7 +408,7 @@ class JResearchPublicationsHelper{
 	 */
 	public static function formatAuthor($author, $format){
 		$authorComponents = self::getAuthorComponents($author);
-		if($format == LASTNAME_FIRSTNAME || $format == 'last_first'){
+		if($format === 'last_first'){
 			$text = (isset($authorComponents['von'])?$authorComponents['von'].' ':'').$authorComponents['lastname'].', '.(isset($authorComponents['firstname'])?' '.$authorComponents['firstname']:'').(isset($authorComponents['jr'])?' '.$authorComponents['jr']:''); 
 		}else{
 			$text = (isset($authorComponents['firstname'])?$authorComponents['firstname'].' ':'').(isset($authorComponents['jr'])?$authorComponents['jr'].' ':'').(isset($authorComponents['von'])?$authorComponents['von'].' ':'').$authorComponents['lastname'];			

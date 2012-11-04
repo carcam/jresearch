@@ -19,7 +19,8 @@ class JResearchAdminViewPublication extends JResearchView{
             if($markedRecords === 'all'){
                 $model = $this->getModel('Publications', 'JResearchAdminModel');
             }else{
-                $model = $this->getModel();
+                $cid = JRequest::setVar('cid', $markedRecords);
+                $model = $this->getModel('Publication', 'JResearchAdminModel');
             }    
             
             $publicationsArray = $model->getItems();            

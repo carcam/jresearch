@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					$checked 	= JHTML::_('grid.checkedout', $this->items[$i], $i ); 
 					$published  = JHTML::_('grid.published', $this->items[$i], $i );
 					$authors = $this->items[$i]->getAuthors();
-          			$text = JResearchPublicationsHelper::formatAuthorsArray($authors);
+          			$text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->params->get('staff_format', 'last_first'));
 					// Links for exporting
 					$exportLinks = array();
 					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=bibtex&id='.$this->items[$i]->id), 'Bibtex');	

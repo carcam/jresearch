@@ -155,9 +155,9 @@ class JResearchViewMember extends JResearchView
             $lang->load('com_jresearch.publications');
     	}    	
     	
-    	$format = $params->get('staff_format') == 'last_first'?1:0;
+    	$format = $params->get('staff_format', 'last_first');
     	$description = str_replace('<hr id="system-readmore" />', '', $member->description);
-        $doc->setTitle($member->__toString());
+        $doc->setTitle(JResearchPublicationsHelper::formatAuthor($member->__toString(), $format));
     	$this->assignRef('params', $params);
     	
         // Bind variables for layout
@@ -169,7 +169,6 @@ class JResearchViewMember extends JResearchView
     	$this->assignRef('area', $area);
     	$this->assignRef('applyStyle', $applyStyle);
     	$this->assignRef('style', $configuredCitationStyle);
-    	$this->assignRef('format', $format);
     	$this->assignRef('description', $description);
     	$this->assignRef('teams', $teams, JResearchFilter::ARRAY_OBJECT_XHTML_SAFE);
     	

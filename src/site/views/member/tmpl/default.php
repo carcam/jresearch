@@ -10,7 +10,7 @@
 defined('_JEXEC') or die('Restricted access'); 
 JHTML::_('behavior.modal');
 ?>
-<h2 class="componentheading"><?php echo JResearchPublicationsHelper::formatAuthor($this->member->__toString(), $this->format); ?></h2>
+<h2 class="componentheading"><?php echo JResearchPublicationsHelper::formatAuthor($this->member->__toString(), $this->params->get('staff_format', 'last_first')); ?></h2>
 <table class="frontendsingleitem">
 <tbody>
   <tr><th style="width:100%;" colspan="4"><h3 class="contentheading"><?php echo JText::_('JRESEARCH_PERSONAL_INFORMATION').': '; ?></h3></th></tr>	
