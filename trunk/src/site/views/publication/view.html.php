@@ -85,30 +85,22 @@ class JResearchViewPublication extends JResearchView
     	//Get and use configuration
     	$params = $mainframe->getPageParameters('com_jresearch');
     			
-        $showHits = $params->get('show_hits', 1);
-    	$format = $params->get('staff_format', 'last_first') == 'last_first'?1:0;		
-    	$showBibtex = $params->get('show_export_bibtex', 0);
-    	$showMODS = $params->get('show_export_mods', 0);    		
-    	$showRIS = $params->get('show_export_ris', 0);    	
     	
-    	$arguments = array($publication, 'publication');
-    	
+    	$arguments = array($publication, 'publication');    	
 		$pageTitle = JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title;
         $doc->setTitle($pageTitle);
     	
         // Bind variables for layout
     	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement', 'horizontal'));
     	$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
-    	$this->assignRef('showHits', $showHits);
+    	$this->assignRef('showHits', $params->get('show_hits', 1));
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
-    	$this->assignRef('showComments', $showComments);
-    	$this->assignRef('captcha', $captchaInformation);
         $this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
         $this->assignRef('params', $params);
-        $this->assignRef('format', $format);
-        $this->assignRef('showBibtex', $showBibtex);
-    	$this->assignRef('showMODS', $showMODS);	
-    	$this->assignRef('showRIS', $showRIS);			
+        $this->assignRef('showBibtex', $params->get('show_export_bibtex', 0));
+    	$this->assignRef('showMODS', $params->get('show_export_mods', 0));	
+    	$this->assignRef('showRIS', $params->get('show_export_ris', 0));
+    	$this->assignRef('format', $this->params->get('staff_format', 'last_first'));	
 
     	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);        
        	parent::display($tpl);       	

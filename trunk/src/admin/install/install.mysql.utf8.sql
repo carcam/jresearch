@@ -459,6 +459,11 @@ INSERT INTO `#__jresearch_property` (`name`) VALUES ('claims');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('drawings_dir');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('country');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('office');
+-- Added due to merge into single publications table
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('awards');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('comments');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('journal_acceptance_rate');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('impact_factor');
 
 DROP TABLE IF EXISTS `#__jresearch_publication_type`;
 CREATE TABLE `#__jresearch_publication_type` (

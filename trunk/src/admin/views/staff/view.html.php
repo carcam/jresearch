@@ -42,11 +42,13 @@ class JResearchAdminViewStaff extends JResearchView
     private function _displayDefaultList(){
         $mainframe = JFactory::getApplication();
     	JResearchToolbar::staffAdminListToolbar();
+        jresearchimport('helpers.publications', 'jresearch.admin');
 
         //Get the model
     	$model = $this->getModel();
     	$areaModel = $this->getModel('researcharea');
     	$members =  $model->getItems();
+    	$params = JComponentHelper::getParams('com_jresearch');
     	
         // Filters and pagination
         $lists = array();
@@ -79,6 +81,7 @@ class JResearchAdminViewStaff extends JResearchView
     	$this->assignRef('lists', $lists);
     	$this->assignRef('ordering', $ordering);
     	$this->assignRef('page', $model->getPagination());	
+    	$this->assignRef('params', $params);
 
     }
 	

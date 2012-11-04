@@ -51,7 +51,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
                                 	$member = JTable::getInstance('Member', 'JResearch');
                                     //First determine if this author can be mapped to a member in the staff
                                     if($member->bindFromArray(JResearchPublicationsHelper::bibCharsToUtf8FromArray($auth))){
-                                    	$newPub->addAuthor($member->id, $j, true);
+                                    	$newPub->addAuthor($member->id);
                                         continue;
                                     }
                                 }

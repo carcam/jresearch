@@ -50,6 +50,7 @@ class JResearchAdminViewPublications extends JResearchView
     private function _displayDefaultList(){
     	$mainframe = JFactory::getApplication();
         $option = JRequest::getVar('option');
+        $params = JComponentHelper::getParams('com_jresearch');
 		jresearchimport('helpers.publications', 'jresearch.admin');
 		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');		
     	
@@ -94,7 +95,8 @@ class JResearchAdminViewPublications extends JResearchView
         
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $model->getPagination());
-        $this->assignRef('lists', $lists);    	
+        $this->assignRef('lists', $lists);
+        $this->assignRef('params', $params);            	
     }
     
     /**

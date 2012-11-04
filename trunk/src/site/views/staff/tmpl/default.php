@@ -72,7 +72,7 @@ $showPhone = $this->params->get('staff_show_phone', 1);
 			<?php if($showTitle == 'own_column'): ?>
 				<td><?php echo $member->title; ?></td>
 			<?php endif; ?>
-			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a></td>
+			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->params->get('staff_format', 'last_first')); ?></a></td>
 			<?php if($showEmail == 1): ?>
 				<td><?php echo JHTML::_('email.cloak', $member->email); ?></td>
 			<?php endif; ?>	
