@@ -275,15 +275,10 @@ div.jresearchhits{
 
 dl.jresearchitem{
 	margin-bottom: 5px;
-}
-
-.jresearchitem dt{
-	font-weight: bold;
-	margin-top: 5px;
-}
-
-.jresearchitem dd{
-	margin-top: 5px;
+	float: left;
+	width: 100%;
+	margin: 1em 0;
+	padding: 0;
 }
 
 .frontendPagination{
@@ -295,3 +290,36 @@ dl.jresearchitem{
 	margin-right: 3px;
 	list-style: none;
 }
+
+ .jresearchitem dt{
+	display: inline;
+	margin-right: 10px;
+}
+
+.jresearchitem dd{
+	display: inline;
+}
+	
+.jresearchitem  dt
+{
+	clear: left;
+	float: left;
+	width: 35%;
+	margin: 0;
+	padding: 5px;
+	font-weight: bold;
+}
+	
+.jresearchitem  dd
+{
+	float: left;
+	margin: 0;
+	padding: 5px;
+}
+
+.jresearchitem ul{
+	padding: 0 !important;
+	margin: 0 !important;
+	list-style-type: none !important;
+}
+

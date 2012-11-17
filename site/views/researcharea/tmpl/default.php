@@ -78,7 +78,7 @@ jresearchimport('helpers.publications', 'jresearch.admin');
 	<?php endif; ?>
 <?php endforeach; ?>
 </ul>
-<div>
+<div>t
   	<?php if($this->npublications > count($this->publications)): ?>
   			<a href="index.php?option=com_jresearch&amp;publications_view_all=1&amp;theses_view_all=<?php echo $this->theses_view_all; ?>&amp;projects_view_all=<?php echo $this->projects_view_all; ?>&amp;task=show&amp;view=researcharea&amp;id=<?php echo $this->area->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>#pubslist"><?php echo JText::_('JRESEARCH_VIEW_ALL'); ?></a>
   	<?php else: ?>

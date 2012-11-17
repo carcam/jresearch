@@ -17,7 +17,13 @@ $bibtex = $params->get('enable_bibtex_frontend_import', 1);
 		<table class="adminform">
 			<tbody>
 			<tr>
-				<th style="width: 20%;"><?php echo JText::_('JRESEARCH_TYPE').': ' ?></th>
+				<th style="width: 20%;"><?php echo JText::_('JRESEARCH_MAIN_TYPE').': ' ?></th>
+				<td>
+					<?php echo $this->supertypes; ?>
+				</td>
+			</tr>
+			<tr>
+				<th style="width: 20%;"><?php echo JText::_('JRESEARCH_SUBTYPE').': ' ?></th>
 				<td>
 					<?php echo $this->types; ?>
 				</td>

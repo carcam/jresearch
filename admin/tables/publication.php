@@ -115,6 +115,47 @@ class JResearchPublication extends JResearchActivity{
 	public $online_source_type;
 	public $digital_source_type;
 
+	
+	/**
+	 * This would be a place for a user to designate the type of design for a study or 
+	 * for the posting of research findings.
+	 *
+	 * @var string
+	 */
+	public  $design_type;
+	
+	/**
+	 * This would be a field to indicate which students or student groups were included within 
+	 * a particular study or experiment.
+	 *
+	 * @var string
+	 */
+	public $students_included;
+
+	/**
+	 * A place for a user to indicate the location or setting in which a particular
+	 * study or experiment took place. 
+	 * 
+	 * @var string
+	 * */
+	public $location;
+
+	/**
+	 * @var boolean
+	 */
+  	public $fidelity_data_collected;
+  	
+  	/**
+  	 * This would be a place to place keywords for associations with other studies or search engine 
+  	 * optimization to help these documents come up in a search
+  	 * 
+  	 * @var string
+  	 */
+  	public $other_tags;
+	
+  	
+  	public $supertype;
+	
 	/**
 	* Associative array with supported records types and their printable names.
 	*/

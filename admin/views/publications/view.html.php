@@ -73,6 +73,7 @@ class JResearchAdminViewPublications extends JResearchView
         $filter_area = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_area', 'filter_area');
     	$filter_search = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_search', 'filter_search');
         $filter_author = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_author', 'filter_author');
+		$filter_supertype = $mainframe->getUserStateFromRequest('com_jresearch.publications.filter_supertype', 'filter_supertype');        
     	
     	$lists['order_Dir'] = $filter_order_Dir;
         $lists['order'] = $filter_order;
@@ -90,10 +91,12 @@ class JResearchAdminViewPublications extends JResearchView
         
         $lists['area'] = JHTML::_('jresearchhtml.researchareas', array('name' => 'filter_area', 'selected' => $filter_area, 'attributes' => $js), array(array('id' => '-1', 'name' => JText::_('JRESEARCH_RESEARCH_AREA'))));
 
-        $authors = JResearchPublicationsHelper::getAllAuthors();
+        $authors = JResearchPublicationsHelper::getAllAuthors();        
         $lists['authors'] = JHTML::_('jresearchhtml.authors', $authors, array('name' => 'filter_author', 'selected' => $filter_author, 'attributes' => $js));
-        
-    	$this->assignRef('items', $items);
+				
+		$lists['supertype'] = JHTML::_('jresearchhtml.publicationsupertypes', array('name' => 'filter_supertype', 'selected' => $filter_supertype, 'attributes' => 'class="inputbox" size="1" '.$js));
+
+		$this->assignRef('items', $items);
     	$this->assignRef('page', $model->getPagination());
         $this->assignRef('lists', $lists);
         $this->assignRef('params', $params);            	

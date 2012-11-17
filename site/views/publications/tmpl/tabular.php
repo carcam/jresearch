@@ -13,7 +13,7 @@ $user = JFactory::getUser();
 <?php if($this->showHeader): ?>
 <h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
 <?php endif; 
-$nCols = 2;
+$nCols = 1;
 if($this->showResearchAreas) $nCols++;
 if($this->showYear) $nCols++;
 if($this->showScore) $nCols++;
@@ -46,10 +46,9 @@ if($this->showHits) $nCols++;
 	<div style="text-align:left">
 		<?php echo $this->filter; ?>
 	</div>
-	<table style="clear: both;width:100%;">
+	<table style="clear: both;width:100%;border:0px;">
 		<thead>
 		<tr>		
-			<th style="width:3%;">#</th>
 			<th style="text-align:center;width:25%;"><?php echo JText::_('JRESEARCH_TITLE'); ?></th>
 			<?php if($this->showAuthors): ?>
 				<th style="text-align:center;width:25%;"><?php echo JText::_('JRESEARCH_AUTHORS'); ?></th>
@@ -99,9 +98,8 @@ if($this->showHits) $nCols++;
 	          		}
 		?>
 				<tr class="<?php $k = i%2; echo "row$k"; ?>">
-					<td style="text-align:center;"><?php echo $outIndex; ?></td>
 					<td>					
-						<?php echo JHTML::_('jresearchfrontend.link', $this->items[$i]->title ,'publication', 'show', $this->items[$i]->id); ?>
+						<?php echo JHTML::_('jresearchfrontend.link', $outIndex.'.- ' .$this->items[$i]->title ,'publication', 'show', $this->items[$i]->id); ?>
 					 <?php 		
 						$canDo = JResearchAccessHelper::getActions('publication', $this->items[$i]->id);
 						if($canDo->get('core.publications.edit') || ($canDoPublications->get('core.publications.edit.own') && $this->items[$i]->created_by == $user->get('id'))):	 

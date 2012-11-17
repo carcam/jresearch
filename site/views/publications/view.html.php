@@ -405,7 +405,11 @@ class JResearchViewPublications extends JResearchView
 			{
 				$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
 			}
+			
 			$lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
+			
+			$filter_supertype = $this->state->get('com_jresearch.publications.filter_supertype');
+			$lists['supertypes'] = JHTML::_('jresearchhtml.publicationsupertypes', array('name' => 'filter_supertype', 'selected' => $filter_supertype, 'attributes' => 'class="inputbox" size="1" '.$js));			
     	}
     	
 		if($bYear === true)

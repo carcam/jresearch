@@ -21,6 +21,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<?php echo $this->lists['year']; ?>
 					<?php echo $this->lists['state'];?>
 					<?php echo $this->lists['pubtype']; ?>
+					<?php echo $this->lists['supertype']; ?>					
 					<?php echo $this->lists['area']; ?>
 				</td>
 			</tr>

@@ -42,7 +42,11 @@ defined('_JEXEC') or die('Restricted access');
 	<dt><?php echo JText::_('JRESEARCH_YEAR').': ' ?></dt>
 	<dd><?php echo $this->publication->year; ?></dd>
 	<?php endif; ?>
-	<dt><?php echo JText::_('JRESEARCH_TYPE').': ' ?></dt>
+	<?php if(!empty($this->publication->supertype) && $this->publication->supertype != 'none'): ?>
+	<dt><?php echo JText::_('JRESEARCH_MAIN_TYPE').': ' ?></dt>
+	<dd><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->supertype)); ?></dd>
+	<?php endif; ?>
+	<dt><?php echo JText::_('JRESEARCH_SUBTYPE').': ' ?></dt>
 	<dd><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->pubtype)); ?></dd>
 	<?php $keywords = trim($this->publication->keywords); ?>
 	<?php if(!empty($keywords)): ?>		

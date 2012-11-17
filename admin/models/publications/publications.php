@@ -101,7 +101,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             $filter_pubtype = $this->getState('com_jresearch.publications.filter_pubtype');
             $filter_author = $this->getState('com_jresearch.publications.filter_author');
             $filter_area = $this->getState('com_jresearch.publications.filter_area');                  
-
+            $filter_supertype = $this->getState('com_jresearch.publications.filter_supertype');
             
             if(!empty($filter_area) && $filter_area != -1){
         		$where[] = 'ra.id_research_area = '.$db->Quote($filter_area);            	
@@ -125,6 +125,10 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
                   
             if(!empty($filter_pubtype) && $filter_pubtype != '-1'){
                  $where[] = $db->nameQuote('pubtype').' = '.$db->Quote($filter_pubtype);
+            }
+            
+		    if(!empty($filter_supertype) && $filter_supertype != 'all'){
+                 $where[] = $db->nameQuote('supertype').' = '.$db->Quote($filter_supertype);
             }
 
             if(!empty($filter_author) && $filter_author != '-1'){
@@ -173,7 +177,8 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         $this->setState('com_jresearch.publications.filter_pubtype', $mainframe->getUserStateFromRequest($this->_context.'.filter_pubtype', 'filter_pubtype'));        
         $this->setState('com_jresearch.publications.filter_team', $mainframe->getUserStateFromRequest($this->_context.'.filter_team', 'filter_team'));        
         $this->setState('com_jresearch.publications.filter_order', $mainframe->getUserStateFromRequest($this->_context.'.filter_order', 'filter_order', 'year'));        
-        $this->setState('com_jresearch.publications.filter_order_Dir', $mainframe->getUserStateFromRequest($this->_context.'.filter_order_Dir', 'filter_order_Dir', 'DESC'));                
+        $this->setState('com_jresearch.publications.filter_order_Dir', $mainframe->getUserStateFromRequest($this->_context.'.filter_order_Dir', 'filter_order_Dir', 'DESC'));
+        $this->setState('com_jresearch.publications.filter_supertype', $mainframe->getUserStateFromRequest($this->_context.'.filter_supertype', 'filter_supertype'));                        
 		
         parent::populateState();        
     }		
