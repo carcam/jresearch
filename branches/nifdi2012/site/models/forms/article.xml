@@ -50,6 +50,18 @@
                         multiple="true"
                 />
                 <field
+                	id="supertype"
+                	name="supertype"
+                	type="list"
+                	label="JRESEARCH_MAIN_TYPE"
+                >
+                	<option value="none">JRESEARCH_NONE</option>
+					<option value="program_effectiveness">JRESEARCH_PROGRAM_EFFECTIVENESS</option>
+					<option value="di_overview_and_background">JRESEARCH_DI_OVERVIEW_AND_BACKGROUND</option>
+					<option value="implementation_support">JRESEARCH_IMPLEMENTATION_SUPPORT</option>
+					<option value="di_curricula">JRESEARCH_DI_CURRICULA</option>
+                </field>                
+                <field
                         id="url"
                         name="url"
                         type="text"
@@ -194,65 +206,113 @@
                 />
         </fieldset>
         <fieldset name="specific">
+             	 <field 
+        		 	id="design_type"
+        		 	label="JRESEARCH_DESIGN_TYPE"
+        		 	class="inputbox"
+        		 	type="text" 
+        		 	name="design_type"
+        		 	size="20" 
+        		 	maxlength="255"
+        		 />
+        		<field 
+        			id="students_included"
+					type="text" 
+					name="students_included"
+					class="inputbox"
+					default="" 
+					label="JRESEARCH_STUDENTS_INCLUDED"
+					size="20" 
+					maxlength="255"        		
+        		 />
+ 		       	<field 
+        			id="location"
+					type="text" 
+					name="location"
+					class="inputbox"
+					default="" 
+					label="JRESEARCH_LOCATION"
+					size="20" 
+					maxlength="255"        		
+        		 />
+        		 <field 
+        		 	id="fidelity_data_collected"
+        		 	label="JRESEARCH_FIDELITY_DATA_COLLECTED"
+        		 	class="inputbox"
+        		 	type="radio" 
+        		 	name="fidelity_data_collected"
+        		 	default="0"
+        		 >
+        		    <option value="0">JNO</option>
+					<option value="1">JYES</option>
+        		 </field>
+        		 <field 
+        		 	id="other_tags"
+        		 	name="other_tags"
+        		 	cols="30"
+        		 	rows="5"
+        		 	label="JRESEARCH_OTHER_TAGS"
+        		 	type="textarea"
+        		  />        
                 <field
-                        id="issn"
-                        name="issn"
-                        type="text"
-                        size="20"
-                        maxlength="32"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_ISSN"
+                    id="issn"
+                    name="issn"
+                    type="text"
+                    size="20"
+                    maxlength="32"
+                    class="inputbox"
+                    default=""
+                    label="JRESEARCH_ISSN"
                 />
                 <field
-                        id="journal"
-                        name="journal"
-                        type="text"
-                        size="20"
-                        maxlength="255"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_JOURNAL"
+                     id="journal"
+                     name="journal"
+                     type="text"
+                     size="20"
+                     maxlength="255"
+                     class="inputbox"
+                     default=""
+                     label="JRESEARCH_JOURNAL"
                 />
                 <field
-                        id="volume"
-                        name="volume"
-                        type="text"
-                        size="15"
-                        maxlength="30"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_VOLUME"
+                     id="volume"
+                     name="volume"
+                     type="text"
+                     size="15"
+                     maxlength="30"
+                     class="inputbox"
+                     default=""
+                     label="JRESEARCH_VOLUME"
                 />
                 <field
-                        id="number"
-                        name="number"
-                        type="text"
-                        size="15"
-                        maxlength="20"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_NUMBER"
+                     id="number"
+                     name="number"
+                     type="text"
+                     size="15"
+                     maxlength="20"
+                     class="inputbox"
+                     default=""
+                     label="JRESEARCH_NUMBER"
                 />
                 <field
-                        id="pages"
-                        name="pages"
-                        type="text"
-                        size="10"
-                        maxlength="20"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_PAGES"
+                      id="pages"
+                      name="pages"
+                      type="text"
+                      size="10"
+                      maxlength="20"
+                      class="inputbox"
+                      default=""
+                      label="JRESEARCH_PAGES"
                 />
                 <field
-                        id="month"
-                        name="month"
-                        type="text"
-                        size="15"
-                        maxlength="20"
-                        class="inputbox"
-                        default=""
-                        label="JRESEARCH_MONTH"
+                      id="month"
+                      name="month"
+                      type="text"
+                      size="15"
+                      maxlength="20"
+                      class="inputbox"
+                      default=""
+                      label="JRESEARCH_MONTH"
                 />
         </fieldset>
         <fieldset name="conditional">

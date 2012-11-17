@@ -20,17 +20,17 @@ class JResearchAdminViewPublication extends JResearchView
 {
 
     function display($tpl = null){
-            $mainframe = JFactory::getApplication();
-            $layout = $this->getLayout();
+        $mainframe = JFactory::getApplication();
+        $layout = $this->getLayout();
 
-            switch($layout){
-                    case 'new':
-                    $this->_displayNewPublicationForm();
-                        break;
-                    case 'default':
-                        $this->_displayPublicationForm();
-                        break;
-            }
+        switch($layout){
+            case 'new':
+                $this->_displayNewPublicationForm();
+                    break;
+            case 'default':
+                $this->_displayPublicationForm();
+                break;
+        }
 	}
 	
 	/**
@@ -79,9 +79,11 @@ class JResearchAdminViewPublication extends JResearchView
 				$typesOptions[] = JHTML::_('select.option', $type, $type.': '.JText::_('JRESEARCH_'.strtoupper($type)));			
 		}
 		
-		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
+		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');	
+		$supertypesList = JHTML::_('jresearchhtml.publicationsupertypes', array('name' => 'supertype', 'selected' => 'none'));	
 		
-		$this->assignRef('types', $typesList);		
+		$this->assignRef('types', $typesList);	
+		$this->assignRef('supertypes', $supertypesList);	
         parent::display($tpl);		
 	}
 }

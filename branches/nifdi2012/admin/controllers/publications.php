@@ -453,6 +453,7 @@ class JResearchAdminPublicationsController extends JController
 		$canDoPubs = JResearchAccessHelper::getActions();
 		$canProceed = false;	
 		$user = JFactory::getUser();
+		$params = JComponentHelper::getParams('com_jresearch');
 		
 		// Permissions check
 		$keepOld = JRequest::getVar('keepold', null);

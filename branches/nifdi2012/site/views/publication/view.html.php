@@ -150,8 +150,10 @@ class JResearchViewPublication extends JResearchView
 		}
 		
 		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
+		$supertypesList = JHTML::_('jresearchhtml.publicationsupertypes', array('name' => 'supertype', 'selected' => 'none'));
 		
 		$this->assignRef('types', $typesList);
+		$this->assignRef('supertypes', $supertypesList);
 		parent::display($tpl);
 	}
 }

@@ -811,6 +811,23 @@ class JHTMLjresearchhtml
     	return self::htmllist($currencyOptions, $attributes);
 	}
 	
+	/**
+	 * Renders a HTML generic select list with currency options
+	 */
+	public static function publicationsupertypes(array $attributes=array())
+	{
+		
+		$mainTypesHTML = array();
+		$mainTypesHTML[] = JHTML::_('select.option', 'all', JText::_('JRESEARCH_MAIN_TYPE'));
+		$mainTypesHTML[] = JHTML::_('select.option', 'none', JText::_('JRESEARCH_NONE'));
+		$mainTypesHTML[] = JHTML::_('select.option', 'program_effectiveness', JText::_('JRESEARCH_PROGRAM_EFFECTIVENESS'));
+		$mainTypesHTML[] = JHTML::_('select.option', 'di_overview_and_background', JText::_('JRESEARCH_DI_OVERVIEW_AND_BACKGROUND'));
+		$mainTypesHTML[] = JHTML::_('select.option', 'implementation_support', JText::_('JRESEARCH_IMPLEMENTATION_SUPPORT'));
+		$mainTypesHTML[] = JHTML::_('select.option', 'di_curricula', JText::_('JRESEARCH_DI_CURRICULA'));
+		    	
+    	return self::htmllist($mainTypesHTML, $attributes);
+	}
+	
 	public static function teamshierarchy(array $list, array $attributes=array())
 	{
 		$teamOptions = array();

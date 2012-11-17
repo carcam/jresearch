@@ -57,7 +57,7 @@ class JResearchViewResearchArea extends JResearchView
         if($publications_view_all == 0)	
             $publications = $model->getLatestPublications($latestPublications);
     	else
-            $publications = $model->getLatestPublications();
+           $publications = $model->getLatestPublications();
     	
         $this->assignRef('publications', $publications);
     	$this->assignRef('npublications', $model->countPublications());    	

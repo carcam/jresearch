@@ -43,8 +43,17 @@ class JResearchModelPublications extends JResearchModelList{
         $whereClauses = $this->_buildQueryWhere();
         $orderColumns = $this->_buildQueryOrderBy();
         $query = $db->getQuery(true);
-
-        $query->select('DISTINCT pub.*');
+        
+        $filter_search = trim($this->getState('com_jresearch.publications.filter_search'));
+        if(!empty($filter_search)){        
+        	$filter_search = $db->getEscaped($filter_search);	
+        	$searchClause = 'MATCH('.$db->nameQuote('title').', '.$db->nameQuote('keywords');
+        	$searchClause .= ') AGAINST('.$db->Quote($filter_search).' IN BOOLEAN MODE)';        	
+        	$query->select("DISTINCT pub.*, $searchClause AS relevance");
+        }else{
+        	$query->select('DISTINCT pub.*');
+        }
+        
         $query->from('#__jresearch_publication pub');
         $query->leftJoin('#__jresearch_publication_researcharea AS ra ON pub.id = ra.id_publication');
         $query->innerJoin('#__jresearch_all_publication_authors AS apa ON pub.id = apa.pid');
@@ -73,11 +82,35 @@ class JResearchModelPublications extends JResearchModelList{
         //Validate order direction
         if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
             $filter_order_Dir = 'ASC';
-                            
+
+        $filter_search = trim($this->getState('com_jresearch.publications.filter_search'));
+        if(!empty($filter_search))
+        	$columns[] = 'relevance DESC';    
+        
         $columns[] = $filter_order.' '.$filter_order_Dir;
 		$columns[] = 'created DESC';            
 
         return $columns;        
+	}
+	
+	/**
+	 * 
+	 * Enter description here ...
+	 * @param unknown_type $key
+	 */
+	private function _getMatchText(){
+		$db = JFactory::getDBO();
+		$filter_search = $this->getState('com_jresearch.publications.filter_search');
+		$filter_search = $db->getEscaped(trim($filter_search));
+
+		$searchClause = 'MATCH('.$db->nameQuote('title').', '.$db->nameQuote('keywords');
+        $searchClause .= ', '.$db->nameQuote('abstract').', '.$db->nameQuote('other_tags');
+        $searchClause .= ', '.$db->nameQuote('journal').', '.$db->nameQuote('students_included');
+        $searchClause .= ', '.$db->nameQuote('note').', '.$db->nameQuote('awards');
+        $searchClause .= ', '.$db->nameQuote('design_type');
+        $searchClause .= ') AGAINST('.$db->Quote($filter_search).' IN BOOLEAN MODE)';
+        
+        return $searchClause;
 	}
 
 	/**
@@ -97,6 +130,7 @@ class JResearchModelPublications extends JResearchModelList{
         $filter_year = $this->getState('com_jresearch.publications.filter_year');
         $filter_search = $this->getState('com_jresearch.publications.filter_search');
         $filter_pubtype = $this->getState('com_jresearch.publications.filter_pubtype');
+        $filter_supertype = $this->getState('com_jresearch.publications.filter_supertype');        
         $filter_author = $this->getState('com_jresearch.publications.filter_author');            
         $filter_area = $this->getState('com_jresearch.publications.filter_area');
 		$filter_team = $this->getState('com_jresearch.publications.filter_team');
@@ -106,8 +140,7 @@ class JResearchModelPublications extends JResearchModelList{
         }
 
         if(($filter_search = trim($filter_search))){
-        	$filter_search = $db->getEscaped($filter_search);
-        	$where[] = 'MATCH('.$db->nameQuote('title').', '.$db->nameQuote('keywords').') AGAINST('.$db->Quote($filter_search).' IN BOOLEAN MODE)';
+        	$where[] = $this->_getMatchText();
         }
 
         if($filter_pubtype && $filter_pubtype != 'all'){
@@ -120,6 +153,10 @@ class JResearchModelPublications extends JResearchModelList{
             
 		if(!empty($filter_area) && $filter_area != -1){
         	$where[] = 'ra.id_research_area = '.$db->Quote($filter_area);            	
+        }
+        
+	    if(!empty($filter_supertype) && $filter_supertype != 'all'){
+        	$where[] = $db->nameQuote('supertype').' = '.$db->Quote($filter_supertype);
         }
             
         if(!empty($filter_team) && $filter_team != -1){
@@ -166,7 +203,8 @@ class JResearchModelPublications extends JResearchModelList{
 	        JRequest::setVar('filter_pubtype', $filter_pubtype);
         }
         
-        $this->setState('com_jresearch.publications.filter_pubtype', $mainframe->getUserStateFromRequest($this->_context.'.filter_pubtype', 'filter_pubtype'));        
+        $this->setState('com_jresearch.publications.filter_pubtype', $mainframe->getUserStateFromRequest($this->_context.'.filter_pubtype', 'filter_pubtype'));
+        $this->setState('com_jresearch.publications.filter_supertype', $mainframe->getUserStateFromRequest($this->_context.'.filter_supertype', 'filter_supertype'));                
         $this->setState('com_jresearch.publications.filter_team', $mainframe->getUserStateFromRequest($this->_context.'.filter_team', 'filter_team'));        
         
 		parent::populateState();        

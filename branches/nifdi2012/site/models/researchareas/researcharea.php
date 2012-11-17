@@ -88,7 +88,7 @@ class JResearchModelResearchArea extends JResearchModelItem{
         $areaId = $row->id;
 
         $db = JFactory::getDBO();
-        $query = "SELECT count(p.*) FROM ".$db->nameQuote('#__jresearch_publication').' p JOIN '.$db->nameQuote('#__jresearch_publication_researcharea').' pa'
+        $query = "SELECT count(DISTINCT p.id) FROM ".$db->nameQuote('#__jresearch_publication').' p JOIN '.$db->nameQuote('#__jresearch_publication_researcharea').' pa'
         .' WHERE p.id = pa.id_publication AND p.published = 1 AND p.internal = 1 AND pa.id_research_area = '.$db->Quote($areaId);
         
         $db->setQuery($query);

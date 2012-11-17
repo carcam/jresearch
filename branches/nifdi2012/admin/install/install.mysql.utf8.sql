@@ -69,10 +69,16 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `digital_source_type` enum('cdrom', 'film') NOT NULL default 'cdrom',
   `access_date` date default NULL,
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
+  `design_type` text default NULL,
+  `students_included` text default NULL,
+  `location` varchar(255) default NULL,
+  `fidelity_data_collected` tinyint(4) NOT NULL default '0',
+  `other_tags` text default NULL,
   PRIMARY KEY  (`id`),
   FULLTEXT INDEX `#__jresearch_publication_title_index`(`title`),
   FULLTEXT INDEX `#__jresearch_publication_title_keywords_index`(`title`, `keywords`),
   FULLTEXT INDEX `#__jresearch_publication_full_index`(`title`, `keywords`, `abstract`),
+  FULLTEXT INDEX `#__jresearch_publication_full_index2`(`title`, `keywords`, `abstract`, `other_tags`, `journal`, `students_included`, `note`, `awards`, `design_type`),
   UNIQUE KEY `citekey` (`citekey`),
   INDEX `year` (`year`),
   INDEX `pubtype` (`pubtype`)
@@ -464,6 +470,12 @@ INSERT INTO `#__jresearch_property` (`name`) VALUES ('awards');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('comments');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('journal_acceptance_rate');
 INSERT INTO `#__jresearch_property` (`name`) VALUES ('impact_factor');
+-- NIFDI related fields
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('fidelity_data_collected');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('design_type');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('students_included');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('location');
+INSERT INTO `#__jresearch_property` (`name`) VALUES ('other_tags');
 
 DROP TABLE IF EXISTS `#__jresearch_publication_type`;
 CREATE TABLE `#__jresearch_publication_type` (

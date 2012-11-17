@@ -59,6 +59,11 @@ class JResearchAdminModelPublication extends JModelForm{
                 if(is_string($data['id_research_area'])){
                 	$data['id_research_area'] = explode(',', $data['id_research_area']);
                 }
+                
+                $supertype = JRequest::getVar('supertype', null);
+                if($supertype != null){
+                	$data['supertype'] = $supertype;
+                }
                     
                 $app->setUserState('com_jresearch.edit.publication.data', $data);
                 $this->data = $data;
