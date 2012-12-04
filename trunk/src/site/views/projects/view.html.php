@@ -130,9 +130,9 @@ class JResearchViewProjects extends JResearchView
 		if($bSearch == 1)
         {
     		$filter_search = $this->state->get('com_jresearch.projects.filter_search');
-     		$lists['search'] = JText::_('JFILTER').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search).'" class="text_area" onchange="document.adminForm.submit();" />
-								<button onclick="document.adminForm.submit();">'.JText::_('JGO').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
-								.JText::_('JRESET').'</button>';
+     		$lists['search'] = JText::_('JRESEARCH_FILTER').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search).'" class="text_area" onchange="document.adminForm.submit();" />
+								<button onclick="document.adminForm.submit();">'.JText::_('JRESEARCH_GO').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
+								.JText::_('JRESEARCH_RESET').'</button>';
     	}
     	
 		if($bStatus == 1)
@@ -155,10 +155,10 @@ class JResearchViewProjects extends JResearchView
         	$lists['authors'] = JHTML::_('jresearchhtml.authors', $authors, array('name' => 'filter_author', 'selected' => $filter_author, 'attributes' => $js));
     	}
 		
-		if($bTeams == 1)
+/*		if($bTeams == 1)
 		{
 			//Team filter
-/*			$teamsOptions = array();  
+			$teamsOptions = array();  
 	    	$filter_team = $this->state->get('com_jresearch.projects.filter_team');;    		
     		$teams = JResearchTeamsHelper::getTeams();
         	      
@@ -167,8 +167,8 @@ class JResearchViewProjects extends JResearchView
 	        {
 	    		$teamsOptions[] = JHTML::_('select.option', $t->id, $t->name);
 	    	}    		
-	    	$lists['teams'] = JHTML::_('select.genericlist',  $teamsOptions, 'filter_team', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_team );*/
-    	}
+	    	$lists['teams'] = JHTML::_('select.genericlist',  $teamsOptions, 'filter_team', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_team );
+    	}*/
     	
     	if($bAreas == 1)
     	{

@@ -25,7 +25,7 @@ class JResearchProjectsHelper{
    	 */
    	public static function getAllAuthors(){
    		$db = JFactory::getDBO();
-   		$db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_all_project_authors'));
+   		$db->setQuery('SELECT DISTINCT mid, member_name FROM '.$db->nameQuote('#__jresearch_all_project_authors'));
    		return $db->loadAssocList();
    	}
 }
