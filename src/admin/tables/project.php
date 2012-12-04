@@ -395,7 +395,7 @@ class JResearchProject extends JResearchActivity{
 			$rawAuthors = explode(';', $this->authors);
 			foreach($rawAuthors as $auth){
 				$authComps = explode('|', $auth);
-				if($authComps > 1)
+				if(count($authComps) > 1)
 					$this->_principals[] = $this->_authorsArray[$index];
 				else
 					$this->_nonprincipals[] = $this->_authorsArray[$index];					
