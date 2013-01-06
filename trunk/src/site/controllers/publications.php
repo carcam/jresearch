@@ -453,7 +453,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		}else{
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);
 			
-			$canProceed = $canDoPubs->get('core.publication.edit') ||
+			$canProceed = $canDoPubs->get('core.publications.edit') ||
      			($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
 		}
         
@@ -538,7 +538,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		}else{
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);
 			
-			$canProceed = $canDoPubs->get('core.publication.edit') ||
+			$canProceed = $canDoPubs->get('core.publications.edit') ||
      			($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
 		}
         

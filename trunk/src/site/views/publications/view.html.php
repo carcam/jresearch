@@ -227,7 +227,7 @@ class JResearchViewPublications extends JResearchView
                        	$previousYear = $pub->year;
                     }
                 	break;
-                case 'type':
+                case 'pubtype':
                         $previousType = null;
                         $header = null;
                         foreach($recordsArray as $pub){

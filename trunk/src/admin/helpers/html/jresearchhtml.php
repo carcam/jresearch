@@ -789,28 +789,6 @@ class JHTMLjresearchhtml
     	return self::htmllist($degreeOptions, $attributes);
 	}
 	
-	/**
-	 * Renders a HTML generic select list with currency options
-	 */
-	public static function currencylist(array $attributes=array())
-	{
-		include_once(JRESEARCH_COMPONENT_SITE.DS.'includes'.DS.'CurrencyConvertor.php');
-		
-		//Currency options
-    	$currencyOptions = array();
-
- 		$currencyOptions[] = JHTML::_('select.option', Currency::AUD, Currency::AUD);
- 		$currencyOptions[] = JHTML::_('select.option', Currency::CAD, Currency::CAD);
- 		$currencyOptions[] = JHTML::_('select.option', Currency::CHF, Currency::CHF);
-    	$currencyOptions[] = JHTML::_('select.option', Currency::EUR, Currency::EUR);
-    	$currencyOptions[] = JHTML::_('select.option', Currency::GBP, Currency::GBP);
-    	$currencyOptions[] = JHTML::_('select.option', Currency::JPY, Currency::JPY);
-    	$currencyOptions[] = JHTML::_('select.option', Currency::SEK, Currency::SEK);
-    	$currencyOptions[] = JHTML::_('select.option', Currency::USD, Currency::USD);
-    	
-    	return self::htmllist($currencyOptions, $attributes);
-	}
-	
 	public static function teamshierarchy(array $list, array $attributes=array())
 	{
 		$teamOptions = array();

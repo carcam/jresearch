@@ -50,8 +50,7 @@ $canDoPublications = JResearchAccessHelper::getActions();
 		 endif;?>
 		 <?php if($this->showMODS): 
 			echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id='.$pub->id, '[MODS]').'</span>';		
-		 endif;?>	 	
-		<span><?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $pub->id); ?> <?php echo JHTML::_('jresearchfrontend.icon','remove', 'publications', $pub->id); ?></span>	
+		 endif;?>
 		 <?php 		
 			$canDo = JResearchAccessHelper::getActions('publication', $pub->id);
 			if($canDo->get('core.publications.edit') || ($canDoPublications->get('core.publications.edit.own') && $pub->created_by == $user->get('id'))):	 
