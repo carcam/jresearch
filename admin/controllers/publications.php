@@ -335,7 +335,7 @@ class JResearchAdminPublicationsController extends JController
 				$form['internal'] = $params->get('publications_default_internal_status', 1);
 		}else{
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);
-			$canProceed = $canDoPubs->get('core.publication.edit') ||
+			$canProceed = $canDoPubs->get('core.publications.edit') ||
      			($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
 		}
         

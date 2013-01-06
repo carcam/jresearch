@@ -7,7 +7,14 @@
         <action name="core.publications.edit" title="JRESEARCH_ACTION_PUBLICATIONS_EDIT" description="JRESEARCH_ACTION_PUBLICATIONS_EDIT" />
 		<action name="core.publications.edit.own" title="JRESEARCH_ACTION_PUBLICATIONS_EDITOWN" description="JRESEARCH_ACTION_PUBLICATIONS_EDITOWN" />        
 		<action name="core.publications.edit.state" title="JRESEARCH_ACTION_PUBLICATIONS_EDITSTATE" description="JRESEARCH_ACTION_PUBLICATIONS_EDITSTATE" />        				
-        <action name="core.publications.delete" title="JRESEARCH_ACTION_PUBLICATIONS_DELETE" description="JRESEARCH_ACTION_PUBLICATIONS_DELETE" />                
+        <action name="core.publications.delete" title="JRESEARCH_ACTION_PUBLICATIONS_DELETE" description="JRESEARCH_ACTION_PUBLICATIONS_DELETE" />
+
+        <action name="core.projects.create" title="JRESEARCH_ACTION_PROJECTS_CREATE" description="JRESEARCH_ACTION_PROJECTS_CREATE" />
+        <action name="core.projects.edit" title="JRESEARCH_ACTION_PROJECTS_EDIT" description="JRESEARCH_ACTION_PROJECTS_EDIT" />
+		<action name="core.projects.edit.own" title="JRESEARCH_ACTION_PROJECTS_EDITOWN" description="JRESEARCH_ACTION_PROJECTS_EDITOWN" />        
+		<action name="core.projects.edit.state" title="JRESEARCH_ACTION_PROJECTS_EDITSTATE" description="JRESEARCH_ACTION_PROJECTS_EDITSTATE" />        				
+        <action name="core.projects.delete" title="JRESEARCH_ACTION_PROJECTS_DELETE" description="JRESEARCH_ACTION_PROJECTS_DELETE" />                
+                
 	    <action name="core.staff.create" title="JRESEARCH_ACTION_STAFF_CREATE" description="JRESEARCH_ACTION_STAFF_CREATE"  />
 		<action name="core.staff.edit" title="JRESEARCH_ACTION_STAFF_EDIT" description="JRESEARCH_ACTION_STAFF_EDIT"  />        	            
 		<action name="core.staff.edit.own" title="JRESEARCH_ACTION_STAFF_EDITOWN" description="JRESEARCH_ACTION_STAFF_EDITOWN"  />        

@@ -21,6 +21,7 @@ $exportColumn = false;
 if($this->showBibtex || $this->showRis || $this->showMods || $this->showDigitalVersion || $this->showFulltext){ $nCols++; $exportColumn = true; }
 if($this->showAuthors) $nCols++;	
 if($this->showHits) $nCols++;
+$canDo = JResearchAccessHelper::getActions();
 
 ?>
 <?php if($this->exportAll): ?>
@@ -101,14 +102,13 @@ if($this->showHits) $nCols++;
 					<td>					
 						<?php echo JHTML::_('jresearchfrontend.link', $outIndex.'.- ' .$this->items[$i]->title ,'publication', 'show', $this->items[$i]->id); ?>
 					 <?php 		
-						$canDo = JResearchAccessHelper::getActions('publication', $this->items[$i]->id);
-						if($canDo->get('core.publications.edit') || ($canDoPublications->get('core.publications.edit.own') && $this->items[$i]->created_by == $user->get('id'))):	 
+						if($canDo->get('core.publications.edit') || ($canDo->get('core.publications.edit.own') && $this->items[$i]->created_by == $user->get('id'))):	 
 					 ?>	 	
 					 	<span>	
 							<?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $this->items[$i]->id); ?> 
 						</span>
 					 <?php endif; ?>
-					<?php if($canDoPublications->get('core.publications.delete')): ?>
+					<?php if($canDo->get('core.publications.delete')): ?>
 							<?php echo JHTML::_('jresearchfrontend.icon','remove', 'publications', $this->items[$i]->id); ?>
 					<?php endif; ?>	
 					
