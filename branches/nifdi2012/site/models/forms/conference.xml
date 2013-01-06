@@ -55,10 +55,10 @@
                 	type="list"
                 	label="JRESEARCH_MAIN_TYPE"
                 >
-                	<option value="none">JRESEARCH_NONE</option>
 					<option value="program_effectiveness">JRESEARCH_PROGRAM_EFFECTIVENESS</option>
 					<option value="di_overview_and_background">JRESEARCH_DI_OVERVIEW_AND_BACKGROUND</option>
 					<option value="implementation_support">JRESEARCH_IMPLEMENTATION_SUPPORT</option>
+					<option value="di_theory">JRESEARCH_DI_THEORY</option>
 					<option value="di_curricula">JRESEARCH_DI_CURRICULA</option>
                 </field>
                 <field

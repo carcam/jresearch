@@ -376,13 +376,13 @@ class JResearchViewPublications extends JResearchView
 		jresearchimport('helpers.publications', 'jresearch.admin');
 		jresearchimport('helpers.teams', 'jresearch.admin');
 		jresearchimport('helpers.researchareas', 'jresearch.admin');
-						
+								
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();		
 		
 		$lists = array();
 		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
-		$this->state = $this->get('State');
+		$this->state = $this->get('State');		
 		
 		if($bSearch === true)
         {
@@ -406,11 +406,13 @@ class JResearchViewPublications extends JResearchView
 				$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
 			}
 			
-			$lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
-			
-			$filter_supertype = $this->state->get('com_jresearch.publications.filter_supertype');
-			$lists['supertypes'] = JHTML::_('jresearchhtml.publicationsupertypes', array('name' => 'filter_supertype', 'selected' => $filter_supertype, 'attributes' => 'class="inputbox" size="1" '.$js));			
+			$lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);			
     	}
+    	
+    	//Keep this filter by default
+		$filter_supertype = $this->state->get('com_jresearch.publications.filter_supertype');
+		$lists['supertypes'] = JHTML::_('jresearchhtml.publicationsupertypes', array('name' => 'filter_supertype', 'selected' => $filter_supertype, 'attributes' => 'class="inputbox" size="1" '.$js));	
+    	
     	
 		if($bYear === true)
     	{
@@ -441,7 +443,7 @@ class JResearchViewPublications extends JResearchView
 			{
 				$authorsHTML[] = JHTML::_('select.option', $auth['mid'], $auth['member_name']); 
 			}
-			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
+			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author); 		
     	}
 		
 		if($bTeams === true)

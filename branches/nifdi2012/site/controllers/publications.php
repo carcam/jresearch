@@ -442,7 +442,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 		$canDoPubs = JResearchAccessHelper::getActions();
 		$canProceed = false;	
 		$params = JComponentHelper::getParams('com_jresearch');
-                
+
 		// Permissions check
 		if(empty($form['id'])){
 			$canProceed = $canDoPubs->get('core.publications.create');
@@ -453,10 +453,10 @@ class JResearchPublicationsController extends JResearchFrontendController
 		}else{
 			$publication = JResearchPublicationsHelper::getPublication($form['id']);
 			
-			$canProceed = $canDoPubs->get('core.publication.edit') ||
+			$canProceed = $canDoPubs->get('core.publications.edit') ||
      			($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
 		}
-        
+				        
 		if(!$canProceed){
 			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
 			return;
