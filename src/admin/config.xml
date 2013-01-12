@@ -9,7 +9,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		<field name="files_root_path" type="hidden" default="files" />
+		<field name="files_root_path" type="text" default="files" />
      </fieldset>
         <fieldset name="publications" label="JRESEARCH_PUBLICATIONS" >
 		<field name="citationStyle" type="list" default="APA" label="JRESEARCH_CITATION_STYLE" description="JRESEARCH_CITATION_STYLE_DESCRIPTION">
@@ -44,7 +44,6 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		
         </fieldset>        
         <fieldset name="researchareas" label="JRESEARCH_RESEARCH_AREAS">
             <field name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />

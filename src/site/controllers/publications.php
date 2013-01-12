@@ -692,7 +692,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	                	$p->id_research_area = $researchAreasText;
 	                    $p->internal = $params->get('publications_default_internal_status', 1) == 1;
 	                    $p->published = $params->get('publications_default_published_status', 1) == 1;                    	
-	                    if(!$p->store()){
+	                    if(!$p->save()){
 	                    	JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
 	                    }else{
 	                    	$n++;

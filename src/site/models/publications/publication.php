@@ -144,8 +144,10 @@ class JResearchModelPublication extends JResearchModelForm{
 		$data['authors'] = $row->authors;
 				
 		//Citekey generation
-		$data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
-	    		
+		if(empty($data['citekey'])){
+			$data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
+		}
+			
 		//Alias generation
 		if(empty($data['alias'])){
 			$data['alias'] = JFilterOutput::stringURLSafe($data['title']);

@@ -34,7 +34,7 @@ abstract class JResearchPublicationImporter{
 			return null;
 			
 		$text = fread($file, filesize($filename));
-		if(($enc = mb_detect_encoding($text, 'UTF-8, ISO-8859-1')) != 'UTF-8'){
+		if(($enc = mb_detect_encoding($text, 'UTF-8, ISO-8859-1, ISO-8859-2, CP-1250')) != 'UTF-8'){
 			$text = iconv($enc, 'UTF-8', $text);
 		}
 

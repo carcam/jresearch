@@ -62,9 +62,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
           			$text = JResearchPublicationsHelper::formatAuthorsArray($authors, $this->params->get('staff_format', 'last_first'));
 					// Links for exporting
 					$exportLinks = array();
-					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=bibtex&id='.$this->items[$i]->id), 'Bibtex');	
-					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=mods&id='.$this->items[$i]->id), 'MODS');	
-					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=ris&id='.$this->items[$i]->id), 'RIS');
+					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=bibtex&cid[]='.$this->items[$i]->id), 'Bibtex');	
+					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=mods&cid[]='.$this->items[$i]->id), 'MODS');	
+					$exportLinks[] = JHTML::_('link', JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=publications&task=exportSingle&format=ris&cid[]='.$this->items[$i]->id), 'RIS');
 			?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->page->getRowOffset( $i ); ?></td>

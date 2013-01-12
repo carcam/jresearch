@@ -259,7 +259,8 @@ class JResearchPublication extends JResearchActivity{
  		$user = JFactory::getUser();
 		$now = new JDate(); 		
 
-		if(isset($this->id)){
+		if(!isset($this->id)){
+			JError::raiseWarning(1, 'Changing the created_by');
 			$this->created = $now->toMySQL();
             $author = JRequest::getVar('created_by', $user->get('id'));
             $this->created_by = $author;
