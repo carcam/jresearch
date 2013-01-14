@@ -15,7 +15,7 @@ $user = JFactory::getUser();
 	<?php if($user->authorise('core.admin', 'com_jresearch')):  ?>
 	<div class="icon-wrapper">
 		<div class="icon">
-			<a class="modal" rel="{handler: 'iframe', size: {x: 1024, y: 500}}" href="index.php?option=com_config&amp;tmpl=component&amp;component=com_jresearch&amp;view=component&amp;path=">
+			<a class="modal" rel="{handler: 'iframe', size: {x: 1024, y: 500}}" href="index.php?option=com_config&amp;tmpl=component&amp;component=com_jresearch&amp;view=component">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/config.png" alt="<?php echo JText::_('JRESEARCH_CONFIGURATION'); ?>" />
 				<span><?php echo JText::_('JRESEARCH_CONFIGURATION'); ?></span>
 			</a>

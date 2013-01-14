@@ -9,7 +9,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		<field name="files_root_path" type="text" default="files" />
+		<field name="files_root_path" type="text" default="files" LABEL="Attachments parent folder" />
      </fieldset>
         <fieldset name="publications" label="JRESEARCH_PUBLICATIONS" >
 		<field name="citationStyle" type="list" default="APA" label="JRESEARCH_CITATION_STYLE" description="JRESEARCH_CITATION_STYLE_DESCRIPTION">
