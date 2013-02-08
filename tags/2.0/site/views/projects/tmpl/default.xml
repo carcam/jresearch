@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_PROJECTS_LIST">
+		<message><![CDATA[JRESEARCH_PROJECTS_LIST_VIEW_MESSAGE]]></message>
+	</layout>
+	<fields name="params">
+		<fieldset name="basic" label="JRESEARCH_VIEW_WHICH_PROJECTS">
+			<field name="filter_show" type="list" default="0" label="JRESEARCH_PROJECTS_SHOW" description="JRESEARCH_PROJECTS_SHOW_DESCRIPTION">
+				<option value="all">JRESEARCH_ALL_ITEMS</option>
+				<option value="my">JRESEARCH_MY_ITEMS</option>
+			</field>
+		</fieldset>
+		<fieldset name="appearance" label="JRESEARCH_VIEW_GROUPING_CRITERIA_AND_APPEARANCE">		
+			<field name="show_members" type="radio" label="JRESEARCH_SHOW_MEMBERS" default="1">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="projects_show_researcharea" type="radio" label="JRESEARCH_SHOW_RESEARCHAREA" default="1">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="projects_number_publications" default="5" label="JRESEARCH_PROJECTS_NUMBER_PUBLICATIONS" description="JRESEARCH_PROJECTS_NUMBER_PUBLICATIONS_DESCRIPTION" type="text" ></field>							
+			<field name="projects_entries_per_page" default="10" label="JRESEARCH_CONFIG_PROJECTS_PER_PAGE" type="text" ></field>				
+			<field name="projects_default_sorting" default="date" label="JRESEARCH_ORDER_BY" type="radio">
+				<option value="start_date">JRESEARCH_DATE</option>
+				<option value="title">JRESEARCH_ALPHABETICAL</option>
+				<option value="finance_level">JRESEARCH_FINANCE_LEVEL</option>
+			</field>
+			<field name="projects_order" label="JRESEARCH_SORTED" type="radio" default="asc">
+				<option value="asc">JRESEARCH_ASCENDING</option>
+				<option value="desc">JRESEARCH_DESCENDING</option>
+			</field>
+		    <field name="projects_filterby_status" type="radio" label="JRESEARCH_FILTER_STATUS" default="0">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		    <field name="projects_status_filter" type="radio" label="JRESEARCH_STATUS" default="not_started">
+				<option value="not_started">JRESEARCH_NOT_STARTED</option>
+				<option value="in_progress">JRESEARCH_IN_PROGRESS</option>
+				<option value="finished">Finished</option>
+			</field>
+		    <field name="projects_filterby_researcharea" type="radio" label="JRESEARCH_FILTER_RESEARCHAREA" default="0">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>				
+			</field>
+		    <field type="sql" name="projects_area_filter" label="JRESEARCH_RESEARCH_AREA"
+			description="JRESEARCH_RESEARCH_AREA" query="SELECT id as value, alias as projects_area_filter FROM #__jresearch_research_area WHERE published = 1" />
+			<field type="radio" name="projects_filterby_year" label="JRESEARCH_FILTER_BY_YEAR" default="0">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>				
+			</field>
+			<field name="projects_year_filter" type="text" default="2012" label="JRESEARCH_YEAR" />
+
+			<field name="projects_show_filterby_team" type="radio" default="0" label="JRESEARCH_SHOW_FILTER_BY_TEAM" description="JRESEARCH_SHOW_FILTER_BY_TEAM_DESCRIPTION">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>				
+			</field>
+			<field name="projects_show_filterby_area" type="radio" default="0" label="JRESEARCH_SHOW_FILTER_BY_AREA" description="JRESEARCH_SHOW_FILTER_BY_AREA_DESCRIPTION">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>				
+			</field>
+			<field name="projects_show_filterby_author" type="radio" default="0" label="JRESEARCH_SHOW_FILTER_BY_AUTHOR" description="JRESEARCH_SHOW_FILTER_BY_AUTHOR_DESCRIPTION">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>				
+			</field>
+			<field name="projects_show_filterby_status" type="radio" default="0" label="JRESEARCH_SHOW_FILTER_BY_STATUS" description="JRESEARCH_SHOW_FILTER_BY_STATUS_DESCRIPTION">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>				
+			</field>
+			<field name="projects_show_filterby_search" type="radio" default="1" label="JRESEARCH_SHOW_FILTER_BY_TEXT" description="JRESEARCH_SHOW_FILTER_BY_TEXT_DESCRIPTION">
+				<option value="0">JNO</option>			
+				<option value="1">JYES</option>				
+			</field>
+			<field name="projects_show_filterby_year" type="radio" default="1" label="JRESEARCH_SHOW_FILTER_BY_YEAR" description="JRESEARCH_SHOW_FILTER_BY_YEAR_DESCRIPTION">
+				<option value="0">JNO</option>						
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>
