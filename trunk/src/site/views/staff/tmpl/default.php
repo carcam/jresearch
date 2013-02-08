@@ -55,9 +55,6 @@ $showPhone = $this->params->get('staff_show_phone', 1);
          <?php endif; ?>
 		</tr>
 	</thead>
-	<tfoot align="center">
-		<tr><td colspan="<?php echo $nCols; ?>"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></td></tr>
-	</tfoot>
     <?php
     $itemId = JRequest::getVar('Itemid');
     $twoGroups = $this->params->get('staff_former_grouping') == 1 && $this->params->get('staff_filter') == 'all';
@@ -95,3 +92,4 @@ $showPhone = $this->params->get('staff_show_phone', 1);
         ?>
 	</tbody>
 </table>
+<div class="frontendPagination"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>

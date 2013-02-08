@@ -49,7 +49,7 @@ class JResearchModelStaff extends JResearchModelList{
         if(!empty($whereClauses))
             $query->where($whereClauses);
 
-        $query->order($orderColumns);
+        $query->order($orderColumns); 
         return $query;
     }
 
