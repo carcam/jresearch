@@ -52,26 +52,7 @@ defined('_JEXEC') or die('Restricted access');
                 	        <?php echo $field->input; ?>
                     	</div>
                     <?php endif; ?>
-                <?php endforeach; ?>                
-				<div style="clear:left;"></div>
-                <?php
-            		$fileInputField = $this->form->getField('file_url');
-            		$filesField = $this->form->getField('files');
-     			?> 
-     				<div class="formelm">
-                        <?php if (!$fileInputField->hidden): ?>
-                                <?php echo $fileInputField->label; ?>
-                        <?php endif; ?>
-                        <?php echo $fileInputField->input; ?>
-                    </div>
-     			 <?php 
-     			 	$attachment = $filesField->value;
-            		if(!empty($attachment)){
-            			$deleteAttachField = $this->form->getField('delete_url'); 
-            			echo '<div class="formelm">'.$filesField->input.$deleteAttachField->label.' '.$deleteAttachField->input.'</div>';
-            		}	
-            	?>
-            	
+                <?php endforeach; ?> 
             	<?php $auField = $this->form->getField('authors'); ?>
             	<div class="formelm"><?php echo $auField->label; ?></div>
                 	<div class="formelm"><?php echo $auField->input; ?></div>

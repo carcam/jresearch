@@ -137,7 +137,16 @@
                         default=""
                         label="JRESEARCH_URL_PHOTO"
                         required="false"
-                />                
+                />  
+                <field
+                        id="files"
+                        name="files"
+                        type="attachment"
+                        controller="staff"
+                        class="inputbox"
+                        singleFile="true"
+                        label="JRESEARCH_MEMBER_CV"
+                />
 				<field name="description" type="editor" class="inputbox"
 					label="JRESEARCH_DESCRIPTION"
 					filter="safehtml" buttons="true"

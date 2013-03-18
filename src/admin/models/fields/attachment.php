@@ -44,7 +44,7 @@ class JFormFieldAttachment extends JFormField{
 		$k = count($uploadedFiles);
 		$textFields = '<input type="hidden" name="jform[count_'.$name.']" id="jform[count_'.$name.']" value="'.$k.'" />';
 				
-		$uploadField = '<div class="divTdl">';	
+		$uploadField = '<div>';	
 		if($singleFile != 'true')
 			$uploadField .= '<a id="add_'.$name.'" href="javascript:addUploader(\''.$name.'\', \''.JText::_('Delete').'\')">'.JText::_('Add').'</a>';
 

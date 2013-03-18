@@ -58,6 +58,7 @@ class JResearchStaffController extends JResearchFrontendController
 	    $model = $this->getModel('Staff', 'JResearchModel');
         $view = $this->getView('Staff', 'html', 'JResearchView');
         $view->setModel($model, true);
+        $view->setLayout($layout);
         $view->display();
 	}
 

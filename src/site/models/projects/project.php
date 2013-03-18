@@ -38,7 +38,7 @@ class JResearchModelProject extends JResearchModelItem{
 
 	/**
 	 * Returns an array with the n latest publications associated to the
-	 * research area.
+	 * project.
 	 *
 	 * @param int $n
 	 * @return array Array of JResearchPublicationObjects
@@ -53,7 +53,7 @@ class JResearchModelProject extends JResearchModelItem{
 
         $query = "SELECT p.* FROM ".$db->nameQuote('#__jresearch_publication').' p JOIN '.$db->nameQuote('#__jresearch_project_publication').' pp'
             		.' WHERE p.id = pp.id_publication AND p.published = 1 AND p.internal = 1 AND pp.id_project = '.$db->Quote($row->id)
-            		.' ORDER BY year DESC, created DESC';
+            		.' ORDER BY p.year DESC, p.created DESC';
 
         if($n > 0){
         	$query .= ' LIMIT 0, '.$n;

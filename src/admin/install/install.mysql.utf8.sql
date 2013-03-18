@@ -253,6 +253,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `phone` varchar(15) default NULL,
   `fax` varchar(15) default NULL,
   `url_photo` varchar(256) default NULL,
+  `files` text default NULL,
   `description` text,
   `checked_out` tinyint(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL,

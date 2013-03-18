@@ -81,7 +81,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             if(!in_array($filter_order, $orders))
             	$filter_order = 'year';        
                 
-            $columns[] = $filter_order.' '.$filter_order_Dir;
+			$columns[] = $filter_order.' '.$filter_order_Dir;
 			$columns[] = 'created DESC';            
 
             return $columns;

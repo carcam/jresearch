@@ -23,14 +23,10 @@ class JResearchViewStaff extends JResearchView
     function display($tpl = null)
     {
         $layout = $this->getLayout();
-    	
         switch($layout){
         	case 'staffflow':
 	        	$this->_displayStaffFlow();
-	        	break;				
-		case 'positions':
-	        	$this->_displayPositions();
-	        	break;	        	
+	        	break;
         	default:
        			$this->_displayDefaultList();
        			break;
@@ -166,30 +162,6 @@ class JResearchViewStaff extends JResearchView
         $this->assignRef('js_path', $js_path);
         $this->assignRef('assets_path', $assets);
         $this->assignRef('params', $params);
-    }
-	
-	/**
-    * Display the list of published staff members by positions
-	* @author Pablo Moncada
-    */
-    private function _displayPositions(&$model){
-      	global $mainframe;
-      	require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
-      	
-      	$doc = JFactory::getDocument();
-      	$params = $mainframe->getPageParameters('com_jresearch');
-
-      	$members =  $model->getData(null, true, true);
-        $positionModelList = $this->getModel('member_positionList');
-        $positions = $positionModelList->getData(null, true, true);
-    	$doc->setTitle(JText::_('JRESEARCH_MEMBERS'));
-    	
-    	$format = $params->get('staff_format') == 'last_first'?1:0;
-    	$this->assignRef('items', $members);
-        $this->assignRef('positions', $positions);
-    	$this->assignRef('page', $model->getPagination());	
-    	$this->assignRef('format', $format);
-
     }
     
     /**

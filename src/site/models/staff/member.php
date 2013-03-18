@@ -253,7 +253,7 @@ class JResearchModelMember extends JResearchModelForm{
     function save()
     {
         $app = JFactory::getApplication();
-
+		$params = JComponentHelper::getParams('com_jresearch');
         $data = &$this->getData();
 
         $row = $this->getTable('Member', 'JResearch');
@@ -267,7 +267,23 @@ class JResearchModelMember extends JResearchModelForm{
 			}
 		}else{
 			$data['id_research_area'] = '1';
-		}            
+		}
+
+    	//Time to upload the file
+        $delete = $data['delete_files_0'];
+    	if($delete == 'on'){
+    		if(!empty($data['old_files_0'])){
+	    		$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'staff'.DS.$row->files;
+	    		$data['files'] = '';
+	    		@unlink($filetoremove);
+    		}
+	    }
+	    
+    	$files = JRequest::getVar('jform', array(), 'FILES');
+	    JError::raiseWarning(1, var_export($files, true));    	
+		if(!empty($files['name']['file_files_0'])){	    	
+	    	$data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'staff');
+    	}
 
         // Bind the form fields to the hello table
         if (!$row->save($data))
