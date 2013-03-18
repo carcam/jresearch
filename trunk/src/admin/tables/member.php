@@ -115,6 +115,14 @@ class JResearchMember extends JResearchTable{
 	* @var int
 	*/
 	public $checked_out;
+	
+	/**
+	 * 
+	 * Attachments (normally member's CV)
+	 * @var unknown_type
+	 */
+	public $files;
+	
 
 	/**
 	* When the project was checked out.
@@ -308,13 +316,13 @@ class JResearchMember extends JResearchTable{
 	 * Returns position of the member as an Table object
 	 * @return JResearchMember_position Object or null
 	 */
-	public function getPosition()
+	
+	public function getPositionObj()
 	{
 		if(intval($this->position) > 0){
-			$position = JTable::getInstance('Member_position', 'JResearch');
-			$position->load($this->position);
-			
-			return $position;
+			$posObj = JTable::getInstance('Member_position', 'JResearch');
+			$posObj->load($this->position);
+			return $posObj;
 		}
 		
 		return null;
@@ -485,10 +493,17 @@ class JResearchMember extends JResearchTable{
 		}else{
 			return null;
 		}		
-	}        
-	
+	}  
 
-	
+	public function getCV(){
+		if(!empty($this->files)){
+			$params = JComponentHelper::getParams('com_jresearch'); 
+			return JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, '/', $params->get('files_root_path', 'files'))."/staff/".$this->files;
+		}else{
+			return false;
+		}
+	}
+
 }
 
 ?>

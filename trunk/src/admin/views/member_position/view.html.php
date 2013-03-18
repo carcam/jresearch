@@ -36,9 +36,9 @@ class JResearchAdminViewMember_position extends JResearchView
         $this->assignRef('form', $form);
         $this->assignRef('data', $data);
 
-        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array('member_position'));
+        $mainframe->triggerEvent('onBeforeRenderJResearchEntityForm', array($data, 'member_position'));
         parent::display($tpl);
-        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array('member_position'));    	
+        $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array($data, 'member_position'));    	
     }
 }
 

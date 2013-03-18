@@ -106,7 +106,22 @@
                         default=""
                         label="JRESEARCH_URL_PERSONAL_PAGE"
                         required="false"
-                />                
+                />
+                <field
+                        id="files"
+                        name="files"
+                        type="attachment"
+                        controller="staff"
+                        class="inputbox"
+                        singleFile="true"
+                        label="JRESEARCH_MEMBER_CV"
+                />
+			<field id="delete_url" name="delete_url" type="list"
+			label="JRESEARCH_DELETE_ATTACHMENT"
+			default="0">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>                                              
 				<field name="description" type="editor" class="inputbox"
 					label="JRESEARCH_DESCRIPTION"
 					filter="safehtml" buttons="true"

@@ -13,10 +13,10 @@ JHTML::_('behavior.modal');
 <h2 class="componentheading"><?php echo JResearchPublicationsHelper::formatAuthor($this->member->__toString(), $this->params->get('staff_format', 'last_first')); ?></h2>
 <table class="frontendsingleitem">
 <tbody>
-  <tr><th style="width:100%;" colspan="4"><h3 class="contentheading"><?php echo JText::_('JRESEARCH_PERSONAL_INFORMATION').': '; ?></h3></th></tr>	
+  <tr><th style="width:100%;" colspan="4"><h3 class="contentheading"><?php echo JText::_('JRESEARCH_PERSONAL_INFORMATION'); ?></h3></th></tr>	
   <tr>  
     <th scope="row"><?php echo JText::_('JRESEARCH_POSITION').': ' ?></th>
-    <td><?php echo empty($this->member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$this->member->getPosition(); ?></td>
+    <td><?php echo empty($this->member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$this->member->getPositionObj(); ?></td>
     <?php if(empty($this->member->url_photo)): ?>
     <td style="width:50%;" colspan="2" rowspan="3"></td>
     <?php else: 
@@ -153,5 +153,11 @@ JHTML::_('behavior.modal');
 <?php if(!empty($this->member->url_personal_page)):  ?>  	
 	<div><h3><?php echo JText::_('JRESEARCH_PERSONAL_PAGE');  ?></h3><?php echo JHTML::_('link', str_replace('&', '&amp;', $this->member->url_personal_page), $this->member->url_personal_page); ?></div>
 <?php endif; ?>  
+<?php 
+$cv = $this->member->getCV();
+if($cv !== false):
+	  echo '<span><strong>'.JText::_('JRESEARCH_MEMBER_CV').':</strong> '.JHTML::_('jresearchhtml.attachment', $cv).'</span>';
+endif; ?>
+
 <div>&nbsp;</div>
 <div><a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a></div>

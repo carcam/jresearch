@@ -47,13 +47,12 @@ class JResearchModelPublications extends JResearchModelList{
         $query->select('DISTINCT pub.*');
         $query->from('#__jresearch_publication pub');
         $query->leftJoin('#__jresearch_publication_researcharea AS ra ON pub.id = ra.id_publication');
-        $query->innerJoin('#__jresearch_all_publication_authors AS apa ON pub.id = apa.pid');
+        $query->leftJoin('#__jresearch_all_publication_authors AS apa ON pub.id = apa.pid');
             
 		if(!empty($whereClauses))
             $query->where($whereClauses);
 
         $query->order($orderColumns);
-            
         return $query;
     }
 
@@ -68,13 +67,18 @@ class JResearchModelPublications extends JResearchModelList{
             
         $filter_order = $params->get('publications_default_sorting', 'year');
         $filter_order_Dir = $params->get('publications_order', 'ASC');
-            
-            
+
         //Validate order direction
         if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
             $filter_order_Dir = 'ASC';
                             
         $columns[] = $filter_order.' '.$filter_order_Dir;
+        if($filter_order == 'year'){
+        	//Consider the month information            	            	
+            $columns[] = "STR_TO_DATE(month, '%M') $filter_order_Dir";
+            $columns[] = "STR_TO_DATE(day, '%d') $filter_order_Dir";
+        }
+        
 		$columns[] = 'created DESC';            
 
         return $columns;        

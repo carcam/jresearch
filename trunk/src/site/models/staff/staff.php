@@ -18,24 +18,23 @@ jresearchimport('models.modellist', 'jresearch.site');
 class JResearchModelStaff extends JResearchModelList{
 
 
-        public function getItems(){
-            if(!isset($this->_items)){
-                $items = parent::getItems();
-                if($items !== false){
-                	$this->_items = array();
-                    foreach($items as $item){
-                        $member = $this->getTable('Member', 'JResearch');
-                        $member->bind($item);
-                        $this->_items[] = $member;
-                    }
-                }else{
-                    return $items;
-                }
-            }
+    public function getItems(){
+	   if(!isset($this->_items)){
+	   		$items = parent::getItems();
+	        if($items !== false){
+		        $this->_items = array();
+		        foreach($items as $item){
+		        	$member = $this->getTable('Member', 'JResearch');
+		            $member->bind($item);
+		            $this->_items[] = $member;
+		    	}
+	   		}else{
+	        	return $items;
+	        }
+       }
 
-            return $this->_items;
-        }
-
+       return $this->_items;
+    }
 
     protected function getListQuery() {
         // Create a new query object.
@@ -44,12 +43,13 @@ class JResearchModelStaff extends JResearchModelList{
         $orderColumns = $this->_buildQueryOrderBy();
         $query = $db->getQuery(true);
 
-        $query->select('*');
-        $query->from('#__jresearch_member');
+        $query->select('m.*');
+        $query->from('#__jresearch_member m');
+        $query->leftJoin('#__jresearch_member_position mp ON m.position = mp.id AND mp.published = 1');
         if(!empty($whereClauses))
             $query->where($whereClauses);
 
-        $query->order($orderColumns); 
+        $query->order($orderColumns);
         return $query;
     }
 
@@ -64,19 +64,23 @@ class JResearchModelStaff extends JResearchModelList{
         $columns = array();
 
         // Read those from configuration
-        $filter_order1 = $params->get('staff_sort_criteria1', 'lastname');
+        $filter_order0 = $params->get('staff_sort_criteria0', null);
+        $filter_order1 = $params->get('staff_sort_criteria1', 'm.lastname');
         $filter_order_Dir1 = $params->get('staff_order1', 'ASC');
-        $filter_order2 = $params->get('staff_sort_criteria2', 'ordering');
+        $filter_order2 = $params->get('staff_sort_criteria2', 'm.ordering');
         $filter_order_Dir2 = $params->get('staff_order2', 'ASC');
         $groupByFormer = $params->get('staff_former_grouping', 0);
 
         //Validate order direction
         if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
         	$filter_order_Dir = 'ASC';
-
+        	
         if($groupByFormer == '1')
         	$columns[] = 'former_member DESC';
-        	
+
+        if(!empty($filter_order0))	
+            $columns[] = $filter_order0.' ASC';
+                
         $columns[] = $filter_order1.' '.$filter_order_Dir1;
         $columns[] = $filter_order2.' '.$filter_order_Dir2;
 
@@ -92,7 +96,7 @@ class JResearchModelStaff extends JResearchModelList{
 
         // prepare the WHERE clause
         $where = array();
-        $where[] = 'published = 1';
+        $where[] = 'm.published = 1';
         
         $filter_former_member = $this->getState('com_jresearch.staff.filter_former');
         if($filter_former_member == 'only_current')

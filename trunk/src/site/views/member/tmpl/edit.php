@@ -3,7 +3,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $fields = array('id', 'firstname', 'lastname', 'title', 'username', 'email' , 'id_research_area' , 
- 'location', 'phone', 'fax', 'url_personal_page');
+ 'location', 'phone', 'fax', 'url_personal_page', 'files');
 
 ?>
 <div style="float: left;">
@@ -13,7 +13,7 @@ $fields = array('id', 'firstname', 'lastname', 'title', 'username', 'email' , 'i
 	<button type="button" onclick="javascript:Joomla.submitbutton('apply')"><?php echo JText::_('JRESEARCH_SAVE') ?></button>
 </div>
 <div style="clear:both;"></div>
-<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate" enctype="multipart/form-data">
 	<?php foreach($fields as $fieldName):  ?>
     	<?php $field = $this->form->getField($fieldName); ?>
            	<div class="formelm">
@@ -22,9 +22,10 @@ $fields = array('id', 'firstname', 'lastname', 'title', 'username', 'email' , 'i
                  <?php endif; ?>
                  <?php echo $field->input; ?>
              </div>
-                <?php endforeach; ?>
-            
-            <div><?php
+                <?php endforeach; ?>            
+            <div>
+			<div style="clear:left;"></div>            
+            <?php
             $description = $this->form->getField('description');
             echo $description->label;
             ?></div>

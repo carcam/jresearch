@@ -3,10 +3,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 $fields = array('id', 'firstname', 'lastname', 'title', 'username', 'email' ,'published', 'id_research_area' ,'former_member', 
-'position', 'location', 'phone', 'fax', 'url_personal_page' , 'url_photo', 'created_by', 'asset_id');
+'position', 'location', 'phone', 'fax', 'url_personal_page' , 'url_photo', 'files', 'created_by', 'asset_id');
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate" enctype="multipart/form-data">
     <div class="width-60 fltlft">
         <fieldset class="panelform">
                 <ul class="adminformlist">

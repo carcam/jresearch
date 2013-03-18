@@ -87,12 +87,12 @@ class JResearchAdminModelMember extends JModelForm{
         function save()
         {
             $app = JFactory::getApplication();
-
+			$params = JComponentHelper::getParams('com_jresearch');
             $data = &$this->getData();
             $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
             $data['description'] = $form['description'];
             $row = $this->getTable('Member', 'JResearch');
-            
+
         	//Checking of research areas
 			if(!empty($data['id_research_area'])){
 				if(in_array('1', $data['id_research_area'])){
@@ -103,6 +103,21 @@ class JResearchAdminModelMember extends JModelForm{
 			}else{
 				$data['id_research_area'] = '1';
 			}            
+            
+			//Time to upload the file
+            $delete = $data['delete_files_0'];
+	    	if($delete == 'on'){
+	    		if(!empty($data['old_files_0'])){
+		    		$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'staff'.DS.$row->files;
+		    		$data['files'] = '';
+		    		@unlink($filetoremove);
+	    		}
+		    }
+		    		    
+	    	$files = JRequest::getVar('jform', array(), 'FILES');
+			if(!empty($files['name']['file_files_0'])){	    	
+		    	$data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'staff');
+	    	}			
 
             // Bind the form fields to the hello table
             if (!$row->save($data, '' ,array('username')))
@@ -375,9 +390,14 @@ class JResearchAdminModelMember extends JModelForm{
 			$team->load($id);
 			$teams[] = $team;
 		}
-		
-		
 		return $teams;
+	}
+	
+	public function getCV(){
+		if(!empty($this->files))
+			return JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, '/', $params->get('files_root_path', 'files'))."/staff/".$this->files;
+			
+		return false;	
 	}
 }
 ?>
