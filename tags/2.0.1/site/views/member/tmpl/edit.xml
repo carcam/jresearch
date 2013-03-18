@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<metadata>
+	<layout title="JRESEARCH_EDIT_MEMBER_PROFILE" option="com_content_article_view_default_option">
+		<help
+			key = "JRESEARCH_EDIT_PROFILE_VIEW_MESSAGE"
+		/>
+		<message>
+			<![CDATA[JRESEARCH_EDIT_PROFILE_VIEW_MESSAGE]]>
+		</message>
+	</layout>
+	<fields name="request">
+		<field name="task" value="edit" type="hidden" />		
+	</fields>
+</metadata>
