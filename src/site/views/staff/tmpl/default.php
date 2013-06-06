@@ -16,6 +16,7 @@ $showPosition = $this->params->get('staff_show_position', 1);
 $showPhone = $this->params->get('staff_show_phone', 1);
 $showLocation = $this->params->get('staff_show_location', 1);
 $showPersonalPage = $this->params->get('staff_show_personal_page', 1);
+$showLink = $this->params->get('staff_link_to_profile', 1);
 $nCols = 0;
 if($this->params->get('show_page_heading', 1)): ?>
 <h1 class="componentheading"><?php echo $this->escape($this->params->get('page_heading', JText::_('JRESEARCH_STAFF'))); ?></h1>
@@ -77,7 +78,13 @@ if($this->params->get('show_page_heading', 1)): ?>
 			<?php if($showTitle == 'own_column'): ?>
 				<td><?php echo $member->title; ?></td>
 			<?php endif; ?>
-			<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->params->get('staff_format', 'last_first')); ?></a></td>
+			<td>
+				<?php if($showLink == 1): ?>
+					<a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->params->get('staff_format', 'last_first')); ?></a>
+				<?php else: ?>
+					<?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->params->get('staff_format', 'last_first')); ?>
+				<?php endif;?>
+			</td>
             <?php if($showPosition == 1): ?>
             	<td><?php echo empty($member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$member->getPositionObj(); ?></td>
             <?php endif; ?>

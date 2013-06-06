@@ -76,7 +76,7 @@ class JResearchModelStaff extends JResearchModelList{
         	$filter_order_Dir = 'ASC';
         	
         if($groupByFormer == '1')
-        	$columns[] = 'former_member DESC';
+        	$columns[] = 'former_member ASC';
 
         if(!empty($filter_order0))	
             $columns[] = $filter_order0.' ASC';
