@@ -69,7 +69,11 @@
 				<option value="no">JNO</option>			
 				<option value="next_to_name">JRESEARCH_NEXT_TO_NAME</option>
 				<option value="own_column">JRESEARCH_OWN_COLUMN</option>
-			</field>			
+			</field>
+			<field name="staff_link_to_profile" label="JRESEARCH_STAFF_LINK_TO_PROFILE" default="1" type="radio" >
+				<option value="1">JYES</option>			
+				<option value="0">JNO</option>
+			</field>						
         </fieldset>
     </fields>
 </metadata>
