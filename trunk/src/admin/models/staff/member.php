@@ -17,214 +17,220 @@ jimport( 'joomla.application.component.modelform' );
 *
 */
 class JResearchAdminModelMember extends JModelForm{
+	/**
+    * @var array data
+    */
+    protected $data = null;
 
-        /**
-         * Method to get the data.
-         *
-         * @access      public
-         * @return      array of string
-         * @since       1.0
-         */
-        public function &getData()
+    /**
+     * Method to get the data.
+     *
+     * @access      public
+     * @return      array of string
+     * @since       1.0
+     */
+    public function &getData()
+    {
+        if (empty($this->data))
         {
-            if (empty($this->data))
+            $app = & JFactory::getApplication();
+            $data = & JRequest::getVar('jform');
+            if (empty($data))
             {
-                $app = & JFactory::getApplication();
-                $data = & JRequest::getVar('jform');
-                if (empty($data))
-                {
-                    // For new items
-                    $selected = & JRequest::getVar('cid', 0, '', 'array');
-                    $db = JFactory::getDBO();
-                    $query = $db->getQuery(true);
-                    $query->select('*');
-                    $query->from('#__jresearch_member');
-                    $query->where('id = ' . (int)$selected[0]);
-                    $db->setQuery((string)$query);
-                    $data = & $db->loadAssoc();
-                }
-
-                if (empty($data))
-                {
-                    // Check the session for previously entered form data.
-                    $data = $app->getUserState('com_jresearch.edit.member.data', array());
-                }
-                
-               //Once the data is retrieved, time to fix it
-                if(is_string($data['id_research_area'])){
-                $data['id_research_area'] = explode(',', $data['id_research_area']);
-                }
-                
-
-                // Store the state as an array of values
-                $app->setUserState('com_jresearch.edit.member.data', $data);
-                $this->data = $data;
+                // For new items
+                $selected = & JRequest::getVar('cid', 0, '', 'array');
+                $db = JFactory::getDBO();
+                $query = $db->getQuery(true);
+                $query->select('*');
+                $query->from('#__jresearch_member');
+                $query->where('id = ' . (int)$selected[0]);
+                $db->setQuery((string)$query);
+                $data = & $db->loadAssoc();
             }
 
-            return $this->data;
-        }
-
-        /**
-         * Method to get the HelloWorld form.
-         *
-         * @access      public
-         * @return      mixed   JForm object on success, false on failure.
-         * @since       1.0
-         */
-        public function getForm($data = array(), $loadData = true)
-        {
-            $form = $this->loadForm('com_jresearch.member', 'member', array('control' => 'jform', 'load_data' => $loadData));
-            return $form;
-        }
-
-
-        /**
-         * Method to save a record
-         *
-         * @access      public
-         * @return      boolean True on success
-         */
-        function save()
-        {
-            $app = JFactory::getApplication();
-			$params = JComponentHelper::getParams('com_jresearch');
-            $data = &$this->getData();
-            $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
-            $data['description'] = $form['description'];
-            $row = $this->getTable('Member', 'JResearch');
-
-        	//Checking of research areas
-			if(!empty($data['id_research_area'])){
-				if(in_array('1', $data['id_research_area'])){
-					$data['id_research_area'] = '1';
-				}else{
-					$data['id_research_area'] = implode(',', $data['id_research_area']);
-				}
-			}else{
-				$data['id_research_area'] = '1';
-			}            
+            if (empty($data))
+            {
+                // Check the session for previously entered form data.
+                $data = $app->getUserState('com_jresearch.edit.member.data', array());
+            }
             
-			//Time to upload the file
-            $delete = $data['delete_files_0'];
-	    	if($delete == 'on'){
-	    		if(!empty($data['old_files_0'])){
-		    		$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'staff'.DS.$row->files;
-		    		$data['files'] = '';
-		    		@unlink($filetoremove);
-	    		}
-		    }
-		    		    
-	    	$files = JRequest::getVar('jform', array(), 'FILES');
-			if(!empty($files['name']['file_files_0'])){	    	
-		    	$data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'staff');
-	    	}			
+           //Once the data is retrieved, time to fix it
+            if(is_string($data['id_research_area'])){
+            	$data['id_research_area'] = explode(',', $data['id_research_area']);
+            }
+            
 
-            // Bind the form fields to the hello table
-            if (!$row->save($data, '' ,array('username')))
+            // Store the state as an array of values
+            $app->setUserState('com_jresearch.edit.member.data', $data);
+            $this->data = $data;
+        }
+
+        return $this->data;
+    }
+
+    /**
+     * Method to get the HelloWorld form.
+     *
+     * @access      public
+     * @return      mixed   JForm object on success, false on failure.
+     * @since       1.0
+     */
+    public function getForm($data = array(), $loadData = true)
+    {
+        $form = $this->loadForm('com_jresearch.member', 'member', array('control' => 'jform', 'load_data' => $loadData));
+        return $form;
+    }
+
+
+    /**
+     * Method to save a record
+     *
+     * @access      public
+     * @return      boolean True on success
+     */
+    function save()
+    {
+        $app = JFactory::getApplication();
+		$params = JComponentHelper::getParams('com_jresearch');
+        $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
+        $data = &$this->getData();
+        $data['description'] = $form['description'];
+        $row = $this->getTable('Member', 'JResearch');
+
+    	//Checking of research areas
+		if(!empty($data['id_research_area'])){
+			if(in_array('1', $data['id_research_area'])){
+				$data['id_research_area'] = '1';
+			}else{
+				$data['id_research_area'] = implode(',', $data['id_research_area']);
+			}
+		}else{
+			$data['id_research_area'] = '1';
+		}            
+        
+		//Time to upload the file
+        $delete = $data['delete_files_0'];
+    	if($delete == 'on'){
+    		if(!empty($data['old_files_0'])){
+	    		$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'staff'.DS.$row->files;
+	    		$data['files'] = '';
+	    		@unlink($filetoremove);
+    		}
+	    }
+	    		    
+    	$files = JRequest::getVar('jform', array(), 'FILES');
+		if(!empty($files['name']['file_files_0'])){	    	
+	    	$data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'staff');
+    	}			
+
+        // Bind the form fields to the hello table
+        if (!$row->save($data, '' ,array('username')))
+        {
+        	JRequest::setVar('jform', $data);
+            $this->setError($row->getError());
+            return false;
+        }
+        
+		$data['id'] = $row->id;
+        $app->setUserState('com_jresearch.edit.member.data', $data);
+
+        return true;
+    }
+
+    /**
+     * Publish a set of items
+     */        
+    function publish(){
+       $selected = JRequest::getVar('cid', 0, '', 'array');
+       $member = JTable::getInstance('Member', 'JResearch');           
+       $allOk = true;
+       $user = JFactory::getUser();
+       foreach($selected as $id){
+       	   $action = JResearchAccessHelper::getActions('member', $id);           	
+       	   if($action->get('core.staff.edit')){
+    	       $allOk = $allOk && $member->publish(array($id), 1, $user->get('id'));
+    	       if(!$allOk) $this->setError($member->getError());
+       	   }else{
+       	   	   $allOk = false;
+       		   $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
+       	   }
+       }
+       
+       return $allOk;
+    }
+
+    /**
+     * Unpublish a set of items
+     */
+    function unpublish(){
+       $selected = JRequest::getVar('cid', array(), '', 'array');
+       $member = JTable::getInstance('Member', 'JResearch');    
+       $user = JFactory::getUser();       
+       $allOk = true;
+       foreach($selected as $id){
+       	   $action = JResearchAccessHelper::getActions('member', $id);           	
+       	   if($action->get('core.staff.edit')){
+    	       $allOk = $allOk && $member->publish(array($id), 0, $user->get('id'));
+       		   $this->setError($member->getError());	    	       
+       	   }else{
+       	   	   $allOk = false;
+       		   $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
+       	   }
+       }
+       
+       return $allOk;
+    }
+    
+    /**
+     * Delete a set of items
+     */        
+    function delete(){
+       $n = 0;
+       $selected = & JRequest::getVar('cid', 0, '', 'array');
+       $area = JTable::getInstance('Member', 'JResearch');
+       foreach($selected as $id){
+       		$action = JResearchAccessHelper::getActions('member', $id);
+       		if($action->get('core.staff.delete')){
+                if(!$area->delete($id)){
+	                $this->setError(new JException(JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id)));
+            	}else{
+                	$n++;
+            	}
+       		}else{
+       			$this->setError(new JException(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id)));
+       		}
+       }
+       
+       return $n;
+    }
+
+    function checkin(){
+        $data = &$this->getData();
+
+        if(!empty($data)){
+            // Database processing
+            $row = &$this->getTable('Member', 'JResearch');
+            $row->bind($data);
+            if (!$row->checkin())
             {
                 $this->setError($row->getError());
                 return false;
             }
-
-            $app->setUserState('com_jresearch.edit.member.data', $data);
-
-            return true;
         }
 
-        /**
-         * Publish a set of items
-         */        
-        function publish(){
-           $selected = JRequest::getVar('cid', 0, '', 'array');
-	       $member = JTable::getInstance('Member', 'JResearch');           
-	       $allOk = true;
-	       $user = JFactory::getUser();
-           foreach($selected as $id){
-           	   $action = JResearchAccessHelper::getActions('member', $id);           	
-           	   if($action->get('core.staff.edit')){
-	    	       $allOk = $allOk && $member->publish(array($id), 1, $user->get('id'));
-	    	       if(!$allOk) $this->setError($member->getError());
-           	   }else{
-           	   	   $allOk = false;
-           		   $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
-           	   }
-           }
-           
-           return $allOk;
-        }
+        return true;
+    }
 
-        /**
-         * Unpublish a set of items
-         */
-        function unpublish(){
-           $selected = JRequest::getVar('cid', array(), '', 'array');
-	       $member = JTable::getInstance('Member', 'JResearch');    
-	       $user = JFactory::getUser();       
-	       $allOk = true;
-           foreach($selected as $id){
-           	   $action = JResearchAccessHelper::getActions('member', $id);           	
-           	   if($action->get('core.staff.edit')){
-	    	       $allOk = $allOk && $member->publish(array($id), 0, $user->get('id'));
-           		   $this->setError($member->getError());	    	       
-           	   }else{
-           	   	   $allOk = false;
-           		   $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
-           	   }
-           }
-           
-           return $allOk;
-        }
-        
-        /**
-         * Delete a set of items
-         */        
-        function delete(){
-           $n = 0;
-           $selected = & JRequest::getVar('cid', 0, '', 'array');
-           $area = JTable::getInstance('Member', 'JResearch');
-           foreach($selected as $id){
-           		$action = JResearchAccessHelper::getActions('member', $id);
-           		if($action->get('core.staff.delete')){
-	                if(!$area->delete($id)){
-    	                $this->setError(new JException(JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id)));
-                	}else{
-                    	$n++;
-                	}
-           		}else{
-           			$this->setError(new JException(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id)));
-           		}
-           }
-           
-           return $n;
-        }
-
-        function checkin(){
-            $data = &$this->getData();
-
-            if(!empty($data)){
-                // Database processing
-                $row = &$this->getTable('Member', 'JResearch');
-                $row->bind($data);
-                if (!$row->checkin())
-                {
-                    $this->setError($row->getError());
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /**
-         * Returns the model data store in the user state as a table
-         * object
-         */
-        public function getItem(){
-            $row = $this->getTable('Member', 'JResearch');
-            $data =& $this->getData();
-            $row->bind($data);
-            return $row;
-        }
+    /**
+     * Returns the model data store in the user state as a table
+     * object
+     */
+    public function getItem(){
+        $row = $this->getTable('Member', 'JResearch');
+        $data =& $this->getData();
+        $row->bind($data);
+        return $row;
+    }
 	
 	/**
 	 * Returns the record with the username specified

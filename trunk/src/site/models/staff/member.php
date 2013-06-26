@@ -45,7 +45,7 @@ class JResearchModelMember extends JResearchModelForm{
      */
     public function &getData()
     {
-    	if(!isset($this->_data)){
+    	if(empty($this->_data)){
 	    	$app = & JFactory::getApplication();
 	    	$data = & JRequest::getVar('jform');
 	    	if (empty($data))
@@ -254,9 +254,11 @@ class JResearchModelMember extends JResearchModelForm{
     {
         $app = JFactory::getApplication();
 		$params = JComponentHelper::getParams('com_jresearch');
+		$form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
         $data = &$this->getData();
 
         $row = $this->getTable('Member', 'JResearch');
+        $data['description'] = $form['description'];
             
         //Checking of research areas
 		if(!empty($data['id_research_area'])){
@@ -280,7 +282,6 @@ class JResearchModelMember extends JResearchModelForm{
 	    }
 	    
     	$files = JRequest::getVar('jform', array(), 'FILES');
-	    JError::raiseWarning(1, var_export($files, true));    	
 		if(!empty($files['name']['file_files_0'])){	    	
 	    	$data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'staff');
     	}
@@ -288,6 +289,7 @@ class JResearchModelMember extends JResearchModelForm{
         // Bind the form fields to the hello table
         if (!$row->save($data))
         {
+        	JRequest::setVar('jform', $data);
             $this->setError($row->getError());
             return false;
         }
