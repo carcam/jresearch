@@ -123,16 +123,14 @@ class JResearchStaffController extends JResearchFrontendController
 		if($allowedToContinue){
 			$app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchMember'));
 	        if ($model->save()){
-		        $app->triggerEvent('OnAfterSaveJResearchEntity', array($model->getItem(), 'JResearchMember'));        	
-       		    $msg = JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED');            
-       	    	$type = 'message';
+		        $app->triggerEvent('OnAfterSaveJResearchEntity', array($model->getItem(), 'JResearchMember'));       		    
+       	    	$this->setRedirect('index.php?option=com_jresearch&view=member&layout=edit', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));       	    	
 	        }else{
     	        $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
         	    $type = 'error';
+				$app->enqueueMessage($msg, $type);
+    	    	$this->edit();        	    
         	}
-        
-	        $app->enqueueMessage($msg, $type);
-    	    $this->edit();		
 		}else{
 			JError::raiseWarning(1, JText::_('JRESEARCH_ACCESS_NOT_ALLOWED'));			
 		}

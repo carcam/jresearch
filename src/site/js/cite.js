@@ -3,6 +3,10 @@ var selectedCitekeys = new Array();
 var resultsTable;
 var limitstart;
 
+function getMessage(key){
+	return messages[key];
+}
+
 function getResultsTable(){
 	if(resultsTable == null){
 		resultsTable = document.getElementById("results");
@@ -10,15 +14,27 @@ function getResultsTable(){
 	return resultsTable;
 }
 
-function startPublicationSearch(key){
-	var searchRequest;
+function startPublicationSearch(e){
+	limitstart = 0;
+	var targ;
+	if (!e) var e = window.event;
+	if (e.target) targ = e.target;
+	else if (e.srcElement) targ = e.srcElement;
+	if (targ.nodeType == 3) // defeat Safari bug
+		targ = targ.parentNode;
+	key = targ.value;
+
+	runPublicationSearch(key);	
+}
+
+function runPublicationSearch(key){		
+	var searchRequest;	
 	var criteria = 'all';
+
 	if(key == ''){
-		tbody = getResultsTable();
-		clean(tbody);
-		return;
+		key = '%%';
 	}
-	
+
 	if(document.getElementById('allRadio').checked)
 		criteria = 'all';
 	else if(document.getElementById('titleRadio').checked)
@@ -33,8 +49,7 @@ function startPublicationSearch(key){
 		criteria = 'authors';	
 
 	searchRequest = new Request({method: 'get', async: true , onSuccess: addSearchResults, onFailure: onSearchFailure});
-	searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key='+key+'&criteria='+criteria+'&limitstart='+limitstart, null);	
-		
+	searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key='+key+'&criteria='+criteria+'&limitstart='+limitstart, null);		
 }
 
 function addPagination(lower, upper){
@@ -58,8 +73,8 @@ function addPagination(lower, upper){
 		subdiv.setAttribute("className", "prev");
 						
 		lowerA = document.createElement("a");
-		lowerA.setAttribute("href", "javascript:limitstart="+(lower - 10)+";clean(getResultsTable());startPublicationSearch('"+title.value+"');");
-		lowerA.appendChild(document.createTextNode("<?php echo JText::_('Back');?>"));
+		lowerA.setAttribute("href", "javascript:limitstart="+(lower - 10)+";clean(getResultsTable());runPublicationSearch('"+title.value+"');");
+		lowerA.appendChild(document.createTextNode(getMessage('back')));
 		subdiv.appendChild(lowerA);
 		div.appendChild(subdiv);
 		container.appendChild(div);
@@ -78,8 +93,8 @@ function addPagination(lower, upper){
 		subdiv.setAttribute("className", "next");	
 		
 		upperA = document.createElement("a");
-		upperA.setAttribute("href", "javascript:limitstart="+upper+";clean(getResultsTable());startPublicationSearch('"+title.value+"');");
-		upperA.appendChild(document.createTextNode("<?php echo JText::_('Next');?>"));		
+		upperA.setAttribute("href", "javascript:limitstart="+upper+";clean(getResultsTable());runPublicationSearch('"+title.value+"');");
+		upperA.appendChild(document.createTextNode(getMessage('next')));		
 		
 		subdiv.appendChild(upperA);
 		div.appendChild(subdiv);
@@ -189,7 +204,8 @@ function existsCitekey(key){
 
 function addRecordToCiteList(title, key){
 	if(existsCitekey(key)){
-		alert("<?php echo JText::_('CITED_RECORD_REPEATED') ?>");
+		alert(getMessage("citeRepeated"));
+		//alert("<?php echo JText::_('CITED_RECORD_REPEATED') ?>");
 		return;
 	}
 	
@@ -218,32 +234,21 @@ function onSearchFailure(){
 	
 }
 
-function makeCitation(command){
-	var citeRequest;
-	if(selectedCitekeys.length == 0){
-		alert("<?php echo JText::_('JRESEARCH_NO_ITEMS_TO_CITE'); ?>");
-		return;
-	}
-		
-	var citekeys = selectedCitekeys.join(",");		
-	var queryString = "option=com_jresearch&controller=publications&task=cite&command="+command+"&citekeys="+encodeURIComponent(citekeys)+"&format=text";
-	citeRequest = new Request({method: 'get', async: true , onSuccess: onCiteSuccessful, onFailure: onCiteFailure});
-	citeRequest.send(queryString, null);		
-}
-
 function onCiteSuccessful(response){
-	window.parent.jInsertEditorText(response, '<?php echo preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', JRequest::getVar('e_name') ); ?>');
+	window.parent.jInsertEditorText(response, getMessage('citeSuccessful'));
 	list = getCitedRecordsList();
 	clean(list);
 	selectedCitekeys = new Array();
-	alert("<?php echo JText::_('JRESEARCH_CITE_SUCCESSFUL')?>");	
+	alert(getMessage('citeSuccessful'));
+	//alert("<?php echo JText::_('JRESEARCH_CITE_SUCCESSFUL')?>");	
 }
 
 /**
 * Invoked when the cite request fails. 
 */
 function onCiteFailure(){
-	alert("<?php echo JText::_('JRESEARCH_CITE_FAILED')?>");	
+	alert(getMessage('citeFailed'));
+//	alert("<?php echo JText::_('JRESEARCH_CITE_FAILED')?>");	
 }
 
 /**

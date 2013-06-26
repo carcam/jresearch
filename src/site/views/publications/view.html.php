@@ -253,14 +253,24 @@ class JResearchViewPublications extends JResearchView
     private function _displayCiteDialog(){    	
     	$citedRecordsOptionsHTML = array();
     	$url = JURI::root();
-    	
+		$citeAnswer = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', JRequest::getVar('e_name'));   	
+    	$citeFailedMsg = JText::_('JRESEARCH_CITE_FAILED');
+    	$citeSuccessfulMsg = JText::_('JRESEARCH_CITE_SUCCESSFUL');
+    	$noItemsMsg = JText::_('JRESEARCH_NO_ITEMS_TO_CITE');
+		$recordRepeatedMsg = JText::_('CITED_RECORD_REPEATED');
+		$nextMsg = JText::_('JRESEARCH_NEXT');
+		$backMsg = JText::_('JRESEARCH_BACK');  	
     	// Prepare the HTML document
     	$document = JFactory::getDocument();
         $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
-        $document->addScriptDeclaration("window.addEvent('domready',
+        $document->addScript($url.'components/com_jresearch/js/cite.js');        
+        $document->addScriptDeclaration("
+        var messages = {\"back\": \"$backMsg\", \"next\": \"$nextMsg\", \"citeRepeated\" : \"$recordRepeatedMsg\" , \"citeFailed\" : \"$citeFailedMsg\", \"citeSuccessful\" : \"$citeSuccessfulMsg\", \"noItems\" : \"$noItemsMsg\"};
+        window.addEvent('domready',
                 function(){
-                        var searchRequest = new Request({method: 'get', async: true, onSuccess: addSearchResults, onFailure: onSearchFailure});
-                        searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
+        			window.document.getElementById('title').addEventListener (\"keyup\", startPublicationSearch);                
+                    var searchRequest = new Request({method: 'get', async: true, onSuccess: addSearchResults, onFailure: onSearchFailure});
+                    searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
                  }
         );");
         $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:200px;" ');
@@ -334,12 +344,21 @@ class JResearchViewPublications extends JResearchView
     	
     	// Prepare the HTML document
     	$document = JFactory::getDocument();
+    	$citeFailedMsg = JText::_('JRESEARCH_CITE_FAILED');
+    	$citeSuccessfulMsg = JText::_('JRESEARCH_CITE_SUCCESSFUL');
+    	$noItemsMsg = JText::_('JRESEARCH_NO_ITEMS_TO_CITE');
+		$recordRepeatedMsg = JText::_('CITED_RECORD_REPEATED');
+		$nextMsg = JText::_('JRESEARCH_NEXT');
+		$backMsg = JText::_('JRESEARCH_BACK');  	
         $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
         $document->addScript($url.'components/com_jresearch/js/cite.js');
-        $document->addScriptDeclaration("window.addEvent('domready',
-                function(){
-                        var searchRequest = new Request({method: 'get', async: true, onSuccess: addSearchResults, onFailure: onSearchFailure});
-                        searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
+        $document->addScriptDeclaration("
+                var messages = {\"back\": \"$backMsg\", \"next\": \"$nextMsg\", \"citeRepeated\" : \"$recordRepeatedMsg\" , \"citeFailed\" : \"$citeFailedMsg\", \"citeSuccessful\" : \"$citeSuccessfulMsg\", \"noItems\" : \"$noItemsMsg\"};
+        		window.addEvent('domready',
+        		function(){
+        			window.document.getElementById('title').addEventListener (\"keyup\", startPublicationSearch);
+                    var searchRequest = new Request({method: 'get', async: true, onSuccess: addSearchResults, onFailure: onSearchFailure});
+                    searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
                  }
         );");
         $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:200px;" ');

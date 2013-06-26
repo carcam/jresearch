@@ -24,14 +24,14 @@ abstract class JResearchModelForm extends JModelForm{
 	 * Cache for form data
 	 * @var array
 	 */
-	protected $_data;
+	protected $_data = null;
 	
 	/**
 	 * 
 	 * Cache for item
 	 * @var array
 	 */
-	protected $_row;
+	protected $_row = null;
 	
 	
 	/**
