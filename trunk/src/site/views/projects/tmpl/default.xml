@@ -27,8 +27,8 @@
 				<option value="finance_level">JRESEARCH_FINANCE_LEVEL</option>
 			</field>
 			<field name="projects_order" label="JRESEARCH_SORTED" type="radio" default="asc">
-				<option value="asc">JRESEARCH_ASCENDING</option>
-				<option value="desc">JRESEARCH_DESCENDING</option>
+				<option value="ASC">JRESEARCH_ASCENDING</option>
+				<option value="DESC">JRESEARCH_DESCENDING</option>
 			</field>
 		    <field name="projects_filterby_status" type="radio" label="JRESEARCH_FILTER_STATUS" default="0">
 				<option value="0">JNO</option>
