@@ -3,8 +3,6 @@
 -- Author: Luis Galarraga
 -- Date: 27-05-2008 00:14:00
 
-
-DROP TABLE IF EXISTS `#__jresearch_publication`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `id_research_area` VARCHAR( 1024 ) NOT NULL DEFAULT  '1',
@@ -78,8 +76,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   INDEX `pubtype` (`pubtype`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-
-DROP TABLE IF EXISTS `#__jresearch_financier`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_financier` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(60) NOT NULL,
@@ -91,8 +87,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_financier` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-
-DROP TABLE IF EXISTS `#__jresearch_project`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `alias` varchar(256) NOT NULL,
@@ -122,13 +116,11 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project` (
   `ordering` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `title` (`title`),
-  INDEX `id_research_area` (`id_research_area`),
   FULLTEXT INDEX `#__jresearch_project_title_index`(`title`),
   FULLTEXT INDEX `#__jresearch_project_title_keywords_index`(`title`, `keywords`),
   FULLTEXT INDEX `#__jresearch_project_full_index`(`title`, `description`, `keywords`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `#__jresearch_project_external_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_external_author` (
   `id_project` int(10) unsigned NOT NULL,
   `author_name` varchar(60) NOT NULL,
@@ -138,21 +130,18 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_external_author` (
   FULLTEXT INDEX `#__jresearch_project_external_authors_index`(`author_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_project_financier`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_financier` (
   `id_project` int(10) unsigned NOT NULL,
   `id_financier` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_project`,`id_financier`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_project_cooperation`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_cooperation` (
   `id_project` int(10) unsigned NOT NULL,
   `id_cooperation` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_project`,`id_cooperation`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_project_internal_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_internal_author` (
   `id_project` int(10) unsigned NOT NULL,
   `id_staff_member` int(10) unsigned NOT NULL,
@@ -161,15 +150,12 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_internal_author` (
   PRIMARY KEY  (`id_project`,`id_staff_member`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_project_publication`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_publication` (
   `id_project` int(10) unsigned NOT NULL,
   `id_publication` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_project`,`id_publication`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-
-DROP TABLE IF EXISTS `#__jresearch_publication_external_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication_external_author` (
   `id_publication` int(10) unsigned NOT NULL,
   `author_name` varchar(60) NOT NULL,
@@ -178,7 +164,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication_external_author` (
   FULLTEXT INDEX `#__jresearch_publication_external_authors_index`(`author_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_publication_internal_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication_internal_author` (
   `id_publication` int(10) unsigned NOT NULL,
   `id_staff_member` int(10) unsigned NOT NULL,
@@ -186,7 +171,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication_internal_author` (
   PRIMARY KEY  (`id_publication`,`id_staff_member`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_research_area`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `alias` varchar(256) NOT NULL,
@@ -207,35 +191,29 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   FULLTEXT INDEX `#__jresearch_researcharea_full`(`name`, `description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `#__jresearch_research_area_team`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   `id_research_area` int(10) unsigned NOT NULL,
   `id_team` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_research_area`, `id_team`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_keyword`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_keyword` (
   `keyword` varchar(256) NOT NULL,
   PRIMARY KEY  (`keyword`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_project_keyword`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_keyword` (
   `id_project` int(10) unsigned NOT NULL,
   `keyword` varchar(256) NOT NULL,
   PRIMARY KEY  (`id_project`, `keyword`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_publication_keyword`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication_keyword` (
   `id_publication` int(10) unsigned NOT NULL,
   `keyword` varchar(256) NOT NULL,
   PRIMARY KEY  (`id_publication`, `keyword`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-
-DROP TABLE IF EXISTS `#__jresearch_member`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `former_member` tinyint(1) NOT NULL,
@@ -268,7 +246,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   FULLTEXT INDEX `#__jresearch_member_desc`(`description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `#__jresearch_member_position`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_member_position` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `position` varchar(50) NOT NULL,
@@ -277,8 +254,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member_position` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-
-DROP TABLE IF EXISTS `#__jresearch_team`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_team` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `parent` int(11) unsigned default NULL,
@@ -293,14 +268,12 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_team` (
   FULLTEXT KEY `#__jresearch_team_description_index` (`description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `#__jresearch_team_member`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_team_member` (
   `id_team` int(11) unsigned NOT NULL auto_increment,
   `id_member` int(11) unsigned NOT NULL,
   PRIMARY KEY  (`id_team`, `id_member`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_thesis`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_thesis` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `alias` varchar(256) NOT NULL,
@@ -324,7 +297,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_thesis` (
   INDEX `id_research_area` (`id_research_area`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `#__jresearch_thesis_external_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_thesis_external_author` (
   `id_thesis` int(10) unsigned NOT NULL,
   `author_name` varchar(60) NOT NULL,
@@ -334,7 +306,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_thesis_external_author` (
   FULLTEXT INDEX `#__jresearch_thesis_external_authors_index`(`author_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_thesis_internal_author`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_thesis_internal_author` (
   `id_thesis` int(10) unsigned NOT NULL,
   `id_staff_member` int(10) unsigned NOT NULL,
@@ -343,9 +314,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_thesis_internal_author` (
   PRIMARY KEY  (`id_thesis`,`id_staff_member`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-
-DROP TABLE IF EXISTS `#__jresearch_cited_records`;
-CREATE TABLE `#__jresearch_cited_records` (
+CREATE TABLE IF NOT EXISTS `#__jresearch_cited_records` (
 	`id_record` INT UNSIGNED NOT NULL ,
 	`record_type` VARCHAR( 60 ) NOT NULL ,
 	`citekey` VARCHAR( 256 ) NOT NULL ,
@@ -353,12 +322,11 @@ CREATE TABLE `#__jresearch_cited_records` (
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8; 
 
 DROP TABLE IF EXISTS `#__jresearch_property`;
-CREATE TABLE `#__jresearch_property` (
+CREATE TABLE IF NOT EXISTS `#__jresearch_property` (
 	`name` VARCHAR( 40 ) NOT NULL ,
 	PRIMARY KEY ( `name` )
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `#__jresearch_cooperations`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_cooperations` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `catid` int(11) unsigned NOT NULL DEFAULT '0',
@@ -375,7 +343,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_cooperations` (
   FULLTEXT KEY `#__jresearch_cooperations_description_index` (`description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `#__jresearch_facilities`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_facilities` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `id_research_area` int(10) unsigned NOT NULL default '1',
@@ -391,28 +358,24 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_facilities` (
   FULLTEXT KEY `#__jresearch_facilities_description_index` (`description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `#__jresearch_publication_researcharea`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication_researcharea` (
   `id_publication` int(11) unsigned NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_publication`, `id_research_area`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `#__jresearch_project_researcharea`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_project_researcharea` (
   `id_project` int(11) unsigned NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_project`, `id_research_area`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `#__jresearch_thesis_researcharea`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_thesis_researcharea` (
   `id_thesis` int(11) unsigned NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_thesis`, `id_research_area`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-DROP TABLE IF EXISTS `#__jresearch_member_researcharea`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_member_researcharea` (
   `id_member` int(11) unsigned NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL,
