@@ -236,7 +236,7 @@ class plgSearchJResearch_Search extends JPlugin{
 		}
 	
 		$section = $db->Quote($section, false);
-		$query = "SELECT p.id AS id, '' AS metadesc, p.keywords AS metakey, p.title AS title, CONCAT_WS( '/', r.name, $section ) AS section, 
+		$query = "SELECT DISTINCT p.id AS id, '' AS metadesc, p.keywords AS metakey, p.title AS title, CONCAT_WS( '/', r.name, $section ) AS section, 
 		p.created AS created, '2' AS browsernav,  SUBSTRING_INDEX(p.description, '<hr id=\"system-readmore\" />', 1) AS text FROM 
 		#__jresearch_project p LEFT JOIN #__jresearch_project_researcharea pr ON p.id = pr.id_project 
 		LEFT JOIN #__jresearch_research_area r ON r.id = pr.id_research_area WHERE $whereClause ORDER BY $order";
@@ -312,7 +312,7 @@ class plgSearchJResearch_Search extends JPlugin{
 
 		$whereClause = implode(' AND ', $whereArray);
 		$section = $db->Quote($section, false);
-		$query = "SELECT p.id as id, '' AS metadesc, p.keywords AS metakey, p.title AS title, CONCAT_WS( '/', r.name, $section) AS section, 
+		$query = "SELECT DISTINCT p.id as id, '' AS metadesc, p.keywords AS metakey, p.title AS title, CONCAT_WS( '/', r.name, $section) AS section, 
 		p.created AS created, '2' AS browsernav, CONCAT_WS('\n', p.abstract) AS text 
 		FROM #__jresearch_publication p LEFT JOIN #__jresearch_publication_researcharea ra ON p.id = ra.id_publication 
 		LEFT JOIN #__jresearch_all_publication_authors AS apa ON p.id = apa.pid LEFT JOIN #__jresearch_research_area r ON ra.id_research_area = r.id 
@@ -449,7 +449,7 @@ class plgSearchJResearch_Search extends JPlugin{
 		}
 
 		$section = $db->Quote($section, false);
-		$query = "SELECT m.id as id, CONCAT_WS(' ', m.firstname, m.lastname) AS title, '' AS metadesc, '' AS metakey, CONCAT_WS( '/', r.name, $section ) AS section, 
+		$query = "SELECT DISTINCT m.id as id, CONCAT_WS(' ', m.firstname, m.lastname) AS title, '' AS metadesc, '' AS metakey, CONCAT_WS( '/', r.name, $section ) AS section, 
 		m.created AS created, '2' AS browsernav, m.description AS text FROM #__jresearch_member m 
 		LEFT JOIN #__jresearch_member_researcharea mr ON m.id = mr.id_member 
 		LEFT JOIN #__jresearch_research_area r ON r.id = mr.id_research_area WHERE $whereClause ORDER BY $order";

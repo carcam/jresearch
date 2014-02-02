@@ -71,26 +71,26 @@ class JResearchModelPublications extends JResearchModelList{
 	* Build the ORDER part of a query.
 	*/
 	private function _buildQueryOrderBy(){
-        //Array of allowable order fields
-        $mainframe = JFactory::getApplication('site');
-        $params = $mainframe->getParams('com_jresearch');
-            
-        $filter_order = $params->get('publications_default_sorting', 'year');
-        $filter_order_Dir = $params->get('publications_order', 'ASC');
-            
-            
-        //Validate order direction
-        if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
-            $filter_order_Dir = 'ASC';
+		//Array of allowable order fields
+		$mainframe = JFactory::getApplication('site');
+		$params = $mainframe->getParams('com_jresearch');
+		    
+		$filter_order = $params->get('publications_default_sorting', 'year');
+		$filter_order_Dir = $params->get('publications_order', 'ASC');
+		    
+		    
+		//Validate order direction
+		if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
+		    $filter_order_Dir = 'ASC';
 
-        $filter_search = trim($this->getState('com_jresearch.publications.filter_search'));
-        if(!empty($filter_search))
-        	$columns[] = 'relevance DESC';    
-        
-        $columns[] = $filter_order.' '.$filter_order_Dir;
-		$columns[] = 'created DESC';            
+		$filter_search = trim($this->getState('com_jresearch.publications.filter_search'));
+		if(!empty($filter_search))
+			$columns[] = 'relevance DESC';    
+		
+		$columns[] = $filter_order.' '.$filter_order_Dir;
+			$columns[] = 'created DESC';            
 
-        return $columns;        
+		return $columns;        
 	}
 	
 	/**
@@ -103,14 +103,14 @@ class JResearchModelPublications extends JResearchModelList{
 		$filter_search = $this->getState('com_jresearch.publications.filter_search');
 		$filter_search = $db->getEscaped(trim($filter_search));
 
-		$searchClause = 'MATCH('.$db->nameQuote('title').', '.$db->nameQuote('keywords');
-        $searchClause .= ', '.$db->nameQuote('abstract').', '.$db->nameQuote('other_tags');
-        $searchClause .= ', '.$db->nameQuote('journal').', '.$db->nameQuote('students_included');
-        $searchClause .= ', '.$db->nameQuote('note').', '.$db->nameQuote('awards');
-        $searchClause .= ', '.$db->nameQuote('design_type');
-        $searchClause .= ') AGAINST('.$db->Quote($filter_search).' IN BOOLEAN MODE)';
-        
-        return $searchClause;
+		$searchClause = '(MATCH('.$db->nameQuote('title').', '.$db->nameQuote('keywords');
+		$searchClause .= ', '.$db->nameQuote('abstract').', '.$db->nameQuote('other_tags');
+		$searchClause .= ', '.$db->nameQuote('journal').', '.$db->nameQuote('students_included');
+		$searchClause .= ', '.$db->nameQuote('note').', '.$db->nameQuote('awards');
+		$searchClause .= ', '.$db->nameQuote('design_type');
+		$searchClause .= ') AGAINST('.$db->Quote($filter_search).' IN BOOLEAN MODE) OR ';
+        	$searchClause .= 'apa.'.$db->nameQuote('member_name').' LIKE '.$db->Quote('%'.$filter_search.'%').')';
+        	return $searchClause;
 	}
 
 	/**
@@ -133,7 +133,7 @@ class JResearchModelPublications extends JResearchModelList{
         $filter_supertype = $this->getState('com_jresearch.publications.filter_supertype');        
         $filter_author = $this->getState('com_jresearch.publications.filter_author');            
         $filter_area = $this->getState('com_jresearch.publications.filter_area');
-		$filter_team = $this->getState('com_jresearch.publications.filter_team');
+	$filter_team = $this->getState('com_jresearch.publications.filter_team');
 
         if($filter_year != null && $filter_year != -1 ){
         	$where[] = $db->nameQuote('year').' = '.$db->Quote($filter_year);
@@ -147,16 +147,16 @@ class JResearchModelPublications extends JResearchModelList{
         	$where[] = $db->nameQuote('pubtype').' = '.$db->Quote($filter_pubtype);
         }
 
-	    if(!empty($filter_author) && $filter_author != '-1'){
+	if(!empty($filter_author) && $filter_author != '-1'){
            	$where[] = $db->nameQuote('apa').'.'.$db->nameQuote('mid').' = '.$db->Quote($filter_author);
         }
             
-		if(!empty($filter_area) && $filter_area != -1){
+	if(!empty($filter_area) && $filter_area != -1){
         	$where[] = 'ra.id_research_area = '.$db->Quote($filter_area);            	
         }
         
-	    if(!empty($filter_supertype) && $filter_supertype != 'all'){
-        	$where[] = $db->nameQuote('supertype').' = '.$db->Quote($filter_supertype);
+	if(!empty($filter_supertype) && $filter_supertype != 'all'){
+		$where[] = $db->nameQuote('supertype').' = '.$db->Quote($filter_supertype);
         }
             
         if(!empty($filter_team) && $filter_team != -1){
