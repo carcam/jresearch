@@ -1,61 +1,153 @@
 <?php
-  if (!defined('_JEXEC')) die('Direct Access to this location is not allowed.');
-  // {shSourceVersionTag: Version 1.0 - 2009-01-01} 
+/**
+ * sh404SEF support for com_jresearch component.
+ * Author : Carlos M. Cámara Mora from JResearch
+ * contact : carcam@gnumla.com
+ * 
+ * {shSourceVersionTag: Version 1.0 - 2009-01-01}
+ * 
+ * This is a sh404SEF native plugin file
+ *    
+ */
+defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
+
+// ------------------  standard plugin initialize function - don't change ---------------------------
+global $sh_LANG, $sefConfig;  
+$shLangName = '';
+$shLangIso = '';
+$title = array();
+$shItemidString = '';
+$dosef = shInitializePlugin( $lang, $shLangName, $shLangIso, $option);
+if ($dosef == false) return;
+// ------------------  standard plugin initialize function - don't change ---------------------------
+
+// ------------------  load language file - adjust as needed ----------------------------------------
+$shLangIso = shLoadPluginLanguage( 'com_jresearch', $shLangIso, '_COM_SEF_SH_CREATE_NEW');
+// ------------------  load language file - adjust as needed ----------------------------------------
+
+// remove common URL from GET vars list, so that they don't show up as query string in the URL
+shRemoveFromGETVarsList('option');
+shRemoveFromGETVarsList('lang');
+shRemoveFromGETVarsList('view');
+if (!empty($Itemid))
+  shRemoveFromGETVarsList('Itemid');
+if (!empty($limit))  
+shRemoveFromGETVarsList('limit');
+if (isset($limitstart)) 
+  shRemoveFromGETVarsList('limitstart'); // limitstart can be zero
+    
+
+$Itemid = isset($Itemid) ? @$Itemid : null;
+$task = isset($task) ? @$task : null;
+$shLangName = isset($shLangName) ? @$shLangName : null;
+$id = isset($id) ? @$id : null;
+
+$view = isset($view) ? @$view : null;
+$layout = isset($layout) ? @$layout : null;
+
+shRemoveFromGETVarsList('id');
+shRemoveFromGETVarsList('task');
+shRemoveFromGETVarsList('layout');
+
+
+switch ($view)
+{
+	case 'cooperation':
+		$q = 'SELECT id, name FROM #__jresearch_cooperations WHERE id='.$id;
+		$database->setQuery($q);
+		$shCoop = $database->loadObject();
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_COOPERATION'];
+		$title[] = $shCoop->name;
+		break;
+	case 'cooperations':
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_COOPERATIONS'];
+		break;
+	case 'facilities':
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_FACILITIES'];
+		break;
+	case 'facility':
+		$q = 'SELECT id, name FROM #__jresearch_facilities WHERE id='.$id;
+		$database->setQuery($q);
+		$shFac = $database->loadObject();
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_FACILITY'];
+		$title[] = $shFac->name;
+		break;
+	case 'publications':
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_PUBLICATIONS_LIST'];
+		break;
+	case 'projects':
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_PROJECTS_LIST'];
+		break;
+	case 'researchareas':
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_RESEARCH_AREAS'];
+		break;
+	case 'staff':
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_STAFF'];
+		break;
+	case 'theses':
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_THESIS_LIST'];
+		break;
+	case 'publication':
+		$q = 'SELECT id, title  FROM #__jresearch_publication WHERE id = '.$id;
+        	$database->setQuery($q);
+	        $shPublication = $database->loadObject( );
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_PUBLICATION'];
+		$title[] = $shPublication->title;
+		break;
+	case 'project':
+		$q = 'SELECT id, title  FROM #__jresearch_project WHERE id = '.$id;
+        	$database->setQuery($q);
+	        $shPublication = $database->loadObject( );
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_PROJECT'];
+		$title[] = $shPublication->title;
+		break;
+	case 'researcharea':
+		$q = 'SELECT id, name  FROM #__jresearch_research_area WHERE id = '.$id;
+        	$database->setQuery($q);
+	        $shPublication = $database->loadObject( );
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_RESEARCH_AREA'];
+		$title[] = $shPublication->name;
+		break;
+	case 'member':
+		switch($task){
+			case 'edit':
+				$title[]= $sh_LANG[$shLangIso]['_COM_SEF_SH_EDIT'];
+				break;
+			case 'show':
+				// we get the firstname and the lastname from the author
+				$q = 'SELECT id, firstname, lastname  FROM #__jresearch_member WHERE id = '.$id;
+		        	$database->setQuery($q);
+			        $shMember = $database->loadObject( );
+				$id = isset($id) ? @$id : null;		
+				$title[]= $sh_LANG[$shLangIso]['_COM_SEF_SH_MEMBER'];		
+				$title[] =$shMember->firstname . '-' . $shMember->lastname;
+				break;}
+		break;
+	case 'team':
+		$q = 'SELECT id, name FROM #__jresearch_team WHERE id='.$id;
+		$database->setQuery($q);
+		$shTeam = $database->loadObject();
+		$title[] = 'Team';
+		$title[] = $shTeam->name;
+		break;
+	case 'teams':
+		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_TEAMS'];
+		break;
+	case 'thesis':
+		$q = 'SELECT id, title  FROM #__jresearch_thesis WHERE id = '.$id;
+        	$database->setQuery($q);
+	        $shPublication = $database->loadObject( );
+		$title[] = $shPublication->title;
+		break;
+	}
+
   
-  // English
-  $sh_LANG['en']['_COM_SEF_SH_COOPERATION'] = 'Cooperation';
-  $sh_LANG['en']['_COM_SEF_SH_COOPERATIONS'] = 'Cooperations';
-  $sh_LANG['en']['_COM_SEF_SH_FACILITIES'] = 'Facilities';
-  $sh_LANG['en']['_COM_SEF_SH_FACILITY'] = 'Facility descripcion';
-  $sh_LANG['en']['_COM_SEF_SH_PUBLICATIONS_LIST'] = 'Publications';
-  $sh_LANG['en']['_COM_SEF_SH_PUBLICATION'] = 'Publication';
-  $sh_LANG['en']['_COM_SEF_SH_PROJECTS_LIST'] = 'Projects';
-  $sh_LANG['en']['_COM_SEF_SH_PROJECT'] = 'Projects';
-  $sh_LANG['en']['_COM_SEF_SH_RESEARCH_AREAS'] = 'Research Areas';
-  $sh_LANG['en']['_COM_SEF_SH_RESEARCH_AREA'] = 'Research Area';
-  $sh_LANG['en']['_COM_SEF_SH_STAFF'] = 'Members';
-  $sh_LANG['en']['_COM_SEF_SH_TEAMS'] = 'Teams';
-  $sh_LANG['en']['_COM_SEF_SH_TEAM'] = 'Team';
-  $sh_LANG['en']['_COM_SEF_SH_MEMBER'] = 'Member';
-  $sh_LANG['en']['_COM_SEF_SH_EDIT'] = 'Edit Profile';
-  $sh_LANG['en']['_COM_SEF_SH_THESIS_LIST']= 'Theses';
-  $sh_LANG['en']['_COM_SEF_SH_THESIS'] = 'Thesis';
-  // Spanish
-  $sh_LANG['es']['_COM_SEF_SH_COOPERATION'] = 'Colaboración';
-  $sh_LANG['es']['_COM_SEF_SH_COOPERATIONS'] = 'Colaboraciones';
-  $sh_LANG['es']['_COM_SEF_SH_FACILITIES'] = 'Instalaciones';
-  $sh_LANG['es']['_COM_SEF_SH_FACILITY'] = 'Descripción de Instalación';
-  $sh_LANG['es']['_COM_SEF_SH_PUBLICATIONS_LIST'] = 'Publicaciones';
-  $sh_LANG['es']['_COM_SEF_SH_PUBLICATION'] = 'Publicación';
-  $sh_LANG['es']['_COM_SEF_SH_PROJECTS_LIST'] = 'Proyectos';
-  $sh_LANG['es']['_COM_SEF_SH_PROJECT'] = 'Proyecto';
-  $sh_LANG['es']['_COM_SEF_SH_RESEARCH_AREAS'] = 'Áreas de Investigación';
-  $sh_LANG['es']['_COM_SEF_SH_RESEARCH_AREA'] = 'Área de Investigación';
-  $sh_LANG['es']['_COM_SEF_SH_STAFF'] = 'Miembros';
-  $sh_LANG['es']['_COM_SEF_SH_MEMBER'] = 'Miembro';
-  $sh_LANG['es']['_COM_SEF_SH_EDIT'] = 'Editar Perfil';
-  $sh_LANG['es']['_COM_SEF_SH_TEAMS'] = 'Teams';
-  $sh_LANG['es']['_COM_SEF_SH_TEAM'] = 'Team';
-  $sh_LANG['es']['_COM_SEF_SH_THESIS_LIST']= 'Tesis';
-  $sh_LANG['es']['_COM_SEF_SH_THESIS'] = 'Tesis';
-  // German
-  $sh_LANG['de']['_COM_SEF_SH_COOPERATION'] = 'Kooperation';
-  $sh_LANG['de']['_COM_SEF_SH_COOPERATIONS'] = 'Kooperationen';
-  $sh_LANG['de']['_COM_SEF_SH_FACILITIES'] = 'Einrichtungen';
-  $sh_LANG['de']['_COM_SEF_SH_FACILITY'] = 'Einrichtung';
-  $sh_LANG['de']['_COM_SEF_SH_PUBLICATIONS_LIST'] = 'Publikationen';
-  $sh_LANG['de']['_COM_SEF_SH_PUBLICATION'] = 'Publikation';
-  $sh_LANG['de']['_COM_SEF_SH_PROJECTS_LIST'] = 'Projekte';
-  $sh_LANG['de']['_COM_SEF_SH_PROJECT'] = 'Projekt';
-  $sh_LANG['de']['_COM_SEF_SH_RESEARCH_AREAS'] = 'Forschungsbereiche';
-  $sh_LANG['de']['_COM_SEF_SH_RESEARCH_AREA'] = 'Forschungsbereich';
-  $sh_LANG['de']['_COM_SEF_SH_STAFF'] = 'Mitarbeiter';
-  $sh_LANG['de']['_COM_SEF_SH_MEMBER'] = 'Mitarbeiter';
-  $sh_LANG['de']['_COM_SEF_SH_TEAMS'] = 'Teams';
-  $sh_LANG['de']['_COM_SEF_SH_TEAM'] = 'Team';
-  $sh_LANG['de']['_COM_SEF_SH_EDIT'] = 'Mitarbeiterprofil bearbeiten';
-  $sh_LANG['de']['_COM_SEF_SH_THESIS_LIST']= 'Dissertationen';
-  $sh_LANG['de']['_COM_SEF_SH_THESIS'] = 'Dissertation';
-
-
+// ------------------  standard plugin finalize function - don't change ---------------------------  
+if ($dosef){
+   $string = shFinalizePlugin( $string, $title, $shAppendString, $shItemidString, 
+      (isset($limit) ? @$limit : null), (isset($limitstart) ? @$limitstart : null), 
+      (isset($shLangName) ? @$shLangName : null));
+}      
+// ------------------  standard plugin finalize function - don't change ---------------------------
+  
 ?>
