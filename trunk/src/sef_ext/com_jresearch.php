@@ -76,15 +76,18 @@ switch ($view)
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_PUBLICATIONS_LIST'];
 		break;
 	case 'projectslist':
+	case 'projects':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_PROJECTS_LIST'];
 		break;
 	case 'researchareaslist':
+	case 'researchareas':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_RESEARCH_AREAS'];
 		break;
 	case 'staff':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_STAFF'];
 		break;
 	case 'theseslist':
+	case 'theses':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_THESIS_LIST'];
 		break;
 	case 'publication':
