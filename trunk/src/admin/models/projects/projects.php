@@ -70,7 +70,7 @@ class JResearchAdminModelProjects extends JResearchAdminModelList{
 		private function _buildQueryOrderBy(){
             //Array of allowable order fields
             $mainframe = JFactory::getApplication();
-            $orders = array('title', 'published', 'ra.id', 'start_date', 'status', 'apa.member_name');
+            $orders = array('title', 'published', 'ra.id', 'start_date', 'status', 'apa.member_name', 'ordering');
             $columns = array();
 
             $filter_order = $this->getState($this->_context.'.filter_order');
@@ -154,7 +154,9 @@ class JResearchAdminModelProjects extends JResearchAdminModelList{
         $this->setState('com_jresearch.projects.filter_start_date', $mainframe->getUserStateFromRequest($this->_context.'.filter_year', 'filter_start_date'));        
         $this->setState('com_jresearch.projects.filter_area', $mainframe->getUserStateFromRequest($this->_context.'.filter_area', 'filter_area'));                
         $this->setState('com_jresearch.projects.filter_status', $mainframe->getUserStateFromRequest($this->_context.'.filter_status', 'filter_status'));
-        $this->setState('com_jresearch.projects.filter_state', $mainframe->getUserStateFromRequest($this->_context.'.filter_state', 'filter_state'));                		
+        $this->setState('com_jresearch.projects.filter_state', $mainframe->getUserStateFromRequest($this->_context.'.filter_state', 'filter_state'));                		       
+        $this->setState('com_jresearch.projects.filter_order', $mainframe->getUserStateFromRequest($this->_context.'.filter_order', 'filter_order', 'projects'));                		        
+        $this->setState('com_jresearch.projects.filter_order_Dir', $mainframe->getUserStateFromRequest($this->_context.'.filter_order_Dir', 'filter_order_Dir', 'DESC'));        
         parent::populateState();        
     }		
 	

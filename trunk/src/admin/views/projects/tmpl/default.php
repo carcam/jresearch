@@ -6,6 +6,9 @@
  */
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
+<?php
+$saveOrder = $this->lists['order'] == 'ordering';
+?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<table>
 		<tbody>

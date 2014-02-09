@@ -37,6 +37,7 @@ class JResearchAdminResearchareasController extends JController
 		$this->registerTask('remove', 'remove');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('save', 'save');
+		$this->registerTask('save2new', 'save');		
 		$this->registerTask('cancel', 'cancel');
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 		
@@ -79,6 +80,9 @@ class JResearchAdminResearchareasController extends JController
                 $app->setUserState('com_jresearch.edit.researcharea.data', array());                    
             }elseif($task == 'apply'){
                 $this->setRedirect('index.php?option=com_jresearch&controller=researchareas&task=edit&cid[]='.$area->id, JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
+         	}elseif($task == 'save2new'){
+                $this->setRedirect('index.php?option=com_jresearch&controller=researchareas&task=add', JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
+                $app->setUserState('com_jresearch.edit.researcharea.data', array());                
          	}             	
          }else{
             $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());

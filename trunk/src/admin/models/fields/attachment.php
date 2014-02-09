@@ -54,6 +54,7 @@ class JFormFieldAttachment extends JFormField{
 		$baseUrl = $url.'administrator/components/com_jresearch/'.$params->get('files_root_path', 'files').'/'.$controller;
 		$n = 0;
 		
+		$result = '';
 		foreach($uploadedFiles as $file){	
 			if(!empty($file)){		
 				$result .= '<li><a href="'.$baseUrl.'/'.$file.'">'.$file.'</a>&nbsp;&nbsp;<label for="jform[delete_'.$name.'_'.$n.']">'.JText::_('Delete').'</label><input type="checkbox" name="jform[delete_'.$name.'_'.$n.']" id="jform[delete_'.$name.'_'.$n.']" />';

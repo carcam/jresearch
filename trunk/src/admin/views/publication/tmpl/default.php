@@ -87,16 +87,6 @@ defined('_JEXEC') or die('Restricted access');
                         <label for="keepold"><?php echo JText::_('JRESEARCH_KEEP_OLD_PUBLICATION').': '; ?><input type="checkbox" name="keepold" id="keepold" /></label>
                 </div>
         <?php endif; ?>
-		<?php echo JHtml::_('sliders.panel',JText::_('JCONFIG_PERMISSIONS_LABEL'), 'permissions'); ?>        
-	    <div>
-    		<fieldset class="panelform">
-    	<?php $field = $this->form->getField('rules'); 
-		      echo $field->input;
-    	?>
-		</fieldset>    	
-    	</div>
-
-        <?php echo JHtml::_('sliders.end'); ?>
 	    <input type="hidden" name="task" value="edit" />
 	    <input type="hidden" name="controller" value="publications" />    
         <?php echo JHtml::_('form.token'); ?>

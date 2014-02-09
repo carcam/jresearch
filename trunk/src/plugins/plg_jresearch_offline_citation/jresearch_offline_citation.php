@@ -58,7 +58,7 @@ class plgContentJResearch_Offline_Citation extends JPlugin{
 	 	
  		foreach($commands as $cmd){
  			if($cmd->get('command') != 'bibliography'){
- 				$this->_process($cmd, &$citedPublications, $style);
+ 				$this->_process($cmd, $citedPublications, $style);
  				$article->text = str_replace($cmd->get('target'), $cmd->get('citation'), $article->text);
  			}else{
  				$runBibliography = true;

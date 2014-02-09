@@ -58,16 +58,6 @@ $actions = JResearchAccessHelper::getActions();
             		?>
             </ul>
         </fieldset>
-		<?php echo JHtml::_('sliders.panel',JText::_('JCONFIG_PERMISSIONS_LABEL'), 'permissions'); ?>        
-	    <div>
-    		<fieldset class="panelform">
-    	<?php $field = $this->form->getField('rules'); 
-		      echo $field->input;
-    	?>
-		</fieldset>    	
-    	</div>
-
-        <?php echo JHtml::_('sliders.end'); ?>
 	    <input type="hidden" name="task" value="edit" />
 	    <input type="hidden" name="controller" value="projects" />    
         <?php echo JHtml::_('form.token'); ?>

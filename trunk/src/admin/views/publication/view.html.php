@@ -25,10 +25,10 @@ class JResearchAdminViewPublication extends JResearchView
 
             switch($layout){
                     case 'new':
-                    $this->_displayNewPublicationForm();
+                    $this->_displayNewPublicationForm($tpl);
                         break;
                     case 'default':
-                        $this->_displayPublicationForm();
+                        $this->_displayPublicationForm($tpl);
                         break;
             }
 	}
@@ -37,7 +37,7 @@ class JResearchAdminViewPublication extends JResearchView
 	* Binds the variables useful for displaying the form for editing/creating
 	* publications.
 	*/
-	private function _displayPublicationForm(){
+	private function _displayPublicationForm($tpl){
         $mainframe = JFactory::getApplication();
     	JRequest::setVar( 'hidemainmenu', 1 );            
 		JResearchToolbar::editPublicationAdminToolbar();
@@ -49,7 +49,7 @@ class JResearchAdminViewPublication extends JResearchView
         // Bind the Data
     	$form->bind($data);
 			
-        $pubtype = JRequest::getVar('pubtype', $data['pubtype'], 'jform');
+        $pubtype = JRequest::getVar('pubtype', isset($data['pubtype']) ? $data['pubtype'] : null, 'jform');
         
         $changeType = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type');
             
@@ -67,7 +67,7 @@ class JResearchAdminViewPublication extends JResearchView
 	* Binds the variables for the form used to select the type 
 	* for a new publication.
 	*/
-	private function _displayNewPublicationForm(){
+	private function _displayNewPublicationForm($tpl){
 	   	JResearchToolbar::importPublicationsToolbar();
 	   	$this->loadHelper('publications');
 		$subtypes = JResearchPublicationsHelper::getPublicationsSubtypes();

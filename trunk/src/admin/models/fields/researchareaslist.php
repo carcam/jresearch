@@ -40,7 +40,7 @@ class JFormFieldResearchareaslist extends JFormFieldList
 
         $areas = $db->loadAssocList();
 
-        $options[] = JHtml::_('select.option', 1, JText::_('JRESEARCH_UNCATEGORIZED'), 'value', 'text', ((string) $option['disabled']=='true'));                
+        $options[] = JHtml::_('select.option', 1, JText::_('JRESEARCH_UNCATEGORIZED'), 'value', 'text', 0);                
 
         foreach($areas as $area){
         	// Only add <option /> elements.
@@ -48,7 +48,7 @@ class JFormFieldResearchareaslist extends JFormFieldList
             	continue;
             }
 
-            $tmp = JHtml::_('select.option', $area['id'], $area['name'], 'value', 'text', ((string) $option['disabled']=='true'));
+            $tmp = JHtml::_('select.option', $area['id'], $area['name'], 'value', 'text', 0);
 
             // Add the option object to the result set.
             $options[] = $tmp;

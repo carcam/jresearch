@@ -294,7 +294,7 @@ class plgSearchJResearch_Search extends JPlugin{
 		
 		//Array of publications ids where the author has participated.
 		$whereArray = array();
-		$authorsCondition = 'apa.mid LIKE '.$db->quote($text, true);		
+		$authorsCondition = 'apa.member_name LIKE %'.$db->quote($text, true).'%';		
 		switch($phrase){
 			case 'exact':
 				$key = $db->quote($text, true);
