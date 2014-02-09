@@ -94,8 +94,8 @@ if($this->params->get('show_page_heading', 1)): ?>
 			<?php if($showLocation == 1): ?>
 				<td><?php echo $member->location; ?></td>
 			<?php endif; ?>	            		            
-			<?php if($showEmail == 1): ?>
-				<td><?php echo JHTML::_('email.cloak', $member->email); ?></td>
+			<?php if($showEmail == 1): ?>					
+				<td><?php echo !empty($member->email) ? JHTML::_('email.cloak', $member->email) : ''; ?></td>
 			<?php endif; ?>	
             <?php if($showPhone == 1): ?>
             	<td><?php echo $member->phone; ?></td>
