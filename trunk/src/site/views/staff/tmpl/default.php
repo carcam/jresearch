@@ -80,7 +80,8 @@ if($this->params->get('show_page_heading', 1)): ?>
 			<?php endif; ?>
 			<td>
 				<?php if($showLink == 1): ?>
-					<a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->params->get('staff_format', 'last_first')); ?></a>
+					<?php $link = JRoute::_("index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=".$member->id. (isset($itemId)?'&amp;Itemid='.$itemId:'')); ?>
+					<a href="<?php echo $link ?>"><?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->params->get('staff_format', 'last_first')); ?></a>
 				<?php else: ?>
 					<?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->params->get('staff_format', 'last_first')); ?>
 				<?php endif;?>
@@ -100,8 +101,13 @@ if($this->params->get('show_page_heading', 1)): ?>
             <?php if($showPhone == 1): ?>
             	<td><?php echo $member->phone; ?></td>
             <?php endif; ?>			
-        	<?php if($showPersonalPage == 1): ?>
-				<td><?php echo !empty($member->url_personal_page) ? JHTML::link($member->url_personal_page, JText::_('JRESEARCH_PERSONAL_PAGE')) : ''; ?></td>
+        	<?php if($showPersonalPage == 1 && !empty($member->url_personal_page)): ?>
+				<?php
+					$pattern = '[a-zA-Z0-9&?_.,=%\-\/]';
+					if (strpos($member->url_personal_page, "http://") === false)
+						$member->url_personal_page = "http://" . trim($member->url_personal_page);					
+				?>
+				<td><?php echo JHTML::link($member->url_personal_page, JText::_('JRESEARCH_PERSONAL_PAGE'),array('target'=>"_blank")); ?></td>
         	<?php endif; ?>        			
 		</tr>
         <?php

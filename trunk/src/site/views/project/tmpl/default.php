@@ -67,7 +67,8 @@ jresearchimport('helpers.publications', 'jresearch.admin')
 			<?php foreach($authors as $auth): ?>
 					<?php if($auth instanceof JResearchMember): ?>
 						<?php if($auth->published): ?>
-							<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
+							<?php $link = JRoute::_("index.php?option=com_jresearch&amp;view=member&amp;task=show".$ItemidText."&amp;id=".$auth->id); ?>
+							<a href="<?php echo $link ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
 						<?php else: ?>
 							<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 						<?php endif; ?>	
@@ -84,7 +85,8 @@ jresearchimport('helpers.publications', 'jresearch.admin')
 						<li style="list-style:none;">
 							<?php if($auth instanceof JResearchMember): ?>
 								<?php if($auth->published): ?>
-									<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo $auth->__toString(); ?></a>
+									<?php $link = JRoute::_("index.php?option=com_jresearch&amp;view=member&amp;task=show".$ItemidText."&amp;id=".$auth->id); ?>
+									<a href="<?php echo $link ?>"><?php echo $auth->__toString(); ?></a>
 								<?php else: ?>
 									<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
 								<?php endif; ?>	
@@ -107,7 +109,8 @@ jresearchimport('helpers.publications', 'jresearch.admin')
 						<?php foreach($nonleaders as $auth): ?>
 								<?php if($auth instanceof JResearchMember): ?>
 									<?php if($auth->published): ?>
-										<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
+										<?php $link = JRoute::_("index.php?option=com_jresearch&amp;view=member&amp;task=show".$ItemidText."&amp;id=".$auth->id); ?>
+										<a href="<?php echo $link ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a><?php echo $i == $n - 1?'':';' ?>
 									<?php else: ?>
 										<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?><?php echo $i == $n - 1?'':';' ?>
 									<?php endif; ?>	
@@ -124,7 +127,8 @@ jresearchimport('helpers.publications', 'jresearch.admin')
 								<li style="list-style:none;">
 									<?php if($auth instanceof JResearchMember): ?>
 										<?php if($auth->published): ?>
-											<a href="index.php?option=com_jresearch&amp;view=member&amp;task=show<?php echo $ItemidText ?>&amp;id=<?php echo $auth->id ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a>
+											<?php $link = JRoute::_("index.php?option=com_jresearch&amp;view=member&amp;task=show".$ItemidText."&amp;id=".$auth->id); ?>
+											<a href="<?php echo $link ?>"><?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?></a>
 										<?php else: ?>
 											<?php echo JResearchPublicationsHelper::formatAuthor($auth->__toString(), $this->format); ?>
 										<?php endif; ?>	
@@ -161,7 +165,12 @@ jresearchimport('helpers.publications', 'jresearch.admin')
 	<?php endif; ?>	
 	<?php $url = str_replace('&', '&amp;', trim($this->project->url)); ?>
 	<?php if(!empty($url)): ?>
-		<dd><?php echo !empty($url)? JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE') ):''; ?></dd>
+		<?php
+			$pattern = '[a-zA-Z0-9&?_.,=%\-\/]';
+			if (strpos($url, "http://") === false)
+				$url = "http://" . trim($url);
+		?>
+		<dd><?php echo JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE'),array('target'=>"_blank") ); ?></dd>
 	<?php endif; ?>		
 	<?php $itemId = JRequest::getVar('Itemid'); ?>
 	<?php if(!empty($this->publications)): ?>
@@ -186,10 +195,12 @@ jresearchimport('helpers.publications', 'jresearch.admin')
 	</ul>
 	<div>
 	  	<?php if($this->npublications > count($this->publications)): ?>
-	  			<a href="index.php?option=com_jresearch&amp;publications_view_all=1&amp;task=show&amp;view=project&amp;id=<?php echo $this->project->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>#pubslist"><?php echo JText::_('JRESEARCH_VIEW_ALL'); ?></a>
+				<?php $link = JRoute::_("index.php?option=com_jresearch&amp;publications_view_all=1&amp;task=show&amp;view=project&amp;id=".$this->project->id.$ItemidText."#pubslist"); ?>
+	  			<a href="<?php echo $link ?>"><?php echo JText::_('JRESEARCH_VIEW_ALL'); ?></a>
 	  	<?php else: ?>
-	  			<?php if($this->publications_view_all): ?>		
-	  				<a href="index.php?option=com_jresearch&amp;publications_view_all=0&amp;task=show&amp;view=project&amp;id=<?php echo $this->project->id; ?><?php echo $itemId?"&amp;Itemid=$itemId":'' ?>#pubslist"><?php echo JText::_('JRESEARCH_VIEW_LESS'); ?></a>
+	  			<?php if($this->publications_view_all): ?>
+					<?php $link = JRoute::_("index.php?option=com_jresearch&amp;publications_view_all=0&amp;task=show&amp;view=project&amp;id=".$this->project->id.$ItemidText."#pubslist"); ?>
+	  				<a href="<?php $link = JRoute::_("index.php?option=com_jresearch&amp;publications_view_all=1&amp;task=show&amp;view=project&amp;id=".$this->project->id.$ItemidText."#pubslist"); ?>"><?php echo JText::_('JRESEARCH_VIEW_LESS'); ?></a>
 	  			<?php endif; ?>
 	  	<?php endif; ?>
 	</div>

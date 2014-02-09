@@ -150,8 +150,13 @@ JHTML::_('behavior.modal');
   <?php } ?>  
 </tbody>
 </table>
-<?php if(!empty($this->member->url_personal_page)):  ?>  	
-	<div><h3><?php echo JText::_('JRESEARCH_PERSONAL_PAGE');  ?></h3><?php echo JHTML::_('link', str_replace('&', '&amp;', $this->member->url_personal_page), $this->member->url_personal_page); ?></div>
+<?php if(!empty($this->member->url_personal_page)):  ?>
+	<?php
+		$pattern = '[a-zA-Z0-9&?_.,=%\-\/]';
+		if (strpos($this->member->url_personal_page, "http://") === false)
+			$this->member->url_personal_page = "http://" . trim($this->member->url_personal_page);
+	?>
+	<div><h3><?php echo JText::_('JRESEARCH_PERSONAL_PAGE');  ?></h3><?php echo JHTML::_('link', str_replace('&', '&amp;', $this->member->url_personal_page), $this->member->url_personal_page,array('target'=>"_blank")); ?></div>
 <?php endif; ?>  
 <?php 
 $cv = $this->member->getCV();
