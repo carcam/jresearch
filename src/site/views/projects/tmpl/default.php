@@ -61,8 +61,7 @@ if(count($this->items) > 0):
         		<span><?php echo $members; ?></span>
 			</div>
 			<?php 
-			endif;			
-			
+			endif;
 			if(!empty($contentArray[0])):
 			?>
 				<div>&nbsp;</div>
@@ -74,7 +73,6 @@ if(count($this->items) > 0):
 				<?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_READ_MORE'), 'project', 'show', $project->id); ?>
 			</div>
 		</div>
-
 	</li>	
 <?php endforeach; ?>
 </ul>
