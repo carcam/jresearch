@@ -72,7 +72,7 @@ class JResearchModelStaff extends JResearchModelList{
         $groupByFormer = $params->get('staff_former_grouping', 0);
 
         //Validate order direction
-        if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
+        if($filter_order_Dir1 != 'ASC' && $filter_order_Dir2 != 'DESC')
         	$filter_order_Dir = 'ASC';
         	
         if($groupByFormer == '1')
