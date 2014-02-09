@@ -203,16 +203,16 @@ class JResearchToolbar
 	 * Prints an 'Export' button
 	 */
 	public static function exportButton(){
-            static $cssLoaded = false;
-            if($cssLoaded){
-                $doc = JFactory::getDocument();
-                $url = JURI::root();
-                $css = ".icon-32-import{background: url(".$url."administrator/components/com_jresearch/assets/import.png) 100% 0 no-repeat;}";
-                $doc->addStyleDeclaration($css);
-                $cssLoaded = true;
-            }
+       	static $cssLoaded = false;
+        if($cssLoaded){
+        	$doc = JFactory::getDocument();
+            $url = JURI::root();
+            $css = ".icon-32-import{background: url(".$url."administrator/components/com_jresearch/assets/import.png) 100% 0 no-repeat;}";
+            $doc->addStyleDeclaration($css);
+            $cssLoaded = true;
+        }
 
-            JToolBarHelper::custom('export', 'export', '', JText::_('Export'), false);
+        JToolBarHelper::custom('export', 'export', '', JText::_('Export'), false);
 	}
 	
 	/**
@@ -220,17 +220,17 @@ class JResearchToolbar
 	 *
 	 */
 	public static function importButton(){
-            static $cssLoaded = false;
+        static $cssLoaded = false;
 
-            if(!$cssLoaded){
-                $doc = JFactory::getDocument();
-                $url = JURI::root();
-                $css = ".icon-32-import{background: url(".$url."administrator/components/com_jresearch/assets/import.png) 100% 0 no-repeat;}";
-                $doc->addStyleDeclaration($css);
-                $cssLoaded = true;
-            }
+        if(!$cssLoaded){
+            $doc = JFactory::getDocument();
+            $url = JURI::root();
+            $css = ".icon-32-import{background: url(".$url."administrator/components/com_jresearch/assets/import.png) 100% 0 no-repeat;}";
+            $doc->addStyleDeclaration($css);
+            $cssLoaded = true;
+        }
 
-            JToolBarHelper::custom('import', 'import', '', JText::_('Import'), false);
+        JToolBarHelper::custom('import', 'import', '', JText::_('Import'), false);
 	}
 	
 	/**
@@ -247,11 +247,11 @@ class JResearchToolbar
 	* @param $text Text to appear on the button.
 	*/ 	
 	public static function toControlPanel($text){
-            $doc = JFactory::getDocument();
-            $url = JURI::root();
-            $css = ".icon-32-config{background: url(".$url."administrator/components/com_jresearch/assets/config32.png) 100% 0 no-repeat;}";
-            $doc->addStyleDeclaration($css);
-            JToolBarHelper::custom('tocontrolPanel', 'config', '', $text, false);
+        $doc = JFactory::getDocument();
+        $url = JURI::root();
+        $css = ".icon-32-config{background: url(".$url."administrator/components/com_jresearch/assets/config32.png) 100% 0 no-repeat;}";
+        $doc->addStyleDeclaration($css);
+        JToolBarHelper::custom('tocontrolPanel', 'config', '', $text, false);
 	}	
 	
 	/**
@@ -320,9 +320,10 @@ class JResearchToolbar
 	 *
 	 */
 	public static function editItemAdminToolbar(){
-            JToolBarHelper::save("save");
-            JToolBarHelper::apply("apply");
-            JToolBarHelper::cancel("cancel", JText::_('JToolBar_Close'));
+        JToolBarHelper::save("save");
+        JToolBarHelper::save2new("save2new");
+        JToolBarHelper::apply("apply");
+        JToolBarHelper::cancel("cancel", JText::_('JToolBar_Close'));
 	}
 
 	/**
@@ -330,7 +331,7 @@ class JResearchToolbar
 	 *
 	 */
 	public static function controlPanelToolbar(){
-            JToolBarHelper::title(JText::_('JRESEARCH_CONTROL_PANEL'));
+    	JToolBarHelper::title(JText::_('JRESEARCH_CONTROL_PANEL'));
 	}
 	
 	/**
@@ -338,12 +339,12 @@ class JResearchToolbar
 	*/	
 	public static function cooperationsAdminListToolbar()
 	{
-            JToolBarHelper::title(JText::_('JRESEARCH_COOPERATIONS'));
+        JToolBarHelper::title(JText::_('JRESEARCH_COOPERATIONS'));
 
-            self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
+        self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
 
-            JToolBarHelper::divider();
-            self::adminListToolbar();
+        JToolBarHelper::divider();
+        self::adminListToolbar();
 	}
 	
 	public static function member_positionListToolbar()

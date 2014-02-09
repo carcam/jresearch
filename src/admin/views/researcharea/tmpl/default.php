@@ -33,13 +33,6 @@ if($user->authorise('core.researchareas.edit.state', 'com_jresearch')){
             <div class="clr"></div>
         </fieldset>
     </div>
-    <div class="width-40 fltrt">
-    	<fieldset class="panelform">
-    	<?php $field = $this->form->getField('rules'); 
-		      echo $field->input;
-    	?>
-		</fieldset>    
-    </div>
     <input type="hidden" name="task" value="edit" />
     <input type="hidden" name="controller" value="researchareas" />    
     <?php echo JHtml::_('form.token'); ?>

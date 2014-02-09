@@ -36,6 +36,7 @@ class JResearchAdminMember_positionsController extends JController
 		$this->registerTask('unpublish', 'unpublish');
 		$this->registerTask('remove', 'remove');
 		$this->registerTask('save', 'save');
+		$this->registerTask('save2new', 'save');		
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 
@@ -162,6 +163,9 @@ class JResearchAdminMember_positionsController extends JController
                 $app->setUserState('com_jresearch.edit.member_position.data', array());
             }elseif($task == 'apply'){
             	$this->setRedirect('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$position->id, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+           	}elseif($task == 'save2new'){
+            	$this->setRedirect('index.php?option=com_jresearch&controller=member_positions&task=add', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));           		
+                $app->setUserState('com_jresearch.edit.member_position.data', array());           		
            	}
         }else{
         	$msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());

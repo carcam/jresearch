@@ -46,6 +46,7 @@ class JResearchAdminPublicationsController extends JController
             $this->registerTask('executeImport', 'executeImport');
             $this->registerTask('executeExport', 'executeExport');
             $this->registerTask('save', 'save');
+            $this->registerTask('save2new', 'save');
             $this->registerTask('apply', 'save');
             $this->registerTask('cancel', 'cancel');
             $this->registerTask('toggle_internal', 'toggle_internal');
@@ -355,6 +356,9 @@ class JResearchAdminPublicationsController extends JController
              	$app->setUserState('com_jresearch.edit.publication.data', array());
             }elseif($task == 'apply'){
              	$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+            }elseif($task == 'save2new'){
+				$this->setRedirect('index.php?option=com_jresearch&controller=publications&task=add', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+             	$app->setUserState('com_jresearch.edit.publication.data', array());								
             }
         }else{
             $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
