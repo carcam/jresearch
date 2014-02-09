@@ -37,7 +37,7 @@ class JResearchViewStaff extends JResearchView
     /**
     * Display the list of published staff members.
     */
-    private function _displayDefaultList(){
+    private function _displayDefaultList($tpl = null){
       	$mainframe = JFactory::getApplication();
       	jresearchimport('helpers.publications', 'jresearch.admin');
       	
