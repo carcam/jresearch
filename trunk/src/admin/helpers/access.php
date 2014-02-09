@@ -49,7 +49,7 @@ class JResearchAccessHelper{
     	$levels = $user->getAuthorisedViewLevels();
     	
     	if($item != null){
-    		if(property_exists($item, $item->access))
+    		if(property_exists($item, "access"))
 	    		return in_array($item->access, $levels);
 	    	else 
 	    		return true;	
