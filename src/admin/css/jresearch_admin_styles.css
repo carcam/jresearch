@@ -285,3 +285,22 @@ div.staffcontrol{
 ul#div_upload_files li{
 	height: 30px;
 }
+
+.icon-48-publications {
+	background-image: url(../assets/publications-48.png);
+}
+.icon-48-projects {
+	background-image: url(../assets/projects-48.png);
+}
+.icon-48-areas {
+	background-image: url(../assets/areas-48.png);
+}
+.icon-48-staff {
+	background-image: url(../assets/staff-48.png);
+}
+.icon-48-memberpositions {
+	background-image: url(../assets/memberpositions-48.png);
+}
+.icon-48-theses {
+	background-image: url(../assets/theses-48.png);
+}

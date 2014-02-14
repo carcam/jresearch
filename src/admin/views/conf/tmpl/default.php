@@ -48,6 +48,14 @@ $user = JFactory::getUser();
 	</div>
 	<div class="icon-wrapper">
 		<div class="icon">
+			<a href="index.php?option=com_jresearch&amp;controller=member_positions">
+				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/memberpositions.png" alt="<?php echo JText::_('JRESEARCH_MEMBER_POSITIONS'); ?>" />
+				<span><?php echo JText::_('JRESEARCH_MEMBER_POSITIONS'); ?></span>
+			</a>
+		</div>
+	</div>	
+	<div class="icon-wrapper">
+		<div class="icon">
 			<a href="index.php?option=com_jresearch&amp;controller=projects">
 				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/projects.png" alt="<?php echo JText::_('JRESEARCH_PROJECTS'); ?>" />
 				<span><?php echo JText::_('JRESEARCH_PROJECTS'); ?></span>
