@@ -58,6 +58,7 @@ class JResearchAdminViewStaff extends JResearchView
         $filter_state = $this->state->get('com_jresearch.staff.filter_state');
         $filter_search = $this->state->get('com_jresearch.staff.filter_search');
         $filter_former = $this->state->get('com_jresearch.staff.filter_former');
+		$filter_area = $this->state->get('com_jresearch.staff.filter_area');        
     	
     	$lists['order_Dir'] = $filter_order_Dir;
         $lists['order'] = $filter_order;

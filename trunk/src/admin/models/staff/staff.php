@@ -101,7 +101,7 @@ class JResearchAdminModelStaff extends JResearchAdminModelList{
             }
 
             //Added former member for where clause
-            if($filter_former != 0)
+            if($filter_former_member != 0)
             {
                 if($filter_former > 0)
                         $where[] = $db->nameQuote('former_member').' = 1 ';

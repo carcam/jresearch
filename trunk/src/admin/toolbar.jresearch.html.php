@@ -39,7 +39,7 @@ class JResearchToolbar
         $doc->addStyleDeclaration($css);
 
 
-        JToolBarHelper::title(JText::_('JRESEARCH_PUBLICATIONS'));
+        JToolBarHelper::title(JText::_('JRESEARCH_PUBLICATIONS'), 'publications.png');
         self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
 
         JToolBarHelper::divider();
@@ -82,7 +82,7 @@ class JResearchToolbar
 	* Prints the toolbar menu for staff administration list.
 	*/	
 	public static function staffAdminListToolbar(){
-    	JToolBarHelper::title(JText::_('JRESEARCH_STAFF'));
+    	JToolBarHelper::title(JText::_('JRESEARCH_STAFF'), 'staff');
 		$canDo = JResearchAccessHelper::getActions('staff');            
 
         self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
@@ -113,7 +113,7 @@ class JResearchToolbar
 	* Prints the toolbar menu for research areas administration list.
 	*/	
 	public static function researchAreasListToolbar(){
-        JToolBarHelper::title(JText::_('JRESEARCH_RESEARCH_AREA'));
+        JToolBarHelper::title(JText::_('JRESEARCH_RESEARCH_AREAS'), 'areas');
 		$canDo = JResearchAccessHelper::getActions('researchareas');
 		
         self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
@@ -185,7 +185,7 @@ class JResearchToolbar
 	* Toolbar printed when listing JResearch projects admin list.
 	*/
 	public static function projectsAdminListToolbar(){
-        JToolBarHelper::title(JText::_('JRESEARCH_PROJECTS'));
+        JToolBarHelper::title(JText::_('JRESEARCH_PROJECTS'), 'projects');
 
         self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
         JToolBarHelper::divider();
@@ -288,7 +288,7 @@ class JResearchToolbar
 	 *
 	 */
 	public static function thesesAdminListToolbar(){
-		JToolBarHelper::title(JText::_('JRESEARCH_THESES'));
+		JToolBarHelper::title(JText::_('JRESEARCH_THESES'), 'theses');
 		
 		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
 		JToolBarHelper::divider();
@@ -350,7 +350,7 @@ class JResearchToolbar
 	public static function member_positionListToolbar()
 	{
 		$canDo = JResearchAccessHelper::getActions('com_jresearch');
-		JToolBarHelper::title(JText::_('JRESEARCH_MEMBER_POSITIONS'));
+		JToolBarHelper::title(JText::_('JRESEARCH_MEMBER_POSITIONS'), 'memberpositions');
 		
 		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
 		

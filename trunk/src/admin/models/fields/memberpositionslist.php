@@ -34,10 +34,10 @@ class JFormFieldMemberpositionslist extends JFormFieldList{
 
         $positions = $db->loadAssocList();
 
-        $options[] = JHtml::_('select.option', 0, JText::_('JRESEARCH_MEMBER_POSITIONS'), 'value', 'text', ((string) $option['disabled']=='true'));                
+        $options[] = JHtml::_('select.option', 0, JText::_('JRESEARCH_MEMBER_POSITIONS'), 'value', 'text', 0);                
 
         foreach($positions as $position){
-           	$tmp = JHtml::_('select.option', $position['id'], $position['position'], 'value', 'text', ((string) $option['disabled']=='true'));
+           	$tmp = JHtml::_('select.option', $position['id'], $position['position'], 'value', 'text', 0);
            	// Add the option object to the result set.
         	$options[] = $tmp;
         }
