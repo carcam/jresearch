@@ -35,7 +35,7 @@ class JResearchViewResearchareas extends JResearchView
         
         $this->assignRef('items', $items);
         $this->assignRef('page', $model->getPagination());
-        $this->assignRef('params', &$params);
+        $this->assignRef('params', $params);
 
         $eArguments = array('researchareas', $this->getLayout());
 		
