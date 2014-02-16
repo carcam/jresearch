@@ -15,6 +15,7 @@ $showResearchArea = $this->params->get('staff_show_research_area', 1);
 $showPhone = $this->params->get('staff_show_phone', 1);
 $showLocation = $this->params->get('staff_show_location', 1);
 $showPersonalPage = $this->params->get('staff_show_personal_page', 1);
+$format = $this->params->get('staff_format', 'last_first');
 if($this->params->get('show_page_heading', 1)): ?>
 <h1 class="componentheading"><?php echo $this->escape($this->params->get('page_heading', JText::_('JRESEARCH_STAFF'))); ?></h1>
 <?php endif; ?>
@@ -41,7 +42,7 @@ if($this->params->get('show_page_heading', 1)): ?>
 	<?php if($this->params->get('staff_list_or_table', 'list') == 'list'): ?>
 	<ul class="stafflist">
 	<?php foreach($group as $member): ?>
-		<li><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->format); ?></a>
+		<li><a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $format); ?></a>
 			<?php if($showEmail == 1): ?>
 				<span style="margin-left: 0px;"><?php echo '('.JHTML::_('email.cloak', $member->email).')'; ?></span>
 			<?php endif; ?>			
