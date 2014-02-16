@@ -106,7 +106,19 @@ class JHTMLjresearchfrontend{
 			
 		return $result;	
 	}
-	
+
+	public static function getExternalLink($link)
+	{
+		$pattern = '[a-zA-Z0-9&?_.,=%\-\/]';
+		if (strpos($link, "http://") === false)
+		{
+			$link = "http://" . trim($link);
+		}
+
+		return $link;
+	}
+
+
 	/**
 	 * Gets value of array from given key if it exists, otherwise $default
 	 */

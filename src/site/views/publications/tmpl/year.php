@@ -33,6 +33,11 @@ defined('_JEXEC') or die('Restricted access');
 		if($this->showDigital){
 			  if(!empty($url)){
 				$link = str_replace('&', '&amp;', $url);
+
+				$pattern = '[a-zA-Z0-9&?_.,=%\-\/]';
+				if (strpos($link, "http://") === false)
+					$link = "http://" . trim($link);
+
                 $digitalVersion = JText::_('JRESEARCH_ONLINE_VERSION');
                	echo "<span><a href=\"$link\">[$digitalVersion]</a></span>";
              }
