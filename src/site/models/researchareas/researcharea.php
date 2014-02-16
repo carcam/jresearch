@@ -191,7 +191,7 @@ class JResearchModelResearchArea extends JResearchModelItem{
         $db = JFactory::getDBO();
 
         $query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_thesis').' WHERE '.$db->nameQuote('published').' =  1'
-                            .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($areaId);
+                            .' AND '.$db->nameQuote('id_research_area').' = '.$db->Quote($row->id);
         $db->setQuery($query);
     	return (int)$db->loadResult();
 	}
