@@ -94,6 +94,7 @@ class JResearchViewPublications extends JResearchView
     	$this->assignRef('format', $format);
     	$this->assignRef('showYear', $showYear);
     	$this->assignRef('showRis', $showRis);
+		$this->assignRef('showMods', $showMods);
     	$this->assignRef('showHits', $showHits);
     	$this->assignRef('showBibtex', $showBibtex);
     	$this->assignRef('showResearchAreas', $showResearchAreas);
