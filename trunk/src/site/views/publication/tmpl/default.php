@@ -139,7 +139,7 @@ defined('_JEXEC') or die('Restricted access');
 	<?php endif; ?>	
 </dl>	
 <div class="divTR">
-	<?php $url = str_replace('&', '&amp;', trim($this->publication->url));
+	<?php $url = JHTML::_('jresearchfrontend.getExternalLink', $this->publication->url);
               $n = $this->publication->countAttachments();
         ?>
         <?php if($n == 1):
@@ -148,7 +148,7 @@ defined('_JEXEC') or die('Restricted access');
             endif;
          ?>
 	<?php if(!empty($url)): ?> 
-	<span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_ONLINE_VERSION')); ?></span>
+	<span><?php echo JHTML::_('link', $url, JText::_('JRESEARCH_ONLINE_VERSION'),'target="_blank"'); ?></span>
     <?php endif ?>
 	<?php if($this->showBibtex): 
 		echo '<span>'.JHTML::_('link', 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$this->publication->id, '[Bibtex]').'</span>';		
