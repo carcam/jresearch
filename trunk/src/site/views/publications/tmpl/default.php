@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 	<div style="text-align: left;">
 		<?php echo $this->filter; ?>
 		<?php 
-			$actions = JResearchAccessHelper::getActions('publications', $this->publication->id);
+			$actions = JResearchAccessHelper::getActions();
 			if($actions->get('core.publications.create')):
 		?>
 				<div><?php echo JHTML::_('jresearchfrontend.icon','new','publications'); ?></div>						
