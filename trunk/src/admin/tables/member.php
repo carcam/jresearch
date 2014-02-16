@@ -488,7 +488,7 @@ class JResearchMember extends JResearchTable{
 			
 			return $this->_areas;			
 		}elseif($whatInfo == 'names'){
-			$db->setQuery('SELECT id, name FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');				
+			$db->setQuery('SELECT id, name, published FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');
 			return $db->loadObjectList();
 		}else{
 			return null;
