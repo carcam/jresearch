@@ -242,7 +242,7 @@ div.divTdl2{
 
 div.divChangeType{
 	width: 100%;
-	text-align: right;
+	margin-left: 10px;
 }
 
 span.hits span{

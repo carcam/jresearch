@@ -36,7 +36,8 @@ class JResearchAdminMember_positionsController extends JController
 		$this->registerTask('unpublish', 'unpublish');
 		$this->registerTask('remove', 'remove');
 		$this->registerTask('save', 'save');
-		$this->registerTask('save2new', 'save');		
+		$this->registerTask('save2new', 'save');
+		$this->registerTask('save2copy', 'save');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 
@@ -142,7 +143,7 @@ class JResearchAdminMember_positionsController extends JController
 
 	function save(){
 		JRequest::checkToken() or jexit( 'JInvalid_Token' );
-
+        $task = JRequest::getVar('task');
 		$user = JFactory::getUser();
 		if(!$user->authorise('core.manage', 'com_jresearch')){
             $this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('JERROR_ALERTNOAUTHOR'));			
@@ -151,18 +152,20 @@ class JResearchAdminMember_positionsController extends JController
 		
 		$model = $this->getModel('Member_position', 'JResearchAdminModel');
         $app = JFactory::getApplication();
-        $form = JRequest::getVar('jform', array(), '', 'array');        
-        $app->triggerEvent('OnAfterSaveJResearchEntity', array($form['id'], 'JResearchMember_position'));                
+        $form =& $model->getData();
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchMember_position'));
+	    if ($task == 'save2copy') {
+        	unset($form['id']);
+        }        
         
         if ($model->save()){
-        	$task = JRequest::getVar('task');
             $position = $model->getItem();
         	$app->triggerEvent('OnAfterSaveJResearchEntity', array($position, 'JResearchMember_position'));                            
             if($task == 'save'){
             	$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
                 $app->setUserState('com_jresearch.edit.member_position.data', array());
-            }elseif($task == 'apply'){
-            	$this->setRedirect('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$position->id, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+            }elseif($task == 'apply' || $task == 'save2copy'){
+            	$this->setRedirect('index.php?option=com_jresearch&controller=member_positions&task=edit&cid[]='.$position->id, $task == 'apply' ? JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED') : JText::_('JRESEARCH_ITEM_COPY_SUCCESSFULLY_SAVED'));
            	}elseif($task == 'save2new'){
             	$this->setRedirect('index.php?option=com_jresearch&controller=member_positions&task=add', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));           		
                 $app->setUserState('com_jresearch.edit.member_position.data', array());           		

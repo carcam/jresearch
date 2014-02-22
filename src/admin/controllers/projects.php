@@ -35,6 +35,7 @@ class JResearchAdminProjectsController extends JController
 		$this->registerTask('remove', 'remove');
 		$this->registerTask('save', 'save');
 		$this->registerTask('save2new', 'save');
+		$this->registerTask('save2copy', 'save');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'projects');
@@ -174,18 +175,17 @@ class JResearchAdminProjectsController extends JController
 	 *
 	 */
 	function save(){
-		JRequest::checkToken() or jexit( 'JInvalid_Token' );	
+		JRequest::checkToken() or jexit( 'JInvalid_Token' );				
+		jresearchimport('helpers.projects', 'jresearch.admin');	
 			
-		jresearchimport('helpers.projects', 'jresearch.admin');		
-					
+        $task = JRequest::getVar('task');					
 		$model = $this->getModel('Project', 'JResearchAdminModel');
         $app = JFactory::getApplication();
-		$form &= $model->getData();
+		$form =& $model->getData();
 		$canDoProjs = JResearchAccessHelper::getActions();
 		$canProceed = false;	
 		$user = JFactory::getUser();
 		$params = JComponentHelper::getParams('com_jresearch');
-		
 		
 		// Permissions check
 		if(empty($form['id'])){
@@ -194,9 +194,14 @@ class JResearchAdminProjectsController extends JController
 				$form['published'] = $params->get('projects_default_published_status', 1);
 			}
 		}else{
-			$project = JResearchProjectsHelper::getProject($form['id']);
-			$canProceed = $canDoProjs->get('core.project.edit') ||
-     			($canDoProjs->get('core.projects.edit.own') && $project->created_by == $user->get('id'));
+			if ($task != 'save2copy') {
+				$project = JResearchProjectsHelper::getProject($form['id']);
+				$canProceed = $canDoProjs->get('core.project.edit') ||
+	     			($canDoProjs->get('core.projects.edit.own') && $project->created_by == $user->get('id'));
+			} else {
+				unset($form['id']);
+				$canProceed = $canDoProjs->get('core.projects.create');
+			}
 		}
         
 		if(!$canProceed){
@@ -205,16 +210,15 @@ class JResearchAdminProjectsController extends JController
 		}
 		
         $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchProject'));		                
-        if ($model->save()){
-            $task = JRequest::getVar('task');             	
+        if ($model->save()){             	
             $project = $model->getItem();
         	$app->triggerEvent('OnAfterSaveJResearchEntity', array($project, 'JResearchProject'));        
              
             if($task == 'save'){
                 $this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
              	$app->setUserState('com_jresearch.edit.project.data', array());
-            }elseif($task == 'apply'){
-             	$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$project->id, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+            }elseif($task == 'apply' || $task == 'save2copy'){
+             	$this->setRedirect('index.php?option=com_jresearch&controller=projects&task=edit&cid[]='.$project->id, $task == 'apply' ? JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED') : JText::_('JRESEARCH_ITEM_COPY_SUCCESSFULLY_SAVED'));
             }elseif($task='save2new'){
                 $this->setRedirect('index.php?option=com_jresearch&controller=projects&task=add', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
              	$app->setUserState('com_jresearch.edit.project.data', array());

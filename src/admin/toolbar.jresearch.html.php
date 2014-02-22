@@ -322,6 +322,10 @@ class JResearchToolbar
 	public static function editItemAdminToolbar(){
         JToolBarHelper::save("save");
         JToolBarHelper::save2new("save2new");
+        $cid = JRequest::getVar("cid");
+        if (!empty($cid)) {
+        	JToolBarHelper::save2copy("save2copy");
+        }
         JToolBarHelper::apply("apply");
         JToolBarHelper::cancel("cancel", JText::_('JToolBar_Close'));
 	}
