@@ -33,8 +33,8 @@ class JResearchAdminModelProject extends JModelForm{
     */
     public function &getData(){
 		if (empty($this->data)){
-	        $app = & JFactory::getApplication();
-	        $data = & JRequest::getVar('jform');
+	        $app =& JFactory::getApplication();
+	        $data =& JRequest::getVar('jform');
 	        if (empty($data)){
 	            $selected = & JRequest::getVar('cid', 0, '', 'array');
                 $db = JFactory::getDBO();
@@ -59,7 +59,6 @@ class JResearchAdminModelProject extends JModelForm{
 	        $app->setUserState('com_jresearch.edit.project.data', $data);
 	        $this->data = $data;
 	    }
-	            
         return $this->data;
     }
 

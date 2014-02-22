@@ -47,10 +47,11 @@ class JResearchAdminPublicationsController extends JController
             $this->registerTask('executeExport', 'executeExport');
             $this->registerTask('save', 'save');
             $this->registerTask('save2new', 'save');
+            $this->registerTask('save2copy', 'saveAsCopy');            
             $this->registerTask('apply', 'save');
             $this->registerTask('cancel', 'cancel');
             $this->registerTask('toggle_internal', 'toggle_internal');
-            $this->registerTask('changeType', 'changeType');
+            $this->registerTask('changeType', 'saveAsCopy');
             $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
 	}
 
@@ -320,7 +321,7 @@ class JResearchAdminPublicationsController extends JController
 					
 		$model = $this->getModel('Publication', 'JResearchAdminModel');
         $app = JFactory::getApplication();
-		$form &= $model->getData();
+		$form =& $model->getData();
 		$canDoPubs = JResearchAccessHelper::getActions();
 		$canProceed = false;	
 		$user = JFactory::getUser();
@@ -447,7 +448,7 @@ class JResearchAdminPublicationsController extends JController
 	 * Invoked when the user has decided to change the type of a publication.
 	 * It is only applied to existing items.
 	 */
-	function changeType(){	
+	function saveAsCopy(){	
 		JRequest::checkToken() or jexit( 'JInvalid_Token' );	
 			
 		jresearchimport('helpers.publications', 'jresearch.admin');		
@@ -461,17 +462,15 @@ class JResearchAdminPublicationsController extends JController
 		$params = JComponentHelper::getParams('com_jresearch');
 		
 		// Permissions check
-		$keepOld = JRequest::getVar('keepold', null);
-		if(empty($form['id']) || $keepOld == 'on'){
+		if(!empty($form['id'])){
 			$canProceed = $canDoPubs->get('core.publications.create');
 			if(!isset($form['published']))
 				$form['published'] = $params->get('publications_default_published_status', 1);
 			if(!isset($form['internal']))
 				$form['internal'] = $params->get('publications_default_internal_status', 1);			
 		}else{
-			$publication = JResearchPublicationsHelper::getPublication($form['id']);
-			$canProceed = $canDoPubs->get('core.publications.edit') ||
-     			($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
+			return;
 		}
 		
 		if(!$canProceed){
@@ -480,10 +479,10 @@ class JResearchAdminPublicationsController extends JController
 		}        
 
         $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchPublication'));		
-        if ($model->changeType()){             	
+        if ($model->saveAsCopy()){             	
             $publication = $model->getItem();
         	$app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'JResearchPublication'));        
-            $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+            $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, $task == 'apply' ? JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED') : JText::_('JRESEARCH_ITEM_COPY_SUCCESSFULLY_SAVED'));
         }else{
             $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
             $type = 'error';

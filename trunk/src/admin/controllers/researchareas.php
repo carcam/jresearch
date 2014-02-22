@@ -37,7 +37,8 @@ class JResearchAdminResearchareasController extends JController
 		$this->registerTask('remove', 'remove');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('save', 'save');
-		$this->registerTask('save2new', 'save');		
+		$this->registerTask('save2new', 'save');
+		$this->registerTask('save2copy', 'save');				
 		$this->registerTask('cancel', 'cancel');
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 		
@@ -48,10 +49,10 @@ class JResearchAdminResearchareasController extends JController
 	*/	
 	function save(){
 		JRequest::checkToken() or jexit( 'JInvalid_Token' );		
-		
+        $task = JRequest::getVar('task');
 		$model = $this->getModel('Researcharea', 'JResearchAdminModel');
         $app = JFactory::getApplication();
-        $form = JRequest::getVar('jform', array(), '', 'array');        
+        $form =& $model->getData();        
         $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchResearcharea'));                
 		$canDoAreas = JResearchAccessHelper::getActions();
 		$canProceed = false;	
@@ -60,9 +61,14 @@ class JResearchAdminResearchareasController extends JController
 		if(empty($form['id'])){
 			$canProceed = $canDoAreas->get('core.researchareas.create');
 		}else{
-			$area = JResearchResearchareasHelper::getResearchArea($form['id']);
-			$canProceed = $canDoAreas->get('core.researchareas.edit') ||
-     			($canDoAreas->get('core.researchareas.edit.own') && $area->createdBy == $user->get('id'));
+			if ($task != 'save2copy') {
+				$area = JResearchResearchareasHelper::getResearchArea($form['id']);
+				$canProceed = $canDoAreas->get('core.researchareas.edit') ||
+	     			($canDoAreas->get('core.researchareas.edit.own') && $area->createdBy == $user->get('id'));
+			} else {
+				unset($form['id']);
+				$canProceed = $canDoAreas->get('core.researchareas.create');
+			}
 		}
         
 		if(!$canProceed){
@@ -71,17 +77,16 @@ class JResearchAdminResearchareasController extends JController
 		}		
         
         if ($model->save()){
-        	$task = JRequest::getVar('task');
             $area = $model->getItem();
         	$app->triggerEvent('OnAfterSaveJResearchEntity', array($area, 'JResearchResearcharea'));
         	            
             if($task == 'save'){
-            	$this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
+            	$this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
                 $app->setUserState('com_jresearch.edit.researcharea.data', array());                    
-            }elseif($task == 'apply'){
-                $this->setRedirect('index.php?option=com_jresearch&controller=researchareas&task=edit&cid[]='.$area->id, JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
+            }elseif($task == 'apply' || $task == 'save2copy'){
+                $this->setRedirect('index.php?option=com_jresearch&controller=researchareas&task=edit&cid[]='.$area->id, $task == 'apply' ? JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED') : JText::_('JRESEARCH_ITEM_COPY_SUCCESSFULLY_SAVED'));
          	}elseif($task == 'save2new'){
-                $this->setRedirect('index.php?option=com_jresearch&controller=researchareas&task=add', JText::_('JRESEARCH_AREA_SUCCESSFULLY_SAVED'));
+                $this->setRedirect('index.php?option=com_jresearch&controller=researchareas&task=add', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
                 $app->setUserState('com_jresearch.edit.researcharea.data', array());                
          	}             	
          }else{

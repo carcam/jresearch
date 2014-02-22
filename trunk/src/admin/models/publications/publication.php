@@ -98,7 +98,7 @@ class JResearchAdminModelPublication extends JModelForm{
             $row =& $this->getTable('Publication', 'JResearch');
 
             //Time to upload the file
-            $delete = $data['delete_files_0'];
+            $delete = isset($data['delete_files_0']) ? $data['delete_files_0'] : null;
 	    	if($delete == 'on'){
 	    		if(!empty($data['old_files_0'])){
 		    		$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$row->files;
@@ -112,7 +112,7 @@ class JResearchAdminModelPublication extends JModelForm{
 		    	$data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'publications');
 	    	}
 	    		
-	    	if($data['resethits'] == 1){
+	    	if(isset($data['resethits']) && $data['resethits'] == 1){
 				$data['hits'] = 0;
 			}else{
 				$omittedFields[] = 'hits';			    	
@@ -171,7 +171,7 @@ class JResearchAdminModelPublication extends JModelForm{
          * arguments
          * 
          */
-        function changeType(){
+        function saveAsCopy(){
 			$app = JFactory::getApplication();
 			jresearchimport('helpers.publications', 'jresearch.admin');
 			$params = JComponentHelper::getParams('com_jresearch');
@@ -213,15 +213,8 @@ class JResearchAdminModelPublication extends JModelForm{
 				
 			$data['authors'] = $row->authors;
 			$data['pubtype'] = JRequest::getVar('change_type', 'article');
-			$keepOld = JRequest::getVar('keepold', null);
+			unset($data['id']);
 			
-			//Store it as a new publication
-			if($keepOld == 'on'){
-				unset($data['id']);
-				$data['title'] = $data['title'].' (Copy)'; 
-			}
-			
-				
 			//Citekey generation
 			$data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
 				

@@ -114,6 +114,8 @@ class JResearchPublication extends JResearchActivity{
 	public $extra;
 	public $online_source_type;
 	public $digital_source_type;
+	public $asset_id;
+	
 
 	/**
 	* Associative array with supported records types and their printable names.
@@ -259,8 +261,8 @@ class JResearchPublication extends JResearchActivity{
  		$user = JFactory::getUser();
 		$now = new JDate(); 		
 
-		if(!isset($this->id)){
-			JError::raiseWarning(1, 'Changing the created_by');
+		$author = '';
+		if(empty($this->id)){
 			$this->created = $now->toMySQL();
             $author = JRequest::getVar('created_by', $user->get('id'));
             $this->created_by = $author;

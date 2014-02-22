@@ -190,7 +190,7 @@ class JResearchResearcharea extends JResearchTable{
         jresearchimport('joomla.utilities.date');
         $dateObj = new JDate();
         $user = JFactory::getUser();
-
+		$author = '';
         if(isset($this->id)){
         	$created = JRequest::getVar('created', $dateObj->toMySQL());
             $this->created = $created;

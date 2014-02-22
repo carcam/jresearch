@@ -39,6 +39,8 @@ class JResearchAdminStaffController extends JController
 		$this->registerTask('remove', 'remove');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('save', 'save');
+		$this->registerTask('save2new', 'save');
+		$this->registerTask('save2copy', 'save');				
 		$this->registerTask('cancel', 'cancel');
 		$this->registerTask('autoSuggestMembers', 'autoSuggestMembers');
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'staff');
@@ -227,9 +229,10 @@ class JResearchAdminStaffController extends JController
 	*/
 	function save(){
 		JRequest::checkToken() or jexit( 'JInvalid_Token' );
+		$task = JRequest::getVar('task');
         $model = $this->getModel('Member', 'JResearchAdminModel');
         $app = JFactory::getApplication();
-        $form = JRequest::getVar('jform', array(), '', 'array');   
+        $form =& $model->getData();   
         $user = JFactory::getUser();     
         $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchMember'));                
 		$canDoStaff = JResearchAccessHelper::getActions();
@@ -239,23 +242,31 @@ class JResearchAdminStaffController extends JController
 		if(empty($form['id'])){
 			$canProceed = $canDoStaff->get('core.staff.create');
 		}else{
-			$canDoMember = JResearchAccessHelper::getActions('member', $form['id']);
-			$member = JResearchStaffHelper::getMember($form['id']);
-			$canProceed = $canDoMember->get('core.staff.edit') ||
-     			($canDoStaff->get('core.staff.edit.own') && 
-     			($member->createdBy == $user->get('id') || $member->username == $user->get('username')));
+			if ($task != 'save2copy') {
+				$canDoMember = JResearchAccessHelper::getActions('member', $form['id']);
+				$member = JResearchStaffHelper::getMember($form['id']);
+				$canProceed = $canDoMember->get('core.staff.edit') ||
+	     			($canDoStaff->get('core.staff.edit.own') && 
+	     			($member->createdBy == $user->get('id') || $member->username == $user->get('username')));
+			} else {
+				unset($form['id']);
+				$canProceed = $canDoStaff->get('core.staff.create');				
+			}
 		}
         
 		if($canProceed){
 	        if ($model->save()){
-    	    	$task = JRequest::getVar('task');
         	    $member = $model->getItem();
 	    	    $app->triggerEvent('OnAfterSaveJResearchEntity', array($member, 'JResearchMember'));            
             	if($task == 'save'){
             		$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
                 	$app->setUserState('com_jresearch.edit.member.data', array());
-            	}elseif($task == 'apply')
-            		$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+            	}elseif($task == 'apply' || $task == 'save2copy') {
+            		$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$member->id, $task == 'apply' ? JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED') : JText::_('JRESEARCH_ITEM_COPY_SUCCESSFULLY_SAVED'));
+            	}elseif($task == 'save2new') {
+            		$this->setRedirect('index.php?option=com_jresearch&controller=staff&task=edit', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+                	$app->setUserState('com_jresearch.edit.member.data', array());            		
+            	}
 	        }else{
     	       	$msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
         	   	$type = 'error';

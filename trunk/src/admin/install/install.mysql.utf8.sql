@@ -186,7 +186,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   `modified_by` int(10) default NULL,
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`),
   FULLTEXT INDEX `#__jresearch_researcharea_name`(`name`),
   FULLTEXT INDEX `#__jresearch_researcharea_full`(`name`, `description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

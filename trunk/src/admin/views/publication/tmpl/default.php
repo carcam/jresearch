@@ -76,15 +76,6 @@ defined('_JEXEC') or die('Restricted access');
             <?php if(!isset($this->publication)): ?>
                 <div class="divChangeType">
                         <?php echo $this->changeType; ?>
-                        <input type="button" onclick="
-                        if(document.forms['adminForm'].change_type.value == '0'){
-                                alert('<?php echo JText::_('JRESEARCH_SELECT_PUBTYPE'); ?>')
-                        }
-                        if(document.forms['adminForm'].change_type.value != '0' && document.forms['adminForm'].change_type.value != '<?php echo $this->pubtype; ?>' && confirm('<?php echo JText::_('JRESEARCH_SURE_CHANGE_PUBTYPE')?>') ){
-                               Joomla.submitbutton('changeType');
-                        }"
-                        value="<?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE'); ?>" />
-                        <label for="keepold"><?php echo JText::_('JRESEARCH_KEEP_OLD_PUBLICATION').': '; ?><input type="checkbox" name="keepold" id="keepold" /></label>
                 </div>
         <?php endif; ?>
 	    <input type="hidden" name="task" value="edit" />
