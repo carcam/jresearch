@@ -73,7 +73,9 @@ $controller = JController::getInstance($classname);
 $pluginhandledRequest = JResearchPluginsHelper::onBeforeExecuteJResearchTask();
 // Perform the request task if none of the plugins decided to do it
 if(!$pluginhandledRequest)
+{
 	$controller->execute($task);
+}
 	
 $mainframe->triggerEvent('onAfterExecuteJResearchTask' , array());
 
