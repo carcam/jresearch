@@ -44,6 +44,7 @@ class JResearchAdminStaffController extends JController
 		$this->registerTask('cancel', 'cancel');
 		$this->registerTask('autoSuggestMembers', 'autoSuggestMembers');
 		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'staff');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'staff');
 		
 	}
@@ -60,6 +61,7 @@ class JResearchAdminStaffController extends JController
 			$view = $this->getView('Staff', 'html', 'JResearchAdminView');
     	    $model = $this->getModel('Staff', 'JResearchAdminModel');
         	$view->setModel($model, true);
+			$view->setModel($this->getModel('ResearchArea','JResearchAdminModel'));
         	$view->setLayout('default');
         	$view->display();
 		}else{
