@@ -196,7 +196,7 @@ class JResearchAdminProjectsController extends JController
 		}else{
 			if ($task != 'save2copy') {
 				$project = JResearchProjectsHelper::getProject($form['id']);
-				$canProceed = $canDoProjs->get('core.project.edit') ||
+				$canProceed = $canDoProjs->get('core.projects.edit') ||
 	     			($canDoProjs->get('core.projects.edit.own') && $project->created_by == $user->get('id'));
 			} else {
 				unset($form['id']);
