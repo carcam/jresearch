@@ -64,7 +64,7 @@ if(count($this->items) > 0):
 			endif;
 			if(!empty($contentArray[0])):
 			?>
-				<div>&nbsp;</div>
+				<br/>
 				<?php echo $contentArray[0]; ?>
 			<?php
 			endif;

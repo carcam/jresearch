@@ -8,10 +8,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.modal');
-jresearchimport('helpers.publications', 'jresearch.admin')
-?>
-<?php $Itemid = JRequest::getVar('Itemid'); 
-	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
+jresearchimport('helpers.publications', 'jresearch.admin');
+
+$Itemid = JRequest::getVar('Itemid'); 
+$ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  	
 ?>
 <h1 class="componentheading"><?php echo $this->project->title; ?></h1>
@@ -25,7 +25,7 @@ jresearchimport('helpers.publications', 'jresearch.admin')
 		foreach($researchAreas as $area){
 			if($area->id > 1){
 				if($area->published)
-					$researchAreasNames[] = JHTML::_('jresearchfrontend.link', $area->name, 'researcharea', 'display', $area->id, $itemId);
+					$researchAreasNames[] = JHTML::_('jresearchfrontend.link', $area->name, 'researcharea', 'display', $area->id, $Itemid);
 				else
 					$researchAreasNames[] = $area->name;
 			}
@@ -172,7 +172,6 @@ jresearchimport('helpers.publications', 'jresearch.admin')
 		?>
 		<dd><?php echo JHTML::_('link',$url, JText::_('JRESEARCH_PROJECT_PAGE'),array('target'=>"_blank") ); ?></dd>
 	<?php endif; ?>		
-	<?php $itemId = JRequest::getVar('Itemid'); ?>
 	<?php if(!empty($this->publications)): ?>
 </dl>	
 	<h2 class="contentheading" id="pubslist"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h2>
