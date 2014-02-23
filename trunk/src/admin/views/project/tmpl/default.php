@@ -7,7 +7,7 @@ $actions = JResearchAccessHelper::getActions();
     <div class="width-60 fltlft">
         <fieldset class="panelform">
                 <legend><?php echo JText::_( 'JRESEARCH_BASIC' ); ?></legend>
-                <ul>
+                <ul class="adminformlist">
                 <?php foreach($this->form->getFieldset('basic') as $field): ?>
                 	<?php 
                 		if(($field->name == 'published')
@@ -34,9 +34,9 @@ $actions = JResearchAccessHelper::getActions();
     </div>
     <div class="width-40 fltrt">
         <?php echo JHtml::_('sliders.start','content-sliders', array('useCookie'=>1)); ?>
-        <?php echo JHtml::_('sliders.panel',JText::_('Extra'), 'extra-details'); ?>
+        <?php echo JHtml::_('sliders.panel',JText::_('JRESEARCH_PUBLICATIONS'), 'extra-details'); ?>
         <fieldset class="panelform">
-            <ul>
+            <ul class="adminformlist">
             
             	<li>
             		<?php $pubsField = $this->form->getField('publications'); 
@@ -58,6 +58,12 @@ $actions = JResearchAccessHelper::getActions();
             		?>
             </ul>
         </fieldset>
+        <?php echo JHtml::_('sliders.panel', JText::_('JRESEARCH_FILES'), 'attachments'); ?>        
+        <fieldset class="panelform">
+         	<?php $pubsField = $this->form->getField('files'); 
+            	  echo $pubsField->input;
+            ?>        
+        </fieldset>        
 	    <input type="hidden" name="task" value="edit" />
 	    <input type="hidden" name="controller" value="projects" />    
         <?php echo JHtml::_('form.token'); ?>

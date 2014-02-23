@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
     <div class="width-60 fltlft">
         <fieldset class="panelform">
                 <legend><?php echo JText::_( 'JRESEARCH_BASIC' ); ?></legend>
-                <ul>
+                <ul class="adminformlist">
                 <?php foreach($this->form->getFieldset('basic') as $field): ?>
                 	<?php 
                 		if(($field->name == 'published' || $field->name == 'internal')
