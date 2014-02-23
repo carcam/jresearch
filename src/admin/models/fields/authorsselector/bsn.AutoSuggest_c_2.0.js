@@ -639,7 +639,7 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	imgUp = document.createElement('img');
 	imgUp.setAttribute('src', this.lbl_up_image);
 	imgUp.setAttribute('alt', 'Go up');
-	imgUp.setAttribute('style', 'float:none;width:16px;height:16px;');
+	imgUp.setAttribute('style', 'float:none;width:16px;height:16px;vertical-align:middle;');
 	aUp.appendChild(imgUp);
 	
 	aDown = document.createElement('a');
@@ -647,7 +647,7 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 	imgDown = document.createElement('img');
 	imgDown.setAttribute('src', this.lbl_down_image);
 	imgDown.setAttribute('alt', 'Go down');
-	imgDown.setAttribute('style', 'float:none;width:16px;height:16px;');
+	imgDown.setAttribute('style', 'float:none;width:16px;height:16px;vertical-align:middle;');
 	aDown.appendChild(imgDown);
 	
 	upDownSpan.appendChild(aUp);
@@ -657,13 +657,14 @@ _bsn.AutoSuggest.prototype.appendMember = function(isInternal){
 		checkSpan.style.padding = '2px';		
 
 		check = document.createElement('input');
-		check.setAttribute('id', 'check_'+this.fld.name+nResults);
-		check.setAttribute('name', 'check_'+this.fld.name+nResults);		
+		check.setAttribute('id', 'jform[check_'+ this.fld.name+nResults + ']');
+		check.setAttribute('name', 'jform[check_'+ this.fld.name+nResults +']');		
 		check.setAttribute('type', 'checkbox');
 		
 		label = document.createElement('label');
 		label.appendChild(document.createTextNode(this.lbl_projectLeader));
 		label.setAttribute('for', 'check_'+this.fld.name+nResults);
+		label.setAttribute('style', 'min-width:80px;');
 		
 		checkSpan.appendChild(label);
 		checkSpan.appendChild(check);

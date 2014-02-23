@@ -304,3 +304,25 @@ ul#div_upload_files li{
 .icon-48-theses {
 	background-image: url(../assets/theses-48.png);
 }
+
+#authorsfieldresult span {
+	font-size: 110%;
+}
+
+
+#div_upload_files li label {
+	min-width: 20px;
+	margin-top: 0px;
+	margin-bottom: 0px;	
+}
+
+#div_upload_files li a {
+	font-size: 110%;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#div_upload_files li input {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}

@@ -64,7 +64,6 @@ class JFormFieldAttachment extends JFormField{
 			}
 		}
 		$result .= '</ul></div>';
-		
 		return ' '.$uploadField.' '.$textFields.$result;	
 	}
 }

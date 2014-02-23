@@ -88,15 +88,6 @@
 					size="22"
 					filter="user_utc" 
 				/>				
-                <field
-                	id="files"
-                    name="files"
-                    type="attachment"
-                    class="inputbox"
-                    singleFile="false"
-                    default=""
-                    label="JRESEARCH_FILE"
-                />
 				<field
                      id="authors"
                      name="authors"
@@ -126,7 +117,7 @@
         			id="publications"
         			type="publicationsselector"
         			label="JRESEARCH_RELATED_PUBLICATIONS"
-        		/>        		
+        		/>       		        		
                 <field
                 	id="resethits"
                 	name="resethits"
@@ -137,5 +128,17 @@
                 	<option value="0">JNO</option>
 					<option value="1">JYES</option>
            	 	</field>
+        </fieldset>
+        <fieldset name="attachments">
+          		<field
+                	id="files"
+                    name="files"
+                    type="attachment"
+                    class="inputbox"
+                    singleFile="false"
+                    default=""
+                    controller="projects"
+                    label="JRESEARCH_FILE"
+                /> 
         </fieldset>        
 </form>

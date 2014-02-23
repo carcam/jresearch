@@ -51,7 +51,7 @@ class JResearchAdminViewPublication extends JResearchView
 			
         $pubtype = JRequest::getVar('pubtype', isset($data['pubtype']) ? $data['pubtype'] : null, 'jform');
         
-        $changeType = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type', '', $pubtype);
+        $changeType = JHTML::_('jresearchhtml.publicationstypeslist', 'change_type', '', isset($data['pubtype']) ? $data['pubtype'] : null);
             
         $this->assignRef('form', $form);
         $this->assignRef('data', $data);
