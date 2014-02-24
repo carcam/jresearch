@@ -63,10 +63,12 @@ $actions = JResearchAccessHelper::getActions();
          	<?php $pubsField = $this->form->getField('files'); 
             	  echo $pubsField->input;
             ?>        
-        </fieldset>        
+        </fieldset>
+		<?php echo JHtml::_('sliders.end'); ?>
 	    <input type="hidden" name="task" value="edit" />
 	    <input type="hidden" name="controller" value="projects" />    
         <?php echo JHtml::_('form.token'); ?>
-    </div> 
+    </div>
+	<div class="clr"></div>
 </form>
 <div class="clr"></div>
