@@ -77,7 +77,8 @@ defined('_JEXEC') or die('Restricted access');
                 <div class="divChangeType">
                         <?php echo $this->changeType; ?>
                 </div>
-        <?php endif; ?>
+			<?php endif; ?>
+		<?php echo JHtml::_('sliders.end'); ?>
 	    <input type="hidden" name="task" value="edit" />
 	    <input type="hidden" name="controller" value="publications" />    
         <?php echo JHtml::_('form.token'); ?>

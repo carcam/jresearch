@@ -75,7 +75,7 @@
 					label="JRESEARCH_START_DATE"
 					class="inputbox"
 					format="%Y-%m-%d"
-					size="22"
+					
 					filter="user_utc" 
 				/>
 				<field
