@@ -414,7 +414,7 @@ class JResearchAdminPublicationsController extends JController
 	        }
 	        
 	        $n = $model->setInternalValue($value);
-			$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_NITEMS_TURNED_INTERNAL', $n));
+			$this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::plural('JRESEARCH_N_ITEMS_TURNED_INTERNAL', $n));
 	        $errors = $model->getErrors();
 			if(!empty($errors))
 				JError::raiseWarning(1, explode('<br />', $errors));
