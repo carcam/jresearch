@@ -145,7 +145,7 @@ class JResearchAdminThesesController extends JController
 				$n++;
 			}
 		}
-		$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', $n));
+		$this->setRedirect('index.php?option=com_jresearch&controller=theses', JText::sprintf('JRESEARCH_N_SUCCESSFULLY_DELETED', $n));
 	}
 	
 	/**

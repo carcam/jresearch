@@ -174,7 +174,7 @@ class JResearchAdminResearchareasController extends JController
 		if($canDoAreas->get('core.researchareas.delete')){
 	        $model = $this->getModel('Researcharea', 'JResearchAdminModel');
 	        $n = $model->delete();
-	        $this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::sprintf('JRESEARCH_AREA_SUCCESSFULLY_DELETED', $n));
+	        $this->setRedirect('index.php?option=com_jresearch&controller=researchareas', JText::plural('JRESEARCH_N_AREA_SUCCESSFULLY_DELETED', $n));
 	        $errors = $model->getErrors();
 	        if(!empty($errors)){
 	        	JError::raiseWarning(1, explode('<br />', $errors));

@@ -184,7 +184,7 @@ class JResearchAdminStaffController extends JController
 	    if($canDoStaff->get('core.staff.delete')){			
 	        $model = $this->getModel('Member', 'JResearchAdminModel');
 	        $n = $model->delete();
-	       	$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::sprintf('JRESEARCH_SUCCESSFULLY_DELETED', $n));
+	       	$this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::plural('JRESEARCH_N_SUCCESSFULLY_DELETED', $n));
 	        $errors = $model->getErrors();
 	        if(!empty($errors)){
 	        	JError::raiseWarning(1, explode('<br />', $errors));
@@ -218,7 +218,7 @@ class JResearchAdminStaffController extends JController
                     	JError::raiseWarning(1, JText::sprintf('JRESEARCH_USER_IMPORTED_FAILED', $username));
                     }
             	}
-	            $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::sprintf('JRESEARCH_USER_IMPORTED_SUCCESSFULLY', $count));            	
+	            $this->setRedirect('index.php?option=com_jresearch&controller=staff', JText::plural('JRESEARCH_N_USER_IMPORTED_SUCCESSFULLY', $count));
 		}else{
 			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));				
 		}
