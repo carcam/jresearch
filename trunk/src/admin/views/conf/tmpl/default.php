@@ -128,7 +128,7 @@ $user = JFactory::getUser();
 	<tbody>
 		<tr>
 			<th scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_AUTHOR').': '; ?></th>
-			<td>Luis Galárraga (<?php echo JHTML::_('email.cloak', 'shamantobi@gmail.com')?>) and Florian Prinz (<?php echo JHTML::_('email.cloak', 'prinz.florian@chello.at') ?>)</td>
+			<td>Luis Galárraga <?php echo JText::_('JRESEARCH_AND'); ?> Florian Prinz </td>
 		</tr>
 		<tr>
 			<th scope="col"><?php echo JText::_('JRESEARCH_SOFTWARE_MENTOR').': '; ?></th>
@@ -138,11 +138,9 @@ $user = JFactory::getUser();
 			<th scope="col"><?php echo JText::_('JRESEARCH_MORE_CREDITS').': '; ?></th>
 			<td>
 				<ul class="creditslist">
-					<li><strong>Spanish Translation:</strong> Carlos Cámara Mora, (<?php echo JHTML::_('email.cloak', 'cmcamara@gmail.com')?>)</li>
-					<li><strong>German Translation:</strong> Florian Prinz</li>
-					<li><strong>Web site:</strong> Nereyda Valentin-Macias</li>
-					<li><strong>sf404sef Integration:</strong> Carlos Cámara Mora</li>
-					<li><strong>Several improvements 1.2 Beta: </strong>Pablo Moncada, (<?php echo JHTML::_('email.cloak', 'pmoncadaisla@gmail.com')?>)</li>
+					<li><strong><?php echo JText::_('JRESEARCH_TRANSLATION_CREDITS'); ?>:</strong> <?php echo JText::_('JRESEARCH_TRANSLATOR_NAME'); ?></li>
+					<li><strong><?php echo JText::_('JRESEARCH_WEBSITE_CREDITS'); ?>:</strong> Nereyda Valentin-Macias</li>
+					<li><strong><?php echo JText::_('JRESEARCH_12IMPROVEMENTS_CREDITS'); ?>: </strong>Pablo Moncada</li>
 				</ul>
 			</td>					
 		</tr>																		
