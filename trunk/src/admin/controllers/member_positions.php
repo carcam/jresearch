@@ -128,15 +128,20 @@ class JResearchAdminMember_positionsController extends JController
 	function remove(){
 		JRequest::checkToken() or jexit( 'JInvalid_Token' );
 		
-		$user = JFactory::getDbo();
+		$user = JFactory::getUser();
 		if($user->authorise('core.manage', 'com_jresearch')){
 	        $model = $this->getModel('Member_position', 'JResearchAdminModel');
     	    $n = $model->delete();
-        	$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::sprintf('JRESEARCH_ITEM_SUCCESSFULLY_DELETED', $n));
+        	$this->setRedirect('index.php?option=com_jresearch&controller=member_positions',JText::plural('JRESEARCH_N_ITEMS_SUCCESSFULLY_DELETED', $n));
         	$errors = $model->getErrors();
         	if(!empty($errors)){
         		JError::raiseWarning(1, explode('<br />', $errors));
         	}        	
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('JERROR_ALERTNOAUTHOR'));
+			return;
 		}
 		
 	}
@@ -278,7 +283,7 @@ class JResearchAdminMember_positionsController extends JController
 	{
          // Check for request forgeries
          JRequest::checkToken() or jexit( 'JInvalid_Token' );
-
+		 $user = JFactory::getUser();
          if($user->authorise('core.manage', 'com_jresearch')){         
 	         $cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 	         JArrayHelper::toInteger($cid);
