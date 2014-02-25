@@ -177,7 +177,7 @@ class JResearchAdminPublicationsController extends JController
         JRequest::checkToken() or jexit( 'JInvalid_Token' );	
         $model = $this->getModel('Publication', 'JResearchAdminModel');
         $n = $model->delete();
-        $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::sprintf('JRESEARCH_ITEM_SUCCESSFULLY_DELETED', $n));
+        $this->setRedirect('index.php?option=com_jresearch&controller=publications', JText::plural('JRESEARCH_N_ITEMS_SUCCESSFULLY_DELETED', $n));
         $errors = $model->getErrors();
         if(!empty($errors)){
         	JError::raiseWarning(1, explode('<br />', $errors));

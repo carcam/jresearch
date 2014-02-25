@@ -160,7 +160,7 @@ class JResearchAdminProjectsController extends JController
 		if($canDoProjs->get('core.projects.delete')){
 	        $model = $this->getModel('Project', 'JResearchAdminModel');
 	        $n = $model->delete();
-	        $this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::sprintf('JRESEARCH_ITEM_SUCCESSFULLY_DELETED', $n));
+	        $this->setRedirect('index.php?option=com_jresearch&controller=projects', JText::plural('JRESEARCH_N_ITEMS_SUCCESSFULLY_DELETED', $n));
 	        $errors = $model->getErrors();
 	        if(!empty($errors)){
 	        	JError::raiseWarning(1, explode('<br />', $errors));

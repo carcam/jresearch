@@ -721,7 +721,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 	        $model = $this->getModel('Publication', 'JResearchModel');
 	        $n = $model->delete();
 	        $Itemid = JRequest::getInt('Itemid', 0);
-	        $this->setRedirect('index.php?option=com_jresearch&controller=publications&Itemid='.$Itemid, JText::sprintf('JRESEARCH_ITEM_SUCCESSFULLY_DELETED', $n));
+	        $this->setRedirect('index.php?option=com_jresearch&controller=publications&Itemid='.$Itemid, JText::plural('JRESEARCH_N_ITEMS_SUCCESSFULLY_DELETED', $n));
 	        $errors = $model->getErrors();
 	        if(!empty($errors)){
 	        	JError::raiseWarning(1, explode('<br />', $errors));
