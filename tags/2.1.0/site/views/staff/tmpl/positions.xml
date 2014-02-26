@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_STAFF_LIST_BY_POSITION">
+		<help
+			key = "JRESEARCH_STAFF_LIST_BY_POSITION_VIEW_MESSAGE"
+		/>
+		<message>
+			<![CDATA[JRESEARCH_STAFF_LIST_BY_POSITION_VIEW_MESSAGE]]>
+		</message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request">
+			<param name="staff_sort_criteria0" required="true" value="mp.ordering" />
+		</fieldset>
+	</fields>
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+            <!-- Basic options. -->
+        <fieldset name="basic">
+             <field name="staff_introtext" type="textarea"
+             	cols="60" rows="5"
+                description="JRESEARCH_CONFIG_INTRO_TEXT_DESCRIPTION"
+                label="JRESEARCH_CONFIG_INTRO_TEXT" filter="nofilter"
+             />
+			<field name="staff_sort_criteria1" label="JRESEARCH_STAFF_SORT_CRITERIA" type="radio" default="lastname">
+				<option value="lastname">JRESEARCH_LAST_NAME</option>
+				<option value="m.ordering">JRESEARCH_ORDERING</option>
+				<option value="title">JRESEARCH_MEMBER_TITLE</option>
+			</field>
+			<field name="staff_sort_criteria2" label="JRESEARCH_STAFF_SECOND_SORT_CRITERIA" type="radio" default="m.ordering">
+				<option value="lastname">JRESEARCH_LAST_NAME</option>
+				<option value="m.ordering">JRESEARCH_ORDERING</option>
+				<option value="title">JRESEARCH_MEMBER_TITLE</option>
+			</field>			
+			<field name="staff_order1" label="JRESEARCH_SORT_DIRECTION1" type="radio" default="ASC">
+				<option value="ASC">JRESEARCH_ASCENDING</option>
+				<option value="DESC">JRESEARCH_DESCENDING</option>
+			</field>
+			<field name="staff_order2" label="JRESEARCH_SORT_DIRECTION2" type="radio" default="ASC">
+				<option value="ASC">JRESEARCH_ASCENDING</option>
+				<option value="DESC">JRESEARCH_DESCENDING</option>
+			</field>            
+			<field name="staff_list_or_table" label="JRESEARCH_STAFF_SHOW_LIST_OR_TABLE" type="radio" default="list">
+				<option value="list">JRESEARCH_LIST</option>
+				<option value="table">JRESEARCH_TABLE</option>
+			</field>			
+            <field name="staff_filter" label="JRESEARCH_CONFIG_FILTER_CRITERIA" default="only_current" type="radio">
+				<option value="only_current">JRESEARCH_ONLY_CURRENT</option>
+				<option value="only_former">JRESEARCH_ONLY_FORMER</option>
+                <option value="all">JRESEARCH_ALL</option>
+			</field>
+			<field name="staff_show_personal_page" label="JRESEARCH_STAFF_SHOW_PERSONAL_PAGE" default="1" type="radio">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>					
+			<field name="staff_show_location" label="JRESEARCH_STAFF_SHOW_LOCATION" default="1" type="radio">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="staff_show_phone" label="JRESEARCH_STAFF_SHOW_PHONE" default="1" type="radio">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="staff_show_research_area" label="JRESEARCH_STAFF_SHOW_RESEARCH_AREAS" default="1" type="radio">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>			
+			<field name="staff_show_title" label="JRESEARCH_STAFF_SHOW_TITLE" default="no" type="radio" >
+				<option value="no">JNO</option>			
+				<option value="next_to_name">JRESEARCH_NEXT_TO_NAME</option>
+				<option value="own_column">JRESEARCH_OWN_COLUMN</option>
+			</field>			
+        </fieldset>
+    </fields>
+</metadata>
