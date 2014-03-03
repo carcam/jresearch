@@ -13,9 +13,9 @@
 */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'importer.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'bibtex.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'importers'.'/'.'importer.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'importers'.'/'.'factory.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'importers'.'/'.'bibtex.php');
 
 /**
 * Imports sets of bibliographical references in RIS format. 
@@ -32,7 +32,7 @@ class JResearchRISImporter extends JResearchPublicationImporter{
 	 * @param array of JResearchPublication objects
 	 */
 	function parse($text){
-		$filename = tempnam(JPATH_SITE.DS.'media', "mods_");
+		$filename = tempnam(JPATH_SITE.'/'.'media', "mods_");
 		$inputFile = fopen($filename, "w");
 		
 		/** boolean True if a Windows based host */
@@ -47,7 +47,7 @@ class JResearchRISImporter extends JResearchPublicationImporter{
 
 		$modsParser = JResearchPublicationImporterFactory::getInstance('MODS');
 		// Invoke the conversion command
-		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'ris2xml'.' '.$filename;
+		$conversionCommand = JPATH_SITE.'/'.'components'.'/'.'com_jresearch'.'/'.'bibutils'.'/'.$folder.'/'.'ris2xml'.' '.$filename;
 		
 		$output = array();
 		exec($conversionCommand, $output);

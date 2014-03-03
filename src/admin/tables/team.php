@@ -15,7 +15,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'member.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'tables'.'/'.'member.php');
 
 /**
  * This class represents a JResearch team in database.

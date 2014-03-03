@@ -13,7 +13,7 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-require_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php');
+require_once(JPATH_ADMINISTRATOR.'/'.'includes'.'/'.'toolbar.php');
 jresearchimport('helpers.access', 'jresearch.admin');
 
 /**

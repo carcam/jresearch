@@ -14,8 +14,8 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'exporter.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'exporters'.'/'.'exporter.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'exporters'.'/'.'factory.php');
 
 /**
  * This class allows to export sets of JResearchPublication objects into RIS
@@ -40,7 +40,7 @@ class JResearchPublicationRISExporter extends JResearchPublicationExporter{
 		else
 			$folder = 'unix';	 
 		
-		$filename = tempnam(JPATH_SITE.DS.'media', "mods_");
+		$filename = tempnam(JPATH_SITE.'/'.'media', "mods_");
 		$inputFile = fopen($filename, "w");
 		
 		$modsExporter =& JResearchPublicationExporterFactory::getInstance('MODS');
@@ -48,7 +48,7 @@ class JResearchPublicationRISExporter extends JResearchPublicationExporter{
 		
 		fwrite($inputFile, $modsText);						
 		
-		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'xml2ris'.' '.$filename;
+		$conversionCommand = JPATH_SITE.'/'.'components'.'/'.'com_jresearch'.'/'.'bibutils'.'/'.$folder.'/'.'xml2ris'.' '.$filename;
 		$output = array();
 		exec($conversionCommand, $output);
 		$risText = implode("\n", $output); 

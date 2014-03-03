@@ -40,7 +40,7 @@ class JResearchAdminResearchareasController extends JController
 		$this->registerTask('save2new', 'save');
 		$this->registerTask('save2copy', 'save');				
 		$this->registerTask('cancel', 'cancel');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'researchareas');
 		
 	}
 

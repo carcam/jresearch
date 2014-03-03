@@ -14,8 +14,8 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'exporter.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'factory.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'exporters'.'/'.'exporter.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'exporters'.'/'.'factory.php');
 
 /**
  * This class allows to export sets of JResearchPublication objects into MODS
@@ -40,7 +40,7 @@ class JResearchPublicationMODSExporter extends JResearchPublicationExporter{
 		else
 			$folder = 'unix';	 
 		
-		$filename = tempnam(JPATH_SITE.DS.'media', "bibtex_");
+		$filename = tempnam(JPATH_SITE.'/'.'media', "bibtex_");
 		$inputFile = fopen($filename, "w");
 		
 		$bibtexExporter =& JResearchPublicationExporterFactory::getInstance('Bibtex');
@@ -48,7 +48,7 @@ class JResearchPublicationMODSExporter extends JResearchPublicationExporter{
 		
 		fwrite($inputFile, $bibtexText);						
 		
-		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'bib2xml'.' '.$filename;
+		$conversionCommand = JPATH_SITE.'/'.'components'.'/'.'com_jresearch'.'/'.'bibutils'.'/'.$folder.'/'.'bib2xml'.' '.$filename;
 		$output = array();
 		exec($conversionCommand, $output);
 		$modsText = implode("\n", $output); 

@@ -19,7 +19,7 @@ final class JResearchFilter
     const ARRAY_OBJECT_XHTML_SAFE = 8;
 }
 
-class JResearchView extends JView
+class JResearchView extends JViewLegacy
 {
 
     public function __construct(array $config=array())

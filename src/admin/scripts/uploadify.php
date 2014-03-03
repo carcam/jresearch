@@ -31,7 +31,7 @@ if (!empty($_FILES)) {
 	$tempFile = $_FILES['Filedata']['tmp_name'];
 	$targetPath = $_SERVER['DOCUMENT_ROOT'] . $_REQUEST['folder'] . '/';
 	$nombre = date("Ymdgi").".pdf";
-	if(file_exists($folder.DS.$nombre)) $nombre = "2".$nombre;
+	if(file_exists($folder.'/'.$nombre)) $nombre = "2".$nombre;
 	$targetFile =  str_replace('//','/',$targetPath) . $nombre;
 	
 	// $fileTypes  = str_replace('*.','',$_REQUEST['fileext']);

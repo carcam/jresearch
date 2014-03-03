@@ -13,8 +13,8 @@
 */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'importer.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'importers'.'/'.'importer.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'importers'.'/'.'factory.php');
 
 /**
 * Imports sets of bibliographical references in MODS format. 
@@ -31,7 +31,7 @@ class JResearchMODSImporter extends JResearchPublicationImporter{
 	 * @param array of JResearchPublication objects
 	 */
 	function parse($text){
-		$filename = tempnam(JPATH_SITE.DS.'media', "bibtex_");
+		$filename = tempnam(JPATH_SITE.'/'.'media', "bibtex_");
 		$inputFile = fopen($filename, "w");
 		
 		/** boolean True if a Windows based host */
@@ -49,7 +49,7 @@ class JResearchMODSImporter extends JResearchPublicationImporter{
 
 		$bibtexParser = &JResearchPublicationImporterFactory::getInstance('Bibtex');
 		// Invoke the conversion command
-		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'xml2bib'.' '.$filename;
+		$conversionCommand = JPATH_SITE.'/'.'components'.'/'.'com_jresearch'.'/'.'bibutils'.'/'.$folder.'/'.'xml2bib'.' '.$filename;
 		$output = array();
 		exec($conversionCommand, $output);
 		$bibtexText = implode("\n", $output); 

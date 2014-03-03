@@ -12,8 +12,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.model');
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelList.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'team.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'modelList.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'tables'.'/'.'team.php');
 
 /**
 * Model class for holding lists of teams records.

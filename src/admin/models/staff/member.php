@@ -112,7 +112,7 @@ class JResearchAdminModelMember extends JModelForm{
         $delete = $data['delete_files_0'];
     	if($delete == 'on'){
     		if(!empty($data['old_files_0'])){
-	    		$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'staff'.DS.$row->files;
+	    		$filetoremove = JRESEARCH_COMPONENT_ADMIN.'/'.$params->get('files_root_path', 'files').'/'.'staff'.'/'.$row->files;
 	    		$data['files'] = '';
 	    		@unlink($filetoremove);
     		}
@@ -120,7 +120,7 @@ class JResearchAdminModelMember extends JModelForm{
 	    		    
     	$files = JRequest::getVar('jform', array(), 'FILES');
 		if(!empty($files['name']['file_files_0'])){	    	
-	    	$data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'staff');
+	    	$data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').'/'.'staff');
     	}			
 
         // Bind the form fields to the hello table
@@ -401,7 +401,7 @@ class JResearchAdminModelMember extends JModelForm{
 	
 	public function getCV(){
 		if(!empty($this->files))
-			return JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, '/', $params->get('files_root_path', 'files'))."/staff/".$this->files;
+			return JURI::root().'administrator/components/com_jresearch/'.str_replace('/', '/', $params->get('files_root_path', 'files'))."/staff/".$this->files;
 			
 		return false;	
 	}

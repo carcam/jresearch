@@ -15,7 +15,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.utilities.date');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'activity.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'tables'.'/'.'activity.php');
 
 /**
  * This class represent a degree thesis in JResearch environment.
