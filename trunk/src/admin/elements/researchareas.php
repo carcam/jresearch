@@ -28,7 +28,7 @@ class JElementResearchareas extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'html');
+		JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'html');
 		
 		return JHTML::_('jresearchhtml.researchareas', array(
 				'name'=>$control_name.'['.$name.']',

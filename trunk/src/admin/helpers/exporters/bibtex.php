@@ -14,7 +14,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters'.DS.'exporter.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'exporters'.'/'.'exporter.php');
 
 /**
  * This class allows to convert JResearchPublication instances into bibtex

@@ -41,9 +41,9 @@ class JResearchAdminMember_positionsController extends JController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'member_positions');
-		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'member_positions');
-		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'member_position');		
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'member_positions');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.'/'.'views'.'/'.'member_positions');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.'/'.'views'.'/'.'member_position');		
 	}
 
 	/**

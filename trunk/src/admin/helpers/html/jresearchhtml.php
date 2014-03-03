@@ -314,7 +314,7 @@ class JHTMLjresearchhtml
 	public function staffImporter($name){
 		$mainframe = JFactory::getApplication();
 		
-		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
+		require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'publications.php');
 
 		$doc = JFactory::getDocument();
 		$urlBase = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::root();
@@ -373,7 +373,7 @@ class JHTMLjresearchhtml
 	public function staffImporter2($name){
             static $dependenciesLoaded = false;
             $mainframe = JFactory::getApplication();
-            require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
+            require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'publications.php');
             $doc = JFactory::getDocument();
             $db = JFactory::getDBO();
 
@@ -549,7 +549,7 @@ class JHTMLjresearchhtml
 		$uploadField .= '</div>';
 		
 		//Render the uploaded files
-		$baseUrl = $url.'administrator/components/com_jresearch/'.str_replace(DS, '/', $filesFolder);
+		$baseUrl = $url.'administrator/components/com_jresearch/'.str_replace('/', '/', $filesFolder);
 		$result = '<ul style="padding:0px;margin:0px;">';
 		$n = 0;
 		foreach($uploadedFiles as $file){
@@ -677,7 +677,7 @@ class JHTMLjresearchhtml
 	 */
 	public static function cooperations(array $attributes=array())
 	{
-		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations'.DS.'cooperations.php');
+		include_once(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'cooperations'.'/'.'cooperations.php');
 		
 		$model = new JResearchModelCooperations();
 		$coops = $model->getData(null, true);
@@ -696,7 +696,7 @@ class JHTMLjresearchhtml
 	 */
 	public static function financiers(array $attributes=array())
 	{
-		include_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'financiers'.DS.'financiers.php');
+		include_once(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'financiers'.'/'.'financiers.php');
 		
 		$model = new JResearchModelFinanciers();
 		$financiers = $model->getData(null, true);

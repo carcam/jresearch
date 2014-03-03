@@ -11,7 +11,7 @@
 
 jimport('joomla.application.component.controller');
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'financier.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'tables'.'/'.'financier.php');
 
 class JResearchAdminFinanciersController extends JController
 {
@@ -32,8 +32,8 @@ class JResearchAdminFinanciersController extends JController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'financiers');
-		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'financiers');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'financiers');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.'/'.'views'.'/'.'financiers');
 	}
 	
 	/**

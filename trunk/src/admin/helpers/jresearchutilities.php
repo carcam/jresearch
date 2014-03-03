@@ -58,7 +58,7 @@ class JResearchUtilities
 		//Create thumbnail if it is enabled and upload was successful
 		if($params->get('thumbnail_enable', 1) == 1 && $url)
 		{
-			self::_createThumbnail(JRESEARCH_COMPONENT_ADMIN.DS.$url, $folder);
+			self::_createThumbnail(JRESEARCH_COMPONENT_ADMIN.'/'.$url, $folder);
 		}
 		
 		return $url;
@@ -85,7 +85,7 @@ class JResearchUtilities
 				$mimetype = $file['type'][$key];						
 			
 			if(isset($availableTypes[$mimetype])){
-				$newName = JRESEARCH_COMPONENT_ADMIN.DS.$path.DS.basename(JFile::makeSafe($file['name'][$key]));
+				$newName = JRESEARCH_COMPONENT_ADMIN.'/'.$path.'/'.basename(JFile::makeSafe($file['name'][$key]));
 				if(!JFile::upload($uploadedFile, $newName)){
 					JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED', basename($newName)));
 				}else{
@@ -137,7 +137,7 @@ class JResearchUtilities
 		//Delete file and set file variable to empty string
 		if(($delete === true) && ($fileVar != null))
 		{
-			@unlink(JRESEARCH_COMPONENT_ADMIN.DS.$folder.basename($fileVar));
+			@unlink(JRESEARCH_COMPONENT_ADMIN.'/'.$folder.basename($fileVar));
 			$fileVar = '';
 		}
 		
@@ -145,7 +145,7 @@ class JResearchUtilities
 		
 		if($uploadedFile != null)
 		{
-            $newName = JRESEARCH_COMPONENT_ADMIN.DS.JPath::clean($folder).DS.$file['name'];
+            $newName = JRESEARCH_COMPONENT_ADMIN.'/'.JPath::clean($folder).'/'.$file['name'];
 			if(array_key_exists($file['type'], $types))
 			{
 				$base = basename($newName);
@@ -156,7 +156,7 @@ class JResearchUtilities
 				}
 				else
 				{
-					$path = JString::str_ireplace(DS,'/',$folder).$base;
+					$path = JString::str_ireplace('/','/',$folder).$base;
 					$fileVar = $path;
 				}
 			}
@@ -184,7 +184,7 @@ class JResearchUtilities
 		if($imageUploaded && imagecopyresampled($imageThumb, $imageUploaded, 0, 0, 0, 0, $thumbSize->width, $thumbSize->height, $width, $height))
 		{
 			$filename = 'thumb_'.basename($uploadedFile);
-			$filepath = JRESEARCH_COMPONENT_ADMIN.DS.$folder.$filename;
+			$filepath = JRESEARCH_COMPONENT_ADMIN.'/'.$folder.$filename;
 			
 			switch($type)
 			{

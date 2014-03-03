@@ -38,7 +38,7 @@ class JResearchAdminProjectsController extends JController
 		$this->registerTask('save2copy', 'save');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'projects');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'projects');
 	}
 
 	/**

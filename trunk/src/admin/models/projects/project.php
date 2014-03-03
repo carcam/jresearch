@@ -108,7 +108,7 @@ class JResearchAdminModelProject extends JModelForm{
 				$delete = $data['delete_files_'.$i];
 		    	$theFile = $data['old_files_'.$i];		    	
 				if($delete == 'on'){
-			    	$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'projects'.DS.$theFile;
+			    	$filetoremove = JRESEARCH_COMPONENT_ADMIN.'/'.$params->get('files_root_path', 'files').'/'.'projects'.'/'.$theFile;
 			    	@unlink($filetoremove);
 			    }else{
 			    	$tempFilesArr[] = $theFile;
@@ -119,7 +119,7 @@ class JResearchAdminModelProject extends JModelForm{
 	    	$files = JRequest::getVar('jform', array(), 'FILES');
 	    	for($i = 0; $i <= $nAttach; ++$i){
 				if(!empty($files['name']['file_files_'.$i])){	    	
-		 		   	$tempFilesArr[] = JResearchUtilities::uploadDocument($files, 'file_files_'.$i, $params->get('files_root_path', 'files').DS.'projects');
+		 		   	$tempFilesArr[] = JResearchUtilities::uploadDocument($files, 'file_files_'.$i, $params->get('files_root_path', 'files').'/'.'projects');
 		    	}
 	    	}
 	    	$data['files'] = implode(';', $tempFilesArr);

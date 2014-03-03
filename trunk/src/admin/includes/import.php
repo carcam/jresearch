@@ -25,9 +25,9 @@ function jresearchimport($entity, $space = 'system'){
     }
     
     $components = explode('.', $entity);
-	$tail = implode(DS, array_slice($components, 0, count($components) - 1));
+	$tail = implode('/', array_slice($components, 0, count($components) - 1));
 	$file = $components[count($components) - 1].'.php';
-	require_once $basePath.DS.$tail.DS.$file;
+	require_once $basePath.'/'.$tail.'/'.$file;
 }
 
 ?>

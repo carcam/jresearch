@@ -10,7 +10,7 @@
 */
 
 jimport('joomla.application.component.controller');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'cooperation.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'tables'.'/'.'cooperation.php');
 
 /**
 * JResearch Cooperations Backend Controller
@@ -41,8 +41,8 @@ class JResearchAdminCooperationsController extends JController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'cooperations');
-		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'cooperations');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'cooperations');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.'/'.'views'.'/'.'cooperations');
 	}
 
 	/**
@@ -147,7 +147,7 @@ class JResearchAdminCooperationsController extends JController
 		    return;
 		}
 		
-		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
+		require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'jresearch.php');
 		
 		$db =& JFactory::getDBO();
 		
@@ -178,7 +178,7 @@ class JResearchAdminCooperationsController extends JController
 		
 		JResearch::uploadImage(	$coop->image_url, 	//Image string to save
 								$fileArr, 			//Uploaded File array
-								'assets'.DS.'cooperations'.DS, //Relative path from administrator folder of the component
+								'assets'.'/'.'cooperations'.'/', //Relative path from administrator folder of the component
 								($del == 'on')?true:false,	//Delete?
 								 $imageWidth, //Max Width
 								 $imageHeight //Max Height

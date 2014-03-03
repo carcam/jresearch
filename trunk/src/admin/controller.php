@@ -14,7 +14,7 @@ jimport('joomla.application.component.controller');
 * JResearch Base Backend Controller
 *
 */
-class JResearchAdminController extends JController
+class JResearchAdminController extends JControllerLegacy
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -22,11 +22,12 @@ class JResearchAdminController extends JController
  	 */
 	function __construct(){
 		parent::__construct();
+		
 		$this->registerDefaultTask('display');
 		$this->registerTask('show', 'show');
 		$this->registerTask('save', 'save');
 		$this->registerTask('help', 'help');
-		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'conf');
+		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.'/'.'views'.'/'.'conf');
 	}
 
 	/**

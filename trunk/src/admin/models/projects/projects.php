@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jresearchimport( 'joomla.application.component.model' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelList.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'modelList.php');
 
 /**
 * Model class for holding lists of project records.

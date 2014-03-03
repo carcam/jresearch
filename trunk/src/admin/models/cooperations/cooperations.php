@@ -10,8 +10,8 @@
 
 jimport( 'joomla.application.component.model' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelList.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'cooperation.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'modelList.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'tables'.'/'.'cooperation.php');
 class JResearchModelCooperations extends JResearchModelList
 {
     public function __construct()
