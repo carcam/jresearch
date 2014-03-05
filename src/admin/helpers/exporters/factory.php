@@ -32,14 +32,14 @@ class JResearchPublicationExporterFactory{
 	public static function getInstance($outputFormat){
 		static $instances;
 		
-		$exportersFolder  = JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'exporters';
+		$exportersFolder  = JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'exporters';
 
 		if(!$instances){
 			$instances = array();
 		}			
 		// We just construct the name of the class based on the standard defined: JResearch{Format name in original case}Exporter
 		$classname = 'JResearchPublication'.$outputFormat.'Exporter';
-		$filename = $exportersFolder.'/'.strtolower($outputFormat).'.php';
+		$filename = $exportersFolder.DS.strtolower($outputFormat).'.php';
 		if(!isset($instances[$classname])){	
 			if(!class_exists($classname)){
 				if(!file_exists($filename))

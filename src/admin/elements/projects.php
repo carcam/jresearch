@@ -16,7 +16,7 @@ class JElementProjects extends JElement
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 	    global $mainframe;
-	    JHTML::addIncludePath(JPATH_ADMINISTRATOR.'/'.'components'.'/'.'com_jresearch'.'/'.'helpers'.'/'.'html');
+	    JHTML::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch'.DS.'helpers'.DS.'html');
 	    
 		$db =& JFactory::getDBO();
 		$sql = "SELECT id, title FROM #__jresearch_project WHERE published=1";

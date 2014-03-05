@@ -498,7 +498,7 @@ class JResearchMember extends JResearchTable{
 	public function getCV(){
 		if(!empty($this->files)){
 			$params = JComponentHelper::getParams('com_jresearch'); 
-			return JURI::root().'administrator/components/com_jresearch/'.str_replace('/', '/', $params->get('files_root_path', 'files'))."/staff/".$this->files;
+			return JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, DS, $params->get('files_root_path', 'files'))."/staff/".$this->files;
 		}else{
 			return false;
 		}

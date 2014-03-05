@@ -17,7 +17,7 @@ jresearchimport('helpers.researchareas', 'jresearch.admin');
  * @package		JResearch
  * @subpackage	researchareas
  */
-class JResearchAdminResearchareasController extends JController
+class JResearchAdminResearchareasController extends JControllerLegacy
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -40,7 +40,7 @@ class JResearchAdminResearchareasController extends JController
 		$this->registerTask('save2new', 'save');
 		$this->registerTask('save2copy', 'save');				
 		$this->registerTask('cancel', 'cancel');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 		
 	}
 

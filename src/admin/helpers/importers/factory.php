@@ -34,14 +34,14 @@ class JResearchPublicationImporterFactory{
 	public static function getInstance($inputFormat){
 		static $instances;
 		
-		$importersFolder  = JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'importers';
+		$importersFolder  = JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers';
 
 		if(!$instances){
 			$instances = array();
 		}			
 		// We just construct the name of the class based on the standard defined: JResearch{Format name in original case}Importer
 		$classname = 'JResearch'.$inputFormat.'Importer';
-		$filename = $importersFolder.'/'.strtolower($inputFormat).'.php';
+		$filename = $importersFolder.DS.strtolower($inputFormat).'.php';
 		
 		if(!isset($instances[$classname])){	
 			if(!class_exists($classname)){

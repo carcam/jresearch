@@ -13,7 +13,7 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-require_once(JPATH_ADMINISTRATOR.'/'.'includes'.'/'.'toolbar.php');
+require_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php');
 jresearchimport('helpers.access', 'jresearch.admin');
 
 /**
@@ -45,7 +45,7 @@ class JResearchToolbar
         JToolBarHelper::divider();
             
         if($canDo->get('core.publications.create')){
-	    	JToolBarHelper::addNewX('add', JText::_('Add'));
+	    	JToolBarHelper::addNew('add', JText::_('Add'));
         }
             
         if($canDo->get('core.publications.delete')){

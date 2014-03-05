@@ -17,7 +17,7 @@ jresearchimport('helpers.staff', 'jresearch.admin');
  * @package		JResearch
  * @subpackage	Staff
  */
-class JResearchAdminStaffController extends JController
+class JResearchAdminStaffController extends JControllerLegacy
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -43,9 +43,9 @@ class JResearchAdminStaffController extends JController
 		$this->registerTask('save2copy', 'save');				
 		$this->registerTask('cancel', 'cancel');
 		$this->registerTask('autoSuggestMembers', 'autoSuggestMembers');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'staff');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'researchareas');
-		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.'/'.'views'.'/'.'staff');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'staff');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'staff');
 		
 	}
 
@@ -208,7 +208,7 @@ class JResearchAdminStaffController extends JController
     		for($i=0; $i<= $n; $i++){
         	$username = JRequest::getVar('member'.$i);
             	if($username !== null){
-                	JTable::addIncludePath(JRESEARCH_COMPONENT_ADMIN.'/'.'tables');
+                	JTable::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'tables');
                     $newMember = JTable::getInstance('Member', 'JResearch');
                     $newMember->ordering = $i;
                     $newMember->bindFromUser($username);
@@ -403,7 +403,7 @@ class JResearchAdminStaffController extends JController
 	 */
 	function autoSuggestMembers(){
         $key = JRequest::getVar('key');
-        JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'html');
+        JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'html');
         echo JHTML::_('jresearchhtml.jsonMembers', $key);
 	}
 	

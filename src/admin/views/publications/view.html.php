@@ -52,7 +52,7 @@ class JResearchAdminViewPublications extends JResearchView
         $option = JRequest::getVar('option');
         $params = JComponentHelper::getParams('com_jresearch');
 		jresearchimport('helpers.publications', 'jresearch.admin');
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/'.'helpers'.'/'.'html');		
+		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');		
     	
     	JResearchToolbar::publicationsAdminListToolbar();
         $db = JFactory::getDBO();

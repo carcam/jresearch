@@ -20,27 +20,27 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 
 // Common needed files		
-require_once(JPATH_ADMINISTRATOR.'/'.'components'.'/'.'com_jresearch'.'/'.'includes'.'/'.'defines.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'includes'.'/'.'import.php');
+require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'defines.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'includes'.DS.'import.php');
 
 //Helpers
-require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'cite.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'jresearchutilities.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'includes'.'/'.'view.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'cite.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearchutilities.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'includes'.DS.'view.php');
 
 //HTML helpers
-JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'html');
-JHTML::addIncludePath(JRESEARCH_COMPONENT_SITE.'/'.'helpers'.'/'.'html');
+JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'html');
+JHTML::addIncludePath(JRESEARCH_COMPONENT_SITE.DS.'helpers'.DS.'html');
 
 //Citation factory
-require_once(JRESEARCH_COMPONENT_SITE.'/'.'citationStyles'.'/'.'factory.php');
+require_once(JRESEARCH_COMPONENT_SITE.DS.'citationStyles'.DS.'factory.php');
 
 // Plugin management
 JPluginHelper::importPlugin('jresearch');
-require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'plugins.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'plugins.php');
 
 //Toolbar
-require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'toolbar.jresearch.html.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'toolbar.jresearch.html.php');
 
 //Stylesheet
 $mainframe = JFactory::getApplication();

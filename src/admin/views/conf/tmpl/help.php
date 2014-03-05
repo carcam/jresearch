@@ -9,10 +9,10 @@ defined('_JEXEC') or die('Restricted access');
 
 <form id="adminForm" action="index.php" name="adminForm" method="post">
 <?php
-$directory = JPATH_ADMINISTRATOR.'/'.'language';
+$directory = JPATH_ADMINISTRATOR.DS.'language';
 
-$default_file = $directory.'/'.'en-GB'.'/'.'en-GB-jresearch_help.html';
-$file = $directory.'/'.$this->langtag.'/'.$this->langtag.'-jresearch_help.html';
+$default_file = $directory.DS.'en-GB'.DS.'en-GB-jresearch_help.html';
+$file = $directory.DS.$this->langtag.DS.$this->langtag.'-jresearch_help.html';
 
 
 

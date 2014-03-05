@@ -16,7 +16,7 @@ jresearchimport('joomla.application.component.controller');
 * @package		JResearch
 * @subpackage	Projects
 */
-class JResearchAdminProjectsController extends JController
+class JResearchAdminProjectsController extends JControllerLegacy
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -38,7 +38,7 @@ class JResearchAdminProjectsController extends JController
 		$this->registerTask('save2copy', 'save');
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'projects');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'projects');
 	}
 
 	/**

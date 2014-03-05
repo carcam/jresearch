@@ -11,14 +11,14 @@
 
 jimport('joomla.application.component.controller');
 
-require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'tables'.'/'.'team.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'team.php');
 
 /**
  * Team Backend Controller
  * @package		JResearch
  * @subpackage	Team
  */
-class JResearchAdminTeamsController extends JController
+class JResearchAdminTeamsController extends JControllerLegacy
 {
 /**
 	 * Initialize the controller by registering the tasks to methods.
@@ -41,9 +41,9 @@ class JResearchAdminTeamsController extends JController
 		$this->registerTask('save', 'save');
 		$this->registerTask('cancel', 'cancel');
 		
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'teams');
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'staff');
-		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.'/'.'views'.'/'.'teams');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'teams');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'staff');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'teams');
 	}
 	
 	/**

@@ -17,7 +17,7 @@ jresearchimport('helpers.access', 'jresearch.admin');
 * @package		JResearch
 * @subpackage	Publications
 */
-class JResearchAdminPublicationsController extends JController
+class JResearchAdminPublicationsController extends JControllerLegacy
 {
 
 	/**
@@ -52,7 +52,7 @@ class JResearchAdminPublicationsController extends JController
             $this->registerTask('cancel', 'cancel');
             $this->registerTask('toggle_internal', 'toggle_internal');
             $this->registerTask('changeType', 'saveAsCopy');
-            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'publications');
+            $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'publications');
 	}
 
 	/**

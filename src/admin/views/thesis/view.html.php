@@ -57,7 +57,7 @@ class JResearchAdminViewThesis extends JResearchView
                 $uploadedFiles = explode(';', trim($thesis->files));
         else
                 $uploadedFiles = array();
-        $files = JHTML::_('jresearchhtml.fileUpload', 'attachments', $params->get('files_root_path', 'files').'/'.'theses','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
+        $files = JHTML::_('jresearchhtml.fileUpload', 'attachments', $params->get('files_root_path', 'files').DS.'theses','size="30" maxlength="255" class="validate-url"', false, $uploadedFiles);
 		
 
     	$this->assignRef('thesis', $thesis, JResearchFilter::OBJECT_XHTML_SAFE);
