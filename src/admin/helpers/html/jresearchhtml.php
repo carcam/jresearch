@@ -440,7 +440,7 @@ class JHTMLjresearchhtml
 			jresearchimport('helpers.charsets', 'jresearch.admin');
             $extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());
             $doc = JFactory::getDocument();
-            $token = JUtility::getToken();
+            $token = JSession::getFormToken();
             JHTML::_('behavior.formvalidation');
             JHTML::_('behavior.tooltip');
             
