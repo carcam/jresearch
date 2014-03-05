@@ -43,7 +43,7 @@ class JResearchModelThesesList extends JResearchModelList{
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false ){		
 		$db =& JFactory::getDBO();		
 		if($memberId === null){		
-			$resultQuery = 'SELECT * FROM '.$db->nameQuote($this->_tableName);
+			$resultQuery = 'SELECT * FROM '.$db->quoteName($this->_tableName);
 		}else{
 			$resultQuery = '';
 		}
@@ -67,7 +67,7 @@ class JResearchModelThesesList extends JResearchModelList{
 	*/	
 	protected function _buildCountQuery(){
 		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery = 'SELECT '.$db->quoteName('id').' FROM '.$db->quoteName($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
 	}
@@ -76,13 +76,13 @@ class JResearchModelThesesList extends JResearchModelList{
 	{
 		$db = JFactory::getDBO();
 		
-		$id_staff_member = $db->nameQuote('id_staff_member');
-		$team_member = $db->nameQuote('#__jresearch_team_member');
-		$id_thesis = $db->nameQuote('id_thesis');
-		$internal_author = $db->nameQuote('#__jresearch_thesis_internal_author');
+		$id_staff_member = $db->quoteName('id_staff_member');
+		$team_member = $db->quoteName('#__jresearch_team_member');
+		$id_thesis = $db->quoteName('id_thesis');
+		$internal_author = $db->quoteName('#__jresearch_thesis_internal_author');
 		$teamValue = $db->Quote($teamId);
-		$id_team = $db->nameQuote('id_team');
-		$id_member = $db->nameQuote('id_member');
+		$id_team = $db->quoteName('id_team');
+		$id_member = $db->quoteName('id_member');
 		
 		$query = "SELECT DISTINCT $id_thesis FROM $internal_author, $team_member WHERE $team_member.$id_team = $teamValue "
 				 ." AND $internal_author.$id_staff_member = $team_member.$id_member";
@@ -93,7 +93,7 @@ class JResearchModelThesesList extends JResearchModelList{
 		}
 				 
 		$db->setQuery($query);
-		return $db->loadResultArray();
+		return $db->loadColumn();
 	}
 	
 	/**
@@ -102,7 +102,7 @@ class JResearchModelThesesList extends JResearchModelList{
 	*/
 	function getAllAuthors(){
 		$db = JFactory::getDBO();
-		$query = 'SELECT DISTINCT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('author_name').' as name FROM '.$db->nameQuote('#__jresearch_thesis_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
+		$query = 'SELECT DISTINCT '.$db->quoteName('author_name').' as id, '.$db->quoteName('author_name').' as name FROM '.$db->quoteName('#__jresearch_thesis_external_author').' UNION SELECT id, CONCAT_WS( \' \', firstname, lastname ) as name FROM '.$db->quoteName('#__jresearch_member').' WHERE '.$db->quoteName('published').' = '.$db->Quote('1');
 		$db->setQuery($query);
 		return $db->loadAssocList();
 	}
@@ -189,9 +189,9 @@ class JResearchModelThesesList extends JResearchModelList{
                     $filter_order_Dir = 'ASC';
             //if order column is unknown, use the default
             if(!in_array($filter_order, $orders))
-                    $filter_order = $db->nameQuote('published');
+                    $filter_order = $db->quoteName('published');
 
-            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->nameQuote('created').' DESC';
+            return ' ORDER BY '.$filter_order.' '.$filter_order_Dir.', '.$db->quoteName('created').' DESC';
 	}	
 	
 	/**
@@ -212,16 +212,16 @@ class JResearchModelThesesList extends JResearchModelList{
 
             if(!$published){
                     if($filter_state == 'P')
-                            $where[] = $db->nameQuote('published').' = 1 ';
+                            $where[] = $db->quoteName('published').' = 1 ';
                     elseif($filter_state == 'U')
-                            $where[] = $db->nameQuote('published').' = 0 ';
+                            $where[] = $db->quoteName('published').' = 0 ';
             }else
-                    $where[] = $db->nameQuote('published').' = 1 ';
+                    $where[] = $db->quoteName('published').' = 1 ';
 
             if(!empty($filter_author) && $filter_author != -1){
                     $ids = $this->_getAuthorThesesIds(trim($filter_author));
                     if(count($ids) > 0)
-                            $where[] = $db->nameQuote('id').' IN ('.implode(',', $ids).')';
+                            $where[] = $db->quoteName('id').' IN ('.implode(',', $ids).')';
                     else
                             $where[] = '0 = 1';
             }
@@ -230,15 +230,15 @@ class JResearchModelThesesList extends JResearchModelList{
             if(($filter_search = trim($filter_search))){
                     $filter_search = JString::strtolower($filter_search);
                     $filter_search = $db->getEscaped($filter_search);
-                    $where[] = 'LOWER('.$db->nameQuote('title').') LIKE '.$db->Quote('%'.$filter_search.'%');
+                    $where[] = 'LOWER('.$db->quoteName('title').') LIKE '.$db->Quote('%'.$filter_search.'%');
             }
 
             if(!empty($filter_degree)){
-                $where[] = $db->nameQuote('degree').' = '.$db->Quote($filter_degree);
+                $where[] = $db->quoteName('degree').' = '.$db->Quote($filter_degree);
             }
 
             if(!empty($filter_status)){
-                $where[] = $db->nameQuote('status').' = '.$db->Quote($filter_status);
+                $where[] = $db->quoteName('status').' = '.$db->Quote($filter_status);
             }
 
             return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
@@ -253,12 +253,12 @@ class JResearchModelThesesList extends JResearchModelList{
 	private function _getAuthorThesesIds($author){
             $db = JFactory::getDBO();
             if(is_numeric($author)){
-                    $query = 'SELECT '.$db->nameQuote('id_thesis').' FROM '.$db->nameQuote('#__jresearch_thesis_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
+                    $query = 'SELECT '.$db->quoteName('id_thesis').' FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($author);
             }else{
-                    $query = 'SELECT '.$db->nameQuote('id_thesis').' FROM '.$db->nameQuote('#__jresearch_thesis_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
+                    $query = 'SELECT '.$db->quoteName('id_thesis').' FROM '.$db->quoteName('#__jresearch_thesis_external_author').' WHERE '.$db->quoteName('author_name').' LIKE '.$db->Quote($author);
             }
             $db->setQuery($query);
-            return $db->loadResultArray();
+            return $db->loadColumn();
 	}
 	
 }

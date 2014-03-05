@@ -69,10 +69,10 @@ class JResearchTeam extends JTable
 			
 		$db = &$this->getDBO();
 		$j = $this->_tbl_key;
-		$tableName = $db->nameQuote('#__jresearch_team_member');
+		$tableName = $db->quoteName('#__jresearch_team_member');
 		
 		// Delete the information about internal and external references
-		$deleteQuery = 'DELETE FROM '.$tableName.' WHERE '.$db->nameQuote('id_team').' = '.$db->Quote($this->$j);
+		$deleteQuery = 'DELETE FROM '.$tableName.' WHERE '.$db->quoteName('id_team').' = '.$db->Quote($this->$j);
 		$db->setQuery($deleteQuery);
 		if(!$db->query())
 		{
@@ -80,13 +80,13 @@ class JResearchTeam extends JTable
 			return false;
 		}
 		
-		$idTeamField = $db->nameQuote('id_team');
-       	$idMemberField = $db->nameQuote('id_member');
+		$idTeamField = $db->quoteName('id_team');
+       	$idMemberField = $db->quoteName('id_member');
        	
 		foreach($this->_members as $member)
 		{			
 			$id_staff_member = $member['id_member'];
-			$tableName = $db->nameQuote('#__jresearch_team_member');
+			$tableName = $db->quoteName('#__jresearch_team_member');
 			
 			$insertInternalQuery = "INSERT INTO $tableName($idTeamField,$idMemberField) VALUES ($this->id, $id_staff_member)";
 			$db->setQuery($insertInternalQuery);	
@@ -232,10 +232,10 @@ class JResearchTeam extends JTable
 		$db = &$this->getDBO();
 		$j = $this->_tbl_key;
 		$oid = ($oid == null) ? $this->$j : $oid;
-		$tableName = $db->nameQuote('#__jresearch_team_member');
+		$tableName = $db->quoteName('#__jresearch_team_member');
 		
 		// Delete the information about internal and external references
-		$deleteQuery = 'DELETE FROM '.$tableName.' WHERE '.$db->nameQuote('id_team').' = '.$db->Quote($oid);
+		$deleteQuery = 'DELETE FROM '.$tableName.' WHERE '.$db->quoteName('id_team').' = '.$db->Quote($oid);
 		$db->setQuery($deleteQuery);
 		if(!$db->query())
 		{
@@ -251,8 +251,8 @@ class JResearchTeam extends JTable
 	private function _loadMembers($oid)
 	{
 		$db =& JFactory::getDBO();
-		$table = $db->nameQuote('#__jresearch_team_member');
-		$idTeam = $db->nameQuote('id_team');
+		$table = $db->quoteName('#__jresearch_team_member');
+		$idTeam = $db->quoteName('id_team');
 		
 		$qoid = $db->Quote($oid);
 		

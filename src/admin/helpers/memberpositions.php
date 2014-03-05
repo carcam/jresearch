@@ -18,7 +18,7 @@ class JResearchMemberpositionsHelper{
 		$db = JFactory::getDBO();
 		jresearchimport('tables.member_position');
 		
-		$db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_member_position').' WHERE published = '.$db->Quote(1));
+		$db->setQuery('SELECT * FROM '.$db->quoteName('#__jresearch_member_position').' WHERE published = '.$db->Quote(1));
 		$result = $db->loadAssocList();
 		$positions = array();
 		

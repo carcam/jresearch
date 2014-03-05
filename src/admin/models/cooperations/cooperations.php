@@ -42,7 +42,7 @@ class JResearchModelCooperations extends JResearchModelList
                 $query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 
                 $db->setQuery($query);
-                $ids = $db->loadResultArray();
+                $ids = $db->loadColumn();
                 $this->_items = array();
 
                 foreach($ids as $id)
@@ -68,7 +68,7 @@ class JResearchModelCooperations extends JResearchModelList
         $db = JFactory::getDBO();
 
         //Select categories from existing cooperations
-        $sql = 'SELECT DISTINCT jc.catid AS cid, title, image FROM '.$db->nameQuote('#__jresearch_cooperations').' AS jc LEFT JOIN '.$db->nameQuote('#__categories').' AS c ON jc.catid = c.id WHERE jc.catid != 0 AND jc.published=1';
+        $sql = 'SELECT DISTINCT jc.catid AS cid, title, image FROM '.$db->quoteName('#__jresearch_cooperations').' AS jc LEFT JOIN '.$db->quoteName('#__categories').' AS c ON jc.catid = c.id WHERE jc.catid != 0 AND jc.published=1';
 
         $db->setQuery($sql);
         return $db->loadObjectList();
@@ -86,7 +86,7 @@ class JResearchModelCooperations extends JResearchModelList
     protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false)
     {
         $db =& JFactory::getDBO();
-        $resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+        $resultQuery = 'SELECT '.$db->quoteName('id').' FROM '.$db->quoteName($this->_tableName);
 
         $resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();
 
@@ -121,7 +121,7 @@ class JResearchModelCooperations extends JResearchModelList
 
         //if order column is unknown, use the default
         if(!in_array($filter_order, $orders))
-                $filter_order = $db->nameQuote('ordering');
+                $filter_order = $db->quoteName('ordering');
 
         return ' ORDER BY catid,'.$filter_order.' '.$filter_order_Dir;
     }
@@ -143,23 +143,23 @@ class JResearchModelCooperations extends JResearchModelList
         if(!$published)
         {
                 if($filter_state == 'P')
-                        $where[] = $db->nameQuote('published').' = 1 ';
+                        $where[] = $db->quoteName('published').' = 1 ';
                 elseif($filter_state == 'U')
-                        $where[] = $db->nameQuote('published').' = 0 ';
+                        $where[] = $db->quoteName('published').' = 0 ';
         }
         else
-                $where[] = $db->nameQuote('published').' = 1 ';
+                $where[] = $db->quoteName('published').' = 1 ';
 
         if($filter_category)
         {
-                $where[] = $db->nameQuote('catid').' = '.$filter_category;
+                $where[] = $db->quoteName('catid').' = '.$filter_category;
         }
 
         if(($filter_search = trim($filter_search)))
         {
                 $filter_search = JString::strtolower($filter_search);
                 $filter_search = $db->getEscaped($filter_search);
-                $where[] = 'LOWER('.$db->nameQuote('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
+                $where[] = 'LOWER('.$db->quoteName('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
         }
 
         return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
@@ -173,7 +173,7 @@ class JResearchModelCooperations extends JResearchModelList
     */
     protected function _buildCountQuery(){
         $db =& JFactory::getDBO();
-        $resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+        $resultQuery = 'SELECT '.$db->quoteName('id').' FROM '.$db->quoteName($this->_tableName);
         $resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
         return $resultQuery;
     }

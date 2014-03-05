@@ -90,23 +90,23 @@ class JResearchAdminModelStaff extends JResearchAdminModelList{
             $where = array();
 
             if($filter_state == 'P')
-                $where[] = $db->nameQuote('published').' = 1 ';
+                $where[] = $db->quoteName('published').' = 1 ';
             elseif($filter_state == 'U')
-                $where[] = $db->nameQuote('published').' = 0 ';
+                $where[] = $db->quoteName('published').' = 0 ';
 
             if(($filter_search = trim($filter_search))){
                 $filter_search = JString::strtolower($filter_search);
                 $filter_search = $db->getEscaped($filter_search);
-                $where[] = 'LOWER('.$db->nameQuote('name').') LIKE '.$db->Quote('%'.$filter_search.'%');
+                $where[] = 'LOWER('.$db->quoteName('name').') LIKE '.$db->Quote('%'.$filter_search.'%');
             }
 
             //Added former member for where clause
             if($filter_former_member != 0)
             {
                 if($filter_former > 0)
-                        $where[] = $db->nameQuote('former_member').' = 1 ';
+                        $where[] = $db->quoteName('former_member').' = 1 ';
                 elseif($filter_former < 0)
-                        $where[] = $db->nameQuote('former_member').' = 0 ';
+                        $where[] = $db->quoteName('former_member').' = 0 ';
             }
 
 

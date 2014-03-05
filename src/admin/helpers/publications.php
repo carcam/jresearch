@@ -501,20 +501,20 @@ class JResearchPublicationsHelper{
         $result2 = array();
 
         if($mode == 'all'){
-        	$query1 = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');
+        	$query1 = 'SELECT '.$db->quoteName('name').' FROM '.$db->quoteName('#__jresearch_publication_type');
             $db->setQuery($query1);
-            $result1 = $db->loadResultArray();
-            $query2 = 'SELECT '.$db->nameQuote('element').' FROM '.$db->nameQuote('#__extensions').' WHERE folder = '.$db->Quote('jresearch-pubtypes').' AND '.$db->nameQuote('enabled').' = 1';
+            $result1 = $db->loadColumn();
+            $query2 = 'SELECT '.$db->quoteName('element').' FROM '.$db->quoteName('#__extensions').' WHERE folder = '.$db->Quote('jresearch-pubtypes').' AND '.$db->quoteName('enabled').' = 1';
             $db->setQuery($query2);
-            $result2 = $db->loadResultArray();
+            $result2 = $db->loadColumn();
         }elseif($mode == 'native'){
-            $query1 = 'SELECT '.$db->nameQuote('name').' FROM '.$db->nameQuote('#__jresearch_publication_type');
+            $query1 = 'SELECT '.$db->quoteName('name').' FROM '.$db->quoteName('#__jresearch_publication_type');
             $db->setQuery($query1);
-            $result1 = $db->loadResultArray();                
+            $result1 = $db->loadColumn();
         }elseif($mode == 'extended'){
-            $query2 = 'SELECT '.$db->nameQuote('element').' FROM '.$db->nameQuote('#__extensions').' WHERE folder = '.$db->Quote('jresearch-pubtypes').' AND '.$db->nameQuote('enabled').' = 1';
+            $query2 = 'SELECT '.$db->quoteName('element').' FROM '.$db->quoteName('#__extensions').' WHERE folder = '.$db->Quote('jresearch-pubtypes').' AND '.$db->quoteName('enabled').' = 1';
             $db->setQuery($query2);
-            $result2 = $db->loadResultArray();                
+            $result2 = $db->loadColumn();
         }
 
         return array_merge($result1, $result2);
@@ -525,8 +525,8 @@ class JResearchPublicationsHelper{
 	 */
    	public static function getYears(){
        $db = JFactory::getDBO();
-       $db->setQuery('SELECT DISTINCT year FROM '.$db->nameQuote('#__jresearch_publication').' ORDER BY '.$db->nameQuote('year').' DESC ');
-       return $db->loadResultArray();
+       $db->setQuery('SELECT DISTINCT year FROM '.$db->quoteName('#__jresearch_publication').' ORDER BY '.$db->quoteName('year').' DESC ');
+       return $db->loadColumn();
    	}
    	
 
@@ -580,7 +580,7 @@ class JResearchPublicationsHelper{
 	*/
 	public static function getAllAuthors(){
    		$db = JFactory::getDBO();
-   		$db->setQuery('SELECT DISTINCT mid, member_name FROM '.$db->nameQuote('#__jresearch_all_publication_authors'));
+   		$db->setQuery('SELECT DISTINCT mid, member_name FROM '.$db->quoteName('#__jresearch_all_publication_authors'));
    		return $db->loadAssocList();		
 	}
 	
@@ -594,8 +594,8 @@ class JResearchPublicationsHelper{
 		jresearchimport('tables.publication', 'jresearch.admin');		
 		$publication = null;
 		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_publication').' WHERE citekey LIKE '.$db->Quote($citekey);
-		$query .= ' AND '.$db->nameQuote('published').' = '.$db->Quote(1);
+		$query = 'SELECT * FROM '.$db->quoteName('#__jresearch_publication').' WHERE citekey LIKE '.$db->Quote($citekey);
+		$query .= ' AND '.$db->quoteName('published').' = '.$db->Quote(1);
 		$db->setQuery($query);
 		$result = $db->loadAssoc();
 		
@@ -627,28 +627,28 @@ class JResearchPublicationsHelper{
 
 		$newprefix = $db->Quote( '%'.$db->getEscaped( strtolower($prefix), true ).'%', false );
 		$prefixscp = $db->Quote(strtolower($prefix), false); 
-		$publicationTable = $db->nameQuote('#__jresearch_publication');
-		$staffTable = $db->nameQuote('#__jresearch_member');
-		$internalAuthorsTable = $db->nameQuote('#__jresearch_publication_internal_author');
-		$externalAuthorsTable = $db->nameQuote('#__jresearch_publication_external_author');
-		$p = $db->nameQuote('p');
-		$em = $db->nameQuote('em');
-		$im = $db->nameQuote('im');
-		$m = $db->nameQuote('m');
-		$id_publication = $db->nameQuote('id_publication');
-		$id = $db->nameQuote('id');
-		$firstname = $db->nameQuote('firstname');
-		$lastname = $db->nameQuote('lastname');
-		$id_staff_member = $db->nameQuote('id_staff_member');
-		$pubtype = $db->nameQuote('pubtype');
-		$authorname = $db->nameQuote('author_name');
-		$pu = $db->nameQuote('published');
+		$publicationTable = $db->quoteName('#__jresearch_publication');
+		$staffTable = $db->quoteName('#__jresearch_member');
+		$internalAuthorsTable = $db->quoteName('#__jresearch_publication_internal_author');
+		$externalAuthorsTable = $db->quoteName('#__jresearch_publication_external_author');
+		$p = $db->quoteName('p');
+		$em = $db->quoteName('em');
+		$im = $db->quoteName('im');
+		$m = $db->quoteName('m');
+		$id_publication = $db->quoteName('id_publication');
+		$id = $db->quoteName('id');
+		$firstname = $db->quoteName('firstname');
+		$lastname = $db->quoteName('lastname');
+		$id_staff_member = $db->quoteName('id_staff_member');
+		$pubtype = $db->quoteName('pubtype');
+		$authorname = $db->quoteName('author_name');
+		$pu = $db->quoteName('published');
 
-		$whereKeywords = " LOCATE($prefixscp, LOWER(".$db->nameQuote('keywords').")) > 0";
-		$whereTitle = " LOWER(".$db->nameQuote('title').") LIKE $newprefix";
-		$whereYear = " ".$db->nameQuote('year')." = $prefixscp";
-		$whereCitekey = " LOWER(".$db->nameQuote('citekey').") LIKE $newprefix";
-		$published = $db->nameQuote('published').' = '.$db->Quote(1);
+		$whereKeywords = " LOCATE($prefixscp, LOWER(".$db->quoteName('keywords').")) > 0";
+		$whereTitle = " LOWER(".$db->quoteName('title').") LIKE $newprefix";
+		$whereYear = " ".$db->quoteName('year')." = $prefixscp";
+		$whereCitekey = " LOWER(".$db->quoteName('citekey').") LIKE $newprefix";
+		$published = $db->quoteName('published').' = '.$db->Quote(1);
 
 
 		switch($criteria){
@@ -682,7 +682,7 @@ class JResearchPublicationsHelper{
 				$finalQuery = $query;
 			}
 		}else{
-			$finalQuery = 'SELECT '.$db->nameQuote('id').', '.$db->nameQuote('pubtype').' FROM '.$publicationTable.' WHERE '.$db->nameQuote('published').' = '.$db->Quote(1); 
+			$finalQuery = 'SELECT '.$db->quoteName('id').', '.$db->quoteName('pubtype').' FROM '.$publicationTable.' WHERE '.$db->quoteName('published').' = '.$db->Quote(1); 
 		}
 		
 		$finalQuery .= " LIMIT $limitstart, $limit";

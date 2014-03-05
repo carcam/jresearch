@@ -23,7 +23,7 @@ class JResearchResearchareasHelper{
 		$areas = array();
 		jresearchimport('tables.researcharea', 'jresearch.admin');
 		
-		$db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_research_area').' WHERE published = '.$db->Quote(1));
+		$db->setQuery('SELECT * FROM '.$db->quoteName('#__jresearch_research_area').' WHERE published = '.$db->Quote(1));
 		$result = $db->loadAssocList();
 		foreach($result as $row){
 			$area = JTable::getInstance('Researcharea', 'JResearch');

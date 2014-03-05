@@ -130,17 +130,17 @@ class JResearchResearcharea extends JResearchTable{
             $booleanResult = booleanResult && $this->_keepIntegrity('thesis', $oid);
                     	
         	// Set as uncategorized any item related to this research area
-            $queryPub = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_researcharea')
-                        .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
+            $queryPub = 'DELETE FROM '.$db->quoteName('#__jresearch_publication_researcharea')
+                        .' WHERE '.$db->quoteName('id_researcharea').' = '.$db->Quote($oid);
 
-            $queryProj = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_researcharea')
-                         .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
+            $queryProj = 'DELETE FROM '.$db->quoteName('#__jresearch_project_researcharea')
+                         .' WHERE '.$db->quoteName('id_researcharea').' = '.$db->Quote($oid);
 
-            $queryStaff = 'DELETE FROM '.$db->nameQuote('#__jresearch_member_researcharea')
-                          .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
+            $queryStaff = 'DELETE FROM '.$db->quoteName('#__jresearch_member_researcharea')
+                          .' WHERE '.$db->quoteName('id_researcharea').' = '.$db->Quote($oid);
 
-            $queryThes = 'DELETE FROM '.$db->nameQuote('#__jresearch_thesis_researcharea')
-                          .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
+            $queryThes = 'DELETE FROM '.$db->quoteName('#__jresearch_thesis_researcharea')
+                          .' WHERE '.$db->quoteName('id_researcharea').' = '.$db->Quote($oid);
 
             $db->setQuery($queryPub);
             $db->query();
