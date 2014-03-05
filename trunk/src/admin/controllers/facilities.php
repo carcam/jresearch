@@ -10,14 +10,14 @@
 */
 
 jimport('joomla.application.component.controller');
-require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'tables'.'/'.'facility.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'facility.php');
 
 /**
 * JResearch Facilities Backend Controller
 * @package		JResearch
 * @subpackage	Facilities
 */
-class JResearchAdminFacilitiesController extends JController
+class JResearchAdminFacilitiesController extends JControllerLegacy
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
@@ -40,8 +40,8 @@ class JResearchAdminFacilitiesController extends JController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('cancel', 'cancel');
 
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'facilities');
-		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.'/'.'views'.'/'.'facilities');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'facilities');
+		$this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'facilities');
 	}
 
 	/**
@@ -51,7 +51,7 @@ class JResearchAdminFacilitiesController extends JController
 	 */
 	function display()
 	{
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 
 		$view = &$this->getView('Facilities', 'html', 'JResearchAdminView');
 		$model = &$this->getModel('Facilities', 'JResearchModel');
@@ -65,7 +65,7 @@ class JResearchAdminFacilitiesController extends JController
 
 	function edit()
 	{
-		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'researchareas');
+		$this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
 	
 		$cid = JRequest::getVar('cid', array());
 
@@ -161,7 +161,7 @@ class JResearchAdminFacilitiesController extends JController
 		    return;
 		}
 		
-		require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'helpers'.'/'.'jresearch.php');
+		require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearch.php');
 		
 		$db =& JFactory::getDBO();
 		
@@ -190,7 +190,7 @@ class JResearchAdminFacilitiesController extends JController
 		
 		JResearch::uploadImage(	$fac->image_url, 	//Image string to save
 								$fileArr, 			//Uploaded File array
-								'assets'.'/'.'facilities'.'/', //Relative path from administrator folder of the component
+								'assets'.DS.'facilities'.DS, //Relative path from administrator folder of the component
 								($del == 'on')?true:false,	//Delete?
 								 $imageWidth, //Max Width
 								 $imageHeight //Max Height

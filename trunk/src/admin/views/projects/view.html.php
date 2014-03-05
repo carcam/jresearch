@@ -24,7 +24,7 @@ class JResearchAdminViewProjects extends JResearchView
     	$mainframe = JFactory::getApplication();
         $option = JRequest::getVar('option');
 		jresearchimport('helpers.projects', 'jresearch.admin');    	
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/'.'helpers'.'/'.'html');
+		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
 		
     	JResearchToolbar::projectsAdminListToolbar();
     	

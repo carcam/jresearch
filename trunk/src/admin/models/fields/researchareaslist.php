@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.form.fields.list');
-require_once(JPATH_LIBRARIES.'/'.'joomla'.'/'.'form'.'/'.'fields'.'/'.'list.php');
+require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'fields'.DS.'list.php');
 
 /**
  * Form list for J!Research forms.

@@ -12,8 +12,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'models'.'/'.'modelSingleRecord.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.'/'.'tables'.'/'.'thesis.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelSingleRecord.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'thesis.php');
 
 
 /**

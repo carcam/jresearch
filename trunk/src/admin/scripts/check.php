@@ -26,7 +26,7 @@ THE SOFTWARE.
 $fileArray = array();
 foreach ($_POST as $key => $value) {
 	if ($key != 'folder') {
-		if (file_exists($_SERVER['DOCUMENT_ROOT'] . $_POST['folder'] . '/' . date("Ymd_gi_").$value)) {
+		if (file_exists($_SERVER['DOCUMENT_ROOT'] . $_POST['folder'] . DS . date("Ymd_gi_").$value)) {
 			$fileArray[$key] = date("Ymd_gi_").$value;
 		}
 	}
