@@ -105,23 +105,23 @@ class JResearchAdminModelProjects extends JResearchAdminModelList{
             $filter_area = $this->getState('com_jresearch.projects.filter_area');                  
             
             if($filter_state == 'P')
-                $where[] = $db->nameQuote('published').' = 1 ';
+                $where[] = $db->quoteName('published').' = 1 ';
             elseif($filter_state == 'U')
-                $where[] = $db->nameQuote('published').' = 0 ';
+                $where[] = $db->quoteName('published').' = 0 ';
 
             if(!empty($filter_area) && $filter_area != -1){
-        		$where[] = $db->nameQuote('ra').'.'.$db->Quote('id_research_area').'='.$db->Quote($filter_area);            	
+        		$where[] = $db->quoteName('ra').'.'.$db->Quote('id_research_area').'='.$db->Quote($filter_area);            	
         	}
             
             // prepare the WHERE clause
             if(!empty($filter_status) && $filter_status != -1){
-                $where[] = $db->nameQuote('status').' = '.$db->Quote($filter_status);
+                $where[] = $db->quoteName('status').' = '.$db->Quote($filter_status);
             }
 
             if(!empty($filter_year) && $filter_year != -1 ){
             	$mysqlStartDate = $filter_year.'-01-01';
             	$mysqlEndDate = $filter_year.'-12-31';
-                $where[] = $db->nameQuote('start_date').' BETWEEN '.$db->Quote($mysqlStartDate).' AND '.$db->Quote($mysqlEndDate);
+                $where[] = $db->quoteName('start_date').' BETWEEN '.$db->Quote($mysqlStartDate).' AND '.$db->Quote($mysqlEndDate);
             }
 
             if(($filter_search = trim($filter_search))){
@@ -131,7 +131,7 @@ class JResearchAdminModelProjects extends JResearchAdminModelList{
             }
             
             if(!empty($filter_author) && $filter_author != '-1'){
-            	$where[] = $db->nameQuote('apa').'.'.$db->nameQuote('mid').' = '.$db->Quote($filter_author);
+            	$where[] = $db->quoteName('apa').'.'.$db->quoteName('mid').' = '.$db->Quote($filter_author);
             }
             
             return $where;		

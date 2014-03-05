@@ -247,9 +247,9 @@ class JResearchProject extends JResearchActivity{
 			return false;
              
 		// Delete the information about internal and external references
-	    $deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_internal_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->id);
-		$deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_external_author').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->id);
-		$deletePublicationsQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_publication').' WHERE '.$db->nameQuote('id_project').' = '.$db->Quote($this->id);
+	    $deleteInternalQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_project_internal_author').' WHERE '.$db->quoteName('id_project').' = '.$db->Quote($this->id);
+		$deleteExternalQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_project_external_author').' WHERE '.$db->quoteName('id_project').' = '.$db->Quote($this->id);
+		$deletePublicationsQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_project_publication').' WHERE '.$db->quoteName('id_project').' = '.$db->Quote($this->id);
 			
 		$db->setQuery($deleteInternalQuery);
 		if(!$db->query()){
@@ -270,11 +270,11 @@ class JResearchProject extends JResearchActivity{
 		}
 		
         // Insert members' information
-        $orderField = $db->nameQuote('order');
-        $idPubField = $db->nameQuote('id_project');
-        $idStaffField = $db->nameQuote('id_staff_member');
-        $isPrincipalField = $db->nameQuote('is_principal');
-		$orderField = $db->nameQuote('order');        		
+        $orderField = $db->quoteName('order');
+        $idPubField = $db->quoteName('id_project');
+        $idStaffField = $db->quoteName('id_staff_member');
+        $isPrincipalField = $db->quoteName('is_principal');
+		$orderField = $db->quoteName('order');        		
 		$order = 0;
 		if(empty($this->authors))
 			$authorsArray = array();
@@ -290,12 +290,12 @@ class JResearchProject extends JResearchActivity{
 			
 			if(is_numeric($author)){
 				$id_staff_member = $db->Quote($author);
-				$idStaffField = $db->nameQuote('id_staff_member');
-				$tableName = $db->nameQuote('#__jresearch_project_internal_author');
+				$idStaffField = $db->quoteName('id_staff_member');
+				$tableName = $db->quoteName('#__jresearch_project_internal_author');
             	$query = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField,$isPrincipalField) VALUES ($this->id, $id_staff_member,$order,$principal)";
 			}else{
-				$authorField = $db->nameQuote('author_name');
-				$tableName = $db->nameQuote('#__jresearch_project_external_author');
+				$authorField = $db->quoteName('author_name');
+				$tableName = $db->quoteName('#__jresearch_project_external_author');
 				$authorName = $db->Quote($author);
 				$query = "INSERT INTO $tableName($idPubField, $authorField, $orderField, $isPrincipalField) VALUES($this->id, $authorName, $order, $principal)";				
 			}			
@@ -310,7 +310,7 @@ class JResearchProject extends JResearchActivity{
 		}
 		
 		//Time to remove research areas too
-		$researchareaRemoveQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_researcharea').' WHERE id_project = '.$db->Quote($this->id);
+		$researchareaRemoveQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_project_researcharea').' WHERE id_project = '.$db->Quote($this->id);
 		$db->setQuery($researchareaRemoveQuery);
 		if(!$db->query()){
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -320,7 +320,7 @@ class JResearchProject extends JResearchActivity{
 		//And to insert them again
 		$idsAreas = explode(',', $this->id_research_area);
 		foreach($idsAreas as $area){
-			$insertAreaQuery = 'INSERT INTO '.$db->nameQuote('#__jresearch_project_researcharea').'(id_project, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';	
+			$insertAreaQuery = 'INSERT INTO '.$db->quoteName('#__jresearch_project_researcharea').'(id_project, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';	
 			$db->setQuery($insertAreaQuery);
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -329,7 +329,7 @@ class JResearchProject extends JResearchActivity{
 		}
 		
 		//Time to remove keyword relationships
-		$keywordsRemoveQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_keyword').' WHERE id_project = '.$db->Quote($this->id);
+		$keywordsRemoveQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_project_keyword').' WHERE id_project = '.$db->Quote($this->id);
 		$db->setQuery($keywordsRemoveQuery);	
 		if(!$db->query()){			
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -342,11 +342,11 @@ class JResearchProject extends JResearchActivity{
 		$keywords = array_unique($keywords);
 		foreach($keywords as $keyword){
 			if(!empty($keyword)){
-				$selectKeywordQuery = 'SELECT * FROM '.$db->nameQuote('#__jresearch_keyword').' WHERE keyword = '.$db->Quote($keyword);
+				$selectKeywordQuery = 'SELECT * FROM '.$db->quoteName('#__jresearch_keyword').' WHERE keyword = '.$db->Quote($keyword);
 				$db->setQuery($selectKeywordQuery);
 				$resultKeyword = $db->loadResult();
 				if(empty($resultKeyword)){				
-					$insertKeywordQuery = 'INSERT INTO '.$db->nameQuote('#__jresearch_keyword').' VALUES('.$db->Quote($keyword).')';
+					$insertKeywordQuery = 'INSERT INTO '.$db->quoteName('#__jresearch_keyword').' VALUES('.$db->Quote($keyword).')';
 					$db->setQuery($insertKeywordQuery);
 					if(!$db->query()){
 						$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -354,7 +354,7 @@ class JResearchProject extends JResearchActivity{
 					}									
 				}
 				
-				$insertProjectKeywordQuery = 'INSERT INTO '.$db->nameQuote('#__jresearch_project_keyword').' VALUES('.$db->Quote($this->id).', '.$db->Quote($keyword).')';
+				$insertProjectKeywordQuery = 'INSERT INTO '.$db->quoteName('#__jresearch_project_keyword').' VALUES('.$db->Quote($this->id).', '.$db->Quote($keyword).')';
 				$db->setQuery($insertProjectKeywordQuery); 
 				if(!$db->query()){
 					$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -368,7 +368,7 @@ class JResearchProject extends JResearchActivity{
 		foreach($publicationsArray as $citekey){
 			$pubid = JResearchPublicationsHelper::getIdFromCitekey($citekey);
 			if(!empty($pubid)){
-				$pubQuery = 'INSERT INTO '.$db->nameQuote('#__jresearch_project_publication').' VALUES('.$db->Quote($this->id).', '.$db->Quote($pubid).')';
+				$pubQuery = 'INSERT INTO '.$db->quoteName('#__jresearch_project_publication').' VALUES('.$db->Quote($this->id).', '.$db->Quote($pubid).')';
 				$db->setQuery($pubQuery);
 				if(!$db->query()){
 					$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
