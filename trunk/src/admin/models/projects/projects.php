@@ -99,7 +99,7 @@ class JResearchAdminModelProjects extends JResearchAdminModelList{
 
             $filter_state = $this->getState('com_jresearch.projects.filter_state');            
             $filter_status = $this->getState('com_jresearch.projects.filter_status');
-            $filter_start_date = $this->getState('com_jresearch.projects.filter_start_date');
+            $filter_year = $this->getState('com_jresearch.projects.filter_start_date');
             $filter_search = $this->getState('com_jresearch.projects.filter_search');
             $filter_author = $this->getState('com_jresearch.projects.filter_author');
             $filter_area = $this->getState('com_jresearch.projects.filter_area');                  
@@ -110,7 +110,7 @@ class JResearchAdminModelProjects extends JResearchAdminModelList{
                 $where[] = $db->quoteName('published').' = 0 ';
 
             if(!empty($filter_area) && $filter_area != -1){
-        		$where[] = $db->quoteName('ra').'.'.$db->Quote('id_research_area').'='.$db->Quote($filter_area);            	
+        		$where[] = $db->quoteName('ra').'.'.$db->quoteName('id_research_area').'='.$filter_area;
         	}
             
             // prepare the WHERE clause
@@ -118,7 +118,7 @@ class JResearchAdminModelProjects extends JResearchAdminModelList{
                 $where[] = $db->quoteName('status').' = '.$db->Quote($filter_status);
             }
 
-            if(!empty($filter_year) && $filter_year != -1 ){
+            if(!empty($filter_year) && $filter_year != -1 &&$filter_year != 0 ){
             	$mysqlStartDate = $filter_year.'-01-01';
             	$mysqlEndDate = $filter_year.'-12-31';
                 $where[] = $db->quoteName('start_date').' BETWEEN '.$db->Quote($mysqlStartDate).' AND '.$db->Quote($mysqlEndDate);
