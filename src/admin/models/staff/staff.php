@@ -109,6 +109,12 @@ class JResearchAdminModelStaff extends JResearchAdminModelList{
                         $where[] = $db->quoteName('former_member').' = 0 ';
             }
 
+			//Added Research Area for where clause
+            if(!empty($filter_area))
+            {
+				$where[] = ' FIND_IN_SET('.$filter_area.','.$db->quoteName('id_research_area').')';
+            }
+
 
             return $where;
 	}
