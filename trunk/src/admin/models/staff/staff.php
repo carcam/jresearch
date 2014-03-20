@@ -97,15 +97,15 @@ class JResearchAdminModelStaff extends JResearchAdminModelList{
             if(($filter_search = trim($filter_search))){
                 $filter_search = JString::strtolower($filter_search);
                 $filter_search = $db->getEscaped($filter_search);
-                $where[] = 'LOWER('.$db->quoteName('name').') LIKE '.$db->Quote('%'.$filter_search.'%');
+                $where[] = 'LOWER('.$db->quoteName('firstname').') LIKE '.$db->Quote('%'.$filter_search.'%').'OR LOWER('.$db->quoteName('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
             }
 
             //Added former member for where clause
             if($filter_former_member != 0)
             {
-                if($filter_former > 0)
+                if($filter_former_member > 0)
                         $where[] = $db->quoteName('former_member').' = 1 ';
-                elseif($filter_former < 0)
+                elseif($filter_former_member < 0)
                         $where[] = $db->quoteName('former_member').' = 0 ';
             }
 
