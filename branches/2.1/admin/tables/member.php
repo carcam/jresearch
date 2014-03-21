@@ -321,8 +321,8 @@ class JResearchMember extends JResearchTable{
 	{
 		if(intval($this->position) > 0){
 			$posObj = JTable::getInstance('Member_position', 'JResearch');
-			$posObj->load($this->position);
-			return $posObj;
+			if($posObj->load($this->position))
+				return $posObj;
 		}
 		
 		return null;
