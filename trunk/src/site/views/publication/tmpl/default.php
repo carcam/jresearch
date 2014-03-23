@@ -2,11 +2,12 @@
 /**
  * @package JResearch
  * @subpackage Publications
+ * @license GNU/GPL
  * Default view for showing a single publication
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 <?php $Itemid = JRequest::getVar('Itemid'); 
 	  $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';

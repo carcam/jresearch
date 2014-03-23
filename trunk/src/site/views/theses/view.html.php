@@ -1,18 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		JResearch
+* @version	$Id$
+* @package	JResearch
 * @subpackage	Theses
 * @copyright	Copyright (C) 2008 Luis Galarraga.
-* @license		GNU/GPL
+* @license	GNU/GPL
 * This file implements the view which is responsible for management of presentation of
 * theses list in frontend
 */
 
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
-
 
 /**
  * HTML View class for presentation of theses list in frontend.

@@ -6,6 +6,8 @@
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
+defined('_JEXEC') or die( 'Restricted access' );
+
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'cse'.DS.'cse_article.php');
 
 /**

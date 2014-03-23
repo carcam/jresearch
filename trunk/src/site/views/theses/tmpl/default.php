@@ -2,11 +2,13 @@
 /**
  * @package JResearch
  * @subpackage Theses
+ * @license		GNU/GPL v2
  * Default view for showing a list of theses
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
+
 <h2 class="componentheading"><?php echo JText::_('JRESEARCH_THESES'); ?></h2>
 <?php
 if(count($this->items) > 0):

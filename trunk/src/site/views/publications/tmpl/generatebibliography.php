@@ -2,8 +2,10 @@
 /**
  * @package JResearch
  * @subpackage Publications
+ * @license GNU/GPL 
  * View for generating bibliography
  */
+defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 <script type="text/javascript">
 var selectedIndex;

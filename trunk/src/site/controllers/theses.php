@@ -9,7 +9,7 @@
 * of theses.
 */
 
-
+defined('_JEXEC') or die( 'Restricted access' );
 
 /**
  * JResearch Theses Frontend Controller

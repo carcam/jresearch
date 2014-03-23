@@ -2,9 +2,12 @@
 /**
  * @package JResearch
  * @subpackage Publications
+ * @license GNU/GPL 
  */
 
-defined('_JEXEC') or die('Restricted access'); ?>
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+?>
 <ul>
 <?php $digitalVersion = ''; 
 	$user = JFactory::getUser();

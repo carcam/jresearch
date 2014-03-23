@@ -11,6 +11,8 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
+defined('_JEXEC') or die( 'Restricted access' );
+
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'chicago'.DS.'chicago.php');
 
 /**

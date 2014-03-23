@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Publications
+ * @license	GNU/GPL
  * View for adding/editing a new publication
  */
 
