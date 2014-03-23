@@ -2,12 +2,13 @@
 /**
  * @package JResearch
  * @subpackage Staff
+ * @license	GNU/GPL v2
  * Default view for showing a single member
  */
 
-
 // no direct access
-defined('_JEXEC') or die('Restricted access'); 
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 JHTML::_('behavior.modal');
 ?>
 <h2 class="componentheading"><?php echo JResearchPublicationsHelper::formatAuthor($this->member->__toString(), $this->params->get('staff_format', 'last_first')); ?></h2>

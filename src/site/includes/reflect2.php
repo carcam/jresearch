@@ -1,5 +1,13 @@
 <?php
-	/*
+/**
+ * @package JResearch
+ * @subpackage Includes
+ * @author Luis Galarraga
+ * @license	GNU/GPL
+ * This file contains code from third-parties. See description below.
+ * 
+ */
+/*
 		----------------------------------------------------------------
 		Easy Reflections by Richard Davey, Core PHP (rich@corephp.co.uk)
 		v2 - 2nd March 2007
@@ -20,7 +28,7 @@
         cache           optional    Save reflection image to the cache? (boolean) (removed, always cache)
         resize			optional	resize pct of original (% value)
 
-	*/
+*/
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );

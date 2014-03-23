@@ -1,3 +1,15 @@
+<?php 
+/**
+* @package JResearch
+* @subpackage Cooperations
+* @license GNU/GPL
+* View for the edition of cooperations.
+*/
+
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+?>
+
 <h1 class="componentheading" style="float: left;">
 	<?php echo JText::_('JRESEARCH_'.JString::strtoupper(JRequest::getVar('task')).'_COOPERATION');?>
 </h1>

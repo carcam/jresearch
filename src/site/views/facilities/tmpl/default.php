@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Facilities
+ * @license GNU/GPL v2
  * Default view for showing a list of facilities
  */
 

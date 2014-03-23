@@ -2,11 +2,12 @@
 /**
  * @package JResearch
  * @subpackage Publications
+ * @license GNU/GPL
  * View for showing a list of publications
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 ?>
 <?php if($this->showHeader): ?>

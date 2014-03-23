@@ -2,10 +2,11 @@
 /**
 * @package JResearch
 * @subpackage Cooperations
+* @license GNU/GPL
 * Default view for showing a list of cooperations
 */
 
-defined("_JEXEC") or die("Restricted access");
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 ?>
 <h2 class="componentheading">

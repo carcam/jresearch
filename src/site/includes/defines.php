@@ -1,4 +1,12 @@
 <?php
+/**
+ * @package JResearch
+ * @subpackage Includes
+ * @author Luis Galarraga
+ * @license	GNU/GPL
+ * Basic definitions.
+ * 
+ */
 
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 

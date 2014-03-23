@@ -1,4 +1,12 @@
 <?php
+/**
+ * @package JResearch
+ * @subpackage Includes
+ * @author Luis Galarraga
+ * @license	GNU/GPL
+ * This file contains code from third-parties. See description below.
+ * 
+ */
 	/*
 		-------------------------------------------------------------------
 		Easy Reflections v3 by Richard Davey, Core PHP (rich@corephp.co.uk)

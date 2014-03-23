@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Publications
+ * @license	GNU/GPL
  * Specific type view for inbook
  */
 
