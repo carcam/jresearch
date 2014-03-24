@@ -28,5 +28,20 @@ class JResearchProjectsHelper{
    		$db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_all_project_authors'));
    		return $db->loadAssocList();
    	}
+   	
+	/**
+	 * Returns a project given its id.
+	 * @param int $id
+	 */
+	public static function getProject($id){
+		jresearchimport('tables.project', 'jresearch.admin');
+		
+		$project = JTable::getInstance('Project', 'JResearch');
+		if($project->load($id)){
+			return $project;
+		}else{
+			return null;
+		}
+	}
 }
 ?>
