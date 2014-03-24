@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Staff
+ * @license	GNU/GPL
  * View for adding user to the staff of J!Research
  */
 // no direct access

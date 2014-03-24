@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Theses
+ * @license	GNU/GPL
  * Default view for adding/editing a single theses
  */
 

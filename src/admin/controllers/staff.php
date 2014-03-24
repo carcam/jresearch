@@ -9,6 +9,8 @@
 * of staff members in the backend interface.
 */
 
+defined('_JEXEC') or die( 'Restricted access' );
+
 jimport('joomla.application.component.controller');
 jresearchimport('helpers.staff', 'jresearch.admin');
 

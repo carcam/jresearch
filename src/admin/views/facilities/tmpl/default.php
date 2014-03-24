@@ -2,10 +2,13 @@
 /**
  * @package JResearch
  * @subpackage Facilities
+ * @license	GNU/GPL
  * Default view for listing facilities
  */
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access'); 
+
+?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
 	<table>
 		<tbody>

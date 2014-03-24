@@ -1,5 +1,13 @@
 <?php
-// No direct access
+/**
+* @version		$Id$
+* @package		JResearch
+* @subpackage	Research Areas
+* @copyright	Luis Galárraga.
+* @license		GNU/GPL
+* Form for the edition of a research area.
+*/
+
 defined('_JEXEC') or die('Restricted access');
 
 $fields = array('id', 'name', 'alias');

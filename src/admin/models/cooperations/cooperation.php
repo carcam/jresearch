@@ -7,6 +7,7 @@
 * @license		GNU/GPL
 * This file implements the cooperation model.
 */
+defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.model' );
 

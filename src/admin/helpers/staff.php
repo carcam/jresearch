@@ -4,10 +4,9 @@
 * @subpackage	Helpers
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL v2
-* Description
 */
 
-defined('JPATH_BASE') or die;
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jresearchimport('tables.member', 'jresearch.admin');
 

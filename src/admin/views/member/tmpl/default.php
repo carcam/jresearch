@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package JResearch
+ * @subpackage Staff
+ * @license	GNU/GPL
+ * Form for the edition of member profiles.
+ */
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 

@@ -2,10 +2,13 @@
 /**
  * @package JResearch
  * @subpackage Facilities
+ * @license	GNU/GPL
  * Default view for adding/editing a single facility
  */
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+
+?>
 <div class="divForm">
 <form name="adminForm" id="adminForm" action="./" method="post" enctype="multipart/form-data" class="form-validate" onsubmit="return validate(this);">
 <fieldset>

@@ -9,6 +9,8 @@
 * of bibliographical references or publications in the backend interface.
 */
 
+defined('_JEXEC') or die( 'Restricted access' );
+
 jresearchimport('joomla.application.component.controller');
 jresearchimport('helpers.access', 'jresearch.admin');
 

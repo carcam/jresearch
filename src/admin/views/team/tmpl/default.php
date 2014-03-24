@@ -2,6 +2,7 @@
 /**
 * @package JResearch
 * @subpackage Cooperations
+* @license	GNU/GPL
 * Default view for adding/editing a cooperation
 */
 // no direct access

@@ -8,6 +8,7 @@
 * This file implements the controller for all operations related to the management
 * of theses in the backend interface.
 */
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
