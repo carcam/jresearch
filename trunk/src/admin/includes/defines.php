@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author	Luis Galárraga
+ * @package		JResearch
+ * @subpackage	Includes
+ * @license	GNU/GPL
+ */
+
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 define('_COOPERATION_IMAGE_MAX_WIDTH_', 1024);

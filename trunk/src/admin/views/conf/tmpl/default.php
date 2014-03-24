@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Configuration
+ * @license		GNU/GPL
  * Default view for the control panel
  */
 // no direct access

@@ -7,6 +7,8 @@
 * @license		GNU/GPL
 * This file implements the facilities model.
 */
+defined('_JEXEC') or die( 'Restricted access' );
+
 jimport( 'joomla.application.component.model' );
 
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelList.php');

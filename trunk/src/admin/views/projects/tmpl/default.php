@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Projects
+ * @license	GNU/GPL
  * Default view for listing projects.
  */
 // no direct access

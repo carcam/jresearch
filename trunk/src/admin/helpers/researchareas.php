@@ -7,6 +7,7 @@
 * Utilities related to research areas
 */
 
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * This class holds useful methods for dealing with publications records.

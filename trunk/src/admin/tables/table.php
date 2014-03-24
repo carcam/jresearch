@@ -8,7 +8,7 @@
 * table classes
 */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die( 'Restricted access' );
 
 jresearchimport('joomla.access.rules');
 

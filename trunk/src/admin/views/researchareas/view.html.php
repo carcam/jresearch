@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		JResearch
 * @subpackage	ResearchAreas
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of list of projects
 * in the backend.

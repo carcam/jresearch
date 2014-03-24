@@ -2,11 +2,14 @@
 /**
 * @package JResearch
 * @subpackage Cooperations
+* @license	GNU/GPL
 * Default view for adding/editing a cooperation
 */
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+
 JHTML::_('behavior.modal');
+
 ?>
 <div class="divForm">
 <form name="adminForm" id="adminForm" action="./" method="post" enctype="multipart/form-data" class="form-validate" onsubmit="return validate(this);">

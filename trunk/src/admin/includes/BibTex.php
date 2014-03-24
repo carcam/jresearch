@@ -1,6 +1,6 @@
 <?php
   /* vim: set ts=4 sw=4: */
-  /**
+/**
    * Class for working with BibTex data
    *
    * A class which provides common methods to access and
@@ -21,7 +21,8 @@
    * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
    * @version    CVS: $Id: BibTex.php,v 1.16 2007/03/26 21:13:59 hugoki Exp $
    * @link       http://pear.php.net/package/Structures_BibTex
-   */
+*/
+defined('_JEXEC') or die('Restricted access');
 
 include_once "PEAR.php";
 

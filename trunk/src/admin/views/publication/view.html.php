@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		JResearch
 * @subpackage	Publications
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 * This file implements the view which is responsible for management of a single publication
 * in the backend.

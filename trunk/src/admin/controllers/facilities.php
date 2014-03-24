@@ -8,8 +8,10 @@
 * This file implements the controller for all operations related to the management
 * of facilities in the backend interface.
 */
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
+
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'facility.php');
 
 /**

@@ -8,6 +8,7 @@
 * This file implements the controller for all operations related to the management
 * of research projects in the backend interface.
 */
+defined('_JEXEC') or die( 'Restricted access' );
 
 jresearchimport('joomla.application.component.controller');
 

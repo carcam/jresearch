@@ -7,6 +7,7 @@
 * Functionalities associated to member positions 
 *
 */
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class JResearchMemberpositionsHelper{
 

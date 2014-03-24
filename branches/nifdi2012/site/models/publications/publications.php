@@ -109,8 +109,8 @@ class JResearchModelPublications extends JResearchModelList{
 		$searchClause .= ', '.$db->nameQuote('note').', '.$db->nameQuote('awards');
 		$searchClause .= ', '.$db->nameQuote('design_type');
 		$searchClause .= ') AGAINST('.$db->Quote($filter_search).' IN BOOLEAN MODE) OR ';
-        	$searchClause .= 'apa.'.$db->nameQuote('member_name').' LIKE '.$db->Quote('%'.$filter_search.'%').')';
-        	return $searchClause;
+        $searchClause .= 'apa.'.$db->nameQuote('member_name').' LIKE '.$db->Quote('%'.$filter_search.'%').')';
+        return $searchClause;
 	}
 
 	/**

@@ -1,4 +1,12 @@
 <?php
+/**
+ * @package	JResearch
+ * @subpackage	Translations
+ * @copyright	2014, Carlos Cámara.
+ * @license		GNU/GPL
+ */
+defined('_JEXEC') or die( 'Restricted access' );
+
 class translationPublicationFilter extends translationFilter
 {
 	public function __construct($contentElement)

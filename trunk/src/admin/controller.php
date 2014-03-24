@@ -7,6 +7,7 @@
 * This file implements the base controller for the backend interface of JResearch.
 * It holds the configuration related tasks.
 */
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 

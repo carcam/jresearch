@@ -3,10 +3,10 @@
  * @package		J!Research
  * @subpackage	Form
  * @copyright	Luis Galárraga (C) 2008
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @license		GNU/GPL
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');

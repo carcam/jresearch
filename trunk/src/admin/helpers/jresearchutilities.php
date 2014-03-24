@@ -3,6 +3,7 @@
  * @package JResearch
  * @subpackage Helpers
  * @author Florian Prinz
+ * @license	GNU/GPL
  */
 
 // No direct access

@@ -9,6 +9,8 @@
 * of research areas in the backend interface.
 */
 
+defined('_JEXEC') or die( 'Restricted access' );
+
 jresearchimport('joomla.application.component.controller');
 jresearchimport('helpers.researchareas', 'jresearch.admin');
 

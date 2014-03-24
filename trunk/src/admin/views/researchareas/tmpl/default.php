@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Researchareas
+ * @license	GNU/GPL
  * Default view for listing research areas
  */
 
