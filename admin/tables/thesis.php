@@ -240,8 +240,8 @@ class JResearchThesis extends JResearchActivity{
  		$j = $this->_tbl_key;		
 			
 		// Delete the information about internal and external references
-		$deleteInternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_thesis_internal_author').' WHERE '.$db->nameQuote('id_thesis').' = '.$db->Quote($this->$j);
-		$deleteExternalQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_thesis_external_author').' WHERE '.$db->nameQuote('id_thesis').' = '.$db->Quote($this->$j);
+		$deleteInternalQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' WHERE '.$db->quoteName('id_thesis').' = '.$db->Quote($this->$j);
+		$deleteExternalQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_thesis_external_author').' WHERE '.$db->quoteName('id_thesis').' = '.$db->Quote($this->$j);
 		
 		$db->setQuery($deleteInternalQuery);
 		if(!$db->query()){
@@ -256,16 +256,16 @@ class JResearchThesis extends JResearchActivity{
 		}
 		
 		// Insert members' information
-		$orderField = $db->nameQuote('order');
-		$idPubField = $db->nameQuote('id_thesis');
-       	$idStaffField = $db->nameQuote('id_staff_member');
-       	$isDirectorField = $db->nameQuote('is_director');
+		$orderField = $db->quoteName('order');
+		$idPubField = $db->quoteName('id_thesis');
+       	$idStaffField = $db->quoteName('id_staff_member');
+       	$isDirectorField = $db->quoteName('is_director');
        	
 		foreach($this->_internalAuthors as $author){			
 			$id_staff_member = $author['id_staff_member'];
 			$order = $author['order'];
 			$is_director = $author['is_director']?1:0;
-			$tableName = $db->nameQuote('#__jresearch_thesis_internal_author');
+			$tableName = $db->quoteName('#__jresearch_thesis_internal_author');
 			$insertInternalQuery = "INSERT INTO $tableName($idPubField,$idStaffField,$orderField,$isDirectorField) VALUES ($this->id, $id_staff_member,$order,$is_director)";
 			$db->setQuery($insertInternalQuery);			
 			if(!$db->query()){
@@ -274,13 +274,13 @@ class JResearchThesis extends JResearchActivity{
 			}
 		}
 		
-		$authorField = $db->nameQuote('author_name');
+		$authorField = $db->quoteName('author_name');
 		foreach($this->_externalAuthors as $author){
 			$order = $db->Quote($author['order'], false);
 			$authorName = $db->Quote($db->getEscaped($author['author_name'], true), false);
 			$is_director = $author['is_director']?1:0;
 			
-			$tableName = $db->nameQuote('#__jresearch_thesis_external_author');
+			$tableName = $db->quoteName('#__jresearch_thesis_external_author');
 			$insertExternalQuery = "INSERT INTO $tableName($idPubField, $authorField, $orderField, $isDirectorField) VALUES($this->id, $authorName, $order, $is_director)";			
 			$db->setQuery($insertExternalQuery);
 			if(!$db->query()){

@@ -2,11 +2,15 @@
 /**
  * @package JResearch
  * @subpackage Financiers
+ * @license	GNU/GPL
  * Default view for adding/editing a single financier
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access'); 
+
+?>
+
 <div class="divForm">
 <form name="adminForm" id="adminForm" action="./" method="post" class="form-validate" onsubmit="return validate(this);"  >
 <div class="divTable">

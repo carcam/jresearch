@@ -9,6 +9,8 @@
 * of staff members.
 */
 
+defined('_JEXEC') or die( 'Restricted access' );
+
 jresearchimport('helpers.staff', 'jresearch.admin');
 
 /**

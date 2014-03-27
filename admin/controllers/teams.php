@@ -8,6 +8,7 @@
 * This file implements the controller for all operations related to the management
 * of staff members in the backend interface.
 */
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -18,7 +19,7 @@ require_once(JRESEARCH_COMPONENT_ADMIN.DS.'tables'.DS.'team.php');
  * @package		JResearch
  * @subpackage	Team
  */
-class JResearchAdminTeamsController extends JController
+class JResearchAdminTeamsController extends JControllerLegacy
 {
 /**
 	 * Initialize the controller by registering the tasks to methods.

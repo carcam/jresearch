@@ -1,4 +1,10 @@
 <?php
+/**
+* @package		JResearch
+* @subpackage	Publications
+* @copyright	Copyright (C) 2008 Luis Galarraga.
+* @license		GNU/GPL
+*/
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 ?>

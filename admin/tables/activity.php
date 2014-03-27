@@ -140,14 +140,14 @@ class JResearchActivity extends JResearchTable{
 	protected function _loadAuthors(){
         $db = $this->getDBO();
 
-		$query = 'SELECT '.$db->nameQuote('id').' FROM 
-		(SELECT '.$db->nameQuote('id_staff_member').' as id, '.$db->nameQuote('order').' FROM #__jresearch_publication_internal_author 
-		WHERE '.$db->nameQuote("id_".$this->_type).' = '.$db->Quote($this->id).' UNION 
-		(SELECT '.$db->nameQuote('author_name').' as id, '.$db->nameQuote('order').' FROM #__jresearch_publication_external_author
-		WHERE '.$db->nameQuote("id_".$this->_type).' = '.$db->Quote($this->id).')) R1 order by R1.'.$db->nameQuote('order');
+		$query = 'SELECT '.$db->quoteName('id').' FROM 
+		(SELECT '.$db->quoteName('id_staff_member').' as id, '.$db->quoteName('order').' FROM #__jresearch_publication_internal_author 
+		WHERE '.$db->quoteName("id_".$this->_type).' = '.$db->Quote($this->id).' UNION 
+		(SELECT '.$db->quoteName('author_name').' as id, '.$db->quoteName('order').' FROM #__jresearch_publication_external_author
+		WHERE '.$db->quoteName("id_".$this->_type).' = '.$db->Quote($this->id).')) R1 order by R1.'.$db->quoteName('order');
 		
 		$db->setQuery($query);
-		$result = $db->loadResultArray();
+		$result = $db->loadColumn();
 		
 		$this->authors = implode(';', $result);
    }
@@ -328,7 +328,7 @@ class JResearchActivity extends JResearchTable{
 			$filesArr = explode(';', trim($this->files));
 			if(!empty($filesArr[$i])){
 				$params = JComponentHelper::getParams('com_jresearch'); 
-				return  JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, '/', $params->get('files_root_path', 'files'))."/$controller/".$filesArr[$i];
+				return  JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, DS, $params->get('files_root_path', 'files'))."/$controller/".$filesArr[$i];
 			}else
 				return null;
 		}else
@@ -365,23 +365,23 @@ class JResearchActivity extends JResearchTable{
 		if(!$result)
 			return $result;
 		
-		$internalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_internal_author');
-		$externalTable = $db->nameQuote('#__jresearch_'.$this->_type.'_external_author');
-		$areasTable = $db->nameQuote('#__jresearch_'.$this->_type.'_researcharea');
+		$internalTable = $db->quoteName('#__jresearch_'.$this->_type.'_internal_author');
+		$externalTable = $db->quoteName('#__jresearch_'.$this->_type.'_external_author');
+		$areasTable = $db->quoteName('#__jresearch_'.$this->_type.'_researcharea');
 
-		$db->setQuery('DELETE FROM '.$internalTable.' WHERE '.$db->nameQuote('id_'.$this->_type).' = '.$db->Quote($oid));		
+		$db->setQuery('DELETE FROM '.$internalTable.' WHERE '.$db->quoteName('id_'.$this->_type).' = '.$db->Quote($oid));		
 		if(!$db->query()){
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 			return false;
 		}
 		
-		$db->setQuery('DELETE FROM '.$externalTable.' WHERE '.$db->nameQuote('id_'.$this->_type).' = '.$db->Quote($oid));		
+		$db->setQuery('DELETE FROM '.$externalTable.' WHERE '.$db->quoteName('id_'.$this->_type).' = '.$db->Quote($oid));		
 		if(!$db->query()){
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 			return false;
 		}
 		
-		$db->setQuery('DELETE FROM '.$areasTable.' WHERE '.$db->nameQuote('id_'.$this->_type).' = '.$db->Quote($oid));
+		$db->setQuery('DELETE FROM '.$areasTable.' WHERE '.$db->quoteName('id_'.$this->_type).' = '.$db->Quote($oid));
 		if(!$db->query()){
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 			return false;

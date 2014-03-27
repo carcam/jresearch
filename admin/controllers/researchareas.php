@@ -9,6 +9,8 @@
 * of research areas in the backend interface.
 */
 
+defined('_JEXEC') or die( 'Restricted access' );
+
 jresearchimport('joomla.application.component.controller');
 jresearchimport('helpers.researchareas', 'jresearch.admin');
 
@@ -17,7 +19,7 @@ jresearchimport('helpers.researchareas', 'jresearch.admin');
  * @package		JResearch
  * @subpackage	researchareas
  */
-class JResearchAdminResearchareasController extends JController
+class JResearchAdminResearchareasController extends JControllerLegacy
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.

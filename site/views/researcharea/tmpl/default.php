@@ -2,11 +2,12 @@
 /**
  * @package JResearch
  * @subpackage ResearchAreas
+ * @license	GNU/GPL
  * Default view for showing a single research area
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); 
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jresearchimport('helpers.publications', 'jresearch.admin');
 

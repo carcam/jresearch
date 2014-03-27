@@ -7,9 +7,10 @@
 * Control displaying available list of member positions
 */
 
-defined('_JEXEC') or die;
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.form.fields.list');
+
 require_once(JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'fields'.DS.'list.php');
 
 

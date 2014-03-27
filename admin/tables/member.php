@@ -176,7 +176,7 @@ class JResearchMember extends JResearchTable{
 	function bindFromUser($username){
 		jresearchimport('helpers.publications', 'jresearch.admin');
         $db =& JFactory::getDBO();
-        $query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('username').' = '.$db->Quote($username);
+        $query = 'SELECT * FROM '.$db->quoteName('#__users').' WHERE '.$db->quoteName('username').' = '.$db->Quote($username);
         $db->setQuery($query);
 
         $result = $db->loadAssoc();
@@ -220,7 +220,7 @@ class JResearchMember extends JResearchTable{
 			return $result;
 				
 		//Time to remove research areas too
-		$researchareaRemoveQuery = 'DELETE FROM '.$db->nameQuote('#__jresearch_member_researcharea').' WHERE id_member = '.$db->Quote($this->id);
+		$researchareaRemoveQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_member_researcharea').' WHERE id_member = '.$db->Quote($this->id);
 		$db->setQuery($researchareaRemoveQuery);
 		if(!$db->query()){
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -230,7 +230,7 @@ class JResearchMember extends JResearchTable{
 		//And to insert them again
 		$idsAreas = explode(',', $this->id_research_area);
 		foreach($idsAreas as $area){
-			$insertAreaQuery = 'INSERT INTO '.$db->nameQuote('#__jresearch_member_researcharea').'(id_member, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';	
+			$insertAreaQuery = 'INSERT INTO '.$db->quoteName('#__jresearch_member_researcharea').'(id_member, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';	
 			$db->setQuery($insertAreaQuery);
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -266,7 +266,7 @@ class JResearchMember extends JResearchTable{
 	{
 		$db =& JFactory::getDBO();
 
-        $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('username').' = '.$db->quote($username);
+        $query = 'SELECT * FROM '.$db->quoteName('#__jresearch_member').' WHERE '.$db->quoteName('username').' = '.$db->quote($username);
         $db->setQuery($query);
 
         $result = $db->loadAssoc();
@@ -339,13 +339,13 @@ class JResearchMember extends JResearchTable{
 		//Get teams
 		$db =& JFactory::getDBO();
 		$table = '#__jresearch_team_member';
-		$id = $db->nameQuote('id_team');
-		$id_member = $db->nameQuote('id_member');
+		$id = $db->quoteName('id_team');
+		$id_member = $db->quoteName('id_member');
 		
 		$query = 'SELECT '.$id.' FROM '.$table.' WHERE '.$id_member.'='.$this->id;
 		$db->setQuery($query);
 		
-		$ids = $db->loadResultArray();
+		$ids = $db->loadColumn();
 		
 		foreach($ids as $id)
 		{
@@ -370,7 +370,7 @@ class JResearchMember extends JResearchTable{
         $changedfirst = false;
         $db = JFactory::getDBO();
 
-        $query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '
+        $query = 'SELECT * FROM '.$db->quoteName('#__jresearch_member').' WHERE '
                  .' LOWER(lastname) = '.$db->Quote($lastname) .'  AND (LOWER(firstname) = '.$db->Quote($firstname)
                  .' OR LOWER(LEFT('.$db->Quote($firstname).', 1)) = LEFT(LOWER(firstname), 1))';
 
@@ -394,7 +394,7 @@ class JResearchMember extends JResearchTable{
 
         //Try to run the query again
         if($changedfirst || $changedlast){
-        	$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '
+        	$query = 'SELECT * FROM '.$db->quoteName('#__jresearch_member').' WHERE '
                          .' LOWER(lastname) = '.$db->Quote($lastname).' AND LOWER(firstname) = '.$db->Quote($firstname);
 
             $db->setQuery($query);
@@ -424,37 +424,37 @@ class JResearchMember extends JResearchTable{
 			if(!$result)
 				return $result;			
 		
-			$publicationsTable = $db->nameQuote('#__jresearch_publication_internal_author');
-			$projectsTable = $db->nameQuote('#__jresearch_project_internal_author');
-			$thesesTable = $db->nameQuote('#__jresearch_thesis_internal_author');
-			$teamsTable = $db->nameQuote('#__jresearch_team_member');
-			$areasTable = $db->nameQuote('#__jresearch_member_researcharea');
+			$publicationsTable = $db->quoteName('#__jresearch_publication_internal_author');
+			$projectsTable = $db->quoteName('#__jresearch_project_internal_author');
+			$thesesTable = $db->quoteName('#__jresearch_thesis_internal_author');
+			$teamsTable = $db->quoteName('#__jresearch_team_member');
+			$areasTable = $db->quoteName('#__jresearch_member_researcharea');
 
-			$db->setQuery('DELETE FROM '.$publicationsTable.' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($oid));		
+			$db->setQuery('DELETE FROM '.$publicationsTable.' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($oid));		
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 				return false;
 			}	
 			
-			$db->setQuery('DELETE FROM '.$projectsTable.' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($oid));		
+			$db->setQuery('DELETE FROM '.$projectsTable.' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($oid));		
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 				return false;
 			}	
 			
-			$db->setQuery('DELETE FROM '.$thesesTable.' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($oid));
+			$db->setQuery('DELETE FROM '.$thesesTable.' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($oid));
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 				return false;
 			}	
 						
-			$db->setQuery('DELETE FROM '.$teamsTable.' WHERE '.$db->nameQuote('id_member').' = '.$db->Quote($oid));			
+			$db->setQuery('DELETE FROM '.$teamsTable.' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($oid));			
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 				return false;
 			}	
 						
-			$db->setQuery('DELETE FROM '.$areasTable.' WHERE '.$db->nameQuote('id_member').' = '.$db->Quote($oid));			
+			$db->setQuery('DELETE FROM '.$areasTable.' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($oid));			
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
 				return false;
@@ -498,7 +498,7 @@ class JResearchMember extends JResearchTable{
 	public function getCV(){
 		if(!empty($this->files)){
 			$params = JComponentHelper::getParams('com_jresearch'); 
-			return JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, '/', $params->get('files_root_path', 'files'))."/staff/".$this->files;
+			return JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, DS, $params->get('files_root_path', 'files'))."/staff/".$this->files;
 		}else{
 			return false;
 		}

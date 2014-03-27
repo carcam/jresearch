@@ -7,6 +7,8 @@
 * @license		GNU/GPL
 * This file implements the facilities model.
 */
+defined('_JEXEC') or die( 'Restricted access' );
+
 jimport( 'joomla.application.component.model' );
 
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelList.php');
@@ -42,7 +44,7 @@ class JResearchModelFacilities extends JResearchModelList
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$ids = $db->loadColumn();
 			$this->_items = array();
 			
 			foreach($ids as $id)
@@ -71,7 +73,7 @@ class JResearchModelFacilities extends JResearchModelList
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false)
 	{		
 		$db =& JFactory::getDBO();		
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+		$resultQuery = 'SELECT '.$db->quoteName('id').' FROM '.$db->quoteName($this->_tableName);
 
 		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy();
 		
@@ -107,7 +109,7 @@ class JResearchModelFacilities extends JResearchModelList
 
             //if order column is unknown, use the default
             if(!in_array($filter_order, $orders))
-                    $filter_order = $db->nameQuote('id_research_area');
+                    $filter_order = $db->quoteName('id_research_area');
 
             return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
 	}	
@@ -130,24 +132,24 @@ class JResearchModelFacilities extends JResearchModelList
             if(!$published)
             {
                     if($filter_state == 'P')
-                            $where[] = $db->nameQuote('published').' = 1 ';
+                            $where[] = $db->quoteName('published').' = 1 ';
                     elseif($filter_state == 'U')
-                            $where[] = $db->nameQuote('published').' = 0 ';
+                            $where[] = $db->quoteName('published').' = 0 ';
             }
             else
-                    $where[] = $db->nameQuote('published').' = 1 ';
+                    $where[] = $db->quoteName('published').' = 1 ';
 
 
             if(($filter_search = trim($filter_search)))
             {
                     $filter_search = JString::strtolower($filter_search);
                     $filter_search = $db->getEscaped($filter_search);
-                    $where[] = 'LOWER('.$db->nameQuote('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
+                    $where[] = 'LOWER('.$db->quoteName('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
             }
 
             if($filter_area)
             {
-                    $where[] = $db->nameQuote('id_research_area').' = '.$db->Quote($filter_area);
+                    $where[] = $db->quoteName('id_research_area').' = '.$db->Quote($filter_area);
             }
 
             return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
@@ -161,7 +163,7 @@ class JResearchModelFacilities extends JResearchModelList
 	*/	
 	protected function _buildCountQuery(){
             $db =& JFactory::getDBO();
-            $resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+            $resultQuery = 'SELECT '.$db->quoteName('id').' FROM '.$db->quoteName($this->_tableName);
             $resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
             return $resultQuery;
 	}

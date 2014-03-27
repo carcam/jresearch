@@ -2,9 +2,14 @@
 /**
 * @package JResearch
 * @subpackage Cooperations
+* @license GNU/GPL
 * Default view for showing a single cooperation
 */
+
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 JHTML::_('behavior.modal');
+
 ?>
 <h2 class="componentheading">
 	<?php echo JText::_('JRESEARCH_COOPERATION');?>

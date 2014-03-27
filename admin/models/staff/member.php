@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		JResearch
 * @subpackage	Staff
-* @copyright		Copyright (C) 2008 Luis Galarraga.
+* @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL
 */
 
@@ -240,7 +240,7 @@ class JResearchAdminModelMember extends JModelForm{
 	 */
 	public function getByUsername($username){
             $db = JFactory::getDBO();
-            $query = "SELECT * FROM ".$db->nameQuote('#__jresearch_member')." WHERE ".$db->nameQuote('username').' = '.$db->Quote($username);
+            $query = "SELECT * FROM ".$db->quoteName('#__jresearch_member')." WHERE ".$db->quoteName('username').' = '.$db->Quote($username);
             $db->setQuery($query);
             $results = $db->loadAssoc();
 
@@ -261,16 +261,16 @@ class JResearchAdminModelMember extends JModelForm{
 		$db =& JFactory::getDBO();
 		$latestPub = array();
 		
-		$query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' ia,  '
-				 .$db->nameQuote('#__jresearch_publication').' p WHERE '.$db->nameQuote('p').'.'.$db->nameQuote('id').' = '.$db->nameQuote('ia').'.'.$db->nameQuote('id_publication').' '
-				 .' AND '.$db->nameQuote('ia').'.'.$db->nameQuote('id_staff_member').' = '.$db->Quote($memberId).' AND p.published = '.$db->Quote('1').' AND p.internal =  '.$db->Quote('1').' ORDER BY '.$db->nameQuote('p').'.'.$db->nameQuote('year').' DESC';
+		$query = 'SELECT '.$db->quoteName('id_publication').' FROM '.$db->quoteName('#__jresearch_publication_internal_author').' ia,  '
+				 .$db->quoteName('#__jresearch_publication').' p WHERE '.$db->quoteName('p').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_publication').' '
+				 .' AND '.$db->quoteName('ia').'.'.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId).' AND p.published = '.$db->Quote('1').' AND p.internal =  '.$db->Quote('1').' ORDER BY '.$db->quoteName('p').'.'.$db->quoteName('year').' DESC';
 
 		if($n > 0){
 			$query .= ' LIMIT 0, '.$n;
 		}
 				 				 
 		$db->setQuery($query);
-		$result = $db->loadResultArray();
+		$result = $db->loadColumn();
 		foreach($result as $id){
 			$publication =& JResearchPublication::getById($id);
 			$latestPub[] = $publication;
@@ -289,7 +289,7 @@ class JResearchAdminModelMember extends JModelForm{
 	function countPublications($memberId){
 		$db =& JFactory::getDBO();
 		
-		$query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($memberId);
+		$query = 'SELECT count(*) FROM '.$db->quoteName('#__jresearch_publication_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId);
 		$db->setQuery($query);		
 		return (int)$db->loadResult();
 	}
@@ -303,8 +303,8 @@ class JResearchAdminModelMember extends JModelForm{
 		$db =& JFactory::getDBO();
 		$latestProj = array();
 		
-		$query = 'SELECT '.$db->nameQuote('id_project').' FROM '.$db->nameQuote('#__jresearch_project_internal_author').' ia,  '
-				 .$db->nameQuote('#__jresearch_project').' p WHERE '.$db->nameQuote('p').'.'.$db->nameQuote('id').' = '.$db->nameQuote('ia').'.'.$db->nameQuote('id_project').' AND p.published = '.$db->Quote('1').' AND '.$db->nameQuote('ia').'.'.$db->nameQuote('id_staff_member').' = '.$db->Quote($memberId).' ORDER BY '.$db->nameQuote('p').'.'.$db->nameQuote('start_date').' DESC';
+		$query = 'SELECT '.$db->quoteName('id_project').' FROM '.$db->quoteName('#__jresearch_project_internal_author').' ia,  '
+				 .$db->quoteName('#__jresearch_project').' p WHERE '.$db->quoteName('p').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_project').' AND p.published = '.$db->Quote('1').' AND '.$db->quoteName('ia').'.'.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId).' ORDER BY '.$db->quoteName('p').'.'.$db->quoteName('start_date').' DESC';
 
 		if($n > 0){
 			$query .= ' LIMIT 0, '.$n;
@@ -312,7 +312,7 @@ class JResearchAdminModelMember extends JModelForm{
 				 				 
 		$db->setQuery($query);
 
-		$result = $db->loadResultArray();
+		$result = $db->loadColumn();
 		foreach($result as $id){
 			$project = new JResearchProject($db);
 			$project->load($id);
@@ -332,7 +332,7 @@ class JResearchAdminModelMember extends JModelForm{
 	function countProjects($memberId){
 		$db =& JFactory::getDBO();
 		
-		$query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_project_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($memberId);
+		$query = 'SELECT count(*) FROM '.$db->quoteName('#__jresearch_project_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId);
 		$db->setQuery($query);		
 		return (int)$db->loadResult();
 	}
@@ -346,16 +346,16 @@ class JResearchAdminModelMember extends JModelForm{
 		$db =& JFactory::getDBO();
 		$latestThes = array();
 		
-		$query = 'SELECT '.$db->nameQuote('id_thesis').' FROM '.$db->nameQuote('#__jresearch_thesis_internal_author').' ia,  '
-				 .$db->nameQuote('#__jresearch_thesis').' t WHERE '.$db->nameQuote('t').'.'.$db->nameQuote('id').' = '.$db->nameQuote('ia').'.'.$db->nameQuote('id_thesis').' AND t.published = '.$db->Quote('1')
-				 .' AND '.$db->nameQuote('ia').'.'.$db->nameQuote('id_staff_member').' = '.$db->Quote($memberId).' ORDER BY '.$db->nameQuote('t').'.'.$db->nameQuote('start_date').' DESC';
+		$query = 'SELECT '.$db->quoteName('id_thesis').' FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' ia,  '
+				 .$db->quoteName('#__jresearch_thesis').' t WHERE '.$db->quoteName('t').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_thesis').' AND t.published = '.$db->Quote('1')
+				 .' AND '.$db->quoteName('ia').'.'.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId).' ORDER BY '.$db->quoteName('t').'.'.$db->quoteName('start_date').' DESC';
 
 		if($n > 0){
 			$query .= ' LIMIT 0, '.$n;
 		}
 				 				 
 		$db->setQuery($query);
-		$result = $db->loadResultArray();
+		$result = $db->loadColumn();
 		foreach($result as $id){
 			$thesis = new JResearchThesis($db);
 			$thesis->load($id);
@@ -374,7 +374,7 @@ class JResearchAdminModelMember extends JModelForm{
 	function countTheses($memberId){
 		$db =& JFactory::getDBO();
 		
-		$query = 'SELECT count(*) FROM '.$db->nameQuote('#__jresearch_thesis_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($memberId);
+		$query = 'SELECT count(*) FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId);
 		$db->setQuery($query);
 		return (int)$db->loadResult();
 	}
@@ -385,10 +385,10 @@ class JResearchAdminModelMember extends JModelForm{
 		$db = JFactory::getDBO();
 		$teams = array();
 		
-		$sql = 'SELECT '.$db->nameQuote('id_team').' FROM '.$db->nameQuote('#__jresearch_team_member').' WHERE '.$db->nameQuote('id_member').' = '.$db->Quote($memberId);
+		$sql = 'SELECT '.$db->quoteName('id_team').' FROM '.$db->quoteName('#__jresearch_team_member').' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($memberId);
 		$db->setQuery($sql);
 		
-		$ids = $db->loadResultArray();
+		$ids = $db->loadColumn();
 		
 		foreach($ids as $id)
 		{
@@ -401,7 +401,7 @@ class JResearchAdminModelMember extends JModelForm{
 	
 	public function getCV(){
 		if(!empty($this->files))
-			return JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, '/', $params->get('files_root_path', 'files'))."/staff/".$this->files;
+			return JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, DS, $params->get('files_root_path', 'files'))."/staff/".$this->files;
 			
 		return false;	
 	}

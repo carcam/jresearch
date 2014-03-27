@@ -8,6 +8,9 @@
 * This file implements the controller for all operations related to the management
 * of cooperations in the backend interface.
 */
+
+defined('_JEXEC') or die( 'Restricted access' );
+
 jimport('joomla.application.component.controller');
 
 /**
@@ -16,7 +19,7 @@ jimport('joomla.application.component.controller');
 * @package		JResearch
 * @subpackage	Member Position
 */
-class JResearchAdminMember_positionsController extends JController
+class JResearchAdminMember_positionsController extends JControllerLegacy
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.

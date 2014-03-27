@@ -1,4 +1,10 @@
 <?php // no direct access
+/**
+* @package		JResearch
+* @subpackage 	Modules
+* @license		GNU/GPL
+*/
+
 defined('_JEXEC') or die('Restricted access');
 
 $path_relative = JString::str_ireplace(JPATH_BASE, '', $dirname );

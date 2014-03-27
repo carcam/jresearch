@@ -4,10 +4,9 @@
 * @subpackage	Helpers
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL v2
-* Description
 */
 
-defined('JPATH_BASE') or die;
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jresearchimport('tables.member', 'jresearch.admin');
 
@@ -23,7 +22,7 @@ class JResearchStaffHelper{
 		$db = JFactory::getDBO();
 		$member = null;
 		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('id').' = '.$db->Quote(1);
+		$query = 'SELECT * FROM '.$db->quoteName('#__jresearch_member').' WHERE '.$db->quoteName('id').' = '.$db->Quote(1);
 		$db->setQuery($query);
 		$result = $db->loadAssoc();
 		
@@ -42,7 +41,7 @@ class JResearchStaffHelper{
 	 */
 	public static function getMemberArrayFromUsername($username){
         $db = JFactory::getDBO();
-        $query = 'SELECT m.* FROM '.$db->nameQuote('#__users').' u JOIN '.$db->nameQuote('#__jresearch_member').' m'
+        $query = 'SELECT m.* FROM '.$db->quoteName('#__users').' u JOIN '.$db->quoteName('#__jresearch_member').' m'
         .' WHERE m.username = '.$db->Quote($username).' AND m.username = u.username';
         $db->setQuery($query);
         $result = $db->loadAssoc();

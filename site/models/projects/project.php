@@ -7,7 +7,7 @@
 * Description
 */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die( 'Restricted access' );
 
 jresearchimport('models.modelitem', 'jresearch.site');
 

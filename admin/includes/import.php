@@ -1,11 +1,15 @@
 <?php
-
 /**
+ * @author	Luis Galárraga
+ * @package		JResearch
+ * @subpackage	Includes
+ * @license	GNU/GPL
  * Wrapper function for jimport functionality. It allows to import classes and files
  * from J!Research code space
  * @param string $entity The file to import
  * @param string $space Where to look for
  */
+defined('_JEXEC') or die('Restricted access');
 
 function jresearchimport($entity, $space = 'system'){
 	$basePath = null;

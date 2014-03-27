@@ -3,6 +3,7 @@
  * @package JResearch
  * @subpackage Helpers
  * @author Florian Prinz
+ * @license	GNU/GPL
  */
 
 // No direct access
@@ -156,7 +157,7 @@ class JResearchUtilities
 				}
 				else
 				{
-					$path = JString::str_ireplace(DS,'/',$folder).$base;
+					$path = JString::str_ireplace(DS,DS,$folder).$base;
 					$fileVar = $path;
 				}
 			}

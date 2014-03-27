@@ -2,11 +2,13 @@
 /**
  * @package JResearch
  * @subpackage Publications
+ * @license GNU/GPL 
  * View for showing the type of a publication
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); 
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 $digitalVersion = JText::_('JRESEARCH_DIGITAL_VERSION'); 
 $user = JFactory::getUser();
 $canDoPublications = JResearchAccessHelper::getActions(); 
