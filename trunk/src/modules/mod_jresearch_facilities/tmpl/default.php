@@ -1,4 +1,9 @@
 <?php // no direct access
+/**
+* @package		JResearch
+* @subpackage 	Modules
+* @license		GNU/GPL
+*/
 defined('_JEXEC') or die('Restricted access');
 
 $itemId = JRequest::getVar('Itemid');

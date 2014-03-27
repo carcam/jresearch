@@ -7,6 +7,7 @@
  * {shSourceVersionTag: Version 1.0 - 2009-01-01}
  * 
  * This is a sh404SEF native plugin file
+ * @license	GNU/GPL
  *    
  */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );

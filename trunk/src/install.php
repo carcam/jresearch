@@ -7,10 +7,7 @@
 * Description
 */
 
-defined('JPATH_BASE') or die;
-
-
-
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Script file of HelloWorld component
