@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Configuration
+ * @license		GNU/GPL
  * Default view for the control panel
  */
 // no direct access
@@ -10,80 +11,68 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.html.pane');
 $user = JFactory::getUser();
 ?>
-<div class="cpanel-left">
+<div class="span8 cpanel-left">
 <div id="cpanel">
-	<?php if($user->authorise('core.admin', 'com_jresearch')):  ?>
-	<div class="icon-wrapper">
-		<div class="icon">
-			<a class="modal" rel="{handler: 'iframe', size: {x: 1024, y: 500}}" href="index.php?option=com_config&amp;tmpl=component&amp;component=com_jresearch&amp;view=component">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/config.png" alt="<?php echo JText::_('JRESEARCH_CONFIGURATION'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_CONFIGURATION'); ?></span>
-			</a>
+	<div class="row-fluid">
+		<?php if($user->authorise('core.admin', 'com_jresearch')):  ?>
+			<div class="icon btn span2">
+				<a class="modal" rel="{handler: 'iframe', size: {x: 1024, y: 500}}" href="index.php?option=com_config&amp;tmpl=component&amp;component=com_jresearch&amp;view=component">
+					<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/config.png" alt="<?php echo JText::_('JRESEARCH_CONFIGURATION'); ?>" />
+					<span><?php echo JText::_('JRESEARCH_CONFIGURATION'); ?></span>
+				</a>
+			</div>
+		<?php endif; ?>
+		<?php if($user->authorise('core.manage', 'com_jresearch')): ?>
+		<div  class="icon btn span2">
+				<a href="index.php?option=com_jresearch&amp;controller=publications">
+					<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/publications.png" alt="<?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?>" />
+					<span><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></span>
+				</a>
+		</div>
+		<div  class="icon btn span2">
+				<a href="index.php?option=com_jresearch&amp;controller=researchareas">
+					<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/areas.png" alt="<?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?>" />
+					<span><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></span></a>
+		</div>
+		<div class="icon btn span2">
+				<a href="index.php?option=com_jresearch&amp;controller=staff">
+					<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/staff.png" alt="<?php echo JText::_('JRESEARCH_STAFF'); ?>" />
+					<span><?php echo JText::_('JRESEARCH_STAFF'); ?></span>
+				</a>
 		</div>
 	</div>
-	<?php endif; ?>
-	<?php if($user->authorise('core.manage', 'com_jresearch')): ?>
-	<div  class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=publications">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/publications.png" alt="<?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></span>
-			</a>
+	<div class="row-fluid">
+		<div class="icon btn span2">
+				<a href="index.php?option=com_jresearch&amp;controller=member_positions">
+					<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/memberpositions.png" alt="<?php echo JText::_('JRESEARCH_MEMBER_POSITIONS'); ?>" />
+					<span><?php echo JText::_('JRESEARCH_MEMBER_POSITIONS'); ?></span>
+				</a>
 		</div>
-	</div>
-	<div  class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=researchareas">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/areas.png" alt="<?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></span></a>
+		<div class="icon btn span2">
+				<a href="index.php?option=com_jresearch&amp;controller=projects">
+					<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/projects.png" alt="<?php echo JText::_('JRESEARCH_PROJECTS'); ?>" />
+					<span><?php echo JText::_('JRESEARCH_PROJECTS'); ?></span>
+				</a>
 		</div>
-	</div>
-	<div class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=staff">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/staff.png" alt="<?php echo JText::_('JRESEARCH_STAFF'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_STAFF'); ?></span>
-			</a>
+		<?php if($user->authorise('core.admin', 'com_jresearch')): ?>
+		<div  class="icon btn span2">
+				<a href="index.php?option=com_jresearch&amp;mode=upgrader">
+					<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/versionupgrade.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
+					<span><?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?></span>
+				</a>
 		</div>
-	</div>
-	<div class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=member_positions">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/memberpositions.png" alt="<?php echo JText::_('JRESEARCH_MEMBER_POSITIONS'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_MEMBER_POSITIONS'); ?></span>
-			</a>
-		</div>
-	</div>	
-	<div class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;controller=projects">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/projects.png" alt="<?php echo JText::_('JRESEARCH_PROJECTS'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_PROJECTS'); ?></span>
-			</a>
-		</div>
-	</div>	
-	<?php if($user->authorise('core.admin', 'com_jresearch')): ?>
-    <div  class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;mode=upgrader">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/versionupgrade.png" alt="<?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?>" />
-				<span><?php echo JText::_('JRESEARCH_UPGRADE_JRESEARCH'); ?></span>
-			</a>
-		</div>
-	</div>	
-	<?php endif; ?>
-	<?php endif; ?>
-	<div  class="icon-wrapper">
-		<div class="icon">
-			<a href="index.php?option=com_jresearch&amp;task=help">
-				<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/help-browser.png" alt="<?php echo JText::_('Help'); ?>" />
-				<span><?php echo JText::_('Help'); ?></span>
-			</a>
+		<?php endif; ?>
+		<?php endif; ?>
+		<div  class="icon btn span2">
+				<a href="index.php?option=com_jresearch&amp;task=help">
+					<img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/help-browser.png" alt="<?php echo JText::_('Help'); ?>" />
+					<span><?php echo JText::_('Help'); ?></span>
+				</a>
 		</div>
 	</div>
 </div>
 </div>
-<div class="cpanel-right">
+<div class="span4 cpanel-right">
 <?php 
           echo JHtml::_('sliders.start','panel-sliders',array('useCookie'=>'1'));
           echo JHtml::_('sliders.panel', JText::_('JRESEARCH_ABOUT'), 'about');

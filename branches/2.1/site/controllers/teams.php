@@ -9,7 +9,7 @@
 * of teams.
 */
 
-
+defined('_JEXEC') or die( 'Restricted access' );
 
 class JResearchTeamsController extends JResearchFrontendController
 {

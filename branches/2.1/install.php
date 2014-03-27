@@ -7,10 +7,7 @@
 * Description
 */
 
-defined('JPATH_BASE') or die;
-
-
-
+defined('_JEXEC') or die('Restricted access');
 
 /**
  * Script file of HelloWorld component
@@ -48,10 +45,10 @@ class com_jresearchInstallerScript
         }
             
 
-        $tableExtensions = $db->nameQuote("#__extensions");
-        $columnElement   = $db->nameQuote("element");
-        $columnType      = $db->nameQuote("type");
-        $columnEnabled   = $db->nameQuote("enabled");
+        $tableExtensions = $db->quoteName("#__extensions");
+        $columnElement   = $db->quoteName("element");
+        $columnType      = $db->quoteName("type");
+        $columnEnabled   = $db->quoteName("enabled");
             
         // Enable plugins
         $installedPluginsText = implode(',', $installedPlugins);

@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Configuration
+ * @license		GNU/GPL
  * View containing J!Research Help page.
  */
 defined('_JEXEC') or die('Restricted access'); 

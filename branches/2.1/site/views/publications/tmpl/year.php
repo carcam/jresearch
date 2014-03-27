@@ -2,11 +2,12 @@
 /**
  * @package JResearch
  * @subpackage Publications
+ * @license GNU/GPL 
  * View for showing the year of a publication
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); 
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 ?>
 <?php

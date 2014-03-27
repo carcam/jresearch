@@ -7,6 +7,8 @@
 * View class for exportation to bibtex
 */
 
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 class JResearchAdminViewPublications extends JResearchView{
 
 	function display($tpl = null){

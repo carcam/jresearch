@@ -1,3 +1,14 @@
+#cpanel .icon span{
+	display:block;	
+}
+
+#cpanel .icon{
+	display:block;
+	min-height: 94px;
+	margin: 5px;
+	padding: 5px
+}
+
 button2-left .bibliography{
 	background: url(../assets/j_button2_bibliography.png) 100% 0 no-repeat;
 }
@@ -284,6 +295,10 @@ div.staffcontrol{
 
 ul#div_upload_files li{
 	height: 30px;
+}
+
+#cpanel .icon{
+	float:left;
 }
 
 .icon-48-publications {

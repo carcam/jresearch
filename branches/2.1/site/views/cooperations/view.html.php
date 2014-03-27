@@ -1,12 +1,15 @@
 <?php
-jimport( 'joomla.application.component.view' );
-
 /**
- * Cooperations View
- *
+* Cooperations View
+*
 * @package		JResearch
 * @subpackage	Cooperations
- */
+* @license GNU/GPL
+*/
+defined("_JEXEC") or die("Restricted access");
+
+jimport( 'joomla.application.component.view' );
+
 class JResearchViewCooperations extends JResearchView
 {
 	/**

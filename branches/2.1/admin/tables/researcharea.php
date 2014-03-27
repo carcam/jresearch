@@ -124,23 +124,23 @@ class JResearchResearcharea extends JResearchTable{
         $booleanResult = parent::delete($oid);
 
         if($booleanResult){
-            $booleanResult = booleanResult && $this->_keepIntegrity('publication', $oid);
-            $booleanResult = booleanResult && $this->_keepIntegrity('project', $oid);
-            $booleanResult = booleanResult && $this->_keepIntegrity('member', $oid);
-            $booleanResult = booleanResult && $this->_keepIntegrity('thesis', $oid);
+            $booleanResult = $booleanResult && $this->_keepIntegrity('publication', $oid);
+            $booleanResult = $booleanResult && $this->_keepIntegrity('project', $oid);
+            $booleanResult = $booleanResult && $this->_keepIntegrity('member', $oid);
+            $booleanResult = $booleanResult && $this->_keepIntegrity('thesis', $oid);
                     	
         	// Set as uncategorized any item related to this research area
-            $queryPub = 'DELETE FROM '.$db->nameQuote('#__jresearch_publication_researcharea')
-                        .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
+            $queryPub = 'DELETE FROM '.$db->quoteName('#__jresearch_publication_researcharea')
+                        .' WHERE '.$db->quoteName('id_researcharea').' = '.$db->Quote($oid);
 
-            $queryProj = 'DELETE FROM '.$db->nameQuote('#__jresearch_project_researcharea')
-                         .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
+            $queryProj = 'DELETE FROM '.$db->quoteName('#__jresearch_project_researcharea')
+                         .' WHERE '.$db->quoteName('id_researcharea').' = '.$db->Quote($oid);
 
-            $queryStaff = 'DELETE FROM '.$db->nameQuote('#__jresearch_member_researcharea')
-                          .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
+            $queryStaff = 'DELETE FROM '.$db->quoteName('#__jresearch_member_researcharea')
+                          .' WHERE '.$db->quoteName('id_researcharea').' = '.$db->Quote($oid);
 
-            $queryThes = 'DELETE FROM '.$db->nameQuote('#__jresearch_thesis_researcharea')
-                          .' WHERE '.$db->nameQuote('id_researcharea').' = '.$db->Quote($oid);
+            $queryThes = 'DELETE FROM '.$db->quoteName('#__jresearch_thesis_researcharea')
+                          .' WHERE '.$db->quoteName('id_researcharea').' = '.$db->Quote($oid);
 
             $db->setQuery($queryPub);
             $db->query();
@@ -159,7 +159,7 @@ class JResearchResearcharea extends JResearchTable{
      * Fixes the id_research_area column of all entities referencing the current area
      * @return boolean
      */
-    function keepIntegrity($tableSuffix, $oid){
+    function _keepIntegrity($tableSuffix, $oid){
     	$db = JFactory::getDbo();
     	$booleanResult = true;
     	$query = $db->getQuery(true);
@@ -192,13 +192,13 @@ class JResearchResearcharea extends JResearchTable{
         $user = JFactory::getUser();
 		$author = '';
         if(isset($this->id)){
-        	$created = JRequest::getVar('created', $dateObj->toMySQL());
+        	$created = JRequest::getVar('created', $dateObj->toSql());
             $this->created = $created;
             $author = JRequest::getVar('created_by', $user->get('id'));
             $this->created_by = $author;
         }
             
-        $this->modified = $dateObj->toMySQL();
+        $this->modified = $dateObj->toSql();
         $this->modified_by = $author;
         $result = parent::store();
             

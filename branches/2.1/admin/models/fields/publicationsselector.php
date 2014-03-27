@@ -7,7 +7,7 @@
 * Description
 */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die( 'Restricted access' );
 
 /**
  * Form Field class for the Joomla Platform.
@@ -95,14 +95,14 @@ class JFormFieldPublicationsselector extends JFormField
 		$html[] = '</div>';
 
 		$directory = (string) $this->element['directory'];
-		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
+		if ($this->value && file_exists(JPATH_ROOT . DS . $this->value))
 		{
-			$folder = explode('/', $this->value);
+			$folder = explode(DS, $this->value);
 			array_shift($folder);
 			array_pop($folder);
-			$folder = implode('/', $folder);
+			$folder = implode(DS, $folder);
 		}
-		elseif (file_exists(JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $directory))
+		elseif (file_exists(JPATH_ROOT . DS . JComponentHelper::getParams('com_media')->get('image_path', 'images') . DS . $directory))
 		{
 			$folder = $directory;
 		}

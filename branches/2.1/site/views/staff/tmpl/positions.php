@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Staff
+ * @license	GNU/GPL
  * Default view for showing a list of staff members
  */
 

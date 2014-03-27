@@ -1,5 +1,13 @@
 <?php
-// No direct access
+/**
+* @version		$Id$
+* @package		JResearch
+* @subpackage	Research Areas
+* @copyright	Luis Galárraga.
+* @license		GNU/GPL
+* Form for the edition of a research area.
+*/
+
 defined('_JEXEC') or die('Restricted access');
 
 $fields = array('id', 'name', 'alias');
@@ -9,7 +17,7 @@ if($user->authorise('core.researchareas.edit.state', 'com_jresearch')){
 }
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
     <div class="width-60 fltlft">
         <fieldset class="panelform">
                 <ul class="adminformlist">

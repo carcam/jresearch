@@ -2,6 +2,7 @@
 /**
 * @package JResearch
 * @subpackage Teams
+* @license	GNU/GPL
 * Default view for showing a single team
 */
 

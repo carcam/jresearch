@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package JResearch
+ * @subpackage Publications
+ * @license GNU/GPL v2
+ * Form for edition of publications.
+ */
+
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 ?>

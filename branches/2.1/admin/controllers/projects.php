@@ -8,6 +8,7 @@
 * This file implements the controller for all operations related to the management
 * of research projects in the backend interface.
 */
+defined('_JEXEC') or die( 'Restricted access' );
 
 jresearchimport('joomla.application.component.controller');
 
@@ -16,7 +17,7 @@ jresearchimport('joomla.application.component.controller');
 * @package		JResearch
 * @subpackage	Projects
 */
-class JResearchAdminProjectsController extends JController
+class JResearchAdminProjectsController extends JControllerLegacy
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.

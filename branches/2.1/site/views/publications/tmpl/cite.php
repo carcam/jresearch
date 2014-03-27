@@ -1,9 +1,13 @@
 <?php 
 /**
- * @package JResearch
- * @subpackage Publications
- * View for showing the citing
- */
+* @package JResearch
+* @subpackage Publications
+* @license GNU/GPL
+* View for showing the citation dialog.
+*/
+
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 ?>
 <script type="text/javascript">
 function makeCitation(command){

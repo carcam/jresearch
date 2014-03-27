@@ -9,6 +9,8 @@
 * of bibliographical references or publications in the backend interface.
 */
 
+defined('_JEXEC') or die( 'Restricted access' );
+
 jresearchimport('joomla.application.component.controller');
 jresearchimport('helpers.access', 'jresearch.admin');
 
@@ -17,7 +19,7 @@ jresearchimport('helpers.access', 'jresearch.admin');
 * @package		JResearch
 * @subpackage	Publications
 */
-class JResearchAdminPublicationsController extends JController
+class JResearchAdminPublicationsController extends JControllerLegacy
 {
 
 	/**

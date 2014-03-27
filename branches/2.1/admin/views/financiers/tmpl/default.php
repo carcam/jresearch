@@ -2,6 +2,7 @@
 /**
  * @package JResearch
  * @subpackage Financiers
+ * @license	GNU/GPL
  * Default view for listing research areas
  */
 

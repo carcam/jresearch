@@ -1,12 +1,16 @@
 <?php
-jimport( 'joomla.application.component.view' );
-
 /**
- * Teams View
- *
+* Teams View
+*
 * @package		JResearch
 * @subpackage	Teams
- */
+* @license	GNU/GPL
+*/
+
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
+jimport( 'joomla.application.component.view' );
+
 class JResearchViewTeams extends JResearchView
 {
 	/**

@@ -2,11 +2,13 @@
 /**
  * @package JResearch
  * @subpackage Publications
+ * @license GNU/GPL 
  * View for listing publications per group
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); 
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 $canDoPublications = JResearchAccessHelper::getActions(); 
 $user = JFactory::getUser();
 ?>

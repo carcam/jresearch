@@ -109,12 +109,12 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             
             // prepare the WHERE clause
             if($filter_state == 'P')
-                  $where[] = $db->nameQuote('published').' = 1 ';
+                  $where[] = $db->quoteName('published').' = 1 ';
             elseif($filter_state == 'U')
-                  $where[] = $db->nameQuote('published').' = 0 ';
+                  $where[] = $db->quoteName('published').' = 0 ';
 
             if($filter_year != null && $filter_year != -1 )
-                  $where[] = $db->nameQuote('year').' = '.$db->Quote($filter_year);
+                  $where[] = $db->quoteName('year').' = '.$db->Quote($filter_year);
 
 
             if(($filter_search = trim($filter_search))){
@@ -124,11 +124,11 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             }
                   
             if(!empty($filter_pubtype) && $filter_pubtype != '-1'){
-                 $where[] = $db->nameQuote('pubtype').' = '.$db->Quote($filter_pubtype);
+                 $where[] = $db->quoteName('pubtype').' = '.$db->Quote($filter_pubtype);
             }
 
             if(!empty($filter_author) && $filter_author != '-1'){
-            	$where[] = $db->nameQuote('apa').'.'.$db->nameQuote('mid').' = '.$db->Quote($filter_author);
+            	$where[] = $db->quoteName('apa').'.'.$db->quoteName('mid').' = '.$db->Quote($filter_author);
             }
                         
             return $where;		
@@ -144,13 +144,13 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
 		private function _getAuthorPublicationIds($author){
             $db = JFactory::getDBO();
             if(is_numeric($author)){
-                $query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_internal_author').' WHERE '.$db->nameQuote('id_staff_member').' = '.$db->Quote($author);
+                $query = 'SELECT '.$db->quoteName('id_publication').' FROM '.$db->quoteName('#__jresearch_publication_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($author);
             }else{
-                $query = 'SELECT '.$db->nameQuote('id_publication').' FROM '.$db->nameQuote('#__jresearch_publication_external_author').' WHERE '.$db->nameQuote('author_name').' LIKE '.$db->Quote($author);
+                $query = 'SELECT '.$db->quoteName('id_publication').' FROM '.$db->quoteName('#__jresearch_publication_external_author').' WHERE '.$db->quoteName('author_name').' LIKE '.$db->Quote($author);
             }
             $db->setQuery($query);
 
-            $result = $db->loadResultArray();
+            $result = $db->loadColumn();
             return $result;
 		}
 

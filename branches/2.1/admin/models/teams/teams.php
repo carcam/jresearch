@@ -47,7 +47,7 @@ class JResearchModelTeams extends JResearchModelList
 			$query = $this->_buildQuery($memberId, $onlyPublished, $paginate);
 	
 			$db->setQuery($query);
-			$ids = $db->loadResultArray();
+			$ids = $db->loadColumn();
 			
 			foreach($ids as $id)
 			{				
@@ -102,7 +102,7 @@ class JResearchModelTeams extends JResearchModelList
 	protected function _buildQuery($memberId = null, $onlyPublished = false, $paginate = false )
 	{		
 		$db =& JFactory::getDBO();		
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName);
+		$resultQuery = 'SELECT '.$db->quoteName('id').' FROM '.$db->quoteName($this->_tableName);
 		$resultQuery .= $this->_buildQueryWhere($onlyPublished).' '.$this->_buildQueryOrderBy(); 	
 		
 		// Deal with pagination issues
@@ -137,7 +137,7 @@ class JResearchModelTeams extends JResearchModelList
 			
 		//if order column is unknown, use the default
 		if(!in_array($filter_order, $orders))
-			$filter_order = $db->nameQuote('name');	
+			$filter_order = $db->quoteName('name');	
 		
 		return ' ORDER BY '.$filter_order.' '.$filter_order_Dir;
 	}	
@@ -157,17 +157,17 @@ class JResearchModelTeams extends JResearchModelList
 		
 		if(!$published){
 			if($filter_state == 'P')
-				$where[] = $db->nameQuote('published').' = 1 ';
+				$where[] = $db->quoteName('published').' = 1 ';
 			elseif($filter_state == 'U')
-				$where[] = $db->nameQuote('published').' = 0 '; 	
+				$where[] = $db->quoteName('published').' = 0 '; 	
 		}else
-			$where[] = $db->nameQuote('published').' = 1 ';		
+			$where[] = $db->quoteName('published').' = 1 ';		
 			
 		if(($filter_search = trim($filter_search)))
 		{
 			$filter_search = JString::strtolower($filter_search);
 			$filter_search = $db->getEscaped($filter_search);
-			$where[] = 'LOWER('.$db->nameQuote('name').') LIKE '.$db->Quote('%'.$filter_search.'%');
+			$where[] = 'LOWER('.$db->quoteName('name').') LIKE '.$db->Quote('%'.$filter_search.'%');
 		}
 		
 		return (count($where)) ? ' WHERE '.implode(' AND ', $where) : '';
@@ -181,7 +181,7 @@ class JResearchModelTeams extends JResearchModelList
 	*/	
 	protected function _buildCountQuery(){
 		$db =& JFactory::getDBO();
-		$resultQuery = 'SELECT '.$db->nameQuote('id').' FROM '.$db->nameQuote($this->_tableName); 	
+		$resultQuery = 'SELECT '.$db->quoteName('id').' FROM '.$db->quoteName($this->_tableName); 	
 		$resultQuery .= $this->_buildQueryWhere($this->_onlyPublished).' '.$this->_buildQueryOrderBy();
 		return $resultQuery;
 	}

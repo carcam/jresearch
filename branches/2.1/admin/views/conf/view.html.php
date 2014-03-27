@@ -9,6 +9,7 @@
 
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/includes/view.php';
 
 /**
  * HTML View class for configuration form in JResearch Component backend

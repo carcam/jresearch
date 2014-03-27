@@ -118,8 +118,8 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 		if(!isset(JResearchPublicationBibtexExporter::$_supportedFields)){		
 			$db = JFactory::getDBO();
 			
-			$db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_property'));
-			JResearchPublicationBibtexExporter::$_supportedFields = $db->loadResultArray();
+			$db->setQuery('SELECT * FROM '.$db->quoteName('#__jresearch_property'));
+			JResearchPublicationBibtexExporter::$_supportedFields = $db->loadColumn();
 		}
 		
 		return JResearchPublicationBibtexExporter::$_supportedFields;
@@ -141,8 +141,8 @@ class JResearchPublicationBibtexExporter extends JResearchPublicationExporter{
 		if(!isset(JResearchPublicationBibtexExporter::$_supportedTypes)){		
 			$db = JFactory::getDBO();
 			
-			$db->setQuery('SELECT * FROM '.$db->nameQuote('#__jresearch_publication_type'));
-			JResearchPublicationBibtexExporter::$_supportedTypes = $db->loadResultArray();
+			$db->setQuery('SELECT * FROM '.$db->quoteName('#__jresearch_publication_type'));
+			JResearchPublicationBibtexExporter::$_supportedTypes = $db->loadColumn();
 		}
 		
 		return JResearchPublicationBibtexExporter::$_supportedTypes;

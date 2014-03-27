@@ -3,7 +3,9 @@
  * @package JResearch
  * @subpackage Helpers
  * @author Florian Prinz
+ * @license	GNU/GPL
  */
+
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');

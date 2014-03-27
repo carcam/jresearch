@@ -7,7 +7,7 @@
 * Description
 */
 
-defined('JPATH_BASE') or die;
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class JResearchProjectsHelper{
 	
@@ -16,8 +16,8 @@ class JResearchProjectsHelper{
 	 */
    	public static function getYears(){
        $db = JFactory::getDBO();
-       $db->setQuery('SELECT DISTINCT YEAR(start_date) as year FROM '.$db->nameQuote('#__jresearch_project').' ORDER BY '.$db->nameQuote('start_date').' DESC ');
-       return $db->loadResultArray();
+       $db->setQuery('SELECT DISTINCT YEAR(start_date) as year FROM '.$db->quoteName('#__jresearch_project').' ORDER BY '.$db->quoteName('start_date').' DESC ');
+       return $db->loadColumn();
    	}
    	
    	/**
@@ -25,7 +25,7 @@ class JResearchProjectsHelper{
    	 */
    	public static function getAllAuthors(){
    		$db = JFactory::getDBO();
-   		$db->setQuery('SELECT DISTINCT mid, member_name FROM '.$db->nameQuote('#__jresearch_all_project_authors'));
+   		$db->setQuery('SELECT DISTINCT mid, member_name FROM '.$db->quoteName('#__jresearch_all_project_authors'));
    		return $db->loadAssocList();
    	}
    	

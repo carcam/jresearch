@@ -96,7 +96,7 @@ class JResearchCooperation extends JTable
     public function getCategory()
     {
     	$db =& JFactory::getDBO();
-    	$sql = 'SELECT id, image, title FROM '.$db->nameQuote('#__categories').' WHERE '.$db->nameQuote('id').'='.$db->Quote($this->catid);
+    	$sql = 'SELECT id, image, title FROM '.$db->quoteName('#__categories').' WHERE '.$db->quoteName('id').'='.$db->Quote($this->catid);
     	
     	$db->setQuery($sql);
 		return $db->loadObject();

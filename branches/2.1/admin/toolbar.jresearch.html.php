@@ -13,7 +13,9 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+
 require_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php');
+
 jresearchimport('helpers.access', 'jresearch.admin');
 
 /**
@@ -45,7 +47,7 @@ class JResearchToolbar
         JToolBarHelper::divider();
             
         if($canDo->get('core.publications.create')){
-	    	JToolBarHelper::addNewX('add', JText::_('Add'));
+	    	JToolBarHelper::addNew('add', JText::_('Add'));
         }
             
         if($canDo->get('core.publications.delete')){
@@ -89,12 +91,12 @@ class JResearchToolbar
         JToolBarHelper::divider();
 
         if($canDo->get('core.staff.create')){
-	        JToolBarHelper::addNewX('add', JText::_('Add'));
+	        JToolBarHelper::AddNew('add', JText::_('Add'));
     	    self::importButton();
         }
         
         if($canDo->get('core.staff.edit')){
-    	    JToolBarHelper::editListX('edit', JText::_('Edit'));
+    	    JToolBarHelper::EditList('edit', JText::_('Edit'));
         }
         
 	    if($canDo->get('core.staff.delete')){
@@ -119,11 +121,11 @@ class JResearchToolbar
         self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
         JToolBarHelper::divider();
         if($canDo->get('core.researchareas.create')){    
-        	JToolBarHelper::addNewX('add', JText::_('Add'));
+        	JToolBarHelper::AddNew('add', JText::_('Add'));
         }
 
         if($canDo->get('core.researchareas.edit')){
-        	JToolBarHelper::editListX('edit', JText::_('Edit'));
+        	JToolBarHelper::EditList('edit', JText::_('Edit'));
         }
         
         if($canDo->get('core.researchareas.delete')){
@@ -189,8 +191,8 @@ class JResearchToolbar
 
         self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
         JToolBarHelper::divider();
-        JToolBarHelper::addNewX('add', JText::_('Add'));
-        JToolBarHelper::editListX('edit', JText::_('Edit'));
+        JToolBarHelper::AddNew('add', JText::_('Add'));
+        JToolBarHelper::EditList('edit', JText::_('Edit'));
         JToolBarHelper::deleteList(JText::_('Are you sure you want to delete the selected items?'),'remove', JText::_('Delete'));
 
         JToolBarHelper::divider();
@@ -292,8 +294,8 @@ class JResearchToolbar
 		
 		self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
 		JToolBarHelper::divider();
-		JToolBarHelper::addNewX('add', JText::_('Add'));
-		JToolBarHelper::editListX('edit', JText::_('Edit'));
+		JToolBarHelper::AddNew('add', JText::_('Add'));
+		JToolBarHelper::EditList('edit', JText::_('Edit'));
 		JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_ITEMS_QUESTION'),'remove', JText::_('Delete'));				
 
 		JToolBarHelper::divider();		
@@ -462,8 +464,8 @@ class JResearchToolbar
 	
 	public static function adminListToolbar()
 	{
-		JToolBarHelper::addNewX('add', JText::_('Add'));
-		JToolBarHelper::editListX('edit', JText::_('Edit'));
+		JToolBarHelper::AddNew('add', JText::_('Add'));
+		JToolBarHelper::EditList('edit', JText::_('Edit'));
 		JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_ITEM_CONFIRMATION'),'remove', JText::_('Delete'));		
 
 		JToolBarHelper::divider();

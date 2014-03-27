@@ -2,11 +2,13 @@
 /**
  * @package JResearch
  * @subpackage Projects
+ * @license	GNU/GPL
  * Default view for showing a single project
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+
 JHTML::_('behavior.modal');
 jresearchimport('helpers.publications', 'jresearch.admin');
 

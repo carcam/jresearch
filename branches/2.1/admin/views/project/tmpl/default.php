@@ -1,6 +1,15 @@
 <?php
-// No direct access
+/**
+* @version		$Id$
+* @package		JResearch
+* @subpackage	Projects
+* @copyright	Luis Galárraga.
+* @license		GNU/GPL
+* Form for the edition of a project.
+*/
+
 defined('_JEXEC') or die('Restricted access');
+
 $actions = JResearchAccessHelper::getActions();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">

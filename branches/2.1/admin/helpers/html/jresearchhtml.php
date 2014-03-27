@@ -126,7 +126,7 @@ class JHTMLjresearchhtml
 		$js = "javascript:switchType('$controlName', '$select', '$enterName')";
 
 		
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').'='.$db->Quote('1').' ORDER BY lastname';
+		$query = 'SELECT * FROM '.$db->quoteName('#__jresearch_member').' WHERE '.$db->quoteName('published').'='.$db->Quote('1').' ORDER BY lastname';
 		$db->setQuery($query);
 		$result = $db->loadAssocList();
 		$options = array();
@@ -290,9 +290,9 @@ class JHTMLjresearchhtml
 	
 	public static function jsonMembers($key){
 		$db = JFactory::getDBO();
-		$query = 'SELECT * FROM '.$db->nameQuote('#__jresearch_member').' WHERE '.$db->nameQuote('published').' = '.$db->Quote('1');
-		$query .= ' AND ('.$db->nameQuote('firstname').' LIKE '.$db->Quote( '%'.$db->getEscaped( $key, true ).'%', false );
-		$query .= ' OR '.$db->nameQuote('lastname').' LIKE '.$db->Quote( '%'.$db->getEscaped( $key, true ).'%', false ).')';
+		$query = 'SELECT * FROM '.$db->quoteName('#__jresearch_member').' WHERE '.$db->quoteName('published').' = '.$db->Quote('1');
+		$query .= ' AND ('.$db->quoteName('firstname').' LIKE '.$db->Quote( '%'.$db->getEscaped( $key, true ).'%', false );
+		$query .= ' OR '.$db->quoteName('lastname').' LIKE '.$db->Quote( '%'.$db->getEscaped( $key, true ).'%', false ).')';
 		$db->setQuery($query);
 		$members = $db->loadAssocList(); 		
 		$output = "{\"results\": [";
@@ -321,8 +321,8 @@ class JHTMLjresearchhtml
 		$doc->addScript($urlBase.'components/com_jresearch/js/staffimporter.js');
 		
 		$db =& JFactory::getDBO();
-		$fields = $db->nameQuote('username').', '.$db->nameQuote('lastname').', '.$db->nameQuote('firstname');
-		$db->setQuery('SELECT '.$fields.' FROM '.$db->nameQuote('#__jresearch_member'));
+		$fields = $db->quoteName('username').', '.$db->quoteName('lastname').', '.$db->quoteName('firstname');
+		$db->setQuery('SELECT '.$fields.' FROM '.$db->quoteName('#__jresearch_member'));
 
 		$members = $db->loadAssocList();
 		
@@ -330,7 +330,7 @@ class JHTMLjresearchhtml
 		foreach($members as $m)
 			$usernames[] = $m['username'];
 	
-		$query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('block').' = '.$db->Quote('0');
+		$query = 'SELECT * FROM '.$db->quoteName('#__users').' WHERE '.$db->quoteName('block').' = '.$db->Quote('0');
 		
 
 		$db->setQuery($query);
@@ -386,15 +386,15 @@ class JHTMLjresearchhtml
             }
 
             //Get J!Research members
-            $fields = $db->nameQuote('username').', '.$db->nameQuote('lastname').', '.$db->nameQuote('firstname');
-            $db->setQuery('SELECT '.$fields.' FROM '.$db->nameQuote('#__jresearch_member'));
+            $fields = $db->quoteName('username').', '.$db->quoteName('lastname').', '.$db->quoteName('firstname');
+            $db->setQuery('SELECT '.$fields.' FROM '.$db->quoteName('#__jresearch_member'));
             $members = $db->loadAssocList();
 
             //Now get Joomla! users that are not members
             $usernames = array();
             foreach($members as $m)
                     $usernames[] = $m['username'];
-            $query = 'SELECT * FROM '.$db->nameQuote('#__users').' WHERE '.$db->nameQuote('block').' = '.$db->Quote('0');
+            $query = 'SELECT * FROM '.$db->quoteName('#__users').' WHERE '.$db->quoteName('block').' = '.$db->Quote('0');
             $db->setQuery($query);
             $users = $db->loadAssocList();
             $joomlaUsers = array();
@@ -440,7 +440,7 @@ class JHTMLjresearchhtml
 			jresearchimport('helpers.charsets', 'jresearch.admin');
             $extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());
             $doc = JFactory::getDocument();
-            $token = JUtility::getToken();
+            $token = JSession::getFormToken();
             JHTML::_('behavior.formvalidation');
             JHTML::_('behavior.tooltip');
             
@@ -549,11 +549,11 @@ class JHTMLjresearchhtml
 		$uploadField .= '</div>';
 		
 		//Render the uploaded files
-		$baseUrl = $url.'administrator/components/com_jresearch/'.str_replace(DS, '/', $filesFolder);
+		$baseUrl = $url.'administrator/components/com_jresearch/'.str_replace(DS, DS, $filesFolder);
 		$result = '<ul style="padding:0px;margin:0px;">';
 		$n = 0;
 		foreach($uploadedFiles as $file){
-			$result .= '<li><a href="'.$baseUrl.'/'.$file.'">'.$file.'</a>&nbsp;&nbsp;<label for="delete_'.$name.'_'.$n.'">'.JText::_('Delete').'</label><input type="checkbox" name="delete_'.$name.'_'.$n.'" id="delete_'.$name.'_'.$n.'" />';
+			$result .= '<li><a href="'.$baseUrl.DS.$file.'">'.$file.'</a>&nbsp;&nbsp;<label for="delete_'.$name.'_'.$n.'">'.JText::_('Delete').'</label><input type="checkbox" name="delete_'.$name.'_'.$n.'" id="delete_'.$name.'_'.$n.'" />';
 			$result .= '<input type="hidden" name="old_'.$name.'_'.$n.'" id="old_'.$name.'_'.$n.'" value="'.$file.'" />';
 			$result .= '</li>';
 			$n++;
@@ -595,7 +595,7 @@ class JHTMLjresearchhtml
 	{
             $db = JFactory::getDBO();
 
-            $query = 'SELECT id, name FROM '.$db->nameQuote('#__jresearch_research_area');
+            $query = 'SELECT id, name FROM '.$db->quoteName('#__jresearch_research_area');
             $db->setQuery($query);
             $areas = $db->loadAssocList();
             //Additional elements
@@ -639,10 +639,10 @@ class JHTMLjresearchhtml
         $yearOptions = array();
         
         $yearOptions[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
-                
+
 		foreach($data as $y){
-        	$yearOptions[] = JHTML::_('select.option', $y, $y);
-        }
+			$yearOptions[] = JHTML::_('select.option', $y, $y);
+		}
 
 		return self::htmllist($yearOptions, $attributes);		
 	}
@@ -920,7 +920,7 @@ class JHTMLjresearchhtml
         $typesHTML = array();
         $typesHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_PUBLICATION_TYPE'));
         foreach($types as $type){
-        	$text = JText::_('JRESEARCH_'.strtoupper($type));
+        	$text = JText::_('JRESEARCH_'.strtoupper($type['name']));
             $typesHTML[] = JHTML::_('select.option', $type, $text);
         }
 

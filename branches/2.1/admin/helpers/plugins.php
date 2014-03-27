@@ -3,6 +3,7 @@
  * @package JResearch
  * @subpackage Helpers
  * @author Luis Galárraga
+ * @license	GNU/GPL
  */
 
 // No direct access

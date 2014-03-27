@@ -9,6 +9,8 @@
 * of staff members in the backend interface.
 */
 
+defined('_JEXEC') or die( 'Restricted access' );
+
 jimport('joomla.application.component.controller');
 jresearchimport('helpers.staff', 'jresearch.admin');
 
@@ -17,7 +19,7 @@ jresearchimport('helpers.staff', 'jresearch.admin');
  * @package		JResearch
  * @subpackage	Staff
  */
-class JResearchAdminStaffController extends JController
+class JResearchAdminStaffController extends JControllerLegacy
 {
 	/**
 	 * Initialize the controller by registering the tasks to methods.
