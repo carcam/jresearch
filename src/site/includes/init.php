@@ -22,7 +22,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 
 // Common needed files		
-require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'defines.php');
+require_once(JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'defines.php');
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'includes'.DS.'import.php');
 
 //Helpers

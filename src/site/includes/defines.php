@@ -9,6 +9,9 @@
  */
 
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
+if(!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
 
 define('_MEMBER_IMAGE_MAX_WIDTH_', 1024);
 define('_MEMBER_IMAGE_MAX_HEIGHT_', 768);
