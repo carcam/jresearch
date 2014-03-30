@@ -1,10 +1,10 @@
 <?php
 /**
-* @version		$Id$
-* @package		JResearch
+* @version	$Id$
+* @package	JResearch
 * @subpackage	Includes
 * @copyright	Copyright (C) 2008 Luis Galarraga.
-* @license		GNU/GPL
+* @license	GNU/GPL
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 
 // Common needed files		
-require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_jresearch'.DS.'includes'.DS.'defines.php');
+require_once(JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_jresearch'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'defines.php');
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'includes'.DS.'import.php');
 
 //Helpers

@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 $mainframe = JFactory::getApplication();
 
 // Common needed files
-require_once(JPATH_COMPONENT_SITE.DS.'includes'.DS.'init.php');
+require_once(JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'init.php');
 require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
 jresearchimport('helpers.access', 'jresearch.admin');
 
