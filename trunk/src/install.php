@@ -4,7 +4,7 @@
 * @subpackage	
 * @copyright	Copyright (C) 2008 Luis Galarraga.
 * @license		GNU/GPL v2
-* Description
+* Installation scriot.
 */
 
 defined('_JEXEC') or die('Restricted access');
