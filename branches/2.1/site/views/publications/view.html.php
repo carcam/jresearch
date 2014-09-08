@@ -407,7 +407,7 @@ class JResearchViewPublications extends JResearchView
 		if($bSearch === true)
         {
     		$filter_search = $this->state->get('com_jresearch.publications.filter_search');
-     		$lists['search'] = JText::_('JRESEARCH_FILTER').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search).'" class="text_area" onchange="document.adminForm.submit();" />
+     		$lists['search'] = JText::_('JRESEARCH_FILTER').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search, ENT_COMPAT | ENT_HTML401, ini_get("default_charset")).'" class="text_area" onchange="document.adminForm.submit();" />
 								<button onclick="document.adminForm.submit();">'.JText::_('JRESEARCH_GO').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
 								.JText::_('JRESEARCH_RESET').'</button>';
     	}
