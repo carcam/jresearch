@@ -920,7 +920,7 @@ class JHTMLjresearchhtml
         $typesHTML = array();
         $typesHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_PUBLICATION_TYPE'));
         foreach($types as $type){
-        	$text = JText::_('JRESEARCH_'.strtoupper($type['name']));
+        	$text = JText::_('JRESEARCH_'.strtoupper($type));
             $typesHTML[] = JHTML::_('select.option', $type, $text);
         }
 
