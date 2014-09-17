@@ -94,7 +94,7 @@
                         default=""
                         label="JRESEARCH_DOI"
                 />
-       <field id="published" name="published" type="radio"
+       <field id="published" name="published" type="list"
 			label="Published"
 			default="1"
 		>
@@ -102,7 +102,7 @@
 			<option value="1">JYES</option>
 		</field>
 
-       <field id="internal" name="internal" type="radio"
+       <field id="internal" name="internal" type="list"
 			label="JRESEARCH_INTERNAL"
 			default="1"
 		>
