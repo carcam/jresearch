@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-        <fieldset name="basic">
+        <fieldset name="basic" addfieldpath="/administrator/components/com_jresearch/models/fields">
                 <field
                         id="id"
                         name="id"
