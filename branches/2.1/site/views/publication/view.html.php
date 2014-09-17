@@ -109,7 +109,7 @@ class JResearchViewPublication extends JResearchView
        	return true;
     }
     
-    private function _editPublication()
+    private function _editPublication($tpl)
     {
         JHtml::_('jresearchhtml.validation');
         $mainframe = JFactory::getApplication();
