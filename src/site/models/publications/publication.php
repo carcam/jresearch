@@ -70,7 +70,7 @@ class JResearchModelPublication extends JResearchModelForm{
              }
                     
              //Once the data is retrieved, time to fix it
-             if(is_string($data['id_research_area'])){
+             if(isset($data['id_research_area']) && is_string($data['id_research_area'])){
              	$data['id_research_area'] = explode(',', $data['id_research_area']);
              }
                     
