@@ -13,7 +13,7 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 define('_MEMBER_IMAGE_MAX_WIDTH_', 1024);
 define('_MEMBER_IMAGE_MAX_HEIGHT_', 768);
 
-define('_JRESEARCH_VERSION_', '2.1.2 Stable');
+define('_JRESEARCH_VERSION_', '2.1.3 Stable');
 define('_JRESEARCH_BIBUTILS_VERSION_', '3.41');
 define('JRESEARCH_UPGRADER_SUPPORT', true);
 
