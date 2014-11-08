@@ -115,7 +115,7 @@ class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
     *
     * @return      void
     */
-	protected function populateState(){
+	protected function populateState($ordering = NULL, $direction = NULL){
 		$app = JFactory::getApplication();
 		$this->setState($this->_context.'.filter_order', $app->getUserStateFromRequest($this->_context . '.filter_order', 'filter_order', 'ordering'));
         $this->setState($this->_context.'.filter_order_Dir', $app->getUserStateFromRequest($this->_context . '.filter_order_Dir', 'filter_order_Dir', 'asc'));        		

@@ -163,7 +163,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
     *
     * @return      void
     */
-    protected function populateState() {
+    protected function populateState($ordering = NULL, $direction = NULL) {
     	$mainframe = JFactory::getApplication();
         $this->setState('com_jresearch.publications.filter_search', $mainframe->getUserStateFromRequest($this->_context.'.filter_search', 'filter_search'));
         $this->setState('com_jresearch.publications.filter_state', $mainframe->getUserStateFromRequest($this->_context.'.filter_state', 'filter_state'));        

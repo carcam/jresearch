@@ -63,7 +63,7 @@ class JResearchAdminPublicationsController extends JControllerLegacy
 	 * @access public
 	 */
 
-	function display(){
+	function display($cachable = false, $urlparams = Array()){
 		$user = JFactory::getUser();
 		if($user->authorise('core.manage', 'com_jresearch')){		
 			$view = $this->getView('Publications', 'html', 'JResearchAdminView');

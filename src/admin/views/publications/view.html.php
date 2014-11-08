@@ -92,9 +92,10 @@ class JResearchAdminViewPublications extends JResearchView
 
         $authors = JResearchPublicationsHelper::getAllAuthors();
         $lists['authors'] = JHTML::_('jresearchhtml.authors', $authors, array('name' => 'filter_author', 'selected' => $filter_author, 'attributes' => $js));
-        
+
+		$pagination = $model->getPagination();
     	$this->assignRef('items', $items);
-    	$this->assignRef('page', $model->getPagination());
+    	$this->assignRef('page', $pagination);
         $this->assignRef('lists', $lists);
         $this->assignRef('params', $params);            	
     }

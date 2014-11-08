@@ -186,7 +186,7 @@ class JResearchResearcharea extends JResearchTable{
     }
         
 
-    public function store(){
+    public function store($updateNulls = false){
         jresearchimport('joomla.utilities.date');
         $dateObj = new JDate();
         $user = JFactory::getUser();

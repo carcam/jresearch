@@ -37,8 +37,8 @@ class JResearchAdminController extends JControllerLegacy
 	 * @access public
 	 */
 
-	function display(){
-		$view = &$this->getView('conf', 'html', 'JResearchAdminView');
+	function display($cachable = false, $urlparams = Array()){
+		$view = $this->getView('conf', 'html', 'JResearchAdminView');
 		$view->display();
 	}
 

@@ -110,7 +110,7 @@ class JResearchAdminResearchareasController extends JControllerLegacy
 	 *
 	 * @access public
 	 */
-	function display(){
+	function display($cachable = false, $urlparams = Array()){
 		//Check permissions
 		$user = JFactory::getUser();
 		if($user->authorise('core.manage', 'com_jresearch')){
