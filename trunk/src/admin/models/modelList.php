@@ -39,7 +39,7 @@ class JResearchAdminModelList extends JModelList{
     *
     * @return      void
     */
-    protected function populateState() {
+    protected function populateState($ordering = NULL, $direction = NULL) {
     	// Initialize variables.
         $app = JFactory::getApplication('administrator');
         // Load the list state.

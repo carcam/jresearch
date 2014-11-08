@@ -44,10 +44,12 @@ class JResearchAdminViewResearchAreas extends JResearchView
         $lists['state'] = JHTML::_('grid.state', $filter_state);
         $js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
         $lists['search'] = $filter_search;
-        
+
+		$pagination = $model->getPagination();
+
         $this->assignRef('items', $items);
         $this->assignRef('lists', $lists );
-        $this->assignRef('page', $model->getPagination());
+        $this->assignRef('page', $pagination);
         parent::display($tpl);
     }
 }
