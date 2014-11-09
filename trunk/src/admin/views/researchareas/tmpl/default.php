@@ -27,7 +27,7 @@ $saveOrder = ($this->lists['order'] == 'ordering');
 			</tr>
 		</tbody>
 	</table>
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 		<tr>		
 			<th style="width: 1%;">#</th>
@@ -40,7 +40,7 @@ $saveOrder = ($this->lists['order'] == 'ordering');
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'saveorder'); ?>
 					<?php endif; ?>				
 			</th>
-			<th style="width: 30%;"><?php echo JHTML::_('grid.sort',   'Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
+			<th class="nowrap center" style="min-width: 55px;"><?php echo JHTML::_('grid.sort',   'Published', 'published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
 
 		</tr>
 		</thead>
