@@ -17,32 +17,37 @@ if($user->authorise('core.researchareas.edit.state', 'com_jresearch')){
 }
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
-    <div class="width-60 fltlft">
-        <fieldset class="panelform">
-                <ul class="adminformlist">
-                <?php foreach($fields as $fieldName):  ?>
-                    <?php $field = $this->form->getField($fieldName); ?>
-                    <li>
-                        <?php if (!$field->hidden): ?>
-                                <?php echo $field->label; ?>
-                        <?php endif; ?>
-                        <?php echo $field->input; ?>
-                    </li>
-                <?php endforeach; ?>
-                </ul>
-            <div class="clr"></div>
-            <div><?php
-            $description = $this->form->getField('description');
-            echo $description->label;
-            ?></div>
-            <div class="clr"></div>
-            <div><?php echo $description->input; ?></div>
-            <div class="clr"></div>
-        </fieldset>
-    </div>
-    <input type="hidden" name="task" value="edit" />
-    <input type="hidden" name="controller" value="researchareas" />    
-    <?php echo JHtml::_('form.token'); ?>
-</form>
-<div class="clr"></div>
+
+<div class="row-fluid">
+	<div class="spans10">
+		<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal form-validate">
+				<fieldset>
+						<?php foreach($fields as $fieldName):  ?>
+							<?php $field = $this->form->getField($fieldName); ?>
+							<div class="control-group">
+								<?php if (!$field->hidden): ?>
+									<div class="control-label">
+										<?php echo $field->label; ?>
+									</div>
+								<?php endif; ?>
+								<div class="controls">
+									<?php echo $field->input; ?>
+								</div>
+							</div>
+						<?php endforeach; ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php $description = $this->form->getField('description'); ?>
+							<?php echo $description->label;?>
+						</div>
+						<div class="controls">
+							<?php echo $description->input; ?>
+						</div>
+					</div>
+				</fieldset>
+			<input type="hidden" name="task" value="edit" />
+			<input type="hidden" name="controller" value="researchareas" />
+			<?php echo JHtml::_('form.token'); ?>
+		</form>
+	</div>
+</div>
