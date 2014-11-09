@@ -57,7 +57,7 @@ class JResearchAdminStaffController extends JControllerLegacy
 	 * @access public
 	 */
 
-	function display(){
+	function display($cachable = false, $urlparams = Array()){
 		$user = JFactory::getUser();		
 		if($user->authorise('core.manage', 'com_jresearch')){		
 			$view = $this->getView('Staff', 'html', 'JResearchAdminView');

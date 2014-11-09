@@ -196,7 +196,7 @@ class JResearchMember extends JResearchTable{
 	 * Inherited from JTable, it updates research area tables
 	 * @see trunk/Joomla16/libraries/joomla/database/JTable::store()
 	 */
-	function store(){
+	function store($updateNulls = false){
 		// Time to insert the member of the publication per se	
 		jimport('joomla.utilities.date');				
 
@@ -416,7 +416,7 @@ class JResearchMember extends JResearchTable{
          * (non-PHPdoc)
          * @see trunk/Joomla16/libraries/joomla/database/JTable::delete()
          */
-        function delete($oid){
+        function delete($pk = NULL){
 			$db = JFactory::getDBO();
 
 			$k = $this->_tbl_key;
