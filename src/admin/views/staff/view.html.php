@@ -76,12 +76,14 @@ class JResearchAdminViewStaff extends JResearchView
 
         //Ordering allowed ?
         $ordering = ($lists['order'] == 'ordering');
+
+		$pagination = $model->getPagination();
     	
     	$this->assignRef('items', $members);
     	$this->assignRef('areaModel', $areaModel);
     	$this->assignRef('lists', $lists);
     	$this->assignRef('ordering', $ordering);
-    	$this->assignRef('page', $model->getPagination());	
+    	$this->assignRef('page', $pagination);
     	$this->assignRef('params', $params);
 
     }
