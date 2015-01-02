@@ -47,21 +47,22 @@ class plgButtonJResearch_Automatic_Citation extends JPlugin
 	{
 		$doc = JFactory::getDocument();
 		$url = JURI::root();
-		$image = $url.'components/com_jresearch/assets/j_button2_cite.png';			
+		$image = $url.'components/com_jresearch/assets/quote.png';			
 
 		$link = 'index.php?option=com_jresearch&amp;controller=publications&amp;task=citeFromDialog&amp;tmpl=component&amp;e_name='.$name;
 
 		JHTML::_('behavior.modal');
-		JHTML::_('behavior.mootools');		
+		JHtml::_('behavior.framework');
 
 		$button = new JObject();
 		$button->set('modal', true);
 		$button->set('link', $link);
 		$button->set('text', JText::_('Cite'));
+		$button->set('class', 'btn');
 		$button->set('name', 'cite');		
 		$button->set('options', "{handler: 'iframe', size: {x: 700, y: 400}}");
 
-		$css = ".button2-left .cite { ".
+		$css = ".icon-cite { ".
 			   "background: url($image) 100% 0 no-repeat;".
 			   "}";
 		

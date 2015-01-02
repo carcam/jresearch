@@ -24,17 +24,17 @@ defined('_JEXEC') or die('Restricted access');
 			</tr>
 		</tbody>
 	</table>
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 		<tr>		
 			<th style="width: 5%;" class="center">#</th>
-			<th style="width: 5%;" class="center"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
+			<th style="width: 5%;" class="center"><?php echo JHtml::_('grid.checkall'); ?></th>
 			<th style="width: 50%;" class="title"><?php echo JHTML::_('grid.sort', 'Position', 'position', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
-			<th style="width: 1%;" nowrap="nowrap">
+			<th style="width: 1%;" nowrap="center">
 				<?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_ORDERING'), 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 				<?php echo JHTML::_('grid.order', $this->items ); ?>
 			</th>			
-			<th style="width: 20%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
+			<th style="width: 20%;" nowrap="center"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
 		</tr>
 		</thead>
 		

@@ -25,27 +25,27 @@ class JFormFieldMemberpositionslist extends JFormFieldList{
 	protected function getOptions()
 	{
 		// Initialize variables.
-		$options = array();
-        $db = JFactory::getDBO();
-        $query = $db->getQuery(true);
-        $query->select('*');
-        $query->from('#__jresearch_member_position');
-        $query->where('published = 1');
-        $db->setQuery((string)$query);
+            $options = array();
+            $db = JFactory::getDBO();
+            $query = $db->getQuery(true);
+            $query->select('*');
+            $query->from('#__jresearch_member_position');
+            $query->where('published = 1');
+            $db->setQuery((string)$query);
 
-        $positions = $db->loadAssocList();
+            $positions = $db->loadAssocList();
 
-        $options[] = JHtml::_('select.option', 0, JText::_('JRESEARCH_MEMBER_POSITIONS'), 'value', 'text', 0);                
+            $options[] = JHtml::_('select.option', 0, JText::_('JRESEARCH_MEMBER_POSITIONS'), 'value', 'text', 0);                
 
-        foreach($positions as $position){
-           	$tmp = JHtml::_('select.option', $position['id'], $position['position'], 'value', 'text', 0);
-           	// Add the option object to the result set.
-        	$options[] = $tmp;
-        }
+            foreach($positions as $position){
+                    $tmp = JHtml::_('select.option', $position['id'], $position['position'], 'value', 'text', 0);
+                    // Add the option object to the result set.
+                    $options[] = $tmp;
+            }
 
-		reset($options);
+            reset($options);
 
-		return $options;
+            return $options;
 	}	
 
 }

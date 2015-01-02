@@ -12,10 +12,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 function jresearchimport($entity, $space = 'system'){
-	$basePath = null;
+    $basePath = null;
     switch($space){
     	case 'jresearch.admin':
-			$basePath = JRESEARCH_COMPONENT_ADMIN;    		
+		$basePath = JRESEARCH_COMPONENT_ADMIN;    		
     		break;
     	case 'jresearch.site':
     		$basePath = JRESEARCH_COMPONENT_SITE;
@@ -29,9 +29,9 @@ function jresearchimport($entity, $space = 'system'){
     }
     
     $components = explode('.', $entity);
-	$tail = implode(DS, array_slice($components, 0, count($components) - 1));
+	$tail = implode(DIRECTORY_SEPARATOR, array_slice($components, 0, count($components) - 1));
 	$file = $components[count($components) - 1].'.php';
-	require_once $basePath.DS.$tail.DS.$file;
+	require_once $basePath.DIRECTORY_SEPARATOR.$tail.DIRECTORY_SEPARATOR.$file;
 }
 
 ?>

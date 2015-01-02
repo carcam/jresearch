@@ -24,12 +24,12 @@ class JResearchViewStaff extends JResearchView
     {
         $layout = $this->getLayout();
         switch($layout){
-        	case 'staffflow':
-	        	$this->_displayStaffFlow();
-	        	break;
-        	default:
-       			$this->_displayDefaultList();
-       			break;
+            case 'staffflow':
+                $this->_displayStaffFlow();
+                break;
+            default:
+                $this->_displayDefaultList();
+                break;
         }
         
     }
@@ -103,48 +103,48 @@ class JResearchViewStaff extends JResearchView
         }
         if ($params->get('glidetoimage') != '')
         {
-                $glidetoimage = $this->get('glidetoimage');
-                //	Have they given us a percentage?
-                if (JString::substr($glidetoimage, -1) == '%')
-                {
-                        //	Yes, remove the % sign
-                        $glidetoimage = (int) JString::substr($glidetoimage, 0, -1);
-                        $glidetoimage = (int) (count($images)) * ($glidetoimage/100);
-                        $glidetoimage = (int) ($glidetoimage+.50);
-                }
-                else
-                {
-                        $glidetoimage = (int) $glidetoimage;
-                }
-                if ($glidetoimage > count($images))
-                {
-                        $glidetoimage = count($images);
-                }
-                if ($glidetoimage < 1)
-                {
-                        $glidetoimage = 1;
-                }
-                $glidetoimage--;
-                $scrpt .= 'imf.caption_id = '.$glidetoimage.';'.PHP_EOL;
-                $scrpt .= 'imf.current = '.-$glidetoimage.' * imf.xstep;'.PHP_EOL;
+            $glidetoimage = $this->get('glidetoimage');
+            //	Have they given us a percentage?
+            if (JString::substr($glidetoimage, -1) == '%')
+            {
+                    //	Yes, remove the % sign
+                    $glidetoimage = (int) JString::substr($glidetoimage, 0, -1);
+                    $glidetoimage = (int) (count($images)) * ($glidetoimage/100);
+                    $glidetoimage = (int) ($glidetoimage+.50);
+            }
+            else
+            {
+                    $glidetoimage = (int) $glidetoimage;
+            }
+            if ($glidetoimage > count($images))
+            {
+                    $glidetoimage = count($images);
+            }
+            if ($glidetoimage < 1)
+            {
+                    $glidetoimage = 1;
+            }
+            $glidetoimage--;
+            $scrpt .= 'imf.caption_id = '.$glidetoimage.';'.PHP_EOL;
+            $scrpt .= 'imf.current = '.-$glidetoimage.' * imf.xstep;'.PHP_EOL;
         }
         if ($params->get('imagestacksize') != '')
         {
-                $imagestacksize = (int) $params->get('imagestacksize');
-                if ($imagestacksize > 0 && $imagestacksize < 10)
-                {
-                        $scrpt .= 'imf.conf_focus = '.$imagestacksize.';'.PHP_EOL;
-                }
+            $imagestacksize = (int) $params->get('imagestacksize');
+            if ($imagestacksize > 0 && $imagestacksize < 10)
+            {
+                    $scrpt .= 'imf.conf_focus = '.$imagestacksize.';'.PHP_EOL;
+            }
         }
         if ($params->get('imagethumbnailclass') != '')
         {
-                $scrpt .= "imf.conf_thumbnail = '".$params->get('imagethumbnailclass')."';".PHP_EOL;
+            $scrpt .= "imf.conf_thumbnail = '".$params->get('imagethumbnailclass')."';".PHP_EOL;
         }
         if ($params->get('reflectheight') != '')
         {
-                $height = JString::str_ireplace('%', '', $params->get('reflectheight'));
-                $height = ($height / 100);
-                $scrpt .= 'imf.conf_reflection_p = '.$height.';'.PHP_EOL;
+            $height = JString::str_ireplace('%', '', $params->get('reflectheight'));
+            $height = ($height / 100);
+            $scrpt .= 'imf.conf_reflection_p = '.$height.';'.PHP_EOL;
         }
 
         //Get document and add various scripts/stylesheets

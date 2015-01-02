@@ -30,14 +30,14 @@ $controller = JRequest::getVar('controller', null);
 if($controller === null)
 	$controller = __mapViewToController();
 else{
-	$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchareas');
-	if(!in_array($controller, $availableControllers))
-		$controller = '';
+    $availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchareas');
+    if(!in_array($controller, $availableControllers))
+        $controller = '';
 }
 
 if(empty($controller)){
-	JError::raiseError(404, JText::_('Controller undefined'));
-	return;
+    JError::raiseError(404, JText::_('Controller undefined'));
+    return;
 }
 
 require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
@@ -45,16 +45,16 @@ require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
 $session =& JFactory::getSession();
 
 if($session->get('citedRecords', null, 'jresearch') == null){
-	$session->set('citedRecords', array(), 'jresearch');
+    $session->set('citedRecords', array(), 'jresearch');
 }
 
 // Make an instance of the controller
-$controller = JController::getInstance('JResearch'.ucfirst($controller));
+$controller = JControllerLegacy::getInstance('JResearch'.ucfirst($controller));
 
 $pluginhandledRequest = JResearchPluginsHelper::onBeforeExecuteJResearchTask();
 // Perform the request task if none of the plugins decided to do it
 if(!$pluginhandledRequest)
-	$controller->execute(JRequest::getVar('task'));
+    $controller->execute(JRequest::getVar('task'));
 
 $mainframe->triggerEvent('onAfterExecuteJResearchTask' , array());
 

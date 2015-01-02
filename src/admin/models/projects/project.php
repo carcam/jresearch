@@ -83,36 +83,36 @@ class JResearchAdminModelProject extends JModelForm{
          */
         function save()
         {
-			$app = JFactory::getApplication();
-			jresearchimport('helpers.projects', 'jresearch.admin');
-			$params = JComponentHelper::getParams('com_jresearch');
-			$omittedFields = array();
-			$form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
+            $app = JFactory::getApplication();
+            jresearchimport('helpers.projects', 'jresearch.admin');
+            $params = JComponentHelper::getParams('com_jresearch');
+            $omittedFields = array();
+            $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
                 
             $data =& $this->getData();                
             $row =& $this->getTable('Project', 'JResearch');
 
             $data['description'] = $form['description'];
             
-	    	if($data['resethits'] == 1){
-				$data['hits'] = 0;
-			}else{
-				$omittedFields[] = 'hits';			    	
-			}
+            if($data['resethits'] == 1){
+                    $data['hits'] = 0;
+            }else{
+                    $omittedFields[] = 'hits';			    	
+            }
 			
         	//Remove files in case the user indicated it
             $nAttach = $data['count_files'];
             $data['files'] = '';
-	    	$tempFilesArr = array();            
+            $tempFilesArr = array();            
             for($i = 0; $i <= $nAttach; ++$i){
-				$delete = $data['delete_files_'.$i];
-		    	$theFile = $data['old_files_'.$i];		    	
-				if($delete == 'on'){
-			    	$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'projects'.DS.$theFile;
-			    	@unlink($filetoremove);
-			    }else{
-			    	$tempFilesArr[] = $theFile;
-			    }
+                    $delete = $data['delete_files_'.$i];
+                    $theFile = $data['old_files_'.$i];		    	
+                    if($delete == 'on'){
+                            $filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'projects'.DS.$theFile;
+                            @unlink($filetoremove);
+                    }else{
+                            $tempFilesArr[] = $theFile;
+                    }
             }
 		    		    
             //Now update files

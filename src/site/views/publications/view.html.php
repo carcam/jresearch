@@ -29,13 +29,13 @@ class JResearchViewPublications extends JResearchView
         
         switch($layout){
                 // Template for making citations from TinyMCE editor
-		     case 'cite':
-		        $this->_displayCiteDialog();
-		        break;
-		     case 'cite2':
-		        $this->_displayCiteFromFormDialog();
-		        break;		        
-             case 'generatebibliography':
+            case 'cite':
+               $this->_displayCiteDialog();
+               break;
+            case 'cite2':
+               $this->_displayCiteFromFormDialog();
+               break;		        
+            case 'generatebibliography':
                 $this->_displayGenerateBibliographyDialog();
                 break;
             case 'tabular':
@@ -77,8 +77,8 @@ class JResearchViewPublications extends JResearchView
     	$format = $params->get('staff_format', 'last_first');
     	$showScore = $params->get('show_score', 0);
     	$showAuthors = $params->get('show_authors', 1);
-		$field = $params->get('field_for_score', 'impact_factor');    	    	    	
-		$exportAll = $params->get('show_export_all', 0);
+        $field = $params->get('field_for_score', 'impact_factor');    	    	    	
+        $exportAll = $params->get('show_export_all', 0);
     	$exportAllFormat = $params->get('show_export_all_format', 'bibtex');
     	$showFulltext = $params->get('show_fulltext', 0);
     	$showDigitalVersion = $params->get('show_digital_version', 0);
@@ -94,7 +94,7 @@ class JResearchViewPublications extends JResearchView
     	$this->assignRef('format', $format);
     	$this->assignRef('showYear', $showYear);
     	$this->assignRef('showRis', $showRis);
-		$this->assignRef('showMods', $showMods);
+        $this->assignRef('showMods', $showMods);
     	$this->assignRef('showHits', $showHits);
     	$this->assignRef('showBibtex', $showBibtex);
     	$this->assignRef('showResearchAreas', $showResearchAreas);
@@ -123,11 +123,11 @@ class JResearchViewPublications extends JResearchView
     	
     	$document =& JFactory::getDocument();
     	$feed = 'index.php?option=com_jresearch&amp;view=publicationslist&amp;format=feed';
-		$rss = array(
-			'type' => 'application/rss+xml',
-			'title' => JText::_('Publications RSS Feed')
-		);
-		$document->addHeadLink(JRoute::_($feed.'&type=rss'), 'alternate', 'rel', $rss);
+        $rss = array(
+                'type' => 'application/rss+xml',
+                'title' => JText::_('Publications RSS Feed')
+        );
+        $document->addHeadLink(JRoute::_($feed.'&type=rss'), 'alternate', 'rel', $rss);
     	
     	$model = $this->getModel();
     	$publications = $model->getItems();
@@ -142,13 +142,15 @@ class JResearchViewPublications extends JResearchView
     	    	
     	$showmore = $params->get('show_more', 1);
     	$showFulltext = $params->get('show_fulltext', 0);
+        $fullTextTag = $params->get('fulltext_tag');
     	$showDigitalVersion = $params->get('show_digital_version', 0);
+        $digitalVersionTag = $params->get('digital_version_tag');
     	$layout = $params->get('publications_default_sorting', 'year');
     	$exportAll = $params->get('show_export_all', 0);
     	$showAllFormat = $params->get('show_export_all_format', 'bibtex');
     	$showBibtex = $params->get('show_export_bibtex', 0);
     	$showMODS = $params->get('show_export_mods', 0);    		
-    	$showRIS = $params->get('show_export_ris', 0);    	
+    	$showRIS = $params->get('show_export_ris', 0);        
     	
     	$this->_setFilters();    	
     	$pageHeader = $params->get('page_heading', JText::_('JRESEARCH_PUBLICATIONS'));
@@ -160,7 +162,9 @@ class JResearchViewPublications extends JResearchView
     	$this->assignRef('user', $user);
     	$this->assignRef('showmore', $showmore);
     	$this->assignRef('showDigital', $showDigitalVersion);
+        $this->assignRef('digitalVersionTag', $digitalVersionTag);
     	$this->assignRef('showFulltext', $showFulltext);
+        $this->assignRef('fullTextTag', $fullTextTag);
     	$this->assignRef('style', $style);
     	$this->assignRef('layout', $layout);
     	$this->assignRef('exportAll', $exportAll);
@@ -254,13 +258,13 @@ class JResearchViewPublications extends JResearchView
     private function _displayCiteDialog(){    	
     	$citedRecordsOptionsHTML = array();
     	$url = JURI::root();
-		$citeAnswer = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', JRequest::getVar('e_name'));   	
+        $citeAnswer = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', JRequest::getVar('e_name'));   	
     	$citeFailedMsg = JText::_('JRESEARCH_CITE_FAILED');
     	$citeSuccessfulMsg = JText::_('JRESEARCH_CITE_SUCCESSFUL');
     	$noItemsMsg = JText::_('JRESEARCH_NO_ITEMS_TO_CITE');
-		$recordRepeatedMsg = JText::_('CITED_RECORD_REPEATED');
-		$nextMsg = JText::_('JRESEARCH_NEXT');
-		$backMsg = JText::_('JRESEARCH_BACK');  	
+        $recordRepeatedMsg = JText::_('CITED_RECORD_REPEATED');
+        $nextMsg = JText::_('JRESEARCH_NEXT');
+        $backMsg = JText::_('JRESEARCH_BACK');  	
     	// Prepare the HTML document
     	$document = JFactory::getDocument();
         $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
@@ -275,9 +279,10 @@ class JResearchViewPublications extends JResearchView
                  }
         );");
         $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:200px;" ');
-        JHTML::_('behavior.mootools');
+        JHtml::_('behavior.framework');
 
         // Remove button
+        $closeButton = '<button onclick="window.parent.document.getElementById(\'sbox-window\').close()">'.JText::_('JRESEARCH_CLOSE').'</button>';
         $removeButton = '<button onclick="javascript:removeSelectedRecord()">'.JText::_('JRESEARCH_REMOVE').'</button>';
         $citeButton = '<button onclick="javascript:makeCitation(\'cite\')">'.JText::_('JRESEARCH_CITE').'</button>';
         $citeParentheticalButton = '<button onclick="javascript:makeCitation(\'citep\')">'.JText::_('JRESEARCH_CITE_PARENTHETICAL').'</button>';
@@ -291,6 +296,7 @@ class JResearchViewPublications extends JResearchView
         $this->assignRef('citeParentheticalButton', $citeParentheticalButton);
         $this->assignRef('citeYearButton', $citeYearButton);
         $this->assignRef('noCiteButton', $noCiteButton);
+        $this->assignRef('closeButton', $closeButton);        
         $this->assignRef('url', $url);
         
         parent::display();
@@ -348,9 +354,9 @@ class JResearchViewPublications extends JResearchView
     	$citeFailedMsg = JText::_('JRESEARCH_CITE_FAILED');
     	$citeSuccessfulMsg = JText::_('JRESEARCH_CITE_SUCCESSFUL');
     	$noItemsMsg = JText::_('JRESEARCH_NO_ITEMS_TO_CITE');
-		$recordRepeatedMsg = JText::_('CITED_RECORD_REPEATED');
-		$nextMsg = JText::_('JRESEARCH_NEXT');
-		$backMsg = JText::_('JRESEARCH_BACK');  	
+        $recordRepeatedMsg = JText::_('CITED_RECORD_REPEATED');
+        $nextMsg = JText::_('JRESEARCH_NEXT');
+        $backMsg = JText::_('JRESEARCH_BACK');  	
         $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
         $document->addScript($url.'components/com_jresearch/js/cite.js');
         $document->addScriptDeclaration("
@@ -379,119 +385,116 @@ class JResearchViewPublications extends JResearchView
     	
     }
     
-	/**
-	 * Returns div-container with publication filters, can be activated with given parameter switches
-	 *
-	 * @param string $layout
-	 * @param bool $bTeams
-	 * @param bool $bAreas
-	 * @param bool $bYear
-	 * @param bool $bSearch
-	 * @param bool $bType
-	 * @param bool $bAuthors
-	 * @return string
-	 */
-	private function _publicationsFilter($layout, $bTeams = true, $bAreas = true, $bYear = true, $bSearch = true, $bType = true, $bAuthors = true)
-	{
-		jresearchimport('helpers.publications', 'jresearch.admin');
-		jresearchimport('helpers.teams', 'jresearch.admin');
-		jresearchimport('helpers.researchareas', 'jresearch.admin');
-						
-		$mainframe = JFactory::getApplication();
-		$db = JFactory::getDBO();		
-		
-		$lists = array();
-		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
-		$this->state = $this->get('State');
-		
-		if($bSearch === true)
+    /**
+     * Returns div-container with publication filters, can be activated with given parameter switches
+     *
+     * @param string $layout
+     * @param bool $bTeams
+     * @param bool $bAreas
+     * @param bool $bYear
+     * @param bool $bSearch
+     * @param bool $bType
+     * @param bool $bAuthors
+     * @return string
+     */
+    private function _publicationsFilter($layout, $bTeams = true, $bAreas = true, $bYear = true, $bSearch = true, $bType = true, $bAuthors = true) {
+        jresearchimport('helpers.publications', 'jresearch.admin');
+        jresearchimport('helpers.teams', 'jresearch.admin');
+        jresearchimport('helpers.researchareas', 'jresearch.admin');
+
+        $mainframe = JFactory::getApplication();
+        $db = JFactory::getDBO();		
+
+        $lists = array();
+        $js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
+        $this->state = $this->get('State');
+
+        if($bSearch === true) {
+            $filter_search = $this->state->get('com_jresearch.publications.filter_search');
+            $lists['search'] = JText::_('JRESEARCH_FILTER').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search, ENT_COMPAT | ENT_HTML401, ini_get("default_charset")).'" class="text_area" onchange="document.adminForm.submit();" />
+                                                            <button onclick="document.adminForm.submit();">'.JText::_('JRESEARCH_GO').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
+                                                            .JText::_('JRESEARCH_RESET').'</button>';
+        }
+
+        if($bType === true)
         {
-    		$filter_search = $this->state->get('com_jresearch.publications.filter_search');
-     		$lists['search'] = JText::_('JRESEARCH_FILTER').': <input type="text" name="filter_search" id="filter_search" value="'.htmlentities($filter_search, ENT_COMPAT | ENT_HTML401, ini_get("default_charset")).'" class="text_area" onchange="document.adminForm.submit();" />
-								<button onclick="document.adminForm.submit();">'.JText::_('JRESEARCH_GO').'</button> <button onclick="document.adminForm.filter_search.value=\'\';document.adminForm.submit();">'
-								.JText::_('JRESEARCH_RESET').'</button>';
-		}
-    	
-		if($bType === true)
-    	{
-    		// Publication type filter
-    		$typesHTML = array();
-    		
-			$filter_pubtype =  $this->state->get('com_jresearch.publications.filter_pubtype');
-			$types = JResearchPublicationsHelper::getPublicationsSubtypes();
-			
-			$typesHTML[] = JHTML::_('select.option', 'all', JText::_('JRESEARCH_PUBLICATION_TYPE'));
-			foreach($types as $type)
-			{
-				$typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
-			}
-			$lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
-    	}
-    	
-		if($bYear === true)
-    	{
-			// Year filter
-			$yearsHTML = array();
+            // Publication type filter
+            $typesHTML = array();
 
-			
-			$filter_year = $this->state->get('com_jresearch.publications.filter_year');			
+            $filter_pubtype =  $this->state->get('com_jresearch.publications.filter_pubtype');
+            $types = JResearchPublicationsHelper::getPublicationsSubtypes();
 
-			$years = JResearchPublicationsHelper::getYears();			
-			$yearsHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
-			foreach($years as $y)
-			{
-				$yearsHTML[] = JHTML::_('select.option', $y, $y);
-			}
-				
-			$lists['years'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
-    	}
-    	
-    	if($bAuthors === true)
-    	{
-			$authorsHTML = array();
-    		$filter_author = $this->state->get('com_jresearch.publications.filter_author');
-			$authors = JResearchPublicationsHelper::getAllAuthors();
+            $typesHTML[] = JHTML::_('select.option', 'all', JText::_('JRESEARCH_PUBLICATION_TYPE'));
+            foreach($types as $type)
+            {
+                    $typesHTML[] = JHTML::_('select.option', $type, JText::_('JRESEARCH_'.strtoupper($type)));
+            }
+            $lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
+        }
 
-			$authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
-			foreach($authors as $auth)
-			{
-				$authorsHTML[] = JHTML::_('select.option', $auth['mid'], $auth['member_name']); 
-			}
-			$lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
-    	}
-		
-		if($bTeams === true)
-		{
-			//Team filter
-			$teamsOptions = array();  
-	    	$filter_team = $this->state->get('com_jresearch.publications.filter_team');;    		
-    		$teams = JResearchTeamsHelper::getTeams();
-        	      
-	        $teamsOptions[] = JHTML::_('select.option', -1 ,JText::_('JRESEARCH_ALL_TEAMS'));
-	        foreach($teams as $t)
-	        {
-	    		$teamsOptions[] = JHTML::_('select.option', $t->id, $t->name);
-	    	}    		
-	    	$lists['teams'] = JHTML::_('select.genericlist',  $teamsOptions, 'filter_team', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_team );
-    	}
-    	
-    	if($bAreas === true)
-    	{
-    		//Researchareas filter
-    		$areasOptions = array();
-    		
-			$filter_area = $this->state->get('com_jresearch.publications.filter_area');    		
-    		$areas = JResearchResearchareasHelper::getResearchAreas();        
-	        $areasOptions[] = JHTML::_('select.option', 0 ,JText::_('JRESEARCH_RESEARCH_AREAS'));
-	        foreach($areas as $a)
-	        {
-	    		$areasOptions[] = JHTML::_('select.option', $a->id, $a->name);
-	    	}    		
-	    	$lists['areas'] = JHTML::_('select.genericlist',  $areasOptions, 'filter_area', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_area );
-    	}
-    	
-    	return '<div style="float: left">'.implode('</div><div style="float: left;">', $lists).'</div>';
-	}
+        if($bYear === true)
+        {
+            // Year filter
+            $yearsHTML = array();
+
+
+            $filter_year = $this->state->get('com_jresearch.publications.filter_year');			
+
+            $years = JResearchPublicationsHelper::getYears();			
+            $yearsHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
+            foreach($years as $y)
+            {
+                $yearsHTML[] = JHTML::_('select.option', $y, $y);
+            }
+
+            $lists['years'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
+        }
+
+        if($bAuthors === true)
+        {
+            $authorsHTML = array();
+            $filter_author = $this->state->get('com_jresearch.publications.filter_author');
+            $authors = JResearchPublicationsHelper::getAllAuthors();
+
+            $authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
+            foreach($authors as $auth)
+            {
+                $authorsHTML[] = JHTML::_('select.option', $auth['mid'], $auth['member_name']); 
+            }
+            $lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
+        }
+
+        if($bTeams === true) {
+            //Team filter
+            $teamsOptions = array();  
+            $filter_team = $this->state->get('com_jresearch.publications.filter_team');;    		
+            $teams = JResearchTeamsHelper::getTeams();
+
+            $teamsOptions[] = JHTML::_('select.option', -1 ,JText::_('JRESEARCH_ALL_TEAMS'));
+            foreach($teams as $t)
+            {
+                $teamsOptions[] = JHTML::_('select.option', $t->id, $t->name);
+            }    		
+            $lists['teams'] = JHTML::_('select.genericlist',  $teamsOptions, 'filter_team', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_team );
+        }
+
+        if($bAreas === true)
+        {
+            //Researchareas filter
+            $areasOptions = array();
+
+            $filter_area = $this->state->get('com_jresearch.publications.filter_area');    		
+            $areas = JResearchResearchareasHelper::getResearchAreas();        
+            $areasOptions[] = JHTML::_('select.option', 0 ,JText::_('JRESEARCH_RESEARCH_AREAS'));
+            foreach($areas as $a)
+            {
+                $areasOptions[] = JHTML::_('select.option', $a->id, $a->name);
+            }    		
+            $lists['areas'] = JHTML::_('select.genericlist',  $areasOptions, 'filter_area', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_area );
+        }
+
+        return '<div style="float: left">'.implode('</div><div style="float: left;">', $lists).'</div>';
+    }
 }
 
 ?>

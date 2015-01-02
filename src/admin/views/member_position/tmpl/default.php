@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 $fields = array('id', 'position', 'published');
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
     <div class="width-70">
         <fieldset class="panelform">
                 <ul class="adminformlist">
