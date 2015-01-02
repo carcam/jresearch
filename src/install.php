@@ -24,49 +24,7 @@ class com_jresearchInstallerScript
      */
 	function install($parent) 
     {
-     	$manifest = $parent->get("manifest");
-        $parent = $parent->getParent();
-        $source = $parent->getPath("source");
-        $installedPlugins = array();
-        $db = JFactory::getDbo();        
-             
-        $installer = new JInstaller();
-            
-        // Install plugins
-        foreach($manifest->plugins->plugin as $plugin) {
-        	$attributes = $plugin->attributes();
-            $plg = $source . DS . $attributes['folder'];
-            $installer->install($plg);
-            $installedPlugins[] = $db->Quote($attributes['plugin']);
-        }
-            
-        // Install modules
-        foreach($manifest->modules->module as $module) {
-        	$attributes = $module->attributes();
-            $mod = $source . DS . $attributes['folder'].DS.$attributes['module'];
-            $installer->install($mod);
-        }
-            
 
-        $tableExtensions = $db->quoteName("#__extensions");
-        $columnElement   = $db->quoteName("element");
-        $columnType      = $db->quoteName("type");
-        $columnEnabled   = $db->quoteName("enabled");
-            
-        // Enable plugins
-        $installedPluginsText = implode(',', $installedPlugins);
-        $db->setQuery(
-                "UPDATE 
-                    $tableExtensions
-                SET
-                    $columnEnabled=1
-                WHERE
-                    $columnElement IN ($installedPluginsText)
-                AND
-                    $columnType='plugin'"
-         );
-            
-         $db->query();
     }
     
 

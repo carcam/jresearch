@@ -4,7 +4,7 @@
 	<creationDate>June 2008</creationDate>
 	<author>Luis Galárraga</author>
 	<authorEmail>shamantobi@gmail.com</authorEmail>
-	<authorUrl>http://joomla-research.com</authorUrl>
+	<authorUrl>http://joomlaresearch.com</authorUrl>
 	<copyright>Copyright (C) 2015 Luis Galárraga</copyright>
 	<license>GPL</license>
 	<version>3.0 Beta 1</version>
@@ -75,17 +75,16 @@
 		</submenu>
 		<files folder="admin">
 			<filename>index.html</filename>
-			<filename>admin.jresearch.php</filename>
+			<filename>jresearch.php</filename>
 			<filename>toolbar.jresearch.html.php</filename>
 			<filename>controller.php</filename>
 			<filename>config.xml</filename>
 			<filename>access.xml</filename>
 			<folder>assets</folder>
-			<folder>contentelements</folder>
 			<folder>controllers</folder>
 			<folder>css</folder>
 			<folder>includes</folder>
-	    <folder>install</folder>
+	    	<folder>install</folder>
 			<folder>elements</folder>
 			<folder>files</folder>			
 			<folder>helpers</folder>
@@ -111,15 +110,4 @@
 			<language tag="en-GB">en-GB-jresearch_help.html</language>			
 		</languages>
 	</administration>
-	<modules />
-	<plugins>
-		<plugin folder="plugins/plg_jresearch_search" plugin="jresearch_search" name="Search - JResearch" group="search"/>
-		<plugin folder="plugins/plg_jresearch_persistent_cited_records" plugin="jresearch_persistent_cited_records" name="JResearch Persistent Cited Records" group="content"/>
-		<plugin folder="plugins/plg_jresearch_entities_load_cited_records" plugin="jresearch_entities_load_cited_records" name="JResearch Entities Load Cited Records" group="jresearch" />
-		<plugin folder="plugins/plg_jresearch_entities_save_cited_records" plugin="jresearch_entities_save_cited_records" name="JResearch Entities Save Cited Records" group="jresearch" />
-		<plugin folder="plugins/plg_jresearch_load_cited_records" plugin="jresearch_load_cited_records"	name="JResearch Content Load Cited Records" group="system" />
-		<plugin folder="plugins/plg_jresearch_automatic_citation" plugin="jresearch_automatic_citation" name="JResearch Automatic Citation" group="editors-xtd" /> 
-		<plugin folder="plugins/plg_jresearch_automatic_bibliography_generation" plugin="jresearch_automatic_bibliography_generation" name="JResearch Automatic Bibliography Generation" group="editors-xtd" />
-		<plugin folder="plugins/plg_jresearch_offline_citation" plugin="jresearch_offline_citation" name="JResearch Offline Citation Plugin" group="content" />	 		
-	</plugins>
 </extension>

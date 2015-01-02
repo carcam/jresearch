@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="editors-xtd">
+<extension version="1.6" type="plugin" group="editors-xtd">
 	<name>JResearch Automatic Bibliography Generation</name>
 	<author>Luis Gal&#225;rraga</author>
 	<creationDate>June 2008</creationDate>
@@ -13,4 +13,4 @@
 		<filename plugin="jresearch_automatic_bibliography_generation">jresearch_automatic_bibliography_generation.php</filename>
 	</files>
 	<params />
-</install>
+</extension>
