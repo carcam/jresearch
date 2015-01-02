@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="editors-xtd">
+<extension version="3.1" type="plugin" group="editors-xtd">
 	<name>JResearch Automatic Citation</name>
 	<author>Luis Gal&#225;rraga</author>
 	<creationDate>June 2008</creationDate>
@@ -11,6 +11,7 @@
 	<description>Automatic Citation of bibliographical references for TinyMCE.</description>
 	<files>
 		<filename plugin="jresearch_automatic_citation">jresearch_automatic_citation.php</filename>
+		<filename>index.html</filename>
 	</files>
 	<params />
-</install>
+</extension>

@@ -10,7 +10,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
-class JResearchFrontendController extends JController
+class JResearchFrontendController extends JControllerLegacy
 {
     public function __construct ($config = array())
     {

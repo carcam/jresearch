@@ -52,14 +52,14 @@ class JResearchTeam extends JTable
 	 * @param int $oid
 	 * @return JResearchTeam
 	 */
-	public function load($oid=null)
+	public function load($keys = NULL, $reset = true)
 	{
-		$result = parent::load($oid);
-		
-		if($oid != null)
-			$this->_loadMembers($oid);
-		
-		return $result;
+            $result = parent::load($key, $reset);
+
+            if($oid != null)
+                $this->_loadMembers($keys);
+
+            return $result;
 	}
 	
 	public function store($updateNulls = null)

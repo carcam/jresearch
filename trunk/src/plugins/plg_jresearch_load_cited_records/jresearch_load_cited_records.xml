@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="system">
+<extension version="1.6" type="plugin" group="system">
 	<name>JResearch Load Cited Records</name>
 	<author>Luis Gal&#225;rraga</author>
 	<creationDate>July 2008</creationDate>
@@ -11,6 +11,7 @@
 	<description>Loads cited publications when trying to edit an article</description>
 	<files>
 		<filename plugin="jresearch_load_cited_records">jresearch_load_cited_records.php</filename>
+		<filename>index.html</filename>
 	</files>
 	<params />
-</install>
+</extension>

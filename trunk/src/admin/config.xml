@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<fieldset name="general" label="JRESEARCH_CONFIG_GENERAL_SECTION">
-		<field name="thumbnail_enable" type="radio" default="1" label="JRESEARCH_THUMBNAIL_ENABLE" description="JRESEARCH_THUMBNAIL_ENABLE_DESCRIPTION">
+		<field name="thumbnail_enable" type="list" default="1" label="JRESEARCH_THUMBNAIL_ENABLE" description="JRESEARCH_THUMBNAIL_ENABLE_DESCRIPTION">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		<field name="show_hits" type="radio" default="1" label="JRESEARCH_SHOW_HITS" description="JRESEARCH_SHOW_HITS_DESCRIPTION">
+		<field name="show_hits" type="list" default="1" label="JRESEARCH_SHOW_HITS" description="JRESEARCH_SHOW_HITS_DESCRIPTION">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -13,37 +13,41 @@
      </fieldset>
         <fieldset name="publications" label="JRESEARCH_PUBLICATIONS" >
 		<field name="citationStyle" type="list" default="APA" label="JRESEARCH_CITATION_STYLE" description="JRESEARCH_CITATION_STYLE_DESCRIPTION">
-			<option value="APA">APA</option>
-			<option value="IEEE">IEEE</option>
-			<option value="MLA">MLA</option>
-			<option value="CSE">CSE</option>
-			<option value="Chicago">Chicago (Author-Date system)</option>
-			<option value="Vancouver">Vancouver</option>
+                    <option value="APA">APA</option>
+                    <option value="IEEE">IEEE</option>
+                    <option value="MLA">MLA</option>
+                    <option value="CSE">CSE</option>
+                    <option value="Chicago">Chicago (Author-Date system)</option>
+                    <option value="Vancouver">Vancouver</option>
 		</field>
-		<field name="enable_export_frontend" type="radio" default="1" label="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT" description="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT_DESCRIPTION">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+		<field name="enable_export_frontend" type="list" default="1" label="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT" description="JRESEARCH_PUBLICATIONS_ENABLE_EXPORT_DESCRIPTION">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
 		</field>
-		<field name="enable_bibtex_frontend_import" type="radio" default="1" label="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND_DESCRIPTION">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+		<field name="enable_bibtex_frontend_import" type="list" default="1" label="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND" description="JRESEARCH_CONFIG_ENABLE_BIBTEX_FRONTEND_DESCRIPTION">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
 		</field>
-		<field name="enable_strict_bibtex" type="radio" default="1" label="JRESEARCH_CONFIG_ENABLE_STRICT_BIBTEX" description="JRESEARCH_CONFIG_ENABLE_STRICT_BIBTEX_DESCRIPTION">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+		<field name="enable_strict_bibtex" type="list" default="1" label="JRESEARCH_CONFIG_ENABLE_STRICT_BIBTEX" description="JRESEARCH_CONFIG_ENABLE_STRICT_BIBTEX_DESCRIPTION">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
 		</field>
-		<field name="publications_apply_style" type="radio" label="JRESEARCH_PUBLICATIONS_APPLY_STYLE" description="JRESEARCH_PUBLICATIONS_APPLY_STYLE_DESCRIPTION" default="0">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+		<field name="publications_apply_style" type="list" label="JRESEARCH_PUBLICATIONS_APPLY_STYLE" description="JRESEARCH_PUBLICATIONS_APPLY_STYLE_DESCRIPTION" default="0">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
 		</field>
-		<field name="publications_default_internal_status" type="radio" label="JRESEARCH_PUBLICATIONS_DEFAULT_INTERNAL_STATUS" description="JRESEARCH_PUBLICATIONS_DEFAULT_INTERNAL_STATUS_DESCRIPTION" default="1">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+		<field name="publications_default_internal_status" type="list" label="JRESEARCH_PUBLICATIONS_DEFAULT_INTERNAL_STATUS" description="JRESEARCH_PUBLICATIONS_DEFAULT_INTERNAL_STATUS_DESCRIPTION" default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
 		</field>
-		<field name="publications_default_published_status" type="radio" label="JRESEARCH_PUBLICATIONS_DEFAULT_PUBLISHED_STATUS" description="JRESEARCH_PUBLICATIONS_DEFAULT_PUBLISHED_STATUS_DESCRIPTION" default="1">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+		<field name="publications_default_published_status" type="list" label="JRESEARCH_PUBLICATIONS_DEFAULT_PUBLISHED_STATUS" description="JRESEARCH_PUBLICATIONS_DEFAULT_PUBLISHED_STATUS_DESCRIPTION" default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
 		</field>
+                <field name="publications_keywords_links" type="list" label="JRESEARCH_CONFIG_PUBLICATIONS_KEYWORDS_LINKS" description="JRESEARCH_CONFIG_PUBLICATIONS_KEYWORDS_LINKS_DESCRIPTION" default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>                    
+                </field>
         </fieldset>        
         <fieldset name="researchareas" label="JRESEARCH_RESEARCH_AREAS">
             <field name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
@@ -64,28 +68,28 @@
 			<option value="last_first">JRESEARCH_LASTNAME_FIRSTNAME</option>
 			<option value="first_last">JRESEARCH_FIRSTNAME_LASTNAME</option>			
 		</field>											
-		<field name="member_show_email" label="JRESEARCH_CONFIG_PROFILES_SHOW_EMAIL" default="1" type="radio">
+		<field name="member_show_email" label="JRESEARCH_CONFIG_PROFILES_SHOW_EMAIL" default="1" type="list">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>		
-		<field name="staff_show_publications" label="JRESEARCH_CONFIG_SHOW_PUBLICATIONS_IN_PROFILES" type="radio" default="1">
+		<field name="staff_show_publications" label="JRESEARCH_CONFIG_SHOW_PUBLICATIONS_IN_PROFILES" type="list" default="1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 		<field name="staff_number_last_publications" label="JRESEARCH_CONFIG_PROFILES_NUMBER_PUBLICATIONS" default="5" type="text" />
-		<field name="staff_show_projects" label="JRESEARCH_CONFIG_SHOW_PROJECTS_IN_PROFILES" type="radio" default="1">
+		<field name="staff_show_projects" label="JRESEARCH_CONFIG_SHOW_PROJECTS_IN_PROFILES" type="list" default="1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 		<field name="staff_number_last_projects" label="JRESEARCH_CONFIG_PROFILES_NUMBER_PROJECTS" default="5" type="text" />
-		<field name="staff_show_theses" label="JRESEARCH_CONFIG_SHOW_THESES_IN_PROFILES" type="radio" default="1">
+		<field name="staff_show_theses" label="JRESEARCH_CONFIG_SHOW_THESES_IN_PROFILES" type="list" default="1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 		<field name="staff_number_last_theses" label="JRESEARCH_CONFIG_PROFILES_NUMBER_THESES" default="5" type="text" />	
 	</fieldset>
 	<fieldset name="projects" label="JRESEARCH_PROJECTS" >
-		<field name="projects_default_published_status" type="radio" label="JRESEARCH_PROJECTS_DEFAULT_PUBLISHED_STATUS" description="JRESEARCH_PROJECTS_DEFAULT_PUBLISHED_STATUS_DESCRIPTION" default="1">
+		<field name="projects_default_published_status" type="list" label="JRESEARCH_PROJECTS_DEFAULT_PUBLISHED_STATUS" description="JRESEARCH_PROJECTS_DEFAULT_PUBLISHED_STATUS_DESCRIPTION" default="1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>

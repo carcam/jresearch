@@ -198,100 +198,135 @@ table.stafftable td{
 }
 
 table.editpublication{
-	margin-left:auto;
-	margin-right:auto;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 /* CSS Document */
 .divTdl{
-	float: left;
-	margin:0px;
+    float: left;
+    margin:0px;
 /*	padding:0px; */
-	text-align:left;
+    text-align:left;
 }
 
 .divTd{
-	float: left;
-	width:15%;
+    float: left;
+    width:15%;
 /*	margin:0px; */
 /*	padding:0px 5px 0px 0px;  */
-	padding-right: 8px;
-	text-align:right;
-	font-weight: bold;
+    padding-right: 8px;
+    text-align:right;
+    font-weight: bold;
 }
 .divPagination{
-	padding-top:10px;
-	text-align:center;
+    padding-top:10px;
+    text-align:center;
 }
 .divTds{
-	float: left;
-	width:100px;
-	margin:0px;
-	padding:0px;
+    float: left;
+    width:100px;
+    margin:0px;
+    padding:0px;
 }
 .divTR{
-	margin:0px;
-	padding:5px;
+    margin:0px;
+    padding:5px;
 }
 
 .divTdl ul{
-	margin: 0px !important;
-	padding-top: 0px !important;
-	padding-bottom: 0px !important;
+    margin: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
 }
 
 .divTable{
-	margin:0px;
-	padding:0px;
+    margin:0px;
+    padding:0px;
 }
 .divEspacio{
-	clear:both;
-	margin:0px;
-	padding:0px;
+    clear:both;
+    margin:0px;
+    padding:0px;
 }
 
 div.divTdl2{
-	width: 35%;
-	overflow: visible;
+    width: 35%;
+    overflow: visible;
 }
 
 .divForm{
-	margin:0px;
-	padding:0px;
+    margin: 0px;
+    padding: 0px;
 	
 }
 
 div.jresearchhits{
-	font-size: 10px;
-	margin-bottom: 0px;
-	margin-top: 0px;
-	height: 10px;
-	text-align: right;
-	width: 100%;
+    font-size: 10px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    height: 10px;
+    text-align: right;
+    width: 100%;
 }
 
 .frontendform{
 }
 
 dl.jresearchitem{
-	margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .jresearchitem dt{
-	font-weight: bold;
-	margin-top: 5px;
+    font-weight: bold;
+    margin-top: 5px;
 }
 
 .jresearchitem dd{
-	margin-top: 5px;
+    margin-top: 5px;
 }
 
 .frontendPagination{
-	text-align: center;
+    text-align: center;
 }
 
 .frontendPagination ul li{
-	display: inline;
-	margin-right: 3px;
-	list-style: none;
+    display: inline;
+    margin-right: 3px;
+    list-style: none;
+}
+
+.attachmentslist {
+    list-style-type : none;
+}
+
+.attach-background-pdf {
+    background-image : url(../assets/extensions/pdf.png);
+}
+
+.attach-background-default {
+    background-image : url(../assets/extensions/default.png);
+}
+
+.attach-background-odt {
+    background-image : url(../assets/extensions/odt.png);
+}
+
+.attach-background-doc {
+    background-image : url(../assets/extensions/doc.png);
+}
+
+.attach-background-docx {
+    background-image : url(../assets/extensions/docx.png);
+}
+
+.attach-background-txt {
+    background-image : url(../assets/extensions/txt.png);
+}
+
+
+.attachmentlink {
+    padding-left: 20px;
+    background-position : left center;
+    background-repeat : no-repeat;
 }

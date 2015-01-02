@@ -1,9 +1,9 @@
 <?php
 /**
-* @package		J!Research
+* @package	J!Research
 * @subpackage	Form
 * @copyright	Copyright (C) 2008 Luis Galarraga.
-* @license		GNU/GPL v2
+* @license	GNU/GPL v2
 * Description
 */
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="search">
+<extension version="3.1" type="plugin" group="search">
     <name>JRESEARCH_SEARCH_PLUGIN_NAME</name>
     <creationDate>June 2008</creationDate>
     <author>Luis Gal&#225;rraga</author>
@@ -10,6 +10,7 @@
     <description>JRESEARCH_SEARCH_PLUGIN_DESCRIPTION</description>
     <files>
         <filename plugin="jresearch_search">jresearch_search.php</filename>
+        <filename>index.html</filename>
     </files>
     <config>
     	<fields name="params">

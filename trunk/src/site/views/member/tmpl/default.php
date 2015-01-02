@@ -44,7 +44,7 @@ JHTML::_('behavior.modal');
   ?>
   <tr>
   	<th scope="row"><?php echo JText::_('JRESEARCH_RESEARCH_AREAS').': ' ?></th>
-  	<td><?php echo JHTML::_('jresearchfrontend.researchareaslinks', $this->member->getResearchAreas('names')); ?></td>
+  	<td><?php echo JHTML::_('jresearchfrontend.researchareaslinks', $this->member->getResearchAreas('basic')); ?></td>
 	<td style="width:50%;" colspan="2"></td>
   </tr>
   <tr>

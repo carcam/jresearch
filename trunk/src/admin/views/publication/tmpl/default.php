@@ -1,9 +1,9 @@
 <?php
 /**
-* @package		JResearch
+* @package      JResearch
 * @subpackage	Publications
 * @copyright	Copyright (C) 2008 Luis Galarraga.
-* @license		GNU/GPL
+* @license	GNU/GPL
 */
 // No direct access
 defined('_JEXEC') or die('Restricted access');
@@ -14,47 +14,68 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
-   
-    <div class="width-60 fltlft">
-        <fieldset class="panelform">
-                <legend><?php echo JText::_( 'JRESEARCH_BASIC' ); ?></legend>
-                <ul class="adminformlist">
-                <?php foreach($this->form->getFieldset('basic') as $field): ?>
-                	<?php 
-                		if(($field->name == 'published' || $field->name == 'internal')
-                		&& !$actions->get('core.publications.edit.state'))
-                			continue;
-                	?>
-                    <li>
-                        <?php if (!$field->hidden): ?>
-                                <?php echo $field->label; ?>
-                        <?php endif; ?>
-                        <?php echo $field->input; ?>
-                    </li>
-                <?php endforeach; ?>
-                </ul>
-        </fieldset>
-    </div>
-    <div class="width-40 fltrt">
-        <?php echo JHtml::_('sliders.start','content-sliders', array('useCookie'=>1)); ?>
-
-        <?php echo JHtml::_('sliders.panel',JText::_('JRESEARCH_SPECIFIC'), 'specific-details'); ?>
-        <fieldset class="panelform">
-            <ul>
+    <div class="form-horizontal">
+        <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic')); ?>
+        <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic', JText::_('JRESEARCH_BASIC', true)); ?>
+        <div class="row-fluid">
+            <fieldset>
+            <ul class="adminformlist">
+            <?php foreach($this->form->getFieldset('basic') as $field): ?>                    
+                    <?php
+                            // Keep the abstract in its own tab
+                            if ($field->fieldname == 'abstract') {
+                                continue;
+                            }
+                            
+                            if (($field->fieldname == 'published' || $field->fieldname == 'internal') 
+                            && !$actions->get('core.publications.edit.state')) {
+                                    continue;
+                            }
+                    ?>
+                <li>
+                    <div class="control-label">
+                    <?php if (!$field->hidden): ?>
+                            <?php echo $field->label; ?>
+                    <?php endif; ?>
+                    </div>
+                    <div class="controls">
+                    <?php echo $field->input; ?>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+            </fieldset>
+        </div>
+        <?php echo JHtml::_('bootstrap.endTab'); ?>        
+        <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'abstract', JText::_('JRESEARCH_ABSTRACT', true)); ?>
+            <?php $abstractField = $this->form->getField('abstract'); ?>
+            <?php echo $abstractField->input; ?>
+        <?php echo JHtml::_('bootstrap.endTab'); ?>        
+        <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'specific', JText::_('JRESEARCH_SPECIFIC', true)); ?>
+        <div class="row-fluid">
+            <fieldset>
+            <ul class="adminformlist">
                 <?php foreach($this->form->getFieldset('specific') as $field): ?>
                     <li>
-                        <?php if (!$field->hidden): ?>
-                                <?php echo $field->label; ?>
-                        <?php endif; ?>
-                        <?php echo $field->input; ?>
+                        <div class="control-label">
+                            <?php if (!$field->hidden): ?>
+                                    <?php echo $field->label; ?>
+                            <?php endif; ?>
+                        </div>
+                        <div class="controls">
+                            <?php echo $field->input; ?>
+                        </div>
                     </li>
                 <?php endforeach; ?>
             </ul>
-        </fieldset>
-        <?php echo JHtml::_('sliders.panel',JText::_('Extra'), 'extra-details'); ?>
-        <fieldset class="panelform">
-            <ul>
-            
+            </fieldset>
+        </div>
+        <?php echo JHtml::_('bootstrap.endTab'); ?> 
+        
+        <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'extra', JText::_('JRESEARCH_EXTRA', true)); ?>
+        <div class="row-fluid">
+            <fieldset>
+            <ul class="adminformlist">            
             	<?php
             			$hitsField = $this->form->getField('hits');
 	            		$resetField = $this->form->getField('resethits');
@@ -70,23 +91,29 @@ defined('_JEXEC') or die('Restricted access');
             		
                 <?php foreach($this->form->getFieldset('extra') as $field): ?>
                         <li>
-                            <?php if (!$field->hidden): ?>
-                                    <?php echo $field->label; ?>
-                            <?php endif; ?>
-                            <?php echo $field->input; ?>
+                            <div class="control-label">
+                                <?php if (!$field->hidden): ?>
+                                        <?php echo $field->label; ?>
+                                <?php endif; ?>
+                            </div>
+                            <div class="controls">
+                                <?php echo $field->input; ?>
+                            </div>
                         </li>
             <?php endforeach; ?>
             </ul>
-        </fieldset>
-        <?php echo JHtml::_('sliders.panel',JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE'), 'change-type'); ?>
             <?php if(!isset($this->publication)): ?>
                 <div class="divChangeType">
                         <?php echo $this->changeType; ?>
                 </div>
 			<?php endif; ?>
-		<?php echo JHtml::_('sliders.end'); ?>
-	    <input type="hidden" name="task" value="edit" />
-	    <input type="hidden" name="controller" value="publications" />    
+            </fieldset>
+        </div>
+        <?php echo JHtml::_('bootstrap.endTab'); ?>             
+        <?php echo JHtml::_('bootstrap.endTabSet'); ?>            
+        
+        <input type="hidden" name="task" value="edit" />
+        <input type="hidden" name="controller" value="publications" />    
         <?php echo JHtml::_('form.token'); ?>
     </div> 
 </form>

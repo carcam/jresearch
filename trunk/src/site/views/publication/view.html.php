@@ -12,8 +12,6 @@
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
-
 /**
  * HTML View class for presentation of a publication information.
  *
@@ -27,19 +25,17 @@ class JResearchViewPublication extends JResearchView
         $layout = $this->getLayout();
 
         switch($layout){
-        	case 'new':
-        		$result = $this->_displayNewPublicationForm($tpl);        		
-        		break;
-        	case 'edit':        		
-        		$result = $this->_editPublication($tpl);
-        		break;        		
-        	case 'default': default:
-        		if(!$this->_displayPublication($tpl))
-        			parent::display($tpl);
-        		break;
-        		
+            case 'new':
+                $result = $this->_displayNewPublicationForm($tpl);        		
+                break;
+            case 'edit':        		
+                $result = $this->_editPublication($tpl);
+                break;        		
+            case 'default': default:
+                if(!$this->_displayPublication($tpl))
+                    parent::display($tpl);
+                break;        		
         }
-        		
     }
     
     /**
@@ -49,7 +45,7 @@ class JResearchViewPublication extends JResearchView
     	jresearchimport('helpers.publications', 'jresearch.admin');
     	
       	$mainframe = JFactory::getApplication();
-		$pathway = $mainframe->getPathway();      	
+        $pathway = $mainframe->getPathway();      	
       	$user = JFactory::getUser();    	    	
         $doc = JFactory::getDocument();
         $session = JFactory::getSession();
@@ -57,7 +53,7 @@ class JResearchViewPublication extends JResearchView
    		
     	if(empty($id)){
             JError::raiseError(404, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-    		return false;
+            return false;
     	}
     	    	
     	//Get the model
@@ -66,28 +62,27 @@ class JResearchViewPublication extends JResearchView
     	
         if($publication === false){
             JError::raiseError(404, JText::_('JRESEARCH_PUBLICATION_NOT_FOUND'));        	
-			return false;
+            return false;
         }
 
     	if(!JResearchAccessHelper::itemAccessAllowed($publication, $user->get('id'))){
-    		JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
-    		return false;
+            JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+            return false;
     	}
         
-        $pathway->addItem($publication->alias, 'index.php?option=com_jresearch&view=publication&id='.$publication->id);
+        $pathway->addItem($publication->alias, 
+                'index.php?option=com_jresearch&view=publication&id='.$publication->id);
 
         //If the publication was visited in the same session, do not increment the hit counter
         if(!$session->get('visited', false, 'com_jresearch.publication.'.$id)){
-             $session->set('visited', true, 'com_jresearch.publication.'.$id);
-             $publication->hit();
+            $session->set('visited', true, 'com_jresearch.publication.'.$id);
+            $publication->hit();
         }
     	
     	//Get and use configuration
-    	$params = $mainframe->getPageParameters('com_jresearch');
-    			
-    	
+    	$params = $mainframe->getPageParameters('com_jresearch');    	
     	$arguments = array($publication, 'publication');    	
-		$pageTitle = JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title;
+        $pageTitle = JText::_('JRESEARCH_PUBLICATION').' - '.$publication->title;
         $doc->setTitle($pageTitle);
     	
         // Bind variables for layout
@@ -101,6 +96,7 @@ class JResearchViewPublication extends JResearchView
     	$this->assignRef('showMODS', $params->get('show_export_mods', 0));	
     	$this->assignRef('showRIS', $params->get('show_export_ris', 0));
     	$this->assignRef('format', $this->params->get('staff_format', 'last_first'));	
+        $this->assignRef('keywordsLinks', $this->params->get('publications_keywords_links', 1));
 
     	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);        
        	parent::display($tpl);       	

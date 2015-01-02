@@ -91,47 +91,47 @@ class JResearchAdminModelMember extends JModelForm{
     function save()
     {
         $app = JFactory::getApplication();
-		$params = JComponentHelper::getParams('com_jresearch');
+        $params = JComponentHelper::getParams('com_jresearch');
         $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
         $data = &$this->getData();
         $data['description'] = $form['description'];
         $row = $this->getTable('Member', 'JResearch');
 
     	//Checking of research areas
-		if(!empty($data['id_research_area'])){
-			if(in_array('1', $data['id_research_area'])){
-				$data['id_research_area'] = '1';
-			}else{
-				$data['id_research_area'] = implode(',', $data['id_research_area']);
-			}
-		}else{
-			$data['id_research_area'] = '1';
-		}            
+        if(!empty($data['id_research_area'])){
+            if(in_array('1', $data['id_research_area'])){
+                    $data['id_research_area'] = '1';
+            }else{
+                    $data['id_research_area'] = implode(',', $data['id_research_area']);
+            }
+        }else{
+            $data['id_research_area'] = '1';
+        }            
         
 		//Time to upload the file
         $delete = $data['delete_files_0'];
     	if($delete == 'on'){
-    		if(!empty($data['old_files_0'])){
-	    		$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'staff'.DS.$row->files;
-	    		$data['files'] = '';
-	    		@unlink($filetoremove);
-    		}
-	    }
+            if(!empty($data['old_files_0'])){
+                    $filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'staff'.DS.$row->files;
+                    $data['files'] = '';
+                    @unlink($filetoremove);
+            }
+        }
 	    		    
     	$files = JRequest::getVar('jform', array(), 'FILES');
-		if(!empty($files['name']['file_files_0'])){	    	
-	    	$data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'staff');
+            if(!empty($files['name']['file_files_0'])){	    	
+            $data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'staff');
     	}			
 
         // Bind the form fields to the hello table
         if (!$row->save($data, '' ,array('username')))
         {
-        	JRequest::setVar('jform', $data);
+            JRequest::setVar('jform', $data);
             $this->setError($row->getError());
             return false;
         }
         
-		$data['id'] = $row->id;
+        $data['id'] = $row->id;
         $app->setUserState('com_jresearch.edit.member.data', $data);
 
         return true;
@@ -232,178 +232,175 @@ class JResearchAdminModelMember extends JModelForm{
         return $row;
     }
 	
-	/**
-	 * Returns the record with the username specified
-	 *
-	 * @param string $username
-	 * @return JResearchMember Member with the username specified.
-	 */
-	public function getByUsername($username){
-            $db = JFactory::getDBO();
-            $query = "SELECT * FROM ".$db->quoteName('#__jresearch_member')." WHERE ".$db->quoteName('username').' = '.$db->Quote($username);
-            $db->setQuery($query);
-            $results = $db->loadAssoc();
+    /**
+     * Returns the record with the username specified
+     *
+     * @param string $username
+     * @return JResearchMember Member with the username specified.
+     */
+    public function getByUsername($username){
+        $db = JFactory::getDBO();
+        $query = "SELECT * FROM ".$db->quoteName('#__jresearch_member')." WHERE ".$db->quoteName('username').' = '.$db->Quote($username);
+        $db->setQuery($query);
+        $results = $db->loadAssoc();
 
-            $member = JTable::getInstance('Member', 'JResearch');
-            $member->bind($results);
-            return $member;
-	}
-		
-	/**
-	 * Returns an array with the n latest internal and published publications 
-	 * in which the member collaborated.
-	 *
-	 * @param int $memberId
-	 * @param int $n
-	 * @return array Array of JResearchPublicationObjects
-	 */
-	function getLatestPublications($memberId, $n = 0){
-		$db =& JFactory::getDBO();
-		$latestPub = array();
-		
-		$query = 'SELECT '.$db->quoteName('id_publication').' FROM '.$db->quoteName('#__jresearch_publication_internal_author').' ia,  '
-				 .$db->quoteName('#__jresearch_publication').' p WHERE '.$db->quoteName('p').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_publication').' '
-				 .' AND '.$db->quoteName('ia').'.'.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId).' AND p.published = '.$db->Quote('1').' AND p.internal =  '.$db->Quote('1').' ORDER BY '.$db->quoteName('p').'.'.$db->quoteName('year').' DESC';
+        $member = JTable::getInstance('Member', 'JResearch');
+        $member->bind($results);
+        return $member;
+    }
 
-		if($n > 0){
-			$query .= ' LIMIT 0, '.$n;
-		}
-				 				 
-		$db->setQuery($query);
-		$result = $db->loadColumn();
-		foreach($result as $id){
-			$publication =& JResearchPublication::getById($id);
-			$latestPub[] = $publication;
-		}
-		
-		return $latestPub;
-				 
-	}
-	
-	
-	/**
-	 * Returns the number of publications where the member has participated.
-	 * 
-	 * @param int $memberId
-	 */
-	function countPublications($memberId){
-		$db =& JFactory::getDBO();
-		
-		$query = 'SELECT count(*) FROM '.$db->quoteName('#__jresearch_publication_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId);
-		$db->setQuery($query);		
-		return (int)$db->loadResult();
-	}
+    /**
+     * Returns an array with the n latest internal and published publications 
+     * in which the member collaborated.
+     *
+     * @param int $memberId
+     * @param int $n
+     * @return array Array of JResearchPublicationObjects
+     */
+    function getLatestPublications($memberId, $n = 0){
+        $db =& JFactory::getDBO();
+        $latestPub = array();
 
-	/**
-	 * Returns an array with the n latest projects in which the member has collaborated.
-	 * @param int $memberId
-	 * @param int $n
-	 */
-	function getLatestProjects($memberId, $n = 0){
-		$db =& JFactory::getDBO();
-		$latestProj = array();
-		
-		$query = 'SELECT '.$db->quoteName('id_project').' FROM '.$db->quoteName('#__jresearch_project_internal_author').' ia,  '
-				 .$db->quoteName('#__jresearch_project').' p WHERE '.$db->quoteName('p').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_project').' AND p.published = '.$db->Quote('1').' AND '.$db->quoteName('ia').'.'.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId).' ORDER BY '.$db->quoteName('p').'.'.$db->quoteName('start_date').' DESC';
+        $query = 'SELECT '.$db->quoteName('id_publication').' FROM '.$db->quoteName('#__jresearch_publication_internal_author').' ia,  '
+                .$db->quoteName('#__jresearch_publication').' p WHERE '.$db->quoteName('p').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_publication').' '
+                .' AND '.$db->quoteName('ia').'.'.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId).' AND p.published = '.$db->Quote('1').' AND p.internal =  '.$db->Quote('1').' ORDER BY '.$db->quoteName('p').'.'.$db->quoteName('year').' DESC';
 
-		if($n > 0){
-			$query .= ' LIMIT 0, '.$n;
-		}
-				 				 
-		$db->setQuery($query);
+        if($n > 0){
+            $query .= ' LIMIT 0, '.$n;
+        }
 
-		$result = $db->loadColumn();
-		foreach($result as $id){
-			$project = new JResearchProject($db);
-			$project->load($id);
-			$latestProj[] = $project;
-		}
-		
-		return $latestProj;
-		
-		
-	}
-	
-		
-	/**
-	 * Returns the number of projects the member has participated.
-	 * @param int $memberId
-	 */
-	function countProjects($memberId){
-		$db =& JFactory::getDBO();
-		
-		$query = 'SELECT count(*) FROM '.$db->quoteName('#__jresearch_project_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId);
-		$db->setQuery($query);		
-		return (int)$db->loadResult();
-	}
-	
-	/**
-	 * Returns an array with the n latest theses in which the member has collaborated.
-	 * @param int $memberId
-	 * @param int $n
-	 */
-	function getLatestTheses($memberId, $n = 0){
-		$db =& JFactory::getDBO();
-		$latestThes = array();
-		
-		$query = 'SELECT '.$db->quoteName('id_thesis').' FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' ia,  '
-				 .$db->quoteName('#__jresearch_thesis').' t WHERE '.$db->quoteName('t').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_thesis').' AND t.published = '.$db->Quote('1')
-				 .' AND '.$db->quoteName('ia').'.'.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId).' ORDER BY '.$db->quoteName('t').'.'.$db->quoteName('start_date').' DESC';
+        $db->setQuery($query);
+        $result = $db->loadColumn();
+        foreach($result as $id){
+                $publication =& JResearchPublication::getById($id);
+                $latestPub[] = $publication;
+        }
 
-		if($n > 0){
-			$query .= ' LIMIT 0, '.$n;
-		}
-				 				 
-		$db->setQuery($query);
-		$result = $db->loadColumn();
-		foreach($result as $id){
-			$thesis = new JResearchThesis($db);
-			$thesis->load($id);
-			$latestThes[] = $thesis;
-		}
-		
-		return $latestThes;				
-	}
-	
+        return $latestPub;
+    }
 
-		
-	/**
-	 * Returns the number of degree theses the member has participated.
-	 * @param int $memberId
-	 */
-	function countTheses($memberId){
-		$db =& JFactory::getDBO();
-		
-		$query = 'SELECT count(*) FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId);
-		$db->setQuery($query);
-		return (int)$db->loadResult();
-	}
-	
-	
-	public function getTeams($memberId)
-	{
-		$db = JFactory::getDBO();
-		$teams = array();
-		
-		$sql = 'SELECT '.$db->quoteName('id_team').' FROM '.$db->quoteName('#__jresearch_team_member').' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($memberId);
-		$db->setQuery($sql);
-		
-		$ids = $db->loadColumn();
-		
-		foreach($ids as $id)
-		{
-			$team = JTable::getInstance('Team', 'JResearch');
-			$team->load($id);
-			$teams[] = $team;
-		}
-		return $teams;
-	}
-	
-	public function getCV(){
-		if(!empty($this->files))
-			return JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, DS, $params->get('files_root_path', 'files'))."/staff/".$this->files;
-			
-		return false;	
-	}
+
+    /**
+     * Returns the number of publications where the member has participated.
+     * 
+     * @param int $memberId
+     */
+    function countPublications($memberId){
+        $db =& JFactory::getDBO();
+
+        $query = 'SELECT count(*) FROM '.$db->quoteName('#__jresearch_publication_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId);
+        $db->setQuery($query);		
+        return (int)$db->loadResult();
+    }
+
+    /**
+     * Returns an array with the n latest projects in which the member has collaborated.
+     * @param int $memberId
+     * @param int $n
+     */
+    function getLatestProjects($memberId, $n = 0){
+        $db =& JFactory::getDBO();
+        $latestProj = array();
+
+        $query = 'SELECT '.$db->quoteName('id_project').' FROM '.$db->quoteName('#__jresearch_project_internal_author').' ia,  '
+                         .$db->quoteName('#__jresearch_project').' p WHERE '.$db->quoteName('p').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_project').' AND p.published = '.$db->Quote('1').' AND '.$db->quoteName('ia').'.'.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId).' ORDER BY '.$db->quoteName('p').'.'.$db->quoteName('start_date').' DESC';
+
+        if($n > 0){
+                $query .= ' LIMIT 0, '.$n;
+        }
+
+        $db->setQuery($query);
+
+        $result = $db->loadColumn();
+        foreach($result as $id){
+                $project = new JResearchProject($db);
+                $project->load($id);
+                $latestProj[] = $project;
+        }
+
+        return $latestProj;
+    }
+
+
+    /**
+     * Returns the number of projects the member has participated.
+     * @param int $memberId
+     */
+    function countProjects($memberId){
+        $db =& JFactory::getDBO();
+
+        $query = 'SELECT count(*) FROM '.$db->quoteName('#__jresearch_project_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId);
+        $db->setQuery($query);		
+        return (int)$db->loadResult();
+    }
+
+    /**
+     * Returns an array with the n latest theses in which the member has collaborated.
+     * @param int $memberId
+     * @param int $n
+     */
+    function getLatestTheses($memberId, $n = 0){
+        $db =& JFactory::getDBO();
+        $latestThes = array();
+
+        $query = 'SELECT '.$db->quoteName('id_thesis').' FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' ia,  '
+                         .$db->quoteName('#__jresearch_thesis').' t WHERE '.$db->quoteName('t').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_thesis').' AND t.published = '.$db->Quote('1')
+                         .' AND '.$db->quoteName('ia').'.'.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId).' ORDER BY '.$db->quoteName('t').'.'.$db->quoteName('start_date').' DESC';
+
+        if($n > 0){
+            $query .= ' LIMIT 0, '.$n;
+        }
+
+        $db->setQuery($query);
+        $result = $db->loadColumn();
+        foreach($result as $id){
+            $thesis = new JResearchThesis($db);
+            $thesis->load($id);
+            $latestThes[] = $thesis;
+        }
+
+        return $latestThes;				
+    }
+
+
+
+    /**
+     * Returns the number of degree theses the member has participated.
+     * @param int $memberId
+     */
+    function countTheses($memberId){
+        $db =& JFactory::getDBO();
+
+        $query = 'SELECT count(*) FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId);
+        $db->setQuery($query);
+        return (int)$db->loadResult();
+    }
+
+
+    public function getTeams($memberId)
+    {
+        $db = JFactory::getDBO();
+        $teams = array();
+
+        $sql = 'SELECT '.$db->quoteName('id_team').' FROM '.$db->quoteName('#__jresearch_team_member').' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($memberId);
+        $db->setQuery($sql);
+
+        $ids = $db->loadColumn();
+
+        foreach($ids as $id)
+        {
+            $team = JTable::getInstance('Team', 'JResearch');
+            $team->load($id);
+            $teams[] = $team;
+        }
+        return $teams;
+    }
+
+    public function getCV(){
+        if(!empty($this->files))
+            return JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, DS, $params->get('files_root_path', 'files'))."/staff/".$this->files;
+
+        return false;	
+    }
 }
 ?>

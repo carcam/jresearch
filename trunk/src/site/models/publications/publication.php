@@ -101,73 +101,73 @@ class JResearchModelPublication extends JResearchModelForm{
     * @return      boolean True on success
     */
     function save(){
-		$app = JFactory::getApplication();
-		jresearchimport('helpers.publications', 'jresearch.admin');
-		$params = JComponentHelper::getParams('com_jresearch');
-		$omittedFields = array();
-		$user = JFactory::getUser();
+        $app = JFactory::getApplication();
+        jresearchimport('helpers.publications', 'jresearch.admin');
+        $params = JComponentHelper::getParams('com_jresearch');
+        $omittedFields = array();
+        $user = JFactory::getUser();
                 
         $data =& $this->getData();                
         $row =& $this->getTable('Publication', 'JResearch');
 
         //Time to upload the file
         $delete = $data['delete_files_0'];
-	    if($delete == 1){
-	    	if(!empty($data['old_files_0'])){
-		    	$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$row->files;
-		    	$data['files'] = '';
-		    	@unlink($filetoremove);
-	    	}
-		}
-		    		    
-	    $files = JRequest::getVar('jform', array(), 'FILES');
-		if(!empty($files['name']['file_files_0'])){	    	
-			$data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'publications');
-	    }
-	    		
-	    if($data['resethits'] == 1){
-			$data['hits'] = 0;
-		}else{
-			$omittedFields[] = 'hits';			    	
-		}
-			    			    			    
-		//Now time for the authors
-		$maxAuthors = (int)$data['nauthorsfield'];
-		$authorsArray = array();
-		for($j = 0; $j < $maxAuthors; $j++){
-			$value = $data["authorsfield".$j];
-			if(!empty($value)){
-				$row->addAuthor($value);
-			}
-		}
-				
-		$data['authors'] = $row->authors;
-				
-		//Citekey generation
-		if(empty($data['citekey'])){
-			$data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
-		}
-			
-		//Alias generation
-		if(empty($data['alias'])){
-			$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
-		}		
-				
-		//Checking of research areas
-		if(!empty($data['id_research_area'])){
-			if(in_array('1', $data['id_research_area'])){
-				$data['id_research_area'] = '1';
-			}else{
-				$data['id_research_area'] = implode(',', $data['id_research_area']);
-			}
-		}else{
-			$data['id_research_area'] = '1';
-		}
+        if($delete == 1){
+            if(!empty($data['old_files_0'])){
+                $filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$row->files;
+                $data['files'] = '';
+                @unlink($filetoremove);
+            }
+        }
+
+        $files = JRequest::getVar('jform', array(), 'FILES');
+            if(!empty($files['name']['file_files_0'])){	    	
+                $data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'publications');
+        }
+
+        if($data['resethits'] == 1){
+            $data['hits'] = 0;
+        }else{
+            $omittedFields[] = 'hits';			    	
+        }
+
+        //Now time for the authors
+        $maxAuthors = (int)$data['nauthorsfield'];
+        $authorsArray = array();
+        for($j = 0; $j < $maxAuthors; $j++){
+            $value = $data["authorsfield".$j];
+            if(!empty($value)){
+                $row->addAuthor($value);
+            }
+        }
+
+        $data['authors'] = $row->authors;
+
+        //Citekey generation
+        if(empty($data['citekey'])){
+                $data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
+        }
+
+        //Alias generation
+        if(empty($data['alias'])){
+                $data['alias'] = JFilterOutput::stringURLSafe($data['title']);
+        }		
+
+        //Checking of research areas
+        if(!empty($data['id_research_area'])){
+            if(in_array('1', $data['id_research_area'])){
+                $data['id_research_area'] = '1';
+            }else{
+                $data['id_research_area'] = implode(',', $data['id_research_area']);
+            }
+        }else{
+            $data['id_research_area'] = '1';
+        }
 								
         if (!$row->save($data, '', $omittedFields))
         {
-        	JRequest::setVar('jform', $data);        	
-        	$this->setError($row->getError());
+            JRequest::setVar('jform', $data);        	
+            $this->setError($row->getError());
             return false;
         }
         

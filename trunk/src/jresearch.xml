@@ -2,12 +2,12 @@
 <extension type="component" version="3.2" method="upgrade">
 	<name>JResearch</name>
 	<creationDate>June 2008</creationDate>
-	<author>Luis Galárraga and Florian Prinz</author>
-	<authorEmail>shamantobi@gmail.com, prinz.florian@chello.at</authorEmail>
+	<author>Luis Galárraga</author>
+	<authorEmail>shamantobi@gmail.com</authorEmail>
 	<authorUrl>http://joomla-research.com</authorUrl>
-	<copyright>Copyright (C) 2011 Luis Galárraga</copyright>
+	<copyright>Copyright (C) 2015 Luis Galárraga</copyright>
 	<license>GPL</license>
-	<version>3.0 Alpha</version>
+	<version>3.0 Beta 1</version>
 	<description><![CDATA[
 	<div align="center">
 		<img src="components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" />
@@ -28,16 +28,16 @@
 		<schemas>
 			<schemapath type="mysql">sql/updates/mysql/</schemapath>
 		</schemas>
-    </update>
-    <scriptfile>install.php</scriptfile>
+    	</update>
+    	<scriptfile>install.php</scriptfile>
 	<install>
 		<sql>
-                <file charset="utf8" driver="mysql">install/install.mysql.utf8.sql</file>
+		<file charset="utf8" driver="mysql">install/install.mysql.utf8.sql</file>
 		</sql>
 	</install>
 	<uninstall>
 		<sql>
-                <file charset="utf8" driver="mysql">install/uninstall.mysql.utf8.sql</file>
+		<file charset="utf8" driver="mysql">install/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
 	<files folder="site">
@@ -56,8 +56,6 @@
 	</files>
 	<languages folder="languages/site">
 		<language tag="en-GB">en-GB.com_jresearch.ini</language>
-		<language tag="en-GB">en-GB.com_jresearch.cooperations.ini</language>
-		<language tag="en-GB">en-GB.com_jresearch.facilities.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.financiers.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.projects.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.publications.ini</language>
@@ -87,7 +85,7 @@
 			<folder>controllers</folder>
 			<folder>css</folder>
 			<folder>includes</folder>
-            <folder>install</folder>
+	    <folder>install</folder>
 			<folder>elements</folder>
 			<folder>files</folder>			
 			<folder>helpers</folder>
@@ -100,8 +98,6 @@
 		<languages folder="languages/admin">
 			<language tag="en-GB">en-GB.com_jresearch.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.sys.ini</language>
-			<language tag="en-GB">en-GB.com_jresearch.cooperations.ini</language>
-			<language tag="en-GB">en-GB.com_jresearch.facilities.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.financiers.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.projects.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.publications.ini</language>

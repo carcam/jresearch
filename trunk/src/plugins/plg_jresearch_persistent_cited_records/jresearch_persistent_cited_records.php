@@ -38,12 +38,11 @@ function plgJResearchOnAfterContentSave(&$article, $isNew)
 	
 	//Save the records	
 	foreach($citedRecords as $key){
-
 		$query = 'INSERT INTO '.$db->nameQuote('#__jresearch_cited_records')
 					.'('.$db->nameQuote('id_record').','.$db->nameQuote('record_type').','.$db->nameQuote('citekey').')'
 					.' VALUES('.$article->id.','.$db->Quote('content').','.$db->Quote($key).')';
 		$db->setQuery($query);
-		
+	
 		if(!$db->query())
 			JError::raiseWarning(1, $db->getErrorMsg());			
 	}
