@@ -69,8 +69,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   PRIMARY KEY  (`id`),
   FULLTEXT INDEX `#__jresearch_publication_title_index`(`title`),
-  FULLTEXT INDEX `#__jresearch_publication_title_keywords_index`(`title`, `keywords`),
-  FULLTEXT INDEX `#__jresearch_publication_full_index`(`title`, `keywords`, `abstract`),
+  FULLTEXT INDEX `#__jresearch_publication_full_index`(`title`, `abstract`),
   UNIQUE KEY `citekey` (`citekey`),
   INDEX `year` (`year`),
   INDEX `pubtype` (`pubtype`)
@@ -210,12 +209,15 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_keyword` (
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication_keyword` (
   `id_publication` int(10) unsigned NOT NULL,
   `keyword` varchar(256) NOT NULL,
-  PRIMARY KEY  (`id_publication`, `keyword`)
+  PRIMARY KEY  (`id_publication`, `keyword`),
+  FULLTEXT INDEX `#__jresearch_publication_keyword_keyword`(`keyword`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__jresearch_member` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `former_member` tinyint(1) NOT NULL,
+  `link_to_member` tinyint(1) NOT NULL DEFAULT '1',
+  `link_to_website` tinyint(1) NOT NULL DEFAULT '0',
   `firstname` varchar(30) NOT NULL,
   `lastname` varchar(30) NOT NULL,
   `title` varchar(10) NOT NULL,
