@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.1" type="plugin" group="search">
-    <name>JRESEARCH_SEARCH_PLUGIN_NAME</name>
+    <name>plg_jresearch_search</name>
     <creationDate>June 2008</creationDate>
     <author>Luis Gal&#225;rraga</author>
     <copyright>(C) 2008 Luis Galarraga</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
     <authorEmail>shamantobi@gmail.com</authorEmail>
     <version>1.0</version>
-    <description>JRESEARCH_SEARCH_PLUGIN_DESCRIPTION</description>
+    <description>Support for JResearch entities in the Joomla search.</description>
     <files>
         <filename plugin="jresearch_search">jresearch_search.php</filename>
         <filename>index.html</filename>

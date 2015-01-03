@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="1.6" type="plugin" group="system">
-	<name>JResearch Entities Load Cited Records</name>
+	<name>plg_jresearch_entities_load_cited_records</name>
 	<author>Luis Gal&#225;rraga</author>
 	<creationDate>May 2011</creationDate>
 	<copyright>Copyright (C) 2011 - Luis Gal&#225;rraga</copyright>

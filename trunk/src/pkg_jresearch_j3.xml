@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 	<extension type="package" version="3.2">
-	<name>Hello World Package</name>
+	<name>JResearch</name>
 	<author>Luis Galárraga</author>
 	<creationDate>January 2015</creationDate>
-	<packagename>JResearch</packagename>
-	<version>1.0.0</version>
+	<packagename>jresearch_j3</packagename>
+	<version>3.0 Beta 1</version>
 	<url>http://joomlaresearch.com/</url>
 	<packager>JResearch Team</packager>
 	<packagerurl></packagerurl>
 	<description>JResearch full installation package.</description>
 	<update></update>
-		<files folder="packages">
-			<file type="component" id="com_jresearch">com_jresearch_3.0_beta_1.zip</file>
-			<file type="plugin" id="jresearch_automatic_bibliography_generation" group="editors-xtd">plg_jresearch_automatic_bibliography_generation.zip</file>
-			<file type="plugin" id="jresearch_automatic_citation" group="editors-xtd">plg_jresearch_automatic_citation.zip</file>
-			<file type="plugin" id="jresearch_entities_load_cited_records" group="system">plg_jresearch_entities_load_cited_records.zip</file>
-			<file type="plugin" id="jresearch_entities_save_cited_records" group="system">plg_jresearch_entities_save_cited_records.zip</file>
-			<file type="plugin" id="jresearch_load_cited_records" group="system">plg_jresearch_load_cited_records.zip</file>
-			<file type="plugin" id="jresearch_offline_citation" group="content">plg_jresearch_offline_citation.zip</file>
-			<file type="plugin" id="jresearch_persistent_cited_records" group="content">plg_jresearch_persistent_cited_records.zip</file>
-			<file type="plugin" id="jresearch_search" group="search">plg_jresearch_search.zip</file>
+	<files folder="packages">
+		<file type="component" id="com_jresearch">com_jresearch_3.0_beta_1.zip</file>
+		<file type="plugin" id="jresearch_automatic_bibliography_generation" group="editors-xtd">plg_jresearch_automatic_bibliography_generation.zip</file>
+		<file type="plugin" id="jresearch_automatic_citation" group="editors-xtd">plg_jresearch_automatic_citation.zip</file>
+		<file type="plugin" id="jresearch_entities_load_cited_records" group="system">plg_jresearch_entities_load_cited_records.zip</file>
+		<file type="plugin" id="jresearch_entities_save_cited_records" group="system">plg_jresearch_entities_save_cited_records.zip</file>
+		<file type="plugin" id="jresearch_load_cited_records" group="system">plg_jresearch_load_cited_records.zip</file>
+		<file type="plugin" id="jresearch_offline_citation" group="content">plg_jresearch_offline_citation.zip</file>
+		<file type="plugin" id="jresearch_persistent_cited_records" group="content">plg_jresearch_persistent_cited_records.zip</file>
+		<file type="plugin" id="jresearch_search" group="search">plg_jresearch_search.zip</file>
 	</files>
 </extension>

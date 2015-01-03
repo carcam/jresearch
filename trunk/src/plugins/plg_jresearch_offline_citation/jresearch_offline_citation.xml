@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension version="3.1" type="plugin" group="content">
-	<name>JRESEARCH_OFFLINE_CITATION_PLUGIN_NAME</name>
+	<name>plg_jresearch_offline_citation</name>
 	<author>Luis Galárraga</author>
 	<creationDate>August 2012</creationDate>
 	<copyright>Copyright (C) 2012 - Luis Galárraga</copyright>
@@ -8,7 +8,7 @@
 	<authorEmail>shamantobi@gmail.com</authorEmail>
 	<authorUrl>joomla-research.com</authorUrl>
 	<version>1.0</version>
-	<description>JRESEARCH_OFFLINE_CITATION_PLUGIN_DESCRIPTION</description>
+	<description>JResearch for offline citation of publications in articles.</description>
 	<files>
 		<filename plugin="jresearch_offline_citation">jresearch_offline_citation.php</filename>
 		<filename>index.html</filename>

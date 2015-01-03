@@ -31,4 +31,9 @@ DROP TABLE IF EXISTS `#__jresearch_publication_keyword`;
 DROP TABLE IF EXISTS `#__jresearch_project_keyword`;
 DROP TABLE IF EXISTS `#__jresearch_keyword`;
 DROP TABLE IF EXISTS `#__jresearch_project_publication`;
+DROP TABLE IF EXISTS `#__jresearch_member_position`;
+DROP TABLE IF EXISTS `#__jresearch_project_cooperation`;
+DROP TABLE IF EXISTS `#__jresearch_property`;
+DROP TABLE IF EXISTS `#__jresearch_team`;
+DROP TABLE IF EXISTS `#__jresearch_team_member`;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="1.6" type="plugin" group="editors-xtd">
-	<name>JResearch Automatic Bibliography Generation</name>
+	<name>plg_jresearch_automatic_bibliography_generation</name>
 	<author>Luis Gal&#225;rraga</author>
 	<creationDate>June 2008</creationDate>
 	<copyright>Copyright (C) 2008 - Luis Gal&#225;rraga</copyright>
