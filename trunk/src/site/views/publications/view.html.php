@@ -224,7 +224,7 @@ class JResearchViewPublications extends JResearchView
                         	if($pub->year == '0000' || $pub->year == null )
                             	$yearHeader = JText::_('JRESEARCH_NO_YEAR');
                             else
-                            	$yearHeader = JText::_('JRESEARCH_YEAR').': '.$pub->year;
+                            	$yearHeader = $pub->year;
 
                             $result[$yearHeader] = array();
                         }
@@ -237,7 +237,7 @@ class JResearchViewPublications extends JResearchView
                         $header = null;
                         foreach($recordsArray as $pub){
                                 if($previousType != $pub->pubtype){
-                                        $header = JText::_('JRESEARCH_PUBLICATION_TYPE').': '.$pub->pubtype;
+                                        $header = $pub->pubtype;
                                         $result[$header] = array();
                                 }
                                 $result[$header][] = $pub;
