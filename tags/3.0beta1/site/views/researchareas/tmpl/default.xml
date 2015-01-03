@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="JRESEARCH_AREAS_LIST">
+		<help
+			key = "JRESEARCH_AREAS_LIST_VIEW_MESSAGE"
+		/>
+		<message>
+			<![CDATA[JRESEARCH_AREAS_LIST_VIEW_MESSAGE]]>
+		</message>
+	</layout>
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+            <!-- Basic options. -->
+            <fieldset name="basic">
+                <field
+                        name="researchareas_header"
+                        type="text"
+                        default=""
+                        label="JRESEARCH_VIEW_HEADER_PAGE"
+                        description="JRESEARCH_VIEW_HEADER_PAGE_DESCRIPTION" />
+
+                	<field
+                        name="researchareas_list_limit"
+                        type="text"
+                        default="10"
+                        label="JRESEARCH_CONFIG_AREAS_PER_PAGE"
+                        description="JRESEARCH_CONFIG_AREAS_PER_PAGE_DESCRIPTION" />
+
+                    <field name="researchareas_introtext" type="textarea"
+                        cols="60" rows="5"
+                        description="JRESEARCH_CONFIG_INTRO_TEXT"
+                        label="JRESEARCH_CONFIG_INTRO_TEXT" filter="nofilter"
+                        />
+
+                    <field name="researchareas_link_in_title" type="list"
+                            description="JRESEARCH_CONFIG_LINK_IN_TITLE_DESCRIPTION"
+                            filter="safehtml"
+                            label="JRESEARCH_CONFIG_LINK_IN_TITLE"
+                    >
+                    	<option value="1">JYES</option>
+                    	<option value="0">JNO</option>
+                    </field>
+                    <field name="researchareas_default_sorting" default="ordering" label="JRESEARCH_ORDER_BY" type="list">
+                            <option value="name">JRESEARCH_TITLE</option>
+                            <option value="ordering">JRESEARCH_ORDERING</option>
+                    </field>
+                    <field name="researchareas_order" label="JRESEARCH_SORT_DIRECTION" type="list" default="ASC">
+                            <option value="ASC">JRESEARCH_ASCENDING</option>
+                            <option value="DESC">JRESEARCH_DESCENDING</option>
+                    </field>
+                </fieldset>
+                <fieldset name="singleitem">
+	            	<field name="area_show_members" type="list"
+	            		description="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_MEMBERS_DESC"
+	                	filter="safehtml"
+	                	label="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_MEMBERS"
+	            	>
+	 	           		<option value="1">JYES</option>
+	                	<option value="0">JNO</option>
+    	        	</field>
+        	    	<field name="area_show_publications" type="list"
+                            description="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_PUBLICATIONS_DESC"
+                            filter="safehtml"
+                            label="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_PUBLICATIONS"
+            		>
+            			<option value="1">JYES</option>
+                		<option value="0">JNO</option>
+            		</field>
+                
+					<field name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
+					<field name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />			
+					<field name="area_number_last_theses" label="JRESEARCH_CONFIG_LAST_THESES_IN_AREA" default="5" type="text" />					
+                </fieldset>
+            </fields>
+</metadata>
