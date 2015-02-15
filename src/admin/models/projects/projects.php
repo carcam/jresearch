@@ -52,7 +52,7 @@ class JResearchAdminModelProjects extends JResearchAdminModelList{
 
             $query->select('DISTINCT proj.*');
             $query->from('#__jresearch_project proj');
-            $query->leftJoin('#__jresearch_project_researcharea AS ra ON proj.id = ra.id_project');
+            $query->leftJoin('#__jresearch_project_research_area AS ra ON proj.id = ra.id_project');
             $query->leftJoin('#__jresearch_all_project_authors AS apa ON proj.id = apa.pid');
                         
 			if(!empty($whereClauses))

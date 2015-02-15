@@ -21,11 +21,11 @@ class JResearchAdminViewMember_position extends JResearchView
 {
     function display($tpl = null)
     {
+        $mainframe = JFactory::getApplication();
     	JRequest::setVar( 'hidemainmenu', 1 );
       	JResearchToolbar::editMember_positionAdminToolbar();
-
+        JHtml::_('jquery.framework', false);
       	JHtml::_('jresearchhtml.validation');
-        $mainframe = JFactory::getApplication();
         
         $form = $this->get('Form');
         // get the Data

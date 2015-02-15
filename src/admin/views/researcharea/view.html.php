@@ -23,6 +23,7 @@ class JResearchAdminViewResearchArea extends JResearchView
     {
     	JRequest::setVar( 'hidemainmenu', 1 );    	
       	JResearchToolbar::editResearchAreaAdminToolbar();
+        JHtml::_('jquery.framework', false);
         JHtml::_('jresearchhtml.validation');
         $mainframe = JFactory::getApplication();
         

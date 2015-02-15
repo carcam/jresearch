@@ -310,7 +310,7 @@ class JResearchProject extends JResearchActivity{
 		}
 		
 		//Time to remove research areas too
-		$researchareaRemoveQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_project_researcharea').' WHERE id_project = '.$db->Quote($this->id);
+		$researchareaRemoveQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_project_research_area').' WHERE id_project = '.$db->Quote($this->id);
 		$db->setQuery($researchareaRemoveQuery);
 		if(!$db->query()){
 			$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -320,7 +320,7 @@ class JResearchProject extends JResearchActivity{
 		//And to insert them again
 		$idsAreas = explode(',', $this->id_research_area);
 		foreach($idsAreas as $area){
-			$insertAreaQuery = 'INSERT INTO '.$db->quoteName('#__jresearch_project_researcharea').'(id_project, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';	
+			$insertAreaQuery = 'INSERT INTO '.$db->quoteName('#__jresearch_project_research_area').'(id_project, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';	
 			$db->setQuery($insertAreaQuery);
 			if(!$db->query()){
 				$this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());

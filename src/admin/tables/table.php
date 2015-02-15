@@ -65,14 +65,15 @@ class JResearchTable extends JTable{
 
         // Get the asset id from the database.
         $db->setQuery($query);
-        if ($result = $db->loadResult()) {
-                $assetId = (int) $result;			
+        $result = $db->loadResult();
+        if ($result) {
+            $assetId = (int) $result;			
         }
         // Return the asset id.
         if ($assetId) {
-                return $assetId;
+            return $assetId;
         } else {
-                return parent::_getAssetParentId($table, $id);
+            return parent::_getAssetParentId($table, $id);
         }
     }
 

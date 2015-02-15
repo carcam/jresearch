@@ -238,7 +238,7 @@ class plgSearchJResearch_Search extends JPlugin{
         $section = $db->Quote($section, false);
         $query = "SELECT DISTINCT p.id AS id, '' AS metadesc, p.keywords AS metakey, p.title AS title, CONCAT_WS( '/', r.name, $section ) AS section, 
         p.created AS created, '2' AS browsernav,  SUBSTRING_INDEX(p.description, '<hr id=\"system-readmore\" />', 1) AS text FROM 
-        #__jresearch_project p LEFT JOIN #__jresearch_project_researcharea pr ON p.id = pr.id_project 
+        #__jresearch_project p LEFT JOIN #__jresearch_project_research_area pr ON p.id = pr.id_project 
         LEFT JOIN #__jresearch_research_area r ON r.id = pr.id_research_area WHERE $whereClause ORDER BY $order";
 
         $db->setQuery( $query, 0, $this->limit );
@@ -460,7 +460,7 @@ class plgSearchJResearch_Search extends JPlugin{
         $section = $db->Quote($section, false);
         $query = "SELECT DISTINCT m.id as id, CONCAT_WS(' ', m.firstname, m.lastname) AS title, '' AS metadesc, '' AS metakey, CONCAT_WS( '/', r.name, $section ) AS section, 
         m.created AS created, '2' AS browsernav, m.description AS text FROM #__jresearch_member m 
-        LEFT JOIN #__jresearch_member_researcharea mr ON m.id = mr.id_member 
+        LEFT JOIN #__jresearch_member_research_area mr ON m.id = mr.id_member 
         LEFT JOIN #__jresearch_research_area r ON r.id = mr.id_research_area WHERE $whereClause ORDER BY $order";
         $db->setQuery( $query, 0, $this->limit );
         $results = $db->loadObjectList();

@@ -20,141 +20,141 @@ require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelList.php');
 */
 class JResearchAdminModelPublications extends JResearchAdminModelList{
 
-		/**
-		 * Returns the items seen in the backend
-		 */
-        public function getItems(){
-            if(!isset($this->_items)){
-                $items = parent::getItems();
-                $db = JFactory::getDBO();
-                if($items !== false){
-                    foreach($items as $item){
-                        $publication = $this->getTable('Publication', 'JResearch');
-                        $publication->bind($item);
-                        $this->_items[] = $publication;
-                    }
-                }else{
-                    return $items;
+    /**
+     * Returns the items seen in the backend
+     */
+    public function getItems(){
+        if(!isset($this->_items)){
+            $items = parent::getItems();
+            $db = JFactory::getDBO();
+            if($items !== false){
+                foreach($items as $item){
+                    $publication = $this->getTable('Publication', 'JResearch');
+                    $publication->bind($item);
+                    $this->_items[] = $publication;
                 }
+            }else{
+                return $items;
             }
-
-            return $this->_items;
         }
+
+        return $this->_items;
+    }
 	
         
-		protected function getListQuery() {
-            // Create a new query object.
-            $db = JFactory::getDBO();
-            $whereClauses = $this->_buildQueryWhere();
-            $orderColumns = $this->_buildQueryOrderBy();
-            $query = $db->getQuery(true);
+    protected function getListQuery() {
+        // Create a new query object.
+        $db = JFactory::getDBO();
+        $whereClauses = $this->_buildQueryWhere();
+        $orderColumns = $this->_buildQueryOrderBy();
+        $query = $db->getQuery(true);
 
-            $query->select('DISTINCT pub.*');
-            $query->from('#__jresearch_publication pub');
-            $query->leftJoin('#__jresearch_publication_researcharea AS ra ON pub.id = ra.id_publication');
-            $query->leftJoin('#__jresearch_all_publication_authors AS apa ON pub.id = apa.pid');
-            
-			if(!empty($whereClauses))
-                $query->where($whereClauses);
+        $query->select('DISTINCT pub.*');
+        $query->from('#__jresearch_publication pub');
+        $query->leftJoin('#__jresearch_publication_research_area AS ra ON pub.id = ra.id_publication');
+        $query->leftJoin('#__jresearch_all_publication_authors AS apa ON pub.id = apa.pid');
 
-            $query->order($orderColumns);
-         	return $query;
-        }
+        if(!empty($whereClauses))
+            $query->where($whereClauses);
+
+        $query->order($orderColumns);
+        return $query;
+    }
                
         
         /**
-		* Build the ORDER part of a query.
-		*/
-		private function _buildQueryOrderBy(){
-            //Array of allowable order fields
-            $mainframe = JFactory::getApplication();
-            $orders = array('title', 'published', 'internal', 'year', 'citekey', 'pubtype');
-            $columns = array();
+        * Build the ORDER part of a query.
+        */
+    private function _buildQueryOrderBy(){
+        //Array of allowable order fields
+        $mainframe = JFactory::getApplication();
+        $orders = array('title', 'published', 'internal', 'year', 'citekey', 'pubtype');
+        $columns = array();
 
-            $filter_order = $this->getState($this->_context.'.filter_order');
-            $filter_order_Dir = strtoupper($this->getState($this->_context.'.filter_order_Dir'));
-            
-            //Validate order direction
-            if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
-                $filter_order_Dir = 'ASC';
-            
-            if(!in_array($filter_order, $orders))
-            	$filter_order = 'year';        
-                
-			$columns[] = $filter_order.' '.$filter_order_Dir;
-			$columns[] = 'created DESC';            
+        $filter_order = $this->getState($this->_context.'.filter_order');
+        $filter_order_Dir = strtoupper($this->getState($this->_context.'.filter_order_Dir'));
 
-            return $columns;
-		}
+        //Validate order direction
+        if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
+            $filter_order_Dir = 'ASC';
+
+        if(!in_array($filter_order, $orders))
+            $filter_order = 'year';        
+
+        $columns[] = $filter_order.' '.$filter_order_Dir;
+        $columns[] = 'created DESC';            
+
+        return $columns;
+    }
 			
-		/**
-		* Build the WHERE part of a query
-		*/
-		private function _buildQueryWhere(){
-           	$mainframe = JFactory::getApplication();
-            $where = array();
-            $db = JFactory::getDBO();
+    /**
+    * Build the WHERE part of a query
+    */
+    private function _buildQueryWhere(){
+        $mainframe = JFactory::getApplication();
+        $where = array();
+        $db = JFactory::getDBO();
 
-            $filter_state = $this->getState('com_jresearch.publications.filter_state');
-            $filter_year = $this->getState('com_jresearch.publications.filter_year');
-            $filter_search = $this->getState('com_jresearch.publications.filter_search');
-            $filter_pubtype = $this->getState('com_jresearch.publications.filter_pubtype');
-            $filter_author = $this->getState('com_jresearch.publications.filter_author');
-            $filter_area = $this->getState('com_jresearch.publications.filter_area');                  
+        $filter_state = $this->getState('com_jresearch.publications.filter_state');
+        $filter_year = $this->getState('com_jresearch.publications.filter_year');
+        $filter_search = $this->getState('com_jresearch.publications.filter_search');
+        $filter_pubtype = $this->getState('com_jresearch.publications.filter_pubtype');
+        $filter_author = $this->getState('com_jresearch.publications.filter_author');
+        $filter_area = $this->getState('com_jresearch.publications.filter_area');                  
 
             
-            if(!empty($filter_area) && $filter_area != -1){
-        		$where[] = 'ra.id_research_area = '.$db->Quote($filter_area);            	
-        	}
+        if(!empty($filter_area) && $filter_area != -1){
+            $where[] = 'ra.id_research_area = '.$db->Quote($filter_area);            	
+        }
             
-            // prepare the WHERE clause
-            if($filter_state == 'P')
-                  $where[] = $db->quoteName('published').' = 1 ';
-            elseif($filter_state == 'U')
-                  $where[] = $db->quoteName('published').' = 0 ';
+        // prepare the WHERE clause
+        if($filter_state == 'P')
+            $where[] = $db->quoteName('published').' = 1 ';
+        elseif($filter_state == 'U')
+            $where[] = $db->quoteName('published').' = 0 ';
 
-            if($filter_year != null && $filter_year != -1 )
-                  $where[] = $db->quoteName('year').' = '.$db->Quote($filter_year);
+        if($filter_year != null && $filter_year != -1 )
+            $where[] = $db->quoteName('year').' = '.$db->Quote($filter_year);
 
 
-            if(($filter_search = trim($filter_search))){
-                  $filter_search = JString::strtolower($filter_search);
-                  $filter_search = $db->getEscaped($filter_search);
-        		  $where[] = 'MATCH(title, keywords, abstract) AGAINST ('.$db->Quote($filter_search, true).' IN BOOLEAN MODE)';
-            }
-                  
-            if(!empty($filter_pubtype) && $filter_pubtype != '-1'){
-                 $where[] = $db->quoteName('pubtype').' = '.$db->Quote($filter_pubtype);
-            }
+        if(($filter_search = trim($filter_search))){
+            $filter_search = JString::strtolower($filter_search);
+            $filter_search = $db->getEscaped($filter_search);
+            $where[] = 'MATCH(title, keywords, abstract) AGAINST ('.$db->Quote($filter_search, true).' IN BOOLEAN MODE)';
+        }
 
-            if(!empty($filter_author) && $filter_author != '-1'){
-            	$where[] = $db->quoteName('apa').'.'.$db->quoteName('mid').' = '.$db->Quote($filter_author);
-            }
-                        
-            return $where;		
-		}        
+        if(!empty($filter_pubtype) && $filter_pubtype != '-1'){
+            $where[] = $db->quoteName('pubtype').' = '.$db->Quote($filter_pubtype);
+        }
+
+        if(!empty($filter_author) && $filter_author != '-1'){
+            $where[] = $db->quoteName('apa').'.'.$db->quoteName('mid').' = '.$db->Quote($filter_author);
+        }
+
+        return $where;		
+    }        
 	
 	
 	
-		/**
-		* Returns the ids of the publications where the author has participated. 
-		* @param $author Integer database id or author name depending if the author is member
-		* of the center or not.
-		*/
-		private function _getAuthorPublicationIds($author){
-            $db = JFactory::getDBO();
-            if(is_numeric($author)){
-                $query = 'SELECT '.$db->quoteName('id_publication').' FROM '.$db->quoteName('#__jresearch_publication_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($author);
-            }else{
-                $query = 'SELECT '.$db->quoteName('id_publication').' FROM '.$db->quoteName('#__jresearch_publication_external_author').' WHERE '.$db->quoteName('author_name').' LIKE '.$db->Quote($author);
-            }
-            $db->setQuery($query);
+    /**
+    * Returns the ids of the publications where the author has participated. 
+    * @param $author Integer database id or author name depending if the author is member
+    * of the center or not.
+    */
+    private function _getAuthorPublicationIds($author){
+        $db = JFactory::getDBO();
+        if(is_numeric($author)){
+            $query = 'SELECT '.$db->quoteName('id_publication').' FROM '.$db->quoteName('#__jresearch_publication_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($author);
+        }else{
+            $query = 'SELECT '.$db->quoteName('id_publication').' FROM '.$db->quoteName('#__jresearch_publication_external_author').' WHERE '.$db->quoteName('author_name').' LIKE '.$db->Quote($author);
+        }
+        $db->setQuery($query);
 
-            $result = $db->loadColumn();
-            return $result;
-		}
+        $result = $db->loadColumn();
+        return $result;
+    }
 
-	/**
+    /**
     * Method to auto-populate the model state.
     *
     * This method should only be called once per instantiation and is designed
@@ -176,7 +176,6 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         $this->setState('com_jresearch.publications.filter_order_Dir', $mainframe->getUserStateFromRequest($this->_context.'.filter_order_Dir', 'filter_order_Dir', 'DESC'));                
 		
         parent::populateState();        
-    }		
-		
+    }	
 }
 ?>

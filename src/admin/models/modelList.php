@@ -17,20 +17,20 @@ jresearchimport( 'joomla.application.component.modellist' );
 *
 */
 class JResearchAdminModelList extends JModelList{
-        protected $_context;
+    protected $_context;
 
-        protected $_items;
-	
-	/**
-	* Class constructor.
-	*/
-	public function __construct(){
-            $option = JRequest::getVar('controller');
-            $this->_context = 'com_jresearch.'.$option;
-            parent::__construct();
-	}
+    protected $_items;
 
-	/**
+    /**
+    * Class constructor.
+    */
+    public function __construct(){
+        $option = JRequest::getVar('controller');
+        $this->_context = 'com_jresearch.'.$option;
+        parent::__construct();
+    }
+
+    /**
     * Method to auto-populate the model state.
     *
     * This method should only be called once per instantiation and is designed

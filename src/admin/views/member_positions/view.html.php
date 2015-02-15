@@ -22,24 +22,26 @@ class JResearchAdminViewMember_positions extends JResearchView
     function display($tpl = null)
     {
      	$mainframe = JFactory::getApplication();	
- 		JResearchToolbar::member_positionListToolbar();
+        JResearchToolbar::member_positionListToolbar();
+        JHtml::_('behavior.multiselect');
+        JHtml::_('formbehavior.chosen', 'select');
  	
        	$model = $this->getModel();
       	$items = $model->getItems();
 
       	// Filters and pagination
-		$lists = array();    	
+        $lists = array();    	
     	$filter_order = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_order', 'filter_order', 'ordering');
     	$filter_order_Dir = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_order_Dir', 'filter_order_Dir', 'ASC');
-		$filter_state = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_state', 'filter_state');
+        $filter_state = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_state', 'filter_state');
     	$filter_search = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_search', 'filter_search');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
-		$lists['order'] = $filter_order;
-		// State filter
-		$lists['state'] = JHTML::_('grid.state', $filter_state);
-		$js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
-		$lists['search'] = $filter_search;
+        $lists['order'] = $filter_order;
+        // State filter
+        $lists['state'] = JHTML::_('grid.state', $filter_state);
+        $js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
+        $lists['search'] = $filter_search;
 
         //Ordering allowed ?
         $ordering = ($lists['order'] == 'ordering');
@@ -52,9 +54,8 @@ class JResearchAdminViewMember_positions extends JResearchView
      	$eArguments = array('member_positions');
 		
      	$mainframe->triggerEvent('onBeforeListJresearchEntities', $eArguments);				
-		parent::display($tpl);		
-		$mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
-
+        parent::display($tpl);		
+        $mainframe->triggerEvent('onAfterListJresearchEntities', $eArguments);
     }
 }
 

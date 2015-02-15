@@ -95,6 +95,12 @@ class JResearchAdminModelPublication extends JModelForm{
         $data['files'] = '';
         $tempFilesArr = array();            
         for($i = 0; $i <= $nAttach; ++$i){
+            if (!isset($data['delete_files_'.$i]) 
+                    || !isset($data['old_tag_files_'.$i])
+                    || !isset($data['old_files_'.$i])) {
+                continue;
+            }
+            
             $delete = $data['delete_files_'.$i];
             $theTag = $data['old_tag_files_'.$i];
             $theFile = $data['old_files_'.$i];		    	

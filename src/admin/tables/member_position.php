@@ -17,25 +17,30 @@ jresearchimport('tables.table', 'jresearch.admin');
 class JResearchMember_position extends JResearchTable 
 {
 	
-	public $position;
-	
-	public $ordering;
-	
-	/**
-	 * 
-	 * Constructor
-	 * @param JDatabase $db
-	 */
-	public function __construct(&$db){
-		parent::__construct('#__jresearch_member_position', 'id', $db);
-	}
-	
-	/**
-	 * @return string Returns position name
-	 */
-	public function __toString()
-	{
-		return $this->position;
-	}
+    public $position;
+
+    public $ordering;
+
+    /**
+     * 
+     * Constructor
+     * @param JDatabase $db
+     */
+    public function __construct(&$db){
+        parent::__construct('#__jresearch_member_position', 'id', $db);
+    }
+
+    /**
+     * @return string Returns position name
+     */
+    public function __toString()
+    {
+        return $this->position;
+    }
+    
+    public function store($updateNulls = false) {
+        $this->ordering = parent::getNextOrder();
+        return parent::store($updateNulls);
+    }
 }
 ?>

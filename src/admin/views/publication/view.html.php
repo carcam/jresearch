@@ -40,11 +40,11 @@ class JResearchAdminViewPublication extends JResearchView
     private function _displayPublicationForm($tpl){
         $mainframe = JFactory::getApplication();
         JRequest::setVar( 'hidemainmenu', 1 );            
-        JResearchToolbar::editPublicationAdminToolbar();
-//        JHtml::_('jresearchhtml.validation');        
+        JResearchToolbar::editPublicationAdminToolbar();        
         JHtml::_('jquery.framework', false);
         JHtml::_('jresearchhtml.tagit');
         JHtml::_('formbehavior.chosen', 'select');
+        JHtml::_('jresearchhtml.validation');
 
         $form = $this->get('Form');
         // get the Data

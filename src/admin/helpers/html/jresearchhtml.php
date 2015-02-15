@@ -174,16 +174,15 @@ class JHTMLjresearchhtml
                     }
                 }
 
-                if (isValid)
-                {
+                if (isValid) {
                     Joomla.submitform(task);
                         return true;
-                }else{
+                } else {
                     alert(Joomla.JText._('COM_JRESEARCH_FORM_ERROR_UNACCEPTABLE','Some values are unacceptable'));
                     return false;
                 }
             }
-        }");
+        };");
 
         $doc->addScriptDeclaration('window.addEvent(\'domready\', function() {
                 document.formvalidator.setHandler(\'date\', function(value) {
@@ -682,24 +681,24 @@ class JHTMLjresearchhtml
                 }\n";
             
             $js .= " 
-            $(function(){ $('#$id').tagit({
+            jQuery(function(){ jQuery('#$id').tagit({
                 singleField: true,
                 allowSpaces : true,
                 singleFieldDelimiter : ';',
-                singleFieldNode: $('#$id'),
+                singleFieldNode: jQuery('#$id'),
                 autocomplete : {
                     delay: 0, 
                     minLength: 2,
                     source : function (request, response) {
-                        $.ajax({
+                        jQuery.ajax({
                             type: \"GET\",
                             dataType : \"json\",
                             url: \"?$source&keyword=\" + request.term,
                             cache: false,
                             success: function (data) { 
-                                    response($.map(data, 
+                                    response(jQuery.map(data, 
                                             function (item) { 
-                                                return item
+                                                return item;
                                             })
                                     );
                             },
@@ -750,13 +749,13 @@ class JHTMLjresearchhtml
                 }
             }); });            
             
-            $(document).ready(function() { 
+            jQuery(document).ready(function() { 
                 var inputField = document.getElementById('$id');            
                 inputField.nextSibling.setAttribute('id', 'ul_$id');   
                 var newPosition;
                 var originalPosition;
-                $(function() {
-                    $(\"#ul_$id\").sortable( {
+                jQuery(function() {
+                    jQuery(\"#ul_$id\").sortable( {
                         items : 'li.tagit-choice',                        
                         
                         start : function(event, ui) {
@@ -768,7 +767,7 @@ class JHTMLjresearchhtml
                             shiftValues(document.getElementById('$id'), originalPosition, newPosition);
                         }
                     });
-                    $(\"#ul_$id\" ).disableSelection();
+                    jQuery(\"#ul_$id\" ).disableSelection();
                 });
                 
             });";

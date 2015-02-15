@@ -25,6 +25,8 @@ class JResearchAdminViewResearchAreas extends JResearchView
     {
         $mainframe = JFactory::getApplication();
         JResearchToolbar::researchAreasListToolbar();
+        JHtml::_('behavior.multiselect');
+        JHtml::_('formbehavior.chosen', 'select');
 
         $model = $this->getModel();
         $items = $model->getItems();
@@ -45,7 +47,7 @@ class JResearchAdminViewResearchAreas extends JResearchView
         $js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
         $lists['search'] = $filter_search;
 
-		$pagination = $model->getPagination();
+        $pagination = $model->getPagination();
 
         $this->assignRef('items', $items);
         $this->assignRef('lists', $lists );

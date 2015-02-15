@@ -234,7 +234,7 @@ class JResearchMember extends JResearchTable{
             return $result;
 
         //Time to remove research areas too
-        $researchareaRemoveQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_member_researcharea').' WHERE id_member = '.$db->Quote($this->id);
+        $researchareaRemoveQuery = 'DELETE FROM '.$db->quoteName('#__jresearch_member_research_area').' WHERE id_member = '.$db->Quote($this->id);
         $db->setQuery($researchareaRemoveQuery);
         if(!$db->query()){
             $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -244,7 +244,7 @@ class JResearchMember extends JResearchTable{
         //And to insert them again
         $idsAreas = explode(',', $this->id_research_area);
         foreach($idsAreas as $area){
-            $insertAreaQuery = 'INSERT INTO '.$db->quoteName('#__jresearch_member_researcharea').'(id_member, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';	
+            $insertAreaQuery = 'INSERT INTO '.$db->quoteName('#__jresearch_member_research_area').'(id_member, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';	
             $db->setQuery($insertAreaQuery);
             if(!$db->query()){
                 $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
@@ -442,7 +442,7 @@ class JResearchMember extends JResearchTable{
         $projectsTable = $db->quoteName('#__jresearch_project_internal_author');
         $thesesTable = $db->quoteName('#__jresearch_thesis_internal_author');
         $teamsTable = $db->quoteName('#__jresearch_team_member');
-        $areasTable = $db->quoteName('#__jresearch_member_researcharea');
+        $areasTable = $db->quoteName('#__jresearch_member_research_area');
 
         $db->setQuery('DELETE FROM '.$publicationsTable.' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($oid));		
         if(!$db->query()){
