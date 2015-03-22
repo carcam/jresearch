@@ -105,8 +105,10 @@ class JResearchViewPublication extends JResearchView
        	return true;
     }
     
-    private function _editPublication($tpl)
-    {
+    private function _editPublication($tpl) {
+        JHtml::_('jquery.framework', false);
+        JHtml::_('jresearchhtml.tagit');
+        JHtml::_('formbehavior.chosen', 'select');
         JHtml::_('jresearchhtml.validation');
         $mainframe = JFactory::getApplication();
         $user = JFactory::getUser();
@@ -129,27 +131,27 @@ class JResearchViewPublication extends JResearchView
         $mainframe->triggerEvent('onAfterRenderJResearchEntityForm', array($data, 'publication'));
     	
     }
-    
-	/**
-	* Binds the variables for the form used to select the type 
-	* for a new publication.
-	*/
-	private function _displayNewPublicationForm($tpl = null){
-		jresearchimport('helpers.publications', 'jresearch.admin');
-		$subtypes = JResearchPublicationsHelper::getPublicationsSubtypes();
-		$typesOptions = array();
-		
-		foreach($subtypes as $type){
-			// Inproceedings is the same as conference 
-			if($type != 'inproceedings')
-				$typesOptions[] = JHTML::_('select.option', $type, $type.': '.JText::_('JRESEARCH_'.strtoupper($type)));			
-		}
-		
-		$typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
-		
-		$this->assignRef('types', $typesList);
-		parent::display($tpl);
-	}
+
+    /**
+    * Binds the variables for the form used to select the type 
+    * for a new publication.
+    */
+    private function _displayNewPublicationForm($tpl = null){
+        jresearchimport('helpers.publications', 'jresearch.admin');
+        $subtypes = JResearchPublicationsHelper::getPublicationsSubtypes();
+        $typesOptions = array();
+
+        foreach($subtypes as $type){
+            // Inproceedings is the same as conference 
+            if($type != 'inproceedings')
+                $typesOptions[] = JHTML::_('select.option', $type, $type.': '.JText::_('JRESEARCH_'.strtoupper($type)));			
+        }
+
+        $typesList = JHTML::_('select.genericlist', $typesOptions, 'pubtype', 'size="1"');		
+
+        $this->assignRef('types', $typesList);
+        parent::display($tpl);
+    }
 }
 
 ?>

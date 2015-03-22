@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <?php $publisher = trim($this->publication->publisher); ?>
 <?php if(!empty($publisher)): ?>
-	<dt><?php echo JText::_('Publisher').': ' ?></dt>		
+	<dt><?php echo JText::_('JRESEARCH_PUBLISHER').': ' ?></dt>		
 	<dd><?php echo $publisher; ?></dd>
 <?php endif; ?>
 <?php $address = trim($this->publication->address); ?>

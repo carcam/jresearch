@@ -743,6 +743,57 @@ class JResearchPublicationsHelper{
 
         return $publication;
     }
-   
+    
+    /**
+     * Given an instance of JResearchPublication, it returns the appropiate type
+     * according to the BIBO ontology. This type depends on the Bibtex type of the
+     * publication. See for further details: http://bibotools.googlecode.com/svn/bibo-ontology/trunk/doc/index.html 
+     * @param type $publication
+     */
+    public static function getBIBOType($publication) {
+        switch($publication->pubtype) {
+            case 'article': 
+                return 'bibo:AcademicArticle';
+            case 'conference': case 'inproceedings' : case 'earticle' :
+                return 'bibo:Article';
+            case 'book':
+                return 'bibo:Book';
+            case 'booklet' : case 'unpublished' :
+                return 'bibo:Manuscript';
+            case 'misc' :
+                return 'bibo:Document';
+            case 'digital_source' :
+                return 'bibo:Document';
+            case 'misc' :
+                return 'bibo:Document';
+            case 'online_source':
+                switch($publication->online_source_type) {
+                    case 'website' :
+                        return 'bibo:Website'; // Check
+                    case 'video' :
+                        return 'bibo:AudioVisualDocument';
+                    case 'audio' :
+                        return 'bibo:AudioDocument';
+                    case 'image' :
+                        return 'bibo:image';
+                    case 'blog':
+                        return 'bibo:webpage';
+                    default :
+                        return 'bibo:Document';
+                }
+            case 'patent' :
+                return 'bibo:Patent';
+            case 'phdthesis' : case 'masterthesis':
+                return 'bibo:Thesis';
+            case 'manual':
+                return 'bibo:Manual';
+            case 'proceedings' :
+                return 'bibo:CollectedDocument';
+            case 'techreport':
+                return 'bibo:Report';
+            default:
+                return 'bibo:Document';
+        }
+    }
 }
 ?>

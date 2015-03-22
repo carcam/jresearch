@@ -90,13 +90,12 @@ class JResearchAdminModelPublication extends JModelForm{
         jresearchimport('helpers.publications', 'jresearch.admin');
         $params = JComponentHelper::getParams('com_jresearch');
 
-        //Remove files in case the user indicated it
+        //Remove files in case the user indicated it.
         $nAttach = (int)$data['count_files'];
         $data['files'] = '';
         $tempFilesArr = array();            
-        for($i = 0; $i <= $nAttach; ++$i){
-            if (!isset($data['delete_files_'.$i]) 
-                    || !isset($data['old_tag_files_'.$i])
+        for($i = 0; $i <= $nAttach; ++$i) {
+            if (!isset($data['old_tag_files_'.$i])
                     || !isset($data['old_files_'.$i])) {
                 continue;
             }
@@ -104,9 +103,11 @@ class JResearchAdminModelPublication extends JModelForm{
             $delete = $data['delete_files_'.$i];
             $theTag = $data['old_tag_files_'.$i];
             $theFile = $data['old_files_'.$i];		    	
+            
             if (empty($theFile)) {
                 continue;
             }
+            
             if($delete == 'on') {
                 if (!JResearchUtilities::isValidURL($data['old_files_'.$i])) {
                     $filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$theFile;

@@ -7,6 +7,17 @@
  */
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+$saveOrder = ($this->lists['order'] == 'ordering');
+$listOrder = @$this->lists['order'];
+$listDirn =  @$this->lists['order_Dir'];
+$actions = JResearchAccessHelper::getActions();
+$canChange = $actions->get('core.staff.edit');
+
+if ($saveOrder)
+{
+    $saveOrderingUrl = 'index.php?option=com_content&controller=staff&task=saveOrderAjax&tmpl=component';
+    JHtml::_('sortablelist.sortable', 'staffList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+}
 ?>
 <form name="adminForm" method="post" id="adminForm" action="index.php?option=com_jresearch">
     <table>
@@ -25,18 +36,16 @@ defined('_JEXEC') or die('Restricted access');
             </tr>
         </tbody>
     </table>
-    <table class="table table-striped" cellspacing="1">
+    <table class="table table-striped" id="staffList" cellspacing="1">
         <thead>
-        <tr>		
-            <th style="width: 1%;">#</th>
+        <tr>
+            <th width="1%" class="nowrap center hidden-phone">
+                <?php echo JHtml::_('grid.sort', 'X', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+            </th>            
             <th width="1%" class="hidden-phone"><?php echo JHtml::_('grid.checkall'); ?></th>
             <th style="width: 30%;" class="title"><?php echo JHTML::_('grid.sort',  'Name', 'lastname', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>
             <th style="width: 1%; text-align: center;"><?php echo JHTML::_('grid.sort', JText::_('JRESEARCH_FORMER_MEMBER'), 'former_member', $this->lists['order_Dir'], $this->lists['order'] );?></th>
             <th style="width: 1%;" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'Published', 'published', $this->lists['order_Dir'], $this->lists['order'] ); ?></th>			
-            <th style="width: 5%;" nowrap="nowrap">
-                    <?php echo JHTML::_('grid.sort', JText::_('JGRID_HEADING_ORDERING'), 'ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-                    <?php echo JHTML::_('grid.order', $this->items ); ?>
-            </th>
             <th style="width: 10%; text-align: center;"><?php echo JText::_('JRESEARCH_RESEARCH_AREAS'); ?></th>
             <th style="width: 10%; text-align: center;"><?php echo JText::_('JRESEARCH_POSITION'); ?></th>
             <th style="text-align: center;"><?php echo JText::_('JRESEARCH_CONTACT'); ?></th>
@@ -44,7 +53,7 @@ defined('_JEXEC') or die('Restricted access');
         </thead>		
         <tfoot>
             <tr>
-                <td colspan="9">
+                <td colspan="8">
                     <?php echo $this->page->getListFooter(); ?>
                 </td>
             </tr>
@@ -60,17 +69,26 @@ defined('_JEXEC') or die('Restricted access');
             ?>
 
                 <tr class="<?php echo "row$k"; ?>">
-                    <td><?php echo $this->page->getRowOffset( $i ); ?></td>
+                        <td class="order nowrap center hidden-phone">
+                            <?php
+                            $iconClass = '';
+                            if (!$canChange) {
+                                $iconClass = ' inactive';
+                            } elseif (!$saveOrder) {
+                                $iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+                            }
+                            ?>
+                            <span class="sortable-handler<?php echo $iconClass ?>">
+                                    <i class="icon-menu"></i>
+                            </span>
+                            <?php if ($canChange && $saveOrder) : ?>
+                                <input type="text" style="display:none" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" class="width-20 text-area-order " />
+                            <?php endif; ?>
+                        </td>
                     <td class="center"><?php echo $checked; ?></td>
                     <td><a href="<?php echo JFilterOutput::ampReplace('index.php?option=com_jresearch&controller=staff&task=edit&cid[]='.$this->items[$i]->id); ?>"><?php echo JResearchPublicationsHelper::formatAuthor($this->items[$i], $this->params->get('staff_format', 'last_first'));  ?></a></td>
                     <td class="center"><input type="checkbox" name="former_member" value="1" disabled="disabled" <?php echo (($this->items[$i]->former_member == 1) ? 'checked="checked"' : "")?> /></td>
                     <td class="center"><?php echo $published; ?></td>
-                    <td class="order" nowrap="nowrap">
-                            <span><?php echo $this->page->orderUpIcon( $i, $this->items[$i]->ordering > 1, 'orderup', 'JLIB_HTML_MOVE_UP', $this->ordering); ?></span>
-                            <span><?php echo $this->page->orderDownIcon( $i, $n, $this->items[$i]->ordering < ($this->items[$i]->getNextOrder()-1), 'orderdown', 'JLIB_HTML_MOVE_DOWN', $this->ordering ); ?></span>
-                            <?php $disabled = $this->ordering ?  '' : 'disabled="disabled"'; ?>
-                            <input type="text" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
-                    </td>
                     <td class="center"><?php echo implode('; ', $this->items[$i]->getResearchAreas('names')); ?></td>
                     <td class="center"><?php echo $this->items[$i]->getPositionObj(); ?></td>
                     <td class="center"><a href="mailto:<?php echo $this->items[$i]->email; ?>"><?php echo $this->items[$i]->email ?></a></td>

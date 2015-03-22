@@ -347,7 +347,6 @@ ul#div_upload_files li{
     font-size: 110%;
 }
 
-
 #div_upload_files li label {
     min-width: 20px;
     margin-top: 0px;
@@ -377,6 +376,10 @@ ul#div_upload_files li{
 
 .attachmentlink {
     margin-right: 5px;
+}
+
+.attachmentfield {
+    margin-right: 20px;
 }
 
 .aaddfile {

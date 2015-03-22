@@ -19,44 +19,43 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * records in different text formats and parse them into JResearchPublications objects.
  *
  */
-abstract class JResearchPublicationImporter{
-	
-	/**
-	 * Parse the contents of $filename into an array of JResearchPublication objects.
-	 *
-	 * @param string $filename 
-	 * @return array of the JResearchPublication objects that could be parsed. null if
-	 * there were problems when accessing the file.
-	 */
-	function parseFile($filename){
-		$file = @fopen($filename, "rb");
-		if($file === false)
-			return null;
-			
-		$text = fread($file, filesize($filename));
-		if(($enc = mb_detect_encoding($text, 'UTF-8, ISO-8859-1, ISO-8859-2, CP-1250')) != 'UTF-8'){
-			$text = iconv($enc, 'UTF-8', $text);
-		}
+abstract class JResearchPublicationImporter{	
+    /**
+     * Parse the contents of $filename into an array of JResearchPublication objects.
+     *
+     * @param string $filename 
+     * @return array of the JResearchPublication objects that could be parsed. null if
+     * there were problems when accessing the file.
+     */
+    function parseFile($filename){
+        $file = @fopen($filename, "rb");
+        if($file === false)
+            return null;
 
-		return $this->parse($text);
-	}
-	
-	/**
-	* Parse contents of a String Text
-	* @param string text
-	* @return array of the JResearchPublication objects that could be parsed. null if
-	* there were problems when accessing the file.
-	* Modification by Pablo Moncada
-	*/
-	function parseText ($text) {
-		return $this->parse($text);
-	}
-	
-	/**
-	 * Parse the text sent as parameter into an array of JResearchPublication objects.
-	 *
-	 * @param string $text
-	 */
-	public abstract function parse($text);
+        $text = fread($file, filesize($filename));
+        if(($enc = mb_detect_encoding($text, 'UTF-8, ISO-8859-1, ISO-8859-2, CP-1250')) != 'UTF-8'){
+            $text = iconv($enc, 'UTF-8', $text);
+        }
+
+        return $this->parse($text);
+    }
+
+    /**
+    * Parse contents of a String Text
+    * @param string text
+    * @return array of the JResearchPublication objects that could be parsed. null if
+    * there were problems when accessing the file.
+    * Modification by Pablo Moncada
+    */
+    function parseText ($text) {
+        return $this->parse($text);
+    }
+
+    /**
+     * Parse the text sent as parameter into an array of JResearchPublication objects.
+     *
+     * @param string $text
+     */
+    public abstract function parse($text);
 }
 ?>

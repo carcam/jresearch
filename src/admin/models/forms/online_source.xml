@@ -200,7 +200,7 @@
             <option value="video">JRESEARCH_VIDEO</option>
             <option value="audio">JRESEARCH_AUDIO</option>								
             <option value="blog">JRESEARCH_BLOG</option>
-            <option value="blog">JRESEARCH_IMAGE</option>								
+            <option value="image">JRESEARCH_IMAGE</option>								
         </field>
         <field
             id="month"

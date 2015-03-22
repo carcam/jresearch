@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php $number = trim($this->publication->number);  ?>
 <?php if(!empty($number)): ?>
 	<dt><?php echo JText::_('JRESEARCH_NUMBER').': ' ?></dt>		
-	<dd><?php echo $number; ?></dd>
+	<dd property="bibo:number"><?php echo $number; ?></dd>
 <?php endif; ?>
 <?php $type = trim($this->publication->type); ?>
 <?php if(!empty($type)): ?>

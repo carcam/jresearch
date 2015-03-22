@@ -25,9 +25,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php if(!empty($month)): ?>
 	<?php if(empty($day)): ?>
 			<dt><?php echo JText::_('JRESEARCH_MONTH').': ' ?></dt>		
-			<dd><?php echo JResearchPublicationsHelper::formatMonth($month); ?></dd>
+			<dd property="dc:issued"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></dd>
 	<?php else: ?>
 			<dt><?php echo JText::_('JRESEARCH_DATE').': ' ?></dt>		
-			<dd><?php echo JResearchPublicationsHelper::formatMonth($month).', '.$day; ?></dd>		
+			<dd property="dc:issued"><?php echo JResearchPublicationsHelper::formatMonth($month).', '.$day; ?></dd>		
 	<?php endif; ?>
 <?php endif; ?>	

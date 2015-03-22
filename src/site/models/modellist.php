@@ -18,21 +18,50 @@ jresearchimport( 'joomla.application.component.modellist' );
 */
 class JResearchModelList extends JModelList{
 
-        protected $_context;
+    protected $_context;
 
-        protected $_items;
-	
-	/**
-	* Class constructor.
-	*/
-	public function __construct(){
+    protected $_items;
+
+    /**
+    * Class constructor.
+    */
+    public function __construct(){
         $option = JRequest::getVar('controller');
         $Itemid = JRequest::getInt('Itemid', 0);
         $this->_context = 'com_jresearch.'.$option.($Itemid > 0? '.'.$Itemid : '');
         parent::__construct();
-	}
+    }
 
-	/**
+    /**
+     * Returns a record count for the query.
+     *
+     * @param   JDatabaseQuery|string  $query  The query.
+     *
+     * @return  integer  Number of rows for query.
+     *
+     * @since   12.2
+     */
+    protected function _getListCount($query) {
+        // Use fast COUNT(*) on JDatabaseQuery objects if there no GROUP BY or HAVING clause:
+        if ($query instanceof JDatabaseQuery
+                && $query->type == 'select'
+                && $query->group === null
+                && $query->having === null) {
+            $query = clone $query;
+            $query->clear('select')->clear('order')->clear('limit')->select('COUNT(DISTINCT id)');
+
+            $this->_db->setQuery($query);
+            return (int) $this->_db->loadResult();
+        }
+
+        // Otherwise fall back to inefficient way of counting all results.
+        $this->_db->setQuery($query);
+        $this->_db->execute();
+
+        return (int) $this->_db->getNumRows();
+    }    
+
+    /**
     * Method to auto-populate the model state.
     *
     * This method should only be called once per instantiation and is designed

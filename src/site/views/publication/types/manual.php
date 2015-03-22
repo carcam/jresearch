@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php $edition = trim($this->publication->edition);  ?>
 <?php if(!empty($edition)): ?>
 	<dt><?php echo JText::_('JRESEARCH_EDITION').': ' ?></dt>		
-	<dd><?php echo $edition; ?></dd>
+	<dd property="bibo:edition"><?php echo $edition; ?></dd>
 <?php endif; ?>
 <?php $month = trim($this->publication->month); ?>
 <?php if(!empty($month)): ?>

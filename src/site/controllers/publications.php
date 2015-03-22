@@ -56,10 +56,12 @@ class JResearchPublicationsController extends JResearchFrontendController
         $this->registerTask('apply', 'save');
         $this->registerTask('save', 'save');
         $this->registerTask('cancel', 'cancel');
-        $this->registerTask('changeType', 'changeType');
+        $this->registerTask('changeType', 'save');
         $this->registerTask('exportSingle', 'export');
         $this->registerTask('exportAll', 'exportAll');
         $this->registerTask('executeImport', 'executeImport');
+        $this->registerTask('retrieveKeywords', 'retrieveKeywords');        
+        
 
         // Add models paths
         $this->addModelPath(JRESEARCH_COMPONENT_SITE.DS.'models'.DS.'publications');
@@ -443,35 +445,45 @@ class JResearchPublicationsController extends JResearchFrontendController
         $params = JComponentHelper::getParams('com_jresearch');
 
         // Permissions check
-        if(empty($form['id'])){
+        if(empty($form['id'])) {
             $canProceed = $canDoPubs->get('core.publications.create');
-            if(!isset($form['published']))
+            if(!isset($form['published'])){
                 $form['published'] = $params->get('publications_default_published_status', 1);
-            if(!isset($form['internal']))
+            }
+            
+            if(!isset($form['internal'])){
                 $form['internal'] = $params->get('publications_default_internal_status', 1);			
-            }else{
-                $publication = JResearchPublicationsHelper::getPublication($form['id']);
-
-                $canProceed = $canDoPubs->get('core.publications.edit') ||
+            }
+        } else {
+            $canProceed = $canDoPubs->get('core.publications.edit') ||
                     ($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
-            }
+        }
+        
+        if(!$canProceed){
+            JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
+            return;
+        }   
+        
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'publication'));
+        $success = true;
+        if ($task == 'changeType') {
+            $success = $model->changeType();
+        } else {
+            $sucess = $model->save();
+        }
 
-            if(!$canProceed){
-                JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
-                return;
-            }
-
-            $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'publication'));		
-            if ($model->save()){
+        if ($success) {
+            if ($task == 'changeType') {
                 $publication = $model->getItem();        	
                 $app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'publication'));
-            if($task == 'save'){
+                $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=edit&id='.$publication->id.'&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+            } else if($task == 'save'){
                 $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=new&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
                 $app->setUserState('com_jresearch.edit.publication.data', array());
             }elseif($task == 'apply'){
                 $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=edit&id='.$publication->id.'&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
             }
-        }else{
+        } else {
             $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
             $type = 'error';
             $app->enqueueMessage($msg, $type);                
@@ -506,61 +518,6 @@ class JResearchPublicationsController extends JResearchFrontendController
         $Itemid = JRequest::getVar('Itemid', 0);
         $this->setRedirect('index.php?option=com_jresearch&view=publications&layout=new&Itemid='.$Itemid);		
     }
-
-    /**
-     * Invoked when the user has decided to change the type of a publication.
-     * It is only applied to existing items.
-     */
-    function changeType(){	
-        $app = JFactory::getApplication();		
-        $user = JFactory::getUser();
-        if(!JRequest::checkToken()){
-            $this->setRedirect('index.php?option=com_jresearch');
-            return;
-        }
-
-        $model = $this->getModel('Publication', 'JResearchModel');
-        $task = JRequest::getVar('task');		
-        $form = JRequest::getVar('jform', array(), '', 'array');        
-        $canDoPubs = JResearchAccessHelper::getActions();
-        $canProceed = false;	
-        $params = JComponentHelper::getParams('com_jresearch');
-
-        // Permissions check
-        $keepOld = JRequest::getVar('keepold', null);
-        if(empty($form['id']) || $keepOld == 'on'){
-            $canProceed = $canDoPubs->get('core.publications.create');
-            if(!isset($form['published']))
-                $form['published'] = $params->get('publications_default_published_status', 1);
-            if(!isset($form['internal']))
-                $form['internal'] = $params->get('publications_default_internal_status', 1);			
-        }else{
-            $publication = JResearchPublicationsHelper::getPublication($form['id']);
-
-            $canProceed = $canDoPubs->get('core.publications.edit') ||
-                ($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
-        }
-
-        if(!$canProceed){
-            JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
-            return;
-        }
-
-        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchPublication'));		
-        if ($model->changeType()){
-            $publication = $model->getItem();        	
-            $app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'JResearchPublication'));
-            $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=edit&id='.$publication->id.'&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
-        }else{
-            $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
-            $type = 'error';
-            $app->enqueueMessage($msg, $type);                
-            $view = $this->getView('Publication','html', 'JResearchView');
-            $view->setLayout('edit');
-            $view->setModel($model, true);
-            $view->display();
-        }		
-    }	
 
     /**
      * Invoked when a user has decided to export a publication from frontend
@@ -729,6 +686,21 @@ class JResearchPublicationsController extends JResearchFrontendController
         }else{
             JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
         }
+    }
+    
+    /**
+     * Returns the list of keywords that start with a given prefix sent in 
+     * the request.
+     *  
+     */
+    function retrieveKeywords() {
+        jresearchimport('helpers.keywords', 'jresearch.admin');
+        $prefix = JRequest::getVar('keyword');
+        $allKeywords = JResearchKeywordsHelper::allKeywords($prefix);
+        $output = JResearchKeywordsHelper::format2JSON($allKeywords);
+        $document = JFactory::getDocument();
+        $document->setMimeEncoding('text/json');
+        echo $output;
     }
 }
 ?>

@@ -119,6 +119,13 @@ class JHTMLjresearchfrontend{
         return $link;
     }
     
+    /**
+     * It returns the HTML text to render the authors of a publication/project
+     * @param type $authors Array of both strings (external authors) or JResearchMember instances.
+     * @param type $format
+     * @param type $arrangement
+     * @return type
+     */
     public static function authorsList($authors, $format, $arrangement = 'horizontal') {
         $output = ($arrangement == 'vertical') ? '<ul>' : '';
         $n = count($authors); 

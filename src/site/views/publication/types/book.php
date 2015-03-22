@@ -12,22 +12,22 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php $publisher = trim($this->publication->publisher);  ?>
 <?php if(!empty($publisher)): ?>
 	<dt><?php echo JText::_('Publisher').': ' ?></dt>		
-	<dd><?php echo $publisher; ?></dd>
+	<dd property="dc:publisher"><?php echo $publisher; ?></dd>
 <?php endif; ?>
 <?php $editor = trim($this->publication->editor); ?>
 <?php if(!empty($editor)): ?>
 	<dt><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></dt>
-	<dd><?php echo $editor ?></dd>
+	<dd property="bibo:editor"><?php echo $editor ?></dd>
 <?php endif; ?>
 <?php $volume = trim($this->publication->volume);  ?>
 <?php if(!empty($volume)): ?>
 	<dt><?php echo JText::_('JRESEARCH_VOLUME').': ' ?></dt>		
-	<dd><?php echo $volume; ?></dd>
+	<dd property="bibo:volume"><?php echo $volume; ?></dd>
 <?php endif; ?>
 <?php $number = trim($this->publication->number); ?>
 <?php if(!empty($number)): ?>
 	<dt><?php echo JText::_('JRESEARCH_NUMBER').': ' ?></dt>
-	<dd><?php echo $number ?></dd>
+	<dd property="bibo:number"><?php echo $number ?></dd>
 <?php endif; ?>
 <?php $series = trim($this->publication->series);  ?>
 	<?php if(!empty($series)): ?>
@@ -42,7 +42,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php $edition = trim($this->publication->edition);  ?>
 <?php if(!empty($edition)): ?>
 	<dt><?php echo JText::_('JRESEARCH_EDITION').': ' ?></dt>		
-	<dd><?php echo $edition; ?></dd>
+	<dd property="bibo:edition"><?php echo $edition; ?></dd>
 <?php endif; ?>
 <?php $month = trim($this->publication->month); ?>
 <?php if(!empty($month)): ?>
@@ -52,5 +52,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php $isbn = trim($this->publication->isbn);  ?>
 <?php if(!empty($isbn)): ?>
 	<dt><?php echo JText::_('JRESEARCH_ISBN').': ' ?></dt>		
-	<dd><?php echo $isbn; ?></dd>
+	<dd property="bibo:isbn"><?php echo $isbn; ?></dd>
 <?php endif; ?>

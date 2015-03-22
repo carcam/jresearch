@@ -48,7 +48,7 @@ class JResearchCite{
 		global $mainframe;
 		
 		$params =& JComponentHelper::getParams('com_jresearch');
-		$configuredCitationStyle = $params->get('citationStyle', 'APA');
+		$configuredCitationStyle = $params->get('citationStyle', 'Simple');
 		$style =& JResearchCitationStyleFactory::getInstance($configuredCitationStyle);
 		if(count($publications) > 1)
 			return $style->getCitationHTMLText($publications);
@@ -66,7 +66,7 @@ class JResearchCite{
 		global $mainframe;
 		
 		$params =& JComponentHelper::getParams('com_jresearch');
-		$configuredCitationStyle = $params->get('citationStyle', 'APA');
+		$configuredCitationStyle = $params->get('citationStyle', 'Simple');
 		$style =& JResearchCitationStyleFactory::getInstance($configuredCitationStyle);
 		if(count($publications) > 1)
 			return $style->getParentheticalCitationHTMLText($publications);
@@ -114,7 +114,7 @@ class JResearchCite{
 		global $mainframe;
 		
 		$params =& JComponentHelper::getParams('com_jresearch');
-		$configuredCitationStyle = $params->get('citationStyle', 'APA');
+		$configuredCitationStyle = $params->get('citationStyle', 'Simple');
 
 		$style =& JResearchCitationStyleFactory::getInstance($configuredCitationStyle);
 		return $style->getBibliographyHTMLText($publications);

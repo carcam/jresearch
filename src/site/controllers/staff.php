@@ -35,7 +35,7 @@ class JResearchStaffController extends JResearchFrontendController
         $this->registerTask('save', 'save');
         $this->registerTask('apply', 'save');
         $this->registerTask('cancel', 'cancel');
-        $this->registerTask('autoSuggestMembers', 'autoSuggestMembers');		
+        $this->registerTask('retrieveAuthors', 'retrieveAuthors');
         $this->addModelPath(JRESEARCH_COMPONENT_SITE.DS.'models'.DS.'staff');
         $this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'staff');
         $this->addViewPath(JPATH_COMPONENT.DS.'views'.DS.'member');
@@ -156,16 +156,20 @@ class JResearchStaffController extends JResearchFrontendController
 
         $this->setRedirect('index.php?option=com_jresearch&view=staff');		
     }
-
+    
     /**
      * Returns the information about the members whose names begin with the key
      * sent as a HTTP parameter.
      *
-     */
-    function autoSuggestMembers(){
-            $key = JRequest::getVar('key');
-            JHTML::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'html');
-            echo JHTML::_('jresearchhtml.jsonMembers', $key);
+    */
+    function retrieveAuthors() {
+        jresearchimport('helpers.staff', 'jresearch.admin');
+        $document = JFactory::getDocument();
+        $document->setMimeEncoding('text/json');
+        $key = JRequest::getVar('keyword');           
+        $members = JResearchStaffHelper::getMembers($key);
+        $output = JResearchStaffHelper::members2JSON($members);
+        echo $output;
     }
 	
 }

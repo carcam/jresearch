@@ -9,6 +9,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
+<div xmlns:bibo="http://purl.org/ontology/bibo/" about="#<?php echo $this->publication->citekey; ?>" typeof="<?php echo JResearchPublicationsHelper::getBIBOType($this->publication); ?>">
 <?php 
     $Itemid = JRequest::getVar('Itemid'); 
     $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
@@ -21,23 +22,24 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
     $canDoPublications = JResearchAccessHelper::getActions(); 
     $canDo = JResearchAccessHelper::getActions('publication', $this->publication->id);
     $user = JFactory::getUser();
-    if($canDo->get('core.publications.edit') || ($canDoPublications->get('core.publications.edit.own') && $this->publication->created_by == $user->get('id'))):	 
+    if($canDo->get('core.publications.edit') || 
+            ($canDoPublications->get('core.publications.edit.own') && $this->publication->created_by == $user->get('id'))):	 
 ?>	 	
 	<span>	
             <?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $this->publication->id); ?> 
 	</span>
 <?php endif; ?>
-<h1 class="componentheading"><?php echo $this->escape($this->publication->title); ?></h1>
+<h1 class="componentheading" property="dc:title"><?php echo $this->escape($this->publication->title); ?></h1>
 <dl class="jresearchitem">
     	<?php $authors = $this->publication->getAuthors(); ?>
 	<?php if(!empty($authors)): ?>
-            <dd>		
+            <dd property="bibo:authorsList">		
                 <?php echo JHTML::_('jresearchfrontend.authorsList', $authors, $this->format, $this->staff_list_arrangement) ?>    
             </dd>	
 	<?php endif; ?>
     	<?php $abstract = trim($this->publication->abstract); ?>
 	<?php if(!empty($abstract)): ?>
-		<dd><?php echo $abstract; ?></dd>	
+		<dd property="bibo:abstract"><?php echo $abstract; ?></dd>	
 	<?php endif; ?>
 	<?php 
         $researchAreaLinks = $this->publication->getResearchAreas('basic'); 
@@ -49,7 +51,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<?php $year = $this->publication->year; ?>
 	<?php if($year != null && $year != '0000' && !empty($year)): ?>
 	<dt><?php echo JText::_('JRESEARCH_YEAR').': ' ?></dt>
-	<dd><?php echo $this->publication->year; ?></dd>
+	<dd property="dc:issued"><?php echo $this->publication->year; ?></dd>
 	<?php endif; ?>
 	<dt><?php echo JText::_('JRESEARCH_TYPE').': ' ?></dt>
 	<dd><?php echo JText::_('JRESEARCH_'.strtoupper($this->publication->pubtype)); ?></dd>
@@ -89,7 +91,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<?php if(!empty($comments)): ?>
 		<dt><?php echo JText::_('JRESEARCH_COMMENTS').': '; ?></dt>
 		<dd><?php echo $comments; ?></dd>
-	<?php endif; ?>	
+	<?php endif; ?>
+	<?php $doi = trim($this->publication->doi); ?>	
+	<?php if(!empty($doi)): ?>
+		<dt><?php echo JText::_('JRESEARCH_DOI').': '; ?></dt>
+		<dd property="bibo:doi"><?php echo $doi; ?></dd>
+	<?php endif; ?>                
 </dl>	
 <div class="divTR">
 	<?php
@@ -124,3 +131,4 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <div class="jresearchhits"><?php echo JText::_('Hits').': '.$this->publication->hits; ?></div>
 <?php endif; ?>
 <div><a href="javascript:history.go(-1)"><?php echo JText::_('Back'); ?></a></div>
+</div>

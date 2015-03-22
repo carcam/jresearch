@@ -16,12 +16,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php $volume = trim($this->publication->volume); ?>
 <?php if(!empty($volume)): ?>
 	<dt><?php echo JText::_('JRESEARCH_VOLUME').': ' ?></dt>
-	<dd><?php echo $volume; ?></dd>
+	<dd property="bibo:volume"><?php echo $volume; ?></dd>
 <?php endif; ?>
 <?php $number = trim($this->publication->number);  ?>
 <?php if(!empty($number)): ?>
 	<dt><?php echo JText::_('JRESEARCH_NUMBER').': ' ?></dt>		
-	<dd><?php echo $number; ?></dd>
+	<dd property="bibo:number"><?php echo $number; ?></dd>
 <?php endif; ?>
 <?php $access_date = trim($this->publication->access_date); ?>
 <?php if(!empty($access_date) && $access_date != '0000-00-00'): ?>
@@ -35,9 +35,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php if(!empty($month)): ?>
 	<?php if(empty($day)): ?>
 		<dt><?php echo JText::_('JRESEARCH_MONTH').': ' ?></dt>		
-		<dd><?php echo JResearchPublicationsHelper::formatMonth($month); ?></dd>
+		<dd property="dc:issued"><?php echo JResearchPublicationsHelper::formatMonth($month); ?></dd>
 	<?php else: ?>
 		<dt><?php echo JText::_('JRESEARCH_DATE').': ' ?></dt>		
-		<dd><?php echo JResearchPublicationsHelper::formatMonth($month).', '.$day; ?></dd>		
+		<dd property="dc:issued"><?php echo JResearchPublicationsHelper::formatMonth($month).', '.$day; ?></dd>		
 	<?php endif; ?>
 <?php endif; ?>

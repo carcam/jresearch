@@ -224,12 +224,13 @@ class JResearchMember extends JResearchTable{
             if(empty($this->created_by)){
                 $this->created_by = $user->get('id');
             }
+            $this->ordering = parent::getNextOrder();
         }
 
         $this->modified = $now->toSql();
         $this->modified_by = $user->get('id');	
 
-        $result = parent::store();
+        $result = parent::store($updateNulls);
         if(!$result)
             return $result;
 

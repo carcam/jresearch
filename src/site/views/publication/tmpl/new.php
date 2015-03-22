@@ -26,7 +26,7 @@ $bibtex = $params->get('enable_bibtex_frontend_import', 1);
 			</tbody>
 		</table>
 		<div style="text-align: center;">
-			<input name="submit" value="<?php echo JText::_('New'); ?>" type="submit" />
+			<input name="submit" value="<?php echo JText::_('JRESEARCH_NEW'); ?>" type="submit" />
 		</div>
 		
 		<?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications', 'add'); ?>
@@ -38,28 +38,28 @@ $bibtex = $params->get('enable_bibtex_frontend_import', 1);
 	</form>
 	<?php if($bibtex) {?>
 	<?php 
-		jresearchimport('helpers.researchareas', 'jresearch.admin');
+            jresearchimport('helpers.researchareas', 'jresearch.admin');
 	    $researchAreas = JResearchResearchareasHelper::getResearchAreas();
-    	$researchAreasOptions = array();
-    	$formatsOptions = array();
+            $researchAreasOptions = array();
+            $formatsOptions = array();
     	
-    	// Retrieve the list of research areas
-    	foreach($researchAreas as $r){
-            $researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
-    	}    	
-    	$researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'researchAreas[]', 'class="inputbox" id="researchAreas" multiple="multiple" size="5"');	
+            // Retrieve the list of research areas
+            foreach($researchAreas as $r){
+                $researchAreasOptions[] = JHTML::_('select.option', $r->id, $r->name);
+            }    	
+            $researchAreasHTML = JHTML::_('select.genericlist',  $researchAreasOptions, 'researchAreas[]', 'class="inputbox" id="researchAreas" multiple="multiple" size="5"');	
 	?>
 	<h1><?php echo JText::_('JRESEARCH_IMPORT_PUBLICATIONS'); ?></h1>
 	<form name="upload" enctype="multipart/form-data" method="post" >
 	<table class="adminform">
-			<tbody>
-			<tr>
-				<th style="width: 20%;"><?php echo JText::_('JRESEARCH_BIBTEX_FILE'); ?></th>
-				<td width="80%">
-                	<input type="file" name="inputfile" />
-                    <label for="maptostaff"><?php echo JText::_('JRESEARCH_MAP_TO_STAFF').': '; ?></label>
+                    <tbody>
+                    <tr>
+                        <th style="width: 20%;"><?php echo JText::_('JRESEARCH_BIBTEX_FILE'); ?></th>
+                        <td width="80%">
+                    <input style="display: block;"  type="file" name="inputfile" />
+                    <label style="display: inline;" for="maptostaff"><?php echo JText::_('JRESEARCH_MAP_TO_STAFF').': '; ?></label>
                     <input type="checkbox" name="maptostaff" id="maptostaff"  />
-			</td>
+                    </td>
 			</tr>
 			<tr>
 				<th style="width: 20%;"><?php echo JText::_('JRESEARCH_BIBTEX_LANGUAGE'); ?></th>

@@ -13,6 +13,7 @@
      </fieldset>
         <fieldset name="publications" label="JRESEARCH_PUBLICATIONS" >
 		<field name="citationStyle" type="list" default="APA" label="JRESEARCH_CITATION_STYLE" description="JRESEARCH_CITATION_STYLE_DESCRIPTION">
+                    <option value="simple">Simple</option>
                     <option value="APA">APA</option>
                     <option value="IEEE">IEEE</option>
                     <option value="MLA">MLA</option>

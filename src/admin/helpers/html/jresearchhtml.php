@@ -18,7 +18,7 @@ class JHTMLjresearchhtml
     * @param int $value
     */
     private static function _fetchHiddenField($value, $name){
-            return '<input type="hidden" id="'.$name.'" name="'.$name.'" value="'.$value.'" />';
+        return '<input type="hidden" id="'.$name.'" name="'.$name.'" value="'.$value.'" />';
     }
 
     /**
@@ -703,7 +703,7 @@ class JHTMLjresearchhtml
                                     );
                             },
                             error: function (request, status, error) { 
-                                alert(error); 
+                                console.log(error);
                             }
                         });
                     }
@@ -735,12 +735,7 @@ class JHTMLjresearchhtml
                     var newElements = [];
                     for (i = 0; i < elements.length; ++i) {
                         var parts = elements[i].split('|');
-                        var text = null;
-                        if (parts.length > 1) {
-                            text = parts[1];
-                        } else {
-                            text = parts;
-                        }
+                        var text = parts[0];
                         if (text != ui.tagLabel) {                            
                             newElements.push(text);
                         }                        

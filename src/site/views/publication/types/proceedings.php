@@ -12,17 +12,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php $editor = trim($this->publication->editor);  ?>
 <?php if(!empty($editor)): ?>
 	<dt><?php echo JText::_('JRESEARCH_EDITOR').': ' ?></dt>		
-	<dd><?php echo $editor; ?></dd>
+	<dd property="bibo:editor"><?php echo $editor; ?></dd>
 <?php endif; ?>
 <?php $volume = trim($this->publication->volume); ?>
 <?php if(!empty($volume)): ?>
 	<dt><?php echo JText::_('JRESEARCH_VOLUME').': ' ?></dt>
-	<dd><?php echo $volume; ?></dd>
+	<dd property="bibo:volume"><?php echo $volume; ?></dd>
 <?php endif; ?>
 <?php $number = trim($this->publication->number);  ?>
 <?php if(!empty($number)): ?>
 	<dt><?php echo JText::_('JRESEARCH_NUMBER').': ' ?></dt>		
-	<dd><?php echo $number; ?></dd>
+	<dd property="bibo:number"><?php echo $number; ?></dd>
 <?php endif; ?>
 <?php $series = trim($this->publication->series); ?>
 <?php if(!empty($series)): ?>
@@ -31,8 +31,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <?php $publisher = trim($this->publication->publisher);  ?>
 <?php if(!empty($publisher)): ?>
-	<dt><?php echo JText::_('Publisher').': ' ?></dt>		
-	<dd><?php echo $publisher; ?></dd>
+	<dt><?php echo JText::_('JRESEARCH_PUBLISHER').': ' ?></dt>		
+	<dd property="bibo:publisher"><?php echo $publisher; ?></dd>
 <?php endif; ?>
 <?php $address = trim($this->publication->address); ?>
 <?php if(!empty($address)): ?>
@@ -52,10 +52,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php $isbn = trim($this->publication->isbn);  ?>
 <?php if(!empty($isbn)): ?>
 	<dt><?php echo JText::_('JRESEARCH_ISBN').': ' ?></dt>		
-	<dd><?php echo $isbn; ?></dd>
+	<dd property="bibo:isbn"><?php echo $isbn; ?></dd>
 <?php endif; ?>
 <?php $issn = trim($this->publication->issn); ?>
 <?php if(!empty($issn)): ?>
 	<dt><?php echo JText::_('JRESEARCH_ISSN').': ' ?></dt>
-	<dd><?php echo JResearchPublicationsHelper::formatISSN($issn); ?></dd>
+	<dd property="bibo:issn"><?php echo JResearchPublicationsHelper::formatISSN($issn); ?></dd>
 <?php endif; ?>

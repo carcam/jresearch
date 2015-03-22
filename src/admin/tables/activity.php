@@ -172,8 +172,10 @@ class JResearchActivity extends JResearchTable{
         $finalResult = array();
         foreach ($result as $entry) {
             if (is_numeric($entry)) {
-                $finalResult[] = $entry.self::$_authorsIdDelimiter
-                        .JResearchStaffHelper::getMemberName($entry);
+                $finalResult[] = 
+                        JResearchStaffHelper::getMemberName($entry)
+                        .self::$_authorsIdDelimiter
+                        .$entry;
             } else {
                 $finalResult[] = $entry;
             }
@@ -198,7 +200,7 @@ class JResearchActivity extends JResearchTable{
             if(!empty($this->authors))
                 $tmpAuthorsArray = explode(self::$_authorsDelimiter, $this->authors);
             else
-                $tmpAuthorsArray = array();	
+                $tmpAuthorsArray = array();
 
             foreach($tmpAuthorsArray as $author){
                 $authorText = null;
@@ -236,10 +238,8 @@ class JResearchActivity extends JResearchTable{
         $this->_authorsArray = null;
 
         if($author instanceof JResearchMember) {
-            $textToAppend = (string)$author->id;
-        }elseif(is_numeric($author)){
-            $textToAppend = (string)$author;
-        }elseif(is_string($author)){
+            $textToAppend = $author->__toString().self::$_authorsIdDelimiter.$author->id;
+        }elseif(!empty($author)){
             $textToAppend = $author;
         }else{
             return false;
@@ -250,7 +250,7 @@ class JResearchActivity extends JResearchTable{
         }
 
         if(!empty($this->authors))
-            $this->authors .= self::$_authorsIdDelimiter.$textToAppend;
+            $this->authors .= self::$_authorsDelimiter.$textToAppend;
         else
             $this->authors = $textToAppend;	
 
@@ -285,10 +285,10 @@ class JResearchActivity extends JResearchTable{
         $index = 0;
 
         foreach($this->_authorsArray as $author){
-                if($author instanceof JResearchMember){
-                        $internalsArray[$index] = $author; 
-                }			
-                $index++;
+            if($author instanceof JResearchMember){
+                $internalsArray[$index] = $author; 
+            }			
+            $index++;
         }
 
         return $internalsArray;		
@@ -306,10 +306,10 @@ class JResearchActivity extends JResearchTable{
         $index = 0;
 
         foreach($this->_authorsArray as $author){
-                if(is_string($author)){
-                        $externalsArray[$index] = $author; 
-                }			
-                $index++;
+            if(is_string($author)){
+                $externalsArray[$index] = $author; 
+            }			
+            $index++;
         }
 
         return $externalsArray;
@@ -332,9 +332,9 @@ class JResearchActivity extends JResearchTable{
      */
     public function countAuthors(){
         if(!empty($this->_authorsArray)){
-                return count($this->_authorsArray);
+            return count($this->_authorsArray);
         }else{
-                return count(explode(';', $this->authors));
+            return count(explode(';', $this->authors));
         }	
     }
 
@@ -432,7 +432,7 @@ class JResearchActivity extends JResearchTable{
 
         $internalTable = $db->quoteName('#__jresearch_'.$this->_type.'_internal_author');
         $externalTable = $db->quoteName('#__jresearch_'.$this->_type.'_external_author');
-        $areasTable = $db->quoteName('#__jresearch_'.$this->_type.'_researcharea');
+        $areasTable = $db->quoteName('#__jresearch_'.$this->_type.'_research_area');
 
         $db->setQuery('DELETE FROM '.$internalTable.' WHERE '.$db->quoteName('id_'.$this->_type).' = '.$db->Quote($oid));		
         if(!$db->query()){

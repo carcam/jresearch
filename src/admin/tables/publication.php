@@ -299,12 +299,14 @@ class JResearchPublication extends JResearchActivity{
         $authorsArray = explode(self::$_authorsDelimiter, $this->authors);
         $order = 0;
         foreach($authorsArray as $authorEntry){
-            if(empty($authorEntry)) continue;
+            if(empty($authorEntry)) { 
+                continue;
+            }
             $idValue = $db->Quote($this->id);
             $orderValue = $db->Quote($order);
             $authorParts = explode(self::$_authorsIdDelimiter, $authorEntry);
             if (count($authorParts) > 1) {
-                $author = $authorParts[0];
+                $author = $authorParts[1];
             } else {
                 $author = $authorEntry;
             }

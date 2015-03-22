@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tbody>
 </table>
 <div style="text-align: center;">
-	<input name="submit" value="<?php echo JText::_('New'); ?>" type="submit" />
+	<input name="submit" value="<?php echo JText::_('JRESEARCH_NEW'); ?>" type="submit" />
 </div>
 
 <?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications', 'edit'); ?>

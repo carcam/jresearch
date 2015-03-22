@@ -19,8 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
         <ul>    
             <?php
             foreach($publications as $pub):
-                    $styleObj = JResearchCitationStyleFactory::getInstance($this->style, $pub->pubtype);
-                    $publicationText = $styleObj->getReferenceHTMLText($pub, true);
+                $styleObj = JResearchCitationStyleFactory::getInstance($this->style, $pub->pubtype);
+                $publicationText = $styleObj->getReferenceHTMLText($pub, true);
             ?>
             <li>
                 <span><?php echo $publicationText;  ?></span>

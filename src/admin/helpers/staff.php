@@ -89,5 +89,25 @@ class JResearchStaffHelper{
         $members = $db->loadAssocList();
         return $members;
     }
+    
+    /**
+     * Formats members information into JSON.
+     * @param array $members Array of associative arrays with basic information
+     * about the members.
+     */
+    public static function members2JSON($members) {
+        $arr = array();
+        $cparams = JComponentHelper::getParams('com_jresearch');
+        foreach($members as $member){
+            if ($cparams->get('staff_format', 'last_first') == 'last_first') {
+                $name = $member['lastname'].', '.$member['firstname'];
+            } else {
+                $name = $member['firstname'].', '.$member['lastname'];                
+            }
+            $arr[] = "{\"value\": \"".$member['id'].'|'.$name."\", \"label\": \"".$name."\"}";
+        }
+        $output = "[".implode(", ", $arr)."]";
+        return $output;
+    }
 }
 ?>

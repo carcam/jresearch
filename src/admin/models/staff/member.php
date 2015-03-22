@@ -16,12 +16,16 @@ jimport( 'joomla.application.component.modelform' );
 * Model class for holding a single member record.
 *
 */
-class JResearchAdminModelMember extends JModelForm{
-	/**
+class JResearchAdminModelMember extends JModelAdmin{
+    /**
     * @var array data
     */
     protected $data = null;
 
+    public function getTable() {
+        return JTable::getInstance('Member', 'JResearch');
+    }    
+    
     /**
      * Method to get the data.
      *

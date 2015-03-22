@@ -65,7 +65,7 @@ class JResearchModelPublication extends JResearchModelForm{
                           
              if (empty($data))
              {
-				// Check the session for previously entered form data.
+                // Check the session for previously entered form data.
                 $data = $app->getUserState('com_jresearch.edit.publication.data', array());
              }
                     
@@ -110,20 +110,46 @@ class JResearchModelPublication extends JResearchModelForm{
         $data =& $this->getData();                
         $row =& $this->getTable('Publication', 'JResearch');
 
-        //Time to upload the file
-        $delete = $data['delete_files_0'];
-        if($delete == 1){
-            if(!empty($data['old_files_0'])){
-                $filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$row->files;
-                $data['files'] = '';
-                @unlink($filetoremove);
+        // Remove files in case the user indicated it.
+        $nAttach = (int)$data['count_files'];
+        $data['files'] = '';
+        $tempFilesArr = array();            
+        for($i = 0; $i <= $nAttach; ++$i){
+            if (!isset($data['old_tag_files_'.$i])
+                    || !isset($data['old_files_'.$i])) {
+                continue;
+            }
+            
+            $delete = $data['delete_files_'.$i];
+            $theTag = $data['old_tag_files_'.$i];
+            $theFile = $data['old_files_'.$i];		    	
+            if (empty($theFile)) {
+                continue;
+            }
+            if($delete == 'on') {
+                if (!JResearchUtilities::isValidURL($data['old_files_'.$i])) {
+                    $filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$theFile;
+                    @unlink($filetoremove);
+                }
+            }else{
+                $tempFilesArr[] = $theFile.'|'.$theTag;
             }
         }
 
+        //Now update files
         $files = JRequest::getVar('jform', array(), 'FILES');
-            if(!empty($files['name']['file_files_0'])){	    	
-                $data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'publications');
+        for($i = 0; $i <= $nAttach; ++$i) {
+            if(!empty($files['name']['file_files_'.$i])){	    	
+                $tempFilesArr[] = JResearchUtilities::uploadDocument($files, 
+                        'file_files_'.$i, 
+                        $params->get('files_root_path', 'files').DS.'publications')
+                    .'|'.$data['file_tag_files_'.$i];
+            } else if(!empty($data['file_files_'.$i])) {
+                $tempFilesArr[] = $data['file_files_'.$i].'|'.$data['file_tag_files_'.$i];
+            }
         }
+        
+        $data['files'] = implode(';', $tempFilesArr);        
 
         if($data['resethits'] == 1){
             $data['hits'] = 0;
@@ -131,26 +157,14 @@ class JResearchModelPublication extends JResearchModelForm{
             $omittedFields[] = 'hits';			    	
         }
 
-        //Now time for the authors
-        $maxAuthors = (int)$data['nauthorsfield'];
-        $authorsArray = array();
-        for($j = 0; $j < $maxAuthors; $j++){
-            $value = $data["authorsfield".$j];
-            if(!empty($value)){
-                $row->addAuthor($value);
-            }
-        }
-
-        $data['authors'] = $row->authors;
-
         //Citekey generation
         if(empty($data['citekey'])){
-                $data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
+            $data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
         }
 
         //Alias generation
         if(empty($data['alias'])){
-                $data['alias'] = JFilterOutput::stringURLSafe($data['title']);
+            $data['alias'] = JFilterOutput::stringURLSafe($data['title']);
         }		
 
         //Checking of research areas
@@ -163,6 +177,7 @@ class JResearchModelPublication extends JResearchModelForm{
         }else{
             $data['id_research_area'] = '1';
         }
+        
 								
         if (!$row->save($data, '', $omittedFields))
         {
@@ -184,88 +199,18 @@ class JResearchModelPublication extends JResearchModelForm{
       * arguments
       * 
       */
-     function changeType(){
-	 	$app = JFactory::getApplication();
-		jresearchimport('helpers.publications', 'jresearch.admin');
-		$params = JComponentHelper::getParams('com_jresearch');
-		$omittedFields = array();
-                
+    function changeType(){
         $data =& $this->getData();                
-        $row =& $this->getTable('Publication', 'JResearch');
 
-        //Time to upload the file
-        $delete = $data['delete_url'];
-
-        if($delete == 1){
-	    	if(!empty($data['files'])){
-		    	$filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$row->files;
-		    	$data['files'] = '';
-		    	@unlink($filetoremove);
-	    	}
-		}
-		    		    
-	    $files = JRequest::getVar('jform', array(), 'FILES');
-		if(!empty($files['name']['file_url'])){	    	
-			$data['files'] = JResearchUtilities::uploadDocument($files, 'file_url', $params->get('files_root_path', 'files').DS.'publications');
-	    }
-	    		
-	    if($data['resethits'] == 1){
-			$data['hits'] = 0;
-		}else{
-			$omittedFields[] = 'hits';			    	
-		}
-			    			    			    
-		//Now time for the authors
-		$maxAuthors = (int)$data['nauthorsfield'];
-		$authorsArray = array();
-		for($j = 0; $j < $maxAuthors; $j++){
-			$value = $data["authorsfield".$j];
-			if(!empty($value)){
-				$row->addAuthor($value);
-			}
-		}
-				
-		$data['authors'] = $row->authors;
-		$data['pubtype'] = JRequest::getVar('change_type', 'article');
-		$keepOld = JRequest::getVar('keepold', null);
+        $data['pubtype'] = JRequest::getVar('change_type', 'article');
+        $keepOld = JRequest::getVar('keepold', null);
 			
-		//Store it as a new publication
-		if($keepOld == 'on'){
-			unset($data['id']);
-			$data['title'] = $data['title'].' (Copy)'; 
-		}
-			
-				
-		//Citekey generation
-		$data['citekey'] = JResearchPublicationsHelper::generateCitekey($data);
-				
-		//Alias generation
-		if(empty($data['alias'])){
-			$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
-		}
-				
-		//Checking of research areas
-		if(!empty($data['id_research_area'])){
-			if(in_array('1', $data['id_research_area'])){
-				$data['id_research_area'] = '1';
-			}else{
-				$data['id_research_area'] = implode(',', $data['id_research_area']);
-			}
-		}else{
-			$data['id_research_area'] = '1';
-		}
-							
-        if (!$row->save($data, '', $omittedFields)){
-            //Since the save routine modifies the array data
-        	JRequest::setVar('jform', $data);                	
-            $this->setError($row->getError());
-            return false;
+        //Store it as a new publication
+        if($keepOld == 'on'){
+            unset($data['id']);
+            $data['title'] = $data['title'].' (Copy)'; 
         }
-
-        $data['id'] = $row->id;
-        $app->setUserState('com_jresearch.edit.publication.data', $data);
-
-        return true;        	
+        return $this->save();
     }
     
     /**
@@ -280,14 +225,14 @@ class JResearchModelPublication extends JResearchModelForm{
         $user = JFactory::getUser();           
         $actions = JResearchAccessHelper::getActions('publication', $id);
         if($actions->get('core.publications.delete')){           	
-	    	$publication->load($id);
-		    if(!$publication->isCheckedOut($user->get('id'))){	
-        		if($publication->delete($id)){
+            $publication->load($id);
+            if(!$publication->isCheckedOut($user->get('id'))){	
+                if($publication->delete($id)){
                     $n++;
-            	}
-	        }
+                }
+            }
         }else{
-        	$this->setError(new JException(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id)));
+            $this->setError(new JException(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id)));
         }
                                          
        	return $n;           

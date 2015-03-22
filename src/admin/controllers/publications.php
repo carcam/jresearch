@@ -322,7 +322,7 @@ class JResearchAdminPublicationsController extends JControllerLegacy
     * Invoked when the user has decided to save a publication.
     */	
     function save(){		
-        JRequest::checkToken() or jexit( 'JInvalid_Token' );	
+        JRequest::checkToken() or jexit( 'JInvalid_Token' );
 
         jresearchimport('helpers.publications', 'jresearch.admin');	
         jresearchimport('helpers.access', 'jresearch.admin');		
@@ -354,7 +354,7 @@ class JResearchAdminPublicationsController extends JControllerLegacy
             return;
         }
 
-        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchPublication'));		                
+        $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchPublication'));
         if ($model->save()) {
             $task = JRequest::getVar('task');             	
             $publication = $model->getItem();
@@ -366,7 +366,7 @@ class JResearchAdminPublicationsController extends JControllerLegacy
             }elseif($task == 'apply'){
                 $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=edit&cid[]='.$publication->id.'&pubtype='.$publication->pubtype, JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
             }elseif($task == 'save2new'){
-                                $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=add', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+                $this->setRedirect('index.php?option=com_jresearch&controller=publications&task=add', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
                 $app->setUserState('com_jresearch.edit.publication.data', array());								
             }
         }else{
@@ -476,9 +476,9 @@ class JResearchAdminPublicationsController extends JControllerLegacy
         if(!empty($form['id'])){
             $canProceed = $canDoPubs->get('core.publications.create');
             if(!isset($form['published']))
-                    $form['published'] = $params->get('publications_default_published_status', 1);
+                $form['published'] = $params->get('publications_default_published_status', 1);
             if(!isset($form['internal']))
-                    $form['internal'] = $params->get('publications_default_internal_status', 1);			
+                $form['internal'] = $params->get('publications_default_internal_status', 1);			
         }else{
             JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
             return;
@@ -509,7 +509,6 @@ class JResearchAdminPublicationsController extends JControllerLegacy
             $view->setModel($model, true);
             $view->display();
         }
-
     }
     
     /**
@@ -521,13 +520,9 @@ class JResearchAdminPublicationsController extends JControllerLegacy
         jresearchimport('helpers.keywords', 'jresearch.admin');
         $prefix = JRequest::getVar('keyword');
         $allKeywords = JResearchKeywordsHelper::allKeywords($prefix);
+        $output = JResearchKeywordsHelper::format2JSON($allKeywords);
         $document = JFactory::getDocument();
         $document->setMimeEncoding('text/json');
-        $items = array();
-        foreach ($allKeywords as $keyword) {
-            $items[] = '{ "label" : "'. $keyword. '", "value" : "'.$keyword. '"} '; 
-        }
-        $output = '['. implode(',', $items). ']';
         echo $output;
     }
 }

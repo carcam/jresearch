@@ -23,41 +23,41 @@ require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.p
 */
 class JResearchMODSImporter extends JResearchPublicationImporter{
 	
-	/**
-	 * Parse the text sent as parameter in MODS format and converts it into 
-	 * an array of JResearchPublication objects.
-	 *
-	 * @param string $text
-	 * @param array of JResearchPublication objects
-	 */
-	function parse($text){
-		$filename = tempnam(JPATH_SITE.DS.'media', "bibtex_");
-		$inputFile = fopen($filename, "w");
-		
-		/** boolean True if a Windows based host */
-		fwrite($inputFile, $text);	
-		fclose($inputFile);
-		@chmod($filename, 0755); 
+    /**
+     * Parse the text sent as parameter in MODS format and converts it into 
+     * an array of JResearchPublication objects.
+     *
+     * @param string $text
+     * @param array of JResearchPublication objects
+     */
+    function parse($text){
+        $filename = tempnam(JPATH_SITE.DS.'media', "bibtex_");
+        $inputFile = fopen($filename, "w");
 
-		if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'){
-			$folder = 'win32';
-		}elseif(strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'){
-			$folder = 'macos';
-		}else{
-			$folder = 'unix';	
-		}
+        /** boolean True if a Windows based host */
+        fwrite($inputFile, $text);	
+        fclose($inputFile);
+        @chmod($filename, 0755); 
 
-		$bibtexParser = &JResearchPublicationImporterFactory::getInstance('Bibtex');
-		// Invoke the conversion command
-		$conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'xml2bib'.' '.$filename;
-		$output = array();
-		exec($conversionCommand, $output);
-		$bibtexText = implode("\n", $output); 
+        if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'){
+            $folder = 'win32';
+        }elseif(strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'){
+            $folder = 'macos';
+        }else{
+            $folder = 'unix';	
+        }
 
-	
-		@unlink($filename);
-		
-		return $bibtexParser->parse($bibtexText);		
-	}
+        $bibtexParser = &JResearchPublicationImporterFactory::getInstance('Bibtex');
+        // Invoke the conversion command
+        $conversionCommand = JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'bibutils'.DS.$folder.DS.'xml2bib'.' '.$filename;
+        $output = array();
+        exec($conversionCommand, $output);
+        $bibtexText = implode("\n", $output); 
+
+
+        @unlink($filename);
+
+        return $bibtexParser->parse($bibtexText);		
+    }
 }
 ?>

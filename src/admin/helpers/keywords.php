@@ -31,4 +31,13 @@ class JResearchKeywordsHelper {
         
         return $db->loadColumn();
     }
+    
+    public static function format2JSON($keywords) {
+        $items = array();
+        foreach ($keywords as $keyword) {
+            $items[] = '{ "label" : "'. $keyword. '", "value" : "'.$keyword. '"} '; 
+        }
+        $output = '['. implode(',', $items). ']';
+        return $output;
+    }
 }

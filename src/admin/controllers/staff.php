@@ -45,6 +45,7 @@ class JResearchAdminStaffController extends JControllerLegacy
         $this->registerTask('save2copy', 'save');				
         $this->registerTask('cancel', 'cancel');
         $this->registerTask('retrieveAuthors', 'retrieveAuthors');
+        $this->registerTask('saveOrderAjax', 'saveOrderAjax');
         $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'staff');
         $this->addModelPath(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'researchareas');
         $this->addViewPath(JRESEARCH_COMPONENT_ADMIN.DS.'views'.DS.'staff');
@@ -394,20 +395,32 @@ class JResearchAdminStaffController extends JControllerLegacy
         jresearchimport('helpers.staff', 'jresearch.admin');
         $document = JFactory::getDocument();
         $document->setMimeEncoding('text/json');
-        $cparams = JComponentHelper::getParams('com_jresearch');
         $key = JRequest::getVar('keyword');           
         $members = JResearchStaffHelper::getMembers($key);
-        $arr = array();
-        foreach($members as $member){
-            if ($cparams->get('staff_format', 'last_first') == 'last_first') {
-                $name = $member['lastname'].', '.$member['firstname'];
-            } else {
-                $name = $member['firstname'].', '.$member['lastname'];                
-            }
-            $arr[] = "{\"value\": \"".$member['id'].'|'.$name."\", \"label\": \"".$name."\"}";
-        }
-        $output = "[".implode(", ", $arr)."]";
+        $output = JResearchStaffHelper::members2JSON($members);
         echo $output;
-    }	
+    }
+    
+    function saveOrderAjax() {
+        $canDoStaff = JResearchAccessHelper::getActions();
+        if ($canDoStaff->get('core.staff.edit')) {
+            $model = $this->getModel('Member', 'JResearchAdminModel');
+            $pks = JRequest::getVar('cid', array(), 'array');
+            $order = JRequest::getVar('order', array(), 'array');
+            $user = JFactory::getUser();	
+            JArrayHelper::toInteger($pks);
+            JArrayHelper::toInteger($order);
+            // Save the ordering
+            $return = $model->saveorder($pks, $order);
+
+            if ($return) {
+                echo "1";
+            }
+        } else {
+            echo "0";
+        }
+        // Close the application
+        JFactory::getApplication()->close();
+    }
 }
 ?>
