@@ -88,8 +88,8 @@ class JResearchModelPublication extends JResearchModelForm{
     * @return      mixed   JForm object on success, false on failure.
     * @since       1.0
     */
-    public function getForm($data = array(), $loadData = true){
-    	$pubtype = JRequest::getVar('pubtype', 'article');
+    public function getForm($data = array(), $loadData = true){        
+        $pubtype = JRequest::getVar('pubtype');
         $form = $this->loadForm('com_jresearch.'.$pubtype, $pubtype, array('control' => 'jform', 'load_data' => $loadData));
         return $form;
     }
@@ -203,12 +203,14 @@ class JResearchModelPublication extends JResearchModelForm{
         $data =& $this->getData();                
 
         $data['pubtype'] = JRequest::getVar('change_type', 'article');
+        
         $keepOld = JRequest::getVar('keepold', null);
 			
-        //Store it as a new publication
+        // Store it as a new publication
         if($keepOld == 'on'){
             unset($data['id']);
-            $data['title'] = $data['title'].' (Copy)'; 
+            $data['title'] = $data['title'].' ('.JText::_('JRESEARCH_COPY').')'; 
+            $data['citekey'] = $data['citekey'].'-copy-'.rand();
         }
         return $this->save();
     }

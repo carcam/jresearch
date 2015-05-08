@@ -27,18 +27,18 @@ $mainframe->registerEvent('onBeforeRenderJResearchEntityForm', 'plgJResearchOnBe
  */
 
 function plgJResearchOnBeforeEditEntity($data, $recordType){
-	$mainframe = JFactory::getApplication();
-	$db = JFactory::getDBO();
-	$session = JFactory::getSession();
-	
-	if(!empty($data) && !empty($data['id'])){
-		$query = 'SELECT '.$db->nameQuote('citekey').' FROM '.$db->nameQuote('#__jresearch_cited_records')
-				.' WHERE '.$db->nameQuote('id_record').'='.$db->Quote($data['id']).' AND '.$db->nameQuote('record_type').'='.$db->Quote($recordType);
-		
-		$db->setQuery($query);
-		$citedRecords = $db->loadResultArray();
-		$session->set('citedRecords', $citedRecords, 'jresearch');			
-	}			
+    $mainframe = JFactory::getApplication();
+    $db = JFactory::getDBO();
+    $session = JFactory::getSession();
+
+    if(!empty($data) && !empty($data['id'])){
+        $query = 'SELECT '.$db->quoteName('citekey').' FROM '.$db->quoteName('#__jresearch_cited_records')
+                        .' WHERE '.$db->quoteName('id_record').'='.$db->Quote($data['id']).' AND '.$db->quoteName('record_type').'='.$db->Quote($recordType);
+
+        $db->setQuery($query);
+        $citedRecords = $db->loadResultArray();
+        $session->set('citedRecords', $citedRecords, 'jresearch');			
+    }			
 }
 
 ?>

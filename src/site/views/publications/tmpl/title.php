@@ -63,7 +63,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
         $canDo = JResearchAccessHelper::getActions('publication', $pub->id);
         if($canDo->get('core.publications.edit') || ($canDoPublications->get('core.publications.edit.own') && $pub->created_by == $user->get('id'))): ?>	 	
         <span>	
-            <?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $pub->id); ?> 
+            <?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $pub->id, $user->get('id'), array('pubtype' => $pub->pubtype)); ?> 
         </span>
         <?php endif; ?>
         <?php if($canDoPublications->get('core.publications.delete')): ?>

@@ -27,39 +27,37 @@ $mainframe->registerEvent('onAfterSaveJResearchEntity', 'plgJResearchOnAfterSave
  */
 
 function plgJResearchOnAfterSaveEntity($record, $recordType){
-	$mainframe = JFactory::getApplication();
-	
-	$db = JFactory::getDBO();	
-	$session = JFactory::getSession() ;
-	$citedRecords = $session->get('citedRecords', array(), 'jresearch');
-	
-	if(empty($record) || empty($record->id))
-		return false;
-	
-	// Clear the table
-	$query = 'DELETE FROM '.$db->nameQuote('#__jresearch_cited_records').' WHERE '.$db->nameQuote('id_record').' = '.$db->Quote($record->id)
-				.' AND '.$db->nameQuote('record_type').'='.$db->Quote($recordType);
-	$db->setQuery($query);
-	$db->query();		
-	
-	//Save the records	
-	foreach($citedRecords as $key){
+    $mainframe = JFactory::getApplication();
 
-		$query = 'INSERT INTO '.$db->nameQuote('#__jresearch_cited_records')
-					.'('.$db->nameQuote('id_record').','.$db->nameQuote('record_type').','.$db->nameQuote('citekey').')'
-					.' VALUES('.$record->id.','.$db->Quote($recordType).','.$db->Quote($key).')';
-		$db->setQuery($query);
-		
-		if(!$db->query()){
-			JError::raiseWarning(1, $db->getErrorMsg());
-			return false;			
-		}
-	}
-	
-	$session->set('citedRecords', array(), 'jresearch');
-	
-	return true;
-	
+    $db = JFactory::getDBO();	
+    $session = JFactory::getSession() ;
+    $citedRecords = $session->get('citedRecords', array(), 'jresearch');
+
+    if(empty($record) || empty($record->id))
+            return false;
+
+    // Clear the table
+    $query = 'DELETE FROM '.$db->quoteName('#__jresearch_cited_records').' WHERE '.$db->quoteName('id_record').' = '.$db->Quote($record->id)
+                            .' AND '.$db->quoteName('record_type').'='.$db->Quote($recordType);
+    $db->setQuery($query);
+    $db->query();		
+
+    //Save the records	
+    foreach($citedRecords as $key){
+        $query = 'INSERT INTO '.$db->quoteName('#__jresearch_cited_records')
+                                .'('.$db->quoteName('id_record').','.$db->quoteName('record_type').','.$db->quoteName('citekey').')'
+                                .' VALUES('.$record->id.','.$db->Quote($recordType).','.$db->Quote($key).')';
+        $db->setQuery($query);
+
+        if(!$db->query()){
+            JError::raiseWarning(1, $db->getErrorMsg());
+            return false;			
+        }
+    }
+
+    $session->set('citedRecords', array(), 'jresearch');
+
+    return true;
 }
 
 ?>

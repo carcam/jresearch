@@ -46,7 +46,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
             </thead>
             <tfoot>
                 <tr>
-                    <td colspan="13">
+                    <td class="center" colspan="12">
+                        <?php echo $this->page->getResultsCounter(); ?> 
                         <?php echo $this->page->getListFooter(); ?>
                     </td>
                 </tr>
@@ -100,7 +101,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
                     if($n <= 0):
                     ?>
                     <tr>
-                            <td colspan="11"></td>
+                            <td colspan="12"></td>
                     </tr>
                     <?php 
                     endif;

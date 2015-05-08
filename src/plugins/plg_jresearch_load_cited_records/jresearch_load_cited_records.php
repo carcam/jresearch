@@ -22,36 +22,34 @@ $app->registerEvent('onAfterRoute', 'plgJResearchOnAfterRoute');
 /**
  * Triggered after the application has been routed.
  */
-function plgJResearchOnAfterRoute()
-{
-	$mainframe = JFactory::getApplication();
-	$component = JRequest::getVar('option');
-	$task = JRequest::getVar('task');
-	$db = JFactory::getDBO();
-	$session = JFactory::getSession();
-	
-	if($component == 'com_content'){
-		if($task == 'edit'){
-			if($mainframe->isAdmin()){
-				$cid = JRequest::getVar('cid');
-				$id = $cid[0];
-			}else{
-				$id = JRequest::getVar('id');	
-			}
-			// In that case, load cited records into the session
-			if($id != null){
-				$query = 'SELECT '.$db->nameQuote('citekey').' FROM '.$db->nameQuote('#__jresearch_cited_records')
-							.' WHERE '.$db->nameQuote('id_record').'='.$db->Quote($id).' AND '.$db->nameQuote('record_type').'='.$db->Quote('content');
-				
-				$db->setQuery($query);
-				$citedRecords = $db->loadResultArray();
-				$session->set('citedRecords', $citedRecords, 'com_jresearch');			
-			}
-		}elseif($task == 'add'){
-			$session->set('citedRecords', array(), 'com_jresearch');
-		}		
-	}
+function plgJResearchOnAfterRoute() {
+    $mainframe = JFactory::getApplication();
+    $component = JRequest::getVar('option');
+    $task = JRequest::getVar('task');
+    $db = JFactory::getDBO();
+    $session = JFactory::getSession();
 
+    if($component == 'com_content'){
+        if($task == 'edit'){
+            if($mainframe->isAdmin()){
+                $cid = JRequest::getVar('cid');
+                $id = $cid[0];
+            }else{
+                $id = JRequest::getVar('id');	
+            }
+            // In that case, load cited records into the session
+            if($id != null){
+                $query = 'SELECT '.$db->quoteName('citekey').' FROM '.$db->quoteName('#__jresearch_cited_records')
+                                        .' WHERE '.$db->quoteName('id_record').'='.$db->Quote($id).' AND '.$db->quoteName('record_type').'='.$db->Quote('content');
+
+                $db->setQuery($query);
+                $citedRecords = $db->loadResultArray();
+                $session->set('citedRecords', $citedRecords, 'com_jresearch');			
+            }
+        }elseif($task == 'add'){
+            $session->set('citedRecords', array(), 'com_jresearch');
+        }		
+    }
 }
 
 ?>

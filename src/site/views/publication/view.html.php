@@ -122,7 +122,6 @@ class JResearchViewPublication extends JResearchView
            
         // Bind the Data
         $form->bind($data);
-
         $this->assignRef('form', $form);
         $this->assignRef('data', $data);
 

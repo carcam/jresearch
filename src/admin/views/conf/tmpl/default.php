@@ -39,12 +39,12 @@ $user = JFactory::getUser();
                                 <span><?php echo JText::_('JRESEARCH_MEMBER_POSITIONS'); ?></span>
                         </a>
 		</div>
-		<div class="icon btn span2">
+<!--		<div class="icon btn span2">
                         <a href="index.php?option=com_jresearch&amp;controller=projects">
                                 <img src="<?php echo JURI::base(); ?>/components/com_jresearch/assets/projects.png" alt="<?php echo JText::_('JRESEARCH_PROJECTS'); ?>" />
                                 <span><?php echo JText::_('JRESEARCH_PROJECTS'); ?></span>
                         </a>
-		</div>            
+		</div>    -->        
 	</div>
 	<div class="row-fluid">
 

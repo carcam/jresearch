@@ -445,7 +445,7 @@ class JResearchPublicationsController extends JResearchFrontendController
         $params = JComponentHelper::getParams('com_jresearch');
 
         // Permissions check
-        if(empty($form['id'])) {
+        if (empty($form['id'])) {
             $canProceed = $canDoPubs->get('core.publications.create');
             if(!isset($form['published'])){
                 $form['published'] = $params->get('publications_default_published_status', 1);
@@ -456,10 +456,11 @@ class JResearchPublicationsController extends JResearchFrontendController
             }
         } else {
             $canProceed = $canDoPubs->get('core.publications.edit') ||
-                    ($canDoPubs->get('core.publications.edit.own') && $publication->created_by == $user->get('id'));
+                    ($canDoPubs->get('core.publications.edit.own') 
+                    && $publication->created_by == $user->get('id'));
         }
         
-        if(!$canProceed){
+        if (!$canProceed) {
             JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));			
             return;
         }   
@@ -476,12 +477,18 @@ class JResearchPublicationsController extends JResearchFrontendController
             if ($task == 'changeType') {
                 $publication = $model->getItem();        	
                 $app->triggerEvent('OnAfterSaveJResearchEntity', array($publication, 'publication'));
-                $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=edit&id='.$publication->id.'&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+                $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=edit&id='
+                        .$publication->id.'&pubtype='.$publication->pubtype
+                        .'&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
             } else if($task == 'save'){
-                $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=new&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+                $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=new&Itemid='
+                        .$publication->id.'&pubtype='.$publication->pubtype
+                        .JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
                 $app->setUserState('com_jresearch.edit.publication.data', array());
             }elseif($task == 'apply'){
-                $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=edit&id='.$publication->id.'&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
+                $this->setRedirect('index.php?option=com_jresearch&view=publication&layout=edit&id='
+                        .$publication->id.'&pubtype='.$publication->pubtype
+                        .'&Itemid='.JRequest::getInt('Itemid', 0), JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));
             }
         } else {
             $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());

@@ -23,10 +23,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
     $canDo = JResearchAccessHelper::getActions('publication', $this->publication->id);
     $user = JFactory::getUser();
     if($canDo->get('core.publications.edit') || 
-            ($canDoPublications->get('core.publications.edit.own') && $this->publication->created_by == $user->get('id'))):	 
+            ($canDoPublications->get('core.publications.edit.own') 
+            && $this->publication->created_by == $user->get('id'))) :	 
 ?>	 	
 	<span>	
-            <?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $this->publication->id); ?> 
+            <?php echo JHTML::_('jresearchfrontend.icon', 'edit'
+                    , 'publications', $this->publication->id
+                    ,  $user->get('id'), array('pubtype' => $this->publication->pubtype)); ?> 
 	</span>
 <?php endif; ?>
 <h1 class="componentheading" property="dc:title"><?php echo $this->escape($this->publication->title); ?></h1>
@@ -42,10 +45,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<dd property="bibo:abstract"><?php echo $abstract; ?></dd>	
 	<?php endif; ?>
 	<?php 
-        $researchAreaLinks = $this->publication->getResearchAreas('basic'); 
-        if(!empty($researchAreaLinks)) : ?>	
+        $researchAreas = $this->publication->getResearchAreas('basic'); 
+        if(!empty($researchAreas)) : ?>	
             <dt><?php echo JText::_('JRESEARCH_RESEARCH_AREAS').': ' ?></dt>
-            <dd><?php echo JHTML::_('jresearchfrontend.researchareaslinks', $researchAreaLinks); ?></dd>
+            <dd><?php echo JHTML::_('jresearchfrontend.researchareaslinks', $researchAreas); ?></dd>
 	<?php endif; ?>
 		
 	<?php $year = $this->publication->year; ?>

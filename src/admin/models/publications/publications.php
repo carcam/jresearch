@@ -100,7 +100,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         $filter_search = $this->getState('com_jresearch.publications.filter_search');
         $filter_pubtype = $this->getState('com_jresearch.publications.filter_pubtype');
         $filter_author = $this->getState('com_jresearch.publications.filter_author');
-        $filter_area = $this->getState('com_jresearch.publications.filter_area');                  
+        $filter_area = $this->getState('com_jresearch.publications.filter_area');    
 
             
         if(!empty($filter_area) && $filter_area != -1){
@@ -119,7 +119,6 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
 
         if(($filter_search = trim($filter_search))){
             $filter_search = JString::strtolower($filter_search);
-            $filter_search = $db->getEscaped($filter_search);
             $where[] = 'MATCH(title, keywords, abstract) AGAINST ('.$db->Quote($filter_search, true).' IN BOOLEAN MODE)';
         }
 
@@ -176,6 +175,37 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         $this->setState('com_jresearch.publications.filter_order_Dir', $mainframe->getUserStateFromRequest($this->_context.'.filter_order_Dir', 'filter_order_Dir', 'DESC'));                
 		
         parent::populateState();        
-    }	
+    }
+    
+    protected function _getListCount($query) {
+        // Use fast COUNT(*) on JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
+        if ($query instanceof JDatabaseQuery
+                && $query->type == 'select'
+                && $query->group === null
+                && $query->union === null
+                && $query->unionAll === null
+                && $query->having === null) {
+                    $query = clone $query;
+                    $query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(DISTINCT pub.id)');
+
+                    $this->_db->setQuery($query);
+
+                    return (int) $this->_db->loadResult();
+        }
+
+        // Otherwise fall back to inefficient way of counting all results.
+
+        // Remove the limit and offset part if it's a JDatabaseQuery object
+        if ($query instanceof JDatabaseQuery)
+        {
+            $query = clone $query;
+            $query->clear('limit')->clear('offset');
+        }
+
+        $this->_db->setQuery($query);
+        $this->_db->execute();
+
+        return (int) $this->_db->getNumRows();
+    }
 }
 ?>

@@ -89,7 +89,11 @@ class JResearchAdminModelPublication extends JModelForm{
         $app = JFactory::getApplication();
         jresearchimport('helpers.publications', 'jresearch.admin');
         $params = JComponentHelper::getParams('com_jresearch');
-
+        
+        $type = JRequest::getVar('change_type', '-1');
+        if ($type != '-1') {
+            $data['pubtype'] = $type;
+        }
         //Remove files in case the user indicated it.
         $nAttach = (int)$data['count_files'];
         $data['files'] = '';
@@ -207,6 +211,8 @@ class JResearchAdminModelPublication extends JModelForm{
 
         $this->_processFields($data, $row);
         unset($data['id']);
+        $data['title'] = $data['title'].' ( '.JText::_('JRESEARCH_COPY').')';
+        $data['citekey'] = $data['citekey'].'-copy-'.rand();
         if (!$row->save($data, '', $omittedFields))
         {
             //Since the save routine modifies the array data

@@ -469,7 +469,7 @@ class JResearchActivity extends JResearchTable{
         if($whatInfo == 'all') {
             if(!isset($this->_areas)){
                 $this->_areas = array();
-                $db->setQuery('SELECT * FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');				
+                $db->setQuery('SELECT * FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.') AND id > 1');				
                 $areas = $db->loadAssocList();		
                 foreach($areas as $row){
                     $area = JTable::getInstance('Researcharea', 'JResearch');
@@ -479,10 +479,10 @@ class JResearchActivity extends JResearchTable{
             }			
             return $this->_areas;			
         } elseif($whatInfo == 'basic') {
-            $db->setQuery('SELECT id, name, published FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');
+            $db->setQuery('SELECT id, name, published FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.') AND id > 1');
             return $db->loadObjectList();
         } elseif($whatInfo == 'names') {
-            $db->setQuery('SELECT name FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');
+            $db->setQuery('SELECT name FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.') AND id > 1');
             return $db->loadColumn();
         } else {
             return null;

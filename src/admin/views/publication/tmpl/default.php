@@ -93,7 +93,7 @@ defined('_JEXEC') or die('Restricted access');
                         <li>
                             <div class="control-label">
                                 <?php if (!$field->hidden): ?>
-                                        <?php echo $field->label; ?>
+                                    <?php echo $field->label; ?>
                                 <?php endif; ?>
                             </div>
                             <div class="controls">
@@ -103,10 +103,15 @@ defined('_JEXEC') or die('Restricted access');
             <?php endforeach; ?>
             </ul>
             <?php if(!isset($this->publication)): ?>
-                <div class="divChangeType">
-                        <?php echo $this->changeType; ?>
+                <div class="control-label">
+                <label id="jform_change_type-lbl" for="change_type" class="hasTooltip" 
+                       title="" data-original-title="<strong><?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE');  ?></strong><br /><?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE_DESCRIPTION');  ?>">
+                                    <?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE'); ?></label>
                 </div>
-			<?php endif; ?>
+                <div class="controls">
+                    <?php echo $this->changeType; ?>
+                </div>
+                    <?php endif; ?>
             </fieldset>
         </div>
         <?php echo JHtml::_('bootstrap.endTab'); ?>             

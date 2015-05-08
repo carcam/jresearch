@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require(JPATH_BASE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_jresearch'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'defines.php');
+require_once(JPATH_BASE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_jresearch'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'defines.php');
 
 class plgContentJResearch_Offline_Citation extends JPlugin{
 

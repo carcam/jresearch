@@ -18,9 +18,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<?php echo $this->filter; ?>
 		<?php 
 			$actions = JResearchAccessHelper::getActions();
-			if($actions->get('core.publications.create')):
+			if ($actions->get('core.publications.create')):
 		?>
-				<div><?php echo JHTML::_('jresearchfrontend.icon','new','publications'); ?></div>						
+                            <div><?php echo JHTML::_('jresearchfrontend.icon','new','publications'); ?></div>						
 			<?php endif; ?>
 	</div>
 	
@@ -37,7 +37,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <div style="text-align: right;"><a title="<?php echo JText::_('JRESEARCH_EXPORT_ALL_TITLE')?>" href="index.php?option=com_jresearch&amp;controller=publications&amp;task=exportAll&amp;format=<?php echo $this->showAllFormat; ?>"><?php echo JText::_('JRESEARCH_EXPORT_ALL'); ?></a></div>
 <?php endif; ?>
 <?php 
-	require_once(JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publications'.DS.'tmpl'.DS.$this->layout.'.php');
+    require_once(JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publications'.DS.'tmpl'.DS.$this->layout.'.php');
 ?>
 </div>
 <div class="frontendPagination"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>

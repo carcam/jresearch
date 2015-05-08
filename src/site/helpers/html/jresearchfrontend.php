@@ -23,8 +23,9 @@ class JHTMLjresearchfrontend{
      * @param string $controller
      * @param int $id
      * @param int $userid
+     * @param array options
      */
-    public static function icon($task, $controller, $itemid=0, $userid=null)
+    public static function icon($task, $controller, $itemid=0, $userid=null, $options=array())
     {
         $availableController = array('publications');
         $availableTasks = array('edit', 'remove', 'delete', 'add', 'new');
@@ -34,10 +35,15 @@ class JHTMLjresearchfrontend{
 
         if(in_array($controller, $availableController) && in_array($task, $availableTasks)){
             $text = JText::_('JRESEARCH_'.ucfirst($task));
+            $pubtype = '';
+            if ($controller == 'publications' && isset($options['pubtype'])) {
+                $pubtype = '&pubtype='.$options['pubtype'];
+            }
 
-            return '<a href="index.php?option=com_jresearch&view=publication&task='.$task.(($itemid > 0)?'&id='.$itemid:'').$menuIdText.'" title="'.$text.'">'
-            .$text.'<img src="'.JURI::root().'components/com_jresearch/assets/'.$task.'.png" />'
-            .'</a>';			
+            return '<a href="index.php?option=com_jresearch&view=publication'.$pubtype
+                    .'&task='
+                    .$task.(($itemid > 0) ? '&id='.$itemid:'').$menuIdText.'" title="'.$text.'">'
+            .'<img src="'.JURI::root().'components/com_jresearch/assets/'.$task.'.png" /></a>';
         }
 
         return '';

@@ -98,8 +98,8 @@ defined('_JEXEC') or die('Restricted access');
         <?php endforeach; ?>
     </fieldset>
     <input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid', 0); ?>" />
-        <input type="hidden" name="task" value="edit" />
-        <input type="hidden" name="controller" value="publications" />    
+    <input type="hidden" name="task" value="edit" />
+    <input type="hidden" name="controller" value="publications" />    
     <?php echo JHtml::_('form.token'); ?>
 </form>
 </div>
