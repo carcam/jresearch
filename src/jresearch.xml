@@ -7,7 +7,7 @@
 	<authorUrl>http://joomlaresearch.com</authorUrl>
 	<copyright>Copyright (C) 2015 Luis Galárraga</copyright>
 	<license>GPL</license>
-	<version>3.0 Beta 1</version>
+	<version>3.0 Beta 2</version>
 	<description><![CDATA[
 	<div align="center">
 		<img src="components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" />
@@ -69,7 +69,6 @@
 		<submenu>
 			<menu controller="member_positions" img="../administrator/components/com_jresearch/assets/memberpositions_mini.png">COM_JRESEARCH_JRESEARCH_MEMBER_POSITIONS</menu>
 			<menu controller="publications" img="../administrator/components/com_jresearch/assets/publications_mini.png">COM_JRESEARCH_JRESEARCH_PUBLICATIONS</menu>
-			<menu controller="projects" img="../administrator/components/com_jresearch/assets/projects_mini.png">COM_JRESEARCH_JRESEARCH_PROJECTS</menu>			
 			<menu controller="researchareas" img="../administrator/components/com_jresearch/assets/jresearch_logomini.png">COM_JRESEARCH_JRESEARCH_RESEARCH_AREAS</menu>
 			<menu controller="staff" img="../administrator/components/com_jresearch/assets/staff_mini.png">COM_JRESEARCH_JRESEARCH_STAFF</menu>
 		</submenu>
