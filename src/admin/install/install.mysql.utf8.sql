@@ -383,79 +383,78 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member_research_area` (
   PRIMARY KEY  (`id_member`, `id_research_area`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('abstract');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('address');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('annote');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('author');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('booktitle');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('chapter');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('crossref');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('edition');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('editor');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('howpublished');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('institution');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('isbn');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('issn');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('doi');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('journal');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('key');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('month');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('note');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('number');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('organization');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('pages');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('publisher');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('school');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('series');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('title');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('type');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('url');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('volume');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('year');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('keywords');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('abstract');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('address');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('annote');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('author');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('booktitle');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('chapter');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('crossref');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('edition');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('editor');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('howpublished');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('institution');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('isbn');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('issn');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('doi');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('journal');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('key');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('month');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('note');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('number');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('organization');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('pages');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('publisher');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('school');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('series');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('title');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('type');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('url');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('volume');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('year');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('keywords');
 -- Additional fields (non standard, defined by J!Research)
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('access_date');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('day');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('source_type');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('extra');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('patent_number');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('filing_date');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('issue_date');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('claims');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('drawings_dir');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('country');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('office');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('access_date');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('day');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('source_type');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('extra');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('patent_number');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('filing_date');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('issue_date');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('claims');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('drawings_dir');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('country');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('office');
 -- Added due to merge into single publications table
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('awards');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('comments');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('journal_acceptance_rate');
-INSERT INTO `#__jresearch_property` (`name`) VALUES ('impact_factor');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('awards');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('comments');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('journal_acceptance_rate');
+REPLACE INTO `#__jresearch_property` (`name`) VALUES ('impact_factor');
 
-DROP TABLE IF EXISTS `#__jresearch_publication_type`;
-CREATE TABLE `#__jresearch_publication_type` (
+CREATE TABLE IF NOT EXISTS `#__jresearch_publication_type` (
 	`name` VARCHAR( 20 ) NOT NULL,
 	PRIMARY KEY (`name`)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('article');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('book');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('booklet');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('conference');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('inbook');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('incollection');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('manual');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('mastersthesis');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('misc');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('patent');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('phdthesis');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('proceedings');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('techreport');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('unpublished');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('online_source');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('earticle');
-INSERT INTO `#__jresearch_publication_type`(`name`) VALUES('digital_source');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('article');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('book');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('booklet');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('conference');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('inbook');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('incollection');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('manual');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('mastersthesis');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('misc');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('patent');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('phdthesis');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('proceedings');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('techreport');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('unpublished');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('online_source');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('earticle');
+REPLACE INTO `#__jresearch_publication_type`(`name`) VALUES('digital_source');
 
-INSERT INTO `#__jresearch_research_area`(`name`, `alias` ,`description`, `published` ) VALUES('Uncategorized', 'Uncategorized' , '', 1);
+REPLACE INTO `#__jresearch_research_area`(`name`, `alias` ,`description`, `published` ) VALUES('Uncategorized', 'Uncategorized' , '', 1);
 
 DELETE FROM `#__categories` WHERE `extension` = 'com_jresearch';
 INSERT INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `extension`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `modified_user_id`, `modified_time`, `hits`, `language`)
