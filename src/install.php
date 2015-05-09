@@ -18,12 +18,27 @@ if(!defined('DS')) {
 class com_jresearchInstallerScript
 {
     /**
+    * method to run before an install/update/uninstall method
+    *
+    * @return void
+    */
+    function preflight($type, $parent) {
+        // This is to prevent updates from 3.0 Beta 1 to fail
+        $jresearchPath = JROOT.DIRECTORY_SEPARATOR.'components'
+                .DIRECTORY_SEPARATOR.'com_jresearch';
+        $simpleStylePath = $jresearchPath.DIRECTORY_SEPARATOR.'citationStyles'
+                .DIRECTORY_SEPARATOR.'simple';
+        if (JFolder::exists($jresearchPath) && !JFolder::exists($simpleStylePath)) {
+            JFolder::create($simpleStylePath);
+        }
+    }
+    
+    /**
      * method to install the component
      *
      * @return void
      */
-	function install($parent) 
-    {
+    function install($parent) {
 
     }
     
