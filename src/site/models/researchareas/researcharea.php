@@ -211,7 +211,7 @@ class JResearchModelResearchArea extends JResearchModelItem{
 
         if($whatInfo == 'all'){
             $members = array();
-            $query = 'SELECT DISTINCT m.* FROM #__jresearch_member m JOIN #__jresearch_member_researcharea mra WHERE '
+            $query = 'SELECT DISTINCT m.* FROM #__jresearch_member m JOIN #__jresearch_member_research_area mra WHERE '
                             .'mra.id_member = m.id AND mra.id_research_area = '.$db->Quote($area->id)
                             .' ORDER BY '.$db->quoteName('m').'.'.$db->quoteName($orderBy).' '.$orderDir;
             $db->setQuery($query);				
