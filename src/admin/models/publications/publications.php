@@ -34,7 +34,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
                     $this->_items[] = $publication;
                 }
             }else{
-                return $items;
+                return array();
             }
         }
 
