@@ -432,7 +432,7 @@ class JResearchActivity extends JResearchTable{
 
         $internalTable = $db->quoteName('#__jresearch_'.$this->_type.'_internal_author');
         $externalTable = $db->quoteName('#__jresearch_'.$this->_type.'_external_author');
-        $areasTable = $db->quoteName('#__jresearch_'.$this->_type.'_researcharea');
+        $areasTable = $db->quoteName('#__jresearch_'.$this->_type.'_research_area');
 
         $db->setQuery('DELETE FROM '.$internalTable.' WHERE '.$db->quoteName('id_'.$this->_type).' = '.$db->Quote($oid));		
         if(!$db->query()){
