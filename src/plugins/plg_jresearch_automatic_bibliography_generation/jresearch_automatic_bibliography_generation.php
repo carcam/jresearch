@@ -51,8 +51,7 @@ class plgButtonJResearch_Automatic_Bibliography_Generation extends JPlugin
 		$image = $url.DS.'components'.DS.'com_jresearch'.DS.'assets'.DS.'j_button2_bibliography.png';		
 		$link = 'index.php?option=com_jresearch&amp;controller=publications&amp;task=generateBibliography&amp;tmpl=component&amp;e_name='.$name;
 
-		JHTML::_('behavior.modal');
-		JHTML::_('behavior.mootools');		
+		JHtml::_('behavior.modal');
 
 		$button = new JObject();
 		$button->set('modal', true);

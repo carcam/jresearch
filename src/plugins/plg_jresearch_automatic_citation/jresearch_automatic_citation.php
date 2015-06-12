@@ -51,8 +51,7 @@ class plgButtonJResearch_Automatic_Citation extends JPlugin
 
 		$link = 'index.php?option=com_jresearch&amp;controller=publications&amp;task=citeFromDialog&amp;tmpl=component&amp;e_name='.$name;
 
-		JHTML::_('behavior.modal');
-		JHtml::_('behavior.framework');
+		JHtml::_('behavior.modal');
 
 		$button = new JObject();
 		$button->set('modal', true);
