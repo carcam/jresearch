@@ -54,7 +54,7 @@ class JResearchModelResearchArea extends JResearchModelItem{
         $areaId = $row->id;
         $db = JFactory::getDBO();
 
-        $query = "SELECT p.* FROM ".$db->quoteName('#__jresearch_publication').' p JOIN '.$db->quoteName('#__jresearch_publication_researcharea').' pa'
+        $query = "SELECT p.* FROM ".$db->quoteName('#__jresearch_publication').' p JOIN '.$db->quoteName('#__jresearch_publication_research_area').' pa'
                 .' WHERE p.id = pa.id_publication AND p.published = 1 AND p.internal = 1 AND pa.id_research_area = '.$db->Quote($areaId)
                 .' ORDER BY year DESC, created DESC';
 
@@ -88,7 +88,7 @@ class JResearchModelResearchArea extends JResearchModelItem{
         $areaId = $row->id;
 
         $db = JFactory::getDBO();
-        $query = "SELECT count(p.id) FROM ".$db->quoteName('#__jresearch_publication').' p JOIN '.$db->quoteName('#__jresearch_publication_researcharea').' pa'
+        $query = "SELECT count(p.id) FROM ".$db->quoteName('#__jresearch_publication').' p JOIN '.$db->quoteName('#__jresearch_publication_research_area').' pa'
         .' WHERE p.id = pa.id_publication AND p.published = 1 AND p.internal = 1 AND pa.id_research_area = '.$db->Quote($areaId);
 
         $db->setQuery($query);
@@ -211,7 +211,7 @@ class JResearchModelResearchArea extends JResearchModelItem{
 
         if($whatInfo == 'all'){
             $members = array();
-            $query = 'SELECT DISTINCT m.* FROM #__jresearch_member m JOIN #__jresearch_member_researcharea mra WHERE '
+            $query = 'SELECT DISTINCT m.* FROM #__jresearch_member m JOIN #__jresearch_member_research_area mra WHERE '
                             .'mra.id_member = m.id AND mra.id_research_area = '.$db->Quote($area->id)
                             .' ORDER BY '.$db->quoteName('m').'.'.$db->quoteName($orderBy).' '.$orderDir;
             $db->setQuery($query);				

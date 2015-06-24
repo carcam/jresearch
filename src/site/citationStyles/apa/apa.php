@@ -16,6 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once(JPATH_SITE.DS.'components'.DS.'com_jresearch'.DS.'citationStyles'.DS.'citation_style.php');
 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'publications.php');
+require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'jresearchutilities.php');
 
 
 /**
@@ -311,7 +312,7 @@ class JResearchAPACitationStyle implements JResearchCitationStyle{
                     if($auth->published){
                         if($auth->link_to_member) {
                             if($auth->link_to_website) {
-                                $website = $auth->url_personal_page;
+                                $website = JResearchUtilities::getFullUrl($auth->url_personal_page);
                                 $text = "<a href=\"$website\">$text</a>";                            
                             } else {
                                 $text = "<a href=\"index.php?option=com_jresearch&view=member&id=$auth->id&task=show\">$text</a>";
