@@ -148,7 +148,9 @@ class JResearchActivity extends JResearchTable{
     
     public static $_authorsIdDelimiter = '|';
     
-    public static $_attachmentsDelimiter = '|';
+    public static $_attachmentsPartsDelimiter = '|';
+    
+    public static $_attachmentsDelimiter = ';';
 
     public function __construct($table, $key, $db ){
         parent::__construct($table, $key, $db);
@@ -335,7 +337,7 @@ class JResearchActivity extends JResearchTable{
         if(!empty($this->_authorsArray)){
             return count($this->_authorsArray);
         }else{
-            return count(explode(';', $this->authors));
+            return count(explode(self::$_authorsDelimiter, $this->authors));
         }	
     }
 
@@ -359,12 +361,12 @@ class JResearchActivity extends JResearchTable{
             $this->_attachmentsArray = array();
             $params = JComponentHelper::getParams('com_jresearch'); 
             if(!empty($this->files)){
-                $filesArr = explode(';', trim($this->files));
+                $filesArr = explode(self::$_attachmentsDelimiter, trim($this->files));
                 foreach ($filesArr as $file) {
                     if (empty($file)) {
                         continue;
                     }
-                    $fileParts = explode(self::$_attachmentsDelimiter, $file);
+                    $fileParts = explode(self::$_attachmentsPartsDelimiter, $file);
                     $entry = array();
                     if (JResearchUtilities::isValidURL($fileParts[0])) {
                         $entry['url'] = $fileParts[0];
