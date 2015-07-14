@@ -147,6 +147,8 @@ class JResearchActivity extends JResearchTable{
     public static $_authorsDelimiter = ';';
     
     public static $_authorsIdDelimiter = '|';
+    
+    public static $_attachmentsDelimiter = '|';
 
     public function __construct($table, $key, $db ){
         parent::__construct($table, $key, $db);
@@ -172,10 +174,8 @@ class JResearchActivity extends JResearchTable{
         $finalResult = array();
         foreach ($result as $entry) {
             if (is_numeric($entry)) {
-                $finalResult[] = 
-                        JResearchStaffHelper::getMemberName($entry)
-                        .self::$_authorsIdDelimiter
-                        .$entry;
+                $finalResult[] = $entry.self::$_authorsIdDelimiter
+                        .JResearchStaffHelper::getMemberName($entry);
             } else {
                 $finalResult[] = $entry;
             }
@@ -238,7 +238,7 @@ class JResearchActivity extends JResearchTable{
         $this->_authorsArray = null;
 
         if($author instanceof JResearchMember) {
-            $textToAppend = $author->__toString().self::$_authorsIdDelimiter.$author->id;
+            $textToAppend = $author->id.self::$_authorsIdDelimiter.$author->__toString();
         }elseif(!empty($author)){
             $textToAppend = $author;
         }else{
@@ -297,7 +297,8 @@ class JResearchActivity extends JResearchTable{
     /**
      * Returns a sorted array with the information of the publication's external authors.
      * External authors are not part of the center's staff so they are represented as strings
-     * @return array Associative array, where the order is the key and the author's name, the value.
+     * @return array Associative array, where the order is the key and the 
+     * author's name, the value.
      */
     public function getExternalAuthors(){
         $this->getAuthors();
@@ -363,7 +364,7 @@ class JResearchActivity extends JResearchTable{
                     if (empty($file)) {
                         continue;
                     }
-                    $fileParts = explode('|', $file);
+                    $fileParts = explode(self::$_attachmentsDelimiter, $file);
                     $entry = array();
                     if (JResearchUtilities::isValidURL($fileParts[0])) {
                         $entry['url'] = $fileParts[0];
@@ -400,6 +401,21 @@ class JResearchActivity extends JResearchTable{
     public function getAttachment($tag) {
         return null;
     }
+    
+    /**
+     * Adds an attachment to the object. An attachement can be a relative path
+     * to a file in the server or a URL. The tag is human readable label associated
+     * to the attachment. 
+     * @param type $attachment
+     * @param type $tag
+     */
+    public function addAttachment($attachment, $tag) {
+        if ($this->files == null) {
+            $this->files = $attachment.'|'.$tag;
+        } else {
+            $this->files .= $attachment.'|'.$tag;
+        }
+    }
 
     /**
      * Returns the number of activity's attached files.
@@ -413,6 +429,7 @@ class JResearchActivity extends JResearchTable{
             return count(explode(';', trim($this->files)));
         }	
     }
+    
 
     /**
     * Removes related information related to an activity (not the activity per se as it is done

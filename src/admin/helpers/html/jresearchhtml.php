@@ -207,11 +207,11 @@ class JHTMLjresearchhtml
                 regex=/^([\+\-]{0,1}\d+\.?\d*)$/i;
                 return regex.test(value); })
         });');
-
-
+        
+        $delimiter = JResearchActivity::$_keywordsDelimiter;
         $doc->addScriptDeclaration("window.addEvent('domready', function() {
                 document.formvalidator.setHandler('keywords', function(value) {
-                regex=/^[-_'\w$extra\s\d]+([,;][-_'\w$extra\s\d]+)*[,;]*$/i;
+                regex=/^[-_'\w$extra\s\d]+(".$delimiter."[-_'\w$extra\s\d]+)*".$delimiter."*$/i;
                 return regex.test(value); })
         });");
 

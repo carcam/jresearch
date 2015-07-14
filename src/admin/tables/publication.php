@@ -221,7 +221,7 @@ class JResearchPublication extends JResearchActivity{
             $extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());
             $separator = JResearchActivity::$_keywordsDelimiter;
 
-            if(!preg_match("/^[-_'\w$extra\s\d]+(".$separator."[-_'\w$extra\s\d]+)*[,]?$/", $this->keywords)){
+            if(!preg_match("/^[-_'\w$extra\s\d]+(".$separator."[-_'\w$extra\s\d]+)*$separator?$/", $this->keywords)){
                 $this->setError(JText::_('JRESEARCH_PROVIDE_VALID_KEYWORDS'));
                 $withoutErrors = false;
             }
@@ -306,7 +306,7 @@ class JResearchPublication extends JResearchActivity{
             $orderValue = $db->Quote($order);
             $authorParts = explode(self::$_authorsIdDelimiter, $authorEntry);
             if (count($authorParts) > 1) {
-                $author = $authorParts[1];
+                $author = $authorParts[0];
             } else {
                 $author = $authorEntry;
             }

@@ -38,7 +38,7 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
         if($parser->parse()){
             foreach($parser->data as $data){
                 if (isset($data['keywords'])) {
-                    $data['keywords'] = str_replace(',', ';', $data['keywords']);
+                    $data['keywords'] = str_replace(',', JResearchActivity::$_keywordsDelimiter, $data['keywords']);
                 }
                 $type = strtolower($data['entryType']);
                 if(!empty($type)){

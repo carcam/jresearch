@@ -65,12 +65,13 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-                        <field name="fulltext_tag" type="text" default="Full Text" label="JRESEARCH_CONFIG_PUBLICATION_FULLTEXT_TAG" description="JRESEARCH_CONFIG_PUBLICATION_FULLTEXT_TAG_DESCRIPTION" />
-			<field name="show_digital_version" type="list" default="0" label="JRESEARCH_PUBLICATION_SHOW_ONLINE_VERSION" >
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
+                        <field name="fulltext_tag" type="text" default="Full Text" label="JRESEARCH_PUBLICATION_FULLTEXT_TAG" description="JRESEARCH_PUBLICATION_FULLTEXT_TAG_DESCRIPTION" />
+			<field name="show_digital_version" type="list" default="yes_and_use_url" label="JRESEARCH_PUBLICATION_SHOW_ONLINE_VERSION" >
+				<option value="yes_and_use_url">JRESEARCH_YES_AND_USE_URL_FIELD</option>
+                                <option value="yes_and_use_tag">JRESEARCH_YES_AND_USE_TAG</option>
+				<option value="no">JNO</option>
 			</field>
-                        <field name="digital_version_tag" type="text" default="Online Version" label="JRESEARCH_CONFIG_PUBLICATION_ONLINE_VERSION_TAG" description="JRESEARCH_CONFIG_PUBLICATION_ONLINE_VERSION_TAG_DESCRIPTION" />                        	
+                        <field name="digital_version_tag" type="text" default="Online Version" label="JRESEARCH_PUBLICATION_ONLINE_VERSION_TAG" description="JRESEARCH_PUBLICATION_ONLINE_VERSION_TAG_DESCRIPTION" />                        	
 			<field name="filter_teams" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_TEAM" description="JRESEARCH_SHOW_FILTER_BY_TEAM_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>

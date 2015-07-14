@@ -50,6 +50,17 @@
             multiple="true"
         />
         <field
+                id="url"
+                name="url"
+                type="text"
+                size="50"
+                maxlength="255"
+                class="inputbox"
+                default=""
+                label="URL"
+                validate="url"
+        />        
+        <field
             id="keywords"
             name="keywords"
             type="keywords"
