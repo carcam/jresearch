@@ -91,7 +91,7 @@ if($this->params->get('show_page_heading', 1)): ?>
             	<td><?php echo empty($member->position)?JText::_('JRESEARCH_NOT_SPECIFIED'):$member->getPositionObj(); ?></td>
             <?php endif; ?>
             <?php if($showResearchArea == 1): ?>
-				<td><?php echo JHTML::_('jresearchfrontend.researchareaslinks', $member->getResearchAreas('names'), 'inline'); ?></td>				
+				<td><?php echo JHTML::_('jresearchfrontend.researchareaslinks', $member->getResearchAreas('all'), 'inline'); ?></td>
             <?php endif; ?>	
 			<?php if($showLocation == 1): ?>
 				<td><?php echo $member->location; ?></td>

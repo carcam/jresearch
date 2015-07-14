@@ -255,6 +255,13 @@ class JResearchUtilities
             return $imageUploaded;
     }
 
+	public static function getFullUrl($url)
+	{
+		if (strpos($url, "http://") === false)
+			$url = "http://" . trim($url);
+		return $url;
+	}
+
     public static function getUrlByRelative($rel_path)
     {
             $path = JURI::root();
