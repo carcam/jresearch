@@ -150,6 +150,7 @@ class JHTMLjresearchhtml
     */
     static function validation(){
         jresearchimport('helpers.charsets', 'jresearch.admin');
+        jresearchimport('tables.activity', 'jresearch.admin');
         $extra = implode('', JResearchCharsetsHelper::getLatinWordSpecialChars());
         $doc = JFactory::getDocument();
         $token = JSession::getFormToken();
@@ -735,9 +736,14 @@ class JHTMLjresearchhtml
                     var newElements = [];
                     for (i = 0; i < elements.length; ++i) {
                         var parts = elements[i].split('|');
-                        var text = parts[0];
+                        var text = '';
+                        if (parts.length > 1) {
+                            text = parts[1];
+                        } else {
+                            text = elements[i];
+                        }
                         if (text != ui.tagLabel) {                            
-                            newElements.push(text);
+                            newElements.push(elements[i]);
                         }                        
                     }
                     inputField.value = newElements.join(';');
