@@ -215,7 +215,7 @@ class JResearchActivity extends JResearchTable{
                 }
 
                 if(is_numeric($authorText)){
-                    JTable::addIncludePath(JUri::root().'administrator/com_jresearch/tables');
+                    JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_jresearch/tables');
                     $member = JTable::getInstance('Member', 'JResearch');
                     $member->load((int)$authorText);
                     $this->_authorsArray[] = $member;

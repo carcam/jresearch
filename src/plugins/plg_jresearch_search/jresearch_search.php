@@ -88,8 +88,6 @@ class plgSearchJResearch_Search extends JPlugin{
         }
 
         if(!isset($areas)){
-            $results[] = $this->searchCooperations($text, $phrase, $ordering);
-            $results[] = $this->searchFacilities($text, $phrase, $ordering);
             $results[] = $this->searchPublications($text, $phrase, $ordering);
             $results[] = $this->searchProjects($text, $phrase, $ordering);
             $results[] = $this->searchTheses($text, $phrase, $ordering);
@@ -155,20 +153,20 @@ class plgSearchJResearch_Search extends JPlugin{
                 $order = 'r.name ASC';
         }
 
-        $key = $db->Quote($text, true );
+        $key = $db->Quote(strtolower($text), true );
         switch($phrase){
             case 'exact':
-                $whereClause = "published = 1 AND MATCH(name, description) AGAINST (".$key." )";
+                $whereClause = "published = 1 AND (LOWER(name) like $key OR MATCH(name, description) AGAINST ($key))";
                 break;
             case 'all':
                 $allKey = $db->Quote(preg_replace('/(\\s+|^)/', " +", $text), true);
                 $whereClause = "published = 1 AND MATCH(name, description) AGAINST (".$allKey." IN BOOLEAN MODE )";
                 break;
             case 'any':
-                    $whereClause = "published = 1 AND MATCH(name, description) AGAINST (".$key." IN BOOLEAN MODE )";
+                $whereClause = "published = 1 AND MATCH(name, description) AGAINST (".$key." IN BOOLEAN MODE )";
         }
         $section = $db->Quote($section, false);
-        $query = "SELECT r.id AS id, '' AS metadesc, '' AS metakey, r.name AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, SUBSTRING_INDEX(r.description, '<hr id=\"system-readmore\" />', 1) AS text FROM #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
+        $query = "SELECT r.id AS id, '' AS metadesc, '' AS metakey, r.name AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, SUBSTRING_INDEX(r.description, ' ', 100) AS text FROM #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
         $db->setQuery( $query, 0, $this->limit );
         $results = $db->loadObjectList();
         $itemId = JRequest::getVar('Itemid');
@@ -221,7 +219,7 @@ class plgSearchJResearch_Search extends JPlugin{
                 $order = 'p.title ASC';
         }
 
-        $key = $db->Quote($text, true);		
+        $key = $db->Quote(strtolower($text), true);		
         switch($phrase){
             case 'exact':
                 $whereClause = "p.published = 1 AND MATCH( p.title, p.description, p.keywords ) AGAINST ($key)";
@@ -294,32 +292,31 @@ class plgSearchJResearch_Search extends JPlugin{
 
         //Array of publications ids where the author has participated.
         $whereArray = array();
-        $authorsCondition = 'apa.member_name LIKE '.$db->quote('%'.$text.'%', true);		
+        $authorsCondition = 'apa.member_name LIKE '.$db->quote('%'.strtolower($text).'%', true);		
+        $publishedCondition = "p.published = 1 AND p.internal = 1";
         switch($phrase){
             case 'exact':
-                $key = $db->quote($text, true);                
-                $whereArray[] = "(p.published = 1 AND p.internal = 1)";
+                $key = $db->quote(strtolower($text), true);                
                 $whereArray[] = "pk.keyword LIKE $key";
                 $whereArray[] = "MATCH(title, abstract) AGAINST ($key)";
                 $whereArray[] = $authorsCondition;
                 break;
             case 'all':				
-                $key = $db->quote(preg_replace('/(\\s+|^)/', " +", $text), true);
-                $whereArray[] = "(p.published = 1 AND p.internal = 1)";
+                $key = $db->quote(preg_replace('/(\\s+|^)/', " +", strtolower($text)), true);
                 $whereArray[] = "MATCH(pk.keyword) AGAINST ($key IN BOOLEAN MODE)";
                 $whereArray[] = "MATCH(title, abstract) AGAINST (".$key." IN BOOLEAN MODE)";
                 $whereArray[] = $authorsCondition;
                 break;				
             case 'any':
-                $key = $db->quote($text, true);
-                $whereArray[] = "(p.published = 1 AND p.internal = 1)";
+                $key = $db->quote(strtolower($text), true);
                 $whereArray[] = "MATCH(pk.keyword) AGAINST ($key IN BOOLEAN MODE)";
                 $whereArray[] = "MATCH(title, abstract) AGAINST (".$key." IN BOOLEAN MODE)";
                 $whereArray[] = $authorsCondition;
                 break;	
         }
 
-        $whereClause = implode(' OR ', $whereArray);
+        $whereDisjunctiveClause = implode(' OR ', $whereArray);        
+        $whereClause = $publishedCondition.' AND ('.$whereDisjunctiveClause.')';
         $section = $db->Quote($section, false);
         $query = "SELECT DISTINCT p.id as id, '' AS metadesc, p.keywords AS metakey, p.title AS title, $section AS section, 
         p.created AS created, '2' AS browsernav, CONCAT_WS('\n', p.abstract) AS text 
@@ -329,7 +326,6 @@ class plgSearchJResearch_Search extends JPlugin{
 
 
         $db->setQuery( $query, 0, $this->limit );
-        echo $db->getQuery();
         $results = $db->loadObjectList();
         $itemId = JRequest::getVar('Itemid');
         if(isset($results)){
@@ -399,7 +395,7 @@ class plgSearchJResearch_Search extends JPlugin{
         }
 
         $section = $db->Quote($section, false);
-        $query = "SELECT t.title AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, SUBSTRING_INDEX(t.description, '<hr id=\"system-readmore\" />', 1) AS text FROM #__jresearch_thesis t INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
+        $query = "SELECT t.title AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, SUBSTRING_INDEX(t.description, ' ', 100) AS text FROM #__jresearch_thesis t INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
         $results = $db->setQuery( $query, 0, $this->limit );
         $results = $db->loadObjectList();
 
@@ -444,19 +440,27 @@ class plgSearchJResearch_Search extends JPlugin{
                 $order = 'm.lastname ASC';
         }
 
-        $key = $db->Quote($text, true);
+        $key = $db->Quote(strtolower($text), true);
+        $publishedCondition = "m.published = 1";
+        $disjunctiveClauses = array();
+        $disjunctiveClauses[] = "LOWER( m.firstname ) LIKE $key";
+        $disjunctiveClauses[] = "LOWER( m.lastname ) LIKE $key";
+        $disjunctiveClauses[] = "CONCAT_WS(' ', LOWER(m.lastname), LOWER(m.firstname)) LIKE $key";
+        $disjunctiveClauses[] = "CONCAT_WS(' ', LOWER(m.firstname), LOWER(m.lastname)) LIKE $key";
         switch($phrase){
-            case 'exact':
-                $whereClause = "m.published = 1 AND (LOWER( m.firstname ) LIKE $key OR LOWER( m.lastname ) LIKE $key OR MATCH(m.description) AGAINST($key))";
+            case 'exact':                
+                $disjunctiveClauses[] = "MATCH(m.description) AGAINST($key)";
                 break;
             case 'all':
-                $allKey = $db->Quote(preg_replace('/(\\s+|^)/', " +", $text), true);
-                $whereClause = "m.published = 1 AND (LOWER( m.firstname ) LIKE $key OR LOWER( m.lastname ) LIKE $key OR MATCH(m.description) AGAINST($allKey IN BOOLEAN MODE))";				
+                $allKey = $db->Quote(preg_replace('/(\\s+|^)/', " +", strtolower($text)), true);
+                $disjunctiveClauses[] = "MATCH(m.description) AGAINST($allKey IN BOOLEAN MODE))";
                 break;
             case 'any':
-                $whereClause = "m.published = 1 AND (LOWER( m.firstname ) LIKE $key OR LOWER( m.lastname ) LIKE $key OR MATCH(m.description) AGAINST($key IN BOOLEAN MODE))";				
+                $disjunctiveClauses[] = "MATCH(m.description) AGAINST($key IN BOOLEAN MODE))";
+                break;
         }
-
+        
+        $whereClause = $publishedCondition.' AND '.implode(' OR ', $disjunctiveClauses);
         $section = $db->Quote($section, false);
         $query = "SELECT DISTINCT m.id as id, CONCAT_WS(' ', m.firstname, m.lastname) AS title, '' AS metadesc, '' AS metakey, CONCAT_WS( '/', r.name, $section ) AS section, 
         m.created AS created, '2' AS browsernav, m.description AS text FROM #__jresearch_member m 

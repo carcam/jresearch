@@ -45,7 +45,7 @@ class JResearchSimpleCitationStyle implements JResearchCitationStyle{
     * @return 	string
     */
     function getCitationText($publication){
-        return $backupObj->getCitationText($publication);
+        return $this->backupObj->getCitationText($publication);
     }
 
     /**
@@ -56,7 +56,7 @@ class JResearchSimpleCitationStyle implements JResearchCitationStyle{
     * @return 	string
     */
     function getCitationHTMLText($publication){
-        return $backupObj->getCitationHTMLText($publication);
+        return $this->backupObj->getCitationHTMLText($publication);
     }
 
     /**
@@ -68,7 +68,7 @@ class JResearchSimpleCitationStyle implements JResearchCitationStyle{
     * @return string
     */
     private function getCitation($publication, $html = false){
-        return $backupObj->getCitation($publication, $html);
+        return $this->backupObj->getCitation($publication, $html);
     }
 
     /**
@@ -102,7 +102,7 @@ class JResearchSimpleCitationStyle implements JResearchCitationStyle{
     * @return 	string
     */  
     function getParentheticalCitationText($publication){
-        return $backupObj->getParentheticalCitationText($publication);
+        return $this->backupObj->getParentheticalCitationText($publication);
     }
 
     /** 
@@ -113,7 +113,7 @@ class JResearchSimpleCitationStyle implements JResearchCitationStyle{
     * @return 	string
     */
     function getParentheticalCitationHTMLText($publication){
-        return $backupObj->getParentheticalCitationHTMLText($publication);
+        return $this->backupObj->getParentheticalCitationHTMLText($publication);
     }
 
     /**
@@ -145,20 +145,19 @@ class JResearchSimpleCitationStyle implements JResearchCitationStyle{
         
         $output.= $title.'. ';
         
-       $moreDetails = false; 
-       if (isset($publication->booktitle)) {
+       $moreDetails = false;
+       if (!empty($publication->booktitle)) {
            $booktitle = trim($publication->booktitle);
-           if (!empty($booktitle)) {
-               $output .= ' '.$booktitle;
-               $moreDetails = true;
-           }
-       } elseif(isset($publication->publisher)) {
-           $publisher = trim($publication->publisher);
-           if (!empty($publisher)) {
-               $output .= ' '.$publisher;
-               $moreDetails = true;
-           }
+       } elseif(!empty($publication->publisher)) {
+           $booktitle = trim($publication->publisher);
+       } elseif (!empty($publication->journal)) {
+           $booktitle = trim($publication->journal);           
        }
+       
+        if (!empty($booktitle)) {
+            $output .= ' '.$booktitle;
+            $moreDetails = true;
+        }
        
        if (!empty($year)) {
            if ($moreDetails) {
