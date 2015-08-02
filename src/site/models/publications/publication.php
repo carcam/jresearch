@@ -47,8 +47,8 @@ class JResearchModelPublication extends JResearchModelForm{
     {
         if (empty($this->_data))
         {
-            $app = & JFactory::getApplication();
-            $data = & JRequest::getVar('jform');            
+            $app = JFactory::getApplication();
+            $data = JRequest::getVar('jform');            
             if (empty($data))
             {
             	$selected = JRequest::getInt('id', 0);
@@ -59,7 +59,7 @@ class JResearchModelPublication extends JResearchModelForm{
                 $query->from('`#__jresearch_publication`');
                 $query->where('id = ' . $selected);
                 $db->setQuery((string)$query);
-                $data = & $db->loadAssoc();
+                $data = $db->loadAssoc();
              }
              
                           

@@ -33,19 +33,19 @@ class JResearchAdminModelMember extends JModelForm{
     {
         if (empty($this->data))
         {
-            $app = & JFactory::getApplication();
-            $data = & JRequest::getVar('jform');
+            $app = JFactory::getApplication();
+            $data = JRequest::getVar('jform');
             if (empty($data))
             {
                 // For new items
-                $selected = & JRequest::getVar('cid', 0, '', 'array');
+                $selected = JRequest::getVar('cid', 0, '', 'array');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('*');
                 $query->from('#__jresearch_member');
                 $query->where('id = ' . (int)$selected[0]);
                 $db->setQuery((string)$query);
-                $data = & $db->loadAssoc();
+                $data = $db->loadAssoc();
             }
 
             if (empty($data))
@@ -186,7 +186,7 @@ class JResearchAdminModelMember extends JModelForm{
      */        
     function delete(){
        $n = 0;
-       $selected = & JRequest::getVar('cid', 0, '', 'array');
+       $selected = JRequest::getVar('cid', 0, '', 'array');
        $area = JTable::getInstance('Member', 'JResearch');
        foreach($selected as $id){
        		$action = JResearchAccessHelper::getActions('member', $id);
@@ -204,7 +204,7 @@ class JResearchAdminModelMember extends JModelForm{
        return $n;
     }
 
-    function checkin(){
+    function checkin($pk=null){
         $data = &$this->getData();
 
         if(!empty($data)){

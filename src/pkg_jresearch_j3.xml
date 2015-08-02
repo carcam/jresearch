@@ -4,14 +4,14 @@
 	<author>Luis Galárraga</author>
 	<creationDate>January 2015</creationDate>
 	<packagename>jresearch_j3</packagename>
-	<version>3.0 Beta 1</version>
+	<version>3.0 Beta 2</version>
 	<url>http://joomlaresearch.com/</url>
 	<packager>JResearch Team</packager>
 	<packagerurl></packagerurl>
 	<description>JResearch full installation package.</description>
 	<update></update>
 	<files folder="packages">
-		<file type="component" id="com_jresearch">com_jresearch_3.0_beta_1.zip</file>
+		<file type="component" id="com_jresearch">com_jresearch.zip</file>
 		<file type="plugin" id="jresearch_automatic_bibliography_generation" group="editors-xtd">plg_jresearch_automatic_bibliography_generation.zip</file>
 		<file type="plugin" id="jresearch_automatic_citation" group="editors-xtd">plg_jresearch_automatic_citation.zip</file>
 		<file type="plugin" id="jresearch_entities_load_cited_records" group="system">plg_jresearch_entities_load_cited_records.zip</file>
@@ -20,5 +20,7 @@
 		<file type="plugin" id="jresearch_offline_citation" group="content">plg_jresearch_offline_citation.zip</file>
 		<file type="plugin" id="jresearch_persistent_cited_records" group="content">plg_jresearch_persistent_cited_records.zip</file>
 		<file type="plugin" id="jresearch_search" group="search">plg_jresearch_search.zip</file>
+		<file type="library" id="jresearch_jbootstrap">lib_bootstrap.zip</file>
+		<file type="library" id="jresearch_jlayouts">lib_layouts.zip</file>
 	</files>
 </extension>

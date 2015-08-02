@@ -32,19 +32,19 @@ class JResearchAdminModelMember_position extends JModelAdmin {
     {
         if (empty($this->data))
         {
-            $app = & JFactory::getApplication();
-            $data = & JRequest::getVar('jform');
+            $app = JFactory::getApplication();
+            $data = JRequest::getVar('jform');
             if (empty($data))
             {
                 // For new items
-                $selected = & JRequest::getVar('cid', 0, '', 'array');
+                $selected = JRequest::getVar('cid', 0, '', 'array');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('*');
                 $query->from('#__jresearch_member_position');
                 $query->where('id = ' . (int)$selected[0]);
                 $db->setQuery((string)$query);
-                $data = & $db->loadAssoc();
+                $data = $db->loadAssoc();
             }
 
             if (empty($data))
@@ -101,7 +101,7 @@ class JResearchAdminModelMember_position extends JModelAdmin {
      * Publishes the set of selected items
      */
     function publish(){
-        $selected = & JRequest::getVar('cid', 0, '', 'array');
+        $selected = JRequest::getVar('cid', 0, '', 'array');
         $position = JTable::getInstance('Member_position', 'JResearch');
         $result = $position->publish($selected, 1); 
         if(!$result) { 
@@ -114,7 +114,7 @@ class JResearchAdminModelMember_position extends JModelAdmin {
      * Unpublishes the set of selected items
      */
     function unpublish(){
-       $selected = & JRequest::getVar('cid', 0, '', 'array');
+       $selected = JRequest::getVar('cid', 0, '', 'array');
        $position = JTable::getInstance('Member_position', 'JResearch');
        $result = $position->publish($selected, 0);
        if(!$result) { 
@@ -130,7 +130,7 @@ class JResearchAdminModelMember_position extends JModelAdmin {
      */
     function delete(){
        $n = 0;
-       $selected =& JRequest::getVar('cid', 0, '', 'array');
+       $selected =JRequest::getVar('cid', 0, '', 'array');
        $position = JTable::getInstance('Member_position', 'JResearch');
        $user = JFactory::getUser();
        foreach($selected as $id){
@@ -146,7 +146,7 @@ class JResearchAdminModelMember_position extends JModelAdmin {
     }
 
 
-    function checkin(){
+    function checkin($pk=null){
         $data = &$this->getData();
 
         if(!empty($data)){

@@ -33,17 +33,17 @@ class JResearchAdminModelProject extends JModelForm{
     */
     public function &getData(){
 		if (empty($this->data)){
-	        $app =& JFactory::getApplication();
-	        $data =& JRequest::getVar('jform');
+	        $app =JFactory::getApplication();
+	        $data =JRequest::getVar('jform');
 	        if (empty($data)){
-	            $selected = & JRequest::getVar('cid', 0, '', 'array');
+	            $selected = JRequest::getVar('cid', 0, '', 'array');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('*');
                 $query->from('`#__jresearch_project`');
                 $query->where('id = ' . (int)$selected[0]);
                 $db->setQuery((string)$query);
-                $data = & $db->loadAssoc();
+                $data = $db->loadAssoc();
 	        }
 	        
 	        if (empty($data)){
