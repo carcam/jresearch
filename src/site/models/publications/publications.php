@@ -46,7 +46,7 @@ class JResearchModelPublications extends JResearchModelList{
 
         $query->select('DISTINCT pub.*');
         $query->from('#__jresearch_publication pub');
-        $query->leftJoin('#__jresearch_publication_research_area AS ra ON pub.id = ra.id_publication');
+        $query->leftJoin('#__jresearch_publication_researcharea AS ra ON pub.id = ra.id_publication');
         $query->leftJoin('#__jresearch_all_publication_authors AS apa ON pub.id = apa.pid');
             
         if(!empty($whereClauses))

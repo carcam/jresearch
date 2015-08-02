@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `#__jresearch_thesis_external_author`;
 DROP TABLE IF EXISTS `#__jresearch_thesis_internal_author`;
 DROP TABLE IF EXISTS `#__jresearch_cited_records`;
 DROP TABLE IF EXISTS `#__jresearch_publication_type`;
-DROP TABLE IF EXISTS `#__jresearch_publication_research_area`;
+DROP TABLE IF EXISTS `#__jresearch_publication_researcharea`;
 DROP TABLE IF EXISTS `#__jresearch_project_research_area`;
 DROP TABLE IF EXISTS `#__jresearch_thesis_research_area`;
 DROP TABLE IF EXISTS `#__jresearch_member_research_area`;
