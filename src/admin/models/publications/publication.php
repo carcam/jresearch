@@ -35,11 +35,11 @@ class JResearchAdminModelPublication extends JModelForm{
     {
         if (empty($this->data))
         {
-            $app = & JFactory::getApplication();
-            $data = & JRequest::getVar('jform');
+            $app = JFactory::getApplication();
+            $data = JRequest::getVar('jform');
             if (empty($data))
             {
-                $selected = & JRequest::getVar('cid', 0, '', 'array');
+                $selected = JRequest::getVar('cid', 0, '', 'array');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 // Select all fields from the hello table.
@@ -47,7 +47,7 @@ class JResearchAdminModelPublication extends JModelForm{
                 $query->from('`#__jresearch_publication`');
                 $query->where('id = ' . (int)$selected[0]);
                 $db->setQuery((string)$query);
-                $data = & $db->loadAssoc();
+                $data = $db->loadAssoc();
             }
             if (empty($data))
             {
@@ -368,7 +368,7 @@ class JResearchAdminModelPublication extends JModelForm{
         return false;
     }
 
-    function checkin(){
+    function checkin($pk=null){
         $data = &$this->getData();
 
         if(!empty($data)){
