@@ -222,15 +222,12 @@ class JResearchSimpleCitationStyle implements JResearchCitationStyle{
      *
      * @param string $authorName In any of the formats supported by Bibtex.
      */
-    protected function formatAuthorForReferenceOutput($authorName){
-        $mainframe = JFactory::getApplication();
-        $params = $mainframe->getPageParameters('com_jresearch');
-        if ($params == null || empty($params->get('staff_format'))) {
-            $params = JComponentHelper::getParams('com_jresearch');
-        }
+    protected function formatAuthorForReferenceOutput($authorName) {
+        $params = JComponentHelper::getParams('com_jresearch');
         $format_last_first = $params->get('staff_format') == 'lastname_firstname';
         
-        $authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
+        $authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(
+                JResearchPublicationsHelper::getAuthorComponents($authorName));
         // We have two components: firstname and lastname
         if(count($authorComponents) == 1){
             $text = JString::ucfirst($authorComponents['lastname']);

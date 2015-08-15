@@ -28,7 +28,7 @@ class JResearchViewPublications extends JResearchView
         $this->addTemplatePath(JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publications'.DS.'tmpl');  
         
         switch($layout){
-                // Template for making citations from TinyMCE editor
+            // Template for making citations from TinyMCE editor
             case 'cite':
                $this->_displayCiteDialog();
                break;
@@ -273,30 +273,27 @@ class JResearchViewPublications extends JResearchView
         var messages = {\"back\": \"$backMsg\", \"next\": \"$nextMsg\", \"citeRepeated\" : \"$recordRepeatedMsg\" , \"citeFailed\" : \"$citeFailedMsg\", \"citeSuccessful\" : \"$citeSuccessfulMsg\", \"noItems\" : \"$noItemsMsg\"};
         window.addEvent('domready',
                 function(){
-        			window.document.getElementById('title').addEventListener (\"keyup\", startPublicationSearch);                
+        	    window.document.getElementById('title').addEventListener (\"keyup\", startPublicationSearch);                
                     var searchRequest = new Request({method: 'get', async: true, onSuccess: addSearchResults, onFailure: onSearchFailure});
                     searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
                  }
         );");
-        $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:200px;" ');
+        $document->addStyleDeclaration("ul.citefields { margin: auto; width: -webkit-fit-content; width: -moz-fit-content; width: fit-content; }"
+                ."ul.citefields li{ display: inline-block; float: left; margin-right: 35px;}"
+                ."ul.citefields li label{ display: inline-block; margin-right: 5px; }");
+        $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:50%;height:100px;" ');
         JHtml::_('behavior.framework');
 
         // Remove button
-        $closeButton = '<button onclick="window.parent.document.getElementById(\'sbox-window\').close()">'.JText::_('JRESEARCH_CLOSE').'</button>';
         $removeButton = '<button onclick="javascript:removeSelectedRecord()">'.JText::_('JRESEARCH_REMOVE').'</button>';
         $citeButton = '<button onclick="javascript:makeCitation(\'cite\')">'.JText::_('JRESEARCH_CITE').'</button>';
         $citeParentheticalButton = '<button onclick="javascript:makeCitation(\'citep\')">'.JText::_('JRESEARCH_CITE_PARENTHETICAL').'</button>';
-        $citeYearButton = '<button onclick="javascript:makeCitation(\'citeyear\')">'.JText::_('JRESEARCH_CITE_YEAR').'</button>';
-        $noCiteButton = '<button onclick="javascript:makeCitation(\'nocite\')">'.JText::_('JRESEARCH_NO_CITE').'</button>';
 
         // Put the variables into the template
         $this->assignRef('citedRecords', $citedRecordsListHTML);
         $this->assignRef('removeButton', $removeButton);
         $this->assignRef('citeButton', $citeButton);
         $this->assignRef('citeParentheticalButton', $citeParentheticalButton);
-        $this->assignRef('citeYearButton', $citeYearButton);
-        $this->assignRef('noCiteButton', $noCiteButton);
-        $this->assignRef('closeButton', $closeButton);        
         $this->assignRef('url', $url);
         
         parent::display();
@@ -311,18 +308,18 @@ class JResearchViewPublications extends JResearchView
     	$citedRecordsOptionsHTML = array();
     	$document = JFactory::getDocument();
         $document->setTitle(JText::_('JRESEARCH_GENERATE_BIBLIOGRAPHY'));
-        JHTML::_('behavior.mootools');
+        JHtml::_('behavior.framework');
 
         foreach($citedRecords as $pub){
 	        $pubTitle = $pub;
             $pubRecord = JResearchPublicationsHelper::getItemByCitekey($pub);
             if($pubRecord != null){
                 $pubTitle = $pubRecord->title;            
-	           	$citedRecordsOptionsHTML[] = JHTML::_('select.option', $pub, $pub.': '.$pubTitle);
+                $citedRecordsOptionsHTML[] = JHTML::_('select.option', $pub, $pub.': '.$pubTitle);
             }
         }
         
-        $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:250px;" ');
+        $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:60%;height:100px;" ');
 
         // Remove button
         $removeButton = '<button onclick="javascript:startSelectedRecordRemoval()">'.JText::_('JRESEARCH_REMOVE').'</button>';
@@ -336,8 +333,7 @@ class JResearchViewPublications extends JResearchView
         $this->assignRef('closeButton', $closeButton);
         $this->assignRef('generateBibButton', $generateBibButton);
         
-        parent::display();
-        
+        parent::display();        
     }
     
     /**
@@ -382,7 +378,6 @@ class JResearchViewPublications extends JResearchView
         $this->assignRef('url', $url);
         
         parent::display();
-    	
     }
     
     /**

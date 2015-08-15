@@ -23,49 +23,50 @@ jimport( 'joomla.plugin.plugin' );
  */
 class plgButtonJResearch_Automatic_Bibliography_Generation extends JPlugin
 {
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param 	object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
-	function plgButtonJResearch_Bibliography_Generation(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
+    /**
+     * Constructor
+     *
+     * For php4 compatability we must not use the __constructor as a constructor for plugins
+     * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+     * This causes problems with cross-referencing necessary for the observer design pattern.
+     *
+     * @param 	object $subject The object to observe
+     * @param 	array  $config  An array that holds the plugin configuration
+     * @since 1.5
+     */
+    function plgButtonJResearch_Bibliography_Generation(&$subject, $config)
+    {
+        parent::__construct($subject, $config);
+    }
 
-	/**
-	 * Display the button
-	 *
-	 * @return array A two element array of ( imageName, textToInsert )
-	 */
-	function onDisplay($name)
-	{
-		$doc =  JFactory::getDocument();
-		$url = JURI::root();
-		$image = $url.DS.'components'.DS.'com_jresearch'.DS.'assets'.DS.'j_button2_bibliography.png';		
-		$link = 'index.php?option=com_jresearch&amp;controller=publications&amp;task=generateBibliography&amp;tmpl=component&amp;e_name='.$name;
+    /**
+     * Display the button
+     *
+     * @return array A two element array of ( imageName, textToInsert )
+     */
+    function onDisplay($name)
+    {
+        $doc =  JFactory::getDocument();
+        $url = JURI::root();
+        $image = $url.'components/com_jresearch/assets/j_button2_bibliography.png';		
+        $link = 'index.php?option=com_jresearch&amp;controller=publications&amp;task=generateBibliography&amp;tmpl=component&amp;e_name='.$name;
 
-		JHtml::_('behavior.modal');
+        JHtml::_('behavior.modal');
 
-		$button = new JObject();
-		$button->set('modal', true);
-		$button->set('link', $link);
-		$button->set('text', JText::_('Generate Bibliography'));
-		$button->set('name', 'bibliography');
-		$button->set('options', "{handler: 'iframe', size: {x: 570, y: 250}}");
+        $button = new JObject();
+        $button->set('modal', true);
+        $button->set('link', $link);
+        $button->set('text', JText::_('Generate Bibliography'));
+        $button->set('class', 'btn');
+        $button->set('name', 'bibliography');
+        $button->set('options', "{handler: 'iframe', size: {x: 570, y: 250}}");
 
-		$css = ".button2-left .bibliography { ".
-			   "background: url($image) 100% 0 no-repeat;".
-			   "}";
-		
-		//$doc->addStyleDeclaration($css);
-		return $button;
-	}
+        $css = ".button2-left .bibliography { ".
+                   "background: url($image) 100% 0 no-repeat;".
+                   "}";
+
+        $doc->addStyleDeclaration($css);
+        return $button;
+    }
 }
 ?>

@@ -617,88 +617,96 @@ class JResearchPublicationsHelper{
      * @return array Array of public records that match the search
      */
     public static function getItemsByPrefix($prefix, $criteria, $limitstart = 0, $limit = 10){		
-            jresearchimport('tables.publication', 'jresearch.admin');
+        jresearchimport('tables.publication', 'jresearch.admin');
 
-            $db = JFactory::getDBO();
-            $records = array();
-            $finalQuery = null;
+        $db = JFactory::getDBO();
+        $records = array();
+        $finalQuery = null;
 
-            if($prefix == '')
-                    return $records;
-
-            $newprefix = $db->Quote( '%'.$db->getEscaped( strtolower($prefix), true ).'%', false );
-            $prefixscp = $db->Quote(strtolower($prefix), false); 
-            $publicationTable = $db->quoteName('#__jresearch_publication');
-            $staffTable = $db->quoteName('#__jresearch_member');
-            $internalAuthorsTable = $db->quoteName('#__jresearch_publication_internal_author');
-            $externalAuthorsTable = $db->quoteName('#__jresearch_publication_external_author');
-            $p = $db->quoteName('p');
-            $em = $db->quoteName('em');
-            $im = $db->quoteName('im');
-            $m = $db->quoteName('m');
-            $id_publication = $db->quoteName('id_publication');
-            $id = $db->quoteName('id');
-            $firstname = $db->quoteName('firstname');
-            $lastname = $db->quoteName('lastname');
-            $id_staff_member = $db->quoteName('id_staff_member');
-            $pubtype = $db->quoteName('pubtype');
-            $authorname = $db->quoteName('author_name');
-            $pu = $db->quoteName('published');
-
-            $whereKeywords = " LOCATE($prefixscp, LOWER(".$db->quoteName('keywords').")) > 0";
-            $whereTitle = " LOWER(".$db->quoteName('title').") LIKE $newprefix";
-            $whereYear = " ".$db->quoteName('year')." = $prefixscp";
-            $whereCitekey = " LOWER(".$db->quoteName('citekey').") LIKE $newprefix";
-            $published = $db->quoteName('published').' = '.$db->Quote(1);
-
-
-            switch($criteria){
-                    case 'all': case 'authors':
-                            break;
-                    case 'keywords':
-                            $query = "SELECT $id FROM $publicationTable WHERE".$whereKeywords." AND ".$published;
-                            break;
-                    case 'title':
-                            $query = "SELECT $id FROM $publicationTable WHERE ".$whereTitle." AND ".$published;
-                            break;
-                    case 'year':
-                            $query = "SELECT $id FROM $publicationTable WHERE".$whereYear." AND ".$published;
-                            break;
-                    case 'citekey':
-                            $query = "SELECT $id FROM $publicationTable WHERE".$whereCitekey." AND ".$published;
-                            break;			
-            }
-
-            // If %% is sent, so ignore criteria, just return all available items
-            if($prefix != '%%'){
-                    if($criteria == 'authors'){
-                            $finalQuery = "SELECT DISTINCT $p.$id FROM $publicationTable $p, $externalAuthorsTable em"
-                            ." WHERE $published AND $em.$id_publication = $p.$id AND LOWER($em.$authorname) LIKE $newprefix"
-                            ." UNION SELECT $p.$id FROM $publicationTable $p, $internalAuthorsTable $im, $staffTable $m"
-                            ." WHERE $p.$id = $im.$id_publication AND $p.$pu = 1 AND $im.$id_staff_member = $m.$id"
-                            ." AND (LOWER($m.$firstname) LIKE $newprefix OR LOWER($m.$lastname) LIKE $newprefix) ";
-                    }else if($criteria == 'all'){
-                            $finalQuery = "SELECT id FROM $publicationTable WHERE (".$whereCitekey." OR ".$whereKeywords." OR ".$whereYear." OR ".$whereTitle.") AND $published";
-                    }else{
-                            $finalQuery = $query;
-                    }
-            }else{
-                    $finalQuery = 'SELECT '.$db->quoteName('id').', '.$db->quoteName('pubtype').' FROM '.$publicationTable.' WHERE '.$db->quoteName('published').' = '.$db->Quote(1); 
-            }
-
-            $finalQuery .= " LIMIT $limitstart, $limit";
-
-            $db->setQuery($finalQuery);
-            $result = $db->loadAssocList();
-            if($result){
-                    foreach($result as $r){
-                       $pub = JTable::getInstance('Publication', 'JResearch');
-           $pub->load($r['id']);
-           $records[] = $pub;
-                    }
-            }
-
+        if($prefix == '')
             return $records;
+
+        $newprefix = $db->Quote( '%'.$db->escape( strtolower($prefix), true ).'%', false );
+        $prefixscp = $db->Quote(strtolower($prefix), false); 
+        $publicationTable = $db->quoteName('#__jresearch_publication');
+        $staffTable = $db->quoteName('#__jresearch_member');
+        $internalAuthorsTable = $db->quoteName('#__jresearch_publication_internal_author');
+        $externalAuthorsTable = $db->quoteName('#__jresearch_publication_external_author');
+        $p = $db->quoteName('p');
+        $em = $db->quoteName('em');
+        $im = $db->quoteName('im');
+        $m = $db->quoteName('m');
+        $id_publication = $db->quoteName('id_publication');
+        $id = $db->quoteName('id');
+        $firstname = $db->quoteName('firstname');
+        $lastname = $db->quoteName('lastname');
+        $id_staff_member = $db->quoteName('id_staff_member');
+        $pubtype = $db->quoteName('pubtype');
+        $authorname = $db->quoteName('author_name');
+        $pu = $db->quoteName('published');
+
+        $whereKeywords = " LOCATE($prefixscp, LOWER(".$db->quoteName('keywords').")) > 0";
+        $whereTitle = " LOWER(".$db->quoteName('title').") LIKE $newprefix";
+        $whereYear = " ".$db->quoteName('year')." = $prefixscp";
+        $whereCitekey = " LOWER(".$db->quoteName('citekey').") LIKE $newprefix";
+        $published = $db->quoteName('published').' = '.$db->Quote(1);
+
+
+        switch($criteria){
+            case 'authors':
+                 $query = "SELECT DISTINCT $p.$id FROM $publicationTable $p, $externalAuthorsTable em"
+                ." WHERE $published AND $em.$id_publication = $p.$id AND LOWER($em.$authorname) LIKE $newprefix"
+                ." UNION SELECT $p.$id FROM $publicationTable $p, $internalAuthorsTable $im, $staffTable $m"
+                ." WHERE $p.$id = $im.$id_publication AND $p.$pu = 1 AND $im.$id_staff_member = $m.$id"
+                ." AND (LOWER($m.$firstname) LIKE $newprefix OR LOWER($m.$lastname) LIKE $newprefix"
+                ." OR CONCAT_WS(' ', LOWER($m.$lastname), LOWER($m.$firstname)) LIKE $newprefix"
+                ." OR CONCAT_WS(' ', LOWER($m.$firstname), LOWER($m.$lastname)) LIKE $newprefix)";
+                break;
+            case 'all':
+                $query = "SELECT DISTINCT $p.$id FROM $publicationTable $p, $externalAuthorsTable em"
+                ." WHERE $published AND $em.$id_publication = $p.$id AND LOWER($em.$authorname) LIKE $newprefix"
+                ." UNION DISTINCT SELECT $p.$id FROM $publicationTable $p, $internalAuthorsTable $im, $staffTable $m"
+                ." WHERE $p.$id = $im.$id_publication AND $p.$pu = 1 AND $im.$id_staff_member = $m.$id"
+                ." AND (LOWER($m.$firstname) LIKE $newprefix OR LOWER($m.$lastname) LIKE $newprefix"
+                ." OR CONCAT_WS(' ', LOWER($m.$lastname), LOWER($m.$firstname)) LIKE $newprefix"
+                ." OR CONCAT_WS(' ', LOWER($m.$firstname), LOWER($m.$lastname)) LIKE $newprefix)"
+                ." UNION DISTINCT SELECT id FROM $publicationTable WHERE ($whereCitekey"
+                ." OR ".$whereKeywords." OR ".$whereYear." OR ".$whereTitle.") AND $published";                
+                break;
+            case 'keywords':
+                $query = "SELECT $id FROM $publicationTable WHERE".$whereKeywords." AND ".$published;
+                break;
+            case 'title':
+                $query = "SELECT $id FROM $publicationTable WHERE ".$whereTitle." AND ".$published;
+                break;
+            case 'year':
+                $query = "SELECT $id FROM $publicationTable WHERE".$whereYear." AND ".$published;
+                break;
+            case 'citekey':
+                $query = "SELECT $id FROM $publicationTable WHERE".$whereCitekey." AND ".$published;
+                break;			
+        }
+
+        // If %% is sent, so ignore criteria, just return all available items
+        if($prefix != '%%') {            
+            $finalQuery = $query;
+        }else{
+            $finalQuery = 'SELECT '.$db->quoteName('id').', '.$db->quoteName('pubtype').' FROM '.$publicationTable.' WHERE '.$db->quoteName('published').' = '.$db->Quote(1); 
+        }        
+
+        $finalQuery .= " LIMIT $limitstart, $limit";
+
+        $db->setQuery($finalQuery);
+        $result = $db->loadAssocList();
+        if($result){
+            foreach($result as $r){
+                $pub = JTable::getInstance('Publication', 'JResearch');
+                $pub->load($r['id']);
+                $records[] = $pub;
+            }
+        }
+
+        return $records;
     }
 
     /**

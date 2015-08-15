@@ -453,10 +453,10 @@ class plgSearchJResearch_Search extends JPlugin{
                 break;
             case 'all':
                 $allKey = $db->Quote(preg_replace('/(\\s+|^)/', " +", strtolower($text)), true);
-                $disjunctiveClauses[] = "MATCH(m.description) AGAINST($allKey IN BOOLEAN MODE))";
+                $disjunctiveClauses[] = "MATCH(m.description) AGAINST($allKey IN BOOLEAN MODE)";
                 break;
             case 'any':
-                $disjunctiveClauses[] = "MATCH(m.description) AGAINST($key IN BOOLEAN MODE))";
+                $disjunctiveClauses[] = "MATCH(m.description) AGAINST($key IN BOOLEAN MODE)";
                 break;
         }
         
