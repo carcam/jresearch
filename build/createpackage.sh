@@ -19,6 +19,11 @@ zip  -r --exclude=*.svn* plg_jresearch_persistent_cited_records.zip plg_jresearc
 zip  -r --exclude=*.svn* plg_jresearch_search.zip plg_jresearch_search
 cd ..
 mv plugins/*.zip ./packages
+cd libraries
+zip  -r --exclude=*.svn* lib_layouts.zip jlayouts
+zip  -r --exclude=*.svn* lib_bootstrap.zip jbootstrap
+cd ..
+mv libraries/*.zip ./packages
 zip  -r --exclude=*.svn* $PACKAGE_FILENAME install.php LICENSE.txt pkg_jresearch_j3.xml packages
 mv $PACKAGE_FILENAME ..
 cd ..

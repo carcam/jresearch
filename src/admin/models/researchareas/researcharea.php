@@ -110,7 +110,7 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
      * Publishes the set of selected items
      */
     function publish(){
-        $selected = & JRequest::getVar('cid', 0, '', 'array');
+        $selected = JRequest::getVar('cid', 0, '', 'array');
         $area = JTable::getInstance('Researcharea', 'JResearch');           
         $user = JFactory::getUser();
         $allOk = true;
@@ -134,7 +134,7 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
      * Unpublishes the set of selected items
      */
     function unpublish(){
-        $selected = & JRequest::getVar('cid', 0, '', 'array');
+        $selected = JRequest::getVar('cid', 0, '', 'array');
         $area = JTable::getInstance('Researcharea', 'JResearch');           
         $allOk = true;
         $user = JFactory::getUser();
@@ -161,7 +161,7 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
      */
     function delete(){
        $n = 0;
-       $selected = & JRequest::getVar('cid', 0, '', 'array');
+       $selected = JRequest::getVar('cid', 0, '', 'array');
        $area = JTable::getInstance('Researcharea', 'JResearch');
        $user = JFactory::getUser();
        foreach($selected as $id){

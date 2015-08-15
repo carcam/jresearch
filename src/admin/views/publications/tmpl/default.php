@@ -81,7 +81,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
                                     <td class="center"><?php echo $published; ?></td>
                                     <td class="center">
                                             <?php
-                                                    $app =& JFactory::getApplication();
+                                                    $app = JFactory::getApplication();
                                                     $templateDir = JURI::base().'templates/'.$app->getTemplate().'/images/admin';							
                                             ?>
                                             <a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_internal')" title="<?php echo ( $this->items[$i]->internal ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>">

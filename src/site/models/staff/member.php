@@ -46,13 +46,13 @@ class JResearchModelMember extends JResearchModelForm{
     public function &getData()
     {
     	if(empty($this->_data)){
-            $app = & JFactory::getApplication();
-            $data = & JRequest::getVar('jform');
+            $app = JFactory::getApplication();
+            $data = JRequest::getVar('jform');
             if (empty($data))
             {
                 // For new items
                 jresearchimport('helpers.staff', 'jresearch.admin');
-                $selected = & JRequest::getVar('cid', 0, '', 'array');
+                $selected = JRequest::getVar('cid', 0, '', 'array');
                 $user = JFactory::getUser();
                 $data = JResearchStaffHelper::getMemberArrayFromUsername($user->get('username'));
             }

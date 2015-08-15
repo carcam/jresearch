@@ -134,11 +134,11 @@ class JResearchCharsetsHelper{
 	);
 
 
-	public static function getLowerToUpperCaseTable(){
+	public static function   getLowerToUpperCaseTable(){
 		return self::$UTF8_LOWER_TO_UPPER;
 	}
 	
-	public static function getUpperToLowerCaseTable(){
+	public static function   getUpperToLowerCaseTable(){
 		return self::$UTF8_UPPER_TO_LOWER;
 	}
 	
@@ -148,7 +148,7 @@ class JResearchCharsetsHelper{
 	 *
 	 * @return array.
 	 */
-	public static function getUtf8CharsArray()
+	public static function   getUtf8CharsArray()
 	{
 	    return array(
 		    "/À/",
@@ -223,7 +223,7 @@ class JResearchCharsetsHelper{
 	 *
 	 * @return array
 	 */
-	public static function getUtf8CharsReplaceArray()
+	public static function   getUtf8CharsReplaceArray()
 	{
 	    return array(
 		    "{\\`A}",
@@ -298,7 +298,7 @@ class JResearchCharsetsHelper{
 	 *
 	 * @return unknown
 	 */
-	function getBibtexCharsArray()
+	static function   getBibtexCharsArray()
 	{
 	    return array(
 		    "/{(\\\`([aeiou]|{[aeiou]}))}/i",//remove the outside braces...
@@ -379,7 +379,7 @@ class JResearchCharsetsHelper{
 	}
 
 
-	function getBibtexCharsReplaceArray()
+	static function  getBibtexCharsReplaceArray()
 	{
 	    return array(
 		    "$1",
@@ -465,7 +465,7 @@ class JResearchCharsetsHelper{
 	 *
 	 * @return array
 	 */
-	public static function getLatinCharsCodesArray(){
+	public static function   getLatinCharsCodesArray(){
 		return array('\x{C0}',
 			     '\x{C1}',
 			     '\x{C2}',
@@ -535,7 +535,7 @@ class JResearchCharsetsHelper{
 	 * Returns a simple array with the non-ascii word-characters for latin based languages.
 	 * @return array
 	 */
-	public static function getLatinWordSpecialChars(){
+	public static function   getLatinWordSpecialChars(){
 		return array(
 		    "À",
 		    "Á",
