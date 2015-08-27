@@ -215,6 +215,18 @@
                 label="JRESEARCH_PUBLISHER"
         />
         <field
+            id="journal_url"
+            name="journal_url"
+            type="text"
+            size="20"
+            maxlength="255"
+            class="inputbox"
+            default=""
+            label="JRESEARCH_PUBLISHER_URL"
+            description="JRESEARCH_PUBLISHER_URL_DESCRIPTION"
+            validate="url"
+        />
+        <field
                 id="volume"
                 name="volume"
                 type="text"

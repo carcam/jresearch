@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `hits` int(10) default 0,
   `issn` varchar(32) default NULL,
   `journal` varchar(256) NOT NULL,
+  `journal_url` varchar(256) default NULL,
   `number` varchar(10) default NULL,
   `pages` varchar(20) default NULL,
   `month` varchar(20) default NULL,
