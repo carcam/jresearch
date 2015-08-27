@@ -22,14 +22,13 @@ class JResearchAdminViewConf extends JResearchView
     	JHTML::_('behavior.modal');
     	
     	if($this->getLayout() == 'help'){
-    		JResearchToolbar::helpToolbar();
-			$langObj =  JFactory::getLanguage();
-    		$this->assignRef('langtag', $langObj->_lang);
-    	}else	
-    		JResearchToolbar::controlPanelToolbar();
-
+            JResearchToolbar::helpToolbar();
+            $langObj =  JFactory::getLanguage();
+            $this->assignRef('langtag', $langObj->_lang);
+    	} else {	
+            JResearchToolbar::controlPanelToolbar();
+        }
     	parent::display($tpl);
     }
 }
-
 ?>

@@ -302,6 +302,7 @@ div.about-panel{
 ul.creditslist{
     list-style-type: none;
     padding: 0px;
+    margin-left: 5px;
 }
 
 div.staffcontrol{
