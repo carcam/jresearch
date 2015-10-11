@@ -253,7 +253,7 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
         $n = count($authors);
         $i = 0;
         foreach($authors as $auth){
-            $text = $this->formatAuthorForReferenceOutput(($auth instanceof JResearchMember)?$auth->__toString():$auth, ($i == $n - 1));			
+            $text = $this->formatAuthorForReferenceOutput(($auth instanceof JResearchMember)?$auth->__toString():$auth, ($i == 0));			
             if($i == $n -1)
                 $text = rtrim($text, '.');
 
@@ -314,9 +314,9 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
      * Returns an author name with the format used for Chicago in the reference list
      *
      * @param string $authorName In any of the formats supported by Bibtex.
-     * @param boolean $isLast Chicago citation style formats in a different way the last author.
+     * @param boolean $isFirst Chicago citation style formats in a different way the first author.
      */
-    protected function formatAuthorForReferenceOutput($authorName, $isLast = false){
+    protected function formatAuthorForReferenceOutput($authorName, $isFirst = true){
         $authorComponents = JResearchPublicationsHelper::bibCharsToUtf8FromArray(JResearchPublicationsHelper::getAuthorComponents($authorName));
         $text = '';
 
@@ -324,20 +324,20 @@ class JResearchChicagoCitationStyle implements JResearchCitationStyle{
         if(count($authorComponents) == 1){
             $text = JString::ucfirst($authorComponents['lastname']);
         }elseif(count($authorComponents) == 2){
-            if($isLast)
-                $text = JString::ucfirst($authorComponents['firstname']).' '.JString::ucfirst($authorComponents['lastname']);			
+            if($isFirst)			
+                $text = JString::ucfirst($authorComponents['lastname']).', '.JString::ucfirst($authorComponents['firstname']);                 
             else
-                $text = JString::ucfirst($authorComponents['lastname']).', '.JString::ucfirst($authorComponents['firstname']); 
+                $text = JString::ucfirst($authorComponents['firstname']).' '.JString::ucfirst($authorComponents['lastname']);
         }elseif(count($authorComponents) == 3){
-            if($isLast)
-                $text = JString::ucfirst($authorComponents['firstname']).' '.JString::ucfirst($authorComponents['von']).' '.JString::ucfirst($authorComponents['lastname']);			
-            else
+            if($isFirst)
                 $text = JString::ucfirst($authorComponents['von']).' '.JString::ucfirst($authorComponents['lastname']).', '.JString::ucfirst($authorComponents['firstname']);			
-        }else{
-            if($isLast)
-                $text = JString::ucfirst($authorComponents['firstname']).' '.$authorComponents['jr'].' '.$authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']);			
             else
-                $text = $authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']).', '.JString::ucfirst($authorComponents['firstname']).' '.$authorComponents['jr'];						
+                $text = JString::ucfirst($authorComponents['firstname']).' '.JString::ucfirst($authorComponents['von']).' '.JString::ucfirst($authorComponents['lastname']);                			
+        }else{
+            if($isFirst)
+                $text = $authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']).', '.JString::ucfirst($authorComponents['firstname']).' '.$authorComponents['jr'];                			
+            else
+                $text = JString::ucfirst($authorComponents['firstname']).' '.$authorComponents['jr'].' '.$authorComponents['von'].' '.JString::ucfirst($authorComponents['lastname']);						
         }
 
         return $text;
