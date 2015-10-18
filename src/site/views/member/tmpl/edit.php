@@ -10,7 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $fields = array('id', 'firstname', 'lastname', 'title', 'username', 'email' , 'id_research_area' , 
- 'location', 'phone', 'fax', 'url_personal_page', 'files');
+ 'location', 'phone', 'fax', 'url_personal_page', 'google_scholar', 'files');
 
 ?>
 <div style="float: left;">

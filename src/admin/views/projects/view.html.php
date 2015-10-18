@@ -23,8 +23,10 @@ class JResearchAdminViewProjects extends JResearchView
     {
     	$mainframe = JFactory::getApplication();
         $option = JRequest::getVar('option');
-		jresearchimport('helpers.projects', 'jresearch.admin');    	
-		JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
+        $params = JComponentHelper::getParams('com_jresearch');        
+        jresearchimport('helpers.projects', 'jresearch.admin');
+        jresearchimport('helpers.publications', 'jresearch.admin');        
+        JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');
 		
     	JResearchToolbar::projectsAdminListToolbar();
     	
@@ -71,6 +73,7 @@ class JResearchAdminViewProjects extends JResearchView
         $this->assignRef('lists', $lists);        
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $model->getPagination());
+        $this->assignRef('params', $params);        
     	parent::display($tpl);
     }
 }

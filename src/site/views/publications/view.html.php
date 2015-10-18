@@ -342,7 +342,9 @@ class JResearchViewPublications extends JResearchView
      * 
      */
     private function _displayCiteFromFormDialog(){
-    	$citedRecordsOptionsHTML = array();
+        $citekeys = JRequest::getVar('value');
+        $citekeysArray = explode(',', $citekeys);
+        $citedRecordsListHTML = JHtml::_('jresearchfrontend.citekeysHTMLList', 'citedRecords', $citekeysArray);
     	$url = JURI::root();
     	
     	// Prepare the HTML document
@@ -364,8 +366,8 @@ class JResearchViewPublications extends JResearchView
                     searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
                  }
         );");
-        $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:200px;" ');
-        JHTML::_('behavior.mootools');
+
+        JHtml::_('behavior.framework');
 
         // Remove button
         $removeButton = '<button onclick="javascript:removeSelectedRecord()">'.JText::_('JRESEARCH_REMOVE').'</button>';

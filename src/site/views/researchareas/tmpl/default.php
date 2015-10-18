@@ -21,9 +21,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php
 if(count($this->items) > 0):
 ?>
-<ul style="padding-left:0px;">
+<ul class="frontenditems">
 	<?php foreach($this->items as $area): ?>
-	<li class="liresearcharea">
+	<li>
 		<div>
 			<?php $contentArray = explode('<hr id="system-readmore" />', $area->description); ?>
 			<?php $itemId = JRequest::getVar('Itemid'); ?>

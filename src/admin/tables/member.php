@@ -41,6 +41,13 @@ class JResearchMember extends JResearchTable{
      * @var type 
      */
     public $link_to_website;
+    
+    /**
+     * Link to the member's Google Scholar profile.
+     * 
+     * @var type 
+     */
+    public $google_scholar;
 
     /**
     * Member's username

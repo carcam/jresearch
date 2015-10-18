@@ -42,6 +42,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<?php endif; ?>
     	<?php $abstract = trim($this->publication->abstract); ?>
 	<?php if(!empty($abstract)): ?>
+                <dt><?php echo JText::_('JRESEARCH_ABSTRACT').': '; ?></dt>
 		<dd property="bibo:abstract"><?php echo $abstract; ?></dd>	
 	<?php endif; ?>
 	<?php 
@@ -125,7 +126,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
                 $attachments[] = $entry;                    
             }
             if (count($attachments) > 0) {
-                echo JHTML::_('jresearchfrontend.attachments', $attachments, 'vertical');
+                echo JHTML::_('jresearchfrontend.attachments', $attachments, 'horizontal');
             }
          ?>
 	<div class="divEspacio" ></div>	

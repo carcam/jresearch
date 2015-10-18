@@ -66,7 +66,6 @@ class JResearchViewProjects extends JResearchView
     	$this->_setFilters();    	
     	$pageHeader = $params->get('page_heading', JText::_('JRESEARCH_PUBLICATIONS'));
     	$showHeader = $params->get('show_page_heading', 1);
-    	
     	$this->assignRef('params', $params);
     	$this->assignRef('items', $projects);
     	$this->assignRef('areaModel', $areaModel);
@@ -75,7 +74,7 @@ class JResearchViewProjects extends JResearchView
     	$this->assignRef('showHeader', $showHeader);
     	   	
     	$eArguments = array('projects', $this->getLayout());
-		$mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
+        $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
         parent::display($tpl);
         $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }

@@ -186,21 +186,19 @@ class JResearchActivity extends JResearchTable{
         $this->authors = implode(self::$_authorsDelimiter, $finalResult);
     }
 
-
     /**
-     * Returns the complete list of authors (internal and externals) suitably ordered. 
-     * Internal authors are displayed in format [lastname, firstname].
-     * External authors are taken as they appear in the database.
-     *
-     * @return array Array of mixed elements. Internal authors are instances of 
-     * JResearchMember. External ones are strings.
+     * Internal method that extracts a list of authors encoded in a text fields
+     * and puts them in the given array field.
+     * 
+     * @param type $textField
+     * @param type $arrayField
      */
-    public function getAuthors(){
-        if(empty($this->_authorsArray)){
-            $this->_authorsArray = array();
+    protected function getAuthorsFromFields($textField, &$arrayField) {
+        if(empty($arrayField)){
+            $arrayField = array();
 
-            if(!empty($this->authors))
-                $tmpAuthorsArray = explode(self::$_authorsDelimiter, $this->authors);
+            if(!empty($textField))
+                $tmpAuthorsArray = explode(self::$_authorsDelimiter, $textField);
             else
                 $tmpAuthorsArray = array();
 
@@ -218,14 +216,27 @@ class JResearchActivity extends JResearchTable{
                     JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_jresearch/tables');
                     $member = JTable::getInstance('Member', 'JResearch');
                     $member->load((int)$authorText);
-                    $this->_authorsArray[] = $member;
+                    $arrayField[] = $member;
                 }else{
-                    $this->_authorsArray[] = $authorText;
+                    $arrayField[] = $authorText;
                 }
             }
         }
 
-        return $this->_authorsArray;
+        return $arrayField;
+    }
+    
+
+    /**
+     * Returns the complete list of authors (internal and externals) suitably ordered. 
+     * Internal authors are displayed in format [lastname, firstname].
+     * External authors are taken as they appear in the database.
+     * 
+     * @return array Array of mixed elements. Internal authors are instances of 
+     * JResearchMember. External ones are strings.
+     */
+    public function getAuthors(){
+        return $this->getAuthorsFromFields($this->authors, $this->_authorsArray);
     }
 
     /**
@@ -235,7 +246,7 @@ class JResearchActivity extends JResearchTable{
      * of a J!Research member, otherwise it is considered as an external author.
      * If it is a JResearchMember, only its id is used.
      */
-    public function addAuthor($author, $principalFlag = null){		
+    public function addAuthor($author){		
         $textToAppend = '';
         $this->_authorsArray = null;
 
@@ -245,10 +256,6 @@ class JResearchActivity extends JResearchTable{
             $textToAppend = $author;
         }else{
             return false;
-        }
-
-        if($principalFlag != null){
-            $textToAppend .= self::$_authorsIdDelimiter.$principalFlag;
         }
 
         if(!empty($this->authors))

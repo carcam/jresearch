@@ -23,7 +23,7 @@ class JResearchModelResearchAreas extends JResearchModelList{
             if(!isset($this->_items)){
                 $items = parent::getItems();
                 if($items !== false){
-                	$this->_items = array();
+                    $this->_items = array();
                     foreach($items as $item){
                         $area = $this->getTable('Researcharea', 'JResearch');
                         $area->bind($item);
@@ -70,7 +70,7 @@ class JResearchModelResearchAreas extends JResearchModelList{
 
             //Validate order direction
             if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
-                    $filter_order_Dir = 'ASC';
+                $filter_order_Dir = 'ASC';
 
             $columns[] = $filter_order.' '.$filter_order_Dir;
 
@@ -86,8 +86,8 @@ class JResearchModelResearchAreas extends JResearchModelList{
 
             // prepare the WHERE clause
             $where = array();
-            $where[] = $db->nameQuote('published').' = 1 ';
-            $where[] = $db->nameQuote('id').' > 1 ';
+            $where[] = $db->quoteName('published').' = 1 ';
+            $where[] = $db->quoteName('id').' > 1 ';
 
             return $where;
 	}

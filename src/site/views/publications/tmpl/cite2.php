@@ -10,9 +10,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 ?>
 <script type="text/javascript">
-function makeCitation(command){
-	var citeRequest;
-	if(selectedCitekeys.length == 0){
+function makeCitation(){
+	if(selectedCitekeys.length === 0){
 		alert("<?php echo JText::_('JRESEARCH_NO_ITEMS_TO_CITE'); ?>");
 		return;
 	}

@@ -25,8 +25,7 @@ class JHTMLjresearchfrontend{
      * @param int $userid
      * @param array options
      */
-    public static function icon($task, $controller, $itemid=0, $userid=null, $options=array())
-    {
+    public static function icon($task, $controller, $itemid=0, $userid=null, $options=array()) {
         $availableController = array('publications');
         $availableTasks = array('edit', 'remove', 'delete', 'add', 'new');
         // Menu ID retention
@@ -263,6 +262,24 @@ class JHTMLjresearchfrontend{
         }else{
             return 'attach-background-'.$pathInfo['extension'];				
         }
+    }
+    
+    /**
+     * It returns a HTML list with the citekeys and titles
+     * of the publications provided as arguments.
+     * 
+     * @param name
+     * @param type $citekeysArray A list of publication citekeys
+     * 
+     */
+    public static function citekeysHTMLList($name, $citekeysArray = array()) {
+        $citedRecordsOptionsHTML = array();
+        foreach ($citekeysArray as $citekey) {
+            $pub = JResearchPublicationsHelper::getPublicationFromCitekey($citekey);            
+            $citedRecordsOptionsHTML[] = JHTML::_('select.option', $citekey, $citekey.': '.$pub->title); 
+        }
+        return JHTML::_('select.genericlist',  
+                $citedRecordsOptionsHTML, $name, 'class="inputbox" id="'.$name.'" size="10" style="width:200px;" ');            
     }
 }
 ?>

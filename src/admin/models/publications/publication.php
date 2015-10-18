@@ -88,54 +88,13 @@ class JResearchAdminModelPublication extends JModelForm{
     private function _processFields(&$data, $row) {
         $app = JFactory::getApplication();
         jresearchimport('helpers.publications', 'jresearch.admin');
-        $params = JComponentHelper::getParams('com_jresearch');
         
         $type = JRequest::getVar('change_type', '-1');
         if ($type != '-1') {
             $data['pubtype'] = $type;
         }
-        //Remove files in case the user indicated it.
-        $nAttach = (int)$data['count_files'];
-        $data['files'] = '';
-        $tempFilesArr = array();            
-        for($i = 0; $i <= $nAttach; ++$i) {
-            if (!isset($data['old_tag_files_'.$i])
-                    || !isset($data['old_files_'.$i])) {
-                continue;
-            }
-            
-            $delete = $data['delete_files_'.$i];
-            $theTag = $data['old_tag_files_'.$i];
-            $theFile = $data['old_files_'.$i];		    	
-            
-            if (empty($theFile)) {
-                continue;
-            }
-            
-            if($delete == 'on') {
-                if (!JResearchUtilities::isValidURL($data['old_files_'.$i])) {
-                    $filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'publications'.DS.$theFile;
-                    @unlink($filetoremove);
-                }
-            }else{
-                $tempFilesArr[] = $theFile.'|'.$theTag;
-            }
-        }
-
-        //Now update files
-        $files = JRequest::getVar('jform', array(), 'FILES');
-        for($i = 0; $i <= $nAttach; ++$i) {
-            if(!empty($files['name']['file_files_'.$i])){	    	
-                $tempFilesArr[] = JResearchUtilities::uploadDocument($files, 
-                        'file_files_'.$i, 
-                        $params->get('files_root_path', 'files').DS.'publications')
-                    .'|'.$data['file_tag_files_'.$i];
-            } else if(!empty($data['file_files_'.$i])) {
-                $tempFilesArr[] = $data['file_files_'.$i].'|'.$data['file_tag_files_'.$i];
-            }
-        }
         
-        $data['files'] = implode(';', $tempFilesArr);
+        $data['files'] = JResearchUtilities::processAttachments($data, 'publications');
 
         if(isset($data['resethits']) && $data['resethits'] == 1){
             $data['hits'] = 0;
@@ -150,7 +109,7 @@ class JResearchAdminModelPublication extends JModelForm{
 
         //Alias generation
         if(empty($data['alias'])){
-            $data['alias'] = JFilterOutput::stringURLSafe($data['title']);
+            $data['alias'] = JResearchUtilities::alias($data['title']);
         }
 
         //Checking of research areas
