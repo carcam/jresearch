@@ -66,20 +66,20 @@ if ($saveOrder)
                 ?>
                     <tr class="<?php echo "row$k"; ?>">
                         <td class="order nowrap center hidden-phone">
-                            <?php
+                        <?php
                             $iconClass = '';
                             if (!$canChange) {
                                 $iconClass = ' inactive';
                             } elseif (!$saveOrder) {
                                 $iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
                             }
-                            ?>
+                        ?>
                             <span class="sortable-handler<?php echo $iconClass ?>">
-                                    <i class="icon-menu"></i>
+                                <i class="icon-menu"></i>
                             </span>
-                            <?php if ($canChange && $saveOrder) : ?>
-                                <input type="text" style="display:none" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" class="width-20 text-area-order " />
-                            <?php endif; ?>
+                        <?php if ($canChange && $saveOrder) : ?>
+                            <input type="text" style="display:none" name="order[]" size="5" value="<?php echo $this->items[$i]->ordering; ?>" class="width-20 text-area-order " />
+                        <?php endif; ?>
                         </td>
                         <td class="center"><?php echo $checked; ?></td>
                         <td>

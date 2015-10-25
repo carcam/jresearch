@@ -18,6 +18,12 @@ jresearchimport('helpers.html.jresearchfrontend', 'jresearch.site');
 	<?php echo $this->filter; ?>
 </div>
 <div style="clear: both;" ></div>
+<?php $introText = $this->params->get('projects_introtext', ''); ?>
+<?php if(!empty($introText)): ?>
+<p>
+    <?php echo $introText; ?>
+</p>
+<?php endif; ?>
 <?php
 if(count($this->items) > 0):
 ?>

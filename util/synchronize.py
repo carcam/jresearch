@@ -46,7 +46,8 @@ mappings = {'components/com_jresearch' : 'site',
 'administrator/language/en-GB/en-GB.com_jresearch.theses.ini'	: 'languages/admin/en-GB.com_jresearch.theses.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.member_positions.ini'	: 'languages/admin/en-GB.com_jresearch.member_positions.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.sys.ini' : 'languages/admin/en-GB.com_jresearch.sys.ini',
-'administrator/language/en-GB/en-GB-jresearch_help.html' : 'languages/admin/en-GB-jresearch_help.html'
+'administrator/language/en-GB/en-GB-jresearch_help.html' : 'languages/admin/en-GB-jresearch_help.html',
+'modules/mod_jresearch_keywords_cloud' : 'modules/mod_jresearch_keywords_cloud'
 }
 
 ## TODO. Add mappings for every file in the languages folders.

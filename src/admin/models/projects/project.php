@@ -10,20 +10,21 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
-jresearchimport('joomla.application.component.modelform');
-
 /**
 * Model class for holding a single project record.
 *
 * @subpackage	Projects
 */
-class JResearchAdminModelProject extends JModelForm{
-	/**
+class JResearchAdminModelProject extends JModelAdmin{
+    /**
     * @var array data
     */
     protected $data = null;
 
+    public function getTable() {
+        return JTable::getInstance('Project', 'JResearch');
+    }
+    
     /**
     * Method to get the data.
     *
@@ -163,46 +164,44 @@ class JResearchAdminModelProject extends JModelForm{
      */
     function publish(){
        $selected = JRequest::getVar('cid', 0, '', 'array');
-           $project = JTable::getInstance('Project', 'JResearch');           
-           $allOk = true;
-           $user = JFactory::getUser();
-       foreach($selected as $id){
-               $action = JResearchAccessHelper::getActions('project', $id);
-               if($action->get('core.projects.edit.state')){
-                       $v = $project->publish(array($id), 1, $user->get('id'));
-                   $allOk = $allOk && $v;
-                   if(!$allOk) $this->setError($project->getError());
-               }else{
-                       $allOk = false;
-                       $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
-               }
+       $project = JTable::getInstance('Project', 'JResearch');           
+       $allOk = true;
+       $user = JFactory::getUser();
+       foreach($selected as $id) {
+           $action = JResearchAccessHelper::getActions('project', $id);
+           if($action->get('core.projects.edit.state')){
+                $v = $project->publish(array($id), 1, $user->get('id'));
+                $allOk = $allOk && $v;
+                if(!$allOk) $this->setError($project->getError());
+           }else{
+                 $allOk = false;
+                 $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
+           }
        }
 
        return $allOk;
-
     }
 
     /**
      * Unpublishes the set of selected items
      */
     function unpublish(){
-               $selected = JRequest::getVar('cid', 0, '', 'array');
-           $project = JTable::getInstance('Project', 'JResearch');
-           $user = JFactory::getUser();           
-           $allOk = true;
-       foreach($selected as $id){
-               $action = JResearchAccessHelper::getActions('project', $id);           	
-               if($action->get('core.projects.edit.state')){
-                   $allOk = $allOk && $project->publish(array($id), 0, $user->get('id'));
-                   if(!$allOk) $this->setError($project->getError());	    	       
-               }else{
-                       $allOk = false;
-                       $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
-               }
+        $selected = JRequest::getVar('cid', 0, '', 'array');
+        $project = JTable::getInstance('Project', 'JResearch');
+        $user = JFactory::getUser();           
+        $allOk = true;
+        foreach($selected as $id){
+            $action = JResearchAccessHelper::getActions('project', $id);           	
+            if($action->get('core.projects.edit.state')){
+                $allOk = $allOk && $project->publish(array($id), 0, $user->get('id'));
+                if(!$allOk) $this->setError($project->getError());	    	       
+            }else{
+                $allOk = false;
+                $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
+            }
        }
 
        return $allOk;
-
     }
 
     /**
@@ -210,26 +209,26 @@ class JResearchAdminModelProject extends JModelForm{
      * Returns the number of removed items based on the 
      * selected items
      */
-    function delete(){
-            $n = 0;
-            $selected = JRequest::getVar('cid', 0, '', 'array');
-            $project = JTable::getInstance('Project', 'JResearch');
-            $user = JFactory::getUser();           
-            foreach($selected as $id){
-                    $actions = JResearchAccessHelper::getActions('project', $id);
-                    if($actions->get('core.projects.delete')){           	
-                    $project->load($id);
-                            if(!$project->isCheckedOut($user->get('id'))){	
-                            if($project->delete($id)){
-                            $n++;
-                            }
-                            }
-                    }else{
-                            $this->setError(new JException(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id)));
+    function delete() {
+        $n = 0;
+        $selected = JRequest::getVar('cid', 0, '', 'array');
+        $project = JTable::getInstance('Project', 'JResearch');
+        $user = JFactory::getUser();           
+        foreach($selected as $id){
+            $actions = JResearchAccessHelper::getActions('project', $id);
+            if($actions->get('core.projects.delete')){           	
+                $project->load($id);
+                if(!$project->isCheckedOut($user->get('id'))) {	
+                    if($project->delete($id)) {
+                        $n++;
                     }
+                }
+            }else {
+                $this->setError(new JException(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id)));
             }
+        }
 
-            return $n;           
+        return $n;           
     }
 
             /**
@@ -249,70 +248,16 @@ class JResearchAdminModelProject extends JModelForm{
      * 
      */        
     public function getItems(){
-            $cid = JRequest::getVar('cid', array());
-            $result = array();
-            foreach($cid as $id){
-                    $proj = JTable::getInstance('Project', 'JResearch');
-                    $proj->load($id);
-                    $result[] = $proj;
-            }
-
-            return $result;
-    }
-
-    /**
-            * Ordering item
-            */
-            function orderItem($item, $movement)
-            {
-        $row = JTable::getInstance('Project', 'JResearch');
-        $row->load($item);
-
-        if (!$row->move($movement))
-        {
-            $this->setError($row->getError());
-            return false;
+        $cid = JRequest::getVar('cid', array());
+        $result = array();
+        foreach($cid as $id){
+            $proj = JTable::getInstance('Project', 'JResearch');
+            $proj->load($id);
+            $result[] = $proj;
         }
 
-        return true;
-            }
-
-            /**
-             * Set ordering
-            */
-            function setOrder($items)
-            {
-                    $total = count($items);
-        $row = JTable::getInstance('Project', 'JResearch');
-
-                    $order = JRequest::getVar( 'order', array(), 'post', 'array' );
-                    JArrayHelper::toInteger($order);
-
-                    // update ordering values
-                    for( $i=0; $i < $total; $i++ )
-                    {
-                            $row->load( $items[$i] );
-
-                            $groupings[] = $row->former_member;
-                            if ($row->ordering != $order[$i])
-                            {
-                                    $row->ordering = $order[$i];
-                                    if (!$row->store())
-                                    {
-                                            $this->setError($row->getError());
-                                            return false;
-                                    }
-                            } // if
-                    } // for
-
-                    // execute updateOrder
-                    $groupings = array_unique($groupings);
-                    foreach ($groupings as $group)
-                    {
-                            $row->reorder(' AND published >= 0');
-                    }
-
-                    return true;
-            }
+        return $result;
     }
+
+}
 ?>

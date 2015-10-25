@@ -342,9 +342,6 @@ class JResearchViewPublications extends JResearchView
      * 
      */
     private function _displayCiteFromFormDialog(){
-        $citekeys = JRequest::getVar('value');
-        $citekeysArray = explode(',', $citekeys);
-        $citedRecordsListHTML = JHtml::_('jresearchfrontend.citekeysHTMLList', 'citedRecords', $citekeysArray);
     	$url = JURI::root();
     	
     	// Prepare the HTML document
@@ -357,6 +354,22 @@ class JResearchViewPublications extends JResearchView
         $backMsg = JText::_('JRESEARCH_BACK');  	
         $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
         $document->addScript($url.'components/com_jresearch/js/cite.js');
+        
+        $citekeys = JRequest::getVar('value');
+        if (strlen($citekeys) > 0) {
+            $citekeysArray = explode(',', $citekeys);            
+            // Update the javascript container
+            $elements = "";            
+            foreach ($citekeysArray as $citekey) {
+                $elements .= "selectedCitekeys.push('$citekey');";
+            }
+            $document->addScriptDeclaration($elements);
+        } else {
+            $citekeysArray = array();
+        }
+        $citedRecordsListHTML = JHtml::_('jresearchfrontend.citekeysHTMLList', 'citedRecords', $citekeysArray);
+        
+        
         $document->addScriptDeclaration("
                 var messages = {\"back\": \"$backMsg\", \"next\": \"$nextMsg\", \"citeRepeated\" : \"$recordRepeatedMsg\" , \"citeFailed\" : \"$citeFailedMsg\", \"citeSuccessful\" : \"$citeSuccessfulMsg\", \"noItems\" : \"$noItemsMsg\"};
         		window.addEvent('domready',
