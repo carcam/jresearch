@@ -272,8 +272,12 @@ class JResearchPublication extends JResearchActivity{
             $this->alias = JFilterOutput::stringURLSafe($this->name);
         }
 
-
-        $result = parent::store($updateNulls);
+        $result = false;
+        try {
+            $result = parent::store($updateNulls);   
+        } catch (RuntimeException $ex) {
+            $this->setError(parent::getError().' '.$ex->getMessage());
+        }
 
         if(!$result)
             return false;

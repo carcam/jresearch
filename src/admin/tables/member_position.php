@@ -40,7 +40,13 @@ class JResearchMember_position extends JResearchTable
     
     public function store($updateNulls = false) {
         $this->ordering = parent::getNextOrder();
-        return parent::store($updateNulls);
+        $result = false;
+        try {
+            $result = parent::store($updateNulls);   
+        } catch (RuntimeException $ex) {
+            $this->setError(parent::getError().' '.$ex->getMessage());
+        }
+        return $result;
     }
 }
 ?>

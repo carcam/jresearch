@@ -201,10 +201,15 @@ class JResearchResearcharea extends JResearchTable{
             
         $this->modified = $dateObj->toSql();
         $this->modified_by = $author;
-        $result = parent::store();
+        $result = false;
+        try {
+            $result = parent::store($updateNulls);   
+        } catch (RuntimeException $ex) {
+            $this->setError(parent::getError().' '.$ex->getMessage());
+        }
             
         // If the item is unpublished, unpublished all its children
-        if($this->published == 0 && !empty($this->id) && $result){
+        if($result && $this->published == 0 && !empty($this->id)){
             $this->_unpublishChildren($this->id);
         }
 
