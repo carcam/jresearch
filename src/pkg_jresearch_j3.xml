@@ -11,7 +11,7 @@
 	<description>JResearch full installation package.</description>
 	<update></update>
 	<files folder="packages">
-		<file type="component" id="com_jresearch">com_jresearch_3.0_beta_3.zip</file>
+		<file type="component" id="com_jresearch">com_jresearch_3.0.zip</file>
 		<file type="plugin" id="jresearch_automatic_bibliography_generation" group="editors-xtd">plg_jresearch_automatic_bibliography_generation.zip</file>
 		<file type="plugin" id="jresearch_automatic_citation" group="editors-xtd">plg_jresearch_automatic_citation.zip</file>
 		<file type="plugin" id="jresearch_entities_load_cited_records" group="system">plg_jresearch_entities_load_cited_records.zip</file>
