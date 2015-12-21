@@ -27,7 +27,7 @@ os.chdir(repository)
 finalBranch = 'trunk' if branch == 'master' else 'branches/' + branch
 command = 'svn export http://github.com/carcam/jresearch/' + finalBranch + "/src " + exportPath + " --force"
 print 'Running ' + command
-#os.system(command)
+os.system(command)
 print 'Done ' + command
 # Package the plugins
 os.chdir(exportPath)
