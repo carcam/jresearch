@@ -69,7 +69,7 @@ os.system(command)
 command = 'mv com_jresearch_' + versionTag + '.zip packages/'
 print 'Running ' + command
 os.system(command)
-command = 'zip -r jresearch_' + versionTag + '.zip . -x ./modules/\* -x ./plugins/\* -x ./otherlanguages/\* -x ./admin/\* -x ./site/\* -x ./sef_ext/\* -x ./languages/\*';
+command = 'zip -r jresearch_' + versionTag + '.zip . -x index.html -x ./modules/\* -x ./plugins/\* -x ./otherlanguages/\* -x ./admin/\* -x ./site/\* -x ./sef_ext/\* -x ./languages/\*';
 print 'Running ' + command
 os.system(command)
 print 'Installation package generated at ' + exportPath + '/jresearch_' + versionTag + '.zip'
