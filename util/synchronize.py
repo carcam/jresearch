@@ -1,5 +1,6 @@
 #!/usr/bin/python
-
+## This scripts keeps my dev-sandbox and the repository synchronized.
+## It copies the files from my dev-sandbox to the git repository
 import sys
 import shutil
 import os
@@ -13,11 +14,11 @@ joomlaPrefix = '/opt/lampp/htdocs/jresearch/'
 if len(sys.argv) > 1 :
 	gitPrefix = sys.argv[1]
 
-if len(sys.argv) > 2 :	
+if len(sys.argv) > 2 :
 	joomlaPrefix = sys.argv[2]
 
 mappings = {'components/com_jresearch' : 'site',
-'administrator/components/com_jresearch' : 'admin', 
+'administrator/components/com_jresearch' : 'admin',
 'plugins/editors-xtd/jresearch_automatic_bibliography_generation' : 'plugins/plg_jresearch_automatic_bibliography_generation',
 'plugins/editors-xtd/jresearch_automatic_citation' : 'plugins/plg_jresearch_automatic_citation',
 'plugins/system/jresearch_entities_load_cited_records' : 'plugins/plg_jresearch_entities_load_cited_records',
@@ -62,7 +63,7 @@ for key, value in mappings.iteritems() :
 	else:
 		print 'Copying ' + src + ' to ' + dst
 		shutil.copy(src, dst)
-		
+
 for fremove in toRemove :
 	ftr = gitPrefix + fremove
 	if os.path.exists(ftr) :
