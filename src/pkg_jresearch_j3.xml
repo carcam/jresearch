@@ -4,14 +4,22 @@
 	<author>Luis Galárraga</author>
 	<creationDate>January 2015</creationDate>
 	<packagename>jresearch_j3</packagename>
+<<<<<<< HEAD
 	<version>3.0 Stable</version>
+=======
+	<version>3.1 Beta 1</version>
+>>>>>>> 3.1
 	<url>http://joomlaresearch.com/</url>
 	<packager>JResearch Team</packager>
 	<packagerurl></packagerurl>
 	<description>JResearch full installation package.</description>
 	<update></update>
 	<files folder="packages">
+<<<<<<< HEAD
 		<file type="component" id="com_jresearch">com_jresearch_3_0_stable.zip</file>
+=======
+		<file type="component" id="com_jresearch">com_jresearch_3.1_beta_1.zip</file>
+>>>>>>> 3.1
 		<file type="plugin" id="jresearch_automatic_bibliography_generation" group="editors-xtd">plg_jresearch_automatic_bibliography_generation.zip</file>
 		<file type="plugin" id="jresearch_automatic_citation" group="editors-xtd">plg_jresearch_automatic_citation.zip</file>
 		<file type="plugin" id="jresearch_entities_load_cited_records" group="system">plg_jresearch_entities_load_cited_records.zip</file>

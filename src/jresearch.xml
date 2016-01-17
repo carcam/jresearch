@@ -7,20 +7,20 @@
 	<authorUrl>http://joomlaresearch.com</authorUrl>
 	<copyright>Copyright (C) 2015 Luis Galárraga</copyright>
 	<license>GPL</license>
-	<version>3.0 Stable</version>
+	<version>3.1 Beta 1</version>
 	<description><![CDATA[
 	<div align="center">
 		<img src="components/com_jresearch/assets/jresearch_logo.png" alt="J!Research Logo" />
 		<h2>Successfully installed J!Research</h2>
 	</div>
 	<p>
-		J!Research is a component for Joomla!™ which allows for management of 
-		research-related work such as; publications, projects, and theses categorized 
+		J!Research is a component for Joomla!™ which allows for management of
+		research-related work such as; publications, projects, and theses categorized
 		by research area.
 	</p>
 	<p>
-		The extension is oriented to University researchers and research departments 
-		which utilize or plan to adopt Joomla! as their content management system 
+		The extension is oriented to University researchers and research departments
+		which utilize or plan to adopt Joomla! as their content management system
 		for publishing research.
 	</p>
 	]]></description>
@@ -69,6 +69,7 @@
 		<submenu>
 			<menu controller="member_positions" img="../administrator/components/com_jresearch/assets/memberpositions_mini.png">COM_JRESEARCH_JRESEARCH_MEMBER_POSITIONS</menu>
 			<menu controller="publications" img="../administrator/components/com_jresearch/assets/publications_mini.png">COM_JRESEARCH_JRESEARCH_PUBLICATIONS</menu>
+			<menu controller="projects" img="../administrator/components/com_jresearch/assets/projects_mini.png">COM_JRESEARCH_JRESEARCH_PROJECTS</menu>
 			<menu controller="researchareas" img="../administrator/components/com_jresearch/assets/jresearch_logomini.png">COM_JRESEARCH_JRESEARCH_RESEARCH_AREAS</menu>
 			<menu controller="staff" img="../administrator/components/com_jresearch/assets/staff_mini.png">COM_JRESEARCH_JRESEARCH_STAFF</menu>
 		</submenu>
@@ -85,14 +86,14 @@
 			<folder>includes</folder>
 	    	<folder>install</folder>
 			<folder>elements</folder>
-			<folder>files</folder>			
+			<folder>files</folder>
 			<folder>helpers</folder>
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
 			<folder>scripts</folder>
 			<folder>sql</folder>
-		</files>		
+		</files>
 		<languages folder="languages/admin">
 			<language tag="en-GB">en-GB.com_jresearch.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.sys.ini</language>
@@ -105,8 +106,8 @@
 			<language tag="en-GB">en-GB.com_jresearch.teams.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.member_positions.ini</language>
 			<language tag="en-GB">en-GB.plg_search_jresearch_search.sys.ini</language>
-			<language tag="en-GB">en-GB.plg_content_jresearch_offline_citation.sys.ini</language>						
-			<language tag="en-GB">en-GB-jresearch_help.html</language>			
+			<language tag="en-GB">en-GB.plg_content_jresearch_offline_citation.sys.ini</language>
+			<language tag="en-GB">en-GB-jresearch_help.html</language>
 		</languages>
 	</administration>
 </extension>

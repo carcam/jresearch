@@ -342,7 +342,6 @@ class JResearchViewPublications extends JResearchView
      * 
      */
     private function _displayCiteFromFormDialog(){
-    	$citedRecordsOptionsHTML = array();
     	$url = JURI::root();
     	
     	// Prepare the HTML document
@@ -355,6 +354,22 @@ class JResearchViewPublications extends JResearchView
         $backMsg = JText::_('JRESEARCH_BACK');  	
         $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
         $document->addScript($url.'components/com_jresearch/js/cite.js');
+        
+        $citekeys = JRequest::getVar('value');
+        if (strlen($citekeys) > 0) {
+            $citekeysArray = explode(',', $citekeys);            
+            // Update the javascript container
+            $elements = "";            
+            foreach ($citekeysArray as $citekey) {
+                $elements .= "selectedCitekeys.push('$citekey');";
+            }
+            $document->addScriptDeclaration($elements);
+        } else {
+            $citekeysArray = array();
+        }
+        $citedRecordsListHTML = JHtml::_('jresearchfrontend.citekeysHTMLList', 'citedRecords', $citekeysArray);
+        
+        
         $document->addScriptDeclaration("
                 var messages = {\"back\": \"$backMsg\", \"next\": \"$nextMsg\", \"citeRepeated\" : \"$recordRepeatedMsg\" , \"citeFailed\" : \"$citeFailedMsg\", \"citeSuccessful\" : \"$citeSuccessfulMsg\", \"noItems\" : \"$noItemsMsg\"};
         		window.addEvent('domready',
@@ -364,8 +379,8 @@ class JResearchViewPublications extends JResearchView
                     searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
                  }
         );");
-        $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:200px;" ');
-        JHTML::_('behavior.mootools');
+
+        JHtml::_('behavior.framework');
 
         // Remove button
         $removeButton = '<button onclick="javascript:removeSelectedRecord()">'.JText::_('JRESEARCH_REMOVE').'</button>';

@@ -251,6 +251,10 @@ class JResearchAdminResearchareasController extends JControllerLegacy
         $this->setRedirect('index.php?option=com_jresearch&controller=researchareas');
     }
     
+    /**
+     * It updates the column ordering for the records involved in a change order
+     * operation (achieved by dragging rows to their new positions)
+     */
     function saveOrderAjax() {
         $canDoAreas = JResearchAccessHelper::getActions();
         if ($canDoAreas->get('core.researchareas.edit')) {

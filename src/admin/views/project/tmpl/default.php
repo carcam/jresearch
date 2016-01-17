@@ -13,71 +13,67 @@ defined('_JEXEC') or die('Restricted access');
 $actions = JResearchAccessHelper::getActions();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
-    <div class="width-60 fltlft">
-        <fieldset class="panelform">
-                <legend><?php echo JText::_( 'JRESEARCH_BASIC' ); ?></legend>
-                <ul class="adminformlist">
+    <div class="form-horizontal">
+        <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic')); ?>
+        <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic', JText::_('JRESEARCH_BASIC', true)); ?>
+        <div class="row-fluid">
+            <fieldset>
+            <ul class="adminformlist">
                 <?php foreach($this->form->getFieldset('basic') as $field): ?>
-                	<?php 
-                		if(($field->name == 'published')
+                        <?php 
+                            if(($field->name == 'published')
                 		&& !$actions->get('core.projects.edit.state'))
                 			continue;
                 	?>
                     <li>
                         <?php if (!$field->hidden): ?>
-                                <?php echo $field->label; ?>
+                            <?php echo $field->label; ?>
                         <?php endif; ?>
                         <?php echo $field->input; ?>
                     </li>
                 <?php endforeach; ?>            	                
                 </ul>
-            	<div class="clr"></div>
-            	<div><?php
-            		$description = $this->form->getField('description');
-            		echo $description->label;
-            	?></div>
-            	<div class="clr"></div>
-            	<div><?php echo $description->input; ?></div>
-            	<div class="clr"></div>                
         </fieldset>
-    </div>
-    <div class="width-40 fltrt">
-        <?php echo JHtml::_('sliders.start','content-sliders', array('useCookie'=>1)); ?>
-        <?php echo JHtml::_('sliders.panel',JText::_('JRESEARCH_PUBLICATIONS'), 'extra-details'); ?>
-        <fieldset class="panelform">
-            <ul class="adminformlist">
-            
-            	<li>
-            		<?php $pubsField = $this->form->getField('publications'); 
-            			  echo $pubsField->label;
-            			  echo $pubsField->input;
-            		?>
-            	</li>
-            	<?php
-            			$hitsField = $this->form->getField('hits');
-	            		$resetField = $this->form->getField('resethits');
-	            		$hits = $hitsField->value;
-	            		if(!empty($hits)):
-	            			echo '<li>'.JText::_('JRESEARCH_HITS').': '.$hitsField->value.'</li>';
-	            			echo '<li>';	            				
-		            		echo $resetField->label;
-		            		echo $resetField->input;	            		
-		            		echo '</li>';
-		            	endif;	
-            		?>
+        </div>
+        <?php echo JHtml::_('bootstrap.endTab'); ?>
+        <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JRESEARCH_DESCRIPTION', true)); ?>
+        <div class="row-fluid">
+            <fieldset>
+                <div>
+                <?php
+                    $description = $this->form->getField('description');
+                    echo $description->label;
+                    echo $description->input;
+            	?>
+                </div>
+            </fieldset>
+        </div>
+        <?php echo JHtml::_('bootstrap.endTab'); ?>
+        <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'extra', JText::_('JRESEARCH_EXTRA', true)); ?>        
+        <div class="row-fluid">
+            <fieldset>
+            <ul class="adminformlist">            
+                <?php foreach($this->form->getFieldset('extra') as $field): ?>
+                <li>
+                    <?php if ($field->name == "hits") : ?>
+                        <?php if ($field->value != '0') : ?>
+                            <?php echo $field->label.': '; ?>
+                            <?php echo $field->value; ?>
+                        <?php endif; ?>
+                    <?php else : ?>
+                            <?php echo $field->label; ?>
+                            <?php echo $field->input; ?>
+                    <?php endif; ?>
+                </li>
+                <?php endforeach; ?>
             </ul>
         </fieldset>
-        <?php echo JHtml::_('sliders.panel', JText::_('JRESEARCH_FILES'), 'attachments'); ?>        
-        <fieldset class="panelform">
-         	<?php $pubsField = $this->form->getField('files'); 
-            	  echo $pubsField->input;
-            ?>        
-        </fieldset>
-		<?php echo JHtml::_('sliders.end'); ?>
-	    <input type="hidden" name="task" value="edit" />
-	    <input type="hidden" name="controller" value="projects" />    
+        </div>
+        <?php echo JHtml::_('bootstrap.endTab'); ?>        
+        <?php echo JHtml::_('bootstrap.endTabSet'); ?>        
+        <input type="hidden" name="task" value="edit" />
+        <input type="hidden" name="controller" value="projects" />    
         <?php echo JHtml::_('form.token'); ?>
     </div>
-	<div class="clr"></div>
 </form>
 <div class="clr"></div>

@@ -127,13 +127,27 @@ li.comments{
     font-size: 12px;
 }
 
-.liresearcharea{
-    list-style: none;
-    background-image: none;
+ul.frontenditems {
+    padding-left: 0px;
+    margin-left : 0px;
 }
 
-.liresearcharea div{
+ul.frontenditems li {
+    list-style: none;
+    background-image: none;
+    margin-left: 0px;
+}
+
+ul.frontenditems li div {
     margin-bottom: 10px;
+}
+
+ul.frontenditems li div {
+    margin-left: 10px;
+}
+
+div.itemdescription {
+    margin-top: 10px;
 }
 
 

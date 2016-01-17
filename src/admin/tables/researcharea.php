@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
 * @version		$Id$
 * @package		JResearch
 * @subpackage	ResearchAreas
@@ -21,7 +21,7 @@ jresearchimport('tables.table', 'jresearch.admin');
  *
  */
 class JResearchResearcharea extends JResearchTable{
-	
+
     /**
      * String for alias
      *
@@ -41,14 +41,14 @@ class JResearchResearcharea extends JResearchTable{
      *
      * @var string
      */
-    public $description;	
+    public $description;
 
     /**
      * User id of the person who blocked the item. 0 if the item is not blocked.
      *
      * @var int
      */
-    public $checked_out;	
+    public $checked_out;
 
     /**
      * @var datetime
@@ -86,8 +86,8 @@ class JResearchResearcharea extends JResearchTable{
     * @var int
     */
     public $ordering;
-    
-	
+
+
     /**
      * Class constructor. Maps the entity to the appropiate table.
      *
@@ -96,13 +96,13 @@ class JResearchResearcharea extends JResearchTable{
     function __construct(&$db){
         parent::__construct('#__jresearch_research_area', 'id', $db);
     }
-	
+
 
     /**
     * Validates the information stored in the object.
     *
     * @return boolean True if the object can be stored in the database (every field is valid), false
-    * otherwise. 
+    * otherwise.
     */
     function check(){
         if(empty($this->name)){
@@ -112,7 +112,7 @@ class JResearchResearcharea extends JResearchTable{
 
         return true;
     }
-		
+
     /**
     * Default delete method. It can be overloaded/supplemented by the child class
     *
@@ -128,7 +128,7 @@ class JResearchResearcharea extends JResearchTable{
             $booleanResult = $booleanResult && $this->_keepIntegrity('project', $oid);
             $booleanResult = $booleanResult && $this->_keepIntegrity('member', $oid);
             $booleanResult = $booleanResult && $this->_keepIntegrity('thesis', $oid);
-                    	
+
         	// Set as uncategorized any item related to this research area
             $queryPub = 'DELETE FROM '.$db->quoteName('#__jresearch_publication_researcharea')
                         .' WHERE '.$db->quoteName('id_research_area').' = '.$db->Quote($oid);
@@ -150,11 +150,11 @@ class JResearchResearcharea extends JResearchTable{
             $db->query();
             $db->setQuery($queryThes);
             $db->query();
-        }        
-        
+        }
+
         return $booleanResult;
     }
-    
+
     /**
      * Fixes the id_research_area column of all entities referencing the current area
      * @return boolean
@@ -179,12 +179,12 @@ class JResearchResearcharea extends JResearchTable{
                 }
             }
             $db->setQuery("UPDATE $primaryTable SET id_research_area = ".$db->Quote(implode(',', $elements)));
-            $booleanResult = $booleanResult && $db->query();						
+            $booleanResult = $booleanResult && $db->query();
         }
-		
+
         return $booleanResult;
     }
-        
+
 
     public function store($updateNulls = false){
         jresearchimport('joomla.utilities.date');
@@ -198,18 +198,18 @@ class JResearchResearcharea extends JResearchTable{
             $this->created_by = $author;
             $this->ordering = parent::getNextOrder();
         }
-            
+
         $this->modified = $dateObj->toSql();
         $this->modified_by = $author;
         $result = false;
         try {
-            $result = parent::store($updateNulls);   
+            $result = parent::store($updateNulls);
         } catch (RuntimeException $ex) {
             $this->setError(parent::getError().' '.$ex->getMessage());
         }
-            
+
         // If the item is unpublished, unpublished all its children
-        if($result && $this->published == 0 && !empty($this->id)){
+        if ($result && $this->published == 0 && !empty($this->id)) {
             $this->_unpublishChildren($this->id);
         }
 
@@ -217,11 +217,11 @@ class JResearchResearcharea extends JResearchTable{
 
      }
 
-        
+
     function __toString(){
     	return isset($this->title) ? $this->title : "";
     }
-    
+
     /**
      * Method to compute the default name of the asset.
      * The default name is in the form `table_name.id`
@@ -235,6 +235,6 @@ class JResearchResearcharea extends JResearchTable{
         $k = $this->_tbl_key;
         return 'com_jresearch.researcharea.'.(int) $this->$k;
     }
-}	
+}
 
 ?>

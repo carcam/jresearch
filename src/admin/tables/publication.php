@@ -89,6 +89,7 @@ class JResearchPublication extends JResearchActivity{
     public $month;	    
     public $crossref;
     public $journal;
+    public $journal_url;
     public $publisher;
     public $editor;
     public $series;

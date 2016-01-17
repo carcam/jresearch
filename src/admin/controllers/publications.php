@@ -287,7 +287,7 @@ class JResearchAdminPublicationsController extends JControllerLegacy
                     $p->internal = $params->get('publications_default_internal_status', 1) == 1;
                     $p->published = $params->get('publications_default_published_status', 1) == 1;                    
                     if(!$p->store()){
-                        JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').': '.$p->getError());
+                        JError::raiseWarning(1, JText::_('PUBLICATION_COULD_NOT_BE_SAVED').' '.$p->getError());
                     }else{
                         $n++;
                     }

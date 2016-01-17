@@ -14,19 +14,23 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
-global $params;
-
 if(!JComponentHelper::isEnabled('com_jresearch', true))
 {
 	JError::raiseError(0, 'J!Research is not enabled or installed');
 }
+$DS = DIRECTORY_SEPARATOR;
+require_once(JPATH_ADMINISTRATOR.$DS.'components'.$DS.'com_jresearch'.$DS.'helpers'.$DS.'keywords.php');
 
 $dirname = dirname(__FILE__);
 
-// Include the helper functions only once
-require_once (trim($dirname).DS.'helper.php');
+$types = array();
+if ($params->get('include_publications') == '1')
+	$types[] = 'publications';
 
-$coops = modJResearchCooperationsHelper::getCooperations();
+if ($params->get('include_projects') == '1')
+	$types[] = 'projects';
+
+$keywords = JResearchKeywordsHelper::getKeywordsByRelevance($types);
 $layout = (string) $params->get('layout', 'default');
 
-require(JModuleHelper::getLayoutPath('mod_jresearch_cooperations', $layout));
+require(JModuleHelper::getLayoutPath('mod_jresearch_keywords_cloud', $layout));

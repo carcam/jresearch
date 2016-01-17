@@ -142,6 +142,17 @@
                     required="false"
                 />
                 <field
+                    id="google_scholar"
+                    name="google_scholar"
+                    type="url"
+                    size="30"
+                    maxlength="255"
+                    class="inputbox"
+                    default=""
+                    label="JRESEARCH_GOOGLE_SCHOLAR_PROFILE"
+                    required="false"
+                />
+                <field
                     id="link_to_website"
                     name="link_to_website"
                     type="list"

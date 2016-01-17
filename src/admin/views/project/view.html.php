@@ -20,14 +20,17 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class JResearchAdminViewProject extends JResearchView
 {
     function display($tpl = null){
-		$mainframe = JFactory::getApplication();
+        $mainframe = JFactory::getApplication();
     	JRequest::setVar( 'hidemainmenu', 1 );            
-		JResearchToolbar::editProjectAdminToolbar();
-		JHtml::_('jresearchhtml.validation');
+        JResearchToolbar::editProjectAdminToolbar();
+        JHtml::_('jquery.framework', false);
+        JHtml::_('jresearchhtml.tagit');
+        JHtml::_('formbehavior.chosen', 'select');
+        JHtml::_('jresearchhtml.validation');        
 			
-	    $form = $this->get('Form');
-	    // get the Data
-	    $data = &$this->get('Data');
+        $form = $this->get('Form');
+        // get the Data
+        $data = &$this->get('Data');
         // Bind the Data
     	$form->bind($data);
 			            

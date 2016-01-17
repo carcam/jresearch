@@ -18,63 +18,66 @@ jresearchimport('helpers.html.jresearchfrontend', 'jresearch.site');
 	<?php echo $this->filter; ?>
 </div>
 <div style="clear: both;" ></div>
+<?php $introText = $this->params->get('projects_introtext', ''); ?>
+<?php if(!empty($introText)): ?>
+<p>
+    <?php echo $introText; ?>
+</p>
+<?php endif; ?>
 <?php
 if(count($this->items) > 0):
 ?>
-<ul style="padding-left:0px;">
+<ul class="frontenditems">
  
 <?php foreach($this->items as $project): ?>
-	<?php $researchAreas = $project->getResearchAreas();
-		$researchAreasNames = array();
-		foreach($researchAreas as $area){
-			if($area->id > 1){
-				if($area->published)
-					$researchAreasNames[] = $area->name;
-				else
-					$researchAreasNames[] = JHTML::_('jresearchfrontend.link', $area->name, 'researcharea', 'display', $area->id, $itemId);
-			}
-		} 
-	?>
-	<li class="liresearcharea">
-		<div>
-			<?php $contentArray = explode('<hr id="system-readmore" />', $project->description); ?>
-			<?php $itemId = JRequest::getVar('Itemid'); ?>
-			<h3 class="contentheading"><?php echo $project->title; ?></h3>
-			<?php 
-			//Show research area?
-			if($this->params->get('show_researcharea') == 1):
-			?>		
-			<?php if(count($researchAreasNames) > 0): ?>
-			<div>
-				<h4><?php echo JText::_('JRESEARCH_RESEARCH_AREAS')?></h4>
-				<span><?php echo implode(', ', $researchAreasNames); ?></span>
-			</div>
-			<?php endif; ?>
-			<?php 
-			endif;
-			
-			//Show members?
-			if($this->params->get('show_members') == 1):
-				$members = implode('; ',$project->getPrincipalInvestigators());
-			?>			
-			<div>
-        		<h4><?php echo JText::_('JRESEARCH_PROJECT_LEADERS')?></h4>
-        		<span><?php echo $members; ?></span>
-			</div>
-			<?php 
-			endif;
-			if(!empty($contentArray[0])):
-			?>
-				<br/>
-				<?php echo $contentArray[0]; ?>
-			<?php
-			endif;
-			?>
-			<div style="text-align:left">
-				<?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_READ_MORE'), 'project', 'show', $project->id); ?>
-			</div>
-		</div>
-	</li>	
+    <?php 
+        $researchAreas = $project->getResearchAreas();
+        $researchAreasNames = array();
+        foreach($researchAreas as $area){
+            if($area->id > 1){
+                if($area->published)
+                    $researchAreasNames[] = $area->name;
+                else
+                    $researchAreasNames[] = JHTML::_('jresearchfrontend.link', $area->name, 'researcharea', 'display', $area->id, $itemId);
+            }
+        } 
+    ?>
+    <li>
+        <div>
+            <?php $contentArray = explode('<hr id="system-readmore" />', $project->description); ?>
+            <?php $itemId = JRequest::getVar('Itemid'); ?>
+            <h3 class="contentheading"><?php echo $project->title; ?></h3>
+            <?php 
+            //Show research area?
+            if($this->params->get('show_researcharea') == 1):
+            ?>		
+                <?php if(count($researchAreasNames) > 0): ?>
+                <div>
+                        <h4><?php echo JText::_('JRESEARCH_RESEARCH_AREAS')?></h4>
+                        <span><?php echo implode(', ', $researchAreasNames); ?></span>
+                </div>
+                <?php endif; ?>
+            <?php endif; ?> 
+            <?php
+            //Show members?
+            if($this->params->get('show_members') == 1):
+                $members = implode('; ',$project->getLeaders());
+            ?>			
+                <div>
+                    <h4><?php echo JText::_('JRESEARCH_PROJECT_LEADERS')?></h4>
+                    <span><?php echo $members; ?></span>
+                </div>
+            <?php endif; ?>
+            <?php if(!empty($contentArray[0])): ?>
+            <div class="itemdescription">
+                <?php echo $contentArray[0]; ?>
+            </div>
+            <?php endif; ?>
+            <div style="text-align:left">
+                <?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_READ_MORE'), 'project', 'show', $project->id); ?>
+            </div>
+        </div>
+    </li>	
 <?php endforeach; ?>
 </ul>
 <input type="hidden" name="option" value="com_jresearch" />
@@ -86,7 +89,5 @@ if(count($this->items) > 0):
 <input type="hidden" name="Itemid" id="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />	
 </form>
 
-<?php
-endif;
-?>
+<?php endif; ?>
 <div style="text-align:center;"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>

@@ -36,57 +36,56 @@ class JResearchModelProject extends JResearchModelItem{
         return $this->_row;
     }
 
-	/**
-	 * Returns an array with the n latest publications associated to the
-	 * project.
-	 *
-	 * @param int $n
-	 * @return array Array of JResearchPublicationObjects
-	 */
-	function getPublications($n = 0){
-    	$latestPub = array();
+    /**
+     * Returns an array with the n latest publications associated to the
+     * project.
+     *
+     * @param int $n
+     * @return array Array of JResearchPublicationObjects
+     */
+    function getPublications($n = 0){
+        $latestPub = array();
         $row = $this->getItem();
         if($row === false)
-        	return $latestPub;
+            return $latestPub;
 
         $db = JFactory::getDBO();
 
-        $query = "SELECT p.* FROM ".$db->nameQuote('#__jresearch_publication').' p JOIN '.$db->nameQuote('#__jresearch_project_publication').' pp'
-            		.' WHERE p.id = pp.id_publication AND p.published = 1 AND p.internal = 1 AND pp.id_project = '.$db->Quote($row->id)
-            		.' ORDER BY p.year DESC, p.created DESC';
+        $query = "SELECT p.* FROM ".$db->quoteName('#__jresearch_publication').' p JOIN '.$db->quoteName('#__jresearch_project_publication').' pp'
+               .' WHERE p.id = pp.id_publication AND p.published = 1 AND p.internal = 1 AND pp.id_project = '.$db->Quote($row->id)
+               .' ORDER BY p.year DESC, p.created DESC';
 
         if($n > 0){
-        	$query .= ' LIMIT 0, '.$n;
+            $query .= ' LIMIT 0, '.$n;
         }
 
         $db->setQuery($query);
         $result = $db->loadAssocList();
         foreach($result as $r){
-        	$publication = JTable::getInstance('Publication', 'JResearch');
+            $publication = JTable::getInstance('Publication', 'JResearch');
             $publication->bind($r);
             $latestPub[] = $publication;
         }
 
         return $latestPub;
-	}
+    }
 
-	/**
-	 * Returns the number of publications where the member has participated.
-	 *
-	 * @param int $memberId
-	 */
-	function countPublications(){
-    	$row = $this->getItem();
+    /**
+     * Returns the number of publications where the member has participated.
+     *
+     * @param int $memberId
+     */
+    function countPublications(){
+        $row = $this->getItem();
         if($row === false)
             return -1;
 
         $db = JFactory::getDBO();
-        $query = "SELECT count(pp.id_publication) FROM ".$db->nameQuote('#__jresearch_publication').' p JOIN '.$db->nameQuote('#__jresearch_project_publication').' pp'
+        $query = "SELECT count(pp.id_publication) FROM ".$db->quoteName('#__jresearch_publication').' p JOIN '.$db->quoteName('#__jresearch_project_publication').' pp'
         .' WHERE p.id = pp.id_publication AND p.published = 1 AND p.internal = 1 AND pp.id_project = '.$db->Quote($row->id);
-        
+
         $db->setQuery($query);
         return (int)$db->loadResult();
-	}    
-    
+    }
 }
 ?>

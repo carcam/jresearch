@@ -104,9 +104,9 @@ class JResearchAdminModelMember extends JModelAdmin{
     	//Checking of research areas
         if(!empty($data['id_research_area'])){
             if(in_array('1', $data['id_research_area'])){
-                    $data['id_research_area'] = '1';
+                $data['id_research_area'] = '1';
             }else{
-                    $data['id_research_area'] = implode(',', $data['id_research_area']);
+                $data['id_research_area'] = implode(',', $data['id_research_area']);
             }
         }else{
             $data['id_research_area'] = '1';
@@ -116,9 +116,9 @@ class JResearchAdminModelMember extends JModelAdmin{
         $delete = $data['delete_files_0'];
     	if($delete == 'on'){
             if(!empty($data['old_files_0'])){
-                    $filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'staff'.DS.$row->files;
-                    $data['files'] = '';
-                    @unlink($filetoremove);
+                $filetoremove = JRESEARCH_COMPONENT_ADMIN.DS.$params->get('files_root_path', 'files').DS.'staff'.DS.$row->files;
+                $data['files'] = '';
+                @unlink($filetoremove);
             }
         }
 	    		    
@@ -155,8 +155,8 @@ class JResearchAdminModelMember extends JModelAdmin{
     	       $allOk = $allOk && $member->publish(array($id), 1, $user->get('id'));
     	       if(!$allOk) $this->setError($member->getError());
        	   }else{
-       	   	   $allOk = false;
-       		   $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
+                $allOk = false;
+                $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
        	   }
        }
        
@@ -174,11 +174,11 @@ class JResearchAdminModelMember extends JModelAdmin{
        foreach($selected as $id){
        	   $action = JResearchAccessHelper::getActions('member', $id);           	
        	   if($action->get('core.staff.edit')){
-    	       $allOk = $allOk && $member->publish(array($id), 0, $user->get('id'));
-       		   $this->setError($member->getError());	    	       
-       	   }else{
-       	   	   $allOk = false;
-       		   $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
+                $allOk = $allOk && $member->publish(array($id), 0, $user->get('id'));
+                $this->setError($member->getError());	    	       
+       	   } else {
+                $allOk = false;
+                $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
        	   }
        }
        
@@ -192,17 +192,17 @@ class JResearchAdminModelMember extends JModelAdmin{
        $n = 0;
        $selected = JRequest::getVar('cid', 0, '', 'array');
        $area = JTable::getInstance('Member', 'JResearch');
-       foreach($selected as $id){
-       		$action = JResearchAccessHelper::getActions('member', $id);
-       		if($action->get('core.staff.delete')){
+       foreach($selected as $id) {
+            $action = JResearchAccessHelper::getActions('member', $id);
+            if($action->get('core.staff.delete')){
                 if(!$area->delete($id)){
-	                $this->setError(new JException(JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id)));
-            	}else{
-                	$n++;
-            	}
-       		}else{
-       			$this->setError(new JException(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id)));
-       		}
+                    $this->setError(new JException(JText::sprintf('JRESEARCH_MEMBER_NOT_DELETED', $id)));
+                }else{
+                    $n++;
+                }
+            }else{
+                $this->setError(new JException(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id)));
+            }
        }
        
        return $n;
@@ -215,8 +215,7 @@ class JResearchAdminModelMember extends JModelAdmin{
             // Database processing
             $row = &$this->getTable('Member', 'JResearch');
             $row->bind($data);
-            if (!$row->checkin())
-            {
+            if (!$row->checkin()) {
                 $this->setError($row->getError());
                 return false;
             }
@@ -276,8 +275,8 @@ class JResearchAdminModelMember extends JModelAdmin{
         $db->setQuery($query);
         $result = $db->loadColumn();
         foreach($result as $id){
-                $publication =& JResearchPublication::getById($id);
-                $latestPub[] = $publication;
+            $publication =& JResearchPublication::getById($id);
+            $latestPub[] = $publication;
         }
 
         return $latestPub;
@@ -317,9 +316,9 @@ class JResearchAdminModelMember extends JModelAdmin{
 
         $result = $db->loadColumn();
         foreach($result as $id){
-                $project = new JResearchProject($db);
-                $project->load($id);
-                $latestProj[] = $project;
+            $project = new JResearchProject($db);
+            $project->load($id);
+            $latestProj[] = $project;
         }
 
         return $latestProj;
@@ -391,8 +390,7 @@ class JResearchAdminModelMember extends JModelAdmin{
 
         $ids = $db->loadColumn();
 
-        foreach($ids as $id)
-        {
+        foreach($ids as $id) {
             $team = JTable::getInstance('Team', 'JResearch');
             $team->load($id);
             $teams[] = $team;

@@ -27,6 +27,7 @@ mappings = {'components/com_jresearch' : 'site',
 'plugins/content/jresearch_offline_citation' : 'plugins/plg_jresearch_offline_citation',
 'plugins/content/jresearch_persistent_cited_records' : 'plugins/plg_jresearch_persistent_cited_records',
 'plugins/search/jresearch_search' : 'plugins/plg_jresearch_search',
+'plugins/jresearch/jresearch_json_keywords' : 'plugins/plg_jresearch_json_keywords',
 'administrator/components/com_jresearch/install.php' : 'install.php',
 'administrator/components/com_jresearch/jresearch.xml' : 'jresearch.xml',
 'language/en-GB/en-GB.com_jresearch.financiers.ini' : 'languages/site/en-GB.com_jresearch.financiers.ini',
@@ -47,7 +48,8 @@ mappings = {'components/com_jresearch' : 'site',
 'administrator/language/en-GB/en-GB.com_jresearch.theses.ini'	: 'languages/admin/en-GB.com_jresearch.theses.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.member_positions.ini'	: 'languages/admin/en-GB.com_jresearch.member_positions.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.sys.ini' : 'languages/admin/en-GB.com_jresearch.sys.ini',
-'administrator/language/en-GB/en-GB-jresearch_help.html' : 'languages/admin/en-GB-jresearch_help.html'
+'administrator/language/en-GB/en-GB-jresearch_help.html' : 'languages/admin/en-GB-jresearch_help.html',
+'modules/mod_jresearch_keywords_cloud' : 'modules/mod_jresearch_keywords_cloud'
 }
 
 ## TODO. Add mappings for every file in the languages folders.

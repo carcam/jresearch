@@ -10,9 +10,6 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
-jresearchimport('joomla.application.component.modelform');
-
-
 /**
 * Model class for holding a single research area record.
 *

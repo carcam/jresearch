@@ -70,24 +70,23 @@ defined('_JEXEC') or die('Restricted access');
             </ul>
             </fieldset>
         </div>
-        <?php echo JHtml::_('bootstrap.endTab'); ?> 
-        
+        <?php echo JHtml::_('bootstrap.endTab'); ?>         
         <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'extra', JText::_('JRESEARCH_EXTRA', true)); ?>
         <div class="row-fluid">
             <fieldset>
             <ul class="adminformlist">            
             	<?php
-            			$hitsField = $this->form->getField('hits');
-	            		$resetField = $this->form->getField('resethits');
-	            		$hits = $hitsField->value;
-	            		if(!empty($hits)):
-	            			echo '<li>'.JText::_('JRESEARCH_HITS').': '.$hitsField->value.'</li>';
-	            			echo '<li>';	            				
-		            		echo $resetField->label;
-		            		echo $resetField->input;	            		
-		            		echo '</li>';
-		            	endif;	
-            		?>
+                    $hitsField = $this->form->getField('hits');
+                    $resetField = $this->form->getField('resethits');
+                    $hits = $hitsField->value;
+                    if(!empty($hits)):
+                            echo '<li>'.JText::_('JRESEARCH_HITS').': '.$hitsField->value.'</li>';
+                            echo '<li>';	            				
+                            echo $resetField->label;
+                            echo $resetField->input;	            		
+                            echo '</li>';
+                    endif;	
+                ?>
             		
                 <?php foreach($this->form->getFieldset('extra') as $field): ?>
                         <li>

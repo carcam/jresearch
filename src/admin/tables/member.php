@@ -20,31 +20,38 @@ jresearchimport('tables.table', 'jresearch.admin');
  * This class represents a staff member.
  *
  */
-class JResearchMember extends JResearchTable{	
+class JResearchMember extends JResearchTable{
     /**
      * Is it a former member?
      *
      * @var bool
      */
     public $former_member;
-    
+
     /**
      * If true, activities mentioning the member will link the mention to member's
      * profile.
-     * @var type 
+     * @var type
      */
     public $link_to_member;
-    
+
     /**
-     * If $link_to_member is also true, activities mentioning the member will 
-     * link the mention to the member's website. 
-     * @var type 
+     * If $link_to_member is also true, activities mentioning the member will
+     * link the mention to the member's website.
+     * @var type
      */
     public $link_to_website;
 
     /**
+     * Link to the member's Google Scholar profile.
+     *
+     * @var type
+     */
+    public $google_scholar;
+
+    /**
     * Member's username
-    */	
+    */
     public $username;
 
     /**
@@ -64,7 +71,7 @@ class JResearchMember extends JResearchTable{
     /**
     * Member's email
     * @var string
-    */	
+    */
     public $email;
 
     /**
@@ -86,11 +93,11 @@ class JResearchMember extends JResearchTable{
     *
     * @var string
     */
-    public $position;	
+    public $position;
 
     /**
     * Member's location
-    * 
+    *
     * @var string
     */
     public $location;
@@ -118,20 +125,20 @@ class JResearchMember extends JResearchTable{
 
     /**
      * Member's description text
-     * 
+     *
      * @var string
      */
     public $description;
 
     /**
     * User id of the author who is editing the project.
-    * 
+    *
     * @var int
     */
     public $checked_out;
 
     /**
-     * 
+     *
      * Attachments (normally member's CV)
      * @var unknown_type
      */
@@ -140,7 +147,7 @@ class JResearchMember extends JResearchTable{
 
     /**
     * When the project was checked out.
-    * 
+    *
     * @var datetime
     */
     public $checked_out_time;
@@ -152,14 +159,14 @@ class JResearchMember extends JResearchTable{
     public $modified_by;
 
     /**
-     * 
+     *
      * Cache for research area objects.
      * @var arry
      */
     public $_areas;
 
     /**
-     * 
+     *
      * Link to the entry with the access rules
      * @var int
      */
@@ -186,7 +193,7 @@ class JResearchMember extends JResearchTable{
     /**
     * Binds the information of the indicated username, so common fields like email and name
     * are imported into the object. Used for impòrting members from Joomla tables.
-    */	
+    */
     function bindFromUser($username){
         jresearchimport('helpers.publications', 'jresearch.admin');
         $db =& JFactory::getDBO();
@@ -203,7 +210,7 @@ class JResearchMember extends JResearchTable{
         }
 
         $this->lastname = (isset($arrayName['von'])?$arrayName['von'].' ':'');
-        $this->lastname .= $arrayName['lastname'];	
+        $this->lastname .= $arrayName['lastname'];
     }
 
     /**
@@ -211,12 +218,12 @@ class JResearchMember extends JResearchTable{
      * @see trunk/Joomla16/libraries/joomla/database/JTable::store()
      */
     function store($updateNulls = false){
-        // Time to insert the member of the publication per se	
-        jimport('joomla.utilities.date');				
+        // Time to insert the member of the publication per se
+        jimport('joomla.utilities.date');
 
         $db = JFactory::getDBO();
         $user = JFactory::getUser();
-        $now = new JDate(); 		
+        $now = new JDate();
 
 
         if(isset($this->id)){
@@ -228,11 +235,11 @@ class JResearchMember extends JResearchTable{
         }
 
         $this->modified = $now->toSql();
-        $this->modified_by = $user->get('id');	
+        $this->modified_by = $user->get('id');
 
         $result = false;
         try {
-            $result = parent::store($updateNulls);   
+            $result = parent::store($updateNulls);
         } catch (RuntimeException $ex) {
             $this->setError(parent::getError().' '.$ex->getMessage());
         }
@@ -246,17 +253,17 @@ class JResearchMember extends JResearchTable{
         if(!$db->query()){
             $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
             return false;
-        }		
+        }
 
         //And to insert them again
         $idsAreas = explode(',', $this->id_research_area);
         foreach($idsAreas as $area){
-            $insertAreaQuery = 'INSERT INTO '.$db->quoteName('#__jresearch_member_research_area').'(id_member, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';	
+            $insertAreaQuery = 'INSERT INTO '.$db->quoteName('#__jresearch_member_research_area').'(id_member, id_research_area) VALUES('.$db->Quote($this->id).', '.$db->Quote($area).')';
             $db->setQuery($insertAreaQuery);
             if(!$db->query()){
                 $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
                 return false;
-            }					
+            }
         }
 
         return true;
@@ -297,7 +304,7 @@ class JResearchMember extends JResearchTable{
     /**
     * Validates the content of the member's profile information.
     * @return boolean. True if all fields of the object have a valid content.
-    */	
+    */
     function check(){
         $name_pattern = '/\w[-_\w\s.]*/';
         $phone_pattern = '/\d[-\d]+/';
@@ -329,7 +336,7 @@ class JResearchMember extends JResearchTable{
             }
         }
 
-        return true;		
+        return true;
     }
 
     /**
@@ -386,7 +393,7 @@ class JResearchMember extends JResearchTable{
     * in the bibtex standard.
     */
     function bindFromArray(array $authorComps){
-        $lastname = strtolower($authorComps['last']);           
+        $lastname = strtolower($authorComps['last']);
         $firstname = strtolower($authorComps['first']);
         $changedlast = false;
         $changedfirst = false;
@@ -430,7 +437,7 @@ class JResearchMember extends JResearchTable{
 
         return false;
     }
-        
+
     /**
      * (non-PHPdoc)
      * @see trunk/Joomla16/libraries/joomla/database/JTable::delete()
@@ -439,11 +446,11 @@ class JResearchMember extends JResearchTable{
         $db = JFactory::getDBO();
 
         $k = $this->_tbl_key;
-        $oid = (is_null($oid)) ? $this->$k : $oid;			
+        $oid = (is_null($oid)) ? $this->$k : $oid;
         $result = parent::delete($oid);
 
         if(!$result)
-            return $result;			
+            return $result;
 
         $publicationsTable = $db->quoteName('#__jresearch_publication_internal_author');
         $projectsTable = $db->quoteName('#__jresearch_project_internal_author');
@@ -451,47 +458,47 @@ class JResearchMember extends JResearchTable{
         $teamsTable = $db->quoteName('#__jresearch_team_member');
         $areasTable = $db->quoteName('#__jresearch_member_research_area');
 
-        $db->setQuery('DELETE FROM '.$publicationsTable.' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($oid));		
+        $db->setQuery('DELETE FROM '.$publicationsTable.' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($oid));
         if(!$db->query()){
             $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
             return false;
-        }	
+        }
 
-        $db->setQuery('DELETE FROM '.$projectsTable.' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($oid));		
+        $db->setQuery('DELETE FROM '.$projectsTable.' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($oid));
         if(!$db->query()){
             $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
             return false;
-        }	
+        }
 
         $db->setQuery('DELETE FROM '.$thesesTable.' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($oid));
         if(!$db->query()){
             $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
             return false;
-        }	
+        }
 
-        $db->setQuery('DELETE FROM '.$teamsTable.' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($oid));			
+        $db->setQuery('DELETE FROM '.$teamsTable.' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($oid));
         if(!$db->query()){
             $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
             return false;
-        }	
+        }
 
-        $db->setQuery('DELETE FROM '.$areasTable.' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($oid));			
+        $db->setQuery('DELETE FROM '.$areasTable.' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($oid));
         if(!$db->query()){
             $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
             return false;
-        }	
+        }
 
-        return true;		        	
+        return true;
     }
-        
+
     /**
-     * 
-     * Returns an array with the research area objects associated to 
+     *
+     * Returns an array with the research area objects associated to
      * the member.
      * @param string $whatInfo "all" to bring the entire list of objects,
      * "basic" to bring only id, name and published state, "names" to bring
      * only the names.
-     * @return Array of JResearchResearcharea objects or stdobjects containing 
+     * @return Array of JResearchResearcharea objects or stdobjects containing
      * ids and names
      */
     function getResearchAreas($whatInfo = 'all'){
@@ -500,15 +507,15 @@ class JResearchMember extends JResearchTable{
         if($whatInfo == 'all') {
             if(!isset($this->_areas)){
                 $this->_areas = array();
-                $db->setQuery('SELECT * FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');				
-                $areas = $db->loadAssocList();		
+                $db->setQuery('SELECT * FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');
+                $areas = $db->loadAssocList();
                 foreach($areas as $row){
                     $area = JTable::getInstance('Researcharea', 'JResearch');
                     $area->bind($row);
                     $this->_areas[] = $area;
                 }
-            }			
-            return $this->_areas;			
+            }
+            return $this->_areas;
         } elseif($whatInfo == 'basic') {
             $db->setQuery('SELECT id, name, published FROM #__jresearch_research_area WHERE id IN ('.$this->id_research_area.')');
             return $db->loadObjectList();
@@ -517,12 +524,12 @@ class JResearchMember extends JResearchTable{
             return $db->loadColumn();
         } else {
             return null;
-        }             
+        }
     }
 
     public function getCV(){
         if(!empty($this->files)){
-            $params = JComponentHelper::getParams('com_jresearch'); 
+            $params = JComponentHelper::getParams('com_jresearch');
             return JURI::root().'administrator/components/com_jresearch/'.str_replace(DS, DS, $params->get('files_root_path', 'files'))."/staff/".$this->files;
         }else{
             return false;

@@ -290,14 +290,14 @@ class JHTMLjresearchhtml
         $areasOptions = array();
         foreach($additional as $area)
         {
-                if(array_key_exists('id', $area) && array_key_exists('name', $area))
-                    $areasOptions[] = JHTML::_('select.option', $area['id'], $area['name']);
+            if(array_key_exists('id', $area) && array_key_exists('name', $area))
+                $areasOptions[] = JHTML::_('select.option', $area['id'], $area['name']);
         }
 
         //Add research areas
         foreach($areas as $area)
         {
-                $areasOptions[] = JHTML::_('select.option', $area['id'], $area['name']);
+            $areasOptions[] = JHTML::_('select.option', $area['id'], $area['name']);
         }
 
         return self::htmllist($areasOptions, $attributes);
