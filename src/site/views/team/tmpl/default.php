@@ -42,11 +42,11 @@ defined('_JEXEC') or die('Restricted access');
 		<?php 
 		endif;
 		
-		if($this->leader->phone_or_fax):
+		if($this->leader->phone):
 		?>
 		<tr>
-			<th><?php echo JText::_('JRESEARCH_PHONE_OR_FAX').': ' ?></th>
-			<td><?php echo $this->leader->phone_or_fax; ?></td>
+			<th><?php echo JText::_('JRESEARCH_PHONE').': ' ?></th>
+			<td><?php echo $this->leader->phone; ?></td>
 		</tr>
 		<?php 
 		endif;

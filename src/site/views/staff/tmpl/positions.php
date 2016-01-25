@@ -53,27 +53,27 @@ if($this->params->get('show_page_heading', 1)): ?>
 	<?php else:?>	
 	<table class="stafftable">
 	<thead>
-		<tr>
-		<?php if($showTitle == 'own_column'): ?>
-			<th class="stafftitle"><?php echo JText::_('JRESEARCH_MEMBER_TITLE'); ?></th>
-			<th class="staffname"><?php echo JText::_('JRESEARCH_NAME'); ?></th>
-		<?php else: ?>
-			<th class="staffname"><?php echo JText::_('JRESEARCH_NAME'); ?></th>		
-		<?php endif;?>
+            <tr>
+                <?php if($showTitle == 'own_column'): ?>
+                        <th class="stafftitle"><?php echo JText::_('JRESEARCH_MEMBER_TITLE'); ?></th>
+                        <th class="staffname"><?php echo JText::_('JRESEARCH_NAME'); ?></th>
+                <?php else: ?>
+                        <th class="staffname"><?php echo JText::_('JRESEARCH_NAME'); ?></th>		
+                <?php endif;?>
        	<?php if($showResearchArea == 1): ?>
-			<th><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
+            <th><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
         <?php endif; ?>
         <?php if($showLocation == 1): ?>
 			<th><?php echo JText::_('JRESEARCH_LOCATION'); ?></th>
         <?php endif; ?>
-		<?php if($showEmail == 1): ?>
-			<th class="staffemail"><?php echo JText::_('JRESEARCH_EMAIL'); ?></th>
-		<?php endif; ?>
+            <?php if($showEmail == 1): ?>
+                <th class="staffemail"><?php echo JText::_('JRESEARCH_EMAIL'); ?></th>
+            <?php endif; ?>
         <?php if($showPhone == 1): ?>
-			<th style="width: 15%;"><?php echo JText::_('JRESEARCH_PHONE_OR_FAX'); ?></th>
+                <th style="width: 15%;"><?php echo JText::_('JRESEARCH_PHONE'); ?></th>
          <?php endif; ?>		        
         <?php if($showPersonalPage == 1): ?>
-			<th></th>
+                <th></th>
         <?php endif; ?>        
 		</tr>
 	</thead>

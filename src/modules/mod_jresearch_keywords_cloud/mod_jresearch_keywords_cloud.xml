@@ -19,6 +19,9 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
+        <language tag="en-GB">en-GB.mod_jresearch_keywords_cloud.sys.ini</language>
+        <language tag="es-ES">es-ES.mod_jresearch_keywords_cloud.sys.ini</language>
+        <language tag="de-DE">de-DE.mod_jresearch_keywords_cloud.sys.ini</language>
         <language tag="en-GB">en-GB.mod_jresearch_keywords_cloud.ini</language>
         <language tag="de-DE">de-DE.mod_jresearch_keywords_cloud.ini</language>
         <language tag="es-ES">es-ES.mod_jresearch_keywords_cloud.ini</language>
@@ -30,12 +33,15 @@
 				<field name="cssfile" type="text" default="" size="50" label="Cascading stylesheet file" description="PARAMCSSFILE" />
 				<field name="include_publications" type="list" default="5" size="3" label="JRESEARCH_MOD_KEYWORDS_CLOUD_INCLUDE_PUBLICATIONS" description="JRESEARCH_MOD_KEYWORDS_CLOUD_INCLUDE_PUBLICATIONS_DESCRIPTION">
 					<option value="1">JYES</option>
-					<option value="1">JNO</option>
+					<option value="0">JNO</option>
 				</field>
 				<field name="include_projects" type="list" default="5" size="3" label="JRESEARCH_MOD_KEYWORDS_CLOUD_INCLUDE_PROJECTS" description="JRESEARCH_MOD_KEYWORDS_CLOUD_INCLUDE_PROJECTS_DESCRIPTION">
 					<option value="1">JYES</option>
-					<option value="1">JNO</option>
+					<option value="0">JNO</option>
 				</field>
+                                <field type="text" default="cloud" name="divid" size="15" label="JRESEARCH_MOD_KEYWORDS_DIVID" />
+                                <field type="text" default="100" name="width" size="15" label="JRESEARCH_MOD_KEYWORDS_CLOUD_WIDTH" />                                
+                                <field type="text" default="100" name="height" size="15" label="JRESEARCH_MOD_KEYWORDS_CLOUD_HEIGHT" />
 			</fieldset>
 		</fields>
 	</config>

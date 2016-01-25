@@ -45,11 +45,20 @@ JHTML::_('behavior.modal');
 	<td style="width:50%;" colspan="2"></td>
   </tr>
   <tr>
-  	<?php if(empty($this->member->phone_or_fax)): ?>
+  	<?php if(empty($this->member->phone)): ?>
   	<td style="width:50%;" colspan="2"></td>
   	<?php else: ?>	
-  	<th scope="row"><?php echo JText::_('JRESEARCH_PHONE_OR_FAX').': ';  ?></th>
-  	<td property="foaf:phone"><?php echo $this->member->phone_or_fax; ?></td>
+  	<th scope="row"><?php echo JText::_('JRESEARCH_PHONE').': ';  ?></th>
+  	<td property="foaf:phone"><?php echo $this->member->phone; ?></td>
+	<?php endif; ?>  		
+  	<td colspan="2"></td>
+  </tr>
+  <tr>
+  	<?php if(empty($this->member->fax)): ?>
+  	<td style="width:50%;" colspan="2"></td>
+  	<?php else: ?>	
+  	<th scope="row"><?php echo JText::_('JRESEARCH_FAX').': ';  ?></th>
+  	<td property="foaf:phone"><?php echo $this->member->fax; ?></td>
 	<?php endif; ?>  		
   	<td colspan="2"></td>
   </tr>

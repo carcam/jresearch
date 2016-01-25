@@ -61,6 +61,7 @@ class JResearchPublicationsController extends JResearchFrontendController
         $this->registerTask('exportAll', 'exportAll');
         $this->registerTask('executeImport', 'executeImport');
         $this->registerTask('retrieveKeywords', 'retrieveKeywords');        
+        $this->registerTask('retrieveKeywordsAndFrequency', 'retrieveKeywordsByFrequency');
         
 
         // Add models paths
@@ -704,6 +705,19 @@ class JResearchPublicationsController extends JResearchFrontendController
         jresearchimport('helpers.keywords', 'jresearch.admin');
         $prefix = JRequest::getVar('keyword');
         $allKeywords = JResearchKeywordsHelper::allKeywords($prefix);
+        $output = JResearchKeywordsHelper::format2JSON($allKeywords);
+        $document = JFactory::getDocument();
+        $document->setMimeEncoding('text/json');
+        echo $output;
+    }
+    
+    /**
+     * Returns a list of keywords sorted by relevance. The relevance 
+     * is defined as the number of records that use the keyword.
+     */
+    function retrieveKeywordsByFrequency() {
+        jresearchimport('helpers.keywords', 'jresearch.admin');
+        $allKeywords = JResearchKeywordsHelper::getKeywordsByRelevance();
         $output = JResearchKeywordsHelper::format2JSON($allKeywords);
         $document = JFactory::getDocument();
         $document->setMimeEncoding('text/json');

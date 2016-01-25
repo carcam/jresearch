@@ -38,13 +38,18 @@ class JResearchKeywordsHelper {
      * @return string
      */
     public static function format2JSON($keywords) {
-        $items = array();
+        $items = array();        
         foreach ($keywords as $keyword) {
-            $items[] = '{ "label" : "'. $keyword. '", "value" : "'.$keyword. '"} '; 
+            if (is_scalar($keyword)) {
+                $items[] = '{ "label" : "'. $keyword. '", "value" : "'.$keyword. '"} '; 
+            } else {
+                $items[] = '{ "label" : "'. $keyword['keyword']. '", "value" : '.$keyword['relevance']. '} ';
+            }
         }
         $output = '['. implode(',', $items). ']';
         return $output;
     }
+    
     
     /**
      * Returns an array of keywords associated to the record types provided as
@@ -85,11 +90,7 @@ class JResearchKeywordsHelper {
         }
         
         $db->setQuery($query);
-        $partialResult = $db->loadAssocList();
-        foreach ($partialResult as $assoc) {
-            $result[$assoc['keyword']] = intval($assoc['relevance']);
-        }
-        
-        return $result;
+        $db->execute();
+        return $db->loadAssocList();
     }
 } 

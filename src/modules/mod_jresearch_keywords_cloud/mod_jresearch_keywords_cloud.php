@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 if(!JComponentHelper::isEnabled('com_jresearch', true))
 {
-	JError::raiseError(0, 'J!Research is not enabled or installed');
+    JError::raiseError(0, 'J!Research is not enabled or installed');
 }
 $DS = DIRECTORY_SEPARATOR;
 require_once(JPATH_ADMINISTRATOR.$DS.'components'.$DS.'com_jresearch'.$DS.'helpers'.$DS.'keywords.php');
@@ -25,10 +25,10 @@ $dirname = dirname(__FILE__);
 
 $types = array();
 if ($params->get('include_publications') == '1')
-	$types[] = 'publications';
+    $types[] = 'publications';
 
 if ($params->get('include_projects') == '1')
-	$types[] = 'projects';
+    $types[] = 'projects';
 
 $keywords = JResearchKeywordsHelper::getKeywordsByRelevance($types);
 $layout = (string) $params->get('layout', 'default');

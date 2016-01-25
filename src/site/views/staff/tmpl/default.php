@@ -57,11 +57,11 @@ if($this->params->get('show_page_heading', 1)): ?>
 			<?php $nCols++; ?>			
 		<?php endif; ?>
         <?php if($showPhone == 1): ?>
-			<th style="width: 15%;"><?php echo JText::_('JRESEARCH_PHONE_OR_FAX'); ?></th>
-			<?php $nCols++; ?>
+            <th style="width: 15%;"><?php echo JText::_('JRESEARCH_PHONE'); ?></th>
+            <?php $nCols++; ?>
          <?php endif; ?>		        
         <?php if($showPersonalPage == 1): $nCols++; ?>
-			<th></th>
+                <th></th>
         <?php endif; ?>        
 		</tr>
 	</thead>

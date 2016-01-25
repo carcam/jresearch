@@ -113,7 +113,12 @@ class JResearchMember extends JResearchTable{
      *
      * @var string
      */
-    public $phone_or_fax;
+    public $phone;
+
+    /**
+     * Member's fax number
+     */
+    public $fax;
 
 
     /**
@@ -312,18 +317,26 @@ class JResearchMember extends JResearchTable{
 
         // Validate first and lastname
         if(!preg_match($name_pattern, $this->lastname)){
-            $this->setError(JText::_('Lastname can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
+            $this->setError(JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_LASTNAME'));
             return false;
         }
 
         if(!preg_match($name_pattern, $this->firstname)){
-            $this->setError(JText::_('First name can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
+            $this->setError(JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_FIRSTNAME'));
             return false;
         }
 
-        if($this->phone_or_fax){
-            if(!preg_match($phone_pattern, $this->phone_or_fax)){
-                $this->setError(JText::_('Phone numbers can only contain digits and scores'));
+        if($this->phone){
+            if(!preg_match($phone_pattern, $this->phone)){
+                $this->setError(JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_PHONE_NUMBER'));
+                return false;
+            }
+
+        }
+
+        if($this->fax){
+            if(!preg_match($phone_pattern, $this->fax)){
+                $this->setError(JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_FAX_NUMBER'));
                 return false;
             }
 
@@ -331,7 +344,7 @@ class JResearchMember extends JResearchTable{
 
         if($this->email){
             if(!preg_match($email_pattern, $this->email)){
-                $this->setError(JText::_('Please provide a valid e-mail address'));
+                $this->setError(JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_EMAIL'));
                 return false;
             }
         }
