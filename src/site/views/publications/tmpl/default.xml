@@ -72,10 +72,6 @@
 				<option value="no">JNO</option>
 			</field>
                         <field name="digital_version_tag" type="text" default="Online Version" label="JRESEARCH_PUBLICATION_ONLINE_VERSION_TAG" description="JRESEARCH_PUBLICATION_ONLINE_VERSION_TAG_DESCRIPTION" />                        	
-			<field name="filter_teams" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_TEAM" description="JRESEARCH_SHOW_FILTER_BY_TEAM_DESCRIPTION">
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
 			<field name="filter_areas" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_AREA" description="JRESEARCH_SHOW_FILTER_BY_AREA_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>

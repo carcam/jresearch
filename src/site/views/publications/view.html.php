@@ -188,7 +188,6 @@ class JResearchViewPublications extends JResearchView
     	$layout = $this->getLayout();
     	
     	$filter = $this->_publicationsFilter($layout,
-    		$params->get('filter_teams', 1) == 1,
     		$params->get('filter_areas', 1) == 1,
     		$params->get('filter_year', 1) == 1,
     		$params->get('filter_search', 1) == 1,
@@ -407,9 +406,8 @@ class JResearchViewPublications extends JResearchView
      * @param bool $bAuthors
      * @return string
      */
-    private function _publicationsFilter($layout, $bTeams = true, $bAreas = true, $bYear = true, $bSearch = true, $bType = true, $bAuthors = true) {
+    private function _publicationsFilter($layout, $bAreas = true, $bYear = true, $bSearch = true, $bType = true, $bAuthors = true) {
         jresearchimport('helpers.publications', 'jresearch.admin');
-        jresearchimport('helpers.teams', 'jresearch.admin');
         jresearchimport('helpers.researchareas', 'jresearch.admin');
 
         $mainframe = JFactory::getApplication();
@@ -472,20 +470,6 @@ class JResearchViewPublications extends JResearchView
                 $authorsHTML[] = JHTML::_('select.option', $auth['mid'], $auth['member_name']); 
             }
             $lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
-        }
-
-        if($bTeams === true) {
-            //Team filter
-            $teamsOptions = array();  
-            $filter_team = $this->state->get('com_jresearch.publications.filter_team');;    		
-            $teams = JResearchTeamsHelper::getTeams();
-
-            $teamsOptions[] = JHTML::_('select.option', -1 ,JText::_('JRESEARCH_ALL_TEAMS'));
-            foreach($teams as $t)
-            {
-                $teamsOptions[] = JHTML::_('select.option', $t->id, $t->name);
-            }    		
-            $lists['teams'] = JHTML::_('select.genericlist',  $teamsOptions, 'filter_team', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_team );
         }
 
         if($bAreas === true)

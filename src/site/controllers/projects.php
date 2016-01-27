@@ -43,30 +43,30 @@ class JResearchProjectsController extends JResearchFrontendController
 	 * @access public
 	 */
 
-	function display(){
-		$mainframe = JFactory::getApplication();
+	function display($cachable = false, $urlparams = array()){
+            $mainframe = JFactory::getApplication();
 		
 		//Get and use configuration
-    	$params = $mainframe->getPageParameters('com_jresearch');
+            $params = $mainframe->getPageParameters('com_jresearch');
 		
-		$limit = $params->get('projects_entries_per_page');			
-		$limitstart = JRequest::getVar('limitstart', null);		
-		if($limitstart === null)
-			JRequest::setVar('limitstart', 0);		
+            $limit = $params->get('projects_entries_per_page');			
+            $limitstart = JRequest::getVar('limitstart', null);		
+            if($limitstart === null)
+                JRequest::setVar('limitstart', 0);		
 
-		JRequest::setVar('limit', $limit);	
+            JRequest::setVar('limit', $limit);	
 		
-		$order = $params->get('order');
-		$order_Dir = $params->get('order_Dir');
+            $order = $params->get('order');
+            $order_Dir = $params->get('order_Dir');
 		
-		JRequest::setVar('filter_order', $order);
-		JRequest::setVar('filter_order_Dir', $order_Dir);
-		
-		// Set the view and the model
-		$model =& $this->getModel('Projects', 'JResearchModel');
-		$view =& $this->getView('Projects', 'html', 'JResearchView');
-		$view->setModel($model, true);
-		$view->display();		
+            JRequest::setVar('filter_order', $order);
+            JRequest::setVar('filter_order_Dir', $order_Dir);
+
+            // Set the view and the model
+            $model =& $this->getModel('Projects', 'JResearchModel');
+            $view =& $this->getView('Projects', 'html', 'JResearchView');
+            $view->setModel($model, true);
+            $view->display();		
 	}
 	
 	/**

@@ -46,7 +46,7 @@ class JResearchStaffController extends JResearchFrontendController
      *
      * @access public
      */
-    function display(){
+    function display($cachable = false, $urlparams = array()){
         $layout = JRequest::getVar('layout');
         if($layout == 'edit'){
             $this->edit();
@@ -115,26 +115,26 @@ class JResearchStaffController extends JResearchFrontendController
         $allowedToContinue = false;
 
         if(empty($form['id'])){
-                //check if creation is allowed
-                $allowedToContinue = $canDoStaff->get('core.staff.create');
+            //check if creation is allowed
+            $allowedToContinue = $canDoStaff->get('core.staff.create');
         }else{
-                //Check if edition is allowed
-                $allowedToContinue = $canDoStaff->get('core.staff.edit.own');
+            //Check if edition is allowed
+            $allowedToContinue = $canDoStaff->get('core.staff.edit.own');
         }
 
         if($allowedToContinue){
-                $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchMember'));
+            $app->triggerEvent('OnBeforeSaveJResearchEntity', array($form, 'JResearchMember'));
         if ($model->save()){
-                $app->triggerEvent('OnAfterSaveJResearchEntity', array($model->getItem(), 'JResearchMember'));       		    
-        $this->setRedirect('index.php?option=com_jresearch&view=member&layout=edit', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));       	    	
+            $app->triggerEvent('OnAfterSaveJResearchEntity', array($model->getItem(), 'JResearchMember'));       		    
+            $this->setRedirect('index.php?option=com_jresearch&view=member&layout=edit', JText::_('JRESEARCH_ITEM_SUCCESSFULLY_SAVED'));       	    	
         }else{
-        $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
+            $msg = JText::_('JRESEARCH_SAVE_FAILED').': '.implode("<br />", $model->getErrors());
             $type = 'error';
-                        $app->enqueueMessage($msg, $type);
-        $this->edit();        	    
+            $app->enqueueMessage($msg, $type);
+            $this->edit();        	    
         }
         }else{
-                JError::raiseWarning(1, JText::_('JRESEARCH_ACCESS_NOT_ALLOWED'));			
+            JError::raiseWarning(1, JText::_('JRESEARCH_ACCESS_NOT_ALLOWED'));			
         }
     }
 

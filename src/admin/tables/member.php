@@ -114,7 +114,7 @@ class JResearchMember extends JResearchTable{
      * @var string
      */
     public $phone;
-
+    
     /**
      * Member's fax number
      */
@@ -317,26 +317,26 @@ class JResearchMember extends JResearchTable{
 
         // Validate first and lastname
         if(!preg_match($name_pattern, $this->lastname)){
-            $this->setError(JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_LASTNAME'));
+            $this->setError(JText::_('Lastname can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
             return false;
         }
 
         if(!preg_match($name_pattern, $this->firstname)){
-            $this->setError(JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_FIRSTNAME'));
+            $this->setError(JText::_('First name can only contain alphabetic characters plus ._- characters with neither leading nor trailing whitespaces'));
             return false;
         }
 
         if($this->phone){
             if(!preg_match($phone_pattern, $this->phone)){
-                $this->setError(JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_PHONE_NUMBER'));
+                $this->setError(JText::_('Phone numbers can only contain digits and scores'));
                 return false;
             }
 
         }
-
+        
         if($this->fax){
             if(!preg_match($phone_pattern, $this->fax)){
-                $this->setError(JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_FAX_NUMBER'));
+                $this->setError(JText::_('Fax numbers can only contain digits and scores'));
                 return false;
             }
 
@@ -344,7 +344,7 @@ class JResearchMember extends JResearchTable{
 
         if($this->email){
             if(!preg_match($email_pattern, $this->email)){
-                $this->setError(JText::_('JRESEARCH_MEMBER_PROVIDE_VALID_EMAIL'));
+                $this->setError(JText::_('Please provide a valid e-mail address'));
                 return false;
             }
         }

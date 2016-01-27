@@ -80,8 +80,8 @@ class JResearchPublicationsController extends JResearchFrontendController
      * @access public
      */
 
-    function display(){
-        $mainframe = JFactory::getApplication();
+    function display($cachable = false, $urlparams = array()){
+        $mainframe = JFactory::getApplication('site');
 
         $layout = JRequest::getVar('layout');
         switch($layout){
