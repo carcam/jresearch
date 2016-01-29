@@ -12,11 +12,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <script type="text/javascript">
 function makeCitation(){
 	if(selectedCitekeys.length === 0){
-		alert("<?php echo JText::_('JRESEARCH_NO_ITEMS_TO_CITE'); ?>");
-		return;
+            alert("<?php echo JText::_('JRESEARCH_NO_ITEMS_TO_CITE'); ?>");
+            return;
 	}
-		
-	var citekeys = selectedCitekeys.join(",");		
+        
+	var citekeys = selectedCitekeys.filter(function(e) { return e!= null; }).join(",");		
 	window.parent.document.getElementById('jform_publications').value = citekeys;
 	list = getCitedRecordsList();
 	clean(list);
