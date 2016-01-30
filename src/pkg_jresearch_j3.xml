@@ -9,6 +9,9 @@
 	<packager>JResearch Team</packager>
 	<packagerurl></packagerurl>
 	<description>JResearch full installation package.</description>
+	<updateservers>
+		<server type="extension" name="J!Research update server">http://joomlaresearch.com/update/manifest.xml</server>
+	</updateservers>
 	<update></update>
 	<files folder="packages">
 		<file type="component" id="com_jresearch">com_jresearch_3_1_beta_1.zip</file>
