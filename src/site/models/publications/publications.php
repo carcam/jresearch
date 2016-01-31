@@ -103,10 +103,21 @@ class JResearchModelPublications extends JResearchModelList{
         $filter_pubtype = $this->getState('com_jresearch.publications.filter_pubtype');
         $filter_author = $this->getState('com_jresearch.publications.filter_author');            
         $filter_area = $this->getState('com_jresearch.publications.filter_area');
-        $filter_team = $this->getState('com_jresearch.publications.filter_team');
 
         if($filter_year != null && $filter_year != -1 ){
-            $where[] = $db->quoteName('year').' = '.$db->Quote($filter_year);
+            $year_values = explode(',', $filter_year);
+            if (is_array($year_values) && !empty($year_values)) {
+                $quotedValues = array();
+                foreach ($year_values as $year) {
+                    if ($year == 'current') {
+                        $quotedValues[] = $db->Quote(date("Y"));
+                    } else {
+                        $quotedValues[] = $db->Quote($year);
+                    } 
+                }                    
+                $inString = '('.implode(',', $quotedValues).')';
+                $where[] = $db->quoteName('year').' IN '.$inString;
+            }
         }
 
         if(($filter_search = trim($filter_search))){
@@ -124,11 +135,6 @@ class JResearchModelPublications extends JResearchModelList{
 
         if(!empty($filter_area) && $filter_area != -1){
             $where[] = 'ra.id_research_area = '.$db->Quote($filter_area);            	
-        }
-
-        if(!empty($filter_team) && $filter_team != -1){
-            $filter_team = $db->getEscaped($filter_team);
-            $where[] = 'LOWER('.$db->quoteName('id_team').') LIKE '.$db->Quote('%'.$filter_team.'%');            	
         }
 
         return $where;
@@ -159,7 +165,12 @@ class JResearchModelPublications extends JResearchModelList{
             $member = JTable::getInstance('Member', 'JResearch');
             $member->bindFromUsername($user->username);
             JRequest::setVar('filter_author', $member->id);    	 			
-    	}    	
+    	}
+
+        $filter_year_value = $params->get('filter_year');
+        if (!empty($filter_year_value)) {
+            JRequest::setVar('filter_year', $filter_year_value);
+        }
         
         $this->setState('com_jresearch.publications.filter_author', $mainframe->getUserStateFromRequest($this->_context.'.filter_author', 'filter_author'));        
         $this->setState('com_jresearch.publications.filter_year', $mainframe->getUserStateFromRequest($this->_context.'.filter_year', 'filter_year'));        
@@ -170,8 +181,7 @@ class JResearchModelPublications extends JResearchModelList{
             JRequest::setVar('filter_pubtype', $filter_pubtype);
         }
         
-        $this->setState('com_jresearch.publications.filter_pubtype', $mainframe->getUserStateFromRequest($this->_context.'.filter_pubtype', 'filter_pubtype'));        
-        $this->setState('com_jresearch.publications.filter_team', $mainframe->getUserStateFromRequest($this->_context.'.filter_team', 'filter_team'));        
+        $this->setState('com_jresearch.publications.filter_pubtype', $mainframe->getUserStateFromRequest($this->_context.'.filter_pubtype', 'filter_pubtype'));
         
         parent::populateState();        
     }

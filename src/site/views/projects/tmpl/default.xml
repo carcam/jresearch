@@ -55,12 +55,7 @@
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>				
             </field>
-            <field name="projects_year_filter" type="text" default="2012" label="JRESEARCH_YEAR" />
-
-            <field name="projects_show_filterby_team" type="list" default="0" label="JRESEARCH_SHOW_FILTER_BY_TEAM" description="JRESEARCH_SHOW_FILTER_BY_TEAM_DESCRIPTION">
-                    <option value="0">JNO</option>
-                    <option value="1">JYES</option>				
-            </field>
+            <field name="projects_year_filter" type="text" default="" label="JRESEARCH_YEAR" />
             <field name="projects_show_filterby_area" type="list" default="0" label="JRESEARCH_SHOW_FILTER_BY_AREA" description="JRESEARCH_SHOW_FILTER_BY_AREA_DESCRIPTION">
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>				

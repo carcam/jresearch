@@ -61,7 +61,6 @@
 		<language tag="en-GB">en-GB.com_jresearch.publications.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.researchareas.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
-		<language tag="en-GB">en-GB.com_jresearch.teams.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
 	</languages>
 	<administration>
@@ -103,7 +102,6 @@
 			<language tag="en-GB">en-GB.com_jresearch.researchareas.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
-			<language tag="en-GB">en-GB.com_jresearch.teams.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.member_positions.ini</language>
 			<language tag="en-GB">en-GB.plg_search_jresearch_search.sys.ini</language>
 			<language tag="en-GB">en-GB.plg_content_jresearch_offline_citation.sys.ini</language>

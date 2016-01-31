@@ -188,11 +188,11 @@ class JResearchViewPublications extends JResearchView
     	$layout = $this->getLayout();
     	
     	$filter = $this->_publicationsFilter($layout,
-    		$params->get('filter_areas', 1) == 1,
-    		$params->get('filter_year', 1) == 1,
-    		$params->get('filter_search', 1) == 1,
-    		$params->get('filter_type', 1) == 1,
-    		$params->get('filter_authors', 1) == 1
+    		$params->get('show_filter_areas', 1) == 1,
+    		$params->get('show_filter_year', 1) == 1,
+    		$params->get('show_filter_search', 1) == 1,
+    		$params->get('show_filter_type', 1) == 1,
+    		$params->get('show_filter_authors', 1) == 1
     	);
     	
     	$this->assignRef('filter', $filter);

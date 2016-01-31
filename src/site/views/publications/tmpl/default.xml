@@ -72,23 +72,24 @@
 				<option value="no">JNO</option>
 			</field>
                         <field name="digital_version_tag" type="text" default="Online Version" label="JRESEARCH_PUBLICATION_ONLINE_VERSION_TAG" description="JRESEARCH_PUBLICATION_ONLINE_VERSION_TAG_DESCRIPTION" />                        	
-			<field name="filter_areas" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_AREA" description="JRESEARCH_SHOW_FILTER_BY_AREA_DESCRIPTION">
+			<field name="show_filter_areas" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_AREA" description="JRESEARCH_SHOW_FILTER_BY_AREA_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="filter_year" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_YEAR" description="JRESEARCH_SHOW_FILTER_BY_YEAR_DESCRIPTION">
+			<field name="show_filter_year" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_YEAR" description="JRESEARCH_SHOW_FILTER_BY_YEAR_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="filter_type" type="list" default="1" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE" description="JRESEARCH_FILTER_PUBLICATIONS_BY_TYPE_DESCRIPTION">
+                        <field name="filter_year" type="text" default="-1" label="JRESEARCH_PUBLICATIONS_YEAR_VALUE_FILTER" description="JRESEARCH_PUBLICATIONS_YEAR_VALUE_FILTER_DESCRIPTION" />
+			<field name="show_filter_type" type="list" default="1" label="JRESEARCH_PUBLICATIONS_FILTER_BY_TYPE" description="JRESEARCH_FILTER_PUBLICATIONS_BY_TYPE_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="filter_authors" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_AUTHOR" description="JRESEARCH_SHOW_FILTER_BY_AUTHOR_DESCRIPTION">
+			<field name="show_filter_authors" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_AUTHOR" description="JRESEARCH_SHOW_FILTER_BY_AUTHOR_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="filter_search" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_TEXT" description="JRESEARCH_SHOW_FILTER_BY_TEXT_DESCRIPTION">
+			<field name="show_filter_search" type="list" default="1" label="JRESEARCH_SHOW_FILTER_BY_TEXT" description="JRESEARCH_SHOW_FILTER_BY_TEXT_DESCRIPTION">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>			
 			</field>
