@@ -1,4 +1,4 @@
-delimiter ;;
+drop procedure if exists upgrade_to_3_0;
 create procedure upgrade_to_3_0 ()
 begin
 		declare continue handler for 1060 begin end;
