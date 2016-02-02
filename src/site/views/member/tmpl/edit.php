@@ -23,6 +23,8 @@ $fields = array('id', 'firstname', 'lastname', 'title', 'username', 'email' , 'i
 <form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate" enctype="multipart/form-data">
 	<?php foreach($fields as $fieldName):  ?>
     	<?php $field = $this->form->getField($fieldName); ?>
+        <?php if ($field == null) 
+                echo $fieldName . " is null"; ?>
            	<div class="formelm">
             	<?php if (!$field->hidden): ?>
                 	<?php echo $field->label; ?>

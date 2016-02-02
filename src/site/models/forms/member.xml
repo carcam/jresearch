@@ -43,7 +43,7 @@
             />                
             <field
                 id="email"
-                name="alias"
+                name="email"
                 type="text"
                 size="40"
                 maxlength="255"
