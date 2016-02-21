@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 $path_relative = JString::str_ireplace(JPATH_BASE, '', $dirname );
 $path_relative = JPath::clean( $path_relative, '/');
 $modpath = JURI::root(true) . $path_relative . '/';
-$document = &JFactory::getDocument();
+$document = JFactory::getDocument();
 
 $document->addScript('http://d3js.org/d3.v3.min.js');
 $document->addScript($modpath.'d3.layout.cloud.js');

@@ -121,7 +121,7 @@ class JResearchViewPublications extends JResearchView
     	$doc = JFactory::getDocument();
     	$params = $mainframe->getParams('com_jresearch');
     	
-    	$document =& JFactory::getDocument();
+    	$document = JFactory::getDocument();
     	$feed = 'index.php?option=com_jresearch&amp;view=publicationslist&amp;format=feed';
         $rss = array(
                 'type' => 'application/rss+xml',
@@ -158,7 +158,8 @@ class JResearchViewPublications extends JResearchView
     	    	    	
     	// Bind variables used in layout
     	$this->assignRef('items', $groupedItems);
-    	$this->assignRef('page', $model->getPagination());
+        $page = $model->getPagination();
+    	$this->assignRef('page', $page);
     	$this->assignRef('user', $user);
     	$this->assignRef('showmore', $showmore);
     	$this->assignRef('showDigital', $showDigitalVersion);

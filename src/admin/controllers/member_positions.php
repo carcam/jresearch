@@ -55,7 +55,7 @@ class JResearchAdminMember_positionsController extends JControllerLegacy
      *
      * @access public
      */
-    function display(){
+    function display($cachable = false, $urlparams = array()){
         $user = JFactory::getUser();		
         if($user->authorise('core.manage', 'com_jresearch')){		
             $view = $this->getView('Member_positions', 'html', 'JResearchAdminView');

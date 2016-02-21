@@ -70,7 +70,7 @@ class JResearchModelList extends JModelList{
     *
     * @return      void
     */
-    protected function populateState() {
+    protected function populateState($ordering = null, $direction = null) {
         // Initialize variables.
         $app = JFactory::getApplication('site');
         $params = $app->getParams();

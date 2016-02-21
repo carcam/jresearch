@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
     jresearchimport('helpers.exporters.factory', 'jresearch.admin');
     $document = JFactory::getDocument(); 
     $format = "bibtex";		
-    $exporter =& JResearchPublicationExporterFactory::getInstance($format);		
+    $exporter = JResearchPublicationExporterFactory::getInstance($format);		
     $output2 = $exporter->parse($this->publication);				
     $canDoPublications = JResearchAccessHelper::getActions(); 
     $canDo = JResearchAccessHelper::getActions('publication', $this->publication->id);
@@ -98,13 +98,23 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<?php endif; ?>
 	<?php $doi = trim($this->publication->doi); ?>	
 	<?php if(!empty($doi)): ?>
-		<dt><?php echo JText::_('JRESEARCH_DOI').': '; ?></dt>
-		<dd property="bibo:doi"><?php echo $doi; ?></dd>
+            <dt><?php echo JText::_('JRESEARCH_DOI').': '; ?></dt>
+            <dd property="bibo:doi"><?php echo $doi; ?></dd>
 	<?php endif; ?>                
 </dl>	
 <div class="divTR">
 	<?php
-            $attachments = $this->publication->getAttachments();
+            $attachments = $this->publication->getAttachments();            
+            if (!empty($this->publication->url)) {
+                $entry = array();
+                $entry['url'] = $this->publication->url;
+                if ($this->showURL == 'yes_and_use_url') 
+                    $entry['tag'] = JText::_('JRESEARCH_DIGITAL_VERSION');
+                else 
+                    $entry['tag'] = JText::_('JRESEARCH_URL');                
+                $attachments[] = $entry;
+            }
+            
             if($this->showBibtex) {
                 $entry = array();
                 $entry['url'] = 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=bibtex&amp;id='.$this->publication->id;

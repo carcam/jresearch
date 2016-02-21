@@ -10,12 +10,13 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 <h1 class="componentheading">
-	<?php 
-	$actions = JResearchAccessHelper::getActions();
-	$task = JRequest::getVar('task');
-	if($task != 'new' && $task != 'edit')
-		$task = 'edit';
-	echo JText::_('JRESEARCH_'.JString::strtoupper($task).'_PUBLICATION');?>
+<?php 
+    $actions = JResearchAccessHelper::getActions();
+    $task = JRequest::getVar('task');
+    if($task != 'new' && $task != 'edit')
+        $task = 'edit';
+    echo JText::_('JRESEARCH_'.JString::strtoupper($task).'_PUBLICATION');
+?>
 </h1>
 <form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
 <div>

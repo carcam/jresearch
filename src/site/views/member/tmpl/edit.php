@@ -16,12 +16,13 @@ $fields = array('id', 'firstname', 'lastname', 'title', 'username', 'email' , 'i
 <div style="float: left;">
 <h1><?php echo JText::_('JRESEARCH_EDIT_PROFILE');?></h1>
 </div>
-<div style="float: right;">
+<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
+    <div style="float: right;">
 	<button type="button" onclick="javascript:Joomla.submitbutton('apply')"><?php echo JText::_('JRESEARCH_SAVE') ?></button>
-</div>
-<div style="clear:both;"></div>
-<form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="item-form" class="form-validate" enctype="multipart/form-data">
-	<?php foreach($fields as $fieldName):  ?>
+    </div>
+    
+    <div style="clear:both;"></div>	
+    <?php foreach($fields as $fieldName):  ?>
     	<?php $field = $this->form->getField($fieldName); ?>
         <?php if ($field == null) 
                 echo $fieldName . " is null"; ?>

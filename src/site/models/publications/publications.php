@@ -149,7 +149,7 @@ class JResearchModelPublications extends JResearchModelList{
     *
     * @return      void
     */
-    protected function populateState() {
+    protected function populateState($ordering = null, $direction = null) {
         // Initialize variables.
         $mainframe = JFactory::getApplication('site');
         $params = $mainframe->getParams('com_jresearch');
@@ -159,8 +159,7 @@ class JResearchModelPublications extends JResearchModelList{
         //My publications
     	$filter_show = $params->get('filter_show', 'all');		
     	$user = JFactory::getUser();
-    	if($filter_show == "my" && !$user->guest)
-    	{
+    	if ($filter_show == "my" && !$user->guest) {
             //Only in this case, force the model (ignore the filters)	    	
             $member = JTable::getInstance('Member', 'JResearch');
             $member->bindFromUsername($user->username);

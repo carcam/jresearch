@@ -48,7 +48,8 @@ class JResearchAdminViewMember_positions extends JResearchView
 		
      	$this->assignRef('items', $items);
      	$this->assignRef('lists', $lists );
-     	$this->assignRef('page', $model->getPagination());
+        $page = $model->getPagination();
+     	$this->assignRef('page', $page);
     	$this->assignRef('ordering', $ordering);
 
      	$eArguments = array('member_positions');

@@ -17,8 +17,8 @@ jresearchimport('tables.member_position', 'jresearch.admin');
 
 class JResearchAdminModelMember_position extends JModelAdmin {
     
-    public function getTable() {
-        return JTable::getInstance('Member_position', 'JResearch');
+    public function getTable($name = 'Member_position', $prefix = 'JResearch', $options = array()) {
+        return JTable::getInstance($name, $prefix);
     }
     
     /**
@@ -100,7 +100,7 @@ class JResearchAdminModelMember_position extends JModelAdmin {
     /**
      * Publishes the set of selected items
      */
-    function publish(){
+    function publish(&$pks, $value = 1){
         $selected = JRequest::getVar('cid', 0, '', 'array');
         $position = JTable::getInstance('Member_position', 'JResearch');
         $result = $position->publish($selected, 1); 
@@ -128,7 +128,7 @@ class JResearchAdminModelMember_position extends JModelAdmin {
      * Returns the number of removed items based on the 
      * selected items
      */
-    function delete(){
+    function delete(&$pks){
        $n = 0;
        $selected =JRequest::getVar('cid', 0, '', 'array');
        $position = JTable::getInstance('Member_position', 'JResearch');
@@ -167,7 +167,7 @@ class JResearchAdminModelMember_position extends JModelAdmin {
      * Returns the model data store in the user state as a table
      * object
      */
-    public function getItem(){
+    public function getItem($pk = null){
         $row = $this->getTable('Member_position', 'JResearch');
         $data =& $this->getData();
         $row->bind($data);

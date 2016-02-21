@@ -86,17 +86,26 @@ class JResearchViewPublication extends JResearchView
         $doc->setTitle($pageTitle);
     	
         // Bind variables for layout
-    	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement', 'horizontal'));
+        $staffListArrangement = $params->get('staff_list_arrangement', 'horizontal');
+    	$this->assignRef('staff_list_arrangement', $staffListArrangement);
     	$this->assignRef('publication', $publication, JResearchFilter::OBJECT_XHTML_SAFE);
-    	$this->assignRef('showHits', $params->get('show_hits', 1));
+        $showHits = $params->get('show_hits', 1);
+    	$this->assignRef('showHits', $showHits);
     	$this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
         $this->assignRef('user', $user, JResearchFilter::OBJECT_XHTML_SAFE);
         $this->assignRef('params', $params);
-        $this->assignRef('showBibtex', $params->get('show_export_bibtex', 0));
-    	$this->assignRef('showMODS', $params->get('show_export_mods', 0));	
-    	$this->assignRef('showRIS', $params->get('show_export_ris', 0));
-    	$this->assignRef('format', $this->params->get('staff_format', 'last_first'));	
-        $this->assignRef('keywordsLinks', $this->params->get('publications_keywords_links', 1));
+        $showBibtex = $params->get('show_export_bibtex', 0);
+        $this->assignRef('showBibtex', $showBibtex);
+        $showMODS = $params->get('show_export_mods', 0);
+    	$this->assignRef('showMODS', $showMODS);	
+        $showRIS = $params->get('show_export_ris', 0);
+    	$this->assignRef('showRIS', $showRIS);
+        $format = $this->params->get('staff_format', 'last_first');
+    	$this->assignRef('format', $format);	
+        $keywordsLinks = $this->params->get('publications_keywords_links', 1);
+        $this->assignRef('keywordsLinks', $keywordsLinks);
+        $showURL = $params->get('show_digital_version', 'yes_and_use_url');
+        $this->assignRef('showURL', $showURL);
 
     	$mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);        
        	parent::display($tpl);       	

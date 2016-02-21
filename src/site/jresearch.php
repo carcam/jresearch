@@ -42,7 +42,7 @@ if(empty($controller)){
 
 require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
 //Session
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 
 if($session->get('citedRecords', null, 'jresearch') == null){
     $session->set('citedRecords', array(), 'jresearch');

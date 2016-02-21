@@ -13,8 +13,8 @@
 */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'importer.php');
-require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
+jresearchimport('helpers.importers.importer', 'jresearch.admin');
+jresearchimport('helpers.importers.factory', 'jresearch.admin');
 
 /**
 * Imports sets of bibliographical references in MODS format. 

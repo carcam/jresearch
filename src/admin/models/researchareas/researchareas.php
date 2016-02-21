@@ -126,8 +126,8 @@ class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
         parent::populateState();
     }
     
-    public function getTable() {
-        return JTable::getInstance('Researcharea', 'JResearch');
+    public function getTable($name = 'Researcharea', $prefix = 'JResearch', $options = array()) {
+        return JTable::getInstance($name, $prefix);
     }
 }
 ?>

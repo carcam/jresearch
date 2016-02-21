@@ -53,7 +53,7 @@ class JResearchViewMember extends JResearchView
     	
     	$form = $this->get('Form');
         // get the Data
-        $data = &$this->get('Data');
+        $data = $this->get('Data');
 
         if(empty($data)){
             JError::raiseWarning(1, JText::_('JRESEARCH_NOT_EXISTING_PROFILE'));

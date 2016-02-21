@@ -78,8 +78,8 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
                         $newPub->bind($data);
                         $params = &JComponentHelper::getParams( 'com_jresearch' );
                         $newPub->created_by = $user->get('id');	
-                        $newPub->alias = JFilterOutput::stringURLSafe($newPub->title);
                         $newPub->title = JResearchPublicationsHelper::formatBibtexTitleForImport($newPub->title);						
+                        $newPub->alias = JFilterOutput::stringURLSafe($newPub->title);
                         $resultArray[] = $newPub;
                     }
                 }
