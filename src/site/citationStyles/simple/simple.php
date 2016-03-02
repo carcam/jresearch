@@ -165,14 +165,21 @@ class JResearchSimpleCitationStyle implements JResearchCitationStyle{
             $output .= ' '.$booktitle;
             $moreDetails = true;
         }
+        
+        if ($publication->pubtype == 'mastersthesis') {
+            $output .= '. '.JText::_('JRESEARCH_MASTERSTHESIS');
+        } else if($publication->pubtype == 'phdthesis') {
+            $output .= '. '.JText::_('JRESEARCH_PHDTHESIS');            
+        }
+               
        
-       if (!empty($year)) {
+        if (!empty($year)) {
            if ($moreDetails) {
                $output .= ', '.$year.'.';
            } else {
                $output .= ' '.$year.'.';               
            }
-       }
+        }
        
         return $output;	
     }

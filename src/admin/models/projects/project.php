@@ -21,8 +21,8 @@ class JResearchAdminModelProject extends JModelAdmin{
     */
     protected $data = null;
 
-    public function getTable() {
-        return JTable::getInstance('Project', 'JResearch');
+    public function getTable($name = 'Project', $prefix = 'JResearch', $options = array()) {
+        return JTable::getInstance('Project', $prefix);
     }
     
     /**
@@ -162,7 +162,7 @@ class JResearchAdminModelProject extends JModelAdmin{
     /**
      * Publishes the set of selected items
      */
-    function publish(){
+    function publish(&$pks, $value = 1) {
        $selected = JRequest::getVar('cid', 0, '', 'array');
        $project = JTable::getInstance('Project', 'JResearch');           
        $allOk = true;
@@ -209,7 +209,7 @@ class JResearchAdminModelProject extends JModelAdmin{
      * Returns the number of removed items based on the 
      * selected items
      */
-    function delete() {
+    function delete(&$pks) {
         $n = 0;
         $selected = JRequest::getVar('cid', 0, '', 'array');
         $project = JTable::getInstance('Project', 'JResearch');
@@ -235,7 +235,7 @@ class JResearchAdminModelProject extends JModelAdmin{
      * Returns the model data store in the user state as a table
      * object
      */
-    public function getItem(){
+    public function getItem($pk = NULL) {
         $row = $this->getTable('Project', 'JResearch');
         $data =& $this->getData();
         $row->bind($data);

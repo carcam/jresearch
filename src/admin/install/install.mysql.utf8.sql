@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   PRIMARY KEY  (`id`),
   FULLTEXT INDEX `#__jresearch_publication_title_index`(`title`),
   FULLTEXT INDEX `#__jresearch_publication_full_index`(`title`, `abstract`),
+  FULLTEXT INDEX `#__jresearch_publication_title_keywords_index`(`title`, `keywords`),
   UNIQUE KEY `citekey` (`citekey`),
   INDEX `year` (`year`),
   INDEX `pubtype` (`pubtype`)

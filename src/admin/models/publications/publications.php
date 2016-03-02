@@ -119,7 +119,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
 
         if(($filter_search = trim($filter_search))){
             $filter_search = JString::strtolower($filter_search);
-            $where[] = 'MATCH(title, keywords, abstract) AGAINST ('.$db->Quote($filter_search, true).' IN BOOLEAN MODE)';
+            $where[] = 'MATCH(title, abstract) AGAINST ('.$db->Quote($filter_search, true).' IN BOOLEAN MODE)';
         }
 
         if(!empty($filter_pubtype) && $filter_pubtype != '-1'){

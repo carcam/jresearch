@@ -36,7 +36,8 @@
 				<option value="proceedings">JRESEARCH_PROCEEDINGS</option>
 				<option value="techreport">JRESEARCH_TECHREPORT</option>
 				<option value="unpublished">JRESEARCH_UNPUBLISHED</option>
-			</field>			
+			</field>
+                        <field name="filter_pubtype_exclude" type="text" label="JRESEARCH_PUBLICATIONS_EXCLUDE_TYPES" description="JRESEARCH_PUBLICATIONS_EXCLUDE_TYPES_DESCRIPTION" />
 		</fieldset>
 
 		<fieldset name="grouping"

@@ -30,7 +30,7 @@ class JResearchAdminViewProject extends JResearchView
 			
         $form = $this->get('Form');
         // get the Data
-        $data = &$this->get('Data');
+        $data = $this->get('Data');
         // Bind the Data
     	$form->bind($data);
 			            

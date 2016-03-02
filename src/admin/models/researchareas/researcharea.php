@@ -16,8 +16,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class JResearchAdminModelResearchArea extends JModelAdmin{
 
-    public function getTable() {
-        return JTable::getInstance('Researcharea', 'JResearch');
+    public function getTable($name = 'Researcharea', $prefix = 'JResearch', $options = array()) {
+        return JTable::getInstance($name, $prefix);
     }
 
 
@@ -78,7 +78,7 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
      * @access      public
      * @return      boolean True on success
      */
-    function save() {
+    function save($data) {
         $app = JFactory::getApplication();
 
         $data =& $this->getData();
@@ -106,7 +106,7 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
     /**
      * Publishes the set of selected items
      */
-    function publish(){
+    function publish(&$pks, $value = 1) {
         $selected = JRequest::getVar('cid', 0, '', 'array');
         $area = JTable::getInstance('Researcharea', 'JResearch');           
         $user = JFactory::getUser();
@@ -156,7 +156,7 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
      * Returns the number of removed items based on the 
      * selected items
      */
-    function delete(){
+    function delete(&$pks){
        $n = 0;
        $selected = JRequest::getVar('cid', 0, '', 'array');
        $area = JTable::getInstance('Researcharea', 'JResearch');
@@ -203,7 +203,7 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
      * Returns the model data store in the user state as a table
      * object
      */
-    public function getItem(){
+    public function getItem($pk = null){
         $row = $this->getTable('Researcharea', 'JResearch');
         $data =& $this->getData();
         $row->bind($data);

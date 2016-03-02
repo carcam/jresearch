@@ -53,6 +53,7 @@ class JResearchModelPublications extends JResearchModelList{
             $query->where($whereClauses);
 
         $query->order($orderColumns);
+        echo $query;
         return $query;
     }
 
@@ -103,6 +104,7 @@ class JResearchModelPublications extends JResearchModelList{
         $filter_pubtype = $this->getState('com_jresearch.publications.filter_pubtype');
         $filter_author = $this->getState('com_jresearch.publications.filter_author');            
         $filter_area = $this->getState('com_jresearch.publications.filter_area');
+        $filter_pubtype_exclude = $this->setState('com_jresearch.publications.filter_pubtype_exclude');
 
         if($filter_year != null && $filter_year != -1 ){
             $year_values = explode(',', $filter_year);
@@ -121,12 +123,18 @@ class JResearchModelPublications extends JResearchModelList{
         }
 
         if(($filter_search = trim($filter_search))){
-            $filter_search = $db->getEscaped($filter_search);
             $where[] = 'MATCH('.$db->quoteName('title').', '.$db->quoteName('keywords').') AGAINST('.$db->Quote($filter_search).' IN BOOLEAN MODE)';
         }
 
         if($filter_pubtype && $filter_pubtype != 'all'){
             $where[] = $db->quoteName('pubtype').' = '.$db->Quote($filter_pubtype);
+        } else if (!empty($filter_pubtype_exclude)) {
+            $excludedTypes = explode(',', $filter_pubtype_exclude);
+            $cleanExcludedTypes = array();
+            foreach ($excludedTypes as $exType) {
+                $cleanExcludedTypes[] = $db->Quote(trim($exType));
+            }
+            $where[] = $db->quoteName('pubtype').' NOT IN ('. implode(',', $cleanExcludedTypes).')';
         }
 
         if(!empty($filter_author) && $filter_author != '-1'){
@@ -181,7 +189,7 @@ class JResearchModelPublications extends JResearchModelList{
         }
         
         $this->setState('com_jresearch.publications.filter_pubtype', $mainframe->getUserStateFromRequest($this->_context.'.filter_pubtype', 'filter_pubtype'));
-        
+        $this->setState('com_jresearch.publications.filter_pubtype_exclude', $params->get('filter_pubtype_exclude', null));
         parent::populateState();        
     }
 }

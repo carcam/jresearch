@@ -22,8 +22,8 @@ class JResearchAdminModelMember extends JModelAdmin{
     */
     protected $data = null;
 
-    public function getTable() {
-        return JTable::getInstance('Member', 'JResearch');
+    public function getTable($name = 'Member', $prefix = 'JResearch', $options = array())  {
+        return JTable::getInstance($name, $prefix);
     }    
     
     /**
@@ -92,7 +92,7 @@ class JResearchAdminModelMember extends JModelAdmin{
      * @access      public
      * @return      boolean True on success
      */
-    function save()
+    function save($data)
     {
         $app = JFactory::getApplication();
         $params = JComponentHelper::getParams('com_jresearch');
@@ -144,7 +144,7 @@ class JResearchAdminModelMember extends JModelAdmin{
     /**
      * Publish a set of items
      */        
-    function publish(){
+    function publish(&$pks, $value = 1) {
        $selected = JRequest::getVar('cid', 0, '', 'array');
        $member = JTable::getInstance('Member', 'JResearch');           
        $allOk = true;
@@ -188,7 +188,7 @@ class JResearchAdminModelMember extends JModelAdmin{
     /**
      * Delete a set of items
      */        
-    function delete(){
+    function delete(&$pks) {
        $n = 0;
        $selected = JRequest::getVar('cid', 0, '', 'array');
        $area = JTable::getInstance('Member', 'JResearch');
@@ -228,7 +228,7 @@ class JResearchAdminModelMember extends JModelAdmin{
      * Returns the model data store in the user state as a table
      * object
      */
-    public function getItem(){
+    public function getItem($pk = null) {
         $row = $this->getTable('Member', 'JResearch');
         $data =& $this->getData();
         $row->bind($data);

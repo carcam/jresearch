@@ -72,7 +72,8 @@ class JResearchAdminViewProjects extends JResearchView
 
         $this->assignRef('lists', $lists);        
     	$this->assignRef('items', $items);
-    	$this->assignRef('page', $model->getPagination());
+        $page = $model->getPagination();
+    	$this->assignRef('page', $page);
         $this->assignRef('params', $params);        
     	parent::display($tpl);
     }

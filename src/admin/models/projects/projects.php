@@ -21,53 +21,53 @@ require_once(JRESEARCH_COMPONENT_ADMIN.DS.'models'.DS.'modelList.php');
 */
 class JResearchAdminModelProjects extends JResearchAdminModelList{
 
-		/**
-		 * Returns the items seen in the backend
-		 */
-        public function getItems(){
-            if(!isset($this->_items)){
-                $items = parent::getItems();
-            	$db = JFactory::getDBO();
-                if($items !== false){
-                    foreach($items as $item){
-                        $project = $this->getTable('Project', 'JResearch');
-                        $project->bind($item);
-                        $this->_items[] = $project;
-                    }
-                }else{
-                    return $items;
+    /**
+     * Returns the items seen in the backend
+     */
+    public function getItems(){
+        if(!isset($this->_items)){
+            $items = parent::getItems();
+            $db = JFactory::getDBO();
+            if($items !== false){
+                foreach($items as $item){
+                    $project = $this->getTable('Project', 'JResearch');
+                    $project->bind($item);
+                    $this->_items[] = $project;
                 }
+            }else{
+                return $items;
             }
-
-            return $this->_items;
         }
+
+        return $this->_items;
+    }
 	
         
-		protected function getListQuery() {
-            // Create a new query object.
-            $db = JFactory::getDBO();
-            $whereClauses = $this->_buildQueryWhere();
-            $orderColumns = $this->_buildQueryOrderBy();
-            $query = $db->getQuery(true);
+    protected function getListQuery() {
+        // Create a new query object.
+        $db = JFactory::getDBO();
+        $whereClauses = $this->_buildQueryWhere();
+        $orderColumns = $this->_buildQueryOrderBy();
+        $query = $db->getQuery(true);
 
-            $query->select('DISTINCT proj.*');
-            $query->from('#__jresearch_project proj');
-            $query->leftJoin('#__jresearch_project_research_area AS ra ON proj.id = ra.id_project');
-            $query->leftJoin('#__jresearch_all_project_authors AS apa ON proj.id = apa.pid');
-                        
-			if(!empty($whereClauses))
-                $query->where($whereClauses);
+        $query->select('DISTINCT proj.*');
+        $query->from('#__jresearch_project proj');
+        $query->leftJoin('#__jresearch_project_research_area AS ra ON proj.id = ra.id_project');
+        $query->leftJoin('#__jresearch_all_project_authors AS apa ON proj.id = apa.pid');
 
-            $query->order($orderColumns);
-                        
-         	return $query;
-        }
+        if(!empty($whereClauses))
+            $query->where($whereClauses);
+
+        $query->order($orderColumns);
+
+        return $query;
+    }
                
         
         /**
-		* Build the ORDER part of a query.
-		*/
-		private function _buildQueryOrderBy(){
+        * Build the ORDER part of a query.
+        */
+        private function _buildQueryOrderBy(){
             //Array of allowable order fields
             $mainframe = JFactory::getApplication();
             $orders = array('title', 'published', 'ra.id', 'start_date', 'status', 'apa.member_name', 'ordering');
@@ -84,61 +84,61 @@ class JResearchAdminModelProjects extends JResearchAdminModelList{
             	$filter_order = 'start_date';        
                 
             $columns[] = $filter_order.' '.$filter_order_Dir;
-			$columns[] = 'created DESC';            
+            $columns[] = 'created DESC';            
 
             return $columns;
-		}
+        }
 			
-		/**
-		* Build the WHERE part of a query
-		*/
-		private function _buildQueryWhere(){
-           	$mainframe = JFactory::getApplication();
-            $where = array();           	
-            $db = JFactory::getDBO();
+        /**
+        * Build the WHERE part of a query
+        */
+    private function _buildQueryWhere(){
+        $mainframe = JFactory::getApplication();
+        $where = array();           	
+        $db = JFactory::getDBO();
 
-            $filter_state = $this->getState('com_jresearch.projects.filter_state');            
-            $filter_status = $this->getState('com_jresearch.projects.filter_status');
-            $filter_year = $this->getState('com_jresearch.projects.filter_start_date');
-            $filter_search = $this->getState('com_jresearch.projects.filter_search');
-            $filter_author = $this->getState('com_jresearch.projects.filter_author');
-            $filter_area = $this->getState('com_jresearch.projects.filter_area');                  
-            
-            if($filter_state == 'P')
-                $where[] = $db->quoteName('published').' = 1 ';
-            elseif($filter_state == 'U')
-                $where[] = $db->quoteName('published').' = 0 ';
+        $filter_state = $this->getState('com_jresearch.projects.filter_state');            
+        $filter_status = $this->getState('com_jresearch.projects.filter_status');
+        $filter_year = $this->getState('com_jresearch.projects.filter_start_date');
+        $filter_search = $this->getState('com_jresearch.projects.filter_search');
+        $filter_author = $this->getState('com_jresearch.projects.filter_author');
+        $filter_area = $this->getState('com_jresearch.projects.filter_area');                  
 
-            if(!empty($filter_area) && $filter_area != -1){
-        		$where[] = $db->quoteName('ra').'.'.$db->quoteName('id_research_area').'='.$filter_area;
-        	}
-            
-            // prepare the WHERE clause
-            if(!empty($filter_status) && $filter_status != -1){
-                $where[] = $db->quoteName('status').' = '.$db->Quote($filter_status);
-            }
+        if($filter_state == 'P')
+            $where[] = $db->quoteName('published').' = 1 ';
+        elseif($filter_state == 'U')
+            $where[] = $db->quoteName('published').' = 0 ';
 
-            if(!empty($filter_year) && $filter_year != -1 &&$filter_year != 0 ){
-            	$mysqlStartDate = $filter_year.'-01-01';
-            	$mysqlEndDate = $filter_year.'-12-31';
-                $where[] = $db->quoteName('start_date').' BETWEEN '.$db->Quote($mysqlStartDate).' AND '.$db->Quote($mysqlEndDate);
-            }
+        if(!empty($filter_area) && $filter_area != -1){
+            $where[] = $db->quoteName('ra').'.'.$db->quoteName('id_research_area').'='.$filter_area;
+        }
 
-            if(($filter_search = trim($filter_search))){
-                  $filter_search = JString::strtolower($filter_search);
-                  $filter_search = $db->getEscaped($filter_search);
-        		  $where[] = 'MATCH(title, description) AGAINST ('.$db->Quote($db->getEscaped($filter_search, true)).' IN BOOLEAN MODE)';
-            }
-            
-            if(!empty($filter_author) && $filter_author != '-1'){
-            	$where[] = $db->quoteName('apa').'.'.$db->quoteName('mid').' = '.$db->Quote($filter_author);
-            }
-            
-            return $where;		
-		}        
+        // prepare the WHERE clause
+        if(!empty($filter_status) && $filter_status != -1){
+            $where[] = $db->quoteName('status').' = '.$db->Quote($filter_status);
+        }
+
+        if(!empty($filter_year) && $filter_year != -1 &&$filter_year != 0 ){
+            $mysqlStartDate = $filter_year.'-01-01';
+            $mysqlEndDate = $filter_year.'-12-31';
+            $where[] = $db->quoteName('start_date').' BETWEEN '.$db->Quote($mysqlStartDate).' AND '.$db->Quote($mysqlEndDate);
+        }
+
+        if(($filter_search = trim($filter_search))){
+            $filter_search = JString::strtolower($filter_search);
+            $filter_search = $db->getEscaped($filter_search);
+            $where[] = 'MATCH(title, description) AGAINST ('.$db->Quote($db->getEscaped($filter_search, true)).' IN BOOLEAN MODE)';
+        }
+
+        if(!empty($filter_author) && $filter_author != '-1'){
+            $where[] = $db->quoteName('apa').'.'.$db->quoteName('mid').' = '.$db->Quote($filter_author);
+        }
+
+        return $where;		
+    }        
 	
 
-	/**
+    /**
     * Method to auto-populate the model state.
     *
     * This method should only be called once per instantiation and is designed
@@ -147,7 +147,7 @@ class JResearchAdminModelProjects extends JResearchAdminModelList{
     *
     * @return      void
     */
-    protected function populateState() {    	
+    protected function populateState($ordering = NULL, $direction = NULL) {    	
     	$mainframe = JFactory::getApplication();
         $this->setState('com_jresearch.projects.filter_search', $mainframe->getUserStateFromRequest($this->_context.'.filter_search', 'filter_search'));
         $this->setState('com_jresearch.projects.filter_author', $mainframe->getUserStateFromRequest($this->_context.'.filter_author', 'filter_author'));        
