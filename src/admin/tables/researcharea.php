@@ -130,7 +130,7 @@ class JResearchResearcharea extends JResearchTable{
             $booleanResult = $booleanResult && $this->_keepIntegrity('thesis', $oid);
 
         	// Set as uncategorized any item related to this research area
-            $queryPub = 'DELETE FROM '.$db->quoteName('#__jresearch_publication_researcharea')
+            $queryPub = 'DELETE FROM '.$db->quoteName('#__jresearch_publication_research_area')
                         .' WHERE '.$db->quoteName('id_research_area').' = '.$db->Quote($oid);
 
             $queryProj = 'DELETE FROM '.$db->quoteName('#__jresearch_project_research_area')

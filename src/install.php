@@ -65,26 +65,76 @@ class com_jresearchInstallerScript
         if (com_jresearchInstallerScript::$old_version == null)
             return;        
 
-        if (version_compare(com_jresearchInstallerScript::$old_version, '3.0') == 0) {
-            // Try to run these queries for
-            try {
-                $db->setQuery("ALTER TABLE #__jresearch_publication DROP INDEX #__jresearch_publication_title_keywords_index");
-                $db->execute();
-            } catch (Exception $e) {
-
-            }
-            
+        if (version_compare(com_jresearchInstallerScript::$old_version, '3.0') == 0) {           
             try {
                 $db->setQuery("ALTER TABLE #__jresearch_publication ADD FULLTEXT INDEX #__jresearch_publication_title_keywords_index(title, keywords)");
                 $db->execute();
             } catch (Exception $e) {
 
             }
+            
+            try {
+                $db->setQuery("DROP TABLE IF EXISTS #__jresearch_publication_research_area");
+                $db->execute();
+            } catch (Exception $e) {
+                
+            }
+            
+            try {
+                $db->setQuery("RENAME TABLE #__jresearch_publication_researcharea TO  #__jresearch_publication_research_area");
+                $db->execute();
+            } catch (Exception $e) {
+                
+            }
             return;
         } else if (version_compare(com_jresearchInstallerScript::$old_version, '3.0') > 0) {
             return;
         }
+        
+        // Then we are upgrading from J!Research 2.x
+        
+        try {
+            $db->setQuery("DROP TABLE IF EXISTS #__jresearch_project_research_area");
+            $db->execute();
+        } catch (Exception $e) {
 
+        }
+
+        try {
+            $db->setQuery("RENAME TABLE #__jresearch_project_researcharea TO  #__jresearch_project_research_area");
+            $db->execute();
+        } catch (Exception $e) {
+
+        }
+        
+        try {
+            $db->setQuery("DROP TABLE IF EXISTS #__jresearch_thesis_research_area");
+            $db->execute();
+        } catch (Exception $e) {
+
+        }
+
+        try {
+            $db->setQuery("RENAME TABLE #__jresearch_thesis_researcharea TO  #__jresearch_thesis_research_area");
+            $db->execute();
+        } catch (Exception $e) {
+
+        }
+        
+        try {
+            $db->setQuery("DROP TABLE IF EXISTS #__jresearch_member_research_area");
+            $db->execute();
+        } catch (Exception $e) {
+
+        }
+
+        try {
+            $db->setQuery("RENAME TABLE #__jresearch_member_researcharea TO  #__jresearch_member_research_area");
+            $db->execute();
+        } catch (Exception $e) {
+
+        }        
+        
 
         try {
             $db->setQuery("ALTER TABLE #__jresearch_publication` DROP INDEX `#__jresearch_publication_full_index");

@@ -363,7 +363,7 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_facilities` (
   FULLTEXT KEY `#__jresearch_facilities_description_index` (`description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-CREATE TABLE IF NOT EXISTS `#__jresearch_publication_researcharea` (
+CREATE TABLE IF NOT EXISTS `#__jresearch_publication_research_area` (
   `id_publication` int(11) unsigned NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_publication`, `id_research_area`)
