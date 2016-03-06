@@ -34,7 +34,8 @@ class JResearchBibtexImporter extends JResearchPublicationImporter{
         $parser = new Structures_BibTex();
         $parser->content = $text;
         $user = JFactory::getUser();
-        $mapToStaff = JRequest::getVar('maptostaff', null);
+        $jinput = JFactory::getApplication()->input;        
+        $mapToStaff = $jinput->get('maptostaff', null);
         if($parser->parse()){
             foreach($parser->data as $data){
                 if (isset($data['keywords'])) {

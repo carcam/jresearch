@@ -70,7 +70,8 @@ class JResearchAdminMember_positionsController extends JControllerLegacy
     function edit(){
         $user = JFactory::getUser();		
         if($user->authorise('core.manage', 'com_jresearch')){				
-            $cid = JRequest::getVar('cid');		
+            $jinput = JFactory::getApplication()->input;
+            $cid = $jinput->get('cid', 0, 'INT');		
             $view = $this->getView('Member_position', 'html', 'JResearchAdminView');
             $model = $this->getModel('Member_position', 'JResearchAdminModel');
 
@@ -148,7 +149,8 @@ class JResearchAdminMember_positionsController extends JControllerLegacy
 
     function save(){
         JRequest::checkToken() or jexit( 'JInvalid_Token' );
-        $task = JRequest::getVar('task');
+        $jinput = JFactory::getApplication()->input;
+        $task = $jinput->get('task');
         $user = JFactory::getUser();
         if(!$user->authorise('core.manage', 'com_jresearch')){
             $this->setRedirect('index.php?option=com_jresearch&controller=member_positions', JText::_('JERROR_ALERTNOAUTHOR'));			
@@ -204,9 +206,9 @@ class JResearchAdminMember_positionsController extends JControllerLegacy
         $canDo = JResearchAccessHelper::getActions();
         if ($canDo->get('core.manage')) {
             $model = $this->getModel('Member_position', 'JResearchAdminModel');
-            $pks = JRequest::getVar('cid', array(), 'array');
-            $order = JRequest::getVar('order', array(), 'array');
-            $user = JFactory::getUser();	
+            $jinput = JFactory::getApplication()->input;
+            $pks = $jinput->get('cid', array(), 'ARRAY');
+            $order = $jinput->get('order', array(), 'ARRAY');
             JArrayHelper::toInteger($pks);
             JArrayHelper::toInteger($order);
             // Save the ordering

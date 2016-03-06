@@ -98,7 +98,8 @@ class JResearchAdminPublicationsController extends JControllerLegacy
     */	
     function edit(){
         $app = JFactory::getApplication();
-        $cid = JRequest::getVar('cid', array());
+        $jinput = JFactory::getApplication()->input;
+        $cid = $jinput->get('cid', array(), 'array');
         $view = $this->getView('Publication', 'html', 'JResearchAdminView');
         $pubModel = $this->getModel('Publication', 'JResearchAdminModel');
         $user = JFactory::getUser();
@@ -232,7 +233,8 @@ class JResearchAdminPublicationsController extends JControllerLegacy
             jresearchimport('helpers.exporters.factory', 'jresearch.admin');
             $document = JFactory::getDocument();
 
-            $id = JRequest::getInt('id');
+            $jinput = JFactory::getApplication()->input;
+            $id = $jinput->getInt('id', 0);
             $format = JRequest::getVar('format');
             $model = $this->getModel('Publication', 'JResearchAdminModel');
             $publication = $model->getItem();
@@ -264,10 +266,11 @@ class JResearchAdminPublicationsController extends JControllerLegacy
         $params = JComponentHelper::getParams('com_jresearch');
         if($actions->get('core.publications.create')){
             jresearchimport('helpers.importers.factory', 'jresearch.admin');
+            $jinput = JFactory::getApplication()->input;
             $fileArray = JRequest::getVar('inputfile', null, 'FILES');
-            $format = JRequest::getVar('formats');
+            $format = $jinput->get('formats');
             $uploadedFile = $fileArray['tmp_name'];
-            $researchAreas = JRequest::getVar('researchAreas', array(), '', 'array');
+            $researchAreas = $jinput->getVar('researchAreas', array(), 'ARRAY');
             if(empty($researchAreas) || in_array('1', $researchAreas)){
                 $researchAreasText = '1';
             }else{
@@ -333,7 +336,7 @@ class JResearchAdminPublicationsController extends JControllerLegacy
         $canProceed = false;	
         $user = JFactory::getUser();
         $params = JComponentHelper::getParams('com_jresearch');
-
+        $jinput = JFactory::getApplication()->input;
 
         // Permissions check
         if(empty($form['id'])) {
@@ -353,7 +356,7 @@ class JResearchAdminPublicationsController extends JControllerLegacy
             return;
         }
         
-        $task = JRequest::getVar('task');             	
+        $task = $jinput->get('task');             	
         $publication = $model->getItem();
         
         $success = false;
@@ -415,11 +418,11 @@ class JResearchAdminPublicationsController extends JControllerLegacy
      */
     function changeInternalStatus(){
         JRequest::checkToken() or jexit( 'JInvalid_Token' );		
-
+        $jinput = JFactory::getApplication()->input;
         $actions = JResearchAccessHelper::getActions();
         if($actions->get('core.publications.edit.state')){		
         $model = $this->getModel('Publication', 'JResearchAdminModel');
-        $task = JRequest::getVar('task');
+        $task = $jinput->get('task');
         $value = false;
         if($task == 'makeinternal'){
             $key = 'JRESEARCH_NITEMS_TURNED_INTERNAL'; 
@@ -469,7 +472,8 @@ class JResearchAdminPublicationsController extends JControllerLegacy
      */
     function retrieveKeywords() {
         jresearchimport('helpers.keywords', 'jresearch.admin');
-        $prefix = JRequest::getVar('keyword');
+        $jinput = JFactory::getApplication()->input;        
+        $prefix = $jinput->get('keyword');
         $allKeywords = JResearchKeywordsHelper::allKeywords($prefix);
         $output = JResearchKeywordsHelper::format2JSON($allKeywords);
         $document = JFactory::getDocument();

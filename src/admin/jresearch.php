@@ -22,7 +22,8 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_COMPONENT_ADMINISTRATOR.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'init.php');
 jresearchimport('helpers.access', 'jresearch.admin');
 // Handle upgrade case
-$mode = JRequest::getVar('mode');
+$jinput = JFactory::getApplication()->input;
+$mode = $jinput->get('mode');
 if($mode == 'upgrader'){
     // Verify the plugin is installed in the system
     if(!JPluginHelper::isEnabled('jresearch', 'jresearch_upgrader')){

@@ -139,10 +139,10 @@ class JResearchView extends JViewLegacy
     public function addPathwayItem($name, $link='', $bItemid = false)
     {
         global $mainframe;
+        $jinput = JFactory::getApplication()->input;        
+        $itemid = $jinput->getInt('Itemid', 0);
         
-        $itemid = JRequest::getVar('Itemid', null);
-        
-        if(is_null($itemid) || $bItemid)
+        if($itemid == 0 || $bItemid)
         {
             $pathway = &$mainframe->getPathway();
             return $pathway->addItem($name, $link);
@@ -159,9 +159,10 @@ class JResearchView extends JViewLegacy
     	global $mainframe;
     	
     	$params =& JComponentHelper::getParams('com_jresearch');
-    	$itemid = JRequest::getVar('Itemid', null);
+        $jinput = JFactory::getApplication()->input;        
+    	$itemid = $jinput->getInt('Itemid', 0);
     	
-    	if($itemid != null && !$mainframe->isAdmin())
+    	if($itemid != 0 && !$mainframe->isAdmin())
     	{
     		$menu = JSite::getMenu();
     		$mparams = $menu->getParams($itemid);

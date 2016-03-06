@@ -69,7 +69,8 @@ class JResearchAdminProjectsController extends JControllerLegacy
     */
     function edit(){
         $app = JFactory::getApplication();
-        $cid = JRequest::getVar('cid', array());
+        $jinput = JFactory::getApplication()->input;
+        $cid = $jinput->get('cid', array(), 'array');
         $view = $this->getView('Project', 'html', 'JResearchAdminView');
         $projModel = $this->getModel('Project', 'JResearchAdminModel');
         $user = JFactory::getUser();
@@ -180,7 +181,8 @@ class JResearchAdminProjectsController extends JControllerLegacy
         JRequest::checkToken() or jexit( 'JInvalid_Token' );				
         jresearchimport('helpers.projects', 'jresearch.admin');	
 
-        $task = JRequest::getVar('task');					
+        $jinput = JFactory::getApplication()->input;
+        $task = $jinput->get('task');					
         $model = $this->getModel('Project', 'JResearchAdminModel');
         $app = JFactory::getApplication();
         $form =& $model->getData();
@@ -259,9 +261,9 @@ class JResearchAdminProjectsController extends JControllerLegacy
         $canDoProjects = JResearchAccessHelper::getActions();
         if ($canDoProjects->get('core.projects.edit')) {
             $model = $this->getModel('Project', 'JResearchAdminModel');
-            $pks = JRequest::getVar('cid', array(), 'array');
-            $order = JRequest::getVar('order', array(), 'array');
-            $user = JFactory::getUser();	
+            $jinput = JFactory::getApplication()->input;
+            $pks = $jinput->get('cid', array(), 'ARRAY');
+            $order = $jinput->get('order', array(), 'ARRAY');
             JArrayHelper::toInteger($pks);
             JArrayHelper::toInteger($order);
             // Save the ordering

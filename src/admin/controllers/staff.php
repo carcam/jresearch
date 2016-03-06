@@ -96,7 +96,8 @@ class JResearchAdminStaffController extends JControllerLegacy
     * @access public
     */
     function edit(){
-        $cid = JRequest::getVar('cid', array());
+        $jinput = JFactory::getApplication()->input;        
+        $cid = $jinput->get('cid', array(), 'ARRAY');
         $user = JFactory::getUser();
         $view = $this->getView('Member', 'html', 'JResearchAdminView');
         $model = $this->getModel('Member', 'JResearchAdminModel');
@@ -207,9 +208,10 @@ class JResearchAdminStaffController extends JControllerLegacy
         $n = JRequest::getInt('staffCount');
         $count = 0;
         $actions = JResearchAccessHelper::getActions();
+        $jinput = JFactory::getApplication()->input;        
         if($actions->get('core.staff.create')){
             for ($i=0; $i<= $n; $i++) {
-                $username = JRequest::getVar('member'.$i);
+                $username = $jinput->get('member'.$i);
                 if($username !== null){
                     JTable::addIncludePath(JRESEARCH_COMPONENT_ADMIN.DS.'tables');
                     $newMember = JTable::getInstance('Member', 'JResearch');
@@ -234,7 +236,8 @@ class JResearchAdminStaffController extends JControllerLegacy
     */
     function save(){
         JRequest::checkToken() or jexit( 'JInvalid_Token' );
-        $task = JRequest::getVar('task');
+        $jinput = JFactory::getApplication()->input;        
+        $task = $jinput->get('task');
         $model = $this->getModel('Member', 'JResearchAdminModel');
         $app = JFactory::getApplication();
         $form =& $model->getData();   
@@ -313,7 +316,8 @@ class JResearchAdminStaffController extends JControllerLegacy
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'JInvalid_Token' );
 
-        $cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+        $jinput = JFactory::getApplication()->input;        
+        $cid = $jinput->post->get('cid', array(), 'ARRAY');
         JArrayHelper::toInteger($cid);
 
         if (isset($cid[0]) && $cid[0]) {
@@ -341,8 +345,8 @@ class JResearchAdminStaffController extends JControllerLegacy
     {
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'JInvalid_Token' );
-
-        $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+        $jinput = JFactory::getApplication()->input;
+        $cid = $jinput->post->get('cid', array(), 'ARRAY');
         JArrayHelper::toInteger($cid);
 
         if (isset($cid[0]) && $cid[0]) {
@@ -368,8 +372,8 @@ class JResearchAdminStaffController extends JControllerLegacy
     function saveorder() {
         // Check for request forgeries
         JRequest::checkToken() or jexit( 'JInvalid_Token' );
-
-        $cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+        $jinput = JFactory::getApplication()->input;
+        $cid = $jinput->post->get( 'cid', array(), 'ARRAY');
         JArrayHelper::toInteger($cid);
 
         $model = $this->getModel('Staff', 'JResearchAdminModel');
@@ -395,7 +399,8 @@ class JResearchAdminStaffController extends JControllerLegacy
         jresearchimport('helpers.staff', 'jresearch.admin');
         $document = JFactory::getDocument();
         $document->setMimeEncoding('text/json');
-        $key = JRequest::getVar('keyword');           
+        $jinput = JFactory::getApplication()->input;        
+        $key = $jinput->get('keyword');           
         $members = JResearchStaffHelper::getMembers($key);
         $output = JResearchStaffHelper::members2JSON($members);
         echo $output;
@@ -405,9 +410,9 @@ class JResearchAdminStaffController extends JControllerLegacy
         $canDoStaff = JResearchAccessHelper::getActions();
         if ($canDoStaff->get('core.staff.edit')) {
             $model = $this->getModel('Member', 'JResearchAdminModel');
-            $pks = JRequest::getVar('cid', array(), 'array');
-            $order = JRequest::getVar('order', array(), 'array');
-            $user = JFactory::getUser();	
+            $jinput = JFactory::getApplication()->input;            
+            $pks = $jinput->get('cid', array(), 'ARRAY');
+            $order = $jinput->get('order', array(), 'ARRAY');
             JArrayHelper::toInteger($pks);
             JArrayHelper::toInteger($order);
             // Save the ordering
