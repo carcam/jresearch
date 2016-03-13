@@ -8,7 +8,7 @@ Itemid<?php
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
+$jinput = JFactory::getApplication()->input;
 ?>
 <?php if($this->showHeader): ?>
 <h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
@@ -30,7 +30,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<input type="hidden" name="controller" value="publications"  />
 	<input type="hidden" name="limitstart" value="0" />
 	<input type="hidden" name="modelkey" value="default" />
-	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />	
+	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $jinput->getInt('Itemid'); ?>" />	
 </form>
 <div style="clear: both;">
 <?php if($this->exportAll): ?>

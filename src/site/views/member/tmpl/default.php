@@ -10,6 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JHTML::_('behavior.modal');
+$jinput = JFactory::getApplication()->input;
 ?>
 <div xmlns:foaf="http://xmlns.com/foaf/0.1/" about="#<?php echo $this->member->id; ?>">
 <h2 property="foaf:name" class="componentheading"><?php echo JResearchPublicationsHelper::formatAuthor($this->member->__toString(), $this->params->get('staff_format', 'last_first')); ?></h2>
@@ -89,21 +90,21 @@ JHTML::_('behavior.modal');
     </td>
   </tr>
   <?php endif; ?>
-  <?php $itemId = JRequest::getVar('Itemid', null); ?>
+  <?php $itemId = $jinput->getInt('Itemid', 0); ?>
   <?php if(!empty($this->publications)){ ?>
         <tr><th style="width:100%;" scope="col" colspan="4" ><h3 class="contentheading"><?php echo JText::_('JRESEARCH_PUBLICATIONS'); ?></h3></th></tr>
         <tr><td style="width:100%;" colspan="4">
             <ul>
                 <?php foreach($this->publications as $pub): ?>
                         <?php if(!$this->applyStyle): ?>
-                            <li><a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $pub->id ?><?php echo $itemId?"&Itemid=$itemId":'' ?>"><?php echo $pub->title; ?></a></li>
+                            <li><a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $pub->id ?><?php echo !empty($itemId)?"&Itemid=$itemId":'' ?>"><?php echo $pub->title; ?></a></li>
                         <?php else: ?>
                             <li>
                             <?php  
                                 $styleObj =& JResearchCitationStyleFactory::getInstance($this->style, $pub->pubtype);
                                 echo $styleObj->getReferenceHTMLText($pub, true); 
                             ?>
-                                <a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $pub->id; ?><?php $Itemid = JRequest::getVar('Itemid'); echo !empty($Itemid)?'&amp;Itemid='.$Itemid:''; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a>&nbsp;
+                                <a href="index.php?option=com_jresearch&amp;view=publication&amp;task=show&amp;id=<?php echo $pub->id; ?><?php echo !empty($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JText::_('JRESEARCH_MORE'); ?></a>&nbsp;
                             </li>
                         <?php endif; ?>	
                 <?php endforeach; ?>

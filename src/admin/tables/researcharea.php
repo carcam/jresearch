@@ -191,10 +191,11 @@ class JResearchResearcharea extends JResearchTable{
         $dateObj = new JDate();
         $user = JFactory::getUser();
         $author = '';
+        $jinput = JFactory::getApplication()->input;        
         if(!isset($this->id)){
-            $created = JRequest::getVar('created', $dateObj->toSql());
+            $created = $jinput->get('created', $dateObj->toSql());
             $this->created = $created;
-            $author = JRequest::getVar('created_by', $user->get('id'));
+            $author = $jinput->get('created_by', $user->get('id'));
             $this->created_by = $author;
             $this->ordering = parent::getNextOrder();
         }

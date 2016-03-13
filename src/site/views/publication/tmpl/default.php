@@ -11,7 +11,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 <div xmlns:bibo="http://purl.org/ontology/bibo/" about="#<?php echo $this->publication->citekey; ?>" typeof="<?php echo JResearchPublicationsHelper::getBIBOType($this->publication); ?>">
 <?php 
-    $Itemid = JRequest::getVar('Itemid'); 
+    $jinput = JFactory::getApplication()->input;       
+    $Itemid = $jinput->getInt('Itemid', 0); 
     $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 
     jresearchimport('helpers.exporters.factory', 'jresearch.admin');

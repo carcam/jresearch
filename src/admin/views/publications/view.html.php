@@ -45,9 +45,10 @@ class JResearchAdminViewPublications extends JResearchView
     * Control Panel. It binds the variables needed by the default view for
     * publications.
     */
-    private function _displayDefaultList(){
+    private function _displayDefaultList() {
     	$mainframe = JFactory::getApplication();
-        $option = JRequest::getVar('option');
+        $jinput = $mainframe->input;        
+        $option = $jinput->get('option');
         $params = JComponentHelper::getParams('com_jresearch');
         jresearchimport('helpers.publications', 'jresearch.admin');
         JHTML::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'html');		
@@ -134,13 +135,14 @@ class JResearchAdminViewPublications extends JResearchView
     private function _displayExportForm(){
         JResearchToolbar::importPublicationsToolbar();
         $session = JFactory::getSession();
-        $task = JRequest::getVar('task');
+        $jinput = JFactory::getApplication()->input;        
+        $task = $jinput->get('task');
 
-        if($task == 'export'){
-            $cid = JRequest::getVar('cid', null);
+        if($task == 'export') {
+            $cid = $jinput->get('cid', null);
             $exportCompleteDatabase = false;
             $session->set('markedRecords', $cid, 'com_jresearch.publications');
-        }elseif($task == 'exportAll'){
+        } elseif($task == 'exportAll') {
             $exportCompleteDatabase = true;
             $session->set('markedRecords', 'all', 'com_jresearch.publications');
         }

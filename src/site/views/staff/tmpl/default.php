@@ -9,7 +9,7 @@
 //@todo Change styling attributes for table to CSS
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
-$itemId = JRequest::getVar('Itemid');
+$jinput = JFactory::getApplication()->input;
 $showTitle = $this->params->get('staff_show_title', 'no');
 $showEmail = $this->params->get('member_show_email', 1);
 $showResearchArea = $this->params->get('staff_show_research_area', 1);
@@ -66,7 +66,7 @@ if($this->params->get('show_page_heading', 1)): ?>
 		</tr>
 	</thead>
     <?php
-    $itemId = JRequest::getVar('Itemid');
+    $itemId = $jinput->getInt('Itemid', 0);
     $twoGroups = $this->params->get('staff_former_grouping') == 1 && $this->params->get('staff_filter') == 'all';
     $previousMember = null;
     ?>
@@ -81,7 +81,7 @@ if($this->params->get('show_page_heading', 1)): ?>
 			<?php endif; ?>
 			<td>
 				<?php if($showLink == 1): ?>
-					<?php $link = JRoute::_("index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=".$member->id. (isset($itemId)?'&amp;Itemid='.$itemId:'')); ?>
+					<?php $link = JRoute::_("index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=".$member->id. (!empty($itemId)?'&amp;Itemid='.$itemId:'')); ?>
 					<a href="<?php echo $link ?>"><?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->params->get('staff_format', 'last_first')); ?></a>
 				<?php else: ?>
 					<?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->params->get('staff_format', 'last_first')); ?>

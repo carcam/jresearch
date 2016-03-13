@@ -84,11 +84,11 @@ class JResearchViewMember extends JResearchView
         $doc = JFactory::getDocument();      	
         $pathway = $mainframe->getPathway();
       	jresearchimport('helpers.publications', 'jresearch.admin');
-      	 	
-    	$id = JRequest::getInt('id', null);
-    	$publications_view_all = JRequest::getVar('publications_view_all', 0);
-    	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
-    	$theses_view_all = JRequest::getVar('theses_view_all', 0);
+        $jinput = JFactory::getApplication()->input;      	 	
+    	$id = $jinput->getInt('id', null);
+    	$publications_view_all = $jinput->getInt('publications_view_all', 0);
+    	$projects_view_all = $jinput->getInt('projects_view_all', 0);    	    	
+    	$theses_view_all = $jinput->getInt('theses_view_all', 0);
 
 
     	if(empty($id)){

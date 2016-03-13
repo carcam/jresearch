@@ -259,11 +259,11 @@ class JResearchPublication extends JResearchActivity{
         $db = JFactory::getDBO();
         $user = JFactory::getUser();
         $now = new JDate(); 		
-
+        $jinput = JFactory::getApplication()->input;
         $author = '';
         if(empty($this->id)){
             $this->created = $now->toSql();
-            $author = JRequest::getVar('created_by', $user->get('id'));
+            $author = $jinput->getInt('created_by', $user->get('id'));
             $this->created_by = $author;
         }
 

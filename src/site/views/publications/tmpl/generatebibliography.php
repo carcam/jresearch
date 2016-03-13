@@ -6,6 +6,7 @@
  * View for generating bibliography
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
+$jinput = JFactory::getApplication()->input;       
 ?>
 <script type="text/javascript">
 var selectedIndex;
@@ -66,7 +67,7 @@ function requestBibliographyGeneration(){
 }
 	
 function generateBibliography(response){
-    window.parent.jInsertEditorText(response, '<?php echo preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', JRequest::getVar('e_name') ); ?>');
+    window.parent.jInsertEditorText(response, '<?php echo preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', $jinput->get('e_name') ); ?>');
     window.parent.SqueezeBox.close();
     return false;
 }

@@ -61,7 +61,6 @@
 		<language tag="en-GB">en-GB.com_jresearch.publications.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.researchareas.ini</language>
 		<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
-		<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
 	</languages>
 	<administration>
 		<menu img="../administrator/components/com_jresearch/assets/jresearch_logomini.png">J\!Research</menu>
@@ -101,7 +100,6 @@
 			<language tag="en-GB">en-GB.com_jresearch.publications.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.researchareas.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.staff.ini</language>
-			<language tag="en-GB">en-GB.com_jresearch.theses.ini</language>
 			<language tag="en-GB">en-GB.com_jresearch.member_positions.ini</language>
 			<language tag="en-GB">en-GB-jresearch_help.html</language>
 		</languages>

@@ -33,8 +33,9 @@ if($mode == 'upgrader'){
 }
 
 // Require specific controller. Publications is the default
-$controller = JRequest::getVar('controller', null);
-$task = JRequest::getVar('task');
+$jinput = JFactory::getApplication()->input;
+$controller = $jinput->get('controller', null);
+$task = $jinput->get('task');
 $prefix = 'JResearchAdmin';
 $availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchareas', 'financiers', 'member_positions');
 

@@ -235,7 +235,7 @@ class JResearchAdminPublicationsController extends JControllerLegacy
 
             $jinput = JFactory::getApplication()->input;
             $id = $jinput->getInt('id', 0);
-            $format = JRequest::getVar('format');
+            $format = $jinput->get('format');
             $model = $this->getModel('Publication', 'JResearchAdminModel');
             $publication = $model->getItem();
 
@@ -267,7 +267,7 @@ class JResearchAdminPublicationsController extends JControllerLegacy
         if($actions->get('core.publications.create')){
             jresearchimport('helpers.importers.factory', 'jresearch.admin');
             $jinput = JFactory::getApplication()->input;
-            $fileArray = JRequest::getVar('inputfile', null, 'FILES');
+            $fileArray = $jinput->files->get('inputfile', null);
             $format = $jinput->get('formats');
             $uploadedFile = $fileArray['tmp_name'];
             $researchAreas = $jinput->getVar('researchAreas', array(), 'ARRAY');

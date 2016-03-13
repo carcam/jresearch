@@ -82,18 +82,18 @@ class JResearchPublicationsController extends JResearchFrontendController
 
     function display($cachable = false, $urlparams = array()){
         $mainframe = JFactory::getApplication('site');
-
-        $layout = JRequest::getVar('layout');
+        $jinput = $mainframe->input;
+        $layout = $jinput->get('layout');
         switch($layout){
             case 'new':
                 $this->add();
-                JRequest::setVar('task', 'new');
+                $jinput->set('task', 'new');
                 $this->set('task', 'new');
                 return;
             case 'edit':
                 $id = JRequest::getInt('id', 0);
                 $task = !empty($id) ? 'edit' : 'add';
-                JRequest::setVar('task', $task );						
+                $jinput->set('task', $task );						
                 $this->set('task', $task );
                 $this->edit();
                 return;	
@@ -101,7 +101,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 
         //Get and use configuration
         $params = $mainframe->getPageParameters('com_jresearch');
-        $format = JRequest::getVar('format', 'html');	
+        $format = $jinput->get('format', 'html');	
 
         // Sort parameters
         if($format == 'html'){
@@ -109,9 +109,9 @@ class JResearchPublicationsController extends JResearchFrontendController
             $limit = $params->get('publications_entries_per_page', 25);			
             $filter_order_Dir = $params->get('publications_order', 'DESC');
             $filter_order = $params->get('publications_default_sorting', 'year');
-            $limitstart = JRequest::getVar('limitstart', null);		
+            $limitstart = $jinput->get('limitstart', null);		
             if($limitstart === null)
-                JRequest::setVar('limitstart', 0);		
+                $jinput->set('limitstart', 0);		
         }else{
             // For feeds, sort desc by year.
             $filter_order_Dir = 'DESC';
@@ -120,15 +120,15 @@ class JResearchPublicationsController extends JResearchFrontendController
             $limitstart = 0;
         }
 
-        JRequest::setVar('limit', $limit);		
-        JRequest::setVar('filter_order', $filter_order);
-        JRequest::setVar('filter_order_Dir', $filter_order_Dir);
+        $jinput->set('limit', $limit);		
+        $jinput->set('filter_order', $filter_order);
+        $jinput->set('filter_order_Dir', $filter_order_Dir);
 
         // Set the view and the model
         $model = $this->getModel('Publications', 'JResearchModel');
         $view = $this->getView('Publications', $format, 'JResearchView');
         $view->setModel($model, true);
-        $view->setLayout(JRequest::getVar('layout', 'default'));		
+        $view->setLayout($jinput->get('layout', 'default'));		
         $view->display();
     }
 
@@ -216,7 +216,8 @@ class JResearchPublicationsController extends JResearchFrontendController
     function cite(){
         $output = '';
         // Search the citekey
-        $citekeys = JRequest::getVar('citekeys', '');		
+        $jinput = JFactory::getApplication()->input;        
+        $citekeys = $jinput->get('citekeys', '');		
         $citekeys = split(',', $citekeys);
         $publicationsArray = array();
         $session = JSession::getInstance(null, null);
@@ -233,7 +234,7 @@ class JResearchPublicationsController extends JResearchFrontendController
 
         $session->set('citedRecords', $citedRecords, 'com_jresearch');
         // Get the object that executes the command		
-        $command = JRequest::getVar('command');
+        $command = $jinput->get('command');
         $citeExec = JResearchCite::getInstance();
         if(count($publicationsArray) > 0){			
             if($command != 'bibliography')
@@ -294,7 +295,8 @@ class JResearchPublicationsController extends JResearchFrontendController
      *
      */
     function removeCitedRecord(){
-        $citekey = JRequest::getVar('citekey', null);
+        $jinput = JFactory::getApplication()->input;        
+        $citekey = $jinput->get('citekey', null);
         $document = JFactory::getDocument();
         $document->setMimeEncoding("text/xml");		
 
@@ -338,15 +340,16 @@ class JResearchPublicationsController extends JResearchFrontendController
      *
      */
     function searchByPrefix(){
+        $jinput = JFactory::getApplication()->input;        
         $writer = new XMLWriter;
         $writer->openMemory();
         $writer->startDocument('1.0');
         $writer->startElement("publications");
-        $key = JRequest::getVar('key', null);
+        $key = $jinput->get('key', null);
 
-        $limitstart = JRequest::getInt('limitstart', 0);
+        $limitstart = $jinput->getInt('limitstart', 0);
         $limit = 10;
-        $criteria = JRequest::getVar('criteria', 'all');
+        $criteria = $jinput->get('criteria', 'all');
         $model =& $this->getModel('PublicationsList', 'JResearchModel');
         $upper = $limitstart + $limit;
 
@@ -431,6 +434,7 @@ class JResearchPublicationsController extends JResearchFrontendController
     * Invoked when the user has decided to save a publication.
     */	
     function save(){
+        $jinput = JFactory::getApplication()->input;
         $app = JFactory::getApplication();		
         $user = JFactory::getUser();
         if(!JRequest::checkToken()){
@@ -439,8 +443,8 @@ class JResearchPublicationsController extends JResearchFrontendController
         }
 
         $model = $this->getModel('Publication', 'JResearchModel');
-        $task = JRequest::getVar('task');		
-        $form = JRequest::getVar('jform', array(), '', 'array');        
+        $task = $jinput->get('task');		
+        $form = $jinput->get('jform', array(), 'ARRAY');        
         $canDoPubs = JResearchAccessHelper::getActions();
         $canProceed = false;	
         $params = JComponentHelper::getParams('com_jresearch');
@@ -507,6 +511,7 @@ class JResearchPublicationsController extends JResearchFrontendController
      *
      */
     function cancel(){
+        $jinput = JFactory::getApplication()->input;        
         if(!JRequest::checkToken()){
            $this->setRedirect('index.php?option=com_jresearch');
            return;
@@ -523,7 +528,7 @@ class JResearchPublicationsController extends JResearchFrontendController
         }
 
         $app->setUserState('com_jresearch.edit.publication.data', array());
-        $Itemid = JRequest::getVar('Itemid', 0);
+        $Itemid = $jinput->getInt('Itemid', 0);
         $this->setRedirect('index.php?option=com_jresearch&view=publications&layout=new&Itemid='.$Itemid);		
     }
 
@@ -533,15 +538,16 @@ class JResearchPublicationsController extends JResearchFrontendController
      */
     function export(){
         $mainframe = JFactory::getApplication();
+        $jinput = $mainframe->input;        
         $params = $mainframe->getPageParameters('com_jresearch');
         $exportEnabled = $params->get('enable_export_frontend', 1);
         $strictBibtex = $params->get('enable_strict_bibtex', 1);		    
         $document = JFactory::getDocument();
-        $format = JRequest::getVar('format', 'bibtex');
+        $format = $jinput->get('format', 'bibtex');
 
         if($exportEnabled == 1){
             jresearchimport('helpers.exporters.factory', 'jresearch.admin');
-            $id = JRequest::getInt('id');
+            $id = $jinput->getInt('id');
             $model = $this->getModel('Publication', 'JResearchModel');
             $publication = $model->getItem();
             if($publication == null){
@@ -579,12 +585,13 @@ class JResearchPublicationsController extends JResearchFrontendController
     function exportAll(){
         //Do the export only if export from frontend is enabled
         $exportOptions = array();
+        $jinput = JFactory::getApplication()->input;        
         $mainframe = JFactory::getApplication();
         $params = $mainframe->getPageParameters('com_jresearch');
         $exportEnabled = $params->get('enable_export_frontend', 1);
         $strictBibtex = $params->get('enable_strict_bibtex', 1);
         $document = JFactory::getDocument();
-        $format = JRequest::getVar('format', 'bibtex');
+        $format = $jinput->get('format', 'bibtex');
 
         if($exportEnabled == 1){
             jresearchimport('helpers.exporters.factory', 'jresearch.admin');
@@ -615,22 +622,23 @@ class JResearchPublicationsController extends JResearchFrontendController
      * from frontend
      * 
      */
-    function executeImport(){
+    function executeImport() {
         $canDoPubs = JResearchAccessHelper::getActions();
         if($canDoPubs->get('core.publications.create')){	
             $mainframe = JFactory::getApplication();
+            $jinput = $mainframe->input;                    
             $params = $mainframe->getPageParameters('com_jresearch');
             $bibtex = $params->get('enable_bibtex_frontend_import', 0);
-            $researchAreas = JRequest::getVar('researchAreas', array(), '', 'array');
+            $researchAreas = $jinput->get('researchAreas', array(), 'ARRAY');
             if(empty($researchAreas) || in_array('1', $researchAreas)){
                 $researchAreasText = '1';
             }else{
                 $researchAreasText = implode(',', $researchAreas);
             }	        
             if($bibtex == 1){
-                $fileArray = JRequest::getVar('inputfile', null, 'FILES');
-                $format = JRequest::getVar('formats');
-                $texto = JRequest::getVar('bibtex');
+                $fileArray = $jinput->files->get('inputfile', null);
+                $format = $jinput->get('formats');
+                $texto = $jinput->get('bibtex');
                 $uploadedFile = $fileArray['tmp_name'];
 
                 require_once(JRESEARCH_COMPONENT_ADMIN.DS.'helpers'.DS.'importers'.DS.'factory.php');
@@ -639,7 +647,7 @@ class JResearchPublicationsController extends JResearchFrontendController
                 if($fileArray == null || $uploadedFile == null){
                     $n = 0;
                     if($texto != null){
-                            $parsedPublications = $importer->parseText($texto);
+                        $parsedPublications = $importer->parseText($texto);
                         foreach($parsedPublications as $p){
                             $p->id_research_area = $researchAreasText;
                             $p->internal = $params->get('publications_default_internal_status', 1) == 1;
@@ -703,7 +711,8 @@ class JResearchPublicationsController extends JResearchFrontendController
      */
     function retrieveKeywords() {
         jresearchimport('helpers.keywords', 'jresearch.admin');
-        $prefix = JRequest::getVar('keyword');
+        $jinput = JFactory::getApplication()->input;                
+        $prefix = $jinput->get('keyword');
         $allKeywords = JResearchKeywordsHelper::allKeywords($prefix);
         $output = JResearchKeywordsHelper::format2JSON($allKeywords);
         $document = JFactory::getDocument();

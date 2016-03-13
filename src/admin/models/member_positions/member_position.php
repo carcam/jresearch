@@ -28,16 +28,14 @@ class JResearchAdminModelMember_position extends JModelAdmin {
      * @return      array of string
      * @since       1.0
      */
-    public function &getData()
-    {
-        if (empty($this->data))
-        {
+    public function &getData() {
+        if (empty($this->data)) {
             $app = JFactory::getApplication();
-            $data = JRequest::getVar('jform');
-            if (empty($data))
-            {
+            $jinput = JFactory::getApplication()->input;             
+            $data = $jinput->get('jform');
+            if (empty($data)) {
                 // For new items
-                $selected = JRequest::getVar('cid', 0, '', 'array');
+                $selected = $jinput->get('cid', array(), 'ARRAY');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('*');
@@ -101,7 +99,8 @@ class JResearchAdminModelMember_position extends JModelAdmin {
      * Publishes the set of selected items
      */
     function publish(&$pks, $value = 1){
-        $selected = JRequest::getVar('cid', 0, '', 'array');
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
         $position = JTable::getInstance('Member_position', 'JResearch');
         $result = $position->publish($selected, 1); 
         if(!$result) { 
@@ -114,13 +113,14 @@ class JResearchAdminModelMember_position extends JModelAdmin {
      * Unpublishes the set of selected items
      */
     function unpublish(){
-       $selected = JRequest::getVar('cid', 0, '', 'array');
-       $position = JTable::getInstance('Member_position', 'JResearch');
-       $result = $position->publish($selected, 0);
-       if(!$result) { 
-           $this->setError($position->getError());
-       }
-       return $result;
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
+        $position = JTable::getInstance('Member_position', 'JResearch');
+        $result = $position->publish($selected, 0);
+        if(!$result) { 
+            $this->setError($position->getError());
+        }
+        return $result;
     }
 
     /**
@@ -130,7 +130,8 @@ class JResearchAdminModelMember_position extends JModelAdmin {
      */
     function delete(&$pks){
        $n = 0;
-       $selected =JRequest::getVar('cid', 0, '', 'array');
+       $jinput = JFactory::getApplication()->input;
+       $selected = $jinput->get('cid', array(), 'ARRAY');
        $position = JTable::getInstance('Member_position', 'JResearch');
        $user = JFactory::getUser();
        foreach($selected as $id){

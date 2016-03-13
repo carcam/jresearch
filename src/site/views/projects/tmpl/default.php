@@ -9,11 +9,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
 jresearchimport('helpers.html.jresearchfrontend', 'jresearch.site');
+$jinput = JFactory::getApplication()->input;
 ?>
 <?php if($this->showHeader): ?>
-<h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
+    <h1 class="componentheading"><?php echo $this->escape($this->header); ?></h1>
 <?php endif; ?>
-<form name="adminForm" method="post" id="adminForm" action="<?php echo JURI::current(); ?>/<?php echo '?Itemid='.JRequest::getVar('Itemid'); ?>">
+<form name="adminForm" method="post" id="adminForm" action="<?php echo JURI::current(); ?>/<?php echo '?Itemid='.$jinput->getInt('Itemid'); ?>">
 <div style="text-align: left;">
 	<?php echo $this->filter; ?>
 </div>
@@ -45,7 +46,7 @@ if(count($this->items) > 0):
     <li>
         <div>
             <?php $contentArray = explode('<hr id="system-readmore" />', $project->description); ?>
-            <?php $itemId = JRequest::getVar('Itemid'); ?>
+            <?php $itemId = $jinput->getInt('Itemid'); ?>
             <h3 class="contentheading"><?php echo $project->title; ?></h3>
             <?php 
             //Show research area?
@@ -86,7 +87,7 @@ if(count($this->items) > 0):
 <input type="hidden" name="controller" value="projects"  />
 <input type="hidden" name="limitstart" value="0" />
 <input type="hidden" name="modelkey" value="default" />
-<input type="hidden" name="Itemid" id="Itemid" value="<?php echo JRequest::getVar('Itemid'); ?>" />	
+<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $jinput->getInt('Itemid'); ?>" />	
 </form>
 
 <?php endif; ?>

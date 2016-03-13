@@ -34,10 +34,12 @@ class JResearchAdminModelProject extends JModelAdmin{
     */
     public function &getData(){
         if (empty($this->data)){
-            $app =JFactory::getApplication();
-            $data =JRequest::getVar('jform');
+            $app = JFactory::getApplication();
+            $jinput = JFactory::getApplication()->input;
+                    
+            $data = $jinput->get('jform');
             if (empty($data)) {
-                $selected = JRequest::getVar('cid', 0, '', 'array');
+                $selected = $jinput('cid', array(), 'ARRAY');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('*');
@@ -54,7 +56,7 @@ class JResearchAdminModelProject extends JModelAdmin{
 
             //Once the data is retrieved, time to fix it
             if(isset($data['id_research_area']) && is_string($data['id_research_area'])){
-                    $data['id_research_area'] = explode(',', $data['id_research_area']);
+                $data['id_research_area'] = explode(',', $data['id_research_area']);
             }
 
             $app->setUserState('com_jresearch.edit.project.data', $data);
@@ -84,7 +86,8 @@ class JResearchAdminModelProject extends JModelAdmin{
      */
     function _processFields(&$data, $row) {
         // Make sure Joomla! does not strip off HTML markup
-        $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);        
+        $jinput = JFactory::getApplication()->input;
+        $form = $jinput->get('jform', array(), 'RAW');        
         $data['description'] = $form['description'];
         
         $data['files'] = JResearchUtilities::processAttachments($data, 'projects');
@@ -163,11 +166,12 @@ class JResearchAdminModelProject extends JModelAdmin{
      * Publishes the set of selected items
      */
     function publish(&$pks, $value = 1) {
-       $selected = JRequest::getVar('cid', 0, '', 'array');
-       $project = JTable::getInstance('Project', 'JResearch');           
-       $allOk = true;
-       $user = JFactory::getUser();
-       foreach($selected as $id) {
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
+        $project = JTable::getInstance('Project', 'JResearch');           
+        $allOk = true;
+        $user = JFactory::getUser();
+        foreach($selected as $id) {
            $action = JResearchAccessHelper::getActions('project', $id);
            if($action->get('core.projects.edit.state')){
                 $v = $project->publish(array($id), 1, $user->get('id'));
@@ -177,7 +181,7 @@ class JResearchAdminModelProject extends JModelAdmin{
                  $allOk = false;
                  $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
            }
-       }
+        }
 
        return $allOk;
     }
@@ -186,7 +190,8 @@ class JResearchAdminModelProject extends JModelAdmin{
      * Unpublishes the set of selected items
      */
     function unpublish(){
-        $selected = JRequest::getVar('cid', 0, '', 'array');
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
         $project = JTable::getInstance('Project', 'JResearch');
         $user = JFactory::getUser();           
         $allOk = true;
@@ -211,7 +216,8 @@ class JResearchAdminModelProject extends JModelAdmin{
      */
     function delete(&$pks) {
         $n = 0;
-        $selected = JRequest::getVar('cid', 0, '', 'array');
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
         $project = JTable::getInstance('Project', 'JResearch');
         $user = JFactory::getUser();           
         foreach($selected as $id){
@@ -247,8 +253,9 @@ class JResearchAdminModelProject extends JModelAdmin{
      * url "cid" parameter
      * 
      */        
-    public function getItems(){
-        $cid = JRequest::getVar('cid', array());
+    public function getItems(){        
+        $jinput = JFactory::getApplication()->input;
+        $cid = $jinput->get('cid', array(), 'ARRAY');
         $result = array();
         foreach($cid as $id){
             $proj = JTable::getInstance('Project', 'JResearch');

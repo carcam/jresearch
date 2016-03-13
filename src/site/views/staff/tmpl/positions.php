@@ -9,7 +9,8 @@
 //@todo Change styling attributes for table to CSS
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
-$itemId = JRequest::getVar('Itemid');
+$jinput = JFactory::getApplication()->input;
+$itemId = $jinput->getInt('Itemid', 0);
 $showTitle = $this->params->get('staff_show_title', 'no');
 $showEmail = $this->params->get('member_show_email', 1);
 $showResearchArea = $this->params->get('staff_show_research_area', 1);
@@ -43,10 +44,10 @@ if($this->params->get('show_page_heading', 1)): ?>
 	<?php if($this->params->get('staff_list_or_table', 'list') == 'list'): ?>
 	<ul class="stafflist">
 	<?php foreach($group as $member): ?>
-		<li><a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $format); ?></a>
-			<?php if($showEmail == 1): ?>
-				<span style="margin-left: 0px;"><?php echo '('.JHTML::_('email.cloak', $member->email).')'; ?></span>
-			<?php endif; ?>			
+		<li><a href="index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo !empty($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $format); ?></a>
+                    <?php if($showEmail == 1): ?>
+                            <span style="margin-left: 0px;"><?php echo '('.JHTML::_('email.cloak', $member->email).')'; ?></span>
+                    <?php endif; ?>			
 		</li>
 	<?php endforeach; ?>
 	</ul>

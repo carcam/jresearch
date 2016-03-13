@@ -325,7 +325,7 @@ class JResearchUtilities
         //Remove files in case the user indicated it.
         $params = JComponentHelper::getParams('com_jresearch');        
         $nAttach = (int)$data['count_files'];
-        
+        $jinput = JFactory::getApplication()->input;
         $data['files'] = '';
         $tempFilesArr = array();            
         for($i = 0; $i <= $nAttach; ++$i) {
@@ -353,7 +353,7 @@ class JResearchUtilities
         }
 
         //Now update files
-        $files = JRequest::getVar('jform', array(), 'FILES');
+        $files = $jinput->files->get('jform', array());
         for($i = 0; $i <= $nAttach; ++$i) {
             if(!empty($files['name']['file_files_'.$i])){	    	
                 $tempFilesArr[] = self::uploadDocument($files, 

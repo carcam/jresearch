@@ -25,9 +25,10 @@ class JResearchModelList extends JModelList{
     /**
     * Class constructor.
     */
-    public function __construct(){
-        $option = JRequest::getVar('controller');
-        $Itemid = JRequest::getInt('Itemid', 0);
+    public function __construct() {
+        $jinput = JFactory::getApplication()->input;                        
+        $option = $jinput->get('controller');
+        $Itemid = $jinput->getInt('Itemid', 0);
         $this->_context = 'com_jresearch.'.$option.($Itemid > 0? '.'.$Itemid : '');
         parent::__construct();
     }

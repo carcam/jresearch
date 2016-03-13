@@ -36,10 +36,10 @@ class JResearchAdminModelPublication extends JModelForm{
         if (empty($this->data))
         {
             $app = JFactory::getApplication();
-            $data = JRequest::getVar('jform');
-            if (empty($data))
-            {
-                $selected = JRequest::getVar('cid', 0, '', 'array');
+            $jinput = JFactory::getApplication()->input;
+            $data = $jinput->get('jform');
+            if (empty($data)) {
+                $selected = $jinput->get('cid', array(), 'ARRAY');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 // Select all fields from the hello table.
@@ -76,7 +76,8 @@ class JResearchAdminModelPublication extends JModelForm{
      */
     public function getForm($data = array(), $loadData = true)
     {
-        $pubtype = JRequest::getVar('pubtype', 'article');
+        $jinput = JFactory::getApplication()->input;
+        $pubtype = $jinput->get('pubtype', 'article');
         $form = $this->loadForm('com_jresearch.'.$pubtype, $pubtype, array('control' => 'jform', 'load_data' => $loadData));
         return $form;
     }
@@ -88,8 +89,8 @@ class JResearchAdminModelPublication extends JModelForm{
     private function _processFields(&$data, $row) {
         $app = JFactory::getApplication();
         jresearchimport('helpers.publications', 'jresearch.admin');
-        
-        $type = JRequest::getVar('change_type', '-1');
+        $jinput = JFactory::getApplication()->input;
+        $type = $jinput->get('change_type', '-1');
         if ($type != '-1') {
             $data['pubtype'] = $type;
         }
@@ -190,11 +191,12 @@ class JResearchAdminModelPublication extends JModelForm{
      * Publishes the set of selected items
      */
     function publish(){
-       $selected = JRequest::getVar('cid', 0, '', 'array');
-       $publication = JTable::getInstance('Publication', 'JResearch');           
-       $allOk = true;
-       $user = JFactory::getUser();
-       foreach($selected as $id){
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
+        $publication = JTable::getInstance('Publication', 'JResearch');           
+        $allOk = true;
+        $user = JFactory::getUser();
+        foreach($selected as $id){
             $action = JResearchAccessHelper::getActions('publication', $id);           	
             if($action->get('core.publications.edit.state')){
                 $allOk = $allOk && $publication->publish(array($id), 1, $user->get('id'));
@@ -203,9 +205,9 @@ class JResearchAdminModelPublication extends JModelForm{
                 $allOk = false;
                 $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
             }
-       }
+        }
 
-       return $allOk;
+        return $allOk;
 
     }
 
@@ -213,7 +215,8 @@ class JResearchAdminModelPublication extends JModelForm{
      * Unpublishes the set of selected items
      */
     function unpublish(){
-        $selected = JRequest::getVar('cid', 0, '', 'array');
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
         $publication = JTable::getInstance('Publication', 'JResearch');
         $user = JFactory::getUser();           
         $allOk = true;
@@ -238,7 +241,8 @@ class JResearchAdminModelPublication extends JModelForm{
      */
     function delete(){
         $n = 0;
-        $selected = JRequest::getVar('cid', 0, '', 'array');
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
         $publication = JTable::getInstance('Publication', 'JResearch');
         $user = JFactory::getUser();           
         foreach($selected as $id){
@@ -275,7 +279,8 @@ class JResearchAdminModelPublication extends JModelForm{
      * 
      */
     public function getItems(){
-        $cid = JRequest::getVar('cid', array());
+        $jinput = JFactory::getApplication()->input;        
+        $cid = $jinput->get('cid', array(), 'ARRAY');
         $result = array();
         foreach($cid as $id){
             $pub = JTable::getInstance('Publication', 'JResearch');
@@ -293,7 +298,8 @@ class JResearchAdminModelPublication extends JModelForm{
      */
     public function setInternalValue($value){
         $publication = $this->getTable('Publication', 'JResearch');
-        $cid = JRequest::getVar('cid', array());
+        $jinput = JFactory::getApplication()->input;
+        $cid = $jinput->get('cid', array(), 'ARRAY');
         $user = JFactory::getUser();
         $n = 0;
         foreach($cid as $id){
@@ -317,7 +323,8 @@ class JResearchAdminModelPublication extends JModelForm{
      */
     public function toggleInternal(){
         $publication = $this->getTable('Publication', 'JResearch');
-        $cid = JRequest::getVar('cid', array());
+        $jinput = JFactory::getApplication()->input;
+        $cid = $jinput->get('cid', array(), 'ARRAY');
         if(!empty($cid)){
             $actions = JResearchAccessHelper::getActions('publication', $cid[0]);
             if($actions->get('core.publications.edit.state')){

@@ -168,37 +168,36 @@ class JResearchViewStaff extends JResearchView
 	* Gets images from given members
 	* @author Florian Prinz
 	*/
-    private function _getImages(&$members)
-    {
+    private function _getImages(&$members) {
     	$images = array();
-    	$i=0;
-    	
-    	$itemId = JRequest::getVar('Itemid');
+    	$i = 0;
+
+        $jinput = JFactory::getApplication()->input;
+    	$itemId = $jinput->getInt('Itemid', 0);
     	
     	//Get images
     	foreach($members as $member)
     	{
-    		if($member->url_photo != "")
-    		{
-    			$images[$i]['img'] = str_ireplace(JURI::root(), '', JResearch::getUrlByRelative($member->url_photo));
-    			$images[$i]['imgalt'] = $member->firstname.' '.$member->lastname;
-				$images[$i]['imgtitle'] = 'Image of '.$member->firstname.' '.$member->lastname;
-				$images[$i]['hreftitle'] = 'Show me details of '.$member->firstname.' '.$member->lastname;
-				$images[$i++]['url'] = JURI::base().'index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id='.$member->id.(($itemId != "") ? '&amp;Itemid='.$itemId : '');
-    		}
+            if($member->url_photo != "")
+            {
+                $images[$i]['img'] = str_ireplace(JURI::root(), '', JResearch::getUrlByRelative($member->url_photo));
+                $images[$i]['imgalt'] = $member->firstname.' '.$member->lastname;
+                $images[$i]['imgtitle'] = 'Image of '.$member->firstname.' '.$member->lastname;
+                $images[$i]['hreftitle'] = 'Show me details of '.$member->firstname.' '.$member->lastname;
+                $images[$i++]['url'] = JURI::base().'index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id='.$member->id.(!empty($itemId) ? '&amp;Itemid='.$itemId : '');
+            }
     	}
     	
     	//If no images are present, fill with "no image"
-    	if (count($images) == 0 )
-		{
-			$images[0]['img'] = str_ireplace(JURI::root(), '', JURI::base().'components/com_jresearch/assets/qmark.jpg');
-			$images[0]['imgalt'] = 'No images found!';
-			$images[0]['imgtitle'] = 'No images found!';
-			$images[0]['hreftitle'] = 'No images found!';
-			$images[0]['url'] = 'index.php'.(($itemId != "") ? '?Itemid='.$itemId : '');
-		}
+    	if (count($images) == 0 ) {
+            $images[0]['img'] = str_ireplace(JURI::root(), '', JURI::base().'components/com_jresearch/assets/qmark.jpg');
+            $images[0]['imgalt'] = 'No images found!';
+            $images[0]['imgtitle'] = 'No images found!';
+            $images[0]['hreftitle'] = 'No images found!';
+            $images[0]['url'] = 'index.php'.(!empty($itemId) ? '?Itemid='.$itemId : '');
+        }
 		
-		return $images;
+        return $images;
     }
 }
 

@@ -30,13 +30,13 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
      */
     public function &getData()
     {
-        if (empty($this->data))
-        {
+        if (empty($this->data)) {
             $app = JFactory::getApplication();
-            $data = JRequest::getVar('jform');
+            $jinput = JFactory::getApplication()->input;
+            $data = $jinput->get('jform', array(), 'ARRAY');
             if (empty($data)) {
                 // For new items
-                $selected = JRequest::getVar('cid', 0, '', 'array');
+                $selected = $jinput->get('cid', array(), 'ARRAY');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('*');
@@ -82,8 +82,8 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
         $app = JFactory::getApplication();
 
         $data =& $this->getData();
-
-        $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
+        $jinput = JFactory::getApplication()->input;
+        $form = $jinput->get('jform', array(), 'RAW');
         $data['description'] = $form['description'];
         //Alias generation
         if(empty($data['alias'])){
@@ -107,7 +107,8 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
      * Publishes the set of selected items
      */
     function publish(&$pks, $value = 1) {
-        $selected = JRequest::getVar('cid', 0, '', 'array');
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
         $area = JTable::getInstance('Researcharea', 'JResearch');           
         $user = JFactory::getUser();
         $allOk = true;
@@ -131,7 +132,8 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
      * Unpublishes the set of selected items
      */
     function unpublish(){
-        $selected = JRequest::getVar('cid', 0, '', 'array');
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
         $area = JTable::getInstance('Researcharea', 'JResearch');           
         $allOk = true;
         $user = JFactory::getUser();
@@ -157,11 +159,12 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
      * selected items
      */
     function delete(&$pks){
-       $n = 0;
-       $selected = JRequest::getVar('cid', 0, '', 'array');
-       $area = JTable::getInstance('Researcharea', 'JResearch');
-       $user = JFactory::getUser();
-       foreach($selected as $id){
+        $n = 0;
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
+        $area = JTable::getInstance('Researcharea', 'JResearch');
+        $user = JFactory::getUser();
+        foreach($selected as $id){
             $area->load($id);
             $action = JResearchAccessHelper::getActions('researcharea', $id);
             if($action->get('core.researchareas.delete')){                
@@ -179,7 +182,7 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
             }
         }
 
-       return $n;           
+        return $n;           
     }
 
         

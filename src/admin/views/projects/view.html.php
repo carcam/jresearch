@@ -19,10 +19,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class JResearchAdminViewProjects extends JResearchView
 {
-    function display($tpl = null)
-    {
+    function display($tpl = null) {
     	$mainframe = JFactory::getApplication();
-        $option = JRequest::getVar('option');
+        $jinput = JFactory::getApplication()->input;        
+        $option = $jinput->get('option');
         $params = JComponentHelper::getParams('com_jresearch');        
         jresearchimport('helpers.projects', 'jresearch.admin');
         jresearchimport('helpers.publications', 'jresearch.admin');        

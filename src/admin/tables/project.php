@@ -232,11 +232,12 @@ class JResearchProject extends JResearchActivity{
         jresearchimport('helpers.publications', 'jresearch.admin');
         $db = JFactory::getDBO();
         $user = JFactory::getUser();
-        $now = new JDate(); 		
+        $now = new JDate();
+        $jinput = JFactory::getApplication()->input;        
 
         if(isset($this->id)){
             $this->created = $now->toSql();
-            $author = JRequest::getVar('created_by', $user->get('id'));
+            $author = $jinput->getInt('created_by', $user->get('id'));
             $this->created_by = $author;
         }
 

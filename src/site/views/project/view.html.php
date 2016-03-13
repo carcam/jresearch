@@ -30,20 +30,23 @@ class JResearchViewProject extends JResearchView
     * Display the information of a project.
     */
     private function _displayProject($tpl = null){
+        $jinput = JFactory::getApplication()->input;        
       	$mainframe = JFactory::getApplication();
       	$params = $mainframe->getParams();
       	$user = JFactory::getUser();
       	$session = JFactory::getSession();
-      	$publications_view_all = JRequest::getVar('publications_view_all', 0);
+      	$publications_view_all = $jinput->getInt('publications_view_all', 0);
       	
     	$id = JRequest::getInt('id');
-		$doc =& JFactory::getDocument();
-		$statusArray = array('not_started'=>JText::_('JRESEARCH_NOT_STARTED'), 'in_progress'=>JText::_('JRESEARCH_IN_PROGRESS'), 'finished'=>JText::_('Finished'));
+        $doc =& JFactory::getDocument();
+        $statusArray = array('not_started' => JText::_('JRESEARCH_NOT_STARTED'), 
+            'in_progress' => JText::_('JRESEARCH_IN_PROGRESS'), 
+            'finished' => JText::_('Finished'));
 
-		if(empty($id)){
-			JError::raiseWarning(404, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
-			return;
-		}
+        if(empty($id)){
+            JError::raiseWarning(404, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
+            return;
+        }
     	//Get the model
     	$model = $this->getModel();
     	$project = $model->getItem();

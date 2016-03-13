@@ -33,16 +33,14 @@ class JResearchAdminModelMember extends JModelAdmin{
      * @return      array of string
      * @since       1.0
      */
-    public function &getData()
-    {
-        if (empty($this->data))
-        {
+    public function &getData() {
+        if (empty($this->data)) {
             $app = JFactory::getApplication();
-            $data = JRequest::getVar('jform');
-            if (empty($data))
-            {
+            $jinput = JFactory::getApplication()->input;                        
+            $data = $jinput->get('jform', array());            
+            if (empty($data)) {
                 // For new items
-                $selected = JRequest::getVar('cid', 0, '', 'array');
+                $selected = $jinput->get('cid', array(), 'ARRAY');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('*');
@@ -92,11 +90,11 @@ class JResearchAdminModelMember extends JModelAdmin{
      * @access      public
      * @return      boolean True on success
      */
-    function save($data)
-    {
+    function save($data) {
         $app = JFactory::getApplication();
         $params = JComponentHelper::getParams('com_jresearch');
-        $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
+        $jinput = JFactory::getApplication()->input;        
+        $form = $jinput->get('jform', array(), 'RAW');
         $data = &$this->getData();
         $data['description'] = $form['description'];
         $row = $this->getTable('Member', 'JResearch');
@@ -122,14 +120,13 @@ class JResearchAdminModelMember extends JModelAdmin{
             }
         }
 	    		    
-    	$files = JRequest::getVar('jform', array(), 'FILES');
-            if(!empty($files['name']['file_files_0'])){	    	
+    	$files = $jinput->files->get('jform', array());
+        if(!empty($files['name']['file_files_0'])){	    	
             $data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'staff');
     	}			
 
         // Bind the form fields to the hello table
-        if (!$row->save($data, '' ,array('username')))
-        {
+        if (!$row->save($data, '' ,array('username'))) {
             JRequest::setVar('jform', $data);
             $this->setError($row->getError());
             return false;
@@ -145,7 +142,8 @@ class JResearchAdminModelMember extends JModelAdmin{
      * Publish a set of items
      */        
     function publish(&$pks, $value = 1) {
-       $selected = JRequest::getVar('cid', 0, '', 'array');
+       $jinput = JFactory::getApplication()->input;                    
+       $selected = $jinput->get('cid', array(), 'ARRAY');
        $member = JTable::getInstance('Member', 'JResearch');           
        $allOk = true;
        $user = JFactory::getUser();
@@ -167,32 +165,34 @@ class JResearchAdminModelMember extends JModelAdmin{
      * Unpublish a set of items
      */
     function unpublish(){
-       $selected = JRequest::getVar('cid', array(), '', 'array');
-       $member = JTable::getInstance('Member', 'JResearch');    
-       $user = JFactory::getUser();       
-       $allOk = true;
-       foreach($selected as $id){
-       	   $action = JResearchAccessHelper::getActions('member', $id);           	
-       	   if($action->get('core.staff.edit')){
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
+        $member = JTable::getInstance('Member', 'JResearch');    
+        $user = JFactory::getUser();       
+        $allOk = true;
+        foreach($selected as $id){
+            $action = JResearchAccessHelper::getActions('member', $id);           	
+            if($action->get('core.staff.edit')){
                 $allOk = $allOk && $member->publish(array($id), 0, $user->get('id'));
                 $this->setError($member->getError());	    	       
-       	   } else {
+            } else {
                 $allOk = false;
                 $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
-       	   }
-       }
+            }
+        }
        
-       return $allOk;
+        return $allOk;
     }
     
     /**
      * Delete a set of items
      */        
     function delete(&$pks) {
-       $n = 0;
-       $selected = JRequest::getVar('cid', 0, '', 'array');
-       $area = JTable::getInstance('Member', 'JResearch');
-       foreach($selected as $id) {
+        $n = 0;
+        $jinput = JFactory::getApplication()->input;
+        $selected = $jinput->get('cid', array(), 'ARRAY');
+        $area = JTable::getInstance('Member', 'JResearch');
+        foreach($selected as $id) {
             $action = JResearchAccessHelper::getActions('member', $id);
             if($action->get('core.staff.delete')){
                 if(!$area->delete($id)){
@@ -203,9 +203,9 @@ class JResearchAdminModelMember extends JModelAdmin{
             }else{
                 $this->setError(new JException(JText::sprintf('JRESEARCH_DELETE_ITEM_NOT_ALLOWED', $id)));
             }
-       }
+        }
        
-       return $n;
+        return $n;
     }
 
     function checkin($pk=null){

@@ -117,7 +117,7 @@ class JResearchViewPublications extends JResearchView
      */
     private function _displayFrontendList($tpl){
     	$mainframe = JFactory::getApplication();
-    	
+        $jinput = JFactory::getApplication()->input;    	
     	$doc = JFactory::getDocument();
     	$params = $mainframe->getParams('com_jresearch');
     	
@@ -133,8 +133,8 @@ class JResearchViewPublications extends JResearchView
     	$publications = $model->getItems();
     	
     	// Get certain variables
-    	$filter_order = JRequest::getVar('filter_order', 'year');
-    	$filter_order_Dir = JRequest::getVar('filter_order_Dir', 'DESC');
+    	$filter_order = $jinput->get('filter_order', 'year');
+    	$filter_order_Dir = $jinput->get('filter_order_Dir', 'DESC');
     	$style = $params->get('citationStyle', 'APA');
     	
     	//Now time to sort the data for presentation
@@ -258,7 +258,8 @@ class JResearchViewPublications extends JResearchView
     private function _displayCiteDialog(){    	
     	$citedRecordsOptionsHTML = array();
     	$url = JURI::root();
-        $citeAnswer = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', JRequest::getVar('e_name'));   	
+        $jinput = JFactory::getApplication()->input;        
+        $citeAnswer = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $jinput->get('e_name'));   	
     	$citeFailedMsg = JText::_('JRESEARCH_CITE_FAILED');
     	$citeSuccessfulMsg = JText::_('JRESEARCH_CITE_SUCCESSFUL');
     	$noItemsMsg = JText::_('JRESEARCH_NO_ITEMS_TO_CITE');
@@ -343,7 +344,7 @@ class JResearchViewPublications extends JResearchView
      */
     private function _displayCiteFromFormDialog(){
     	$url = JURI::root();
-    	
+        $jinput = JFactory::getApplication()->input;	
     	// Prepare the HTML document
     	$document = JFactory::getDocument();
     	$citeFailedMsg = JText::_('JRESEARCH_CITE_FAILED');
@@ -355,7 +356,7 @@ class JResearchViewPublications extends JResearchView
         $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
         $document->addScript($url.'components/com_jresearch/js/cite.js');
         
-        $citekeys = JRequest::getVar('value');
+        $citekeys = $jinput->get('value', '');
         if (strlen($citekeys) > 0) {
             $citekeysArray = explode(',', $citekeys);            
             // Update the javascript container

@@ -146,44 +146,42 @@ class JResearchAdminModelStaff extends JResearchAdminModelList{
 	/**
 	 * Set ordering
 	*/
-	function setOrder($items)
-	{
-		$actions = JResearchAccessHelper::getActions();		
-        if(!$actions->get('core.staff.edit.state')){
+	function setOrder($items) {
+            $actions = JResearchAccessHelper::getActions();		
+            if(!$actions->get('core.staff.edit.state')){
         	$this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $item));        	
         	return false;
-        }
+            }
 		
 		
-        $db 		= JFactory::getDBO();
-        $total		= count($items);
-        $row		= JTable::getInstance('Member', 'JResearch');
+            $db = JFactory::getDBO();
+            $total = count($items);
+            $row = JTable::getInstance('Member', 'JResearch');
+            $jinput = JFactory::getApplication()->input;        
+            $order = $jinput->post->get('order', array(), 'ARRAY');
+            JArrayHelper::toInteger($order);
 
-        $order		= JRequest::getVar( 'order', array(), 'post', 'array' );
-        JArrayHelper::toInteger($order);
-
-        // update ordering values
-        for( $i=0; $i < $total; $i++ ){
+            // update ordering values
+            for( $i=0; $i < $total; $i++ ){
         	$row->load( $items[$i] );
 
-            $groupings[] = $row->former_member;
-            if ($row->ordering != $order[$i]){
-				$row->ordering = $order[$i];
-                if (!$row->store()){
+                $groupings[] = $row->former_member;
+                if ($row->ordering != $order[$i]){
+                    $row->ordering = $order[$i];
+                    if (!$row->store()){
                 	$this->setError($row->getError());
-                    return false;
-                }
-            } // if
-        } // for
+                        return false;
+                    }
+                } // if
+            } // for
 
-        // execute updateOrder
-        $groupings = array_unique($groupings);
-        foreach ($groupings as $group)
-        {
-            $row->reorder('former_member = '.(int) $group.' AND published >=0');
-        }
+            // execute updateOrder
+            $groupings = array_unique($groupings);
+            foreach ($groupings as $group) {
+                $row->reorder('former_member = '.(int) $group.' AND published >=0');
+            }
 
-        return true;
+            return true;
 	}
 	
 	/**

@@ -19,16 +19,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 $mainframe = JFactory::getApplication();
-
+$jinput = $mainframe->input;
 // Common needed files
 require_once(JPATH_COMPONENT_SITE.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'init.php');
 require_once(JPATH_COMPONENT_SITE.DS.'helpers'.DS.'controller.php');
 jresearchimport('helpers.access', 'jresearch.admin');
 
-$controller = JRequest::getVar('controller', null);
+$controller = $jinput->get('controller', null);
 // Verify if view parameter is set (usually for frontend requests and map to a controller
 if($controller === null)
-	$controller = __mapViewToController();
+    $controller = __mapViewToController();
 else{
     $availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchareas');
     if(!in_array($controller, $availableControllers))
@@ -54,7 +54,7 @@ $controller = JControllerLegacy::getInstance('JResearch'.ucfirst($controller));
 $pluginhandledRequest = JResearchPluginsHelper::onBeforeExecuteJResearchTask();
 // Perform the request task if none of the plugins decided to do it
 if(!$pluginhandledRequest)
-    $controller->execute(JRequest::getVar('task'));
+    $controller->execute($jinput->get('task'));
 
 $mainframe->triggerEvent('onAfterExecuteJResearchTask' , array());
 
@@ -70,41 +70,28 @@ $controller->redirect();
  * @return string
  */
 function __mapViewToController(){
-	$view = JRequest::getVar('view');
-	
-	switch($view){
-		case 'staff': case 'member':
-			$value = 'staff';
-			break;
-		case 'publications': case 'publication':
-			$value = 'publications';
-			break;
-		case 'projects': case 'project':
-			$value = 'projects';
-			break;
-		case 'theses': case 'thesis':
-			$value = 'theses';
-			break;
-		case 'cooperations': case 'cooperation':
-			$value = 'cooperations';
-			break;
-		case 'facilities': case 'facility':
-			$value = 'facilities';
-			break;
-		case 'teams': case 'team';
-			$value = 'teams';
-			break;
-		case 'researchareas': case 'researcharea':
-			$value = 'researchareas';			
-			break;
-		default:
-			$value = '';
-			break;	
-	}
-	
-	JRequest::setVar('controller', $value);
-	return $value;
-	
+    $jinput = JFactory::getApplication()->input;                
+    $view = $jinput->get('view');    
+    switch($view){
+        case 'staff': case 'member':
+            $value = 'staff';
+            break;
+        case 'publications': case 'publication':
+            $value = 'publications';
+            break;
+        case 'projects': case 'project':
+            $value = 'projects';
+            break;
+        case 'researchareas': case 'researcharea':
+            $value = 'researchareas';			
+            break;
+        default:
+            $value = '';
+            break;	
+    }
+
+    $jinput->set('controller', $value);
+    return $value;
 }
 
 ?>

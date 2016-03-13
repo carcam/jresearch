@@ -43,12 +43,11 @@ class JResearchModelPublication extends JResearchModelForm{
      * @return      array of string
      * @since       1.0
      */
-    public function &getData()
-    {
-        if (empty($this->_data))
-        {
+    public function &getData() {
+        if (empty($this->_data)) {
             $app = JFactory::getApplication();
-            $data = JRequest::getVar('jform');            
+            $jinput = $app->input;                    
+            $data = $jinput->get('jform');            
             if (empty($data))
             {
             	$selected = JRequest::getInt('id', 0);
@@ -88,8 +87,9 @@ class JResearchModelPublication extends JResearchModelForm{
     * @return      mixed   JForm object on success, false on failure.
     * @since       1.0
     */
-    public function getForm($data = array(), $loadData = true){        
-        $pubtype = JRequest::getVar('pubtype');
+    public function getForm($data = array(), $loadData = true) {
+        $jinput = JFactory::getApplication()->input;                
+        $pubtype = $jinput->get('pubtype');
         $form = $this->loadForm('com_jresearch.'.$pubtype, $pubtype, array('control' => 'jform', 'load_data' => $loadData));
         return $form;
     }
@@ -101,6 +101,7 @@ class JResearchModelPublication extends JResearchModelForm{
     * @return      boolean True on success
     */
     function save(){
+        $jinput = JFactory::getApplication()->input;        
         $app = JFactory::getApplication();
         jresearchimport('helpers.publications', 'jresearch.admin');
         $params = JComponentHelper::getParams('com_jresearch');
@@ -137,7 +138,7 @@ class JResearchModelPublication extends JResearchModelForm{
         }
 
         //Now update files
-        $files = JRequest::getVar('jform', array(), 'FILES');
+        $files = $jinput->files->get('jform', array());
         for($i = 0; $i <= $nAttach; ++$i) {
             if(!empty($files['name']['file_files_'.$i])){	    	
                 $tempFilesArr[] = JResearchUtilities::uploadDocument($files, 
@@ -199,12 +200,13 @@ class JResearchModelPublication extends JResearchModelForm{
       * arguments
       * 
       */
-    function changeType(){
+    function changeType() {
+        $jinput = JFactory::getApplication()->input;                
         $data =& $this->getData();                
 
-        $data['pubtype'] = JRequest::getVar('change_type', 'article');
+        $data['pubtype'] = $jinput->get('change_type', 'article');
         
-        $keepOld = JRequest::getVar('keepold', null);
+        $keepOld = $jinput->get('keepold', null);
 			
         // Store it as a new publication
         if($keepOld == 'on'){

@@ -47,15 +47,16 @@ class JResearchStaffController extends JResearchFrontendController
      * @access public
      */
     function display($cachable = false, $urlparams = array()){
-        $layout = JRequest::getVar('layout');
+        $jinput = JFactory::getApplication()->input;                
+        $layout = $jinput->get('layout');
         if($layout == 'edit'){
             $this->edit();
             return;	
         }		
 
-        $limitstart = JRequest::getVar('limitstart', null);
+        $limitstart = $jinput->get('limitstart', null);
         if($limitstart === null)
-            JRequest::setVar('limitstart', 0);
+            $jinput->set('limitstart', 0);
 
         $model = $this->getModel('Staff', 'JResearchModel');
         $view = $this->getView('Staff', 'html', 'JResearchView');
@@ -108,7 +109,8 @@ class JResearchStaffController extends JResearchFrontendController
         JRequest::checkToken() or jexit( 'JInvalid_Token' );
         $model = $this->getModel('Member', 'JResearchModel');
         $app = JFactory::getApplication();
-        $form = JRequest::getVar('jform', array(), '', 'array');        
+        $jinput = $app->input;        
+        $form = $jinput->get('jform', array(), 'ARRAY');        
 
         //Rules at staff level
         $canDoStaff = JResearchAccessHelper::getActions();
@@ -163,10 +165,11 @@ class JResearchStaffController extends JResearchFrontendController
      *
     */
     function retrieveAuthors() {
+        $jinput = JFactory::getApplication()->input;                        
         jresearchimport('helpers.staff', 'jresearch.admin');
         $document = JFactory::getDocument();
         $document->setMimeEncoding('text/json');
-        $key = JRequest::getVar('keyword');           
+        $key = $jinput->get('keyword');           
         $members = JResearchStaffHelper::getMembers($key);
         $output = JResearchStaffHelper::members2JSON($members);
         echo $output;

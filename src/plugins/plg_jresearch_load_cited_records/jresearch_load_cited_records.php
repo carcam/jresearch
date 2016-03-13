@@ -23,24 +23,25 @@ $app->registerEvent('onAfterRoute', 'plgJResearchOnAfterRoute');
  * Triggered after the application has been routed.
  */
 function plgJResearchOnAfterRoute() {
+    $jinput = JFactory::getApplication()->input;    
     $mainframe = JFactory::getApplication();
-    $component = JRequest::getVar('option');
-    $task = JRequest::getVar('task');
+    $component = $jinput->get('option');
+    $task = $jinput->get('task');
     $db = JFactory::getDBO();
     $session = JFactory::getSession();
 
     if($component == 'com_content'){
         if($task == 'edit'){
             if($mainframe->isAdmin()){
-                $cid = JRequest::getVar('cid');
+                $cid = $jinput->get('cid', array(), 'ARRAY');
                 $id = $cid[0];
             }else{
-                $id = JRequest::getVar('id');	
+                $id = $jinput->get('id');	
             }
             // In that case, load cited records into the session
             if($id != null){
                 $query = 'SELECT '.$db->quoteName('citekey').' FROM '.$db->quoteName('#__jresearch_cited_records')
-                                        .' WHERE '.$db->quoteName('id_record').'='.$db->Quote($id).' AND '.$db->quoteName('record_type').'='.$db->Quote('content');
+                        .' WHERE '.$db->quoteName('id_record').'='.$db->Quote($id).' AND '.$db->quoteName('record_type').'='.$db->Quote('content');
 
                 $db->setQuery($query);
                 $citedRecords = $db->loadResultArray();
@@ -51,5 +52,4 @@ function plgJResearchOnAfterRoute() {
         }		
     }
 }
-
 ?>

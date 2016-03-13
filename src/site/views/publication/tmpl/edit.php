@@ -11,17 +11,18 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <h1 class="componentheading">
 <?php 
-    $actions = JResearchAccessHelper::getActions();
-    $task = JRequest::getVar('task');
-    if($task != 'new' && $task != 'edit')
-        $task = 'edit';
-    echo JText::_('JRESEARCH_'.JString::strtoupper($task).'_PUBLICATION');
+$jinput = JFactory::getApplication()->input;        
+$actions = JResearchAccessHelper::getActions();
+$task = $jinput->get('task');
+if($task != 'new' && $task != 'edit')
+    $task = 'edit';
+echo JText::_('JRESEARCH_'.JString::strtoupper($task).'_PUBLICATION');
 ?>
 </h1>
 <form action="<?php echo JRoute::_('index.php?option=com_jresearch'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
 <div>
         <?php 
-	$id = JRequest::getVar('id', 0);
+	$id = $jinput->getInt('id', 0);
 	if(!empty($id)): ?>
             <?php echo JHTML::_('jresearchhtml.publicationstypeslist', 'change_type'); ?>
 	    <button onclick="if(document.forms['adminForm'].change_type.value == '0'){
@@ -38,7 +39,7 @@ defined('_JEXEC') or die('Restricted access');
         <button style="float: right;" type="button" onclick="javascript:Joomla.submitbutton('cancel')"><?php echo JText::_('JRESEARCH_CANCEL') ?></button>        
         <div style="clear: right;"></div>
 </div>
-<div class="publicationTypeDescription"><?php echo JText::_('JRESEARCH_'.JRequest::getVar('pubtype', 'article').'_DEFINITION'); ?></div>
+<div class="publicationTypeDescription"><?php echo JText::_('JRESEARCH_'.$jinput->get('pubtype', 'article').'_DEFINITION'); ?></div>
 <div class="frontendform">
     <fieldset class="panelform">
     <h2><?php echo JText::_( 'JRESEARCH_BASIC' ); ?></h2>

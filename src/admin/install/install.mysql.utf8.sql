@@ -192,12 +192,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
   FULLTEXT INDEX `#__jresearch_researcharea_full`(`name`, `description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-CREATE TABLE IF NOT EXISTS `#__jresearch_research_area` (
-  `id_research_area` int(10) unsigned NOT NULL,
-  `id_team` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`id_research_area`, `id_team`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `#__jresearch_keyword` (
   `keyword` varchar(256) NOT NULL,
   PRIMARY KEY  (`keyword`)
@@ -259,71 +253,11 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_member_position` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-CREATE TABLE IF NOT EXISTS `#__jresearch_team` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `parent` int(11) unsigned default NULL,
-  `id_leader` int(11) unsigned NOT NULL,
-  `alias` varchar(256) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `description` text,
-  `published` tinyint(4) NOT NULL default '0',
-  `checked_out` tinyint(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL,
-  PRIMARY KEY  (`id`),
-  FULLTEXT KEY `#__jresearch_team_description_index` (`description`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
-CREATE TABLE IF NOT EXISTS `#__jresearch_team_member` (
-  `id_team` int(11) unsigned NOT NULL auto_increment,
-  `id_member` int(11) unsigned NOT NULL,
-  PRIMARY KEY  (`id_team`, `id_member`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__jresearch_thesis` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `alias` varchar(256) NOT NULL,
-  `title` varchar(256) NOT NULL,
-  `id_research_area` int(10) unsigned NOT NULL default '1',
-  `degree` enum('bachelor','master','phd') NOT NULL default 'bachelor',
-  `status` enum('not_started','in_progress','finished') NOT NULL default 'not_started',
-  `start_date` date default NULL,
-  `end_date` date default NULL,
-  `published` tinyint(4) NOT NULL default '1',
-  `description` text,
-  `url` varchar(256) default NULL,
-  `files` text default NULL,
-  `checked_out` tinyint(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL,
-  `created` datetime NULL,
-  `created_by` int(10) default NULL,
-  `hits` int(10) default 0,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `title` (`title`),
-  INDEX `id_research_area` (`id_research_area`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-CREATE TABLE IF NOT EXISTS `#__jresearch_thesis_external_author` (
-  `id_thesis` int(10) unsigned NOT NULL,
-  `author_name` varchar(60) NOT NULL,
-  `order` smallint(5) unsigned NOT NULL,
-  `is_director` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (`id_thesis`,`author_name`),
-  FULLTEXT INDEX `#__jresearch_thesis_external_authors_index`(`author_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__jresearch_thesis_internal_author` (
-  `id_thesis` int(10) unsigned NOT NULL,
-  `id_staff_member` int(10) unsigned NOT NULL,
-  `order` smallint(5) unsigned NOT NULL,
-  `is_director` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (`id_thesis`,`id_staff_member`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `#__jresearch_cited_records` (
-	`id_record` INT UNSIGNED NOT NULL ,
-	`record_type` VARCHAR( 60 ) NOT NULL ,
-	`citekey` VARCHAR( 256 ) NOT NULL ,
-	PRIMARY KEY ( `id_record` , `record_type`, `citekey` )
+    `id_record` INT UNSIGNED NOT NULL ,
+    `record_type` VARCHAR( 60 ) NOT NULL ,
+    `citekey` VARCHAR( 256 ) NOT NULL ,
+    PRIMARY KEY ( `id_record` , `record_type`, `citekey` )
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8; 
 
 DROP TABLE IF EXISTS `#__jresearch_property`;
@@ -331,37 +265,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_property` (
 	`name` VARCHAR( 40 ) NOT NULL ,
 	PRIMARY KEY ( `name` )
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__jresearch_cooperations` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `catid` int(11) unsigned NOT NULL DEFAULT '0',
-  `alias` varchar(256) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `image_url` varchar(256) DEFAULT NULL,
-  `description` text NOT NULL,
-  `url` varchar(256) DEFAULT NULL,
-  `published` tinyint(4) NOT NULL default '0',
-  `ordering` int(11) unsigned NOT NULL default '0',
-  `checked_out` tinyint(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL,
-  PRIMARY KEY  (`id`),
-  FULLTEXT KEY `#__jresearch_cooperations_description_index` (`description`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
-CREATE TABLE IF NOT EXISTS `#__jresearch_facilities` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `id_research_area` int(10) unsigned NOT NULL default '1',
-  `alias` varchar(256) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `image_url` varchar(256) DEFAULT NULL,
-  `description` text NOT NULL,
-  `published` tinyint(4) NOT NULL default '0',
-  `ordering` int(11) unsigned NOT NULL default '0',
-  `checked_out` tinyint(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL,
-  PRIMARY KEY  (`id`),
-  FULLTEXT KEY `#__jresearch_facilities_description_index` (`description`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication_research_area` (
   `id_publication` int(11) unsigned NOT NULL,

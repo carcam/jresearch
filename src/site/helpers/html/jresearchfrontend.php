@@ -26,10 +26,11 @@ class JHTMLjresearchfrontend{
      * @param array options
      */
     public static function icon($task, $controller, $itemid=0, $userid=null, $options=array()) {
+        $jinput = JFactory::getApplication()->input;        
         $availableController = array('publications');
         $availableTasks = array('edit', 'remove', 'delete', 'add', 'new');
         // Menu ID retention
-        $menuId = JRequest::getVar('Itemid', 0);
+        $menuId = $jinput->getInt('Itemid', 0);
         $menuIdText = !empty($menuId)? '&Itemid='.$menuId : '';
 
         if(in_array($controller, $availableController) && in_array($task, $availableTasks)){
@@ -57,9 +58,9 @@ class JHTMLjresearchfrontend{
      * @param bool $itemId
      * @param array $additional Key-value pair for additional url parameters
      */
-    public static function link($text, $view='cooperations', $task='display', $id=null, $bItemId = true, array $additional=array())
-    {
-        $itemid = JRequest::getVar('Itemid', null);
+    public static function link($text, $view='cooperations', $task='display', $id=null, $bItemId = true, array $additional=array()) {
+        $jinput = JFactory::getApplication()->input;                        
+        $itemid = $jinput->get('Itemid', null);
         $view = JFilterOutput::stringURLSafe($view);
         $task = JFilterOutput::stringURLSafe($task);
         JFilterOutput::cleanText($text);
@@ -73,8 +74,9 @@ class JHTMLjresearchfrontend{
      * Constructs a list of research area links
      * @param array $researchAreas
      */
-    public static function researchareaslinks($researchAreas, $display = 'list'){
-        $itemid = JRequest::getVar('Itemid', null);
+    public static function researchareaslinks($researchAreas, $display = 'list') {
+        $jinput = JFactory::getApplication()->input;        
+        $itemid = $jinput->get('Itemid', null);
         $linksText = '';
 
         if($display != 'list' && $display != 'inline')
@@ -187,12 +189,13 @@ class JHTMLjresearchfrontend{
      * projects
      */
     public static function keywords($keywords, $linksEnabled, $option) {
+        $jinput = JFactory::getApplication()->input;                        
         if ($linksEnabled) {
             $parts = explode(';', $keywords);
             $newParts = array();
             foreach ($parts as $part) {
                 $key = urlencode($part);
-                $Itemid = JRequest::getVar('Itemid');
+                $Itemid = $jinput->getInt('Itemid', 0);
                 $url = JRoute::_("index.php?option=com_search&searchword=$key&ordering=newest&searchphrase=exact&areas[0]=$option&Itemid=$Itemid");
                 $newParts[] = JHTML::_('link', $url, $part);
             }

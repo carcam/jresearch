@@ -18,18 +18,18 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 class JResearchViewResearchArea extends JResearchView
 {
-    public function display($tpl = null)
-    {
+    public function display($tpl = null) {
+        $jinput = JFactory::getApplication()->input;        
      	$arguments = array('researcharea');
     	$doc = JFactory::getDocument();
         $mainframe = JFactory::getApplication('site');
-        $id = JRequest::getVar('id');
+        $id = $jinput->getInt('id', 0);
         $pathway = $mainframe->getPathway();
     	$params = $mainframe->getPageParameters('com_jresearch');
     	
-    	$publications_view_all = JRequest::getVar('publications_view_all', 0);
-    	$projects_view_all = JRequest::getVar('projects_view_all', 0);    	    	
-    	$theses_view_all = JRequest::getVar('theses_view_all', 0);
+    	$publications_view_all = $jinput->getInt('publications_view_all', 0);
+    	$projects_view_all = $jinput->getInt('projects_view_all', 0);    	    	
+    	$theses_view_all = $jinput->getInt('theses_view_all', 0);
     	$showMembers = $params->get('area_show_members', 1);
     	$showPublications = $params->get('area_show_publications', 1);
     	

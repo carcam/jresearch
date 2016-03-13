@@ -90,21 +90,14 @@ class plgSearchJResearch_Search extends JPlugin{
         if(!isset($areas)){
             $results[] = $this->searchPublications($text, $phrase, $ordering);
             $results[] = $this->searchProjects($text, $phrase, $ordering);
-            $results[] = $this->searchTheses($text, $phrase, $ordering);
             $results[] = $this->searchStaff($text, $phrase, $ordering);
             $results[] = $this->searchResearchAreas($text, $phrase, $ordering);		
         }else{
             foreach($areas as $area){
-                if($area == 'cooperations')
-                    $results[] = $this->searchCooperations($text, $phrase, $ordering);
-                elseif($area == 'facilities')
-                    $results[] = $this->searchFacilities($text, $phrase, $ordering);
-                elseif($area == 'publications')
+                if($area == 'publications')
                     $results[] = $this->searchPublications($text, $phrase, $ordering);
                 elseif($area == 'projects')
                     $results[] = $this->searchProjects($text, $phrase, $ordering);
-                elseif($area == 'theses')
-                    $results[] = $this->searchTheses($text, $phrase, $ordering);
                 elseif($area == 'staff')
                     $results[] = $this->searchStaff($text, $phrase, $ordering);
                 else
@@ -131,6 +124,7 @@ class plgSearchJResearch_Search extends JPlugin{
     * @param string ordering option, newest|oldest|popular|alpha|category
     */
     private function searchResearchAreas($text, $phrase='', $ordering=''){	
+        $jinput = JFactory::getApplication()->input;        
         if($this->limit <= 0)
             return array();
 
@@ -169,7 +163,7 @@ class plgSearchJResearch_Search extends JPlugin{
         $query = "SELECT r.id AS id, '' AS metadesc, '' AS metakey, r.name AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, SUBSTRING_INDEX(r.description, ' ', 100) AS text FROM #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
         $db->setQuery( $query, 0, $this->limit );
         $results = $db->loadObjectList();
-        $itemId = JRequest::getVar('Itemid');
+        $itemId = $jinput->getInt('Itemid');
         if(isset($results)){
             foreach($results as $key => $item){
                 $results[$key]->href = "index.php?option=com_jresearch&view=researcharea&task=show&id=".$results[$key]->id.'&Itemid='.$itemId;
@@ -191,7 +185,8 @@ class plgSearchJResearch_Search extends JPlugin{
     * @param string mathcing option, exact|any|all
     * @param string ordering option, newest|oldest|popular|alpha|category
     */
-    private function searchProjects($text, $phrase='', $ordering=''){
+    private function searchProjects($text, $phrase='', $ordering='') {
+        $jinput = JFactory::getApplication()->input;        
         $section = JText::_( 'JRESEARCH_PROJECT' );
         // Get the database object
         $db = &JFactory::getDBO();
@@ -241,7 +236,7 @@ class plgSearchJResearch_Search extends JPlugin{
 
         $db->setQuery( $query, 0, $this->limit );
         $results = $db->loadObjectList();
-        $itemId = JRequest::getVar('Itemid');
+        $itemId = $jinput->getInt('Itemid', 0);
         if(isset($results)){
             foreach($results as $key => $item){
                 $results[$key]->href = "index.php?option=com_jresearch&view=project&task=show&id=".$results[$key]->id.'&Itemid='.$itemId;
@@ -262,7 +257,8 @@ class plgSearchJResearch_Search extends JPlugin{
     * @param string mathcing option, exact|any|all
     * @param string ordering option, newest|oldest|popular|alpha|category
     */
-    private function searchPublications($text, $phrase='', $ordering=''){
+    private function searchPublications($text, $phrase='', $ordering='') {
+        $jinput = JFactory::getApplication()->input;        
         if($this->limit <= 0)
             return array();
 
@@ -327,82 +323,10 @@ class plgSearchJResearch_Search extends JPlugin{
 
         $db->setQuery( $query, 0, $this->limit );
         $results = $db->loadObjectList();
-        $itemId = JRequest::getVar('Itemid');
+        $itemId = $jinput->getInt('Itemid');
         if(isset($results)){
             foreach($results as $key => $item){
                 $results[$key]->href = JRoute::_("index.php?option=com_jresearch&view=publication&task=show&id=".$results[$key]->id.'&Itemid='.$itemId);
-            }
-        }
-        // We just reduce the limit
-        $n = count($results);
-        $this->limit -= $n;
-        return $results;
-    }
-
-    /**
-    * JResearch Theses Search method. 
-    *
-    * The sql must return the following fields that are used in a common display
-    * routine: href, title, section, created, text, browsernav
-    * @param string Target search string
-    * @param string mathcing option, exact|any|all
-    * @param string ordering option, newest|oldest|popular|alpha|category
-    */
-    private function searchTheses($text, $phrase='', $ordering=''){
-        $section = JText::_( 'JRESEARCH_THESIS' );
-        // Get database object
-        $db = &JFactory::getDBO();
-
-        if($this->limit <= 0)
-                return array();
-
-        switch ( $ordering ) {
-            case 'alpha':
-                $order = 't.title ASC';
-                break;
-            case 'category':
-                $order = 'r.id ASC, t.title ASC';
-                break;
-            case 'newest':
-            case 'oldest':
-            case 'popular':
-            default:
-                $order = 't.title DESC';
-        }
-
-        switch($phrase){
-            case 'exact':
-                $key = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
-                $whereClause = "t.id_research_area = r.id AND t.published =1 AND ( LOWER( t.title ) LIKE $key OR LOWER( t.description ) LIKE $key )";
-                break;
-            case 'all':
-            case 'any':
-                // Get the words that compound the text
-                $words = explode( ' ', $text );
-                $whereClause = "t.id_research_area = r.id AND t.published =1 AND (";
-                // Depending of the phrase we get a different behaviour
-                $operator = ($phrase == 'all'? 'AND':'OR');
-                $i = 0;
-                $n = count($words);
-                foreach($words as $word){
-                    $word = $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
-                    $whereClause.= " (LOWER(t.title) LIKE $word OR LOWER( t.title ) LIKE $word OR LOWER(t.description) like $word ) ";
-                    if($i <= $n-2)
-                        $whereClause .= $operator;
-                    $i++;
-                }
-                $whereClause .= ' )';
-        }
-
-        $section = $db->Quote($section, false);
-        $query = "SELECT t.title AS title, CONCAT_WS( '/', r.name, $section ) AS section, '' AS created, '2' AS browsernav, SUBSTRING_INDEX(t.description, ' ', 100) AS text FROM #__jresearch_thesis t INNER JOIN #__jresearch_research_area r WHERE $whereClause ORDER BY $order";
-        $results = $db->setQuery( $query, 0, $this->limit );
-        $results = $db->loadObjectList();
-
-
-        if(isset($results)){
-            foreach($results as $key => $item){
-                $results[$key]->href = "#";
             }
         }
         // We just reduce the limit
@@ -421,6 +345,7 @@ class plgSearchJResearch_Search extends JPlugin{
     * @param string ordering option, newest|oldest|popular|alpha|category
     */
     private function searchStaff($text, $phrase='', $ordering=''){
+        $jinput = JFactory::getApplication()->input;        
         $section = JText::_( 'JRESEARCH_MEMBER' );
         $db = &JFactory::getDBO();
         switch ( $ordering ) {
@@ -468,7 +393,7 @@ class plgSearchJResearch_Search extends JPlugin{
         LEFT JOIN #__jresearch_research_area r ON r.id = mr.id_research_area WHERE $whereClause ORDER BY $order";
         $db->setQuery( $query, 0, $this->limit );
         $results = $db->loadObjectList();
-        $itemId = JRequest::getVar('Itemid');
+        $itemId = $jinput->getInt('Itemid');
         if(isset($results)){
             foreach($results as $key => $item){
                 $results[$key]->href = "index.php?option=com_jresearch&view=member&task=show&id=".$results[$key]->id.'&Itemid='.$itemId;

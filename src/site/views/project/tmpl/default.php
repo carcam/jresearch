@@ -11,8 +11,8 @@ defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.modal');
 jresearchimport('helpers.publications', 'jresearch.admin');
-
-$Itemid = JRequest::getVar('Itemid'); 
+$jinput = JFactory::getApplication()->input;
+$Itemid = $jinput->getInt('Itemid'); 
 $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
 	  	
 ?>

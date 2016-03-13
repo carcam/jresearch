@@ -25,7 +25,8 @@ class JResearchAdminModelList extends JModelList{
     * Class constructor.
     */
     public function __construct(){
-        $option = JRequest::getVar('controller');
+        $jinput = JFactory::getApplication()->input;
+        $option = $jinput->get('controller');
         $this->_context = 'com_jresearch.'.$option;
         parent::__construct();
     }

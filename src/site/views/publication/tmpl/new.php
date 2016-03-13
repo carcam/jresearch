@@ -8,7 +8,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
+$jinput = JFactory::getApplication()->input;
 $mainframe = JFactory::getApplication();
 $params = $mainframe->getPageParameters('com_jresearch');
 $bibtex = $params->get('enable_bibtex_frontend_import', 1);
@@ -30,9 +30,9 @@ $bibtex = $params->get('enable_bibtex_frontend_import', 1);
 		</div>
 		
 		<?php echo JHTML::_('jresearchhtml.hiddenfields', 'publications', 'add'); ?>
-		<?php $Itemid = JRequest::getVar('Itemid'); ?>
-		<?php if(isset($Itemid)): ?>
-			<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
+		<?php $Itemid = $jinput->getInt('Itemid'); ?>
+		<?php if(!empty($Itemid)): ?>
+                    <input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 		<?php endif; ?>		
 		<input type="hidden" name="id" value="0" />
 	</form>

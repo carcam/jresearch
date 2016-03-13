@@ -19,17 +19,15 @@ class JFormFieldKeywords extends JFormField {
     * @return  string  The field input markup.
     *
     */
-   protected function getInput()
-   {
+   protected function getInput() {
+       $jinput = JFactory::getApplication()->input; 
        JHtml::_('jresearchhtml.tags', 'jform_'.$this->element['id'], 
-               'option=com_jresearch&controller='.JRequest::getVar('controller')
+               'option=com_jresearch&controller='.$jinput->get('controller')
                .'&task=retrieveKeywords&format=json', false);
        
        return  '<input type="hidden" id="jform_'.$this->element['id'].'" '
                . 'name="jform['.$this->element['name'].']" '
                . 'size="'.$this->element['size'].'" '
-               . 'value="'.$this->value.'" />';
-       
+               . 'value="'.$this->value.'" />';       
    }
-
 }

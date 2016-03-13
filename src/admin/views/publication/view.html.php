@@ -39,6 +39,7 @@ class JResearchAdminViewPublication extends JResearchView
     */
     private function _displayPublicationForm($tpl){
         $mainframe = JFactory::getApplication();
+        $jinput = $mainframe->input;        
         JRequest::setVar( 'hidemainmenu', 1 );            
         JResearchToolbar::editPublicationAdminToolbar();        
         JHtml::_('jquery.framework', false);
@@ -52,7 +53,7 @@ class JResearchAdminViewPublication extends JResearchView
         // Bind the Data
         $form->bind($data);
 
-        $pubtype = JRequest::getVar('pubtype', 
+        $pubtype = $jinput->get('pubtype', 
                 isset($data['pubtype']) ? $data['pubtype'] : null, 'jform');
 
         $changeType = JHTML::_('jresearchhtml.publicationstypeslist', 

@@ -26,7 +26,6 @@ if(count($this->items) > 0):
     <li>
         <div>
             <?php $contentArray = explode('<hr id="system-readmore" />', $area->description); ?>
-            <?php $itemId = JRequest::getVar('Itemid'); ?>
             <?php if($this->params->get('researchareas_link_in_title')): ?>
                     <h2 class="contentheading"><?php echo JHTML::_('jresearchfrontend.link', $area->name, 'researcharea', 'show', $area->id); ?></h2>
              <?php else: ?>

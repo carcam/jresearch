@@ -135,36 +135,36 @@ class JResearchAdminModelMember_positions extends JResearchAdminModelList
 	/**
 	 * Set ordering
 	*/
-	function setOrder($items)
-	{
-		$actions = JResearchAccessHelper::getActions();		
+    function setOrder($items) {
+        $actions = JResearchAccessHelper::getActions();		
         if(!$actions->get('core.manage')){
-        	$this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $item));        	
-        	return false;
+            $this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $item));        	
+            return false;
         }
 		
 		
-        $db 		= JFactory::getDBO();
-        $total		= count($items);
-        $row		= JTable::getInstance('Member_position', 'JResearch');
+        $db = JFactory::getDBO();
+        $jinput = JFactory::getApplication()->input;        
+        $total = count($items);
+        $row = JTable::getInstance('Member_position', 'JResearch');
 
-        $order		= JRequest::getVar( 'order', array(), 'post', 'array' );
+        $order = $jinput->post->get('order', array(), 'ARRAY');
         JArrayHelper::toInteger($order);
 
         // update ordering values
         for( $i=0; $i < $total; $i++ ){
-        	$row->load( $items[$i] );
+            $row->load( $items[$i] );
 
             if ($row->ordering != $order[$i]){
-				$row->ordering = $order[$i];
+                $row->ordering = $order[$i];
                 if (!$row->store()){
-                	$this->setError($row->getError());
+                    $this->setError($row->getError());
                     return false;
                 }
-            } // if
+            }
         } // for
 
         return true;
-	}
+    }
 }
 ?>

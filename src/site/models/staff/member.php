@@ -47,12 +47,13 @@ class JResearchModelMember extends JResearchModelForm{
     {
     	if(empty($this->_data)){
             $app = JFactory::getApplication();
-            $data = JRequest::getVar('jform');
+            $jinput = $app->input;
+            $data = $jinput->get('jform');
             if (empty($data))
             {
                 // For new items
                 jresearchimport('helpers.staff', 'jresearch.admin');
-                $selected = JRequest::getVar('cid', 0, '', 'array');
+                $selected = $jinput->get('cid', array(), 'ARRAY');
                 $user = JFactory::getUser();
                 $data = JResearchStaffHelper::getMemberArrayFromUsername($user->get('username'));
             }
@@ -83,10 +84,11 @@ class JResearchModelMember extends JResearchModelForm{
      * @param int $n
      * @return array Array of JResearchPublicationObjects
      */
-    function getLatestPublications($n = 0){
+    function getLatestPublications($n = 0) {
         $db = JFactory::getDBO();
+        $jinput = JFactory::getApplication()->input;        
         $latestPub = array();
-        $memberId = !empty($this->_row)? $this->_row->id : JRequest::getVar('id', 0);
+        $memberId = !empty($this->_row)? $this->_row->id : $jinput->getInt('id', 0);
 
         $query = 'SELECT p.* FROM '.$db->quoteName('#__jresearch_publication_internal_author').' ia JOIN '
                          .$db->quoteName('#__jresearch_publication').' p WHERE '.$db->quoteName('p').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_publication').' '
@@ -116,7 +118,8 @@ class JResearchModelMember extends JResearchModelForm{
      */
     function countPublications(){
         $db = JFactory::getDBO();
-        $memberId = !empty($this->_row)? $this->_row->id : JRequest::getVar('id', 0);
+        $jinput = JFactory::getApplication()->input;
+        $memberId = !empty($this->_row)? $this->_row->id : $jinput->getInt('id', 0);
 
         $internal_author = $db->quoteName('#__jresearch_publication_internal_author');
         $publications = $db->quoteName('#__jresearch_publication');				
@@ -136,7 +139,8 @@ class JResearchModelMember extends JResearchModelForm{
     function getLatestProjects($n = 0){
         $db = JFactory::getDBO();
         $latestProj = array();
-        $memberId = !empty($this->_row)? $this->_row->id : JRequest::getVar('id', 0);		
+        $jinput = JFactory::getApplication()->input;        
+        $memberId = !empty($this->_row)? $this->_row->id : $jinput->getInt('id', 0);		
 
         $query = 'SELECT p.* FROM '.$db->quoteName('#__jresearch_project_internal_author').' ia,  '
                          .$db->quoteName('#__jresearch_project').' p WHERE '.$db->quoteName('p').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_project')
@@ -165,7 +169,8 @@ class JResearchModelMember extends JResearchModelForm{
      */
     function countProjects(){
         $db = JFactory::getDBO();
-        $memberId = !empty($this->_row)? $this->_row->id : JRequest::getVar('id', 0);		
+        $jinput = JFactory::getApplication()->input;                
+        $memberId = !empty($this->_row)? $this->_row->id : $jinput->getInt('id', 0);		
 
         $internal_author = $db->quoteName('#__jresearch_project_internal_author');
         $projects = $db->quoteName('#__jresearch_project');				
@@ -186,8 +191,9 @@ class JResearchModelMember extends JResearchModelForm{
      */
     function getLatestTheses($n = 0){
         $db = JFactory::getDBO();
+        $jinput = JFactory::getApplication()->input;        
         $latestThes = array();
-        $memberId = !empty($this->_row)? $this->_row->id : JRequest::getVar('id', 0);		
+        $memberId = !empty($this->_row)? $this->_row->id : $jinput->getInt('id', 0);		
 
         $query = 'SELECT t.* FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' ia,  '
                          .$db->quoteName('#__jresearch_thesis').' t WHERE '.$db->quoteName('t').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_thesis')
@@ -217,7 +223,8 @@ class JResearchModelMember extends JResearchModelForm{
      */
     function countTheses($memberId){
         $db = JFactory::getDBO();
-        $memberId = !empty($this->_row)? $this->_row->id : JRequest::getVar('id', 0);
+        $jinput = JFactory::getApplication()->input;
+        $memberId = !empty($this->_row)? $this->_row->id : $jinput->getInt('id', 0);
 
         $internal_author = $db->quoteName('#__jresearch_thesis_internal_author');
         $theses = $db->quoteName('#__jresearch_thesis');				
@@ -250,11 +257,11 @@ class JResearchModelMember extends JResearchModelForm{
     * @access      public
     * @return      boolean True on success
     */
-    function save()
-    {
+    function save() {
         $app = JFactory::getApplication();
         $params = JComponentHelper::getParams('com_jresearch');
-        $form = JRequest::getVar('jform', '', 'REQUEST', 'array', JREQUEST_ALLOWHTML);
+        $jinput = JFactory::getApplication()->input;  
+        $form = $jinput->get('jform', array(), 'RAW');
         $data = &$this->getData();
 
         $row = $this->getTable('Member', 'JResearch');
@@ -281,7 +288,7 @@ class JResearchModelMember extends JResearchModelForm{
             }
         }
 	    
-    	$files = JRequest::getVar('jform', array(), 'FILES');
+    	$files = $jinput->files->get('jform', array());
         if(!empty($files['name']['file_files_0'])){	    	
             $data['files'] = JResearchUtilities::uploadDocument($files, 'file_files_0', $params->get('files_root_path', 'files').DS.'staff');
         }
