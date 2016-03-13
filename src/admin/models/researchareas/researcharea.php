@@ -36,7 +36,7 @@ class JResearchAdminModelResearchArea extends JModelAdmin{
             $data = $jinput->get('jform', array(), 'ARRAY');
             if (empty($data)) {
                 // For new items
-                $selected = $jinput->get('cid', array(), 'ARRAY');
+                $selected = $jinput->get('cid', array(0), 'ARRAY');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('*');

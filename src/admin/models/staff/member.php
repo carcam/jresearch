@@ -37,10 +37,10 @@ class JResearchAdminModelMember extends JModelAdmin{
         if (empty($this->data)) {
             $app = JFactory::getApplication();
             $jinput = JFactory::getApplication()->input;                        
-            $data = $jinput->get('jform', array());            
+            $data = $jinput->get('jform', array(), 'ARRAY');            
             if (empty($data)) {
                 // For new items
-                $selected = $jinput->get('cid', array(), 'ARRAY');
+                $selected = $jinput->get('cid', array(0), 'ARRAY');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('*');
@@ -337,66 +337,6 @@ class JResearchAdminModelMember extends JModelAdmin{
         return (int)$db->loadResult();
     }
 
-    /**
-     * Returns an array with the n latest theses in which the member has collaborated.
-     * @param int $memberId
-     * @param int $n
-     */
-    function getLatestTheses($memberId, $n = 0){
-        $db =& JFactory::getDBO();
-        $latestThes = array();
-
-        $query = 'SELECT '.$db->quoteName('id_thesis').' FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' ia,  '
-                         .$db->quoteName('#__jresearch_thesis').' t WHERE '.$db->quoteName('t').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_thesis').' AND t.published = '.$db->Quote('1')
-                         .' AND '.$db->quoteName('ia').'.'.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId).' ORDER BY '.$db->quoteName('t').'.'.$db->quoteName('start_date').' DESC';
-
-        if($n > 0){
-            $query .= ' LIMIT 0, '.$n;
-        }
-
-        $db->setQuery($query);
-        $result = $db->loadColumn();
-        foreach($result as $id){
-            $thesis = new JResearchThesis($db);
-            $thesis->load($id);
-            $latestThes[] = $thesis;
-        }
-
-        return $latestThes;				
-    }
-
-
-
-    /**
-     * Returns the number of degree theses the member has participated.
-     * @param int $memberId
-     */
-    function countTheses($memberId){
-        $db =& JFactory::getDBO();
-
-        $query = 'SELECT count(*) FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId);
-        $db->setQuery($query);
-        return (int)$db->loadResult();
-    }
-
-
-    public function getTeams($memberId)
-    {
-        $db = JFactory::getDBO();
-        $teams = array();
-
-        $sql = 'SELECT '.$db->quoteName('id_team').' FROM '.$db->quoteName('#__jresearch_team_member').' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($memberId);
-        $db->setQuery($sql);
-
-        $ids = $db->loadColumn();
-
-        foreach($ids as $id) {
-            $team = JTable::getInstance('Team', 'JResearch');
-            $team->load($id);
-            $teams[] = $team;
-        }
-        return $teams;
-    }
 
     public function getCV(){
         if(!empty($this->files))

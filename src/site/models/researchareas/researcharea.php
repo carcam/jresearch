@@ -146,57 +146,6 @@ class JResearchModelResearchArea extends JResearchModelItem{
     }
 
     /**
-     * Returns an array with the n latest theses in which the member has collaborated.
-     * @param int $memberId
-     * @param int $n
-     */
-    function getLatestTheses($n = 0){
-        $latestThes = array();
-        $row = $this->getItem();
-        if($row === false)
-            return $latestThes;
-
-        $areaId = $row->id;
-
-        $db = JFactory::getDBO();
-        $query = 'SELECT * FROM '.$db->quoteName('#__jresearch_thesis').' WHERE '.$db->quoteName('published').' = 1'
-                .' AND '.$db->quoteName('id_research_area').' = '.$db->Quote($areaId).' ORDER BY start_date DESC, created DESC';
-
-        if($n > 0){
-            $query .= ' LIMIT 0, '.$n;
-        }
-
-        $db->setQuery($query);
-        $result = $db->loadAssocList();
-        foreach($result as $r){
-            $thesis = JTable::getInstance('Thesis', 'JResearch');
-            $thesis->bind($r);
-            $latestThes[] = $thesis;
-        }
-
-        return $latestThes;
-    }
-
-
-
-    /**
-     * Returns the number of degree theses associated to the area.
-     * @param int $areaId
-     */
-    function countTheses(){
-        $row = $this->getItem();
-        if($row === false)
-            return -1;
-
-        $db = JFactory::getDBO();
-
-        $query = 'SELECT count(*) FROM '.$db->quoteName('#__jresearch_thesis').' WHERE '.$db->quoteName('published').' =  1'
-                            .' AND '.$db->quoteName('id_research_area').' = '.$db->Quote($row->id);
-        $db->setQuery($query);
-        return (int)$db->loadResult();
-    }
-
-    /**
      * 
      * Returns the list of staff members associated to the area, sorted
      * by lastname.

@@ -156,7 +156,7 @@ class JResearchToolbar {
     */	
     public static function editPublicationAdminToolbar(){
         $jinput = JFactory::getApplication()->input;                    
-        $cid = $jinput->getInt('cid', 0);
+        $cid = $jinput->get('cid', array(), 'ARRAY');
         $pubtype = $jinput->get('pubtype');
         if(!empty($cid))
             $title = JText::_('JRESEARCH_EDIT_PUBLICATION');
@@ -278,7 +278,7 @@ class JResearchToolbar {
     */
     public static function editProjectAdminToolbar(){
         $jinput = JFactory::getApplication()->input;            
-        $cid = $jinput->getInt('cid', 0);
+        $cid = $jinput->get('cid', array(), 'ARRAY');
         if (!empty($cid))
             $title = JText::_('JRESEARCH_EDIT_PROJECT');
         else
@@ -286,38 +286,6 @@ class JResearchToolbar {
 
         JToolBarHelper::title($title);
         self::editItemAdminToolbar();
-    }
-
-    /**
-     * Renders the toolbar shown with the administrative list of theses.
-     *
-     */
-    public static function thesesAdminListToolbar(){
-        JToolBarHelper::title(JText::_('JRESEARCH_THESES'), 'theses');
-
-        self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-        JToolBarHelper::divider();
-        JToolBarHelper::AddNew('add', JText::_('Add'));
-        JToolBarHelper::EditList('edit', JText::_('Edit'));
-        JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_ITEMS_QUESTION'),'remove', JText::_('Delete'));				
-
-        JToolBarHelper::divider();		
-
-        JToolBarHelper::publishList('publish', JText::_('Publish'));
-        JToolBarHelper::unpublishList('unpublish', JText::_('Unpublish'));
-    }
-
-    public static function editThesisAdminToolbar(){
-        $jinput = JFactory::getApplication()->input;            
-        $cid = $jinput->getInt('cid', 0);
-        if(!empty($cid))
-            $title = JText::_('JRESEARCH_EDIT_THESIS');
-        else
-            $title = JText::_('JRESEARCH_NEW_THESIS');	
-
-        JToolBarHelper::title($title);	
-        self::editItemAdminToolbar();
-
     }
 
     /**
@@ -329,7 +297,7 @@ class JResearchToolbar {
         JToolBarHelper::save("save");
         JToolBarHelper::save2new("save2new");
         $jinput = JFactory::getApplication()->input;            
-        $cid = $jinput->getInt('cid', 0);
+        $cid = $jinput->get('cid', array(), 'ARRAY');
         if (!empty($cid)) {
             JToolBarHelper::save2copy("save2copy");
         }
@@ -345,18 +313,6 @@ class JResearchToolbar {
         JToolBarHelper::title(JText::_('JRESEARCH_CONTROL_PANEL'));
     }
 
-    /**
-    * Prints the toolbar menu for cooperations
-    */	
-    public static function cooperationsAdminListToolbar() {
-        JToolBarHelper::title(JText::_('JRESEARCH_COOPERATIONS'));
-
-        self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-
-        JToolBarHelper::divider();
-        self::adminListToolbar();
-    }
-
     public static function member_positionListToolbar() {
         $canDo = JResearchAccessHelper::getActions('com_jresearch');
         JToolBarHelper::title(JText::_('JRESEARCH_MEMBER_POSITIONS'), 'memberpositions');
@@ -367,19 +323,6 @@ class JResearchToolbar {
 
         if($canDo->get('core.manage'))
             self::adminListToolbar();
-    }
-
-    public static function editCooperationAdminToolbar() {
-        $jinput = JFactory::getApplication()->input;            
-        $cid = $jinput->getInt('cid', 0);
-        if(!empty($cid))
-            $title = JText::_('JRESEARCH_EDIT_COOPERATION');
-        else
-            $title = JText::_('JRESEARCH_NEW_COOPERATION');	
-
-        JToolBarHelper::title($title);
-
-        self::editItemAdminToolbar();
     }
 
     public static function editMember_positionAdminToolbar() {

@@ -48,7 +48,7 @@ class JResearchModelMember extends JResearchModelForm{
     	if(empty($this->_data)){
             $app = JFactory::getApplication();
             $jinput = $app->input;
-            $data = $jinput->get('jform');
+            $data = $jinput->get('jform', array(), 'ARRAY');
             if (empty($data))
             {
                 // For new items
@@ -180,58 +180,6 @@ class JResearchModelMember extends JResearchModelForm{
                          WHERE pia.id_project = p.id AND p.published = 1 
                          AND pia.id_staff_member = $memberValue";
 
-        $db->setQuery($query);		
-
-        return (int)$db->loadResult();
-    }
-
-    /**
-     * Returns an array with the n latest theses in which the member has collaborated.
-     * @param int $n
-     */
-    function getLatestTheses($n = 0){
-        $db = JFactory::getDBO();
-        $jinput = JFactory::getApplication()->input;        
-        $latestThes = array();
-        $memberId = !empty($this->_row)? $this->_row->id : $jinput->getInt('id', 0);		
-
-        $query = 'SELECT t.* FROM '.$db->quoteName('#__jresearch_thesis_internal_author').' ia,  '
-                         .$db->quoteName('#__jresearch_thesis').' t WHERE '.$db->quoteName('t').'.'.$db->quoteName('id').' = '.$db->quoteName('ia').'.'.$db->quoteName('id_thesis')
-                         .' AND t.published = '.$db->Quote('1').' AND '.$db->quoteName('ia').'.'.$db->quoteName('id_staff_member').' = '.$db->Quote($memberId)
-                         .' ORDER BY '.$db->quoteName('t').'.'.$db->quoteName('start_date').' DESC, '.$db->quoteName('t').'.'.$db->quoteName('end_date').' DESC, t.'.$db->quoteName('created').' DESC';
-
-        if($n > 0){
-                $query .= ' LIMIT 0, '.$n;
-        }
-
-        $db->setQuery($query);
-        $result = $db->loadAssocList();
-        foreach($result as $row){
-                $thesis = JTable::getInstance('Thesis', 'JResearch');
-                $thesis->bind($row);
-                $latestThes[] = $thesis;
-        }
-
-        return $latestThes;				
-    }
-
-
-
-    /**
-     * Returns the number of degree theses the member has participated.
-     * @param int $memberId
-     */
-    function countTheses($memberId){
-        $db = JFactory::getDBO();
-        $jinput = JFactory::getApplication()->input;
-        $memberId = !empty($this->_row)? $this->_row->id : $jinput->getInt('id', 0);
-
-        $internal_author = $db->quoteName('#__jresearch_thesis_internal_author');
-        $theses = $db->quoteName('#__jresearch_thesis');				
-        $memberValue = $db->Quote($memberId);
-
-        $query = "SELECT COUNT(*) FROM $internal_author pia, $theses p 
-        WHERE pia.id_thesis = p.id AND p.published = 1 AND pia.id_staff_member = $memberValue";
         $db->setQuery($query);		
 
         return (int)$db->loadResult();

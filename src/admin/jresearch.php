@@ -10,7 +10,6 @@
 * is administered by the following controllers:
 *  - JResearchAdminPublicationsController
 *  - JResearchAdminProjectsController
-*  - JResearchAdminThesesController
 *  - JResearchAdminResearchAreasController
 *  - JResearchAdminController for configuration tasks
 */
@@ -37,7 +36,7 @@ $jinput = JFactory::getApplication()->input;
 $controller = $jinput->get('controller', null);
 $task = $jinput->get('task');
 $prefix = 'JResearchAdmin';
-$availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchareas', 'financiers', 'member_positions');
+$availableControllers = array('publications', 'projects', 'staff', 'researchareas', 'member_positions');
 
 if($controller == null || !in_array($controller, $availableControllers)){
 	// It is the default controller

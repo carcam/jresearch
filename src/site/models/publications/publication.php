@@ -47,7 +47,7 @@ class JResearchModelPublication extends JResearchModelForm{
         if (empty($this->_data)) {
             $app = JFactory::getApplication();
             $jinput = $app->input;                    
-            $data = $jinput->get('jform');            
+            $data = $jinput->get('jform', array(), 'ARRAY');            
             if (empty($data))
             {
             	$selected = JRequest::getInt('id', 0);

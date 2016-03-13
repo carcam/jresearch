@@ -99,13 +99,15 @@ $ItemidText = !empty($Itemid)?'&amp;Itemid='.$Itemid:'';
         <dd><?php echo $this->description; ?></dd>
     <?php endif; ?>
     <div class="divTR">
-	<?php
+	<?php        
             $attachments = $this->project->getAttachments();
             $url = str_replace('&', '&amp;', trim($this->project->url));		
             $entry = array();
-            $entry['url'] = $url;
-            $entry['tag'] = JText::_('JRESEARCH_PROJECT_WEBSITE');
-            $attachments[] = $entry;
+            if (!empty($url)) {
+                $entry['url'] = $url;
+                $entry['tag'] = JText::_('JRESEARCH_PROJECT_WEBSITE');
+                $attachments[] = $entry;
+            }
 
             if (count($attachments) > 0) {
                 echo JHTML::_('jresearchfrontend.attachments', $attachments, 'horizontal');

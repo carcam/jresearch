@@ -53,11 +53,10 @@
         <fieldset name="researchareas" label="JRESEARCH_RESEARCH_AREAS">
             <field name="area_number_last_publications" label="JRESEARCH_CONFIG_LAST_PUBLICATIONS_IN_AREA" default="5" type="text" />
             <field name="area_number_last_projects" label="JRESEARCH_CONFIG_LAST_PROJECTS_IN_AREA" default="5" type="text" />
-            <field name="area_number_last_theses" label="JRESEARCH_CONFIG_LAST_THESES_IN_AREA" default="5" type="text" />
-			<field name="area_show_members" label="JRESEARCH_CONFIG_SHOW_MEMBERS_IN_AREA" default="1" type="list">
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>            
+            <field name="area_show_members" label="JRESEARCH_CONFIG_SHOW_MEMBERS_IN_AREA" default="1" type="list">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+            </field>            
         </fieldset>
         
     <fieldset name="staff" label="JRESEARCH_STAFF" >
@@ -83,11 +82,6 @@
 			<option value="0">JNO</option>
 		</field>
 		<field name="staff_number_last_projects" label="JRESEARCH_CONFIG_PROFILES_NUMBER_PROJECTS" default="5" type="text" />
-		<field name="staff_show_theses" label="JRESEARCH_CONFIG_SHOW_THESES_IN_PROFILES" type="list" default="1">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
-		<field name="staff_number_last_theses" label="JRESEARCH_CONFIG_PROFILES_NUMBER_THESES" default="5" type="text" />	
 	</fieldset>
 	<fieldset name="projects" label="JRESEARCH_PROJECTS" >
 		<field name="projects_default_published_status" type="list" label="JRESEARCH_PROJECTS_DEFAULT_PUBLISHED_STATUS" description="JRESEARCH_PROJECTS_DEFAULT_PUBLISHED_STATUS_DESCRIPTION" default="1">

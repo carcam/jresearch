@@ -37,9 +37,9 @@ class JResearchAdminModelPublication extends JModelForm{
         {
             $app = JFactory::getApplication();
             $jinput = JFactory::getApplication()->input;
-            $data = $jinput->get('jform');
+            $data = $jinput->get('jform', array(), 'ARRAY');
             if (empty($data)) {
-                $selected = $jinput->get('cid', array(), 'ARRAY');
+                $selected = $jinput->get('cid', array(0), 'ARRAY');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 // Select all fields from the hello table.

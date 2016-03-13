@@ -37,14 +37,14 @@ class JResearchAdminModelProject extends JModelAdmin{
             $app = JFactory::getApplication();
             $jinput = JFactory::getApplication()->input;
                     
-            $data = $jinput->get('jform');
+            $data = $jinput->get('jform', array(), 'ARRAY');
             if (empty($data)) {
-                $selected = $jinput('cid', array(), 'ARRAY');
+                $selected = $jinput->get('cid', array(0), 'ARRAY');
                 $db = JFactory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('*');
                 $query->from('`#__jresearch_project`');
-                $query->where('id = ' . (int)$selected[0]);
+                $query->where('id = ' . $selected[0]);
                 $db->setQuery((string)$query);
                 $data = $db->loadAssoc();
             }

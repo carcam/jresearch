@@ -35,18 +35,16 @@ mappings = {'components/com_jresearch' : 'site',
 'language/en-GB/en-GB.com_jresearch.publications.ini' : 'languages/site/en-GB.com_jresearch.publications.ini',
 'language/en-GB/en-GB.com_jresearch.researchareas.ini' : 'languages/site/en-GB.com_jresearch.researchareas.ini',
 'language/en-GB/en-GB.com_jresearch.staff.ini' : 'languages/site/en-GB.com_jresearch.staff.ini',
-'language/en-GB/en-GB.com_jresearch.theses.ini'	: 'languages/site/en-GB.com_jresearch.theses.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.financiers.ini' : 'languages/admin/en-GB.com_jresearch.financiers.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.ini' : 'languages/admin/en-GB.com_jresearch.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.projects.ini' : 'languages/admin/en-GB.com_jresearch.projects.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.publications.ini' : 'languages/admin/en-GB.com_jresearch.publications.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.researchareas.ini' : 'languages/admin/en-GB.com_jresearch.researchareas.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.staff.ini' : 'languages/admin/en-GB.com_jresearch.staff.ini',
-'administrator/language/en-GB/en-GB.com_jresearch.theses.ini'	: 'languages/admin/en-GB.com_jresearch.theses.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.member_positions.ini'	: 'languages/admin/en-GB.com_jresearch.member_positions.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.sys.ini' : 'languages/admin/en-GB.com_jresearch.sys.ini',
-'administrator/language/en-GB/en-GB-jresearch_help.html' : 'languages/admin/en-GB-jresearch_help.html',
-'modules/mod_jresearch_keywords_cloud' : 'modules/mod_jresearch_keywords_cloud'
+'administrator/language/en-GB/en-GB-jresearch_help.html' : 'languages/admin/en-GB-jresearch_help.html' #,
+# 'modules/mod_jresearch_keywords_cloud' : 'modules/mod_jresearch_keywords_cloud'
 }
 
 ## TODO. Add mappings for every file in the languages folders.

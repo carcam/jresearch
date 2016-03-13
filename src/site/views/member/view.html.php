@@ -87,8 +87,7 @@ class JResearchViewMember extends JResearchView
         $jinput = JFactory::getApplication()->input;      	 	
     	$id = $jinput->getInt('id', null);
     	$publications_view_all = $jinput->getInt('publications_view_all', 0);
-    	$projects_view_all = $jinput->getInt('projects_view_all', 0);    	    	
-    	$theses_view_all = $jinput->getInt('theses_view_all', 0);
+    	$projects_view_all = $jinput->getInt('projects_view_all', 0);
 
 
     	if(empty($id)){
@@ -142,17 +141,6 @@ class JResearchViewMember extends JResearchView
             $this->assignRef('nprojects', $model->countProjects($member->id));    		    		
     	}
     	
-    	if($params->get('staff_show_theses', 1) == 1){
-            if($theses_view_all == 0){
-                $latestTheses = $params->get('staff_number_last_theses', 5);
-                $theses = $model->getLatestTheses($latestTheses);
-            }else{
-                $theses = $member->getLatestTheses();
-            }
-            $this->assignRef('theses', $theses);
-            $this->assignRef('ntheses', $model->countTheses($member->id));
-    	}
-    	
     	$applyStyle = $params->get('publications_apply_style', 1);
     	$configuredCitationStyle = $params->get('citationStyle', 'APA');
     	if($applyStyle){
@@ -169,7 +157,6 @@ class JResearchViewMember extends JResearchView
         // Bind variables for layout
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
-    	$this->assignRef('theses_view_all', $theses_view_all);
     	$this->assignRef('params', $params);
     	$this->assignRef('member', $member, JResearchFilter::OBJECT_XHTML_SAFE);
     	$this->assignRef('area', $area);

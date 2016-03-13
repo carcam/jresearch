@@ -43,24 +43,6 @@ function setACL()
 	$acl->addACL('com_jresearch', 'remove', 'users', 'publisher', 'publications', 'all');
 	$acl->addACL('com_jresearch', 'remove', 'users', 'manager', 'publications', 'all');
 	$acl->addACL('com_jresearch', 'remove', 'users', 'administrator', 'publications', 'all');
-	$acl->addACL('com_jresearch', 'remove', 'users', 'super administrator', 'publications', 'all');
-	
-	//Theses
-	//Add theses
-	$acl->addACL('com_jresearch', 'add', 'users', 'author', 'theses', 'all');
-	$acl->addACL('com_jresearch', 'add', 'users', 'editor', 'theses', 'all');
-	$acl->addACL('com_jresearch', 'add', 'users', 'publisher', 'theses', 'all');
-	$acl->addACL('com_jresearch', 'add', 'users', 'manager', 'theses', 'all');
-	$acl->addACL('com_jresearch', 'add', 'users', 'administrator', 'theses', 'all');
-	$acl->addACL('com_jresearch', 'add', 'users', 'super administrator', 'theses', 'all');
-	
-	//Edit theses
-	$acl->addACL('com_jresearch', 'edit', 'users', 'registered', 'theses', 'own');
-	$acl->addACL('com_jresearch', 'edit', 'users', 'author', 'theses', 'own');
-	$acl->addACL('com_jresearch', 'edit', 'users', 'editor', 'theses', 'all');
-	$acl->addACL('com_jresearch', 'edit', 'users', 'publisher', 'theses', 'all');
-	$acl->addACL('com_jresearch', 'edit', 'users', 'manager', 'theses', 'all');
-	$acl->addACL('com_jresearch', 'edit', 'users', 'administrator', 'theses', 'all');
-	$acl->addACL('com_jresearch', 'edit', 'users', 'super administrator', 'theses', 'all');
+	$acl->addACL('com_jresearch', 'remove', 'users', 'super administrator', 'publications', 'all');	
 }
 ?>

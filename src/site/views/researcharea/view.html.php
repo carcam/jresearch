@@ -69,13 +69,7 @@ class JResearchViewResearchArea extends JResearchView
             $projects = $model->getLatestProjects();
 
     	$this->assignRef('projects', $projects);
-    	$this->assignRef('nprojects', $model->countProjects($area->id));		
-
-    	$latestTheses = $params->get('area_number_last_theses', 5);    	
-    	if($theses_view_all == 0)
-            $theses = $model->getLatestTheses($area->id, $latestTheses);
-        else
-            $theses = $model->getLatestTheses($area->id);
+    	$this->assignRef('nprojects', $model->countProjects($area->id));
 
     	$facilities = $model->getFacilities($area->id);
     		
@@ -93,12 +87,9 @@ class JResearchViewResearchArea extends JResearchView
 
     	$this->assignRef('showMembers', $showMembers);
     	$this->assignRef('showPublications', $showPublications);
-    	$this->assignRef('theses', $theses);
-    	$this->assignRef('ntheses', $model->countTheses());    	
     	$this->assignRef('facilities', $facilities);
     	$this->assignRef('publications_view_all', $publications_view_all);
     	$this->assignRef('projects_view_all', $projects_view_all);    	
-    	$this->assignRef('theses_view_all', $theses_view_all);
         $this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
         $this->assignRef('description', $description);
         $this->assignRef('applyStyle', $applyStyle);        

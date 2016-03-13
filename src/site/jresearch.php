@@ -11,8 +11,9 @@
 * is administered by the following controllers:
 *  - JResearchPublicationsController
 *  - JResearchProjectsController
-*  - JResearchThesesController
 *  - JResearchResearchAreasController
+* - JResearchMember_positionsController
+* - JResearchStaffController
 */
 
 // No direct access
@@ -30,7 +31,7 @@ $controller = $jinput->get('controller', null);
 if($controller === null)
     $controller = __mapViewToController();
 else{
-    $availableControllers = array('publications', 'projects', 'theses', 'staff', 'cooperations', 'teams', 'facilities', 'researchareas');
+    $availableControllers = array('publications', 'projects', 'staff', 'researchareas');
     if(!in_array($controller, $availableControllers))
         $controller = '';
 }
@@ -49,17 +50,18 @@ if($session->get('citedRecords', null, 'jresearch') == null){
 }
 
 // Make an instance of the controller
-$controller = JControllerLegacy::getInstance('JResearch'.ucfirst($controller));
+$controllerObj = JControllerLegacy::getInstance('JResearch'.ucfirst($controller));
 
 $pluginhandledRequest = JResearchPluginsHelper::onBeforeExecuteJResearchTask();
 // Perform the request task if none of the plugins decided to do it
-if(!$pluginhandledRequest)
-    $controller->execute($jinput->get('task'));
+if (!$pluginhandledRequest) {
+    $controllerObj->execute($jinput->get('task'));
+}
 
 $mainframe->triggerEvent('onAfterExecuteJResearchTask' , array());
 
 // Redirect if set by the controller
-$controller->redirect();
+$controllerObj->redirect();
 
 
 /**

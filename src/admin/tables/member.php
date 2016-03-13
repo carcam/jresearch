@@ -192,7 +192,7 @@ class JResearchMember extends JResearchTable{
      * @return unknown
      */
     function __toString(){
-        return "$this->firstname $this->lastname";
+        return "$this->lastname, $this->firstname";
     }
 
     /**
@@ -467,7 +467,6 @@ class JResearchMember extends JResearchTable{
 
         $publicationsTable = $db->quoteName('#__jresearch_publication_internal_author');
         $projectsTable = $db->quoteName('#__jresearch_project_internal_author');
-        $thesesTable = $db->quoteName('#__jresearch_thesis_internal_author');
         $teamsTable = $db->quoteName('#__jresearch_team_member');
         $areasTable = $db->quoteName('#__jresearch_member_research_area');
 
@@ -483,17 +482,6 @@ class JResearchMember extends JResearchTable{
             return false;
         }
 
-        $db->setQuery('DELETE FROM '.$thesesTable.' WHERE '.$db->quoteName('id_staff_member').' = '.$db->Quote($oid));
-        if(!$db->query()){
-            $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
-            return false;
-        }
-
-        $db->setQuery('DELETE FROM '.$teamsTable.' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($oid));
-        if(!$db->query()){
-            $this->setError(get_class( $this ).'::store failed - '.$db->getErrorMsg());
-            return false;
-        }
 
         $db->setQuery('DELETE FROM '.$areasTable.' WHERE '.$db->quoteName('id_member').' = '.$db->Quote($oid));
         if(!$db->query()){
