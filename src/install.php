@@ -70,21 +70,19 @@ class com_jresearchInstallerScript
                 $db->setQuery("ALTER TABLE #__jresearch_publication ADD FULLTEXT INDEX #__jresearch_publication_title_keywords_index(title, keywords)");
                 $db->execute();
             } catch (Exception $e) {
-				echo $e;
+                
             }
             
             try {
                 $db->setQuery("DROP TABLE IF EXISTS #__jresearch_publication_research_area");
                 $db->execute();
             } catch (Exception $e) {
-				echo $e;                
             }
             
             try {
                 $db->setQuery("RENAME TABLE #__jresearch_publication_researcharea TO  #__jresearch_publication_research_area");
                 $db->execute();
             } catch (Exception $e) {
-				echo $e;                
             }
             return;
         } else if (version_compare(com_jresearchInstallerScript::$old_version, '3.0 ') > 0) {
@@ -97,7 +95,6 @@ class com_jresearchInstallerScript
             $db->setQuery("DROP TABLE IF EXISTS #__jresearch_project_research_area");
             $db->execute();
         } catch (Exception $e) {
-
         }
 
         try {

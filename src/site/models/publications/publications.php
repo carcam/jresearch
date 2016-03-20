@@ -53,7 +53,6 @@ class JResearchModelPublications extends JResearchModelList{
             $query->where($whereClauses);
 
         $query->order($orderColumns);
-        echo $query;
         return $query;
     }
 
