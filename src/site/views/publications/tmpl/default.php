@@ -1,4 +1,4 @@
-Itemid<?php
+<?php
 /**
  * @package JResearch
  * @subpackage Publications
