@@ -82,7 +82,7 @@
 			<folder>controllers</folder>
 			<folder>css</folder>
 			<folder>includes</folder>
-	    	<folder>install</folder>
+                        <folder>install</folder>
 			<folder>elements</folder>
 			<folder>files</folder>
 			<folder>helpers</folder>
