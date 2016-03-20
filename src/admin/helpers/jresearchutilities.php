@@ -72,26 +72,28 @@ class JResearchUtilities
      * has been provided.
      */
     function uploadDocument($file, $key ,$path){
-        $uploadedFile = $file['tmp_name'][$key];
+        $uploadedFile = $file[$key]['tmp_name'];
         $availableTypes = array('application/msword'=>'doc','application/vnd.openxmlformats-officedocument.wordprocessingml.document'=>'docx',
         'application/pdf'=>'pdf', 'application/x-pdf' => 'pdf', 'application/postscript'=>'ps', 
         'application/vnd.oasis.opendocument.text'=>'odt', 'text/plain'=>'txt', 'application/vnd.oasis.opendocument.presentation' => 'odp');
         if($uploadedFile != null){
             $mimetype = self::_getUploadMimeType($uploadedFile);
             if(empty($mimetype)) {
-                $mimetype = $file['type'][$key];
+                $mimetype = $file[$key]['type'];
             }
 
             if(isset($availableTypes[$mimetype])) {
-                $newName = JRESEARCH_COMPONENT_ADMIN.DS.$path.DS.basename(JFile::makeSafe($file['name'][$key]));
+                $newName = JRESEARCH_COMPONENT_ADMIN.DS.$path.DS.basename(JFile::makeSafe($file[$key]['name']));
                 if(!JFile::upload($uploadedFile, $newName)){
-                    JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED', basename($newName)));
+                    JError::raiseWarning(1, JText::sprintf('JRESEARCH_FILE_COULD_NOT_BE_IMPORTED', 
+                            basename($newName)));
                 }else{
                     //Construct the file entry
                     return basename($newName);
                 }
             }else{
-                    JError::raiseWarning(1, JText::sprintf('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED', basename($file['name'][$key]).' ('. $file['type'][$key]. ')'));
+                JError::raiseWarning(1, JText::sprintf('JRESEARCH_DOCUMENT_FORMAT_NOT_SUPPORTED', 
+                        basename($file[$key]['name']).' ('. $file[$key]['type']. ')'));
             }
         }
 
@@ -128,21 +130,18 @@ class JResearchUtilities
     /**
      * Uploads ONE file to specific folder (relative path from component administrator folder)
      */
-    public static function upload(&$fileVar, $file, $folder, array $types=array(), $delete=false)
-    {
+    public static function upload(&$fileVar, $file, $folder, array $types=array(), $delete=false) {
         $path = '';
 
         //Delete file and set file variable to empty string
-        if(($delete === true) && ($fileVar != null))
-        {
-                @unlink(JRESEARCH_COMPONENT_ADMIN.DS.$folder.basename($fileVar));
-                $fileVar = '';
+        if(($delete === true) && ($fileVar != null)) {
+            @unlink(JRESEARCH_COMPONENT_ADMIN.DS.$folder.basename($fileVar));
+            $fileVar = '';
         }
 
         $uploadedFile = $file['tmp_name'];
 
-        if($uploadedFile != null)
-        {
+        if($uploadedFile != null) {
             $newName = JRESEARCH_COMPONENT_ADMIN.DS.JPath::clean($folder).DS.$file['name'];
             if(array_key_exists($file['type'], $types)) {
                 $base = basename($newName);
@@ -325,7 +324,7 @@ class JResearchUtilities
         //Remove files in case the user indicated it.
         $params = JComponentHelper::getParams('com_jresearch');        
         $nAttach = (int)$data['count_files'];
-        $jinput = JFactory::getApplication()->input;
+        $jinput = JFactory::getApplication()->input;        
         $data['files'] = '';
         $tempFilesArr = array();            
         for($i = 0; $i <= $nAttach; ++$i) {
@@ -355,16 +354,16 @@ class JResearchUtilities
         //Now update files
         $files = $jinput->files->get('jform', array());
         for($i = 0; $i <= $nAttach; ++$i) {
-            if(!empty($files['name']['file_files_'.$i])){	    	
-                $tempFilesArr[] = self::uploadDocument($files, 
+            if(!empty($files['file_files_'.$i]['name'])){	    	
+                $entry = self::uploadDocument($files, 
                         'file_files_'.$i, 
                         $params->get('files_root_path', 'files').DS.$controller)
                     .'|'.$data['file_tag_files_'.$i];
+                $tempFilesArr[] = $entry;                
             } else if(!empty($data['file_files_'.$i])) {
                 $tempFilesArr[] = $data['file_files_'.$i].'|'.$data['file_tag_files_'.$i];
             }
         }
-        
         return implode(';', $tempFilesArr);
     }
 }
