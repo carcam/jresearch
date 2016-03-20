@@ -173,7 +173,7 @@ class JResearchToolbar {
     */
     public static function editMemberAdminToolbar(){		
         $jinput = JFactory::getApplication()->input;            
-        $cid = $jinput->getInt('cid', 0);
+        $cid = $jinput->get('cid', array(), 'ARRAY');
 
         if(!empty($cid))
             $title = JText::_('JRESEARCH_EDIT_MEMBER_PROFILE');
@@ -262,7 +262,7 @@ class JResearchToolbar {
     */
     public static function editResearchAreaAdminToolbar() {
         $jinput = JFactory::getApplication()->input;            
-        $cid = $jinput->getInt('cid', 0);
+        $cid = $jinput->get('cid', array(), 'ARRAY');
 
         if(!empty($cid))
             $title = JText::_('JRESEARCH_EDIT_RESEARCH_AREA');
@@ -327,7 +327,7 @@ class JResearchToolbar {
 
     public static function editMember_positionAdminToolbar() {
         $jinput = JFactory::getApplication()->input;            
-        $cid = $jinput->getInt('cid', 0);
+        $cid = $jinput->get('cid', array(), 'ARRAY');
         if(!empty($cid))
             $title = JText::_('JRESEARCH_EDIT_MEMBER_POSITION');
         else
@@ -345,65 +345,6 @@ class JResearchToolbar {
         JToolBarHelper::divider();		
         self::adminListToolbar();
     }
-
-    public static function editFacilityAdminToolbar() {
-        $jinput = JFactory::getApplication()->input;            
-        $cid = $jinput->getInt('cid', 0);
-        if(!empty($cid))
-            $title = JText::_('JRESEARCH_EDIT_FACILITY');
-        else
-            $title = JText::_('JRESEARCH_NEW_FACILITY');	
-
-        JToolBarHelper::title($title);
-
-        self::editItemAdminToolbar();
-    }
-
-    public static function financiersAdminListToolbar() {
-        JToolBarHelper::title(JText::_('JRESEARCH_FINANCIERS'));
-
-        self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-        JToolBarHelper::divider();		
-        self::adminListToolbar();
-    }
-
-    public static function editFinancierAdminToolbar() {
-        $jinput = JFactory::getApplication()->input;            
-        $cid = $jinput->getInt('cid', 0);
-        if(!empty($cid))
-            $title = JText::_('JRESEARCH_EDIT_FINANCIER');
-        else
-            $title = JText::_('JRESEARCH_NEW_FINANCIER');	
-
-        JToolBarHelper::title($title);
-
-        self::editItemAdminToolbar();
-    }
-
-    /**
-    * Prints the toolbar menu for teams
-    */	
-    public static function teamsAdminListToolbar() {
-        JToolBarHelper::title(JText::_('JRESEARCH_TEAMS'));
-
-        self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-        JToolBarHelper::divider();
-        self::adminListToolbar();
-    }
-
-    public static function editTeamAdminToolbar() {
-        $jinput = JFactory::getApplication()->input;            
-        $cid = $jinput->getInt('cid', 0);
-        if(!empty($cid))
-            $title = JText::_('JRESEARCH_EDIT_TEAM');
-        else
-            $title = JText::_('JRESEARCH_NEW_TEAM');	
-
-        JToolBarHelper::title($title);
-
-        self::editItemAdminToolbar();
-    }
-
 
     public static function adminListToolbar() {
         JToolBarHelper::AddNew('add', JText::_('Add'));

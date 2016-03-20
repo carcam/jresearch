@@ -216,36 +216,36 @@ class JResearchViewPublications extends JResearchView
     	
     	// Do the grouping
         switch($filter_order){
-                case 'year':
-                    $previousYear = null;
-                    $yearHeader = null;
-                    foreach($recordsArray as $pub){
-                    	if($previousYear != $pub->year){
-                        	if($pub->year == '0000' || $pub->year == null )
-                            	$yearHeader = JText::_('JRESEARCH_NO_YEAR');
-                            else
-                            	$yearHeader = $pub->year;
+            case 'year':
+                $previousYear = null;
+                $yearHeader = null;
+                foreach($recordsArray as $pub){
+                    if($previousYear != $pub->year){
+                        if($pub->year == '0000' || $pub->year == null )
+                            $yearHeader = JText::_('JRESEARCH_NO_YEAR');
+                        else
+                            $yearHeader = $pub->year;
 
-                            $result[$yearHeader] = array();
-                        }
-                       	$result[$yearHeader][] = $pub;
-                       	$previousYear = $pub->year;
+                        $result[$yearHeader] = array();
                     }
-                	break;
-                case 'pubtype':
-                        $previousType = null;
-                        $header = null;
-                        foreach($recordsArray as $pub){
-                                if($previousType != $pub->pubtype){
-                                        $header = $pub->pubtype;
-                                        $result[$header] = array();
-                                }
-                                $result[$header][] = $pub;
-                                $previousType = $pub->pubtype;
-                        }
-                        break;
-                default:
-                        $result = $recordsArray;
+                    $result[$yearHeader][] = $pub;
+                    $previousYear = $pub->year;
+                }
+                break;
+            case 'pubtype':
+                $previousType = null;
+                $header = null;
+                foreach($recordsArray as $pub){
+                    if($previousType != $pub->pubtype){
+                        $header = $pub->pubtype;
+                        $result[$header] = array();
+                    }
+                    $result[$header][] = $pub;
+                    $previousType = $pub->pubtype;
+                }
+                break;
+            default:
+                $result = $recordsArray;
         }
 
         return $result;
@@ -297,8 +297,7 @@ class JResearchViewPublications extends JResearchView
         $this->assignRef('citeParentheticalButton', $citeParentheticalButton);
         $this->assignRef('url', $url);
         
-        parent::display();
-		
+        parent::display();		
     }
     
     private function _displayGenerateBibliographyDialog(){
@@ -312,7 +311,7 @@ class JResearchViewPublications extends JResearchView
         JHtml::_('behavior.framework');
 
         foreach($citedRecords as $pub){
-	        $pubTitle = $pub;
+            $pubTitle = $pub;
             $pubRecord = JResearchPublicationsHelper::getItemByCitekey($pub);
             if($pubRecord != null){
                 $pubTitle = $pubRecord->title;            
@@ -426,8 +425,7 @@ class JResearchViewPublications extends JResearchView
                                                             .JText::_('JRESEARCH_RESET').'</button>';
         }
 
-        if($bType === true)
-        {
+        if($bType === true) {
             // Publication type filter
             $typesHTML = array();
 
@@ -442,8 +440,7 @@ class JResearchViewPublications extends JResearchView
             $lists['pubtypes'] = JHTML::_('select.genericlist', $typesHTML, 'filter_pubtype', 'class="inputbox" size="1" '.$js, 'value','text', $filter_pubtype);
         }
 
-        if($bYear === true)
-        {
+        if($bYear === true) {
             // Year filter
             $yearsHTML = array();
 
@@ -460,8 +457,7 @@ class JResearchViewPublications extends JResearchView
             $lists['years'] = JHTML::_('select.genericlist', $yearsHTML, 'filter_year', 'class="inputbox" size="1" '.$js, 'value','text', $filter_year);
         }
 
-        if($bAuthors === true)
-        {
+        if($bAuthors === true) {
             $authorsHTML = array();
             $filter_author = $this->state->get('com_jresearch.publications.filter_author');
             $authors = JResearchPublicationsHelper::getAllAuthors();
@@ -474,8 +470,7 @@ class JResearchViewPublications extends JResearchView
             $lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
         }
 
-        if($bAreas === true)
-        {
+        if($bAreas === true) {
             //Researchareas filter
             $areasOptions = array();
 
@@ -492,5 +487,4 @@ class JResearchViewPublications extends JResearchView
         return '<div style="float: left">'.implode('</div><div style="float: left;">', $lists).'</div>';
     }
 }
-
 ?>

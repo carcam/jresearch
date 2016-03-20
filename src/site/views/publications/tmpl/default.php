@@ -20,8 +20,8 @@ $jinput = JFactory::getApplication()->input;
 			$actions = JResearchAccessHelper::getActions();
 			if ($actions->get('core.publications.create')):
 		?>
-                            <div><?php echo JHTML::_('jresearchfrontend.icon','new','publications'); ?></div>						
-			<?php endif; ?>
+                <div><?php echo JHTML::_('jresearchfrontend.icon','new','publications'); ?></div>						
+                <?php endif; ?>
 	</div>
 	
 	<input type="hidden" name="option" value="com_jresearch" />

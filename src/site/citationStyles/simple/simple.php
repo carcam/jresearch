@@ -129,10 +129,9 @@ class JResearchSimpleCitationStyle implements JResearchCitationStyle{
         $output = '';
         $authorsText = trim($this->getAuthorsReferenceTextFromSinglePublication($publication, $authorLinks));		
         $title = trim($publication->title);
-        $title = $html?"<b>$title</b>":$title;
+        $title = $html? "<b>$title</b>" : $title;
         $journal_url = !empty($publication->journal_url) && $html ?
                 $publication->journal_url : null;
-
         $year = trim($publication->year);
         $letter = isset($publication->__yearLetter)?$publication->__yearLetter:'';
 

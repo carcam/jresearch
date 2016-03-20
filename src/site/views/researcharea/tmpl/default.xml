@@ -16,7 +16,7 @@
 		</fieldset>	
 	</fields>
 	<fields name="params">
-		<fieldset name="params">
+            <fieldset name="params" label="JRESEARCH_VIEW_PARAMS">
             <field name="area_show_members" type="list"
             	description="JRESEARCH_CONFIG_RESEARCHAREA_SHOW_MEMBERS_DESC"
                 filter="safehtml"
