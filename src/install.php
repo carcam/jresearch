@@ -84,6 +84,7 @@ class com_jresearchInstallerScript
                 $db->execute();
             } catch (Exception $e) {
             }
+            
             try {
                 $db->setQuery("ALTER TABLE #__jresearch_member ADD COLUMN google_scholar varchar(256) default NULL");
                 $db->execute();
@@ -92,6 +93,12 @@ class com_jresearchInstallerScript
             }            
             return;            
         } else if (version_compare(com_jresearchInstallerScript::$old_version, '3.0 ') > 0) {
+            try {
+                $db->setQuery("ALTER TABLE #__jresearch_member ADD COLUMN google_scholar varchar(256) default NULL");
+                $db->execute();
+            } catch (Exception $e) {
+
+            }            
             return;
         }
         
