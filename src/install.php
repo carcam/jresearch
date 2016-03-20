@@ -84,7 +84,13 @@ class com_jresearchInstallerScript
                 $db->execute();
             } catch (Exception $e) {
             }
-            return;
+            try {
+                $db->setQuery("ALTER TABLE #__jresearch_member ADD COLUMN google_scholar varchar(256) default NULL");
+                $db->execute();
+            } catch (Exception $e) {
+
+            }            
+            return;            
         } else if (version_compare(com_jresearchInstallerScript::$old_version, '3.0 ') > 0) {
             return;
         }
@@ -99,20 +105,6 @@ class com_jresearchInstallerScript
 
         try {
             $db->setQuery("RENAME TABLE #__jresearch_project_researcharea TO  #__jresearch_project_research_area");
-            $db->execute();
-        } catch (Exception $e) {
-
-        }
-        
-        try {
-            $db->setQuery("DROP TABLE IF EXISTS #__jresearch_thesis_research_area");
-            $db->execute();
-        } catch (Exception $e) {
-
-        }
-
-        try {
-            $db->setQuery("RENAME TABLE #__jresearch_thesis_researcharea TO  #__jresearch_thesis_research_area");
             $db->execute();
         } catch (Exception $e) {
 

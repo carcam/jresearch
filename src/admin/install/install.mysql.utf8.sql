@@ -278,12 +278,6 @@ CREATE TABLE IF NOT EXISTS `#__jresearch_project_research_area` (
   PRIMARY KEY  (`id_project`, `id_research_area`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-CREATE TABLE IF NOT EXISTS `#__jresearch_thesis_research_area` (
-  `id_thesis` int(11) unsigned NOT NULL,
-  `id_research_area` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`id_thesis`, `id_research_area`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
 CREATE TABLE IF NOT EXISTS `#__jresearch_member_research_area` (
   `id_member` int(11) unsigned NOT NULL,
   `id_research_area` int(10) unsigned NOT NULL,

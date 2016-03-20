@@ -16,7 +16,7 @@ if(!defined('DS')) {
 define('_MEMBER_IMAGE_MAX_WIDTH_', 1024);
 define('_MEMBER_IMAGE_MAX_HEIGHT_', 768);
 
-define('_JRESEARCH_VERSION_', '3.1 Beta 1');
+define('_JRESEARCH_VERSION_', '3.1 Stable');
 define('_JRESEARCH_BIBUTILS_VERSION_', '3.41');
 define('JRESEARCH_UPGRADER_SUPPORT', true);
 
