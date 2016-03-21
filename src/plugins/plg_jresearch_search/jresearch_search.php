@@ -129,7 +129,7 @@ class plgSearchJResearch_Search extends JPlugin{
             return array();
 
         // Get the database object
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
 
         // Section name	
         $section = JText::_( 'JRESEARCH_RESEARCH_AREA' );
@@ -189,7 +189,7 @@ class plgSearchJResearch_Search extends JPlugin{
         $jinput = JFactory::getApplication()->input;        
         $section = JText::_( 'JRESEARCH_PROJECT' );
         // Get the database object
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
 
         if($this->limit <= 0)
                 return array();
@@ -264,7 +264,7 @@ class plgSearchJResearch_Search extends JPlugin{
 
         $section = JText::_( 'JRESEARCH_PUBLICATION' );
         // Get the database object
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
 
         switch ( $ordering ) {
             case 'alpha':
@@ -347,7 +347,7 @@ class plgSearchJResearch_Search extends JPlugin{
     private function searchStaff($text, $phrase='', $ordering=''){
         $jinput = JFactory::getApplication()->input;        
         $section = JText::_( 'JRESEARCH_MEMBER' );
-        $db = &JFactory::getDBO();
+        $db = JFactory::getDBO();
         switch ( $ordering ) {
             case 'alpha':				
                 $order = 'm.lastname ASC, m.name ASC';
