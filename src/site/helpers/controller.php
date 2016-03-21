@@ -32,7 +32,7 @@ class JResearchFrontendController extends JControllerLegacy
         
         if((is_null($itemid) || $bItemid) && !$mainframe->isAdmin())
         {
-            $pathway = &$mainframe->getPathway();
+            $pathway = $mainframe->getPathway();
             return $pathway->addItem($name, $link);
         }
         
