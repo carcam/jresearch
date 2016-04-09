@@ -5,11 +5,11 @@
 		<description>J!Research Extension Package</description>
 		<element>pkg_jresearch_j3</element>
 		<type>package</type>
-		<version>3.1 Beta 1</version>
+		<version>3.1.0 Stable</version>
 		<client>site</client>
 		<infourl title="J!Research Installation Package">http://joomlaresearch.com/en/downloads.html</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://localhost/pk_jresearch_j3.zip</downloadurl>
+			<downloadurl type="full" format="zip">http://joomlaresearch.com/en/downloads/182-jresearch-3/download.html</downloadurl>
 		</downloads>
 		<targetplatform name="joomla" version="3.[456789]" />
 	</update>
