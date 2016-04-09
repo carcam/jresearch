@@ -3,17 +3,17 @@
  * sh404SEF support for com_jresearch component.
  * Author : Carlos M. Cámara Mora from JResearch
  * contact : carcam@gnumla.com
- * 
+ *
  * {shSourceVersionTag: Version 1.0 - 2009-01-01}
- * 
+ *
  * This is a Xmap sh404SEF native plugin file
  * @license	GNU/GPL
- *    
+ *
  */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 // ------------------  standard plugin initialize function - don't change ---------------------------
-global $sh_LANG, $sefConfig;  
+global $sh_LANG, $sefConfig;
 $shLangName = '';
 $shLangIso = '';
 $title = array();
@@ -32,11 +32,11 @@ shRemoveFromGETVarsList('lang');
 shRemoveFromGETVarsList('view');
 if (!empty($Itemid))
   shRemoveFromGETVarsList('Itemid');
-if (!empty($limit))  
+if (!empty($limit))
 shRemoveFromGETVarsList('limit');
-if (isset($limitstart)) 
+if (isset($limitstart))
   shRemoveFromGETVarsList('limitstart'); // limitstart can be zero
-    
+
 
 $Itemid = isset($Itemid) ? @$Itemid : null;
 $task = isset($task) ? @$task : null;
@@ -53,27 +53,10 @@ shRemoveFromGETVarsList('layout');
 
 switch ($view)
 {
-	case 'cooperation':
-		$q = 'SELECT id, name FROM #__jresearch_cooperations WHERE id='.$id;
-		$database->setQuery($q);
-		$shCoop = $database->loadObject();
-		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_COOPERATION'];
-		$title[] = $shCoop->name;
-		break;
-	case 'cooperations':
-		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_COOPERATIONS'];
-		break;
-	case 'facilities':
-		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_FACILITIES'];
-		break;
-	case 'facility':
-		$q = 'SELECT id, name FROM #__jresearch_facilities WHERE id='.$id;
-		$database->setQuery($q);
-		$shFac = $database->loadObject();
-		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_FACILITY'];
-		$title[] = $shFac->name;
-		break;
+	// Luis: I removed the modules which will not be anymore maintained such as
+	// theses, teams, facilities and cooperations
 	case 'publicationslist':
+	case 'publications':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_PUBLICATIONS_LIST'];
 		break;
 	case 'projectslist':
@@ -86,10 +69,6 @@ switch ($view)
 		break;
 	case 'staff':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_STAFF'];
-		break;
-	case 'theseslist':
-	case 'theses':
-		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_THESIS_LIST'];
 		break;
 	case 'publication':
 		$q = 'SELECT id, title  FROM #__jresearch_publication WHERE id = '.$id;
@@ -113,7 +92,7 @@ switch ($view)
 		$title[] = $shPublication->name;
 		break;
 	case 'member':
-		switch($task){
+		switch($task) {
 			case 'edit':
 				$title[]= $sh_LANG[$shLangIso]['_COM_SEF_SH_EDIT'];
 				break;
@@ -122,36 +101,21 @@ switch ($view)
 				$q = 'SELECT id, firstname, lastname  FROM #__jresearch_member WHERE id = '.$id;
 		        	$database->setQuery($q);
 			        $shMember = $database->loadObject( );
-				$id = isset($id) ? @$id : null;		
-				$title[]= $sh_LANG[$shLangIso]['_COM_SEF_SH_MEMBER'];		
+				$id = isset($id) ? @$id : null;
+				$title[]= $sh_LANG[$shLangIso]['_COM_SEF_SH_MEMBER'];
 				$title[] =$shMember->firstname . '-' . $shMember->lastname;
-				break;}
-		break;
-	case 'team':
-		$q = 'SELECT id, name FROM #__jresearch_team WHERE id='.$id;
-		$database->setQuery($q);
-		$shTeam = $database->loadObject();
-		$title[] = 'Team';
-		$title[] = $shTeam->name;
-		break;
-	case 'teams':
-		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_TEAMS'];
-		break;
-	case 'thesis':
-		$q = 'SELECT id, title  FROM #__jresearch_thesis WHERE id = '.$id;
-        	$database->setQuery($q);
-	        $shPublication = $database->loadObject( );
-		$title[] = $shPublication->title;
+				break;
+		}
 		break;
 	}
 
-  
-// ------------------  standard plugin finalize function - don't change ---------------------------  
-if ($dosef){
-   $string = shFinalizePlugin( $string, $title, $shAppendString, $shItemidString, 
-      (isset($limit) ? @$limit : null), (isset($limitstart) ? @$limitstart : null), 
-      (isset($shLangName) ? @$shLangName : null));
-}      
+
 // ------------------  standard plugin finalize function - don't change ---------------------------
-  
+if ($dosef){
+   $string = shFinalizePlugin( $string, $title, $shAppendString, $shItemidString,
+      (isset($limit) ? @$limit : null), (isset($limitstart) ? @$limitstart : null),
+      (isset($shLangName) ? @$shLangName : null));
+}
+// ------------------  standard plugin finalize function - don't change ---------------------------
+
 ?>
