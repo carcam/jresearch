@@ -62,117 +62,40 @@ class com_jresearchInstallerScript
         $db->setQuery('UPDATE #__assets SET rules = '.$db->Quote($rules).' WHERE name LIKE '.$db->Quote('com_jresearch'));
         $db->query();
 
-        if (com_jresearchInstallerScript::$old_version == null)
-            return;        
+	    try {
+	        $db->setQuery("RENAME TABLE #__jresearch_project_researcharea TO  #__jresearch_project_research_area");
+	        $db->execute();
+	    } catch (Exception $e) {
 
-        if (version_compare(com_jresearchInstallerScript::$old_version, '3.0 ') == 0) {           
-            try {
-                $db->setQuery("ALTER TABLE #__jresearch_publication ADD FULLTEXT INDEX #__jresearch_publication_title_keywords_index(title, keywords)");
-                $db->execute();
-            } catch (Exception $e) {
-                
-            }
-            
-            try {
-                $db->setQuery("DROP TABLE IF EXISTS #__jresearch_publication_research_area");
-                $db->execute();
-            } catch (Exception $e) {
-            }
-            
-            try {
-                $db->setQuery("RENAME TABLE #__jresearch_publication_researcharea TO  #__jresearch_publication_research_area");
-                $db->execute();
-            } catch (Exception $e) {
-            }
-            
-            try {
-                $db->setQuery("ALTER TABLE #__jresearch_member ADD COLUMN google_scholar varchar(256) default NULL");
-                $db->execute();
-            } catch (Exception $e) {
+	    }
+		    
+	    try {
+	        $db->setQuery("RENAME TABLE #__jresearch_member_researcharea TO  #__jresearch_member_research_area");
+	        $db->execute();
+	    } catch (Exception $e) {
 
-            }            
-            return;            
-        } else if (version_compare(com_jresearchInstallerScript::$old_version, '3.0 ') > 0) {
-            try {
-                $db->setQuery("ALTER TABLE #__jresearch_member ADD COLUMN google_scholar varchar(256) default NULL");
-                $db->execute();
-            } catch (Exception $e) {
+	    }        
 
-            }            
-            return;
-        }
-        
-        // Then we are upgrading from J!Research 2.x
-        
-        try {
-            $db->setQuery("DROP TABLE IF EXISTS #__jresearch_project_research_area");
-            $db->execute();
-        } catch (Exception $e) {
-        }
+	    try {
+	        $db->setQuery("ALTER TABLE #__jresearch_publication_keyword ADD FULLTEXT INDEX #__jresearch_publication_keyword_keyword(keyword)");
+	        $db->execute();
+	    } catch (Exception $e) {
 
-        try {
-            $db->setQuery("RENAME TABLE #__jresearch_project_researcharea TO  #__jresearch_project_research_area");
-            $db->execute();
-        } catch (Exception $e) {
+	    }
 
-        }
-        
-        try {
-            $db->setQuery("DROP TABLE IF EXISTS #__jresearch_member_research_area");
-            $db->execute();
-        } catch (Exception $e) {
+	    try {
+	        $db->setQuery("ALTER TABLE #__jresearch_member ADD COLUMN link_to_member tinyint(1) NOT NULL DEFAULT '1'");
+	        $db->execute();
+	    } catch (Exception $e) {
 
-        }
+	    }
 
-        try {
-            $db->setQuery("RENAME TABLE #__jresearch_member_researcharea TO  #__jresearch_member_research_area");
-            $db->execute();
-        } catch (Exception $e) {
+	    try {
+	        $db->setQuery("ALTER TABLE #__jresearch_member ADD COLUMN link_to_website tinyint(1) NOT NULL DEFAULT '0'");
+	        $db->execute();
+	    } catch (Exception $e) {
 
-        }        
-        
-
-        try {
-            $db->setQuery("ALTER TABLE #__jresearch_publication` DROP INDEX `#__jresearch_publication_full_index");
-            $db->execute();
-        } catch (Exception $e) {
-
-        }
-
-        try {
-            $db->setQuery("ALTER TABLE #__jresearch_publication ADD FULLTEXT INDEX #__jresearch_publication_full_index(title, abstract)");
-            $db->execute();
-        } catch (Exception $e) {
-
-        }
-
-        try {
-            $db->setQuery("ALTER TABLE #__jresearch_publication_keyword ADD FULLTEXT INDEX #__jresearch_publication_keyword_keyword(keyword)");
-            $db->execute();
-        } catch (Exception $e) {
-
-        }
-
-        try {
-            $db->setQuery("ALTER TABLE #__jresearch_member ADD COLUMN link_to_member tinyint(1) NOT NULL DEFAULT '1'");
-            $db->execute();
-        } catch (Exception $e) {
-
-        }
-
-        try {
-            $db->setQuery("ALTER TABLE #__jresearch_member ADD COLUMN link_to_website tinyint(1) NOT NULL DEFAULT '0'");
-            $db->execute();
-        } catch (Exception $e) {
-
-        }
-
-        try {
-            $db->setQuery("ALTER TABLE #__jresearch_member ADD COLUMN google_scholar varchar(256) default NULL");
-            $db->execute();
-        } catch (Exception $e) {
-
-        }
+	    }
     }
 
    /**

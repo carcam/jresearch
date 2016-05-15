@@ -3,8 +3,6 @@
 -- Author: Luis Galarraga
 -- Date: 27-05-2008 00:14:00
 
-
-DROP TABLE IF EXISTS `#__jresearch_publication`;
 CREATE TABLE IF NOT EXISTS `#__jresearch_publication` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `id_research_area` VARCHAR( 1024 ) NOT NULL DEFAULT  '1',
