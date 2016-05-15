@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 
 output = expanduser("~")
 branch = 'master'
-repository = '/home/luis/Documents/JResearch/jresearch'
+repository = '/home/luis/Documents/JResearch/nifdi2016/jresearch/'
 
 if len(sys.argv) >= 2:
 	os.chdir(repository)
