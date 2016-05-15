@@ -19,9 +19,10 @@ if len(sys.argv) >= 2:
 if len(sys.argv) >= 3 :
     output = sys.argv[2]
 
-if len(sys.argv) > 4 :
+if len(sys.argv) >= 4 :
 	branch = sys.argv[3]
 
+print branch
 exportPath = output + '/jresearch'
 os.chdir(repository)
 # Export the repository

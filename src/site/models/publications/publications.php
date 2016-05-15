@@ -48,12 +48,11 @@ class JResearchModelPublications extends JResearchModelList{
         $query->from('#__jresearch_publication pub');
         $query->leftJoin('#__jresearch_publication_research_area AS ra ON pub.id = ra.id_publication');
         $query->leftJoin('#__jresearch_all_publication_authors AS apa ON pub.id = apa.pid');
-            
+
         if(!empty($whereClauses))
             $query->where($whereClauses);
 
         $query->order($orderColumns);
-            
         return $query;
     }
 
@@ -75,15 +74,36 @@ class JResearchModelPublications extends JResearchModelList{
 
         $columns[] = $filter_order.' '.$filter_order_Dir;
         if($filter_order == 'year'){
-            //Consider the month information            	            	
+            //Consider the month information
             $columns[] = "STR_TO_DATE(month, '%M') $filter_order_Dir";
             $columns[] = "STR_TO_DATE(day, '%d') $filter_order_Dir";
         }
 
-        $columns[] = 'created DESC';            
+        $columns[] = 'created DESC';
 
-        return $columns;        
+        return $columns;
     }
+
+	/**
+ 	*
+ 	* Enter description here ...
+ 	* @param unknown_type $key
+ 	*/
+	private function _getMatchText(){
+		$db = JFactory::getDBO();
+		$filter_search = $this->getState('com_jresearch.publications.filter_search');
+		$filter_search = $db->escape(trim($filter_search));
+
+		$searchClause = '(MATCH('.$db->quoteName('title').', '.$db->quoteName('keywords');
+		$searchClause .= ', '.$db->quoteName('abstract').', '.$db->quoteName('other_tags');
+		$searchClause .= ', '.$db->quoteName('journal').', '.$db->quoteName('students_included');
+		$searchClause .= ', '.$db->quoteName('note').', '.$db->quoteName('awards');
+		$searchClause .= ', '.$db->quoteName('design_type');
+		$searchClause .= ') AGAINST('.$db->Quote($filter_search).' IN BOOLEAN MODE) OR ';
+		$searchClause .= 'apa.'.$db->quoteName('member_name').' LIKE '.$db->Quote('%'.$filter_search.'%').')';
+		return $searchClause;
+	}
+
 
     /**
     * Build the WHERE part of a query
@@ -96,14 +116,14 @@ class JResearchModelPublications extends JResearchModelList{
         // prepare the WHERE clause
         $where = array();
         $where[] = $db->quoteName('published').' = 1 ';
-        $where[] = $db->quoteName('internal').' = 1 ';            
+        $where[] = $db->quoteName('internal').' = 1 ';
         $where[] = $db->quoteName('id').' > 0 ';
 
         $filter_year = $this->getState('com_jresearch.publications.filter_year');
         $filter_search = $this->getState('com_jresearch.publications.filter_search');
         $filter_pubtype = $this->getState('com_jresearch.publications.filter_pubtype');
-        $filter_supertype = $this->getState('com_jresearch.publications.filter_supertype');        
-        $filter_author = $this->getState('com_jresearch.publications.filter_author');            
+        $filter_supertype = $this->getState('com_jresearch.publications.filter_supertype');
+        $filter_author = $this->getState('com_jresearch.publications.filter_author');
         $filter_area = $this->getState('com_jresearch.publications.filter_area');
         $filter_pubtype_exclude = $this->setState('com_jresearch.publications.filter_pubtype_exclude');
 
@@ -116,15 +136,15 @@ class JResearchModelPublications extends JResearchModelList{
                         $quotedValues[] = $db->Quote(date("Y"));
                     } else {
                         $quotedValues[] = $db->Quote($year);
-                    } 
-                }                    
+                    }
+                }
                 $inString = '('.implode(',', $quotedValues).')';
                 $where[] = $db->quoteName('year').' IN '.$inString;
             }
         }
 
         if(($filter_search = trim($filter_search))){
-            $where[] = 'MATCH('.$db->quoteName('title').', '.$db->quoteName('keywords').') AGAINST('.$db->Quote($filter_search).' IN BOOLEAN MODE)';
+        	$where[] = $this->_getMatchText();
         }
 
         if($filter_pubtype && $filter_pubtype != 'all'){
@@ -143,18 +163,18 @@ class JResearchModelPublications extends JResearchModelList{
         }
 
         if(!empty($filter_area) && $filter_area != -1){
-            $where[] = 'ra.id_research_area = '.$db->Quote($filter_area);            	
+            $where[] = 'ra.id_research_area = '.$db->Quote($filter_area);
         }
-        
-	if(!empty($filter_supertype) && $filter_supertype != 'all'){
-		$where[] = $db->nameQuote('supertype').' = '.$db->Quote($filter_supertype);
-        }
-            
 
-                   
+	if(!empty($filter_supertype) && $filter_supertype != 'all'){
+		$where[] = $db->quoteName('supertype').' = '.$db->Quote($filter_supertype);
+        }
+
+
+
 		return $where;
 	}
-	
+
     /**
     * Method to auto-populate the model state.
     *
@@ -170,35 +190,35 @@ class JResearchModelPublications extends JResearchModelList{
         $params = $mainframe->getParams('com_jresearch');
 
         $this->setState('com_jresearch.publications.filter_search', $mainframe->getUserStateFromRequest($this->_context.'.filter_search', 'filter_search'));
-        
+
         //My publications
-    	$filter_show = $params->get('filter_show', 'all');		
+    	$filter_show = $params->get('filter_show', 'all');
     	$user = JFactory::getUser();
     	if ($filter_show == "my" && !$user->guest) {
-            //Only in this case, force the model (ignore the filters)	    	
+            //Only in this case, force the model (ignore the filters)
             $member = JTable::getInstance('Member', 'JResearch');
             $member->bindFromUsername($user->username);
-            JRequest::setVar('filter_author', $member->id);    	 			
+            JRequest::setVar('filter_author', $member->id);
     	}
 
         $filter_year_value = $params->get('filter_year');
         if (!empty($filter_year_value)) {
             JRequest::setVar('filter_year', $filter_year_value);
         }
-        
-        $this->setState('com_jresearch.publications.filter_author', $mainframe->getUserStateFromRequest($this->_context.'.filter_author', 'filter_author'));        
-        $this->setState('com_jresearch.publications.filter_year', $mainframe->getUserStateFromRequest($this->_context.'.filter_year', 'filter_year'));        
-        $this->setState('com_jresearch.publications.filter_area', $mainframe->getUserStateFromRequest($this->_context.'.filter_area', 'filter_area'));        
-        
-        $filter_pubtype = $params->get('filter_pubtype', 'all');    	    	
+
+        $this->setState('com_jresearch.publications.filter_author', $mainframe->getUserStateFromRequest($this->_context.'.filter_author', 'filter_author'));
+        $this->setState('com_jresearch.publications.filter_year', $mainframe->getUserStateFromRequest($this->_context.'.filter_year', 'filter_year'));
+        $this->setState('com_jresearch.publications.filter_area', $mainframe->getUserStateFromRequest($this->_context.'.filter_area', 'filter_area'));
+
+        $filter_pubtype = $params->get('filter_pubtype', 'all');
         if($filter_pubtype != 'all'){
             JRequest::setVar('filter_pubtype', $filter_pubtype);
         }
-        
+
         $this->setState('com_jresearch.publications.filter_pubtype', $mainframe->getUserStateFromRequest($this->_context.'.filter_pubtype', 'filter_pubtype'));
         $this->setState('com_jresearch.publications.filter_pubtype_exclude', $params->get('filter_pubtype_exclude', null));
         $this->setState('com_jresearch.publications.filter_supertype', $mainframe->getUserStateFromRequest($this->_context.'.filter_supertype', 'filter_supertype'));
-        parent::populateState();        
+        parent::populateState();
     }
 }
 ?>

@@ -68,13 +68,13 @@ class com_jresearchInstallerScript
 	    } catch (Exception $e) {
 
 	    }
-		    
+
 	    try {
 	        $db->setQuery("RENAME TABLE #__jresearch_member_researcharea TO  #__jresearch_member_research_area");
 	        $db->execute();
 	    } catch (Exception $e) {
 
-	    }        
+	    }
 
 	    try {
 	        $db->setQuery("ALTER TABLE #__jresearch_publication_keyword ADD FULLTEXT INDEX #__jresearch_publication_keyword_keyword(keyword)");
@@ -96,6 +96,13 @@ class com_jresearchInstallerScript
 	    } catch (Exception $e) {
 
 	    }
+
+		try {
+		  $db->setQuery("ALTER TABLE #__jresearch_project ADD COLUMN `leaders` text");
+		  $db->execute();
+	  	} catch (Exception $e) {
+
+	  	}
     }
 
    /**

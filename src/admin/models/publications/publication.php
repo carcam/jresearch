@@ -81,7 +81,7 @@ class JResearchAdminModelPublication extends JModelForm{
         $form = $this->loadForm('com_jresearch.'.$pubtype, $pubtype, array('control' => 'jform', 'load_data' => $loadData));
         return $form;
     }
-    
+
     /**
      * It implements common routines for the processing of non-trivial fields
      * such as research areas, authors and file uploads
@@ -94,13 +94,13 @@ class JResearchAdminModelPublication extends JModelForm{
         if ($type != '-1') {
             $data['pubtype'] = $type;
         }
-        
+
         $data['files'] = JResearchUtilities::processAttachments($data, 'publications');
 
         if(isset($data['resethits']) && $data['resethits'] == 1){
             $data['hits'] = 0;
         }else{
-            $omittedFields[] = 'hits';			    	
+            $omittedFields[] = 'hits';
         }
 
         //Citekey generation
@@ -122,7 +122,7 @@ class JResearchAdminModelPublication extends JModelForm{
             }
         }else{
             $data['id_research_area'] = '1';
-        }        
+        }
     }
 
     /**
@@ -137,32 +137,18 @@ class JResearchAdminModelPublication extends JModelForm{
         jresearchimport('helpers.publications', 'jresearch.admin');
         $omittedFields = array();
 
-        $data =& $this->getData();                
+        $data =& $this->getData();
         $row =& $this->getTable('Publication', 'JResearch');
 
         $this->_processFields($data, $row);
-        
+
         if (!$row->save($data, '', $omittedFields))
         {
             //Since the save routine modifies the array data
-            JRequest::setVar('jform', $data);                	
+            JRequest::setVar('jform', $data);
             $this->setError($row->getError());
             return false;
         }
-        
-        /**
-         * Changes the type of a publication based on the request
-         * arguments
-         * 
-         */
-        function changeType(){
-			$app = JFactory::getApplication();
-			jresearchimport('helpers.publications', 'jresearch.admin');
-			$params = JComponentHelper::getParams('com_jresearch');
-			$omittedFields = array();
-                
-            $data =& $this->getData();                
-            $row =& $this->getTable('Publication', 'JResearch');
 
         $data['id'] = $row->id;
         $app->setUserState('com_jresearch.edit.publication.data', $data);
@@ -173,14 +159,14 @@ class JResearchAdminModelPublication extends JModelForm{
     /**
      * Changes the type of a publication based on the request
      * arguments
-     * 
+     *
      */
     function saveAsCopy(){
         $app = JFactory::getApplication();
         jresearchimport('helpers.publications', 'jresearch.admin');
         $omittedFields = array();
 
-        $data =& $this->getData();                
+        $data =& $this->getData();
         $row =& $this->getTable('Publication', 'JResearch');
 
         $this->_processFields($data, $row);
@@ -190,7 +176,7 @@ class JResearchAdminModelPublication extends JModelForm{
         if (!$row->save($data, '', $omittedFields))
         {
             //Since the save routine modifies the array data
-            JRequest::setVar('jform', $data);                	
+            JRequest::setVar('jform', $data);
             $this->setError($row->getError());
             return false;
         }
@@ -198,7 +184,7 @@ class JResearchAdminModelPublication extends JModelForm{
         $data['id'] = $row->id;
         $app->setUserState('com_jresearch.edit.publication.data', $data);
 
-        return true;        	
+        return true;
     }
 
     /**
@@ -207,21 +193,21 @@ class JResearchAdminModelPublication extends JModelForm{
     function publish(){
         $jinput = JFactory::getApplication()->input;
         $selected = $jinput->get('cid', array(), 'ARRAY');
-        $publication = JTable::getInstance('Publication', 'JResearch');           
+        $publication = JTable::getInstance('Publication', 'JResearch');
         $allOk = true;
         $user = JFactory::getUser();
         foreach($selected as $id){
-            $action = JResearchAccessHelper::getActions('publication', $id);           	
-            if($action->get('core.publications.edit.state')){
+            $action = JResearchAccessHelper::getActions('publication', $id);
+            if ($action->get('core.publications.edit.state')) {
                 $allOk = $allOk && $publication->publish(array($id), 1, $user->get('id'));
                 if(!$allOk) $this->setError($publication->getError());
             }else{
                 $allOk = false;
-                $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
+                $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
             }
+		}
 
         return $allOk;
-
     }
 
     /**
@@ -231,16 +217,16 @@ class JResearchAdminModelPublication extends JModelForm{
         $jinput = JFactory::getApplication()->input;
         $selected = $jinput->get('cid', array(), 'ARRAY');
         $publication = JTable::getInstance('Publication', 'JResearch');
-        $user = JFactory::getUser();           
+        $user = JFactory::getUser();
         $allOk = true;
         foreach($selected as $id){
-            $action = JResearchAccessHelper::getActions('publication', $id);           	
+            $action = JResearchAccessHelper::getActions('publication', $id);
             if($action->get('core.publications.edit.state')){
                 $allOk = $allOk && $publication->publish(array($id), 0, $user->get('id'));
-                if(!$allOk) $this->setError($publication->getError());	    	       
+                if(!$allOk) $this->setError($publication->getError());
             }else{
                 $allOk = false;
-                $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));           	   	   
+                $this->setError(new JException(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $id)));
             }
        }
 
@@ -248,8 +234,8 @@ class JResearchAdminModelPublication extends JModelForm{
     }
 
     /**
-     * 
-     * Returns the number of removed items based on the 
+     *
+     * Returns the number of removed items based on the
      * selected items
      */
     function delete(){
@@ -257,12 +243,12 @@ class JResearchAdminModelPublication extends JModelForm{
         $jinput = JFactory::getApplication()->input;
         $selected = $jinput->get('cid', array(), 'ARRAY');
         $publication = JTable::getInstance('Publication', 'JResearch');
-        $user = JFactory::getUser();           
+        $user = JFactory::getUser();
         foreach($selected as $id){
             $actions = JResearchAccessHelper::getActions('publication', $id);
-            if($actions->get('core.publications.delete')){           	
+            if($actions->get('core.publications.delete')){
                 $publication->load($id);
-                if(!$publication->isCheckedOut($user->get('id'))){	
+                if(!$publication->isCheckedOut($user->get('id'))){
                     if($publication->delete($id)){
                         $n++;
                     }
@@ -272,10 +258,10 @@ class JResearchAdminModelPublication extends JModelForm{
             }
         }
 
-        return $n;           
+        return $n;
     }
 
-            /**
+    /**
      * Returns the model data store in the user state as a table
      * object
      */
@@ -289,10 +275,10 @@ class JResearchAdminModelPublication extends JModelForm{
     /**
      * Returns the items whose ids are contained in the
      * url "cid" parameter
-     * 
+     *
      */
     public function getItems(){
-        $jinput = JFactory::getApplication()->input;        
+        $jinput = JFactory::getApplication()->input;
         $cid = $jinput->get('cid', array(), 'ARRAY');
         $result = array();
         foreach($cid as $id){
@@ -305,7 +291,7 @@ class JResearchAdminModelPublication extends JModelForm{
     }
 
     /**
-     * Sets the internal status of the selected publications to the 
+     * Sets the internal status of the selected publications to the
      * value sent as argument
      * @param bool $value
      */
@@ -330,7 +316,7 @@ class JResearchAdminModelPublication extends JModelForm{
     }
 
     /**
-     * Sets the internal status of the selected publications to the 
+     * Sets the internal status of the selected publications to the
      * value sent as argument
      * @param bool $value
      */
@@ -345,7 +331,7 @@ class JResearchAdminModelPublication extends JModelForm{
                 if(!empty($publication->id)){
                     $user = JFactory::getUser();
                     if(!$publication->isCheckedOut($user->get('id'))){
-                        $publication->internal = !$publication->internal;	
+                        $publication->internal = !$publication->internal;
                         return $publication->store();
                     }
                 }
@@ -369,6 +355,6 @@ class JResearchAdminModelPublication extends JModelForm{
         }
 
         return true;
-    }    
+    }
 }
 ?>

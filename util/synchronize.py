@@ -8,8 +8,8 @@ import distutils
 from distutils import dir_util
 
 #Default values
-gitPrefix = '/home/luis/Documents/JResearch/jresearch/src/'
-joomlaPrefix = '/opt/lampp/htdocs/jresearch/'
+gitPrefix = '/home/luis/Documents/JResearch/nifdi2016/jresearch/src/'
+joomlaPrefix = '/opt/lampp/htdocs/nifdi/'
 
 if len(sys.argv) > 1 :
 	gitPrefix = sys.argv[1]
@@ -29,13 +29,11 @@ mappings = {'components/com_jresearch' : 'site',
 'plugins/search/jresearch_search' : 'plugins/plg_jresearch_search',
 'administrator/components/com_jresearch/install.php' : 'install.php',
 'administrator/components/com_jresearch/jresearch.xml' : 'jresearch.xml',
-'language/en-GB/en-GB.com_jresearch.financiers.ini' : 'languages/site/en-GB.com_jresearch.financiers.ini',
 'language/en-GB/en-GB.com_jresearch.ini' : 'languages/site/en-GB.com_jresearch.ini',
 'language/en-GB/en-GB.com_jresearch.projects.ini' : 'languages/site/en-GB.com_jresearch.projects.ini',
 'language/en-GB/en-GB.com_jresearch.publications.ini' : 'languages/site/en-GB.com_jresearch.publications.ini',
 'language/en-GB/en-GB.com_jresearch.researchareas.ini' : 'languages/site/en-GB.com_jresearch.researchareas.ini',
 'language/en-GB/en-GB.com_jresearch.staff.ini' : 'languages/site/en-GB.com_jresearch.staff.ini',
-'administrator/language/en-GB/en-GB.com_jresearch.financiers.ini' : 'languages/admin/en-GB.com_jresearch.financiers.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.ini' : 'languages/admin/en-GB.com_jresearch.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.projects.ini' : 'languages/admin/en-GB.com_jresearch.projects.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.publications.ini' : 'languages/admin/en-GB.com_jresearch.publications.ini',

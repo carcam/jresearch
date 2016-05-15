@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
 * @version		$Id$
 * @package		JResearch
@@ -48,36 +48,35 @@ if($controller == null || !in_array($controller, $availableControllers)){
 		// It is the default controller
 		require_once (JRESEARCH_COMPONENT_ADMIN.DS.'controller.php');
 		$classname = $prefix;
-	}else{				
+	}else{
 		require_once (JRESEARCH_COMPONENT_ADMIN.DS.'controllers'.DS.$controller.'.php');
-		$inlineCitingTasks = array('cite', 'citeFromDialog', 'generateBibliography', 'searchByPrefix', 'ajaxRemoveAll', 'ajaxGenerateBibliography', 'removeCitedRecord', 'citeFromForm' ); 
-		
+		$inlineCitingTasks = array('cite', 'citeFromDialog', 'generateBibliography', 'searchByPrefix', 'ajaxRemoveAll', 'ajaxGenerateBibliography', 'removeCitedRecord', 'citeFromForm' );
+
 		// If the task is related to cite records, request the frontend controller
 		if(in_array($task, $inlineCitingTasks)){
 			$prefix = 'JResearch';
 			require_once(JRESEARCH_COMPONENT_SITE.DS.'controllers'.DS.$controller.'.php');
 			$session =& JSession::getInstance(null, null);
-		
+
 			if($session->get('citedRecords', null, 'jresearch') == null){
 				$session->set('citedRecords', array(), 'jresearch');
 			}
 		}
-		
-	
+
+
 		// Make an instance of the controller
 		$classname  = $prefix.ucfirst($controller);
 	}
 }
 
 $controller = JControllerLegacy::getInstance($classname);
-
 $pluginhandledRequest = JResearchPluginsHelper::onBeforeExecuteJResearchTask();
 // Perform the request task if none of the plugins decided to do it
 if(!$pluginhandledRequest)
 {
 	$controller->execute($task);
 }
-	
+
 $mainframe->triggerEvent('onAfterExecuteJResearchTask' , array());
 
 // Redirect if set by the controller

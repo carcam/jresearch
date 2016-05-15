@@ -17,9 +17,9 @@ class JHTMLjresearchhtml
 	* authors it is possible to use simple text fields.
 	*
 	* @param string $baseName Base name of the control. It represents the name of the fields that
-	* will be sent when submitting the form. For internal authors it will be a list. For external 
+	* will be sent when submitting the form. For internal authors it will be a list. For external
 	* ones, it will be a text input.
-	* @param array Mixed sorted array. JResearchMember instances will be considered as internal 
+	* @param array Mixed sorted array. JResearchMember instances will be considered as internal
 	* staff member's while strings are considered as external authors names.
 	* @param boolean $allowPrincipals If true, a checkbox will be displayed for each entry to define
 	* if the member is a principle investigator in the activity.
@@ -31,11 +31,11 @@ class JHTMLjresearchhtml
 		$doc =& JFactory::getDocument();
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::root();
 		$doc->addScript($url."components/com_jresearch/helpers/html/authorsselector.js");
-		
+
 		$result = self::_internalAuthor(null, 'sample', true, $allowPrincipals, false);
 		$result .= '<div id="'.$baseName.'" >';
 		$j = 0;
-		
+
 		if(empty($values)){
 			$result .= self::_externalAuthor('', $baseName.$j, false, $allowPrincipals, false);
 			$j++;
@@ -44,15 +44,15 @@ class JHTMLjresearchhtml
 				if($value instanceof JResearchMember){
 					// Staff id
 					if($j > 0)
-						$result .= self::_internalAuthor($value, $baseName.$j, true, $allowPrincipals, $isPrincipalsArray[$j]);	
+						$result .= self::_internalAuthor($value, $baseName.$j, true, $allowPrincipals, $isPrincipalsArray[$j]);
 					else
-						$result .= self::_internalAuthor($value, $baseName.$j, false, $allowPrincipals, $isPrincipalsArray[$j]);	
+						$result .= self::_internalAuthor($value, $baseName.$j, false, $allowPrincipals, $isPrincipalsArray[$j]);
 				}elseif(is_string($value)){
 					// Author name
 					if($j > 0)
 						$result .= self::_externalAuthor($value, $baseName.$j, true, $allowPrincipals, $isPrincipalsArray[$j]);
 					else
-						$result .= self::_externalAuthor($value, $baseName.$j, false, $allowPrincipals, $isPrincipalsArray[$j]);	
+						$result .= self::_externalAuthor($value, $baseName.$j, false, $allowPrincipals, $isPrincipalsArray[$j]);
 				}
 				$result .= '<br />';
 				$j++;
@@ -62,9 +62,9 @@ class JHTMLjresearchhtml
 		$result .= '</div>';
 		$result .= '<div>'.self::_fetchAddControl($baseName.($j-1), "max".$baseName, $baseName, $allowPrincipals).'</div>';
 		return $result;
-		
+
 	}
-	
+
 	/**
 	* Renders the control used for entering external authors. It includes a text field
 	* and two links: one for adding a new author and the other to delete the current one.
@@ -75,11 +75,11 @@ class JHTMLjresearchhtml
 	* @param boolean $allowPrincipals If true, a checkbox will be displayed for each entry to define
 	* if the member is a principle investigator in the activity.
 	* @param boolean $isPrincipal If true, the author is marked as principal investigator in the activity
-	* is assigned to. This parameter makes sense if $allowPrincipals = true. 
-	* @return string 
+	* is assigned to. This parameter makes sense if $allowPrincipals = true.
+	* @return string
 	*/
 	private static function _externalAuthor($authorName, $controlName, $deleteLink=true, $allowPrincipals, $isPrincipal){
-		// Value is a mixed array	
+		// Value is a mixed array
 		$select = JText::_('JRESEARCH_SELECT_FROM_STAFF');
 		$enterName = JText::_('JRESEARCH_ENTER_NAME');
 		$authorText = JText::_('JRESEARCH_ADD_AUTHOR');
@@ -88,21 +88,21 @@ class JHTMLjresearchhtml
 		$result  = "<div id=\"div_$controlName\"><input type=\"text\" $class name=\"$controlName\" id=\"$controlName\" value=\"$authorName\" size=\"15\" maxlength=\"255\" />";
 		$result .= "&nbsp;";
 		$result .= "<a href=\"$js\" id=\"a_$controlName\">$select</a>";
-		
+
 		$result .= "<br />";
-		if($deleteLink)	
+		if($deleteLink)
 			$result .= self::_fetchDeleteControl($controlName);
-			
+
 		if($allowPrincipals){
 			$checked = $isPrincipal?'checked="checked"':'';
 			$principalMember = JText::_('JRESEARCH_PROJECT_LEADER');
-			$principalCheck = "&nbsp;&nbsp;$principalMember: <input type=\"checkbox\" name=\"check_$controlName\" id=\"check_$controlName\" $checked >";		
+			$principalCheck = "&nbsp;&nbsp;$principalMember: <input type=\"checkbox\" name=\"check_$controlName\" id=\"check_$controlName\" $checked >";
 			$result .= $principalCheck;
 		}
-					
+
 		$result .= '</div>';
 		return $result;
-
+	}
     /**
     * Renders the hidden field that stores the greater index used for control.
     * @param int $value
@@ -138,7 +138,7 @@ class JHTMLjresearchhtml
         $query = 'SELECT * FROM '.$db->quoteName('#__users').' WHERE '.$db->quoteName('block').' = '.$db->Quote('0');
 
         $db->setQuery($query);
-        $users = $db->loadAssocList();			
+        $users = $db->loadAssocList();
         $joomlaUsers = array();
 
         foreach($users as $u){
@@ -146,7 +146,7 @@ class JHTMLjresearchhtml
                         $joomlaUsers[] = $u;
         }
 
-        $output = '<table class="staffimporter"><thead><tr><th>'.JText::_('JRESEARCH_MEMBERS_NOT_IN_STAFF').'</th><th></th><th>'.JText::_('JRESEARCH_NEW_STAFF_MEMBERS').'</th></tr></thead><tbody><tr><td>';		
+        $output = '<table class="staffimporter"><thead><tr><th>'.JText::_('JRESEARCH_MEMBERS_NOT_IN_STAFF').'</th><th></th><th>'.JText::_('JRESEARCH_NEW_STAFF_MEMBERS').'</th></tr></thead><tbody><tr><td>';
         $output .= '<select name="users" id="users" size="15" class="inputbox staffimporter">';
 
         foreach($joomlaUsers as $user){
@@ -162,10 +162,10 @@ class JHTMLjresearchhtml
         $output .= '<a style="font-size:14px;font-weight:bold;" href="javascript:removeHiddenField(document.adminForm.'.$name.'.options[document.adminForm.'.$name.'.selectedIndex].value);moveFrom(\''.$name.'\', \'users\');">&lt;&lt;</a><br />';
         $output .= '<a style="font-size:14px;font-weight:bold;" href="javascript:moveAllFrom(\'users\', \''.$name.'\', true);">'.JText::_('All').'>>'.'</a></td>';
         $output .= '<td><select size="15" class="inputbox staffimporter" name="'.$name.'" id="'.$name.'"></select></td>';
-        $output .= '</tr></tbody></table>';		
+        $output .= '</tr></tbody></table>';
         $output .= '<input type="hidden" name="staffCount" id="staffCount" value="0" />';
 
-        return $output;		
+        return $output;
     }
 
     /**
@@ -233,7 +233,7 @@ class JHTMLjresearchhtml
 
         return $output;
 
-    }	
+    }
 
     /**
     * Renders the DHTML code needed to enable validation in JResearch forms.
@@ -298,7 +298,7 @@ class JHTMLjresearchhtml
                 regex=/^([\+\-]{0,1}\d+\.?\d*)$/i;
                 return regex.test(value); })
         });');
-        
+
         $delimiter = JResearchActivity::$_keywordsDelimiter;
         $doc->addScriptDeclaration("window.addEvent('domready', function() {
                 document.formvalidator.setHandler('keywords', function(value) {
@@ -323,7 +323,7 @@ class JHTMLjresearchhtml
      * Renders a control that allows to upload one or more files in a form.
      *
      * @param string $name Control name
-     * @param string $filesFolder Path to the root folder containing the files.	 
+     * @param string $filesFolder Path to the root folder containing the files.
      * @param string $value Text field value
      * @param string $options Text field options
      * @param boolean $oneFile If true, the control allows the selection of a single file.
@@ -368,10 +368,10 @@ class JHTMLjresearchhtml
 
     /**
      * Renders a HTML generic select list with researchareas
-     * 
+     *
      * @param array $attributes Attributes for the select element, keys 'name' and 'selected' are currently used
      * @param array $additionElements Additional elements for the list element, each element must include the keys 'id' and 'name'
-     * 
+     *
      * @return JHTMLSelect
      */
     public static function researchareas(array $attributes=array(), array $additional=array())
@@ -399,7 +399,7 @@ class JHTMLjresearchhtml
     }
 
     /**
-     * 
+     *
      * Renders a drop-down list of authors
      * @param array $data
      * @param array $attributes
@@ -427,7 +427,7 @@ class JHTMLjresearchhtml
             $yearOptions[] = JHTML::_('select.option', $y, $y);
         }
 
-        return self::htmllist($yearOptions, $attributes);		
+        return self::htmllist($yearOptions, $attributes);
     }
 
     /**
@@ -435,7 +435,7 @@ class JHTMLjresearchhtml
      */
     public static function memberpositions(array $attributes=array(), array $additional=array())
     {
-        jresearchimport('helpers.memberpositions', 'jresearch.admin');	
+        jresearchimport('helpers.memberpositions', 'jresearch.admin');
         $positions = JResearchMemberpositionsHelper::getMemberPositions();
 
         //Additional elements
@@ -468,7 +468,7 @@ class JHTMLjresearchhtml
         $cooperationOptions = array();
         foreach($coops as $coop)
         {
-                $cooperationOptions[] = JHTML::_('select.option', $coop->id, $coop->name);	
+                $cooperationOptions[] = JHTML::_('select.option', $coop->id, $coop->name);
         }
 
         return self::htmllist($cooperationOptions, $attributes);
@@ -502,7 +502,7 @@ class JHTMLjresearchhtml
     public static function publishedlist(array $attributes=array())
     {
         $publishedOptions = array();
-        $publishedOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_STATE'));		
+        $publishedOptions[] = JHTML::_('select.option', '0', JText::_('JRESEARCH_STATE'));
         $publishedOptions[] = JHTML::_('select.option', 'P', JText::_('JRESEARCH_PUBLISHED'));
         $publishedOptions[] = JHTML::_('select.option', 'U', JText::_('JRESEARCH_UNPUBLISHED'));
 
@@ -537,9 +537,9 @@ class JHTMLjresearchhtml
         $resourcesOptions[] = JHTML::_('select.option', 'video', JText::_('JRESEARCH_VIDEO'));
         $resourcesOptions[] = JHTML::_('select.option', 'audio', JText::_('JRESEARCH_AUDIO'));
         $resourcesOptions[] = JHTML::_('select.option', 'image', JText::_('JRESEARCH_IMAGE'));
-        $resourcesOptions[] = JHTML::_('select.option', 'image', JText::_('JRESEARCH_BLOG'));    	
+        $resourcesOptions[] = JHTML::_('select.option', 'image', JText::_('JRESEARCH_BLOG'));
 
-        return self::htmllist($resourcesOptions, $attributes);		
+        return self::htmllist($resourcesOptions, $attributes);
     }
 
     /**
@@ -554,7 +554,7 @@ class JHTMLjresearchhtml
         $resourcesOptions[] = JHTML::_('select.option', 'cdrom', JText::_('JRESEARCH_CDROM'));
         $resourcesOptions[] = JHTML::_('select.option', 'film', JText::_('JRESEARCH_FILM'));
 
-        return self::htmllist($resourcesOptions, $attributes);		
+        return self::htmllist($resourcesOptions, $attributes);
     }
 
 
@@ -571,6 +571,24 @@ class JHTMLjresearchhtml
 
         return self::htmllist($degreeOptions, $attributes);
     }
+
+
+	/**
+	 * Renders a HTML generic select list with currency options
+	 */
+	public static function publicationsupertypes(array $attributes=array())
+	{
+
+		$mainTypesHTML = array();
+		$mainTypesHTML[] = JHTML::_('select.option', 'all', JText::_('JRESEARCH_MAIN_TYPE'));
+		$mainTypesHTML[] = JHTML::_('select.option', 'program_effectiveness', JText::_('JRESEARCH_PROGRAM_EFFECTIVENESS'));
+		$mainTypesHTML[] = JHTML::_('select.option', 'di_overview_and_background', JText::_('JRESEARCH_DI_OVERVIEW_AND_BACKGROUND'));
+		$mainTypesHTML[] = JHTML::_('select.option', 'implementation_support', JText::_('JRESEARCH_IMPLEMENTATION_SUPPORT'));
+		$mainTypesHTML[] = JHTML::_('select.option', 'di_theory', JText::_('JRESEARCH_DI_THEORY'));
+		$mainTypesHTML[] = JHTML::_('select.option', 'di_curricula', JText::_('JRESEARCH_DI_CURRICULA'));
+
+    	return self::htmllist($mainTypesHTML, $attributes);
+	}
 
     public static function teamshierarchy(array $list, array $attributes=array())
     {
@@ -627,43 +645,43 @@ class JHTMLjresearchhtml
 
         return $str;
     }
-	
-	
+
+
     public static function input($name, $value='', $type='text', array $attributes = array())
     {
         $_types = array('text', 'hidden', 'radio', 'checkbox', 'password', 'button', 'image', 'submit', 'reset', 'file');
-        
+
         //Clean parameters
         JFilterOutput::cleanText($name);
         JFilterOutput::cleanText($value);
         JFilterOutput::cleanText($type);
-        
+
         if(!in_array($type, $_types))
         {
             JError::raiseError(0, 'Input-field with type: '.$type.' isn\'t valid');
             return '';
         }
-        
+
         $input = '<input type="'.$type.'" name="'.$name.'" value="'.$value.'" '.self::_makeAttributeString($attributes).' />';
-        
+
         return $input;
     }
-    
+
     private static function _makeAttributeString(array $attributes=array())
     {
         $string = array();
-        
+
         foreach($attributes as $key=>$value)
         {
             JFilterOutput::cleanText($key);
             JFilterOutput::cleanText($value);
-            
+
             $string[] = $key.'="'.$value.'"';
         }
-        
+
         return implode(' ', $string);
     }
-	
+
     /**
      * Gets value of array from given key if it exists, otherwise $default
      */
@@ -675,13 +693,13 @@ class JHTMLjresearchhtml
     /**
      * Returns the HTML needed to render the warning image appearing in forms
      * for client side validation of fields.
-     * 
+     *
      * @param string $name The name of the form field for which the message is rendered.
      * @param string $message The error message
      * @return string
      */
     public static function formWarningMessage($name, $message){
-        $mainframe = JFactory::getApplication();		
+        $mainframe = JFactory::getApplication();
         $base = JURI::root();
         $image = $base.'administrator/components/com_jresearch/assets/messagebox_warning.png';
 
@@ -696,7 +714,7 @@ class JHTMLjresearchhtml
      * @param $name Control name.
      * @return string
      */
-    public static function publicationstypeslist($name, $options = '', $value=''){	
+    public static function publicationstypeslist($name, $options = '', $value=''){
         // Publication type filter
         jresearchimport('helpers.publications', 'jresearch.admin');
         $types = JResearchPublicationsHelper::getPublicationsSubtypes();
@@ -722,7 +740,7 @@ class JHTMLjresearchhtml
         $result .= JText::_('Reset').': </label></span><span><input type="checkbox" name="'.$name.'" id="'.$name.'" />)</span></span>';
         return $result;
     }
-        
+
     /**
      * It loads the library tag-it http://aehlke.github.io/tag-it/
      */
@@ -735,7 +753,7 @@ class JHTMLjresearchhtml
     }
 
     /**
-     * 
+     *
      * It loads the Javascript libraries required for the tagging/autocompletion
      * field.
      * @staticvar type $done
@@ -750,40 +768,40 @@ class JHTMLjresearchhtml
         if ($done === null) {
             $done = array();
         }
-        
+
 
         // Only display the triggers once for each control.
         if (!in_array($id, $done))
         {
             $js = "
-                function shiftValues(input, oldPosition, newPosition) {                    
+                function shiftValues(input, oldPosition, newPosition) {
                     var values = input.value.split(';');
                     var shift = 0;
                     if (oldPosition == newPosition) {
                         return;
                     }
-                    
+
                     if (newPosition > oldPosition) {
                         shift = 1;
                     } else {
                         shift = -1;
                     }
                     for (i = oldPosition; i != newPosition; i = i + shift) {
-                        var tmp = values[i];                    
+                        var tmp = values[i];
                         values[i] = values[i + shift];
                         values[i + shift] = tmp;
                     }
-                    input.value = values.join(';');                    
+                    input.value = values.join(';');
                 }\n";
-            
-            $js .= " 
+
+            $js .= "
             jQuery(function(){ jQuery('#$id').tagit({
                 singleField: true,
                 allowSpaces : true,
                 singleFieldDelimiter : ';',
                 singleFieldNode: jQuery('#$id'),
                 autocomplete : {
-                    delay: 0, 
+                    delay: 0,
                     minLength: 2,
                     source : function (request, response) {
                         jQuery.ajax({
@@ -791,20 +809,20 @@ class JHTMLjresearchhtml
                             dataType : \"json\",
                             url: \"?$source&keyword=\" + request.term,
                             cache: false,
-                            success: function (data) { 
-                                    response(jQuery.map(data, 
-                                            function (item) { 
+                            success: function (data) {
+                                    response(jQuery.map(data,
+                                            function (item) {
                                                 return item;
                                             })
                                     );
                             },
-                            error: function (request, status, error) { 
+                            error: function (request, status, error) {
                                 console.log(error);
                             }
                         });
                     }
                 },
-                afterTagAdded: function(event, ui) {                    
+                afterTagAdded: function(event, ui) {
                     var parts = ui.tagLabel.split('|');
                     if (parts.length <= 1) {
                         return;
@@ -818,7 +836,7 @@ class JHTMLjresearchhtml
                     var targetElement = elements[elements.length - 2];
                     // Make the span draggable
                     targetElement.setAttribute('draggable', 'true');
-                    targetElement.setAttribute('ondragstart', 'true');                    
+                    targetElement.setAttribute('ondragstart', 'true');
                     targetElement.firstChild.innerHTML = label;
                 },
                 afterTagRemoved : function(event, ui){
@@ -837,27 +855,27 @@ class JHTMLjresearchhtml
                         } else {
                             text = elements[i];
                         }
-                        if (text != ui.tagLabel) {                            
+                        if (text != ui.tagLabel) {
                             newElements.push(elements[i]);
-                        }                        
+                        }
                     }
                     inputField.value = newElements.join(';');
                 }
-            }); });            
-            
-            jQuery(document).ready(function() { 
-                var inputField = document.getElementById('$id');            
-                inputField.nextSibling.setAttribute('id', 'ul_$id');   
+            }); });
+
+            jQuery(document).ready(function() {
+                var inputField = document.getElementById('$id');
+                inputField.nextSibling.setAttribute('id', 'ul_$id');
                 var newPosition;
                 var originalPosition;
                 jQuery(function() {
                     jQuery(\"#ul_$id\").sortable( {
-                        items : 'li.tagit-choice',                        
-                        
+                        items : 'li.tagit-choice',
+
                         start : function(event, ui) {
                             originalPosition = ui.item.index();
-                        },                         
-                        
+                        },
+
                         stop: function( event, ui ) {
                             var newPosition = ui.item.index();
                             shiftValues(document.getElementById('$id'), originalPosition, newPosition);
@@ -865,9 +883,9 @@ class JHTMLjresearchhtml
                     });
                     jQuery(\"#ul_$id\" ).disableSelection();
                 });
-                
+
             });";
-                        
+
             $document = JFactory::getDocument();
             $document->addScriptDeclaration($js);
             $done[] = $id;
