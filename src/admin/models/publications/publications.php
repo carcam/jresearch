@@ -40,8 +40,8 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
 
         return $this->_items;
     }
-	
-        
+
+
     protected function getListQuery() {
         // Create a new query object.
         $db = JFactory::getDBO();
@@ -60,8 +60,8 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         $query->order($orderColumns);
         return $query;
     }
-               
-        
+
+
         /**
         * Build the ORDER part of a query.
         */
@@ -79,14 +79,14 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
             $filter_order_Dir = 'ASC';
 
         if(!in_array($filter_order, $orders))
-            $filter_order = 'year';        
+            $filter_order = 'year';
 
         $columns[] = $filter_order.' '.$filter_order_Dir;
-        $columns[] = 'created DESC';            
+        $columns[] = 'created DESC';
 
         return $columns;
     }
-			
+
     /**
     * Build the WHERE part of a query
     */
@@ -100,13 +100,13 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         $filter_search = $this->getState('com_jresearch.publications.filter_search');
         $filter_pubtype = $this->getState('com_jresearch.publications.filter_pubtype');
         $filter_author = $this->getState('com_jresearch.publications.filter_author');
-        $filter_area = $this->getState('com_jresearch.publications.filter_area');    
+        $filter_area = $this->getState('com_jresearch.publications.filter_area');
         $filter_supertype = $this->getState('com_jresearch.publications.filter_supertype');
-            
+
         if(!empty($filter_area) && $filter_area != -1){
-            $where[] = 'ra.id_research_area = '.$db->Quote($filter_area);            	
+            $where[] = 'ra.id_research_area = '.$db->Quote($filter_area);
         }
-            
+
         // prepare the WHERE clause
         if($filter_state == 'P')
             $where[] = $db->quoteName('published').' = 1 ';
@@ -127,20 +127,20 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         }
 
 	    if(!empty($filter_supertype) && $filter_supertype != 'all'){
-             $where[] = $db->nameQuote('supertype').' = '.$db->Quote($filter_supertype);
+             $where[] = $db->quoteName('supertype').' = '.$db->Quote($filter_supertype);
         }
 
         if(!empty($filter_author) && $filter_author != '-1'){
             $where[] = $db->quoteName('apa').'.'.$db->quoteName('mid').' = '.$db->Quote($filter_author);
         }
 
-        return $where;		
-    }        
-	
-	
-	
+        return $where;
+    }
+
+
+
     /**
-    * Returns the ids of the publications where the author has participated. 
+    * Returns the ids of the publications where the author has participated.
     * @param $author Integer database id or author name depending if the author is member
     * of the center or not.
     */
@@ -169,19 +169,19 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
     protected function populateState($ordering = NULL, $direction = NULL) {
     	$mainframe = JFactory::getApplication();
         $this->setState('com_jresearch.publications.filter_search', $mainframe->getUserStateFromRequest($this->_context.'.filter_search', 'filter_search'));
-        $this->setState('com_jresearch.publications.filter_state', $mainframe->getUserStateFromRequest($this->_context.'.filter_state', 'filter_state'));        
-        $this->setState('com_jresearch.publications.filter_author', $mainframe->getUserStateFromRequest($this->_context.'.filter_author', 'filter_author'));        
-        $this->setState('com_jresearch.publications.filter_year', $mainframe->getUserStateFromRequest($this->_context.'.filter_year', 'filter_year'));        
-        $this->setState('com_jresearch.publications.filter_area', $mainframe->getUserStateFromRequest($this->_context.'.filter_area', 'filter_area'));                
-        $this->setState('com_jresearch.publications.filter_pubtype', $mainframe->getUserStateFromRequest($this->_context.'.filter_pubtype', 'filter_pubtype'));        
-        $this->setState('com_jresearch.publications.filter_team', $mainframe->getUserStateFromRequest($this->_context.'.filter_team', 'filter_team'));        
-        $this->setState('com_jresearch.publications.filter_order', $mainframe->getUserStateFromRequest($this->_context.'.filter_order', 'filter_order', 'year'));        
+        $this->setState('com_jresearch.publications.filter_state', $mainframe->getUserStateFromRequest($this->_context.'.filter_state', 'filter_state'));
+        $this->setState('com_jresearch.publications.filter_author', $mainframe->getUserStateFromRequest($this->_context.'.filter_author', 'filter_author'));
+        $this->setState('com_jresearch.publications.filter_year', $mainframe->getUserStateFromRequest($this->_context.'.filter_year', 'filter_year'));
+        $this->setState('com_jresearch.publications.filter_area', $mainframe->getUserStateFromRequest($this->_context.'.filter_area', 'filter_area'));
+        $this->setState('com_jresearch.publications.filter_pubtype', $mainframe->getUserStateFromRequest($this->_context.'.filter_pubtype', 'filter_pubtype'));
+        $this->setState('com_jresearch.publications.filter_team', $mainframe->getUserStateFromRequest($this->_context.'.filter_team', 'filter_team'));
+        $this->setState('com_jresearch.publications.filter_order', $mainframe->getUserStateFromRequest($this->_context.'.filter_order', 'filter_order', 'year'));
         $this->setState('com_jresearch.publications.filter_order_Dir', $mainframe->getUserStateFromRequest($this->_context.'.filter_order_Dir', 'filter_order_Dir', 'DESC'));
-        $this->setState('com_jresearch.publications.filter_supertype', $mainframe->getUserStateFromRequest($this->_context.'.filter_supertype', 'filter_supertype'));                        
-		
-        parent::populateState();        
+        $this->setState('com_jresearch.publications.filter_supertype', $mainframe->getUserStateFromRequest($this->_context.'.filter_supertype', 'filter_supertype'));
+
+        parent::populateState();
     }
-    
+
     protected function _getListCount($query) {
         // Use fast COUNT(*) on JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
         if ($query instanceof JDatabaseQuery

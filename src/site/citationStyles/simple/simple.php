@@ -144,7 +144,7 @@ class JResearchSimpleCitationStyle implements JResearchCitationStyle{
             $output .= $authorsText.'. ';
         }
         
-        $output.= $title.'. ';
+        $output.= $title;
         
        $moreDetails = false;
        if (!empty($publication->booktitle)) {
@@ -161,22 +161,27 @@ class JResearchSimpleCitationStyle implements JResearchCitationStyle{
             if (!empty($journal_url)) {
                 $booktitle = "<a href=\"$journal_url\" target=\"_blank\">$booktitle</a>";
             }
-            $output .= ' '.$booktitle;
+            $output .= '. '.$booktitle;
             $moreDetails = true;
         }
         
         if ($publication->pubtype == 'mastersthesis') {
             $output .= '. '.JText::_('JRESEARCH_MASTERSTHESIS');
+			$moreDetails = true;
         } else if($publication->pubtype == 'phdthesis') {
             $output .= '. '.JText::_('JRESEARCH_PHDTHESIS');            
-        }
+			$moreDetails = true;
+        } else if ($publication->pubtype == 'misc') {
+            $output .= '. '.$publication->howpublished;
+			$moreDetails = true;
+		}
                
        
         if (!empty($year)) {
            if ($moreDetails) {
                $output .= ', '.$year.'.';
            } else {
-               $output .= ' '.$year.'.';               
+               $output .= '. '.$year.'.';               
            }
         }
        
