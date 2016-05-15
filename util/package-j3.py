@@ -13,6 +13,7 @@ branch = 'master'
 repository = '/home/luis/Documents/JResearch/nifdi2016/jresearch/'
 
 if len(sys.argv) >= 2:
+	repository = sys.argv[1]
 	os.chdir(repository)
 
 if len(sys.argv) >= 3 :
