@@ -10,7 +10,7 @@
 	<packagerurl></packagerurl>
 	<description>JResearch full installation package.</description>
 	<updateservers>
-		<server type="extension" name="J!Research update server">http://joomlaresearch.com/update/manifest.xml</server>
+		<server type="extension" name="J!Research update server">http://joomlaresearch.com/update/manifest-nifdi.xml</server>
 	</updateservers>
 	<update></update>
 	<files folder="packages">
