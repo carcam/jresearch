@@ -66,7 +66,7 @@ class JResearchModelPublications extends JResearchModelList{
         $params = $mainframe->getParams('com_jresearch');
 
         $filter_order = $params->get('publications_default_sorting', 'year');
-        $filter_order_Dir = $params->get('publications_order', 'ASC');
+        $filter_order_Dir = $params->get('publications_order', 'DESC');
 
         //Validate order direction
         if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -77,7 +77,9 @@ class JResearchModelPublications extends JResearchModelList{
             //Consider the month information
             $columns[] = "STR_TO_DATE(month, '%M') $filter_order_Dir";
             $columns[] = "STR_TO_DATE(day, '%d') $filter_order_Dir";
-        }
+        } else {
+			$columns[] = 'year DESC';
+		}
 
         $columns[] = 'created DESC';
 

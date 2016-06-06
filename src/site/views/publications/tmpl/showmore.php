@@ -1,5 +1,5 @@
 <?php if($this->showmore): ?>
-    <span><?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $pub->id); ?></span>
+    <span><?php echo JHTML::_('jresearchfrontend.link', JText::_('JRESEARCH_MORE'), 'publication', 'show', $pub->id, true, array('target' => '_blank')); ?></span>
 <?php endif; ?>
 <?php   $attachments = array();
         if($this->showDigital == 'yes_and_use_tag') {
@@ -9,7 +9,7 @@
             }
         } else if ($this->showDigital == 'yes_and_use_url') {
             if (!empty($pub->url)) {
-                $attachments[] = array('url' => $pub->url, 
+                $attachments[] = array('url' => $pub->url,
                     'tag' => '['.JText::_('JRESEARCH_DIGITAL_VERSION').']');
             }
         }
@@ -19,7 +19,7 @@
             if ($fullText != null) {
                 $attachments[] = $fullText;
             }
-        } 
+        }
 
         if($this->showBibtex) {
             $entry = array();
@@ -39,18 +39,18 @@
             $entry = array();
             $entry['url'] = 'index.php?option=com_jresearch&amp;controller=publications&amp;task=export&amp;format=mods&amp;id='.$pub->id;
             $entry['tag'] = '[MODS]';
-            $attachments[] = $entry;                    
+            $attachments[] = $entry;
         }
 
-        echo JHTML::_('jresearchfrontend.attachments', $attachments, 'horizontal');                
-    ?>                        
-    <?php 		
+        echo JHTML::_('jresearchfrontend.attachments', $attachments, 'horizontal');
+    ?>
+    <?php
            $canDo = JResearchAccessHelper::getActions('publication', $pub->id);
-           if($canDo->get('core.publications.edit') || ($canDoPublications->get('core.publications.edit.own') 
-                   && $pub->created_by == $user->get('id'))):	 
-    ?>	 	
-    <span>	
-        <?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $pub->id, $user->get('id'), array('pubtype' => $pub->pubtype)); ?> 
+           if($canDo->get('core.publications.edit') || ($canDoPublications->get('core.publications.edit.own')
+                   && $pub->created_by == $user->get('id'))):
+    ?>
+    <span>
+        <?php echo JHTML::_('jresearchfrontend.icon','edit', 'publications', $pub->id, $user->get('id'), array('pubtype' => $pub->pubtype)); ?>
     </span>
     <?php endif; ?>
     <?php if($canDoPublications->get('core.publications.delete')): ?>

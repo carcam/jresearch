@@ -23,10 +23,10 @@ class JResearchViewPublications extends JResearchView
 {
     public function display($tpl = null)
     {
-        $layout = $this->getLayout();        
+        $layout = $this->getLayout();
         //Add template path explicitly (useful when requesting from the backend)
-        $this->addTemplatePath(JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publications'.DS.'tmpl');  
-        
+        $this->addTemplatePath(JRESEARCH_COMPONENT_SITE.DS.'views'.DS.'publications'.DS.'tmpl');
+
         switch($layout){
             // Template for making citations from TinyMCE editor
             case 'cite':
@@ -34,7 +34,7 @@ class JResearchViewPublications extends JResearchView
                break;
             case 'cite2':
                $this->_displayCiteFromFormDialog();
-               break;		        
+               break;
             case 'generatebibliography':
                 $this->_displayGenerateBibliographyDialog();
                 break;
@@ -47,25 +47,25 @@ class JResearchViewPublications extends JResearchView
         }
 
     }
-    
+
 	/**
      * Invoked when the user has selected the option to show lists of publications
      * filtered by team groups and showing the journal acceptance rate per each publication
      * and calculating the average per group.
      */
     private function _displayTabularList($tpl = null){
-    	$mainframe = JFactory::getApplication();    	    	
+    	$mainframe = JFactory::getApplication();
     	$doc = JFactory::getDocument();
-    	$params = $mainframe->getParams('com_jresearch');    	
+    	$params = $mainframe->getParams('com_jresearch');
     	$doc->addStyleDeclaration(".title{text-align:center;}");
-    	    	    	
+
     	$user = JFactory::getUser();
     	$model = $this->getModel();
     	$items = $model->getItems();
     	$page = $model->getPagination();
-    	    	       
+
     	$this->_setFilters();
-    	
+
     	$pageHeader = $params->get('page_heading', JText::_('JRESEARCH_PUBLICATIONS'));
     	$showHeader = $params->get('show_page_heading', 1);
     	$showYear = $params->get('show_year', 1);
@@ -77,7 +77,7 @@ class JResearchViewPublications extends JResearchView
     	$format = $params->get('staff_format', 'last_first');
     	$showScore = $params->get('show_score', 0);
     	$showAuthors = $params->get('show_authors', 1);
-        $field = $params->get('field_for_score', 'impact_factor');    	    	    	
+        $field = $params->get('field_for_score', 'impact_factor');
         $exportAll = $params->get('show_export_all', 0);
     	$exportAllFormat = $params->get('show_export_all_format', 'bibtex');
     	$showFulltext = $params->get('show_fulltext', 0);
@@ -86,7 +86,7 @@ class JResearchViewPublications extends JResearchView
     	$this->assignRef('exportAll', $exportAll);
     	$this->assignRef('exportAllFormat', $exportAllFormat);
     	$this->assignRef('header', $pageHeader);
-    	$this->assignRef('showHeader', $showHeader);    	
+    	$this->assignRef('showHeader', $showHeader);
     	$this->assignRef('items', $items);
     	$this->assignRef('page', $page);
     	$this->assignRef('lists', $lists);
@@ -98,7 +98,7 @@ class JResearchViewPublications extends JResearchView
     	$this->assignRef('showHits', $showHits);
     	$this->assignRef('showBibtex', $showBibtex);
     	$this->assignRef('showResearchAreas', $showResearchAreas);
-    	$this->assignRef('showAuthors', $showAuthors);    	
+    	$this->assignRef('showAuthors', $showAuthors);
     	$this->assignRef('fieldForPunctuation', $field);
     	$this->assignRef('showFulltext', $showFulltext);
     	$this->assignRef('showDigitalVersion', $showDigitalVersion);
@@ -107,9 +107,9 @@ class JResearchViewPublications extends JResearchView
         $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
         parent::display($tpl);
         $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
-    	
+
     }
-    
+
     /**
      * Renders the publications frontend list. It uses the configured citation
      * style for the format.
@@ -117,10 +117,10 @@ class JResearchViewPublications extends JResearchView
      */
     private function _displayFrontendList($tpl){
     	$mainframe = JFactory::getApplication();
-        $jinput = JFactory::getApplication()->input;    	
+        $jinput = JFactory::getApplication()->input;
     	$doc = JFactory::getDocument();
     	$params = $mainframe->getParams('com_jresearch');
-    	
+
     	$document = JFactory::getDocument();
     	$feed = 'index.php?option=com_jresearch&amp;view=publicationslist&amp;format=feed';
         $rss = array(
@@ -128,18 +128,18 @@ class JResearchViewPublications extends JResearchView
                 'title' => JText::_('Publications RSS Feed')
         );
         $document->addHeadLink(JRoute::_($feed.'&type=rss'), 'alternate', 'rel', $rss);
-    	
+
     	$model = $this->getModel();
     	$publications = $model->getItems();
-    	
+
     	// Get certain variables
     	$filter_order = $jinput->get('filter_order', 'year');
     	$filter_order_Dir = $jinput->get('filter_order_Dir', 'DESC');
     	$style = $params->get('citationStyle', 'APA');
-    	
+
     	//Now time to sort the data for presentation
     	$groupedItems = $this->_group($publications, $filter_order);
-    	    	
+
     	$showmore = $params->get('show_more', 1);
     	$showFulltext = $params->get('show_fulltext', 0);
         $fullTextTag = $params->get('fulltext_tag');
@@ -149,13 +149,13 @@ class JResearchViewPublications extends JResearchView
     	$exportAll = $params->get('show_export_all', 0);
     	$showAllFormat = $params->get('show_export_all_format', 'bibtex');
     	$showBibtex = $params->get('show_export_bibtex', 0);
-    	$showMODS = $params->get('show_export_mods', 0);    		
-    	$showRIS = $params->get('show_export_ris', 0);        
-    	
-    	$this->_setFilters();    	
+    	$showMODS = $params->get('show_export_mods', 0);
+    	$showRIS = $params->get('show_export_ris', 0);
+
+    	$this->_setFilters();
     	$pageHeader = $params->get('page_heading', JText::_('JRESEARCH_PUBLICATIONS'));
     	$showHeader = $params->get('show_page_heading', 1);
-    	    	    	
+
     	// Bind variables used in layout
     	$this->assignRef('items', $groupedItems);
         $page = $model->getPagination();
@@ -171,23 +171,23 @@ class JResearchViewPublications extends JResearchView
     	$this->assignRef('exportAll', $exportAll);
     	$this->assignRef('showAllFormat', $showAllFormat);
     	$this->assignRef('showBibtex', $showBibtex);
-    	$this->assignRef('showMODS', $showMODS);	
-    	$this->assignRef('showRIS', $showRIS);    	
+    	$this->assignRef('showMODS', $showMODS);
+    	$this->assignRef('showRIS', $showRIS);
     	$this->assignRef('header', $pageHeader);
     	$this->assignRef('showHeader', $showHeader);
-    	
+
         $eArguments = array('publications', $this->getLayout());
         $mainframe->triggerEvent('onBeforeListFrontendJResearchEntities', $eArguments);
         parent::display($tpl);
         $mainframe->triggerEvent('onAfterListFrontendJResearchEntities', $eArguments);
     }
-    
+
     private function _setFilters()
     {
-    	$mainframe = JFactory::getApplication();    	
-    	$params = $mainframe->getParams('com_jresearch');  
+    	$mainframe = JFactory::getApplication();
+    	$params = $mainframe->getParams('com_jresearch');
     	$layout = $this->getLayout();
-    	
+
     	$filter = $this->_publicationsFilter($layout,
     		$params->get('show_filter_areas', 1) == 1,
     		$params->get('show_filter_year', 1) == 1,
@@ -195,10 +195,10 @@ class JResearchViewPublications extends JResearchView
     		$params->get('show_filter_type', 1) == 1,
     		$params->get('show_filter_authors', 1) == 1
     	);
-    	
+
     	$this->assignRef('filter', $filter);
     }
-    
+
     /**
      * Performs records grouping before pushing items into layout according to
      * configuration. It assumes records array is sorted by $filter_order criteria.
@@ -213,7 +213,7 @@ class JResearchViewPublications extends JResearchView
      */
     private function _group($recordsArray, $filter_order = 'year'){
     	$result = array();
-    	
+
     	// Do the grouping
         switch($filter_order){
             case 'year':
@@ -250,31 +250,31 @@ class JResearchViewPublications extends JResearchView
 
         return $result;
     }
-    
+
     /**
-     * Binds the variables used by the layout. 
+     * Binds the variables used by the layout.
      *
      */
-    private function _displayCiteDialog(){    	
+    private function _displayCiteDialog(){
     	$citedRecordsOptionsHTML = array();
     	$url = JURI::root();
-        $jinput = JFactory::getApplication()->input;        
-        $citeAnswer = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $jinput->get('e_name'));   	
+        $jinput = JFactory::getApplication()->input;
+        $citeAnswer = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $jinput->get('e_name'));
     	$citeFailedMsg = JText::_('JRESEARCH_CITE_FAILED');
     	$citeSuccessfulMsg = JText::_('JRESEARCH_CITE_SUCCESSFUL');
     	$noItemsMsg = JText::_('JRESEARCH_NO_ITEMS_TO_CITE');
         $recordRepeatedMsg = JText::_('CITED_RECORD_REPEATED');
         $nextMsg = JText::_('JRESEARCH_NEXT');
-        $backMsg = JText::_('JRESEARCH_BACK');  	
+        $backMsg = JText::_('JRESEARCH_BACK');
     	// Prepare the HTML document
     	$document = JFactory::getDocument();
         $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
-        $document->addScript($url.'components/com_jresearch/js/cite.js');        
+        $document->addScript($url.'components/com_jresearch/js/cite.js');
         $document->addScriptDeclaration("
         var messages = {\"back\": \"$backMsg\", \"next\": \"$nextMsg\", \"citeRepeated\" : \"$recordRepeatedMsg\" , \"citeFailed\" : \"$citeFailedMsg\", \"citeSuccessful\" : \"$citeSuccessfulMsg\", \"noItems\" : \"$noItemsMsg\"};
         window.addEvent('domready',
                 function(){
-        	    window.document.getElementById('title').addEventListener (\"keyup\", startPublicationSearch);                
+        	    window.document.getElementById('title').addEventListener (\"keyup\", startPublicationSearch);
                     var searchRequest = new Request({method: 'get', async: true, onSuccess: addSearchResults, onFailure: onSearchFailure});
                     searchRequest.send('option=com_jresearch&controller=publications&task=searchByPrefix&format=xml&key=%%&criteria=all', null);
                  }
@@ -296,13 +296,13 @@ class JResearchViewPublications extends JResearchView
         $this->assignRef('citeButton', $citeButton);
         $this->assignRef('citeParentheticalButton', $citeParentheticalButton);
         $this->assignRef('url', $url);
-        
-        parent::display();		
+
+        parent::display();
     }
-    
+
     private function _displayGenerateBibliographyDialog(){
     	jresearchimport('helpers.publications', 'jresearch.admin');
-    	
+
     	$session = JSession::getInstance(null,null);
     	$citedRecords = $session->get('citedRecords', array(), 'com_jresearch') ;
     	$citedRecordsOptionsHTML = array();
@@ -314,11 +314,11 @@ class JResearchViewPublications extends JResearchView
             $pubTitle = $pub;
             $pubRecord = JResearchPublicationsHelper::getItemByCitekey($pub);
             if($pubRecord != null){
-                $pubTitle = $pubRecord->title;            
+                $pubTitle = $pubRecord->title;
                 $citedRecordsOptionsHTML[] = JHTML::_('select.option', $pub, $pub.': '.$pubTitle);
             }
         }
-        
+
         $citedRecordsListHTML = JHTML::_('select.genericlist',  $citedRecordsOptionsHTML, 'citedRecords', 'class="inputbox" id="citedRecords" size="10" style="width:60%;height:100px;" ');
 
         // Remove button
@@ -332,18 +332,18 @@ class JResearchViewPublications extends JResearchView
         $this->assignRef('removeAllButton', $removeAllButton);
         $this->assignRef('closeButton', $closeButton);
         $this->assignRef('generateBibButton', $generateBibButton);
-        
-        parent::display();        
+
+        parent::display();
     }
-    
+
     /**
      * Displayed when linking publications to other data
      * items.
-     * 
+     *
      */
     private function _displayCiteFromFormDialog(){
     	$url = JURI::root();
-        $jinput = JFactory::getApplication()->input;	
+        $jinput = JFactory::getApplication()->input;
     	// Prepare the HTML document
     	$document = JFactory::getDocument();
     	$citeFailedMsg = JText::_('JRESEARCH_CITE_FAILED');
@@ -351,15 +351,15 @@ class JResearchViewPublications extends JResearchView
     	$noItemsMsg = JText::_('JRESEARCH_NO_ITEMS_TO_CITE');
         $recordRepeatedMsg = JText::_('CITED_RECORD_REPEATED');
         $nextMsg = JText::_('JRESEARCH_NEXT');
-        $backMsg = JText::_('JRESEARCH_BACK');  	
+        $backMsg = JText::_('JRESEARCH_BACK');
         $document->setTitle(JText::_('JRESEARCH_CITE_DIALOG'));
         $document->addScript($url.'components/com_jresearch/js/cite.js');
-        
+
         $citekeys = $jinput->get('value', '');
         if (strlen($citekeys) > 0) {
-            $citekeysArray = explode(',', $citekeys);            
+            $citekeysArray = explode(',', $citekeys);
             // Update the javascript container
-            $elements = "";            
+            $elements = "";
             foreach ($citekeysArray as $citekey) {
                 $elements .= "selectedCitekeys.push('$citekey');";
             }
@@ -368,8 +368,8 @@ class JResearchViewPublications extends JResearchView
             $citekeysArray = array();
         }
         $citedRecordsListHTML = JHtml::_('jresearchfrontend.citekeysHTMLList', 'citedRecords', $citekeysArray);
-        
-        
+
+
         $document->addScriptDeclaration("
                 var messages = {\"back\": \"$backMsg\", \"next\": \"$nextMsg\", \"citeRepeated\" : \"$recordRepeatedMsg\" , \"citeFailed\" : \"$citeFailedMsg\", \"citeSuccessful\" : \"$citeSuccessfulMsg\", \"noItems\" : \"$noItemsMsg\"};
         		window.addEvent('domready',
@@ -391,11 +391,11 @@ class JResearchViewPublications extends JResearchView
         $this->assignRef('removeButton', $removeButton);
         $this->assignRef('citeButton', $citeButton);
         $this->assignRef('url', $url);
-        
+
         parent::display();
-    	
+
     }
-    
+
     /**
      * Returns div-container with publication filters, can be activated with given parameter switches
      *
@@ -413,7 +413,7 @@ class JResearchViewPublications extends JResearchView
         jresearchimport('helpers.researchareas', 'jresearch.admin');
 
         $mainframe = JFactory::getApplication();
-        $db = JFactory::getDBO();		
+        $db = JFactory::getDBO();
 
         $lists = array();
         $js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
@@ -446,9 +446,9 @@ class JResearchViewPublications extends JResearchView
             $yearsHTML = array();
 
 
-            $filter_year = $this->state->get('com_jresearch.publications.filter_year');			
+            $filter_year = $this->state->get('com_jresearch.publications.filter_year');
 
-            $years = JResearchPublicationsHelper::getYears();			
+            $years = JResearchPublicationsHelper::getYears();
             $yearsHTML[] = JHTML::_('select.option', '-1', JText::_('JRESEARCH_YEAR'));
             foreach($years as $y)
             {
@@ -463,25 +463,25 @@ class JResearchViewPublications extends JResearchView
             $filter_author = $this->state->get('com_jresearch.publications.filter_author');
             $authors = JResearchPublicationsHelper::getAllAuthors();
 
-            $authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));	
+            $authorsHTML[] = JHTML::_('select.option', 0, JText::_('JRESEARCH_AUTHORS'));
             foreach($authors as $auth)
             {
-                $authorsHTML[] = JHTML::_('select.option', $auth['mid'], $auth['member_name']); 
+                $authorsHTML[] = JHTML::_('select.option', $auth['mid'], $auth['member_name']);
             }
-            $lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);    		
+            $lists['authors'] = JHTML::_('select.genericlist', $authorsHTML, 'filter_author', 'class="inputbox" size="1" '.$js, 'value','text', $filter_author);
         }
 
         if($bAreas === true) {
             //Researchareas filter
             $areasOptions = array();
 
-            $filter_area = $this->state->get('com_jresearch.publications.filter_area');    		
-            $areas = JResearchResearchareasHelper::getResearchAreas();        
+            $filter_area = $this->state->get('com_jresearch.publications.filter_area');
+            $areas = JResearchResearchareasHelper::getResearchAreas();
             $areasOptions[] = JHTML::_('select.option', 0 ,JText::_('JRESEARCH_RESEARCH_AREAS'));
             foreach($areas as $a)
             {
                 $areasOptions[] = JHTML::_('select.option', $a->id, $a->name);
-            }    		
+            }
             $lists['areas'] = JHTML::_('select.genericlist',  $areasOptions, 'filter_area', 'class="inputbox" size="1" '.$js, 'value', 'text', $filter_area );
         }
 

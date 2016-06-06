@@ -142,8 +142,8 @@ class JHTMLjresearchhtml
         $joomlaUsers = array();
 
         foreach($users as $u){
-                if(!in_array($u['username'], $usernames))
-                        $joomlaUsers[] = $u;
+            if(!in_array($u['username'], $usernames))
+                $joomlaUsers[] = $u;
         }
 
         $output = '<table class="staffimporter"><thead><tr><th>'.JText::_('JRESEARCH_MEMBERS_NOT_IN_STAFF').'</th><th></th><th>'.JText::_('JRESEARCH_NEW_STAFF_MEMBERS').'</th></tr></thead><tbody><tr><td>';

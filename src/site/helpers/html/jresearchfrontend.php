@@ -15,7 +15,7 @@ jresearchimport('tables.publication', 'jresearch.admin');
 
 class JHTMLjresearchfrontend{
     public static $supportedExtensions = array('doc', 'docx', 'pdf', 'ps', 'odt', 'txt');
-    
+
     /**
      * Renders task icon for specific item, if user is authorized for it
      *
@@ -26,7 +26,7 @@ class JHTMLjresearchfrontend{
      * @param array options
      */
     public static function icon($task, $controller, $itemid=0, $userid=null, $options=array()) {
-        $jinput = JFactory::getApplication()->input;        
+        $jinput = JFactory::getApplication()->input;
         $availableController = array('publications');
         $availableTasks = array('edit', 'remove', 'delete', 'add', 'new');
         // Menu ID retention
@@ -47,8 +47,8 @@ class JHTMLjresearchfrontend{
         }
 
         return '';
-    }	
-	
+    }
+
     /**
      * Creates a frontend link for com_jresearch with view, task, id and itemid parameter
      *
@@ -59,23 +59,27 @@ class JHTMLjresearchfrontend{
      * @param array $additional Key-value pair for additional url parameters
      */
     public static function link($text, $view='cooperations', $task='display', $id=null, $bItemId = true, array $additional=array()) {
-        $jinput = JFactory::getApplication()->input;                        
+        $jinput = JFactory::getApplication()->input;
         $itemid = $jinput->get('Itemid', null);
         $view = JFilterOutput::stringURLSafe($view);
         $task = JFilterOutput::stringURLSafe($task);
         JFilterOutput::cleanText($text);
+		$additionalText = '';
+		if (array_key_exists('target', $additional)) {
+			$additionalText.= 'target="'.$additional['target'].'"';
+		}
 
         $url = "index.php?option=com_jresearch&view=$view&task=$task".((!empty($id))?'&id='.intval($id):'').(($bItemId && !empty($itemid))?'&Itemid='.intval($itemid):'').((count($additional) > 0)?self::_getKeyValueString($additional):'');
-        return JFilterOutput::linkXHTMLSafe('<a href="'.$url.'">'.$text.'</a>');
+        return JFilterOutput::linkXHTMLSafe('<a '.$additionalText.' href="'.$url.'">'.$text.'</a>');
     }
 
     /**
-     * 
+     *
      * Constructs a list of research area links
      * @param array $researchAreas
      */
     public static function researchareaslinks($researchAreas, $display = 'list') {
-        $jinput = JFactory::getApplication()->input;        
+        $jinput = JFactory::getApplication()->input;
         $itemid = $jinput->get('Itemid', null);
         $linksText = '';
 
@@ -85,16 +89,16 @@ class JHTMLjresearchfrontend{
         foreach($researchAreas as $area){
             if($area->id > 1){
                 if($area->published){
-                    $link = self::link($area->name, 'researcharea', 'show', $area->id);					
+                    $link = self::link($area->name, 'researcharea', 'show', $area->id);
                     if($display == 'list')
                         $linksText .= '<li>'.$link.'</li>';
-                    else 
-                        $linksText .= ', '.$link;	
+                    else
+                        $linksText .= ', '.$link;
                 }else{
                     if($display == 'list')
                         $linksText .= '<li>'.$area->name.'</li>';
                     else
-                        $linksText .= ', '.$area->name;							
+                        $linksText .= ', '.$area->name;
                 }
             }
         }
@@ -103,16 +107,16 @@ class JHTMLjresearchfrontend{
             if($display == 'list')
                 $linksText .= '<li>'.JText::_('JRESEARCH_UNCATEGORIZED').'</li>';
             else
-                $linksText .= JText::_('JRESEARCH_UNCATEGORIZED');	
+                $linksText .= JText::_('JRESEARCH_UNCATEGORIZED');
         }
 
 
-        if($display == 'list')	
-            $result = '<ul>'.$linksText.'</ul>'; 	
+        if($display == 'list')
+            $result = '<ul>'.$linksText.'</ul>';
         else
             $result = ltrim(ltrim($linksText, ','));
 
-        return $result;	
+        return $result;
     }
 
     public static function getExternalLink($link)
@@ -125,7 +129,7 @@ class JHTMLjresearchfrontend{
 
         return $link;
     }
-    
+
     /**
      * It returns the HTML text to render the authors of a publication/project
      * @param type $authors Array of both strings (external authors) or JResearchMember instances.
@@ -135,11 +139,11 @@ class JHTMLjresearchfrontend{
      */
     public static function authorsList($authors, $format, $arrangement = 'horizontal') {
         $output = ($arrangement == 'vertical') ? '<ul>' : '';
-        $n = count($authors); 
-        $i = 0; 
+        $n = count($authors);
+        $i = 0;
         foreach($authors as $auth) {
             $authorText = JResearchPublicationsHelper::formatAuthor(
-                    $auth instanceof JResearchMember ? $auth->__toString() : $auth, 
+                    $auth instanceof JResearchMember ? $auth->__toString() : $auth,
                     $format);
             $suffix = ($i == $n - 1? '': '; ');
             if($auth instanceof JResearchMember && $auth->published) {
@@ -147,10 +151,10 @@ class JHTMLjresearchfrontend{
                     if ($auth->link_to_website) {
                         $website = JHTML::_('link', $auth->url_personal_page, $authorText);
                         if ($arrangement == 'vertical') {
-                            $output.= '<li>'.$website.'</li>';                            
+                            $output.= '<li>'.$website.'</li>';
                         } else {
-                            $output.= $website.$suffix;   
-                        }                            
+                            $output.= $website.$suffix;
+                        }
                     } else {
                         if ($arrangement == 'vertical') {
                             $output.= '<li>'.self::link($authorText, 'member', 'show', $auth->id).'</li>';
@@ -158,27 +162,27 @@ class JHTMLjresearchfrontend{
                             $output.= self::link($authorText, 'member', 'show', $auth->id).$suffix;
                         }
                     }
-                } else { 
+                } else {
                     if ($arrangement === 'vertical') {
                        $output .= '<li>'.$authorText.'</li>';
                     } else {
-                       $output.= $authorText.$suffix;                        
+                       $output.= $authorText.$suffix;
                     }
                 }
             } else {
                 if ($arrangement == 'vertical') {
-                   $output .= '<li>'.$authorText.'</li>'; 
+                   $output .= '<li>'.$authorText.'</li>';
                 } else {
                     $output.= $authorText.$suffix;
                 }
             }
             $i++;
         }
-        
+
         $output .= ($arrangement == 'vertical') ? '</ul>' : '';
         return $output;
     }
-    
+
 
     /**
      * Formats a given list of keywords for rendering in the frontend.
@@ -189,7 +193,7 @@ class JHTMLjresearchfrontend{
      * projects
      */
     public static function keywords($keywords, $linksEnabled, $option) {
-        $jinput = JFactory::getApplication()->input;                        
+        $jinput = JFactory::getApplication()->input;
         if ($linksEnabled) {
             $parts = explode(';', $keywords);
             $newParts = array();
@@ -232,7 +236,7 @@ class JHTMLjresearchfrontend{
      * @param string $url Resource URL
      */
     public static function attachments($attachments, $arrangement) {
-        $parts = array();        
+        $parts = array();
         foreach ($attachments as $attach) {
             $uri = new JUri($attach['url']);
             $path = $uri->getPath();
@@ -247,42 +251,42 @@ class JHTMLjresearchfrontend{
             } else {
                 $text = JText::_($tag);
             }
-            $parts[] = '<a class="attachmentlink '.$assetClass.'" href="'.$attach['url'].'">'.$text.'</a>';            
+            $parts[] = '<a class="attachmentlink '.$assetClass.'" href="'.$attach['url'].'">'.$text.'</a>';
         }
-        
+
         if ($arrangement == 'horizontal') {
             return '<span>'.implode(' ', $parts).'</span>';
         } else {
             return '<ul class="attachmentslist"><li>'.implode('</li><li>', $parts).'</li></ul>';
         }
     }
-    
+
     private static function getFileAssetClass($path) {
         $pathInfo = pathinfo($path);
 
         if(empty($pathInfo['extension']) || !in_array($pathInfo['extension'], self::$supportedExtensions)){
             return 'attach-background-default';
         }else{
-            return 'attach-background-'.$pathInfo['extension'];				
+            return 'attach-background-'.$pathInfo['extension'];
         }
     }
-    
+
     /**
      * It returns a HTML list with the citekeys and titles
      * of the publications provided as arguments.
-     * 
+     *
      * @param name
      * @param type $citekeysArray A list of publication citekeys
-     * 
+     *
      */
     public static function citekeysHTMLList($name, $citekeysArray = array()) {
         $citedRecordsOptionsHTML = array();
         foreach ($citekeysArray as $citekey) {
-            $pub = JResearchPublicationsHelper::getPublicationFromCitekey($citekey);            
-            $citedRecordsOptionsHTML[] = JHTML::_('select.option', $citekey, $citekey.': '.$pub->title); 
+            $pub = JResearchPublicationsHelper::getPublicationFromCitekey($citekey);
+            $citedRecordsOptionsHTML[] = JHTML::_('select.option', $citekey, $citekey.': '.$pub->title);
         }
-        return JHTML::_('select.genericlist',  
-                $citedRecordsOptionsHTML, $name, 'class="inputbox" id="'.$name.'" size="10" style="width:200px;" ');            
+        return JHTML::_('select.genericlist',
+                $citedRecordsOptionsHTML, $name, 'class="inputbox" id="'.$name.'" size="10" style="width:200px;" ');
     }
 }
 ?>
