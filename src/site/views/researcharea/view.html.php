@@ -19,20 +19,20 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class JResearchViewResearchArea extends JResearchView
 {
     public function display($tpl = null) {
-        $jinput = JFactory::getApplication()->input;        
+        $jinput = JFactory::getApplication()->input;
      	$arguments = array('researcharea');
     	$doc = JFactory::getDocument();
         $mainframe = JFactory::getApplication('site');
         $id = $jinput->getInt('id', 0);
         $pathway = $mainframe->getPathway();
     	$params = $mainframe->getPageParameters('com_jresearch');
-    	
+
     	$publications_view_all = $jinput->getInt('publications_view_all', 0);
-    	$projects_view_all = $jinput->getInt('projects_view_all', 0);    	    	
+    	$projects_view_all = $jinput->getInt('projects_view_all', 0);
     	$theses_view_all = $jinput->getInt('theses_view_all', 0);
     	$showMembers = $params->get('area_show_members', 1);
     	$showPublications = $params->get('area_show_publications', 1);
-    	
+
         // The uncategorized view is not retrieved
     	if($id == 1 || empty($id)){
             JError::raiseError(404, JText::_('JRESEARCH_INFORMATION_NOT_RETRIEVED'));
@@ -45,24 +45,24 @@ class JResearchViewResearchArea extends JResearchView
             JError::raiseWarning(1, JText::_('JRESEARCH_AREA_NOT_FOUND'));
             return;
         }
-        
+
         if($showMembers == 1){
 	        $members = $model->getStaffMembers('all');
 	        $this->assignRef('members', $members);
-        }    
-               
+        }
+
         $pathway->addItem($area->alias, 'index.php?option=com_jresearch&view=researcharea&id='.$area->id);
         $arguments[] = $area;
         $latestPublications = $params->get('area_number_last_publications', 5);
-        if($publications_view_all == 0)	
+        if($publications_view_all == 0)
             $publications = $model->getLatestPublications($latestPublications);
     	else
             $publications = $model->getLatestPublications();
-    	
-        $this->assignRef('publications', $publications);
-    	$this->assignRef('npublications', $model->countPublications());    	
 
-    	$latestProjects = $params->get('area_number_last_projects', 5);    	
+        $this->assignRef('publications', $publications);
+    	$this->assignRef('npublications', $model->countPublications());
+
+    	$latestProjects = $params->get('area_number_last_projects', 5);
         if($projects_view_all == 0)
             $projects = $model->getLatestProjects($latestProjects);
         else
@@ -71,14 +71,12 @@ class JResearchViewResearchArea extends JResearchView
     	$this->assignRef('projects', $projects);
     	$this->assignRef('nprojects', $model->countProjects($area->id));
 
-    	$facilities = $model->getFacilities($area->id);
-    		
-    	$description = str_replace('<hr id="system-readmore" />', '', $area->description);	
-    		
+    	$description = str_replace('<hr id="system-readmore" />', '', $area->description);
+
     	$applyStyle = $params->get('publications_apply_style');
     	$configuredCitationStyle = $params->get('citationStyle', 'APA');
     	$format = $params->get('staff_format', 'last_first');
-    	
+
     	if($applyStyle){
             // Require publications lang package
             $lang = JFactory::getLanguage();
@@ -87,20 +85,19 @@ class JResearchViewResearchArea extends JResearchView
 
     	$this->assignRef('showMembers', $showMembers);
     	$this->assignRef('showPublications', $showPublications);
-    	$this->assignRef('facilities', $facilities);
     	$this->assignRef('publications_view_all', $publications_view_all);
-    	$this->assignRef('projects_view_all', $projects_view_all);    	
+    	$this->assignRef('projects_view_all', $projects_view_all);
         $this->assignRef('area', $area, JResearchFilter::OBJECT_XHTML_SAFE);
         $this->assignRef('description', $description);
-        $this->assignRef('applyStyle', $applyStyle);        
+        $this->assignRef('applyStyle', $applyStyle);
     	$this->assignRef('style', $configuredCitationStyle);
-    	$this->assignRef('format', $format); 
-    	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement', 'horizontal'));    	
-        
+    	$this->assignRef('format', $format);
+    	$this->assignRef('staff_list_arrangement', $params->get('staff_list_arrangement', 'horizontal'));
+
         $mainframe->triggerEvent('onBeforeDisplayJResearchEntity', $arguments);
-		
+
        	parent::display($tpl);
-       	
+
        	$mainframe->triggerEvent('onAfterDisplayJResearchEntity', $arguments);
     }
 }

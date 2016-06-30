@@ -19,9 +19,9 @@ require_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php');
 jresearchimport('helpers.access', 'jresearch.admin');
 
 /**
-* 
+*
 * This is a helper class for rendering backend toolbars
-* 
+*
 */
 class JResearchToolbar {
 
@@ -81,10 +81,10 @@ class JResearchToolbar {
 
     /**
     * Prints the toolbar menu for staff administration list.
-    */	
+    */
     public static function staffAdminListToolbar(){
         JToolBarHelper::title(JText::_('JRESEARCH_STAFF'), 'staff');
-        $canDo = JResearchAccessHelper::getActions('staff');            
+        $canDo = JResearchAccessHelper::getActions('staff');
 
         self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
         JToolBarHelper::divider();
@@ -112,14 +112,14 @@ class JResearchToolbar {
 
     /**
     * Prints the toolbar menu for research areas administration list.
-    */	
+    */
     public static function researchAreasListToolbar(){
         JToolBarHelper::title(JText::_('JRESEARCH_RESEARCH_AREAS'), 'areas');
         $canDo = JResearchAccessHelper::getActions('researchareas');
 
         self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
         JToolBarHelper::divider();
-        if($canDo->get('core.researchareas.create')){    
+        if($canDo->get('core.researchareas.create')){
             JToolBarHelper::AddNew('add', JText::_('Add'));
         }
 
@@ -153,9 +153,9 @@ class JResearchToolbar {
     /**
     * Toolbar printed when editing or adding an item like a publication, project,
     * thesis or research area.
-    */	
+    */
     public static function editPublicationAdminToolbar(){
-        $jinput = JFactory::getApplication()->input;                    
+        $jinput = JFactory::getApplication()->input;
         $cid = $jinput->get('cid', array(), 'ARRAY');
         $pubtype = $jinput->get('pubtype');
         if(!empty($cid))
@@ -171,14 +171,14 @@ class JResearchToolbar {
     /**
     * Toolbar printed when editing a staff member profile.
     */
-    public static function editMemberAdminToolbar(){		
-        $jinput = JFactory::getApplication()->input;            
+    public static function editMemberAdminToolbar(){
+        $jinput = JFactory::getApplication()->input;
         $cid = $jinput->get('cid', array(), 'ARRAY');
 
         if(!empty($cid))
             $title = JText::_('JRESEARCH_EDIT_MEMBER_PROFILE');
         else
-            $title = JText::_('JRESEARCH_NEW_MEMBER_PROFILE');	
+            $title = JText::_('JRESEARCH_NEW_MEMBER_PROFILE');
 
         JToolBarHelper::title($title);
         self::editItemAdminToolbar();
@@ -248,26 +248,26 @@ class JResearchToolbar {
     /**
     * Renders a button that points to JResearch Control Panel
     * @param $text Text to appear on the button.
-    */ 	
+    */
     public static function toControlPanel($text){
         $doc = JFactory::getDocument();
         $url = JURI::root();
         $css = ".icon-32-config{background: url(".$url."administrator/components/com_jresearch/assets/config32.png) 100% 0 no-repeat;}";
         $doc->addStyleDeclaration($css);
         JToolBarHelper::custom('tocontrolPanel', 'config', '', $text, false);
-    }	
+    }
 
     /**
     * Renders the toolbar displayed when creating/editing a research area.
     */
     public static function editResearchAreaAdminToolbar() {
-        $jinput = JFactory::getApplication()->input;            
+        $jinput = JFactory::getApplication()->input;
         $cid = $jinput->get('cid', array(), 'ARRAY');
 
         if(!empty($cid))
             $title = JText::_('JRESEARCH_EDIT_RESEARCH_AREA');
         else
-            $title = JText::_('JRESEARCH_NEW_RESEARCH_AREA');	
+            $title = JText::_('JRESEARCH_NEW_RESEARCH_AREA');
 
         JToolBarHelper::title($title);
         self::editItemAdminToolbar();
@@ -277,12 +277,12 @@ class JResearchToolbar {
     * Renders the toolbar displayed when creating/editing a project.
     */
     public static function editProjectAdminToolbar(){
-        $jinput = JFactory::getApplication()->input;            
+        $jinput = JFactory::getApplication()->input;
         $cid = $jinput->get('cid', array(), 'ARRAY');
         if (!empty($cid))
             $title = JText::_('JRESEARCH_EDIT_PROJECT');
         else
-            $title = JText::_('JRESEARCH_NEW_PROJECT');	
+            $title = JText::_('JRESEARCH_NEW_PROJECT');
 
         JToolBarHelper::title($title);
         self::editItemAdminToolbar();
@@ -296,7 +296,7 @@ class JResearchToolbar {
     public static function editItemAdminToolbar(){
         JToolBarHelper::save("save");
         JToolBarHelper::save2new("save2new");
-        $jinput = JFactory::getApplication()->input;            
+        $jinput = JFactory::getApplication()->input;
         $cid = $jinput->get('cid', array(), 'ARRAY');
         if (!empty($cid)) {
             JToolBarHelper::save2copy("save2copy");
@@ -326,30 +326,22 @@ class JResearchToolbar {
     }
 
     public static function editMember_positionAdminToolbar() {
-        $jinput = JFactory::getApplication()->input;            
+        $jinput = JFactory::getApplication()->input;
         $cid = $jinput->get('cid', array(), 'ARRAY');
         if(!empty($cid))
             $title = JText::_('JRESEARCH_EDIT_MEMBER_POSITION');
         else
-            $title = JText::_('JRESEARCH_NEW_MEMBER_POSITION');	
+            $title = JText::_('JRESEARCH_NEW_MEMBER_POSITION');
 
         JToolBarHelper::title($title);
 
         self::editItemAdminToolbar();
     }
 
-    public static function facilitiesAdminListToolbar() {
-        JToolBarHelper::title(JText::_('JRESEARCH_FACILITIES'));
-
-        self::toControlPanel(JText::_('JRESEARCH_CONTROL_PANEL'));
-        JToolBarHelper::divider();		
-        self::adminListToolbar();
-    }
-
     public static function adminListToolbar() {
         JToolBarHelper::AddNew('add', JText::_('Add'));
         JToolBarHelper::EditList('edit', JText::_('Edit'));
-        JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_ITEM_CONFIRMATION'),'remove', JText::_('Delete'));		
+        JToolBarHelper::deleteList(JText::_('JRESEARCH_DELETE_ITEM_CONFIRMATION'),'remove', JText::_('Delete'));
 
         JToolBarHelper::divider();
 
