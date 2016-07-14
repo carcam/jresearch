@@ -22,6 +22,7 @@
                 description="JRESEARCH_CONFIG_INTRO_TEXT_DESCRIPTION"
                 label="JRESEARCH_CONFIG_INTRO_TEXT" filter="nofilter"
              />
+			<field name="staff_entries_per_page" default="0" label="JRESEARCH_CONFIG_MEMBERS_PER_PAGE" type="text" ></field>
 			<field name="staff_sort_criteria1" label="JRESEARCH_STAFF_SORT_CRITERIA" type="radio" default="lastname">
 				<option value="lastname">JRESEARCH_LAST_NAME</option>
 				<option value="m.ordering">JRESEARCH_ORDERING</option>
