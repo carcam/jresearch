@@ -54,7 +54,7 @@ shRemoveFromGETVarsList('layout');
 switch ($view)
 {
 	// Luis: I removed the modules which will not be anymore maintained such as
-	// theses, teams, facilities and cooperations
+	// theses, teams and cooperations
 	case 'publicationslist':
 	case 'publications':
 		$title[] = $sh_LANG[$shLangIso]['_COM_SEF_SH_PUBLICATIONS_LIST'];

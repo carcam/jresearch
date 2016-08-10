@@ -17,7 +17,7 @@ jresearchimport('models.modelitem', 'jresearch.site');
 *
 */
 class JResearchModelResearchArea extends JResearchModelItem{
-    
+
     /**
      * Returns the model data store in the user state as a table
      * object
@@ -146,10 +146,10 @@ class JResearchModelResearchArea extends JResearchModelItem{
     }
 
     /**
-     * 
+     *
      * Returns the list of staff members associated to the area, sorted
      * by lastname.
-     * @param $whatInfo "all" means the entire JResearchMember objects, 
+     * @param $whatInfo "all" means the entire JResearchMember objects,
      * "names" retrieves lastnames and firstnames as stdclass objects.
      */
     function getStaffMembers($whatInfo = 'all'){
@@ -163,7 +163,7 @@ class JResearchModelResearchArea extends JResearchModelItem{
             $query = 'SELECT DISTINCT m.* FROM #__jresearch_member m JOIN #__jresearch_member_research_area mra WHERE '
                             .'mra.id_member = m.id AND mra.id_research_area = '.$db->Quote($area->id)
                             .' ORDER BY '.$db->quoteName('m').'.'.$db->quoteName($orderBy).' '.$orderDir;
-            $db->setQuery($query);				
+            $db->setQuery($query);
             $result = $db->loadAssocList();
             foreach($result as $row){
                     $member = JTable::getInstance('Member', 'JResearch');
@@ -171,44 +171,16 @@ class JResearchModelResearchArea extends JResearchModelItem{
                     $members[] = $member;
             }
 
-            return $members;			
+            return $members;
         }elseif($whatInfo == 'names'){
             $query = 'SELECT DISTINCT m.id, m.firstname, m.lastname, m.published FROM #__jresearch_research_area WHERE '
                     .'mra.id_member = m.id AND mra.id_research_area = '.$db->Quote($this->id)
                     .' ORDER BY '.$db->quoteName('m').'.'.$db->quoteName($orderBy).' '.$orderDir;
-            $db->setQuery($query);				
+            $db->setQuery($query);
             return $db->loadObjectList();
         }else{
             return null;
-        }				
-    }
-
-
-    public function getFacilities($n=0){
-        $facilities = array();
-        $row = $this->getItem();
-        if($row === false)
-            return $facilities;
-
-        $areaId = $row->id;
-        $db = JFactory::getDBO();
-
-        $query = 'SELECT * FROM '.$db->quoteName('#__jresearch_facilities').' WHERE '.$db->quoteName('published').' = 1'
-                        .' AND '.$db->quoteName('id_research_area').' = '.$db->Quote($areaId).' ORDER BY name DESC';
-
-        if($n > 0){
-            $query .= ' LIMIT 0, '.$n;
         }
-
-        $db->setQuery($query);
-        $result = $db->loadAssocList();
-        foreach($result as $r){
-            $item = JTable::getInstance('Facility', 'JResearch');
-            $item->bind($r);
-            $facilities[] = $item;
-        }
-
-        return $facilities;
     }
 }
 ?>
