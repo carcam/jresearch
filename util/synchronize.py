@@ -35,6 +35,8 @@ mappings = {'components/com_jresearch' : 'site',
 'language/en-GB/en-GB.com_jresearch.publications.ini' : 'languages/site/en-GB.com_jresearch.publications.ini',
 'language/en-GB/en-GB.com_jresearch.researchareas.ini' : 'languages/site/en-GB.com_jresearch.researchareas.ini',
 'language/en-GB/en-GB.com_jresearch.staff.ini' : 'languages/site/en-GB.com_jresearch.staff.ini',
+'language/en-GB/en-GB.mod_jresearch_keywords_cloud.ini' : 'modules/mod_jresearch_keywords_cloud/en-GB.mod_jresearch_keywords_cloud.ini',
+'language/en-GB/en-GB.mod_jresearch_keywords_cloud.sys.ini' : 'modules/mod_jresearch_keywords_cloud/en-GB.mod_jresearch_keywords_cloud.sys.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.financiers.ini' : 'languages/admin/en-GB.com_jresearch.financiers.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.ini' : 'languages/admin/en-GB.com_jresearch.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.projects.ini' : 'languages/admin/en-GB.com_jresearch.projects.ini',
@@ -43,8 +45,8 @@ mappings = {'components/com_jresearch' : 'site',
 'administrator/language/en-GB/en-GB.com_jresearch.staff.ini' : 'languages/admin/en-GB.com_jresearch.staff.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.member_positions.ini'	: 'languages/admin/en-GB.com_jresearch.member_positions.ini',
 'administrator/language/en-GB/en-GB.com_jresearch.sys.ini' : 'languages/admin/en-GB.com_jresearch.sys.ini',
-'administrator/language/en-GB/en-GB-jresearch_help.html' : 'languages/admin/en-GB-jresearch_help.html' #,
-# 'modules/mod_jresearch_keywords_cloud' : 'modules/mod_jresearch_keywords_cloud'
+'administrator/language/en-GB/en-GB-jresearch_help.html' : 'languages/admin/en-GB-jresearch_help.html',
+'modules/mod_jresearch_keywords_cloud' : 'modules/mod_jresearch_keywords_cloud'
 }
 
 ## TODO. Add mappings for every file in the languages folders.
@@ -54,12 +56,15 @@ toRemove = ['admin/install.php', 'admin/jresearch.xml']
 for key, value in mappings.iteritems() :
 	src = joomlaPrefix + key
 	dst = gitPrefix + value
-	if os.path.isdir(src) and os.path.isdir(dst) :
-		print 'Merging ' + src + ' and ' + dst
-		distutils.dir_util.copy_tree(src, dst)
-	else:
-		print 'Copying ' + src + ' to ' + dst
-		shutil.copy(src, dst)
+	if os.path.exists(src) :
+		if os.path.isdir(src) and os.path.isdir(dst) :
+			print 'Merging ' + src + ' and ' + dst
+			distutils.dir_util.copy_tree(src, dst)
+		else:
+			print 'Copying ' + src + ' to ' + dst
+			shutil.copy(src, dst)
+	else :
+		print 'Skipping', src
 
 for fremove in toRemove :
 	ftr = gitPrefix + fremove

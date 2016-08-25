@@ -14,9 +14,41 @@
 /** ensure this file is being included by a parent file */
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
+require_once(__DIR__ .'/SixtyNine/WordCloud/Box.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Word.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/WordCloud.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Builder/WordCloudBuilder.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Renderer/WordCloudRenderer.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Helper/Palette.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/FrequencyTable/Filters/FrequencyTableFilterInterface.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/FrequencyTable/Filters/RemoveTrailingPunctuation.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/FrequencyTable/Filters/RemoveUnwantedCharacters.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/FrequencyTable/FrequencyTableWord.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/FrequencyTable/FrequencyTable.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/FrequencyTable/FrequencyTableFactory.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Builder/Context/BuilderContext.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Mask.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Builder/Context/WordUsher.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Builder/Context/DefaultWordUsher.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Builder/Context/ColorChooser.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Builder/Context/RotatorColorChooser.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Builder/Context/FontSizeCalculatorInterface.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Builder/Context/DefaultFontSizeCalculator.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/Builder/Context/BuilderContextFactory.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/ImageBuilder/AbstractImageRenderer.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/ImageBuilder/RawImageRenderer.php');
+require_once(__DIR__ .'/SixtyNine/WordCloud/FrequencyTable/Filters/RemoveShortWords.php');
+
+/**use SixtyNine\WordCloud\Builder\WordCloudBuilder;
+use SixtyNine\WordCloud\Renderer\WordCloudRenderer;
+use SixtyNine\WordCloud\Helper\Palette;
+use SixtyNine\WordCloud\FrequencyTable\FrequencyTableFactory;
+use SixtyNine\WordCloud\Builder\Context\BuilderContextFactory;
+use SixtyNine\WordCloud\ImageBuilder\RawImageRenderer; **/
+
 if(!JComponentHelper::isEnabled('com_jresearch', true))
 {
-    JError::raiseError(0, 'J!Research is not enabled or installed');
+	JFactory::getApplication()->enqueueMessage('J!Research is not enabled or installed', "error");
 }
 $DS = DIRECTORY_SEPARATOR;
 require_once(JPATH_ADMINISTRATOR.$DS.'components'.$DS.'com_jresearch'.$DS.'helpers'.$DS.'keywords.php');
@@ -31,6 +63,14 @@ if ($params->get('include_projects') == '1')
     $types[] = 'projects';
 
 $keywords = JResearchKeywordsHelper::getKeywordsByRelevance($types);
+// Now expand the keywords based on their frequency
+$corpus = array();
+$maxWords = count($keywords);
+foreach($keywords as $wordEntry) {
+	for ($i = 0; $i < intval($wordEntry['relevance']); ++$i)
+		$corpus[] = $wordEntry['keyword'];
+}
+
 $layout = (string) $params->get('layout', 'default');
 
 require(JModuleHelper::getLayoutPath('mod_jresearch_keywords_cloud', $layout));
