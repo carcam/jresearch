@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 
 output = expanduser("~")
 branch = 'master'
-repository = '/home/luis/Documents/JResearch/jresearch'
+repository = '/home/luis/JResearch/jresearch'
 
 if len(sys.argv) >= 2:
 	os.chdir(repository)
@@ -21,7 +21,7 @@ if len(sys.argv) >= 3 :
 if len(sys.argv) > 4 :
 	branch = sys.argv[3]
 
-exportPath = output + '/jresearch'
+exportPath = output + '/jresearch-pkg'
 os.chdir(repository)
 # Export the repository
 finalBranch = 'trunk' if branch == 'master' else 'branches/' + branch

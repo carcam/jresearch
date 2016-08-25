@@ -8,7 +8,7 @@ import distutils
 from distutils import dir_util
 
 #Default values
-gitPrefix = '/home/luis/Documents/JResearch/jresearch/src/'
+gitPrefix = '/home/luis/JResearch/jresearch/src/'
 joomlaPrefix = '/opt/lampp/htdocs/jresearch/'
 
 if len(sys.argv) > 1 :
