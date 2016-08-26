@@ -9,6 +9,8 @@
 //@todo Change styling attributes for table to CSS
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
+jresearchimport('helpers.memberpositions', 'jresearch.admin');
+
 $jinput = JFactory::getApplication()->input;
 $itemId = $jinput->getInt('Itemid', 0);
 $showTitle = $this->params->get('staff_show_title', 'no');
@@ -29,17 +31,23 @@ if($this->params->get('show_page_heading', 1)): ?>
 </p>
 <?php endif; ?>
 
-<?php $positionsArray = array(); 
+<?php 
+
+$positionObjs = JResearchMemberpositionsHelper::getMemberPositions();
+$positionsOutputArray = array();
+$id2position = array();
+foreach ($positionObjs as $posObj) {
+	$positionsOutputArray[$posObj['id']] = array();	
+	$id2position[$posObj['id']] = $posObj['position'];
+}
+
 foreach($this->items as $member){
-    if(!isset($positionsArray[$member->position])){
-        $positionsArray[$member->position] = array();
-    }
-    $positionsArray[$member->position][] = $member;
+    $positionsOutputArray[$member->position][] = $member;
 }
 ?>
 
-<?php foreach($positionsArray as $group): ?>
-    <?php $positionText = $group[0]->getPositionObj();?>
+<?php foreach($positionsOutputArray as $positionId => $group): ?>
+    <?php $positionText = $id2position[$positionId]; ?>
     <h2><?php echo !empty($positionText) ? $positionText : JText::_('JRESEARCH_NOT_SPECIFIED'); ?></h2>
     <?php if($this->params->get('staff_list_or_table', 'list') == 'list'): ?>
     <ul class="stafflist">
