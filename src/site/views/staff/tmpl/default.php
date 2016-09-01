@@ -116,4 +116,3 @@ if($this->params->get('show_page_heading', 1)): ?>
         endforeach; ?>
 	</tbody>
 </table>
-<div class="frontendPagination"><?php echo $this->page->getResultsCounter(); ?><br /><?php echo $this->page->getPagesLinks(); ?></div>

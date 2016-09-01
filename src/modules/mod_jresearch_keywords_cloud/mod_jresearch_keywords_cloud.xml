@@ -9,12 +9,13 @@
 	<copyright>(c) Copyright by Luis Galárraga</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<version>1.0</version>
-	<description>JRESEARCH_MODULE_DESCRIPTION</description>
+	<description>It renders a word cloud from the set of keywords associated to J!Research items.</description>
 	<files>
 		<filename module="mod_jresearch_keywords_cloud">mod_jresearch_keywords_cloud.php</filename>
 		<filename>index.html</filename>
+		<filename>tagcloud.css</filename>
 		<folder>tmpl</folder>
-		<folder>SixtyNine</folder>		
+		<folder>lotsofcode</folder>		
 	</files>
 	<languages>
         <language tag="en-GB">en-GB.mod_jresearch_keywords_cloud.sys.ini</language>
@@ -27,18 +28,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-				<field name="cssfile" type="text" default="" size="50" label="Cascading stylesheet file" description="PARAMCSSFILE" />
-				<field name="color" type="list" default="grey" label="JRESEARCH_MOD_KEYWORDS_PALETTE">
-		            <option value="aqua">Aqua</option>
-    		        <option value="yellow/blue">Yellow/Blue</option>
-        		    <option value="grey">Greyscale</option>
-            		<option value="brown">Brown</option>
-           		 	<option value="army">Army</option>
-            		<option value="pastel">Pastel</option>
-            		<option value="red">Red</option>
-				</field>
-                <field type="text" default="word-cloud" name="imgid" size="15" label="JRESEARCH_MOD_KEYWORDS_IMGID" />												
+                <field type="text" default="word-cloud" name="divid" size="15" label="JRESEARCH_MOD_KEYWORDS_DIVID" />												
 				<field name="include_publications" type="list" default="1" size="3" label="JRESEARCH_MOD_KEYWORDS_CLOUD_INCLUDE_PUBLICATIONS" description="JRESEARCH_MOD_KEYWORDS_CLOUD_INCLUDE_PUBLICATIONS_DESCRIPTION">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

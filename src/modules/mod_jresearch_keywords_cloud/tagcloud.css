@@ -1,0 +1,76 @@
+.word {
+	font-family: Verdana, Tahoma, Arial;
+	padding: 4px 4px 4px 4px;
+	letter-spacing: 3px;
+	text-decoration: none;
+	font-weight: normal;
+}
+.size9 {
+	color: #000;
+	font-size: 30px;
+}
+.size8 {
+	color: #111;
+	font-size: 28px;
+}
+.size7 {
+	color: #222;
+	font-size: 26px;
+}
+.size6 {
+	color: #333;
+	font-size: 24px;
+}
+.size5 {
+	color: #444;
+	font-size: 22px;
+}
+.size4 {
+	color: #555;
+	font-size: 20px;
+}
+.size3 {
+	color: #666;
+	font-size: 18px;
+}
+.size2 {
+	color: #777;
+	font-size: 16px;
+}
+.size1 {
+	color: #888;
+	font-size: 10px;
+}
+.size0 {
+	color: #999;
+	font-size: 7px;
+}
+.colour-1, .colour-1 a {
+	color : #295fb3 !important;
+}
+
+.colour-2, .colour-2 a  {
+	color : #46a61e !important;
+}
+
+.colour-3, .colour-3 a  {
+	color : #ad3232 !important;
+}
+
+.colour-4, .colour-4 a  {
+	color : #445014 !important;
+}
+
+.colour-5, .colour-5 a  {
+	color : #aa8739 !important;
+}
+
+.colour-6, .colour-6 a {
+	color : #f4b01e !important;
+}
+
+.tag {
+	padding-left: 3px;
+	padding-right: 3px;
+}
+

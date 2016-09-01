@@ -44,10 +44,9 @@ class JResearchViewStaff extends JResearchView
       	$doc = JFactory::getDocument();
       	$params = $mainframe->getParams('com_jresearch');
       	$model = $this->getModel();
-      	$members =  $model->getItems();   
+      	$members =  $model->getItems();
     	
     	$this->assignRef('items', $members);
-    	$this->assignRef('page', $model->getPagination());	
     	$this->assignRef('params', $params);
 	
         $eArguments = array('staff', 'default');		
