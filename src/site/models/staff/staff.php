@@ -45,11 +45,17 @@ class JResearchModelStaff extends JResearchModelList{
 
         $query->select('m.*');
         $query->from('#__jresearch_member m');
-        $query->leftJoin('#__jresearch_member_position mp ON m.position = mp.id AND mp.published = 1');
+        if ($this->getState('com_jresearch.staff.filter_without_position') == '1') {
+	        $query->leftJoin('#__jresearch_member_position mp ON m.position = mp.id AND mp.published = 1');
+        } else {
+        	$query->join('INNER', '#__jresearch_member_position mp ON m.position = mp.id AND mp.published = 1');
+        }
+        
         if(!empty($whereClauses))
             $query->where($whereClauses);
 
         $query->order($orderColumns);
+        echo $query;
         return $query;
     }
 
@@ -100,9 +106,13 @@ class JResearchModelStaff extends JResearchModelList{
         
         $filter_former_member = $this->getState('com_jresearch.staff.filter_former');
         if($filter_former_member == 'only_current')
-        	$where[] = 'former_member = 0';
+        	$where[] = 'm.former_member = 0';
         else if($filter_former_member == 'only_former')
-        	$where[] = 'former_member = 1';	
+        	$where[] = 'm.former_member = 1';	
+        
+        if ($this->getState('com_jresearch.staff.filter_uncategorized') == '0') {
+        	$where[] = 'm.id_research_area != '.$db->quote('1');
+        }
 
         return $where;
 	}
@@ -121,6 +131,8 @@ class JResearchModelStaff extends JResearchModelList{
         $mainframe = JFactory::getApplication('site');
         $params = $mainframe->getParams('com_jresearch');
         $this->setState('com_jresearch.staff.filter_former', $params->get('staff_filter', 'all'));
+        $this->setState('com_jresearch.staff.filter_without_position', $params->get('staff_show_members_without_positions', '1'));
+        $this->setState('com_jresearch.staff.filter_uncategorized', $params->get('staff_show_members_uncategorized', '1'));        
 		parent::populateState();        
     }
 }

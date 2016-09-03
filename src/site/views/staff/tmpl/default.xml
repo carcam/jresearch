@@ -73,7 +73,15 @@
 			<field name="staff_link_to_profile" label="JRESEARCH_STAFF_LINK_TO_PROFILE" default="1" type="radio" >
 				<option value="1">JYES</option>			
 				<option value="0">JNO</option>
-			</field>						
+			</field>
+			<field name="staff_show_members_without_positions" label="JRESEARCH_STAFF_SHOW_MEMBERS_WITHOUT_POSITIONS" default="1" type="radio">
+				<option value="1">JYES</option>			
+				<option value="0">JNO</option>
+			</field>			
+			<field name="staff_show_members_uncategorized" label="JRESEARCH_STAFF_SHOW_MEMBERS_UNCATEGORIZED" default="1" type="radio">
+				<option value="1">JYES</option>			
+				<option value="0">JNO</option>
+			</field>						                    									
         </fieldset>
     </fields>
 </metadata>

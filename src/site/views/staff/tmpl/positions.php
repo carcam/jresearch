@@ -51,10 +51,8 @@ foreach($this->items as $member){
     	if (count($group) == 0) {
     		continue;
     	}
-    	$positionText = $id2position[$positionId]; 
-    
     ?>
-    <h2><?php echo !empty($positionText) ? $positionText : JText::_('JRESEARCH_NOT_SPECIFIED'); ?></h2>
+    <h2><?php echo isset($id2position[$positionId]) ? $id2position[$positionId] : JText::_('JRESEARCH_NOT_SPECIFIED'); ?></h2>
     <?php if($this->params->get('staff_list_or_table', 'list') == 'list'): ?>
     <ul class="stafflist">
     <?php foreach($group as $member): ?>
