@@ -157,7 +157,7 @@ class JResearchAdminModelProjects extends JResearchAdminModelList{
         $this->setState('com_jresearch.projects.filter_state', $mainframe->getUserStateFromRequest($this->_context.'.filter_state', 'filter_state'));                		       
         $this->setState('com_jresearch.projects.filter_order', $mainframe->getUserStateFromRequest($this->_context.'.filter_order', 'filter_order', 'projects'));                		        
         $this->setState('com_jresearch.projects.filter_order_Dir', $mainframe->getUserStateFromRequest($this->_context.'.filter_order_Dir', 'filter_order_Dir', 'DESC'));        
-        parent::populateState();        
+        parent::populateState($ordering, $direction);        
     }		
 	
 }

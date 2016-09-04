@@ -74,46 +74,46 @@ foreach($this->items as $member){
                     <th class="staffname"><?php echo JText::_('JRESEARCH_NAME'); ?></th>		
             <?php endif;?>
     <?php if($showResearchArea == 1): ?>
-        <th><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
+        <th class="staffarea"><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
     <?php endif; ?>
     <?php if($showLocation == 1): ?>
-                    <th><?php echo JText::_('JRESEARCH_LOCATION'); ?></th>
+        <th class="stafflocation"><?php echo JText::_('JRESEARCH_LOCATION'); ?></th>
     <?php endif; ?>
         <?php if($showEmail == 1): ?>
             <th class="staffemail"><?php echo JText::_('JRESEARCH_EMAIL'); ?></th>
         <?php endif; ?>
     <?php if($showPhone == 1): ?>
-            <th style="width: 15%;"><?php echo JText::_('JRESEARCH_PHONE'); ?></th>
+            <th class="staffphone"><?php echo JText::_('JRESEARCH_PHONE'); ?></th>
      <?php endif; ?>		        
     <?php if($showPersonalPage == 1): ?>
-            <th></th>
+            <th class="staffwebsite"></th>
     <?php endif; ?>        
             </tr>
     </thead>
     <tbody>
         <?php foreach($group as $member): ?>
             <tr>
-                    <?php if($showTitle == 'own_column'): ?>
-                            <td><?php echo $member->title; ?></td>
-                    <?php endif; ?>
-                    <td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->params->get('staff_format', 'last_first')); ?></a></td>
-        <?php if($showResearchArea == 1): ?>
-                            <td><?php echo JHTML::_('jresearchfrontend.researchareaslinks', $member->getResearchAreas('names'), 'inline'); ?></td>				
-        <?php endif; ?>	
-                    <?php if($showLocation == 1): ?>
-                            <td><?php echo $member->location; ?></td>
-                    <?php endif; ?>	            		            
-                    <?php if($showEmail == 1): ?>
-                            <td><?php echo JHTML::_('email.cloak', $member->email); ?></td>
-                    <?php endif; ?>	
-        <?php if($showPhone == 1): ?>
-            <td><?php echo $member->phone; ?></td>
-        <?php endif; ?>			
-            <?php if($showPersonalPage == 1): ?>
-                            <td><?php echo !empty($member->url_personal_page) ? JHTML::link($member->url_personal_page, JText::_('JRESEARCH_PERSONAL_PAGE')) : ''; ?></td>
-            <?php endif; ?>        			
+            	<?php if($showTitle == 'own_column'): ?>
+                	<td><?php echo $member->title; ?></td>
+                <?php endif; ?>
+                	<td><a href="<?php echo JURI::base(); ?>index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=<?php echo $member->id; ?><?php echo isset($itemId)?'&amp;Itemid='.$itemId:''; ?>"><?php echo $showTitle == 'next_to_name'? $member->title.' ' : ''; ?><?php echo JResearchPublicationsHelper::formatAuthor($member->__toString(), $this->params->get('staff_format', 'last_first')); ?></a></td>
+        		<?php if($showResearchArea == 1): ?>
+                	<td><?php echo JHTML::_('jresearchfrontend.researchareaslinks', $member->getResearchAreas('names'), 'inline'); ?></td>				
+        		<?php endif; ?>	
+                <?php if($showLocation == 1): ?>
+                	<td><?php echo $member->location; ?></td>
+                <?php endif; ?>	            		            
+                <?php if($showEmail == 1): ?>
+                	<td><?php echo JHTML::_('email.cloak', $member->email); ?></td>
+                <?php endif; ?>	
+        		<?php if($showPhone == 1): ?>
+            		<td><?php echo $member->phone; ?></td>
+        		<?php endif; ?>			
+            	<?php if($showPersonalPage == 1): ?>
+            		<td><?php echo !empty($member->url_personal_page) ? JHTML::link($member->url_personal_page, JText::_('JRESEARCH_PERSONAL_PAGE')) : ''; ?></td>
+            	<?php endif; ?>        			
             </tr>
-    <?php endforeach; ?>
+    	<?php endforeach; ?>
     </tbody>
     </table>
     <?php endif; ?>

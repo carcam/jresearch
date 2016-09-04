@@ -123,7 +123,7 @@ class JResearchAdminModelResearchAreas extends JResearchAdminModelList{
         $this->setState($this->_context.'.filter_search', $app->getUserStateFromRequest($this->_context . '.filter_search', 'filter_search'));
         $this->setState($this->_context.'.filter_state', $app->getUserStateFromRequest($this->_context . '.filter_state', 'filter_state'));
 
-        parent::populateState();
+        parent::populateState($ordering, $direction);
     }
     
     public function getTable($name = 'Researcharea', $prefix = 'JResearch', $options = array()) {

@@ -23,6 +23,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<?php echo $this->lists['state'];?>
 					<?php echo $this->lists['pubtype']; ?>
 					<?php echo $this->lists['area']; ?>
+					<?php echo $this->lists['limit']; ?>					
 				</td>
 			</tr>
 		</tbody>

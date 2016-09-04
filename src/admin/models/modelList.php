@@ -20,6 +20,8 @@ class JResearchAdminModelList extends JModelList{
     protected $_context;
 
     protected $_items;
+    
+    private static $listSize = 25;
 
     /**
     * Class constructor.
@@ -30,6 +32,13 @@ class JResearchAdminModelList extends JModelList{
         $this->_context = 'com_jresearch.'.$option;
         parent::__construct();
     }
+    
+    protected function _getList($query, $limitstart = 0, $limit = 0) {
+    	$this->_db->setQuery($this->getListQuery(), $limitstart, $limit);
+    	$result = $this->_db->loadObjectList();
+    	return $result;
+    }
+    
 
     /**
     * Method to auto-populate the model state.
@@ -45,7 +54,7 @@ class JResearchAdminModelList extends JModelList{
         $app = JFactory::getApplication('administrator');
         // Load the list state.
         $this->setState('list.start', $app->getUserStateFromRequest($this->_context . '.list.start', 'limitstart', 0, 'int'));
-        $this->setState('list.limit', $app->getUserStateFromRequest($this->_context . '.list.limit', 'limit', $app->getCfg('list_limit', 25), 'int'));
+        $this->setState('list.limit', $app->getUserStateFromRequest($this->_context . '.list.limit', 'limit', self::$listSize));
     }
 }
 ?>

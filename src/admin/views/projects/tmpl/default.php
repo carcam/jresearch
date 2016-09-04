@@ -33,6 +33,7 @@ if ($saveOrder)
                     <?php echo $this->lists['state']?>
                     <?php echo $this->lists['authors']?>
                     <?php echo $this->lists['area']?>
+                    <?php echo $this->lists['limit']?>                    
                 </td>
             </tr>
         </tbody>
@@ -55,7 +56,7 @@ if ($saveOrder)
         </thead>
         <tfoot>
             <tr>
-                <td colspan="10">
+                <td colspan="10" style="text-align: center;">
                     <?php echo $this->page->getListFooter(); ?>
                 </td>
             </tr>

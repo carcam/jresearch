@@ -73,6 +73,7 @@ class JResearchAdminViewPublications extends JResearchView
         $filter_area = $this->state->get('com_jresearch.publications.filter_area');
     	$filter_search = $this->state->get('com_jresearch.publications.filter_search');
         $filter_author = $this->state->get('com_jresearch.publications.filter_author');
+        $filter_limit = $this->state->get('list.limit');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
         $lists['order'] = $filter_order;
@@ -92,6 +93,8 @@ class JResearchAdminViewPublications extends JResearchView
 
         $authors = JResearchPublicationsHelper::getAllAuthors();
         $lists['authors'] = JHTML::_('jresearchhtml.authors', $authors, array('name' => 'filter_author', 'selected' => $filter_author, 'attributes' => $js));
+        
+        $lists['limit'] = JHTML::_('jresearchhtml.limit', array('name' => 'limit', 'selected' => $filter_limit, 'attributes' => $js));
 
         $pagination = $model->getPagination();
     	$this->assignRef('items', $items);

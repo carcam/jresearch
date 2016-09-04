@@ -29,7 +29,7 @@ class JResearchMember extends JResearchTable{
     public $former_member;
 
     /**
-     * If true, activities mentioning the member will link the mention to member's
+     * If true, activities mentioning thgee member will link the mention to member's
      * profile.
      * @var type
      */

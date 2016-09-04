@@ -31,10 +31,11 @@ class JResearchAdminViewMember_positions extends JResearchView
 
       	// Filters and pagination
         $lists = array();    	
-    	$filter_order = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_order', 'filter_order', 'ordering');
-    	$filter_order_Dir = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_order_Dir', 'filter_order_Dir', 'ASC');
-        $filter_state = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_state', 'filter_state');
-    	$filter_search = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_search', 'filter_search');
+    	$filter_order = $model->getState('com_jresearch.member_positions.filter_order');
+    	$filter_order_Dir = $model->getState('com_jresearch.member_positions.filter_order_Dir');
+        $filter_state = $model->getState('com_jresearch.member_positions.filter_state');
+    	$filter_search = $model->getState('com_jresearch.member_positions.filter_search');
+    	$filter_limit = $model->getState('list.limit');    	
     	
     	$lists['order_Dir'] = $filter_order_Dir;
         $lists['order'] = $filter_order;
@@ -45,6 +46,7 @@ class JResearchAdminViewMember_positions extends JResearchView
 
         //Ordering allowed ?
         $ordering = ($lists['order'] == 'ordering');
+        $lists['limit'] = JHTML::_('jresearchhtml.limit', array('name' => 'limit', 'selected' => $filter_limit, 'attributes' => $js));
 		
      	$this->assignRef('items', $items);
      	$this->assignRef('lists', $lists );

@@ -104,7 +104,8 @@ defined('_JEXEC') or die('Restricted access');
             <?php if(!isset($this->publication)): ?>
                 <div class="control-label">
                 <label id="jform_change_type-lbl" for="change_type" class="hasTooltip" 
-                       title="" data-original-title="<strong><?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE');  ?></strong><br /><?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE_DESCRIPTION');  ?>">
+                       title="" data-original-title="<?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE');  ?>">
+                       <br /><?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE_DESCRIPTION');  ?>">
                                     <?php echo JText::_('JRESEARCH_PUBLICATION_CHANGE_TYPE'); ?></label>
                 </div>
                 <div class="controls">

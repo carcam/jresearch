@@ -12,6 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 jresearchimport('models.modelList', 'jresearch.admin');
+use Joomla\Utilities\ArrayHelper;
 
 /**
 * Model class for holding lists of project records.
@@ -66,8 +67,8 @@ class JResearchAdminModelMember_positions extends JResearchAdminModelList
         $orders = array('position', 'published');
         $columns = array();
 
-        $filter_order = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_order', 'filter_order', 'position');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_order', 'filter_order_Dir', 'ASC');
+        $filter_order = $this->getState('com_jresearch.member_positions.filter_order');
+        $filter_order_Dir = $this->getState('com_jresearch.member_positions.filter_order');
                 
         //Validate order direction
         if($filter_order_Dir != 'ASC' && $filter_order_Dir != 'DESC')
@@ -87,8 +88,8 @@ class JResearchAdminModelMember_positions extends JResearchAdminModelList
 	private function _buildQueryWhere(){
         $db = JFactory::getDBO();
         $mainframe = JFactory::getApplication();        
-		$filter_state = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_state', 'filter_state');
-        $filter_search = $mainframe->getUserStateFromRequest('com_jresearch.member_positions.filter_search', 'filter_search');
+		$filter_state = $this->getState('com_jresearch.member_positions.filter_state');
+        $filter_search = $this->getState('com_jresearch.member_positions.filter_search');
 
         // prepare the WHERE clause
         $where = array();
@@ -149,7 +150,7 @@ class JResearchAdminModelMember_positions extends JResearchAdminModelList
         $row = JTable::getInstance('Member_position', 'JResearch');
 
         $order = $jinput->post->get('order', array(), 'ARRAY');
-        JArrayHelper::toInteger($order);
+        ArrayHelper::toInteger($order);
 
         // update ordering values
         for( $i=0; $i < $total; $i++ ){
@@ -158,7 +159,6 @@ class JResearchAdminModelMember_positions extends JResearchAdminModelList
             if ($row->ordering != $order[$i]){
                 $row->ordering = $order[$i];
                 if (!$row->store()){
-                    $this->setError($row->getError());
                     return false;
                 }
             }
@@ -166,5 +166,25 @@ class JResearchAdminModelMember_positions extends JResearchAdminModelList
 
         return true;
     }
+    
+    /**
+     * Method to auto-populate the model state.
+     *
+     * This method should only be called once per instantiation and is designed
+     * to be called on the first call to the getState() method unless the model
+     * configuration flag to ignore the request is set.
+     *
+     * @return      void
+     */
+    protected function populateState($ordering = NULL, $direction = NULL) {
+    	$mainframe = JFactory::getApplication();
+    	$this->setState('com_jresearch.member_positions.filter_search', $mainframe->getUserStateFromRequest($this->_context.'.filter_search', 'filter_search'));
+    	$this->setState('com_jresearch.member_positions.filter_state', $mainframe->getUserStateFromRequest($this->_context.'.filter_state', 'filter_state'));
+    	$this->setState('com_jresearch.member_positions.filter_order', $mainframe->getUserStateFromRequest($this->_context.'.filter_order', 'filter_order', 'ordering'));
+    	$this->setState('com_jresearch.member_positions.filter_order_Dir', $mainframe->getUserStateFromRequest($this->_context.'.filter_order_Dir', 'filter_order_Dir', 'ASC'));
+    
+    	parent::populateState($ordering, $direction);
+    }
+    
 }
 ?>

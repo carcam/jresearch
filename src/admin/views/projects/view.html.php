@@ -49,6 +49,7 @@ class JResearchAdminViewProjects extends JResearchView
         $filter_area = $model->getState('com_jresearch.projects.filter_area');
     	$filter_search = $model->getState('com_jresearch.projects.filter_search');
         $filter_author = $model->getState('com_jresearch.projects.filter_author');
+        $filter_limit = $model->getState('list.limit');        
     	
     	$lists['order_Dir'] = $filter_order_Dir;
         $lists['order'] = $filter_order;
@@ -69,6 +70,8 @@ class JResearchAdminViewProjects extends JResearchView
         $lists['authors'] = JHTML::_('jresearchhtml.authors', $authors, array('name' => 'filter_author', 'selected' => $filter_author, 'attributes' => $js));
 
         $lists['status'] = JHTML::_('jresearchhtml.statuslist', array('name' => 'filter_status', 'selected' => $filter_status, 'attributes' => $js) );
+
+        $lists['limit'] = JHTML::_('jresearchhtml.limit', array('name' => 'limit', 'selected' => $filter_limit, 'attributes' => $js));
 
         $this->assignRef('lists', $lists);        
     	$this->assignRef('items', $items);

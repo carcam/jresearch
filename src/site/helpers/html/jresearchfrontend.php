@@ -83,7 +83,7 @@ class JHTMLjresearchfrontend{
             $display = 'list';
 
         foreach($researchAreas as $area){
-            if($area->id > 1){
+            if (is_object($area) && $area->id > 1){
                 if($area->published){
                     $link = self::link($area->name, 'researcharea', 'show', $area->id);					
                     if($display == 'list')
@@ -96,6 +96,11 @@ class JHTMLjresearchfrontend{
                     else
                         $linksText .= ', '.$area->name;							
                 }
+            } else if (is_string($area)) {
+            	if($display == 'list')
+            		$linksText .= '<li>'.$area.'</li>';
+            	else
+            		$linksText .= ', '.$area; 			 
             }
         }
 

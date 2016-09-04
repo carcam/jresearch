@@ -39,6 +39,7 @@ class JResearchAdminViewResearchAreas extends JResearchView
         $filter_order_Dir = $this->state->get('com_jresearch.researchareas.filter_order_Dir');
         $filter_state = $this->state->get('com_jresearch.researchareas.filter_state');
         $filter_search = $this->state->get('com_jresearch.researchareas.filter_search');
+        $filter_limit = $model->getState('list.limit');        
 
         $lists['order_Dir'] = $filter_order_Dir;
         $lists['order'] = $filter_order;
@@ -46,6 +47,7 @@ class JResearchAdminViewResearchAreas extends JResearchView
         $lists['state'] = JHTML::_('grid.state', $filter_state);
         $js = 'onchange="document.adminForm.limitstart.value=0;document.adminForm.submit()"';
         $lists['search'] = $filter_search;
+        $lists['limit'] = JHTML::_('jresearchhtml.limit', array('name' => 'limit', 'selected' => $filter_limit, 'attributes' => $js));
 
         $pagination = $model->getPagination();
 

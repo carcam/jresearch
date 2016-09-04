@@ -41,15 +41,15 @@ if($this->params->get('show_page_heading', 1)): ?>
 			<?php $nCols++; ?>			
 		<?php endif;?>
         <?php if($showPosition == 1): ?>
-			<th><?php echo JText::_('JRESEARCH_POSITION'); ?></th>
+			<th class="staffposition"><?php echo JText::_('JRESEARCH_POSITION'); ?></th>
 			<?php $nCols++; ?>			
         <?php endif; ?>			
        	<?php if($showResearchArea == 1): ?>
-			<th><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
+			<th class="staffarea"><?php echo JText::_('JRESEARCH_RESEARCH_AREA'); ?></th>
 			<?php $nCols++; ?>			
         <?php endif; ?>
         <?php if($showLocation == 1): ?>
-			<th><?php echo JText::_('JRESEARCH_LOCATION'); ?></th>
+			<th class="stafflocation"><?php echo JText::_('JRESEARCH_LOCATION'); ?></th>
 			<?php $nCols++; ?>			
         <?php endif; ?>
 		<?php if($showEmail == 1): ?>
@@ -57,11 +57,11 @@ if($this->params->get('show_page_heading', 1)): ?>
 			<?php $nCols++; ?>			
 		<?php endif; ?>
         <?php if($showPhone == 1): ?>
-            <th style="width: 15%;"><?php echo JText::_('JRESEARCH_PHONE'); ?></th>
+            <th class="staffphone"><?php echo JText::_('JRESEARCH_PHONE'); ?></th>
             <?php $nCols++; ?>
          <?php endif; ?>		        
         <?php if($showPersonalPage == 1): $nCols++; ?>
-                <th></th>
+                <th class="staffwebsite"></th>
         <?php endif; ?>        
 		</tr>
 	</thead>

@@ -31,7 +31,8 @@ if ($saveOrder)
                     <button onclick="document.adminForm.filter_search.value='';this.form.submit();"><?php echo JText::_('Reset'); ?></button>
                 </td>
                 <td nowrap="nowrap">
-                    <?php echo $this->lists['state'];?>
+                    <?php echo $this->lists['state']; ?>
+                    <?php echo $this->lists['limit']; ?>
                 </td>
             </tr>
         </tbody>
@@ -50,7 +51,7 @@ if ($saveOrder)
 
         <tfoot>
             <tr>
-                <td colspan="4">
+                <td colspan="4" style="text-align: center;">
                     <?php echo $this->page->getListFooter(); ?>
                 </td>
             </tr>

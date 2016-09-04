@@ -200,8 +200,40 @@ table.stafftable{
 }
 
 table.stafftable th{
-    width: 25%;
+/**    width: 25%; **/
     text-align: center;
+}
+
+th.stafftitle {
+	width: 5%;	
+}
+
+th.staffname {
+	width: 20%;
+}
+
+th.staffposition {
+	width: 15%;
+}
+
+th.staffarea {
+	width: 15%;
+}
+
+th.stafflocation {
+	width: 5%;	
+}
+
+th.staffemail {
+	width: 15%;
+}
+
+th.staffphone {
+	width: 15%;
+}
+
+th.staffwebsite {
+	width: 10%;	
 }
 
 table.stafftable td{

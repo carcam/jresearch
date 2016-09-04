@@ -59,6 +59,7 @@ class JResearchAdminViewStaff extends JResearchView
         $filter_search = $this->state->get('com_jresearch.staff.filter_search');
         $filter_former = $this->state->get('com_jresearch.staff.filter_former');
         $filter_area = $this->state->get('com_jresearch.staff.filter_area');        
+        $filter_limit = $this->state->get('list.limit');
     	
     	$lists['order_Dir'] = $filter_order_Dir;
         $lists['order'] = $filter_order;
@@ -73,6 +74,7 @@ class JResearchAdminViewStaff extends JResearchView
         $formerHTML[] = JHTML::_('select.option', '-1', JText::_('JNO'));
         $formerHTML[] = JHTML::_('select.option', '1', JText::_('JYES'));
         $lists['former'] = JHTML::_('select.genericlist', $formerHTML, 'filter_former', 'class="inputbox" size="1" '.$js, 'value','text', $filter_former);
+        $lists['limit'] = JHTML::_('jresearchhtml.limit', array('name' => 'limit', 'selected' => $filter_limit, 'attributes' => $js));
 
         //Ordering allowed ?
         $ordering = ($lists['order'] == 'ordering');

@@ -18,105 +18,103 @@ jresearchimport('models.modelList', 'jresearch.admin');
 class JResearchAdminModelStaff extends JResearchAdminModelList{
 		
 
-      public function getItems(){
-            if(!isset($this->_items)){
-                $items = parent::getItems();
+	public function getItems(){
+        if(!isset($this->_items)){
+        	$items = parent::getItems();
 
-                if($items !== false){
-                    foreach($items as $item){
-                        $member = $this->getTable('Member', 'JResearch');
-                        $member->bind($item);
-                        $this->_items[] = $member;
-                    }
-                }else{
-                    return $items;
+            if($items !== false){
+            	foreach($items as $item){
+                	$member = $this->getTable('Member', 'JResearch');
+                    $member->bind($item);
+                    $this->_items[] = $member;
                 }
+            }else{
+            	return $items;
             }
-
-            return $this->_items;
         }
 
+    	return $this->_items;
+    }
 
-        protected function getListQuery() {
-            // Create a new query object.
-            $db = JFactory::getDBO();
-            $whereClauses = $this->_buildQueryWhere();
-            $orderColumns = $this->_buildQueryOrderBy();
-            $query = $db->getQuery(true);
 
-            $query->select('*');
-            $query->from('#__jresearch_member');
-            if(!empty($whereClauses))
-                $query->where($whereClauses);
+	protected function getListQuery() {
+    	// Create a new query object.
+        $db = JFactory::getDBO();
+        $whereClauses = $this->_buildQueryWhere();
+        $orderColumns = $this->_buildQueryOrderBy();
+        $query = $db->getQuery(true);
 
-            $query->order($orderColumns);
-            return $query;
-        }
+        $query->select('*');
+        $query->from('#__jresearch_member');
+        if(!empty($whereClauses))
+       		$query->where($whereClauses);
+
+        $query->order($orderColumns);
+        return $query;
+    }
 
 
 	/**
 	* Build the ORDER part of a query.
 	*/
 	private function _buildQueryOrderBy(){
-            //Array of allowable order fields
-            $mainframe = JFactory::getApplication();
-            $orders = array('lastname', 'published', 'ordering', 'former_member');
-            $columns = array();
+		//Array of allowable order fields
+        $mainframe = JFactory::getApplication();
+        $orders = array('lastname', 'published', 'ordering', 'former_member');
+        $columns = array();
 
-            $filter_order = $this->getState($this->_context.'.filter_order');
-            $filter_order_Dir = $this->getState($this->_context.'.filter_order_Dir');
+        $filter_order = $this->getState($this->_context.'.filter_order');
+        $filter_order_Dir = $this->getState($this->_context.'.filter_order_Dir');
 
-            //Validate order direction
-            if($filter_order_Dir != 'asc' && $filter_order_Dir != 'desc')
-                    $filter_order_Dir = 'asc';
+        //Validate order direction
+        if($filter_order_Dir != 'asc' && $filter_order_Dir != 'desc')
+        	$filter_order_Dir = 'asc';
 
-            $columns[] = $filter_order.' '.$filter_order_Dir;
+        $columns[] = $filter_order.' '.$filter_order_Dir;
 
-            return $columns;
+        return $columns;
 	}
 
-        /**
+    /**
 	* Build the WHERE part of a query
 	*/
 	private function _buildQueryWhere(){
-            $db = JFactory::getDBO();
-            $mainframe = JFactory::getApplication();
-            $filter_state = $this->getState($this->_context.'.filter_state');
-            $filter_search = $this->getState($this->_context.'.filter_search');
-            $filter_former_member = $this->getState($this->_context.'.filter_former');
-            $filter_area = $this->getState($this->_context.'.filter_area');            
+    	$db = JFactory::getDBO();
+        $mainframe = JFactory::getApplication();
+        $filter_state = $this->getState($this->_context.'.filter_state');
+        $filter_search = $this->getState($this->_context.'.filter_search');
+        $filter_former_member = $this->getState($this->_context.'.filter_former');
+        $filter_area = $this->getState($this->_context.'.filter_area');            
 
-            // prepare the WHERE clause
-            $where = array();
+        // prepare the WHERE clause
+        $where = array();
 
-            if($filter_state == 'P')
-                $where[] = $db->quoteName('published').' = 1 ';
-            elseif($filter_state == 'U')
-                $where[] = $db->quoteName('published').' = 0 ';
+        if($filter_state == 'P')
+        	$where[] = $db->quoteName('published').' = 1 ';
+        elseif($filter_state == 'U')
+        	$where[] = $db->quoteName('published').' = 0 ';
 
-            if(($filter_search = trim($filter_search))){
-                $filter_search = JString::strtolower($filter_search);
-                $filter_search = $db->getEscaped($filter_search);
-                $where[] = 'LOWER('.$db->quoteName('firstname').') LIKE '.$db->Quote('%'.$filter_search.'%').'OR LOWER('.$db->quoteName('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
-            }
+        if(($filter_search = trim($filter_search))){
+        	$filter_search = JString::strtolower($filter_search);
+            $filter_search = $db->getEscaped($filter_search);
+            $where[] = 'LOWER('.$db->quoteName('firstname').') LIKE '.$db->Quote('%'.$filter_search.'%').'OR LOWER('.$db->quoteName('lastname').') LIKE '.$db->Quote('%'.$filter_search.'%');
+        }
 
             //Added former member for where clause
-            if($filter_former_member != 0)
-            {
-                if($filter_former_member > 0)
-                        $where[] = $db->quoteName('former_member').' = 1 ';
-                elseif($filter_former_member < 0)
-                        $where[] = $db->quoteName('former_member').' = 0 ';
-            }
+        if($filter_former_member != 0) {
+        	if($filter_former_member > 0)
+            	$where[] = $db->quoteName('former_member').' = 1 ';
+            elseif($filter_former_member < 0)
+            	$where[] = $db->quoteName('former_member').' = 0 ';
+        }
 
-			//Added Research Area for where clause
-            if(!empty($filter_area))
-            {
-				$where[] = ' FIND_IN_SET('.$filter_area.','.$db->quoteName('id_research_area').')';
-            }
+		//Added Research Area for where clause
+        if(!empty($filter_area)) {
+			$where[] = ' FIND_IN_SET('.$filter_area.','.$db->quoteName('id_research_area').')';
+        }
 
 
-            return $where;
+        return $where;
 	}
 	/**
 	 * Ordering item
@@ -147,41 +145,40 @@ class JResearchAdminModelStaff extends JResearchAdminModelList{
 	 * Set ordering
 	*/
 	function setOrder($items) {
-            $actions = JResearchAccessHelper::getActions();		
-            if(!$actions->get('core.staff.edit.state')){
-        	$this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $item));        	
-        	return false;
-            }
-		
-		
-            $db = JFactory::getDBO();
-            $total = count($items);
-            $row = JTable::getInstance('Member', 'JResearch');
-            $jinput = JFactory::getApplication()->input;        
-            $order = $jinput->post->get('order', array(), 'ARRAY');
-            JArrayHelper::toInteger($order);
+        $actions = JResearchAccessHelper::getActions();		
+        if(!$actions->get('core.staff.edit.state')){
+    		$this->setError(JText::sprintf('JRESEARCH_EDIT_ITEM_STATE_NOT_ALLOWED', $item));        	
+    		return false;
+        }
+	
+        $db = JFactory::getDBO();
+        $total = count($items);
+        $row = JTable::getInstance('Member', 'JResearch');
+        $jinput = JFactory::getApplication()->input;        
+        $order = $jinput->post->get('order', array(), 'ARRAY');
+        JArrayHelper::toInteger($order);
 
-            // update ordering values
-            for( $i=0; $i < $total; $i++ ){
-        	$row->load( $items[$i] );
+        // update ordering values
+        for( $i=0; $i < $total; $i++ ){
+    	$row->load( $items[$i] );
 
-                $groupings[] = $row->former_member;
-                if ($row->ordering != $order[$i]){
-                    $row->ordering = $order[$i];
-                    if (!$row->store()){
-                	$this->setError($row->getError());
-                        return false;
-                    }
-                } // if
-            } // for
+            $groupings[] = $row->former_member;
+            if ($row->ordering != $order[$i]){
+                $row->ordering = $order[$i];
+                if (!$row->store()){
+            	$this->setError($row->getError());
+                    return false;
+                }
+            } // if
+        } // for
 
-            // execute updateOrder
-            $groupings = array_unique($groupings);
-            foreach ($groupings as $group) {
-                $row->reorder('former_member = '.(int) $group.' AND published >=0');
-            }
+        // execute updateOrder
+        $groupings = array_unique($groupings);
+        foreach ($groupings as $group) {
+            $row->reorder('former_member = '.(int) $group.' AND published >=0');
+        }
 
-            return true;
+        return true;
 	}
 	
 	/**
@@ -202,7 +199,7 @@ class JResearchAdminModelStaff extends JResearchAdminModelList{
         $this->setState($this->_context.'.filter_former', $app->getUserStateFromRequest($this->_context . '.filter_former', 'filter_former'));        
     	$this->setState($this->_context.'.filter_area',$app->getUserStateFromRequest($this->_context . '.filter_area', 'filter_area'));
         
-        parent::populateState();
+        parent::populateState($ordering, $direction);
 	}
 }
 ?>

@@ -40,14 +40,14 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
 
         return $this->_items;
     }
-	
-        
+    
+    
     protected function getListQuery() {
         // Create a new query object.
         $db = JFactory::getDBO();
         $whereClauses = $this->_buildQueryWhere();
         $orderColumns = $this->_buildQueryOrderBy();
-        $query = $db->getQuery(true);
+        $query = parent::getListQuery();
 
         $query->select('DISTINCT pub.*');
         $query->from('#__jresearch_publication pub');
@@ -57,7 +57,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         if(!empty($whereClauses))
             $query->where($whereClauses);
 
-        $query->order($orderColumns);
+        $query->order($orderColumns); 
         return $query;
     }
                
@@ -174,7 +174,7 @@ class JResearchAdminModelPublications extends JResearchAdminModelList{
         $this->setState('com_jresearch.publications.filter_order', $mainframe->getUserStateFromRequest($this->_context.'.filter_order', 'filter_order', 'year'));        
         $this->setState('com_jresearch.publications.filter_order_Dir', $mainframe->getUserStateFromRequest($this->_context.'.filter_order_Dir', 'filter_order_Dir', 'DESC'));                
 		
-        parent::populateState();        
+        parent::populateState($ordering, $direction);        
     }
     
     protected function _getListCount($query) {

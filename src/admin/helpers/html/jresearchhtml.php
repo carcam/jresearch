@@ -322,6 +322,19 @@ class JHTMLjresearchhtml
 
         return self::htmllist($authOptions, $attributes);
     }
+    
+    public static function limit($attributes) {
+    	$options = array();
+    	
+    	$options[] = JHTML::_('select.option', '-1', JText::_('JALL'));
+    	$options[] = JHTML::_('select.option', '5', '5');
+    	$options[] = JHTML::_('select.option', '10', '10');    	
+    	$options[] = JHTML::_('select.option', '25', '25');
+    	$options[] = JHTML::_('select.option', '50', '50');
+    	$options[] = JHTML::_('select.option', '100', '100');    	
+    	
+    	return self::htmllist($options, $attributes);
+    }
 
     public static function years(array $data, array $attributes=array()){
         $yearOptions = array();

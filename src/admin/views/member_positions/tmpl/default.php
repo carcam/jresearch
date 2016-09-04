@@ -34,6 +34,7 @@ if ($saveOrder)
                 </td>
                 <td nowrap="nowrap">
                     <?php echo $this->lists['state'];?>
+                    <?php echo $this->lists['limit']; ?>                    
                 </td>
             </tr>
         </tbody>
@@ -51,7 +52,7 @@ if ($saveOrder)
         </thead>
         <tfoot>
             <tr>
-                <td colspan="4">
+                <td colspan="4" style="text-align: center;">
                     <?php echo $this->page->getListFooter(); ?>
                 </td>
             </tr>
