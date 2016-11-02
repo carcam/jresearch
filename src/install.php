@@ -173,6 +173,14 @@ class com_jresearchInstallerScript
         } catch (Exception $e) {
 
         }
+
+		try {
+            $db->setQuery("ALTER TABLE #__jresearch_project ADD COLUMN leaders text");
+            $db->execute();
+        } catch (Exception $e) {
+
+        }
+
     }
 
    /**
