@@ -119,7 +119,7 @@ class JResearchUtilities
             return mime_content_type($path);
         }elseif(file_exists('/usr/bin/file')){
             //This works only in Unix platforms			
-            $type = split(';', trim(exec('/usr/bin/file -b --mime '.escapeshellarg($path), $out)));					
+            $type = explode(';', trim(exec('/usr/bin/file -b --mime '.escapeshellarg($path), $out)));					
             return trim($type[0]);
         }else{
             return false;

@@ -51,6 +51,7 @@ os.chdir('./plugins')
 pluginsFolders = os.listdir(os.getcwd())
 print pluginsFolders
 for plugin in pluginsFolders :
+	print 'Running os.chdir(' + exportPath + '/plugins/' + plugin + ')' 
 	os.chdir(exportPath + '/plugins/' + plugin)
 	command = 'zip -r ' + plugin + '.zip .'
 	print 'Running ' + command
