@@ -14,7 +14,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php');
+//require_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php');
+jimport('joomla.html.toolbar');
 
 jresearchimport('helpers.access', 'jresearch.admin');
 

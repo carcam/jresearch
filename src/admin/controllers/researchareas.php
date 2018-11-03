@@ -79,7 +79,7 @@ class JResearchAdminResearchareasController extends JControllerLegacy
             return;
         }		
 
-        if ($model->save()){
+        if ($model->save($form)){
             $area = $model->getItem();
             $app->triggerEvent('OnAfterSaveJResearchEntity', array($area, 'JResearchResearcharea'));
 

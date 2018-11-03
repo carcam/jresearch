@@ -136,7 +136,7 @@ class JResearchModelProjects extends JResearchModelList{
     *
     * @return      void
     */
-    protected function populateState() {
+    protected function populateState($ordering = NULL, $direction = NULL) {
         // Initialize variables.
         $mainframe = JFactory::getApplication('site');
         $params = $mainframe->getParams('com_jresearch');
